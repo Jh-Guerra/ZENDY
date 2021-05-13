@@ -1,0 +1,30 @@
+[
+  {
+    "id": 1,
+    "name": "Amie Hodge",
+    "email": "amiehodge@norali.com",
+    "gender": "female",
+    "status": "enabled"
+  },
+  {
+    "id": 2,
+    "name": "Marcella Mcknight",
+    "email": "marcella@pasturia.com",
+    "gender": "female",
+    "status": "enabled"
+  },
+  {
+    "id": 3,
+    "name": "Holcomb Gallagher",
+    "email": "holcombgallagher@eyewax.com",
+    "gender": "male",
+    "status": "enabled"
+  },
+  {
+    "id": 4,
+    "name": "Anghelo Aguilar",
+    "email": "anghelo_aguilar@example.com",
+    "gender": "male",
+    "status": "enabled"
+  }
+]
