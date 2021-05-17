@@ -3,7 +3,7 @@ import { Helmet } from 'react-helmet';
 import { Routes } from 'routes';
 import { connect } from 'react-redux';
 import 'assets/styles/zendy-app.css';
-// import 'assets/styles/zendy-app.scss';
+import 'assets/styles/zendy-app.scss';
 import { StylesProvider } from '@material-ui/core/styles';
 import { setCurrentSession, logOut, renewToken } from 'services/actions/AuthAction';
 import CustomSnackbar from 'components/CustomSnackbar';
