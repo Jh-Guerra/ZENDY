@@ -25,7 +25,7 @@ class TestPage extends Component {
         privateHeader={null}
       >
         <p>
-          HOLI
+          Incoming View
         </p>
       </BasePage>
     );
