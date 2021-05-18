@@ -197,12 +197,12 @@ const MiniDrawer = (props) => {
 
   return (
     <div className={classes.root}  >
-      <Header open={open} closeSearch={closeSearch} updateFlagSearch={updateFlagSearch} {...props} />
+{/*       <Header open={open} closeSearch={closeSearch} updateFlagSearch={updateFlagSearch} {...props} />
       <Box className={collapaseDrawerButtonClassName} zIndex="modal" border={1} borderRadius="100%" borderColor="#CFD3DB">
         <IconButton onClick={handleDrawerOpenClose} style={{ backgroundColor: '#F5F7FA' }} size="small">
           {open ? <ChevronLeftIcon /> : <ChevronRightIcon />}
         </IconButton>
-      </Box>
+      </Box> */}
       <Drawer variant="permanent" onClick={handleClickDrawer} onMouseOver={handleMouseOver} onMouseLeave={handleMouseLeave} className={clsx(classes.drawer, { [classes.drawerOpen]: open, [classes.drawerClose]: !open, })} classes={{ paper: clsx({ [classes.drawerOpen]: open, [classes.drawerClose]: !open, }), }}>
         <div className={classes.toolbar} onClick={() => {props.history.push('/test-view')}} style={{cursor: 'pointer'}}>
           <ListItem >

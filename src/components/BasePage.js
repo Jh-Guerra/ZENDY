@@ -15,7 +15,9 @@ const BasePage = props => {
   return (
     <>
       <main className={classes.content}>
-        {!props.tabShown ? <Box height="48px"/> : null}
+        {!props.tabShown ? <Box height="4px"> 
+        <p>cabeceraaaaa
+            </p></Box> : null}
         {props.privateHeader && props.privateHeader}
         <Box display="flex" flex={1} flexDirection="column" >
             { props.children }
