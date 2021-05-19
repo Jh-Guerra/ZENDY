@@ -1,242 +1,114 @@
 import React from 'react';
-import {
-  makeStyles,
-  withStyles,
-  CircularProgress,
-} from '@material-ui/core';
-import {
-  Button,
-  Container,
-  Grid,
-  Box,
-  Paper,
-  OutlinedInput,
-  FormControl,
-  InputLabel,
-  Link,
-} from '@material-ui/core';
-import { useHistory } from 'react-router-dom';
-import AuthService from '../services/api/AuthService';
-import { saveUser } from 'utils/common';
-import * as qs from 'query-string';
+import Button from '@material-ui/core/Button';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import TextField from '@material-ui/core/TextField';
+import Paper from '@material-ui/core/Paper';
+import Grid from '@material-ui/core/Grid';
+import Typography from '@material-ui/core/Typography';
+import { makeStyles } from '@material-ui/core/styles';
+import InputAdornment from '@material-ui/core/InputAdornment';
+import AccountCircle from '@material-ui/icons/AccountCircle';
+import LogoZendy from 'assets/images/LOGOZENDY.png';
+import VpnKeyIcon from '@material-ui/icons/VpnKey';
 
-const useStyles = makeStyles(theme => ({
-  authBlock: {
-    position: 'relative',
-    maxHeight: 'calc(100vh - 57px - ' + theme.spacing(8) + 'px)',
-    margin: theme.spacing(10, 0),
+const useStyles = makeStyles((theme) => ({
+  root: {
+    height: '98vh',
+    backgroundColor: '#15418D',
+    marginBottom: theme.spacing(1)
+  },
+  side: {
+    backgroundColor: '#15418D',
+  },
+  image:{
+    backgroundImage: 'url('+LogoZendy+')',
+    backgroundRepeat: 'no-repeat',
+    backgroundSize: '200px',
+    borderRadius: '50%',
+    width: '93%',
     display: 'flex',
     flexDirection: 'column',
-    '& .titleBlock': {
-      display: 'flex',
-      alignItems: 'center',
-      fontSize: theme.typography.fontSize * 1.85,
-      fontWeight: 500,
-      padding: theme.spacing(3, 5),
-      borderBottom: '1px solid rgba(224, 224, 224, 0.4)',
-    },
-    '& .contentBlock': {
-      padding: theme.spacing(3, 5),
-      overflowY: 'auto',
-    },
+    alignItems: 'center',
+    margin: theme.spacing(19, 2)
   },
-  buttonProgress: {
-    position: 'absolute',
-    left: 0,
-    top: 0,
-    right: 0,
-    bottom: 0,
-    margin: 'auto',
-    zIndex: 9,
+  paper: {
+    margin: theme.spacing(18, 4),
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center'
+  },
+  form: {
+    width: '80%',
+    marginTop: theme.spacing(8),
+  },
+  submit: {
+    margin: theme.spacing(6, 33, 2),
   },
 }));
 
-const styles = theme => ({
-  button: {
-  	marginTop: 30
-  },
-  textCenter: {
-  	textAlign: 'center'
-  },
-  form: {
-  	padding: '20px'
-  }
-
-});
-
-const LoginOutlinedInput = withStyles(theme => ({
-  root: {
-    fontSize: '1.25rem',
-  },
-  input: {
-    padding: '18.5px 14px',
-  },
-}))(OutlinedInput);
-
-const LoginPage = props => {
-
-  const { token = ''} = props.location && qs.parse(props.location.search);
-  const { appTarget = "", routePush = '' } = props;
-  const inputLabel = React.useRef(null);
-  const [labelWidth, setLabelWidth] = React.useState(0);
-  const [user, setUser] = React.useState({
-    email: '',
-    password: '',
-    timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-    appTarget: appTarget,
-  });
-  const [loading, setLoading] = React.useState(false);
-
-  const history = useHistory();
+export default function SignInSide() {
   const classes = useStyles();
 
-  if (typeof window !== "undefined") {
-    if (window.Appcues) {
-      window.Appcues.start();
-      window.Appcues.page();
-    }
-  }
-
-  React.useEffect(() => {
-    setLabelWidth(inputLabel.current.offsetWidth);
-  }, []);
-
-  React.useEffect(() => {
-    if(token) {
-      // auth.renewSession({ Authorization: `Token ${token.split(' ').join('+')}` })
-      // .then((res) => {
-      //   let { employee={}, assignedShop={}, company={} } = res.data;
-      //   saveUser(res.data);
-      //   history.push(routePush);
-      // })
-      // .catch(err => {
-      //   console.log("err:",err);
-      // });
-    } else {
-      if(localStorage.getItem('user')){
-        const user = JSON.parse(localStorage.getItem('user'));
-        if(user && user.company){
-          history.push(routePush);
-        }
-      }
-    }
-  }, [token]);
-
-  const handleLogin = () => {
-    setLoading(true);
-    // auth.login(user).then(res => {
-    //     const { data } = res;
-    //     setLoading(false);
-    //     saveUser(data);
-    //     history.push(routePush);
-    // }).catch(error => {
-    //     handleError(error.response && error.response.data && error.response.data.message, 'error');
-    //     setLoading(false);
-    // });
-    history.push(routePush);
-  };
-
-  const onInputChange = eve => {
-    setUser({
-      ...user,
-      [eve.target.name]: eve.target.value,
-    });
-  };
-
-  const keyPressed = event => {
-    if (event.key === 'Enter') {
-      handleLogin()
-    }
-  }
-
   return (
-
-    <Grid container className="auth-container">
-      <Grid item xs={12} sm={12} md={6} lg={6} className="rightBlock" style={{marginTop:'250px'}}>
-        <Grid className="rightBlockLogin">
-          <Grid container direction="row" justify="center">
-            <Grid item xs={12}>
-              <Paper className={classes.authBlock}>
-                <div className="titleBlock">
-                  Login
-                </div>
-                <div className="contentBlock">
-                  <Grid container spacing={2}>
-                    <Grid item xs={12}>
-                      <FormControl variant="outlined" fullWidth margin="normal">
-                        <InputLabel ref={inputLabel} shrink>
-                          Email
-                        </InputLabel>
-                        <LoginOutlinedInput
-                          type="email"
-                          notched
-                          labelWidth={labelWidth}
-                          name="email"
-                          value={user.email}
-                          onChange={onInputChange}
-                          onKeyPress={keyPressed}
-                          disabled={loading}
-                        />
-                      </FormControl>
-                    </Grid>
-                    <Grid item xs={12}>
-                      <FormControl variant="outlined" fullWidth margin="normal">
-                        <InputLabel ref={inputLabel} shrink>
-                          Passsword
-                        </InputLabel>
-                        <LoginOutlinedInput
-                          type="password"
-                          notched
-                          labelWidth={labelWidth}
-                          name="password"
-                          value={user.password}
-                          onChange={onInputChange}
-                          onKeyPress={keyPressed}
-                          disabled={loading}
-                        />
-                      </FormControl>
-                    </Grid>
-                    <Grid item xs={12}>
-                      <Button
-                        variant="contained"
-                        color="primary"
-                        size="large"
-                        onClick={handleLogin}
-                        disableElevation
-                        fullWidth
-                        disabled={loading}
-                      >
-                        <Box py={0.5} px={3} fontSize={20}>
-                          Login
-                        </Box>
-                        {loading && (
-                          <CircularProgress
-                            size={24}
-                            className={classes.buttonProgress}
-                          />
-                        )}
-                      </Button>
-                    </Grid>
-                  </Grid>
-                </div>
-              </Paper>
-            </Grid>
-          </Grid>
-        </Grid>
+    <Grid container component="main" className={classes.root}>
+      <CssBaseline />
+        <Grid item xs={8} component={Paper}>
+        <Grid item xs={4} className={classes.side}/>
+          <div className={classes.paper}>
+            <Typography component="h1" variant="h4">
+              LOGIN
+            </Typography>
+            <form className={classes.form}>
+              <TextField
+                variant="outlined"
+                margin="normal"
+                required
+                fullWidth
+                id="email"
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <AccountCircle />
+                    </InputAdornment>
+                  ),
+                }}
+                placeholder="Usuario o email"
+                name="email"
+                autoComplete="email"
+                autoFocus
+              />
+              <TextField
+                variant="outlined"
+                margin="normal"
+                required
+                fullWidth
+                name="password"
+                placeholder="Contraseña"
+                type="password"
+                id="password"
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <VpnKeyIcon />
+                    </InputAdornment>
+                  ),
+                }}
+                autoComplete="current-password"
+              />
+              <Button
+                type="submit"
+                variant="contained"
+                color="default"
+                className={classes.submit}
+              >
+                INICIAR SESION
+              </Button>
+            </form>
+          </div>    
+      </Grid>
+      <Grid item xs={4}>
+        <img src={LogoZendy} className={classes.image}/>
       </Grid>
     </Grid>
   );
-};
-
-class Login extends React.Component {
-
-  constructor(props){
-    super(props);
-  }
-
-  render(){
-    return <LoginPage {...this.props} />;
-  }
 }
-
-export default withStyles(styles)(Login);
