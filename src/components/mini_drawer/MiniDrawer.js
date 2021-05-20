@@ -5,7 +5,7 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import ArrowDropDown from '@material-ui/icons/ArrowDropDown';
 import ArrowDropUp from '@material-ui/icons/ArrowDropUp';
 import { useHistory, withRouter } from "react-router-dom";
-import Logo from '../../assets/images/logo.png';
+import Logo from '../../assets/images/logo.jpg';
 import Title from '../../assets/images/title.png';
 import { Drawer, Divider, IconButton, ListItem, ListItemIcon, ListItemText, Collapse, Box, Paper } from '@material-ui/core';
 import Header from 'components/header/Header';
@@ -206,8 +206,8 @@ const MiniDrawer = (props) => {
       <Drawer variant="permanent" onClick={handleClickDrawer} onMouseOver={handleMouseOver} onMouseLeave={handleMouseLeave} className={clsx(classes.drawer, { [classes.drawerOpen]: open, [classes.drawerClose]: !open, })} classes={{ paper: clsx({ [classes.drawerOpen]: open, [classes.drawerClose]: !open, }), }}>
         <div className={classes.toolbar} onClick={() => {props.history.push('/test-view')}} style={{cursor: 'pointer'}}>
           <ListItem >
-            <ListItemIcon><img src={Logo} alt="logo-icon" /></ListItemIcon>
-            <ListItemIcon style={{ marginLeft: '-8px' }}><img src={Title} alt="title-icon" /></ListItemIcon>
+            <ListItemIcon><img className="icon__logo" src={Logo} alt="logo-icon" /></ListItemIcon>
+            <ListItemIcon style={{ marginLeft: '-8px' }}><img className="icon__title" src={Title} alt="title-icon" /></ListItemIcon>
           </ListItem>
         </div>
         {drawerContent}

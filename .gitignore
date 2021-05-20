@@ -3,6 +3,8 @@
 # dependencies
 /node_modules
 /.pnp
+/tmpnodejsnpm-cache
+.prettierignore
 .pnp.js
 
 # bit
