@@ -1,11 +1,12 @@
-import React, { Component, useState, createRef, useEffect } from "react";
+import React, { Component, createRef } from "react";
 
 import "./chatContent.css";
 import ChatItem from "./ChatItem";
 
-class ChatBody extends Component {
-  messagesEndRef = createRef(null);
-  chatItms = [
+const ChatBody = props => {
+  var messagesEndRef = createRef(null);
+
+  const chatItems = [
     {
       key: 1,
       image:
@@ -57,63 +58,40 @@ class ChatBody extends Component {
     },
   ];
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      chat: this.chatItms,
-      msg: "",
-    };
-  }
+  const [chat, setChat] = React.useState([]);
+  const [message, setMessage] = React.useState("");
 
-  scrollToBottom = () => {
-    this.messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
+  React.useEffect(() => {
+    setChat([...chatItems]);
+    setMessage("");
+    scrollToBottom();
+  }, []);
+
+  const scrollToBottom = () => {
+    messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
   };
-
-  componentDidMount() {
-    window.addEventListener("keydown", (e) => {
-      if (e.keyCode == 13) {
-        if (this.state.msg != "") {
-          this.chatItms.push({
-            key: 1,
-            type: "",
-            msg: this.state.msg,
-            image:
-              "https://pbs.twimg.com/profile_images/1116431270697766912/-NfnQHvh_400x400.jpg",
-          });
-          this.setState({ chat: [...this.chatItms] });
-          this.scrollToBottom();
-          this.setState({ msg: "" });
-        }
-      }
-    });
-    this.scrollToBottom();
-  }
-  onStateChange = (e) => {
-    this.setState({ msg: e.target.value });
-  };
-
-  render() {
-    return (
-      <div className="main__chatcontent">
-
-        <div className="content__body">
-          <div className="chat__items">
-            {this.state.chat.map((itm, index) => {
-              return (
-                <ChatItem
-                  animationDelay={index + 2}
-                  key={itm.key}
-                  user={itm.type ? itm.type : "me"}
-                  msg={itm.msg}
-                  image={itm.image}
-                />
-              );
-            })}
-            <div ref={this.messagesEndRef} />
-          </div>
+  
+  return (
+    <div className="main__chatcontent">
+      <div className="content__body">
+        <div className="chat__items">
+          {chat.map((itm, index) => {
+            return (
+              <ChatItem
+                key={index}
+                animationDelay={index + 2}
+                user={itm.type ? itm.type : "me"}
+                message={itm.msg}
+                image={itm.image}
+              />
+            );
+          })}
+          <div ref={messagesEndRef} />
         </div>
       </div>
-    );
-  }
+    </div>
+  );
+
 }
-export default ChatBody
+
+export default ChatBody;

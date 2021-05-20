@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import Avatar from "./Avatar";
+import ChatAvatar from "./ChatAvatar";
 
  class ChatListItems extends Component {
   constructor(props) {
@@ -25,7 +25,7 @@ import Avatar from "./Avatar";
           this.props.active ? this.props.active : ""
         } `}
       >
-        <Avatar
+        <ChatAvatar
           image={
             this.props.image ? this.props.image : "http://placehold.it/80x80"
           }

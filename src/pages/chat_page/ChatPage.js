@@ -4,9 +4,8 @@ import { Grid } from "@material-ui/core";
 import ChatHeader from "pages/chatContent/ChatHeader";
 import ChatBody from "pages/chatContent/ChatBody";
 import ChatFooter from "pages/chatContent/ChatFooter";
-import "./App.css";
 class ChatPage extends Component {
-  _isMounted = false
+
   constructor(props) {
     super(props);
     this.state = {
@@ -15,34 +14,26 @@ class ChatPage extends Component {
   }
 
   async componentDidMount(){
-    this._isMounted = true
-    // await this.props.dispatch(getIncomingOrders());}
+
   }
 
   componentWillUnmount() {
-    this._isMounted =false
+    
   }
 
   render() {
     return (
-      <BasePage
-        privateHeader={null}
-        
-      >
-    <div className="_main">
-      <Grid>
-          <Grid>
-            <ChatHeader/>
-          </Grid>
-          <Grid>
-              <ChatBody/>
-          </Grid>
-          <Grid>
+      <Grid container style={{position:'sticky', width:'100%', height:'calc(100vh)'}}>
+        <Grid item xs={12}>
+          <ChatHeader/>
+        </Grid>
+        <Grid item xs={12}>
+          <ChatBody/>
+        </Grid>
+        <Grid item xs={12}>
           <ChatFooter/>
-          </Grid>
+        </Grid>
       </Grid>
-    </div>
-      </BasePage>
     );
   }
 }

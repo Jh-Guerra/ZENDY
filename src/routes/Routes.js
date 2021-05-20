@@ -2,13 +2,13 @@ import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 
 import {
-  TestPage
+  ChatPage
 } from 'pages';
 
 import ThemeSettings from '../components/ThemeSettings';
 import PrivateRoute from './PrivateRoute';
 import LoginPage from 'pages/LoginPage';
-import ChatPage from 'pages/chat_page/ChatPage';
+
 const Routes = (props) => {
   return(  
     <ThemeSettings>
