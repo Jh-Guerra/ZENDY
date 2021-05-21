@@ -1,6 +1,6 @@
 import { makeStyles } from '@material-ui/core/styles';
 
-const drawerWidth = 220;
+const drawerWidth = 340;
 const marginTopButtonCollapse = 56;
 
 export const drawerStyles = makeStyles((theme) => ({
@@ -16,7 +16,7 @@ export const drawerStyles = makeStyles((theme) => ({
       backgroundColor: 'transparent',
       position: 'fixed',
       marginTop: marginTopButtonCollapse,
-      marginLeft: 204,
+      marginLeft: 320,
       flexShrink: 0,
     },
   
@@ -32,7 +32,7 @@ export const drawerStyles = makeStyles((theme) => ({
     },
   
     drawerButtonOpenDesactivated: {
-      marginLeft: 204,
+      marginLeft: 320,
       backgroundColor: 'transparent',
       position: 'fixed',
       marginTop: marginTopButtonCollapse,
