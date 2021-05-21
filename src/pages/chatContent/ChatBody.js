@@ -1,6 +1,6 @@
 import React, { Component, createRef } from "react";
 
-import "./chatContent.css";
+import "assets/styles/zendy-app.css";
 import ChatItem from "./ChatItem";
 
 const ChatBody = props => {

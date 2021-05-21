@@ -1,7 +1,4 @@
 import React, { Component, createRef } from "react";
-
-import "./chatContent.css";
-import "pages/chatList/chatList.css";
 import ChatAvatar from "pages/chatList/ChatAvatar";
 import IconButton from '@material-ui/core/IconButton';
 import PersonAddIcon from '@material-ui/icons/PersonAdd';

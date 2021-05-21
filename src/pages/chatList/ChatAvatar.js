@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import "./chatList.css";
+import "assets/styles/zendy-app.css";
 
 const ChatAvatar = props => {
 

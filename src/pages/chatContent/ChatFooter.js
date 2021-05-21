@@ -1,8 +1,7 @@
 import React, { Component, useState, createRef, useEffect } from "react";
 
-import "./chatContent.css";
+import "assets/styles/zendy-app.css";
 import SendIcon from '@material-ui/icons/Send';
-import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import EmojiEmotionsIcon from '@material-ui/icons/EmojiEmotions';
 
