@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route,l } from 'react-router-dom';
+import { Route } from 'react-router-dom';
 import { CssBaseline, makeStyles } from '@material-ui/core';
 
 import MiniDrawer from 'components/mini_drawer/MiniDrawer';

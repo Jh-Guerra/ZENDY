@@ -2,7 +2,7 @@ import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 
 import {
-  TestPage,
+  ChatPage
 } from 'pages';
 
 import ThemeSettings from '../components/ThemeSettings';
@@ -17,7 +17,7 @@ const Routes = (props) => {
         <Route exact path="/login" render={(props) => ( <LoginPage {...props} appTarget={"Dispatch"} routePush={"/test-view"} /> )}/>
 
         <PrivateRoute exact path="/test-view" {...props}>
-          <TestPage/>
+          <ChatPage/>
         </PrivateRoute>
 
       </Switch>

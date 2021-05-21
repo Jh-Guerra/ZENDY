@@ -1,5 +1,5 @@
-import TestPage from './test_page/TestPage';
+import ChatPage from './chat_page/ChatPage';
 
 export {
-  TestPage
+  ChatPage
 };
