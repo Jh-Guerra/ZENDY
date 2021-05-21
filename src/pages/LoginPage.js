@@ -46,16 +46,17 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SignInSide() {
+const LoginPage = props => {
   const classes = useStyles();
 
   return (
-    <Grid container component="main" className={classes.root}>
+    <>
       <CssBaseline />
+      <Grid container className={classes.root}>
         <Grid item xs={8} component={Paper}>
-        <Grid item xs={4} className={classes.side}/>
+          <Grid item xs={12} className={classes.side} />
           <div className={classes.paper}>
-            <Typography component="h1" variant="h4">
+            <Typography variant="h4">
               LOGIN
             </Typography>
             <form className={classes.form}>
@@ -110,5 +111,8 @@ export default function SignInSide() {
         <img src={LogoZendy} className={classes.image}/>
       </Grid>
     </Grid>
+    </>
   );
 }
+
+export default LoginPage;
