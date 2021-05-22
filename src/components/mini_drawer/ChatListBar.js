@@ -73,14 +73,15 @@ class ChatListBar extends Component {
           {this.state.allChats.map((item, index) => {
             return (
 
-              <div><ItemAvatarDate 
-              image={item.image}
-              name={item.name}
-              message={item.message}
-              hour= {item.hour}
-              active={item.active ? "active" : ""}
-              isOnline={item.isOnline ? "active" : ""}
-               />
+              <div key={index}>
+                <ItemAvatarDate 
+                  image={item.image}
+                  name={item.name}
+                  message={item.message}
+                  hour= {item.hour}
+                  active={item.active ? "active" : ""}
+                  isOnline={item.isOnline ? "active" : ""}
+                />
               </div>
             );
           })}
