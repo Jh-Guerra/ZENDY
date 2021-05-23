@@ -1,6 +1,22 @@
-$pColor: #632D93;
-$sColor: #F8AC39;
+// Letters
+$pLetter: 'PT Serif';
+
+// Colors
+$pColor: #662483;
+$sColor: #EE7043;
+
+$pColorL: #D200F7;
+$pColorD: #951b81;
+
+$sColorL: #F39651;
+$sColorD: #ED694C;
+
+
 
 .bg-primary{
     background-color: $pColor;
+}
+
+* {
+    font-family: $pLetter !important;
 }
