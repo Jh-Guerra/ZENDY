@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import BasePage from 'components/BasePage';
 import { Grid } from "@material-ui/core";
-import ChatHeader from "pages/chatContent/ChatHeader";
-import ChatBody from "pages/chatContent/ChatBody";
-import ChatFooter from "pages/chatContent/ChatFooter";
+import ChatHeader from "pages/chat_page/Childrens/ChatHeader";
+import ChatBody from "pages/chat_page/Childrens/ChatBody";
+import ChatFooter from "pages/chat_page/Childrens/ChatFooter";
 class ChatPage extends Component {
 
   constructor(props) {
