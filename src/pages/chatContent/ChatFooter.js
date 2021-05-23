@@ -4,6 +4,8 @@ import "assets/styles/zendy-app.css";
 import SendIcon from '@material-ui/icons/Send';
 import IconButton from '@material-ui/core/IconButton';
 import EmojiEmotionsIcon from '@material-ui/icons/EmojiEmotions';
+import ImageIcon from '@material-ui/icons/Image';
+import DescriptionIcon from '@material-ui/icons/Description';
 
 export default class ChatFooter extends Component {
   messagesEndRef = createRef(null);
@@ -49,6 +51,8 @@ export default class ChatFooter extends Component {
         <div className="content__footer">
           <div className="sendNewMessage">
             <IconButton> <EmojiEmotionsIcon className="btnSend" style={{ fontSize: 30 }} /></IconButton >    
+            <IconButton> <ImageIcon className="btnSend" style={{ fontSize: 30 }} /></IconButton > 
+            <IconButton> <DescriptionIcon className="btnSend" style={{ fontSize: 30 }} /></IconButton > 
 
             <input
               type="text"
