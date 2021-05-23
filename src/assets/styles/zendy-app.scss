@@ -20,3 +20,18 @@ $sColorD: #ED694C;
 * {
     font-family: $pLetter !important;
 }
+
+//color menu lateral 
+.contentheader,
+.main__chatlist,
+.contentNewChat,
+.MenuContent {
+    background-color: $pColorD;
+}
+
+// color button cerrar secion
+.contentDateHeader button {
+    background-color: $sColorD;
+}
+
+

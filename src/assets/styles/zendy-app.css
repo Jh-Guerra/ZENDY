@@ -294,7 +294,6 @@ body {
 
 .contentheader {
   border-bottom: 1px solid #ebe7fb;
-  background-color: #762482;
   width: 100%;
 }
 
@@ -315,7 +314,6 @@ body {
   margin: 2px 2px;
   border-radius: 30px;
   align-content: center;
-  background-color: orangered;
   color: white;
   border-color: white;
 }
@@ -326,7 +324,6 @@ body {
   align-content: space-between;
   width: 100%;
   color: #fff;
-  background-color: #762482;
   padding: 5px 10px 5px 10px;
 }
 
@@ -345,7 +342,6 @@ body {
   align-content: space-between;
   width: 100%;
   border-bottom: 1px solid #ebe7fb;
-  background-color: #762482;
   padding: 15px 0px 15px 0px;
 }
 
@@ -404,7 +400,6 @@ body {
   border-right: 1px solid #ebe7fb;
   width: 100%;
   height: 100%;
-  background-color: #762482;
 }
 
 .chatlist__item .userMeta p {
