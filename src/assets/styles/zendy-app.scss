@@ -20,3 +20,11 @@ $sColorD: #ED694C;
 * {
     font-family: $pLetter !important;
 }
+
+/* ===========================        CHAT              =============================================*/
+/* ============================    CHAT HEADER       ============================================*/
+.content__header {
+    padding-bottom: 15px;
+    border-bottom: 1px solid #ebe7fb;
+    background-color: $pColor;
+  }

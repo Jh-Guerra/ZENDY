@@ -192,11 +192,7 @@ body {
   outline: none;
 }
 /*===================== CHAT HEADER ===============*/
-.content__header {
-  padding-bottom: 15px;
-  border-bottom: 1px solid #ebe7fb;
-  background-color: #132372;
-}
+
 
 .content__header {
   display: flex;
