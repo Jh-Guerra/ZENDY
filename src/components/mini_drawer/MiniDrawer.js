@@ -4,10 +4,10 @@ import { useHistory, withRouter } from "react-router-dom";
 import { Drawer} from '@material-ui/core';
 import { updateLastRoute } from 'services/actions/CommonAction';
 import { drawerStyles } from './style';
-import AvatarHeader from './AvatarHeader';
-import SelectMenu from './SelectMenu';
-import NewChatCall from './NewChatCalll';
-import ChatListBar from './ChatListBar';
+import AvatarHeader from './Childrens/AvatarHeader';
+import SelectMenu from './Childrens/SelectMenu';
+import NewChatCall from './Childrens/NewChatCalll';
+import ChatListBar from './Childrens/ChatListBar';
 
 const MiniDrawer = (props) => {
 
