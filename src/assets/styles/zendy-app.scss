@@ -20,3 +20,11 @@ $sColorD: #ED694C;
 * {
     font-family: $pLetter !important;
 }
+
+.iconHead{
+    color: #ffff
+}
+
+.iconHead:hover {   
+    color: $sColorL;
+}
