@@ -7,7 +7,7 @@ import {
 
 import ThemeSettings from '../components/ThemeSettings';
 import PrivateRoute from './PrivateRoute';
-import LoginPage from 'pages/LoginPage';
+import LoginPage from 'pages/loginPage/LoginPage';
 
 const Routes = (props) => {
   return(  
