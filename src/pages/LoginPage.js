@@ -10,6 +10,7 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import LogoZendy from 'assets/images/LOGOZENDY.png';
 import VpnKeyIcon from '@material-ui/icons/VpnKey';
+import { useHistory } from 'react-router';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -48,6 +49,11 @@ const useStyles = makeStyles((theme) => ({
 
 const LoginPage = props => {
   const classes = useStyles();
+  const history = useHistory();
+
+  const logIn = () => {
+    history.push("/test-view");
+  }
 
   return (
     <>
@@ -97,9 +103,10 @@ const LoginPage = props => {
                 autoComplete="current-password"
               />
               <Button
-                type="submit"
+                type="button"
                 variant="contained"
                 color="default"
+                onClick={logIn}
                 className={classes.submit}
               >
                 INICIAR SESION
