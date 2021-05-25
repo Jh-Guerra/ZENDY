@@ -2,14 +2,14 @@
 $pLetter: 'PT Serif';
 
 // Colors
-$pColor: #662483;
-$sColor: #EE7043;
+$pColor: #2F103D;
+$sColor: #F39651;
 
-$pColorL: #D200F7;
-$pColorD: #951b81;
+$pColorL: #4F1B66;
+$pColorD: #1E0A27;
 
-$sColorL: #F39651;
-$sColorD: #ED694C;
+$sColorL: #E68B6A;
+$sColorD: #D14A19;
 
 
 
@@ -19,4 +19,21 @@ $sColorD: #ED694C;
 
 * {
     font-family: $pLetter !important;
+}
+
+// LOGIN PAGE
+.login-form{
+    background-color: $pColor;
+}
+
+.login-logo{
+    background-color: $sColor;
+}
+
+.login-input > *{
+    color: white;
+}
+
+.login-icon{
+    color: $sColor;
 }
