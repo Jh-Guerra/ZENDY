@@ -43,13 +43,6 @@ const useStyles = makeStyles((theme) => ({
   },
   submit: {
     margin: theme.spacing(6, 33, 2),
-    fontSize:'15px',
-    minWidth:'201px',
-    height:'50px',
-    borderRadius:'10px',
-    fontWeight:'900',
-    fontSize:'1.2rem',
-    backgroundColor:'#F4E6E6',
   },
 }));
 
