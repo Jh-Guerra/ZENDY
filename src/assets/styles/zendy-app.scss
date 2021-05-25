@@ -20,3 +20,55 @@ $sColorD: #ED694C;
 * {
     font-family: $pLetter !important;
 }
+
+// CHAT - FOOTER
+.chat-footer {
+    background-color: $pColor;
+    padding: 20px 20px;
+    display: flex;
+    justify-content: space-between;
+    border-radius: 8px;
+
+    button {
+        width: 36px;
+        height: 36px;
+        border: none;
+        box-shadow: none;
+        outline: none;
+        cursor: pointer;
+        padding: 0;
+        line-height: 36px;
+        transition: all 0.3s cubic-bezier(0.88, 0.19, 0.37, 1.11);
+    }
+
+    .chat-input-icon {
+        font-size: 40px;
+        color: white;
+    }
+
+    .chat-input-button:hover {
+        transform: scale(1.1);
+    }
+
+    input {
+        flex-grow: 1;
+        padding: 0 15px;
+        background-color: transparent;
+        border: none;
+        outline: none;
+        color: white;
+    }
+
+    ::placeholder{
+        color: white;
+        opacity: 0.7;
+    }
+      
+    :-ms-input-placeholder{
+        color: white;
+    }
+      
+    ::-ms-input-placeholder{
+        color: white;
+    }
+}

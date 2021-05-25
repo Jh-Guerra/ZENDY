@@ -45,20 +45,19 @@ export default class ChatFooter extends Component {
 
   render() {
     return (
-      <div className="main__chatcontent">
-        <div className="content__footer">
-          <div className="sendNewMessage">
-            <IconButton> <EmojiEmotionsIcon className="btnSend" style={{ fontSize: 30 }} /></IconButton >    
-
-            <input
-              type="text"
-              placeholder="Escribe un mensaje aquí."
-              onChange={this.onStateChange}
-              value={this.state.msg}
-            />
-             <IconButton><SendIcon className="btnSend" style={{ fontSize: 30 }} /></IconButton>
-          </div>
-        </div>
+      <div className="chat-footer">
+        <IconButton className="chat-input-button"> 
+          <EmojiEmotionsIcon className="chat-input-icon" />
+        </IconButton>
+        <input
+          type="text"
+          placeholder="Escribe un mensaje aquí."
+          onChange={this.onStateChange}
+          value={this.state.msg}
+        />
+        <IconButton className="chat-input-button">
+          <SendIcon className="chat-input-icon" />
+        </IconButton>
       </div>
     );
   }
