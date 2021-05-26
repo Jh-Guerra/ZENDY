@@ -39,8 +39,8 @@ const ChatHeader = props => {
             <Grid item xs={6}>
               <Grid container className="chat-header-buttons">
                 <TextField className="search_wrap" type="text" placeholder="Buscar..."/>
-                <IconButton><PersonAddIcon className="chat-header-icon" style={{ fontSize: 35 }} /></IconButton>
-                <IconButton><MoreVertIcon className="chat-header-icon" style={{ fontSize: 40 }} /></IconButton>
+                <IconButton className="chat-header-button"><PersonAddIcon style={{ fontSize: 35 }} /></IconButton>
+                <IconButton className="chat-header-button"><MoreVertIcon style={{ fontSize: 40 }} /></IconButton>
               </Grid>              
             </Grid>
           </Grid>

@@ -38,11 +38,11 @@ $sColorD: #ED694C;
         justify-content: flex-end;
         align-items: center;
 
-        .chat-header-icon{
+        .chat-header-button{
             color: #ffff
         }
         
-        .chat-header-icon:hover {   
+        .chat-header-button:hover {   
             color: $sColorL;
         }
     }
