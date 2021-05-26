@@ -11,6 +11,7 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import LogoZendy from 'assets/images/LOGOZENDY.png';
 import VpnKeyIcon from '@material-ui/icons/VpnKey';
 import { sColor } from 'assets/styles/zendy-css';
+import { useHistory } from 'react-router';
 
 const useStyles = makeStyles((theme) => ({
   loginTitle: {
@@ -68,6 +69,11 @@ const CssTextField = withStyles({
 
 const LoginPage = props => {
   const classes = useStyles();
+  const history = useHistory();
+
+  const logIn = () => {
+    history.push("/test-view");
+  }
 
   return (
     <>
@@ -119,10 +125,11 @@ const LoginPage = props => {
                 autoComplete="current-password"
               />
               <Button
-                type="submit"
+                type="button"
                 variant="contained"
                 color="default"
                 className={classes.loginBtn}
+                onClick={logIn}
               >
                 INICIAR SESION
               </Button>
