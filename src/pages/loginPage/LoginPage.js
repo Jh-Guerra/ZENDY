@@ -8,7 +8,7 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import AccountCircle from '@material-ui/icons/AccountCircle';
-import LogoZendy from 'assets/images/LOGOZENDY.png';
+import LogoZendy from 'assets/images/Zendy-logo.jpg';
 import VpnKeyIcon from '@material-ui/icons/VpnKey';
 import { sColor } from 'assets/styles/zendy-css';
 import { useHistory } from 'react-router';
