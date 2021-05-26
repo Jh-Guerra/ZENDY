@@ -37,6 +37,14 @@ $sColorD: #ED694C;
         display: flex;
         justify-content: flex-end;
         align-items: center;
+
+        .chat-header-icon{
+            color: #ffff
+        }
+        
+        .chat-header-icon:hover {   
+            color: $sColorL;
+        }
     }
 
     .current-chatting-user {
