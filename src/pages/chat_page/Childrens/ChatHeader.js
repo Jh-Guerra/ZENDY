@@ -12,9 +12,9 @@ const ChatHeader = props => {
   }, []);
 
   return (
-    <Grid container>
+    <Grid container className="chat-header">
       <div className="main__chatcontent">
-        <div className="content__header">
+        <div className="chat-header-content">
           <Grid container spacing={4}>
             <Grid item xs={6}>
               <Grid container>
@@ -37,7 +37,7 @@ const ChatHeader = props => {
             </Grid>
 
             <Grid item xs={6}>
-              <Grid container style={{display:'flex', justifyContent:'flex-end', alignItems:'center'}}>
+              <Grid container className="chat-header-buttons">
                 <TextField className="search_wrap" type="text" placeholder="Buscar..."/>
                 <IconButton><PersonAddIcon className="addPerson" style={{ fontSize: 35 }} /></IconButton>
                 <IconButton><MoreVertIcon className="addPerson" style={{ fontSize: 40 }} /></IconButton>

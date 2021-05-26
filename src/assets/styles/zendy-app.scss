@@ -23,8 +23,33 @@ $sColorD: #ED694C;
 
 /* ===========================        CHAT              =============================================*/
 /* ============================    CHAT HEADER       ============================================*/
-.content__header {
-    padding-bottom: 15px;
-    border-bottom: 1px solid #ebe7fb;
-    background-color: $pColor;
-  }
+.chat-header{
+
+    .chat-header-content {
+        padding-bottom: 15px;
+        border-bottom: 1px solid #ebe7fb;
+        background-color: $pColor;
+        vertical-align: middle;
+    }
+
+    .chat-header-buttons {
+        height: 100%;
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+    }
+
+    .current-chatting-user {
+        display: flex;
+        align-items: center;
+        color: #fff;
+        padding: 20px 20px;
+        text-align: left;
+        height: 100%;
+
+        p {
+            margin: 0;
+            font-weight: 600;
+        }
+    }
+}

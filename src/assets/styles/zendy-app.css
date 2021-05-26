@@ -193,25 +193,6 @@ body {
 }
 /*===================== CHAT HEADER ===============*/
 
-
-.content__header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.current-chatting-user {
-  display: flex;
-  align-items: center;
-  color: #fff;
-  padding: 20px 20px;
-  text-align: left;
-}
-.current-chatting-user p {
-  margin: 0;
-  font-weight: 600;
-}
-
 .search_wrap {
   background-color: #e6e5ea;
   border-radius: 5px;
