@@ -32,9 +32,9 @@ const ChatHeader = props => {
                   <div className="current-chatting-user">
                       <p>Homero Simpons</p>
                   </div>
-                  <div className="div">
-                      <span className="Online"/>
-                      <span className="spanColor">En línea...</span>
+                  <div className="online-div">
+                      <span className="online-status"/>
+                      <span className="online-spane">En línea...</span>
                   </div>
                 </Grid>
               </Grid>

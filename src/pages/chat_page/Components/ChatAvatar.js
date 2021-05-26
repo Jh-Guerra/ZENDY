@@ -10,7 +10,7 @@ const ChatAvatar = props => {
       <div className="avatar-img">
         <img src={image} alt="#" />
       </div>
-      <span className={`isOnline ${isOnline}`}></span>
+      <span className={`is-online ${isOnline}`}></span>
     </div>
   );
 
