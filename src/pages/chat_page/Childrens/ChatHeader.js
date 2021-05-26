@@ -1,5 +1,5 @@
 import React, { Component, createRef } from "react";
-import ChatAvatar from "pages/chatList/ChatAvatar";
+import ChatAvatar from "pages/chat_page/Components/ChatAvatar";
 import IconButton from '@material-ui/core/IconButton';
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
 import { Grid, TextField } from "@material-ui/core";

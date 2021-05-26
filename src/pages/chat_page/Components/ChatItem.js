@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import ChatAvatar from "../chatList/ChatAvatar";
+import ChatAvatar from "./ChatAvatar";
 
 const ChatItem = props => {
 
