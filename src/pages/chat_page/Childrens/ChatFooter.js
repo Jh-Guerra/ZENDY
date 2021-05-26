@@ -56,7 +56,7 @@ export default class ChatFooter extends Component {
 
             <input
               type="text"
-              placeholder="Escribe un mensaje aquí."
+              placeholder="Escribir un nuevo mensaje."
               onChange={this.onStateChange}
               value={this.state.msg}
             />
