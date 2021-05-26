@@ -11,6 +11,9 @@ $pColorD: #951b81;
 $sColorL: #F39651;
 $sColorD: #ED694C;
 
+$onLine: #38F909;
+$offLine: #ECECEB;
+
 
 
 .bg-primary{
@@ -20,3 +23,39 @@ $sColorD: #ED694C;
 * {
     font-family: $pLetter !important;
 }
+
+.isOnline {
+    width: 10px;
+    height: 10px;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    background-color: #ddd;
+    border-radius: 50%;
+    border: 2px solid #fff;
+  }
+  .isOnline.active {
+    background-color: $onLine;
+  }
+
+  .Online{
+    background-color:$onLine;
+    border: none;
+    padding: 6px;
+    display: inline-block;
+    margin: 4px 10px;
+    border-radius: 50%;
+    align-items: center;
+  }
+  .spanColor{
+    text-align: left;
+    color: #fff;
+    margin: 0;
+    font-weight: 600;
+    display: table-cell; 
+    vertical-align: middle;
+  }
+  .div {
+    display:table;
+  }
+   
