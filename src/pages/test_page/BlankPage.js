@@ -2,8 +2,7 @@ import React, { Component } from 'react';
 import BasePage from 'components/BasePage';
 import zen from '../../assets/images/Zendy-icon.jpg'
 
-class BlankPages extends Component {
-  _isMounted = false
+class BlankPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -12,18 +11,13 @@ class BlankPages extends Component {
   }
 
   async componentDidMount() {
-    this._isMounted = true
-  }
-
-  componentWillUnmount() {
-    this._isMounted = false
+    
   }
 
   render() {
     return (
       <BasePage privateHeader={null}>
-        
-        <div className="container">
+        <div className="blank-container">
           <img img src={zen} />
           <p>Servicio de Mensajeria</p>
         </div>
@@ -32,4 +26,4 @@ class BlankPages extends Component {
   }
 }
 
-export default BlankPages;
+export default BlankPage;
