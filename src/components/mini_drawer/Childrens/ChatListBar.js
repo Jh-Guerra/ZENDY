@@ -1,5 +1,5 @@
 import React, { Component, useState, createRef, useEffect } from "react";
-import ItemAvatarDate from "./ItemAvatarDate";
+import ItemAvatarDate from "../Components/ItemAvatarDate";
 
 class ChatListBar extends Component {
   allChatUsers = [

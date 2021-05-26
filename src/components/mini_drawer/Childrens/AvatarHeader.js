@@ -1,6 +1,6 @@
 import React, { Component, useState, createRef, useEffect } from "react";
 
-import Avatar from "./Avatar";
+import Avatar from "../Components/Avatar";
 
  class AvatarHeader extends Component {
   messagesEndRef = createRef(null);
