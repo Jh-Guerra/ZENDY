@@ -47,6 +47,7 @@ export default class ChatFooter extends Component {
 
   render() {
     return (
+<<<<<<< HEAD:src/pages/chat_page/Childrens/ChatFooter.js
       <div className="main__chatcontent">
         <div className="content__footer">
           <div className="sendNewMessage">
@@ -63,6 +64,21 @@ export default class ChatFooter extends Component {
              <IconButton><SendIcon className="btnSend" style={{ fontSize: 30 }} /></IconButton>
           </div>
         </div>
+=======
+      <div className="chat-footer">
+        <IconButton className="chat-input-button"> 
+          <EmojiEmotionsIcon className="chat-input-icon" />
+        </IconButton>
+        <input
+          type="text"
+          placeholder="Escribe un mensaje aquí."
+          onChange={this.onStateChange}
+          value={this.state.msg}
+        />
+        <IconButton className="chat-input-button">
+          <SendIcon className="chat-input-icon" />
+        </IconButton>
+>>>>>>> fix/ZEN-44:src/pages/chatContent/ChatFooter.js
       </div>
     );
   }
