@@ -53,3 +53,78 @@ $sColorD: #ED694C;
         }
     }
 }
+
+/* ===========================        MENU LATERAL              =============================================*/
+//color menu lateral
+.mini-drawer-content {
+    border-bottom: 1px solid #ebe7fb;
+    width: 100%;
+}
+
+.mini-drawer-chatlist {
+    border-right: 1px solid #ebe7fb;
+    width: 100%;
+    height: 100%;
+}
+
+.mini-drawer-buttons {
+    display: flex;
+    flex-direction: row;
+    align-content: space-between;
+    width: 100%;
+    color: #fff;
+    padding: 5px 10px 5px 10px;
+
+    button {
+        font-size: smaller;
+        margin: 5px 5px;
+        border-radius: 30px;
+        align-content: space-between;
+        background-color: transparent;
+        color: white;
+      }
+}
+
+.mini-drawer-sections {
+    display: flex;
+    flex-direction: row;
+    align-content: space-between;
+    width: 100%;
+    border-bottom: 1px solid #ebe7fb;
+    padding: 15px 0px 15px 0px;
+
+    button {
+        background-color: transparent;
+        border: none;
+    }
+}
+
+.mini-drawer-user {
+    display: flex;
+    flex-direction: row;
+    color: #fff;
+    padding: 5px 10px 5px 10px;
+
+    p {
+        font-size: large;
+        margin: 2px 2px;
+    }
+
+    button {
+        font-size: smaller;
+        margin: 2px 2px;
+        border-radius: 30px;
+        align-content: center;
+        color: white;
+        border-color: white;
+    }
+}
+
+.mini-drawer-content, .mini-drawer-chatlist, .mini-drawer-buttons, .mini-drawer-sections {
+    background-color: $pColor;
+}
+
+// color button cerrar sección
+.mini-drawer-user button {
+    background-color: $sColor;
+}

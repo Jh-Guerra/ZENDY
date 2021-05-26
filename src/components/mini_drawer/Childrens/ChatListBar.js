@@ -60,7 +60,7 @@ class ChatListBar extends Component {
   }
   render() {
     return (
-      <div className="main__chatlist">
+      <div className="mini-drawer-chatlist">
         <div className="chatlist__heading">
           <h2>--------Chats----------------</h2>
         </div>

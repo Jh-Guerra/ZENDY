@@ -14,7 +14,7 @@ class SelectMenu extends Component {
     render() {
         return (
             <Grid container>
-                <div className="MenuContent">
+                <div className="mini-drawer-sections">
                     <Grid item xs={12} >
                         <div className="tooltip">
                             <button >

@@ -24,8 +24,8 @@ import Avatar from "./Avatar";
 
   render() {
     return (
-        <div className="contentheader">
-            <div className="contentDateHeader">
+        <div className="mini-drawer-content">
+            <div className="mini-drawer-user">
               <Avatar
                 isOnline={this.props.isOnline}
                 image={this.props.image ? this.props.image : "http://placehold.it/80x80"}

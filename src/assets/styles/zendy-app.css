@@ -269,68 +269,6 @@ body {
   transform-origin: left;
 }
 
-.contentheader {
-  border-bottom: 1px solid #ebe7fb;
-  background-color: #762482;
-  width: 100%;
-}
-
-.contentDateHeader {
-  display: flex;
-  flex-direction: row;
-  color: #fff;
-  padding: 5px 10px 5px 10px;
-}
-
-.contentDateHeader p {
-  font-size: large;
-  margin: 2px 2px;
-}
-
-.contentDateHeader button {
-  font-size: smaller;
-  margin: 2px 2px;
-  border-radius: 30px;
-  align-content: center;
-  background-color: orangered;
-  color: white;
-  border-color: white;
-}
-
-.contentNewChat {
-  display: flex;
-  flex-direction: row;
-  align-content: space-between;
-  width: 100%;
-  color: #fff;
-  background-color: #762482;
-  padding: 5px 10px 5px 10px;
-}
-
-.contentNewChat button {
-  font-size: smaller;
-  margin: 5px 5px;
-  border-radius: 30px;
-  align-content: space-between;
-  background-color: transparent;
-  color: white;
-}
-
-.MenuContent {
-  display: flex;
-  flex-direction: row;
-  align-content: space-between;
-  width: 100%;
-  border-bottom: 1px solid #ebe7fb;
-  background-color: #762482;
-  padding: 15px 0px 15px 0px;
-}
-
-.MenuContent button {
-  background-color: transparent;
-  border: none;
-}
-
 .HeaderAvatar {
   width: 100%;
   display: flex;
@@ -375,13 +313,6 @@ body {
 }
 .isOnline.active {
   background-color: green;
-}
-
-.main__chatlist {
-  border-right: 1px solid #ebe7fb;
-  width: 100%;
-  height: 100%;
-  background-color: #762482;
 }
 
 .chatlist__item .userMeta p {

@@ -24,15 +24,15 @@ import Avatar from "../Components/Avatar";
 
   render() {
     return (
-        <div className="contentheader">
-            <div className="contentDateHeader">
+        <div className="mini-drawer-content">
+            <div className="mini-drawer-user">
               <Avatar
                 isOnline="active"
                 image="https://www.fundacionpersonasyempresas.org/wp-content/uploads/2013/10/images_curiosita_homer-2.jpg"
               />
               <div className="data">
                 <p>Homero Simpons</p>
-                <button>Cerrar Secion</button>
+                <button>Cerrar Sección</button>
               </div>
             </div>
           </div>
