@@ -30,7 +30,11 @@ const ChatHeader = props => {
                 </Grid>
                 <Grid item xs={6}>
                   <div className="current-chatting-user">
-                    <p>Homero Simpons</p>
+                      <p>Homero Simpons</p>
+                  </div>
+                  <div className="div">
+                      <span className="Online"/>
+                      <span className="spanColor">En línea...</span>
                   </div>
                 </Grid>
               </Grid>
