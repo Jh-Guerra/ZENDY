@@ -5,20 +5,21 @@ import TextField from '@material-ui/core/TextField';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, withStyles } from '@material-ui/core/styles';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import LogoZendy from 'assets/images/LOGOZENDY.png';
 import VpnKeyIcon from '@material-ui/icons/VpnKey';
+import { sColor } from 'assets/styles/zendy-css';
 
 const useStyles = makeStyles((theme) => ({
+  loginTitle: {
+    color: "white",
+    fontWeight: "bold"
+  },
   root: {
     height: '98vh',
-    backgroundColor: '#15418D',
     marginBottom: theme.spacing(1)
-  },
-  side: {
-    backgroundColor: '#15418D',
   },
   image:{
     backgroundImage: 'url('+LogoZendy+')',
@@ -41,10 +42,29 @@ const useStyles = makeStyles((theme) => ({
     width: '80%',
     marginTop: theme.spacing(8),
   },
-  submit: {
+  loginBtn: {
     margin: theme.spacing(6, 33, 2),
   },
 }));
+
+const CssTextField = withStyles({
+  root: {
+    '& .MuiInput-underline:after': {
+      borderBottomColor: sColor,
+    },
+    '& .MuiOutlinedInput-root': {
+      '& fieldset': {
+        borderColor: 'white',
+      },
+      '&:hover fieldset': {
+        borderColor: 'white',
+      },
+      '&.Mui-focused fieldset': {
+        borderColor: sColor,
+      },
+    },
+  },
+})(TextField);
 
 const LoginPage = props => {
   const classes = useStyles();
@@ -53,14 +73,15 @@ const LoginPage = props => {
     <>
       <CssBaseline />
       <Grid container className={classes.root}>
-        <Grid item xs={8} component={Paper}>
-          <Grid item xs={12} className={classes.side} />
+        <Grid item xs={8} className="login-form" component={Paper}>
+          <Grid item xs={12} />
           <div className={classes.paper}>
-            <Typography variant="h4">
+            <Typography variant="h4" className={classes.loginTitle}>
               LOGIN
             </Typography>
             <form className={classes.form}>
-              <TextField
+              <CssTextField
+                className="login-input"
                 variant="outlined"
                 margin="normal"
                 required
@@ -68,7 +89,7 @@ const LoginPage = props => {
                 id="email"
                 InputProps={{
                   startAdornment: (
-                    <InputAdornment position="start">
+                    <InputAdornment position="start" className="login-icon">
                       <AccountCircle />
                     </InputAdornment>
                   ),
@@ -78,7 +99,8 @@ const LoginPage = props => {
                 autoComplete="email"
                 autoFocus
               />
-              <TextField
+              <CssTextField
+                className="login-input"
                 variant="outlined"
                 margin="normal"
                 required
@@ -89,7 +111,7 @@ const LoginPage = props => {
                 id="password"
                 InputProps={{
                   startAdornment: (
-                    <InputAdornment position="start">
+                    <InputAdornment position="start" className="login-icon">
                       <VpnKeyIcon />
                     </InputAdornment>
                   ),
@@ -100,14 +122,14 @@ const LoginPage = props => {
                 type="submit"
                 variant="contained"
                 color="default"
-                className={classes.submit}
+                className={classes.loginBtn}
               >
                 INICIAR SESION
               </Button>
             </form>
           </div>    
       </Grid>
-      <Grid item xs={4}>
+      <Grid item xs={4} className="login-logo">
         <img src={LogoZendy} className={classes.image}/>
       </Grid>
     </Grid>
