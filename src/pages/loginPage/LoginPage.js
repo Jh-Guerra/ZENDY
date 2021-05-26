@@ -27,11 +27,12 @@ const useStyles = makeStyles((theme) => ({
     backgroundRepeat: 'no-repeat',
     backgroundSize: '200px',
     borderRadius: '50%',
-    width: '93%',
+    width: '55%',
+    height:'33%',
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    margin: theme.spacing(19, 2)
+    margin: theme.spacing(19, 13.1)
   },
   paper: {
     margin: theme.spacing(18, 4),
