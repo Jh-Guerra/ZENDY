@@ -9,10 +9,10 @@ export default class ItemAvatar extends Component {
   render() {
 
     return (
-      <div className="Itemavatar_Content">
-        <div className="Itemavatar" >
+      <div className="item-avatar-content">
+        <div className="item-avatar" >
           <img src={this.props.image} />
-          <span className={`ItemIsOnline ${this.props.isOnline}`}></span>
+          <span className={`item-is-online ${this.props.isOnline}`}></span>
         </div>
       </div>
     );

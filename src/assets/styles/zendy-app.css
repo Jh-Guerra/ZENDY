@@ -338,35 +338,3 @@ body {
     color: white;
     font-size: xxx-large;
 }
-
-/*    ItemAvatar  */
-.Itemavatar_Content {
-  width: 60px;
-  height: 60px;  
-  margin-right: 10px;
-  position: relative;
-}
-
-.Itemavatar img {
-  position: absolute;
-  z-index: 1;
-  object-fit: cover;
-  border-radius: 50%;
-  width: 85%;
-  height: 85%;
-  transform: translate(10%, 10%) 
-}
-
-.ItemIsOnline {
-  position: absolute;
-  z-index: 0;
-  width: 100%;
-  height: 100%;
-  background-color: #c4c4c4;
-  border-radius: 50%;
-  border: 1px solid #fff;  
-  
-}
-.ItemIsOnline.active {
-  background-color: #33ff00;
-}

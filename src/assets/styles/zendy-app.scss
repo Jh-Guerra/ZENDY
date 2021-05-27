@@ -249,6 +249,38 @@ $offLine: #ECECEB;
     }
 }
 
+.item-avatar-content {
+    width: 60px;
+    height: 60px;  
+    margin-right: 10px;
+    position: relative;
+}
+  
+.item-avatar img {
+    position: absolute;
+    z-index: 1;
+    object-fit: cover;
+    border-radius: 50%;
+    width: 85%;
+    height: 85%;
+    transform: translate(10%, 10%) 
+}
+  
+.item-is-online {
+    position: absolute;
+    z-index: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #c4c4c4;
+    border-radius: 50%;
+    border: 1px solid #fff;  
+}
+
+.item-is-online.active {
+    background-color: #33ff00;
+}
+  
+
 .mini-drawer-content, .mini-drawer-chatlist, .mini-drawer-buttons, .mini-drawer-sections {
     background-color: $pColor;
 }
