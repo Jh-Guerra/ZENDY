@@ -1,6 +1,6 @@
 import React, { Component, useState, createRef, useEffect } from "react";
 
-import Avatar from "./Avatar";
+import ItemAvatar from "./ItemAvatar";
 
  class ItemAvatarDate extends Component {
   messagesEndRef = createRef(null);
@@ -26,13 +26,13 @@ import Avatar from "./Avatar";
     return (
         <div className="mini-drawer-content">
             <div className="mini-drawer-user">
-              <Avatar
+              <ItemAvatar
                 isOnline={this.props.isOnline}
                 image={this.props.image ? this.props.image : "http://placehold.it/80x80"}
               />
               <div className="itemData">
                   <div className="HeaderAvatar">
-                    <p>{this.props.name}.............. </p>
+                    <p>{this.props.name}...........</p>
                     <p className="hora">{this.props.hour}</p>
                   </div>                
                 <p>{this.props.message}</p>
