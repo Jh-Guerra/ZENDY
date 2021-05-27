@@ -3,14 +3,13 @@ import "assets/styles/zendy-app.css";
 
 const ChatAvatar = props => {
 
-  const { image, isOnline } = props;
+  const { image, isOnline, imgClassName="" } = props;
 
   return (
-    <div className="avatar">
+    <div className={imgClassName || "avatar"}>
       <div className="avatar-img">
         <img src={image} alt="#" />
       </div>
-      <span className={`is-online ${isOnline}`}></span>
     </div>
   );
 

@@ -68,13 +68,28 @@ $offLine: #ECECEB;
         }
     }
 
-    .current-chatting-user {
+    .chat-header-name {
+        font-size: 23px;
+        color: #fff;
+
+        div {
+            display:table;
+        }
+
+        p {
+            margin: 0;
+        }
+
+        span {
+            font-size: 18px;
+        }
+    }
+
+    .chat-header-avatar {
         display: flex;
         align-items: center;
-        color: #fff;
-        padding: 20px 20px;
-        text-align: left;
-        height: 100%;
+        justify-content: center;
+        width: 100%;
 
         p {
             margin: 0;
@@ -82,43 +97,38 @@ $offLine: #ECECEB;
         }
     }
 
-    .is-online {
-        width: 10px;
-        height: 10px;
-        position: absolute;
-        bottom: 0;
-        right: 0;
-        background-color: #ddd;
-        border-radius: 50%;
-        border: 2px solid #fff;
-    }
-
-    .is-online.active {
+    .online-icon {
         background-color: $onLine;
-    }
-    
-    .online-status{
-        background-color:$onLine;
         border: none;
-        padding: 6px;
+        padding: 5px;
         display: inline-block;
-        margin: 4px 10px;
+        margin: 1px 5px;
         border-radius: 50%;
-        align-items: center;
     }
+}
 
-    .online-span{
-        text-align: left;
-        color: #fff;
-        margin: 0;
-        font-weight: 600;
-        display: table-cell; 
-        vertical-align: middle;
-    }
+.is-online {
+    width: 10px;
+    height: 10px;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    background-color: #ddd;
+    border-radius: 50%;
+    border: 2px solid #fff;
+}
 
-    .online-div {
-        display:table;
-    }
+.is-online.active {
+    background-color: $onLine;
+}
+
+.online-span{
+    text-align: left;
+    color: #fff;
+    margin: 0;
+    font-weight: 600;
+    display: table-cell; 
+    vertical-align: middle;
 }
 
 /* ============================    CHAT FOOTER       ============================================*/
@@ -246,4 +256,33 @@ $offLine: #ECECEB;
 // color button cerrar sección
 .mini-drawer-user button {
     background-color: $sColor;
+}
+
+/* ===========================        AVATAR             =============================================*/
+.avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+  
+    margin-right: 20px;
+    position: relative;
+}
+
+.avatar-header {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    position: relative;
+}
+
+.avatar img, .avatar-header img {
+    max-width: 100%;
+    object-fit: cover;
+}
+  
+.avatar-img {
+    overflow: hidden;
+    border-radius: 50%;
+    width: 100%;
+    height: 100%;
 }
