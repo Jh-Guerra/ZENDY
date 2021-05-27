@@ -2,7 +2,7 @@ import React, { Component, useState, createRef, useEffect } from "react";
 
 import ItemAvatar from "./ItemAvatar";
 
- class ItemAvatarDate extends Component {
+ class ItemAvatarRow extends Component {
   messagesEndRef = createRef(null);
 
   constructor(props) {
@@ -30,16 +30,18 @@ import ItemAvatar from "./ItemAvatar";
                 isOnline={this.props.isOnline}
                 image={this.props.image ? this.props.image : "http://placehold.it/80x80"}
               />
-              <div className="itemData">
-                  <div className="HeaderAvatar">
-                    <p>{this.props.name}...........</p>
-                    <p className="hora">{this.props.hour}</p>
+              <div style={{width:"80%"}}>
+                  <div className="chat-mini-details">
+                    <span style={{fontSize:"18px"}}>{this.props.name}</span>
+                    <span className="chat-mini-time">{this.props.hour}</span>
                   </div>                
-                <p>{this.props.message}</p>
+                  <p style={{fontSize:"14px", color:"gray"}}>
+                    {this.props.message}
+                  </p>
               </div>
             </div>
           </div>
     );
   }
 }
-export default ItemAvatarDate
+export default ItemAvatarRow

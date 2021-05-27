@@ -1,12 +1,12 @@
 import React, { Component, useState, createRef, useEffect } from "react";
-import ItemAvatarDate from "../Components/ItemAvatarDate";
+import ItemAvatarRow from "../Components/ItemAvatarRow";
 
 class ChatListBar extends Component {
   allChatUsers = [
     {
       image:"https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTA78Na63ws7B7EAWYgTr9BxhX_Z8oLa1nvOA&usqp=CAU",
       name: "Tim Hover",
-      message: "hola..............",
+      message: "hola",
       hour: "10:20 pm",
       active: true,
       isOnline: true,
@@ -14,7 +14,7 @@ class ChatListBar extends Component {
     {
       image:"https://pbs.twimg.com/profile_images/1055263632861343745/vIqzOHXj.jpg",
       name: "Ayub Rossi",
-      message: "..............hola",
+      message: "hola",
       hour: "10:20 pm",
       active: false,
       isOnline: false,
@@ -22,7 +22,7 @@ class ChatListBar extends Component {
     {
       image:"https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTA78Na63ws7B7EAWYgTr9BxhX_Z8oLa1nvOA&usqp=CAU",
       name: "Tim Hover",
-      message: "hola..............",
+      message: "hola",
       hour: "10:20 pm",
       active: true,
       isOnline: true,
@@ -30,14 +30,14 @@ class ChatListBar extends Component {
     {
       image:"https://pbs.twimg.com/profile_images/1055263632861343745/vIqzOHXj.jpg",
       name: "Ayub Rossi",
-      message: "..............hola",
+      message: "hola",
       hour: "10:20 pm",
       active: false,
       isOnline: false,
     },{
       image:"https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTA78Na63ws7B7EAWYgTr9BxhX_Z8oLa1nvOA&usqp=CAU",
       name: "Tim Hover",
-      message: "hola..............",
+      message: "hola",
       hour: "10:20 pm",
       active: true,
       isOnline: true,
@@ -45,7 +45,7 @@ class ChatListBar extends Component {
     {
       image:"https://pbs.twimg.com/profile_images/1055263632861343745/vIqzOHXj.jpg",
       name: "Ayub Rossi",
-      message: "..............hola",
+      message: "hola",
       hour: "10:20 pm",
       active: false,
       isOnline: false,
@@ -74,7 +74,7 @@ class ChatListBar extends Component {
             return (
 
               <div key={index}>
-                <ItemAvatarDate 
+                <ItemAvatarRow
                   image={item.image}
                   name={item.name}
                   message={item.message}

@@ -189,17 +189,6 @@ body {
   transform-origin: left;
 }
 
-.HeaderAvatar {
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  align-content: space-around;
-}
-
-.hora {
-  text-align: right;
-}
-
 .chatlist__item .userMeta p {
   margin: 0;
   padding: 0;

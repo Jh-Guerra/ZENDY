@@ -188,6 +188,7 @@ $offLine: #ECECEB;
 .mini-drawer-content {
     border-bottom: 1px solid #ebe7fb;
     width: 100%;
+    padding: 2px 0px;
 }
 
 .mini-drawer-chatlist {
@@ -288,6 +289,20 @@ $offLine: #ECECEB;
 // color button cerrar sección
 .mini-drawer-user button {
     background-color: $sColor;
+}
+
+.chat-mini-details {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-top: 3px;
+}
+
+.chat-mini-time {
+    font-size: 11px;
+    padding-top: 6px;
+    color: gray;
 }
 
 /* ===========================        AVATAR             =============================================*/
