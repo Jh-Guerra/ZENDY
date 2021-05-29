@@ -19,7 +19,13 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: "bold"
   },
   loginInput: {
-    width: '35vw'
+    width: '45vw',
+    [theme.breakpoints.down('xs')]: {
+      width: '65vw',
+    },
+  },
+  prueba: {
+    height: '100vh'
   },
   root: {
     height: '98vh',
@@ -48,7 +54,6 @@ const useStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(8),
   },
   loginBtn: {
-    margin: theme.spacing(6, 33, 2),
     fontSize:'15px',
     minWidth:'201px',
     height:'50px',
@@ -90,7 +95,7 @@ const LoginPage = props => {
     <>
       <CssBaseline />
       <Grid container className={classes.root}>
-        <Grid item xs={8} className="login-form" component={Paper}>
+        <Grid item xs={8} className={`login-form ${classes.prueba}`} component={Paper}>
           <Grid item xs={12} />
           <div className={classes.paper}>
             <Typography variant="h4" className={classes.loginTitle}>
