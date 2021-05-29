@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: "bold"
   },
   loginInput: {
-    width: '45vw',
+    width: '40vw',
     [theme.breakpoints.down('xs')]: {
       width: '65vw',
     },
@@ -52,8 +52,12 @@ const useStyles = makeStyles((theme) => ({
   form: {
     width: '80%',
     marginTop: theme.spacing(8),
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center'
   },
   loginBtn: {
+    margin: theme.spacing(6, 0, 2),
     fontSize:'15px',
     minWidth:'201px',
     height:'50px',
