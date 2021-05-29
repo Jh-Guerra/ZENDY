@@ -144,7 +144,7 @@ const LoginPage = props => {
             </form>
           </div>    
       </Grid>
-      <Grid item xs={4} className="login-logo">
+      <Grid container alignItems="center" justify="center" item xs={4} className="login-logo">
         <img src={LogoZendy} className={classes.image}/>
       </Grid>
     </Grid>
