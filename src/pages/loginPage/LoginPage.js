@@ -18,6 +18,9 @@ const useStyles = makeStyles((theme) => ({
     color: "white",
     fontWeight: "bold"
   },
+  loginInput: {
+    width: '35vw'
+  },
   root: {
     height: '98vh',
     marginBottom: theme.spacing(1)
@@ -95,7 +98,7 @@ const LoginPage = props => {
             </Typography>
             <form className={classes.form}>
               <CssTextField
-                className="login-input"
+                className={`login-input ${classes.loginInput}`}
                 variant="outlined"
                 margin="normal"
                 required
@@ -114,7 +117,7 @@ const LoginPage = props => {
                 autoFocus
               />
               <CssTextField
-                className="login-input"
+                className={`login-input ${classes.loginInput}`}
                 variant="outlined"
                 margin="normal"
                 required
