@@ -16,7 +16,8 @@ import { useHistory } from 'react-router';
 const useStyles = makeStyles((theme) => ({
   loginTitle: {
     color: "white",
-    fontWeight: "bold"
+    fontWeight: "bold",
+    fontSize: '4rem'
   },
   loginInput: {
     width: '40vw',
