@@ -8,14 +8,14 @@ const ChatItem = props => {
   return (
     <div
       style={{ animationDelay: `0.8s` }}
-      className={`chat__item ${user ? user : ""}`}
+      className={`chat-item ${user ? user : ""}`}
     >
-      <div className="chat__item__content">
-        <div className="chat__meta">
+      <div className="chat-item-content">
+        <div className="chat-meta">
           <span>{user}</span>
           <span>12:05 PM</span>
         </div>
-        <div className="chat__msg">{message}</div>
+        <div className="chat-msg">{message}</div>
       </div>
       <ChatAvatar isOnline="active" image={image} />
     </div>

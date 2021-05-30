@@ -69,7 +69,7 @@ class ChatListBar extends Component {
             <input type="text" placeholder="Buscar..." />
           </div>
         </div>
-        <div className="chatlist__items">
+        <div className="chat-list-items">
           {this.state.allChats.map((item, index) => {
             return (
 

@@ -74,7 +74,7 @@ const ChatBody = props => {
   return (
     <div className="main__chatcontent">
       <div className="content__body">
-        <div className="chat__items">
+        <div>
           {chat.map((itm, index) => {
             return (
               <ChatItem
