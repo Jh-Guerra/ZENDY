@@ -247,3 +247,30 @@ $offLine: #ECECEB;
 .mini-drawer-user button {
     background-color: $sColor;
 }
+
+/* ===========================        TOOLTIP              =============================================*/
+
+/* Tooltip container */
+.tooltip {
+    position: relative;
+    font-weight: bold
+}
+  
+/* Tooltip text */
+.tooltip-text {
+    visibility: hidden; 
+    position: absolute; 
+    text-align: center;
+    border-radius: 15px;
+    z-index: 1;
+}
+  
+.tooltip:hover .tooltip-text {
+    visibility: visible;
+    top: 100%;
+    left: 50%; 
+    width: 11vh;
+    background-color: whitesmoke;
+    color: black;
+    margin-left: -45px;
+}
