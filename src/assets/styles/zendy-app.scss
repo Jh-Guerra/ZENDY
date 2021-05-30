@@ -308,6 +308,14 @@ $offLine: #ECECEB;
     button {
         background-color: transparent;
         border: none;
+        cursor: pointer;
+    }
+
+    button:hover{
+        path{
+            fill: $sColorL;
+        }
+        
     }
 }
 
