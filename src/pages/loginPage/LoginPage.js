@@ -16,7 +16,17 @@ import { useHistory } from 'react-router';
 const useStyles = makeStyles((theme) => ({
   loginTitle: {
     color: "white",
-    fontWeight: "bold"
+    fontWeight: "bold",
+    fontSize: '4rem'
+  },
+  loginInput: {
+    width: '40vw',
+    [theme.breakpoints.down('xs')]: {
+      width: '65vw',
+    },
+  },
+  prueba: {
+    height: '100vh'
   },
   root: {
     height: '98vh',
@@ -43,9 +53,12 @@ const useStyles = makeStyles((theme) => ({
   form: {
     width: '80%',
     marginTop: theme.spacing(8),
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center'
   },
   loginBtn: {
-    margin: theme.spacing(6, 33, 2),
+    margin: theme.spacing(6, 0, 2),
     fontSize:'15px',
     minWidth:'201px',
     height:'50px',
@@ -87,7 +100,7 @@ const LoginPage = props => {
     <>
       <CssBaseline />
       <Grid container className={classes.root}>
-        <Grid item xs={8} className="login-form" component={Paper}>
+        <Grid item xs={8} className={`login-form ${classes.prueba}`} component={Paper}>
           <Grid item xs={12} />
           <div className={classes.paper}>
             <Typography variant="h4" className={classes.loginTitle}>
@@ -95,7 +108,7 @@ const LoginPage = props => {
             </Typography>
             <form className={classes.form}>
               <CssTextField
-                className="login-input"
+                className={`login-input ${classes.loginInput}`}
                 variant="outlined"
                 margin="normal"
                 required
@@ -114,7 +127,7 @@ const LoginPage = props => {
                 autoFocus
               />
               <CssTextField
-                className="login-input"
+                className={`login-input ${classes.loginInput}`}
                 variant="outlined"
                 margin="normal"
                 required
@@ -144,7 +157,7 @@ const LoginPage = props => {
             </form>
           </div>    
       </Grid>
-      <Grid item xs={4} className="login-logo">
+      <Grid container alignItems="center" justify="center" item xs={4} className="login-logo">
         <img src={LogoZendy} className={classes.image}/>
       </Grid>
     </Grid>

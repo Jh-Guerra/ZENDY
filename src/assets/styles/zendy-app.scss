@@ -183,6 +183,88 @@ $offLine: #ECECEB;
     }
 }
 
+/*========================== CHAT ITEM =====================*/
+.chat-item {
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+    margin-bottom: 15px;
+    transition: all 0.3s ease;
+    transform: scale(0);
+    transform-origin: right;
+    animation-name: showIn;
+    animation-duration: 0.2s;
+    animation-iteration-count: 1;
+    animation-direction: normal;
+    animation-timing-function: cubic-bezier(
+      0.88,
+      0.19,
+      0.37,
+      1.11
+    );
+    animation-fill-mode: both;
+    animation-delay: 0.2s;
+
+    .avatar {
+        margin-right: 0px;
+        margin-left: 20px;
+        background: #fff;
+        padding: 1px;
+    }
+}
+
+.chat-item-content {
+    background-color: #4462ff;
+    color: #fff;
+    padding: 15px;
+    border-radius: 10px 10px 0 10px;
+    max-width: 50%;
+    min-width: 215px;
+
+    .chat-meta {
+        justify-content: space-between;
+        display: flex;
+        padding: 0px 0px 10px 0px;
+
+        span {
+            font-size: 14px;
+            color: #e2e6f5;
+            user-select: none;
+        }
+    }
+}
+
+.chat-item.other {
+    flex-direction: row-reverse;
+    transform-origin: left;
+
+    .chat-item-content {
+        background-color: #fff;
+        color: #000;
+        border-radius: 10px 10px 10px 0;
+        max-width: 50%;
+
+        .chat-meta span {
+            color: #d1d1d1;
+        }
+    }
+
+    .avatar {
+        margin-right: 20px;
+        margin-left: 0px;
+    }
+}
+  
+.chat-msg {
+    user-select: none;
+}
+
+.chat-list-items {
+    margin-top: 20px;
+    overflow: auto;
+    max-height: calc(100vh - calc(100vh / 2.2));
+}
+
 /* ===========================        MENU LATERAL              =============================================*/
 //color menu lateral
 .mini-drawer-content {
@@ -206,13 +288,25 @@ $offLine: #ECECEB;
     padding: 5px 10px 5px 10px;
 
     button {
-        font-size: smaller;
         margin: 5px 5px;
+        padding: 5px;
+        width: 95%;
         border-radius: 30px;
-        align-content: space-between;
+        border: 2px white solid;
+        display: flex;
+        justify-content: center;
+        align-items: center;
         background-color: transparent;
         color: white;
+        font-size: 1.3rem;
+        font-style: italic;
       }
+
+    svg {
+        width: 25px;
+        height: 25px;
+        margin-right: 5px;
+    }
 }
 
 .mini-drawer-sections {
@@ -221,11 +315,19 @@ $offLine: #ECECEB;
     align-content: space-between;
     width: 100%;
     border-bottom: 1px solid #ebe7fb;
-    padding: 15px 0px 15px 0px;
+    padding: 15px 8px 15px 8px;
 
     button {
         background-color: transparent;
         border: none;
+        cursor: pointer;
+    }
+
+    button:hover{
+        path{
+            fill: $sColorL;
+        }
+        
     }
 }
 
@@ -332,4 +434,31 @@ $offLine: #ECECEB;
     border-radius: 50%;
     width: 100%;
     height: 100%;
+}
+
+/* ===========================        TOOLTIP              =============================================*/
+
+/* Tooltip container */
+.tooltip {
+    position: relative;
+    font-weight: bold
+}
+  
+/* Tooltip text */
+.tooltip-text {
+    visibility: hidden; 
+    position: absolute; 
+    text-align: center;
+    border-radius: 15px;
+    z-index: 1;
+}
+  
+.tooltip:hover .tooltip-text {
+    visibility: visible;
+    top: 100%;
+    left: 50%; 
+    width: 11vh;
+    background-color: whitesmoke;
+    color: black;
+    margin-left: -45px;
 }
