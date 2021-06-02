@@ -76,7 +76,7 @@ body {
 /*========================   CHAT BODY       ====================================*/
 .main__chatcontent {
   flex-grow: 1;
-  padding: 20px 40px 60px;
+  padding: 20px 40px;
   max-width: 100%;
   border-right: 1px solid #ebe7fb;
 }

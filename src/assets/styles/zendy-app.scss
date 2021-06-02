@@ -134,7 +134,7 @@ $offLine: #ECECEB;
 /* ============================    CHAT FOOTER       ============================================*/
 .chat-footer {
     background-color: $pColor;
-    padding: 15px 40px 20px 20px;
+    padding: 20px 20px;
     display: flex;
     justify-content: space-between;
     border-radius: 8px;
@@ -152,14 +152,7 @@ $offLine: #ECECEB;
     }
 
     .chat-input-icon {
-        font-size: 37px;
-        padding: 10px 5px 0px 0px;
-        color: white;
-    }
-
-    .chat-icon-send {
-        font-size: 50px;
-        padding: 15px 0px 3px 20px;
+        font-size: 40px;
         color: white;
     }
 
@@ -169,16 +162,16 @@ $offLine: #ECECEB;
 
     input {
         flex-grow: 1;
-        padding: 12px 0px 12px 12px;
-        background-color: white;
-        border-radius: 10px;
+        padding: 0 15px;
+        background-color: transparent;
+        border: none;
         outline: none;
-        color: black;
+        color: white;
     }
 
     ::placeholder{
-        color: black;
-        opacity: 0.7;      
+        color: white;
+        opacity: 0.7;
     }
       
     :-ms-input-placeholder{

@@ -65,7 +65,7 @@ export default class ChatFooter extends Component {
           value={this.state.msg}
         />
         <IconButton className="chat-input-button">
-          <SendIcon className="chat-icon-send" />
+          <SendIcon className="chat-input-icon" />
         </IconButton>
       </div>
     );
