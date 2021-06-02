@@ -15,9 +15,6 @@ const BasePage = props => {
   return (
     <>
       <main className={classes.content}>
-        <Box height="4px"> 
-          <p>cabecera</p>
-        </Box>
         {props.privateHeader && props.privateHeader}
         <Box display="flex" flex={1} flexDirection="column" >
             { props.children }

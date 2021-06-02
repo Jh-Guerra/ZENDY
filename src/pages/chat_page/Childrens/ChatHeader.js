@@ -15,7 +15,7 @@ const ChatHeader = props => {
     <Grid container className="chat-header">
       <div className="main__chatcontent">
         <div className="chat-header-content">
-          <Grid container spacing={4}>
+          <Grid container>
             <Grid item xs={6}>
               <Grid container>
                 <Grid item xs={2} style={{display:"flex"}}>

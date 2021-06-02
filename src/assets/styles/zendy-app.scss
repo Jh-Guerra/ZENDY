@@ -45,9 +45,12 @@ $offLine: #ECECEB;
 /* ===========================        CHAT              =============================================*/
 /* ============================    CHAT HEADER       ============================================*/
 .chat-header{
+    margin-top: 0px;
+   
 
     .chat-header-content {
-        padding-bottom: 15px;
+        height: 110px;
+        padding-top: 18px;
         border-bottom: 1px solid #ebe7fb;
         background-color: $pColor;
         vertical-align: middle;
@@ -99,6 +102,8 @@ $offLine: #ECECEB;
 
     .online-icon {
         background-color: $onLine;
+        width: 12px;
+        height: 12px;
         border: none;
         padding: 5px;
         display: inline-block;
@@ -108,8 +113,8 @@ $offLine: #ECECEB;
 }
 
 .is-online {
-    width: 10px;
-    height: 10px;
+    width: 14px;
+    height: 14px;
     position: absolute;
     bottom: 0;
     right: 0;
@@ -270,7 +275,6 @@ $offLine: #ECECEB;
 .mini-drawer-content {
     border-bottom: 1px solid #ebe7fb;
     width: 100%;
-    padding: 2px 0px;
 }
 
 .mini-drawer-chatlist {
@@ -332,6 +336,7 @@ $offLine: #ECECEB;
 }
 
 .mini-drawer-user {
+    height: 110px;
     display: flex;
     flex-direction: row;
     color: #fff;
@@ -339,12 +344,19 @@ $offLine: #ECECEB;
 
     p {
         font-size: large;
-        margin: 2px 2px;
+        margin: 10px 10px;
+        font-size: 25px;
+    }
+
+    .avatar {
+        height: 70px;
+        width: 70px;
+        margin: 10px;
     }
 
     button {
         font-size: smaller;
-        margin: 2px 2px;
+        margin: 2px 10px;
         border-radius: 30px;
         align-content: center;
         color: white;
@@ -384,7 +396,7 @@ $offLine: #ECECEB;
 }
   
 
-.mini-drawer-content, .mini-drawer-chatlist, .mini-drawer-buttons, .mini-drawer-sections {
+.mini-drawer-content, .mini-drawer-chatlist, .mini-drawer-buttons, .mini-drawer-sections, .blank-container {
     background-color: $pColor;
 }
 
