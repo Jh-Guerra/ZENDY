@@ -59,11 +59,17 @@ class ChatListBar extends Component {
     };
   }
   render() {
-    return (
-      <div className="mini-drawer-chatlist">
-        <div className="chatlist__heading">
-          <h2>--------Chats----------------</h2>
-        </div>
+    return (  
+      <div className="mini-drawer-chatlist">  
+      <br />
+          <div className="chatlist__heading">
+            <span className="divider-line"></span>
+              <p className="divider-content">
+                  Chats Vigentes
+              </p>
+            <span className="divider-line"></span>
+          </div>  
+        <br />   
         <div className="chatList__search">
           <div className="search_wrap">
             <input type="text" placeholder="Buscar..." />
