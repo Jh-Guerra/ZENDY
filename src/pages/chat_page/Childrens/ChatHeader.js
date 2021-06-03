@@ -4,6 +4,8 @@ import IconButton from '@material-ui/core/IconButton';
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
 import { Grid, TextField } from "@material-ui/core";
 import MoreVertIcon from '@material-ui/icons/MoreVert';
+import SearchIcon from '@material-ui/icons/Search';
+import InputAdornment from '@material-ui/core/InputAdornment';
 
 const ChatHeader = props => {
 
@@ -41,7 +43,17 @@ const ChatHeader = props => {
 
             <Grid item xs={6}>
               <Grid container className="chat-header-buttons">
-                <TextField className="search_wrap" type="text" placeholder="Buscar..."/>
+              <TextField className="chatList__search search_wrap" 
+                 style={{paddingLeft: '20px'}}
+                type="text"
+                placeholder="Buscar..."
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start" InputProps={{ disableUnderline: true }}>
+                      <SearchIcon />
+                    </InputAdornment>
+                  ),disableUnderline: true
+                }}/>
                 <IconButton className="chat-header-button"><PersonAddIcon style={{ fontSize: 35 }} /></IconButton>
                 <IconButton className="chat-header-button"><MoreVertIcon style={{ fontSize: 40 }} /></IconButton>
               </Grid>              
