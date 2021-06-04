@@ -469,3 +469,50 @@ $offLine: #ECECEB;
     color: black;
     margin-left: -45px;
 }
+
+/* ===========================        MODAL              =============================================*/
+.modal {
+    width: 200px;
+    position: absolute;
+    right: 0;
+}
+
+.modal-header {
+    background-color: white;
+    text-align: center;
+    padding: 5px;
+}
+
+.modal-body {
+    background-color: $pColor;
+    display: flex;
+    flex-direction: column;
+    ::placeholder {
+        font-size: 18px;
+        font-style: italic;
+        color: black;
+        opacity: 1;
+    }
+
+    .button {
+        background-color: #35526F;
+        color: #F1F2F3;
+        display: inline-block;
+        padding: 3px;
+        width: 60%;
+        font-size: 20px;
+        font-weight: bold;
+        text-align: center;
+        margin: auto;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 0 !important;
+        cursor: pointer;
+    }
+
+    p {
+        display: inline-block;
+        margin: 0;
+    }
+}

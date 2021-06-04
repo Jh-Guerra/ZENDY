@@ -1,15 +1,27 @@
-import React, { Component, createRef } from "react";
+import React, { Component, createRef, useState } from "react";
 import ChatAvatar from "pages/chat_page/Components/ChatAvatar";
 import IconButton from '@material-ui/core/IconButton';
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
 import { Grid, TextField } from "@material-ui/core";
 import MoreVertIcon from '@material-ui/icons/MoreVert';
+import Modal from "components/Modal/Modal";
+import ModalNotification from "components/Modal/ModalNotification";
 
 const ChatHeader = props => {
 
   React.useEffect(() => {
 
   }, []);
+
+  const [open, setOpen] = useState(false);
+
+  const handleClickOpen = () => {
+      setOpen(true);
+  }
+
+  const handleClose = () => {
+      setOpen(false);
+  }
 
   return (
     <Grid container className="chat-header">
@@ -38,11 +50,12 @@ const ChatHeader = props => {
                 </Grid>
               </Grid>
             </Grid>
-
+            
             <Grid item xs={6}>
               <Grid container className="chat-header-buttons">
+                <ModalNotification open={open} handleClose={handleClose}/>
                 <TextField className="search_wrap" type="text" placeholder="Buscar..."/>
-                <IconButton className="chat-header-button"><PersonAddIcon style={{ fontSize: 35 }} /></IconButton>
+                <IconButton onClick={handleClickOpen} className="chat-header-button"><PersonAddIcon style={{ fontSize: 35 }} /></IconButton>
                 <IconButton className="chat-header-button"><MoreVertIcon style={{ fontSize: 40 }} /></IconButton>
               </Grid>              
             </Grid>
