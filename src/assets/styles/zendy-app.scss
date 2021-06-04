@@ -24,6 +24,10 @@ $offLine: #ECECEB;
     font-family: $pLetter !important;
 }
 
+html, body {
+    height: 100%;
+}
+
 /* ===========================        LOGIN              =============================================*/
 
 .login-form{
@@ -45,9 +49,11 @@ $offLine: #ECECEB;
 /* ===========================        CHAT              =============================================*/
 /* ============================    CHAT HEADER       ============================================*/
 .chat-header{
+    margin-top: 0px;
 
     .chat-header-content {
-        padding-bottom: 15px;
+        height: 110px;
+        padding-top: 18px;
         border-bottom: 1px solid #ebe7fb;
         background-color: $pColor;
         vertical-align: middle;
@@ -99,6 +105,8 @@ $offLine: #ECECEB;
 
     .online-icon {
         background-color: $onLine;
+        width: 12px;
+        height: 12px;
         border: none;
         padding: 5px;
         display: inline-block;
@@ -108,8 +116,8 @@ $offLine: #ECECEB;
 }
 
 .is-online {
-    width: 10px;
-    height: 10px;
+    width: 14px;
+    height: 14px;
     position: absolute;
     bottom: 0;
     right: 0;
@@ -131,10 +139,32 @@ $offLine: #ECECEB;
     vertical-align: middle;
 }
 
+/*========================   CHAT BODY       ====================================*/
+.main__chatcontent {
+    flex-grow: 1;
+    padding: 20px 40px 60px;
+    max-width: 100%;
+    border-right: 1px solid #ebe7fb;
+  }
+  .content__body {
+    padding: 20px 40px;
+    max-height: calc(100vh - calc(100vh / 2));
+    overflow: auto;
+  }
+  
+  @keyframes showIn {
+    0% {
+      transform: scale(0);
+    }
+    100% {
+      transform: scale(1);
+    }
+}
+
 /* ============================    CHAT FOOTER       ============================================*/
 .chat-footer {
     background-color: $pColor;
-    padding: 20px 20px;
+    padding: 15px 40px 20px 20px;
     display: flex;
     justify-content: space-between;
     border-radius: 8px;
@@ -152,7 +182,14 @@ $offLine: #ECECEB;
     }
 
     .chat-input-icon {
-        font-size: 40px;
+        font-size: 37px;
+        padding: 10px 5px 0px 0px;
+        color: white;
+    }
+
+    .chat-icon-send {
+        font-size: 50px;
+        padding: 15px 0px 3px 20px;
         color: white;
     }
 
@@ -162,16 +199,16 @@ $offLine: #ECECEB;
 
     input {
         flex-grow: 1;
-        padding: 0 15px;
-        background-color: transparent;
-        border: none;
+        padding: 12px 0px 12px 12px;
+        background-color: white;
+        border-radius: 10px;
         outline: none;
-        color: white;
+        color: black;
     }
 
     ::placeholder{
-        color: white;
-        opacity: 0.7;
+        color: black;
+        opacity: 0.7;      
     }
       
     :-ms-input-placeholder{
@@ -271,6 +308,15 @@ $offLine: #ECECEB;
     border-bottom: 1px solid #ebe7fb;
     width: 100%;
     padding: 2px 0px;
+    height: 10%;
+}
+
+.mini-drawer-options {
+    height: 100%;
+}
+
+.mini-drawer-options .MuiTabs-flexContainer {
+    height: 100%;
 }
 
 .mini-drawer-chatlist {
@@ -279,13 +325,39 @@ $offLine: #ECECEB;
     height: 100%;
 }
 
+.chatlist__heading {
+    color: white;
+    width: 100%;
+    align-items: center;
+    -webkit-box-orient: horizontal;
+    display: flex;
+  }
+
+.divider-line {
+flex-grow: 1;
+background-color: white;
+height: 1px;
+position: relative;
+top: .1em;
+}
+  
+.divider-content {
+    color: white;
+    flex-grow: 0;
+    font-size: 18px;
+    font-weight: 100;
+    line-height: 15px;
+    margin: 0 25px;
+}
+
 .mini-drawer-buttons {
     display: flex;
     flex-direction: row;
     align-content: space-between;
     width: 100%;
     color: #fff;
-    padding: 5px 10px 5px 10px;
+    padding: 10px;
+    
 
     button {
         margin: 5px 5px;
@@ -309,13 +381,16 @@ $offLine: #ECECEB;
     }
 }
 
+.mini-drawer-current-chat {
+    background-color: $pColor;
+    height: 90%;
+}
+
 .mini-drawer-sections {
     display: flex;
-    flex-direction: row;
-    align-content: space-between;
+    background-color: $pColorD;
+    height: 10%;
     width: 100%;
-    border-bottom: 1px solid #ebe7fb;
-    padding: 15px 8px 15px 8px;
 
     button {
         background-color: transparent;
@@ -331,7 +406,14 @@ $offLine: #ECECEB;
     }
 }
 
+.mini-drawer-tabs {
+    height: 90%;
+    width: 100%;
+    background-color: $pColor;
+}
+
 .mini-drawer-user {
+    // height: 110px;
     display: flex;
     flex-direction: row;
     color: #fff;
@@ -339,12 +421,19 @@ $offLine: #ECECEB;
 
     p {
         font-size: large;
-        margin: 2px 2px;
+        margin: 10px 10px;
+        font-size: 25px;
+    }
+
+    .avatar {
+        height: 70px;
+        width: 70px;
+        margin: 10px;
     }
 
     button {
         font-size: smaller;
-        margin: 2px 2px;
+        margin: 2px 10px;
         border-radius: 30px;
         align-content: center;
         color: white;
@@ -384,7 +473,7 @@ $offLine: #ECECEB;
 }
   
 
-.mini-drawer-content, .mini-drawer-chatlist, .mini-drawer-buttons, .mini-drawer-sections {
+.mini-drawer-content, .mini-drawer-chatlist, .mini-drawer-buttons, .mini-drawer-sections, .blank-container {
     background-color: $pColor;
 }
 
@@ -461,4 +550,51 @@ $offLine: #ECECEB;
     background-color: whitesmoke;
     color: black;
     margin-left: -45px;
+}
+
+/* ===========================        MODAL              =============================================*/
+.modal {
+    width: 200px;
+    position: absolute;
+    right: 0;
+}
+
+.modal-header {
+    background-color: white;
+    text-align: center;
+    padding: 5px;
+}
+
+.modal-body {
+    background-color: $pColor;
+    display: flex;
+    flex-direction: column;
+    ::placeholder {
+        font-size: 18px;
+        font-style: italic;
+        color: black;
+        opacity: 1;
+    }
+
+    .button {
+        background-color: #35526F;
+        color: #F1F2F3;
+        display: inline-block;
+        padding: 3px;
+        width: 60%;
+        font-size: 20px;
+        font-weight: bold;
+        text-align: center;
+        margin: auto;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 0 !important;
+        cursor: pointer;
+    }
+
+    p {
+        display: inline-block;
+        margin: 0;
+    }
 }

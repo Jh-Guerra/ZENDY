@@ -1,7 +1,7 @@
 import { Grid } from "@material-ui/core";
 import React, { Component } from "react";
 
-class SelectMenu extends Component {
+class NewChatCall extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -13,7 +13,7 @@ class SelectMenu extends Component {
     render() {
         return (
 
-            <Grid container >
+            <Grid container>
                 <div className="mini-drawer-buttons">
                     <Grid item xs={12}>
                         <button>
@@ -40,4 +40,4 @@ class SelectMenu extends Component {
         )
     }
 }
-export default SelectMenu
+export default NewChatCall
