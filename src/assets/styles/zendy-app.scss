@@ -299,6 +299,31 @@ html, body {
     height: 100%;
 }
 
+.chatlist__heading {
+    color: white;
+    width: 100%;
+    align-items: center;
+    -webkit-box-orient: horizontal;
+    display: flex;
+  }
+
+.divider-line {
+flex-grow: 1;
+background-color: white;
+height: 1px;
+position: relative;
+top: .1em;
+}
+  
+.divider-content {
+    color: white;
+    flex-grow: 0;
+    font-size: 18px;
+    font-weight: 100;
+    line-height: 15px;
+    margin: 0 25px;
+}
+
 .mini-drawer-buttons {
     display: flex;
     flex-direction: row;
