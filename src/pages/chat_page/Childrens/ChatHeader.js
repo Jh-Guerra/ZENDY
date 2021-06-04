@@ -1,4 +1,4 @@
-import React, { Component, createRef } from "react";
+import React, { Component, createRef, useState } from "react";
 import ChatAvatar from "pages/chat_page/Components/ChatAvatar";
 import IconButton from '@material-ui/core/IconButton';
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
@@ -6,13 +6,24 @@ import { Grid, TextField } from "@material-ui/core";
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import SearchIcon from '@material-ui/icons/Search';
 import InputAdornment from '@material-ui/core/InputAdornment';
+import ModalNotification from "components/Modals/ModalNotification";
 
 const ChatHeader = props => {
 
   React.useEffect(() => {
 
   }, []);
-  
+
+  const [open, setOpen] = useState(false);
+
+  const handleClickOpen = () => {
+      setOpen(true);
+  }
+
+  const handleClose = () => {
+      setOpen(false);
+  }
+
   return (
     <Grid container className="chat-header">
       <div className="main__chatcontent">
@@ -40,7 +51,7 @@ const ChatHeader = props => {
                 </Grid>
               </Grid>
             </Grid>
-
+            
             <Grid item xs={6}>
               <Grid container className="chat-header-buttons">
                 <TextField className="chatList__search search_wrap" 
@@ -55,13 +66,17 @@ const ChatHeader = props => {
                     ),disableUnderline: true
                   }}
                 />
-                <IconButton className="chat-header-button"><PersonAddIcon style={{ fontSize: 35 }} /></IconButton>
+                <IconButton onClick={handleClickOpen} className="chat-header-button"><PersonAddIcon style={{ fontSize: 35 }} /></IconButton>
                 <IconButton className="chat-header-button"><MoreVertIcon style={{ fontSize: 40 }} /></IconButton>
               </Grid>              
             </Grid>
           </Grid>
         </div>
       </div>
+      <ModalNotification 
+        open={open} 
+        handleClose={handleClose}
+      />
     </Grid>
   );
 
