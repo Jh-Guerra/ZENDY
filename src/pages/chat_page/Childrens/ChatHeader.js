@@ -4,8 +4,7 @@ import IconButton from '@material-ui/core/IconButton';
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
 import { Grid, TextField } from "@material-ui/core";
 import MoreVertIcon from '@material-ui/icons/MoreVert';
-import Modal from "components/Modal/Modal";
-import ModalNotification from "components/Modal/ModalNotification";
+import ModalNotification from "components/Modals/ModalNotification";
 
 const ChatHeader = props => {
 
@@ -53,7 +52,6 @@ const ChatHeader = props => {
             
             <Grid item xs={6}>
               <Grid container className="chat-header-buttons">
-                <ModalNotification open={open} handleClose={handleClose}/>
                 <TextField className="search_wrap" type="text" placeholder="Buscar..."/>
                 <IconButton onClick={handleClickOpen} className="chat-header-button"><PersonAddIcon style={{ fontSize: 35 }} /></IconButton>
                 <IconButton className="chat-header-button"><MoreVertIcon style={{ fontSize: 40 }} /></IconButton>
@@ -62,6 +60,10 @@ const ChatHeader = props => {
           </Grid>
         </div>
       </div>
+      <ModalNotification 
+        open={open} 
+        handleClose={handleClose}
+      />
     </Grid>
   );
 

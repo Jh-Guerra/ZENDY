@@ -2,7 +2,7 @@ import { makeStyles } from '@material-ui/core';
 import React from 'react'
 import ModalBody from './common/ModalBody'
 import ModalHeader from './common/ModalHeader'
-import Modal from './Modal'
+import Modal from './common/Modal'
 import { TextField } from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
 import icon from 'assets/images/Zendy-icon.jpg'
