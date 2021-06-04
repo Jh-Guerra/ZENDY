@@ -24,6 +24,10 @@ $offLine: #ECECEB;
     font-family: $pLetter !important;
 }
 
+html, body {
+    height: 100%;
+}
+
 /* ===========================        LOGIN              =============================================*/
 
 .login-form{
@@ -278,6 +282,15 @@ $offLine: #ECECEB;
     border-bottom: 1px solid #ebe7fb;
     width: 100%;
     padding: 2px 0px;
+    height: 15%;
+}
+
+.mini-drawer-options {
+    height: 100%;
+}
+
+.mini-drawer-options .MuiTabs-flexContainer {
+    height: 100%;
 }
 
 .mini-drawer-chatlist {
@@ -292,7 +305,8 @@ $offLine: #ECECEB;
     align-content: space-between;
     width: 100%;
     color: #fff;
-    padding: 5px 10px 5px 10px;
+    padding: 10px;
+    
 
     button {
         margin: 5px 5px;
@@ -316,13 +330,15 @@ $offLine: #ECECEB;
     }
 }
 
+.mini-drawer-current-chat {
+    background-color: $pColor;
+    height: 90%;
+}
+
 .mini-drawer-sections {
     display: flex;
-    flex-direction: row;
-    align-content: space-between;
-    width: 100%;
-    border-bottom: 1px solid #ebe7fb;
-    padding: 15px 8px 15px 8px;
+    background-color: $pColorD;
+    height: 10%;
 
     button {
         background-color: transparent;
@@ -336,6 +352,12 @@ $offLine: #ECECEB;
         }
         
     }
+}
+
+.mini-drawer-tabs {
+    height: 90%;
+    width: 100%;
+    background-color: $pColor;
 }
 
 .mini-drawer-user {
