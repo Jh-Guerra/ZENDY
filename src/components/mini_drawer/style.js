@@ -1,6 +1,6 @@
 import { makeStyles } from '@material-ui/core/styles';
 
-const drawerWidth = 380;
+const drawerWidth = 450;
 const marginTopButtonCollapse = 56;
 
 export const drawerStyles = makeStyles((theme) => ({

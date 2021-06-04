@@ -74,7 +74,7 @@ const MiniDrawer = (props) => {
     <div className={classes.root}  >
       <Drawer variant="permanent" style={{height:"100%"}} className={clsx(classes.drawer, { [classes.drawerOpen]: true, [classes.drawerClose]: false })} classes={{ paper: clsx({ [classes.drawerOpen]: true, [classes.drawerClose]: false, }), }}>
         <AvatarHeader />
-        <Grid container style={{height:"85%"}}>
+        <Grid container style={{height:"90%"}}>
           <div className="mini-drawer-sections">
             <Grid xs={12} classes={{root: customClasses.root}}>
               <AppBar position="static" className="mini-drawer-options" style={{backgroundColor:"transparent"}}>
