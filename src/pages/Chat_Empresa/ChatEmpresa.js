@@ -1,6 +1,7 @@
 import React from "react";
 import ChatAvatar from "pages/chat_page/Components/ChatAvatar";
-import { Grid, makeStyles, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@material-ui/core";
+import { Button, Grid, makeStyles, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@material-ui/core";
+import { Label } from "@material-ui/icons";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -9,7 +10,7 @@ const useStyles = makeStyles((theme) => ({
         height: '100vh'
     },
     Header: {
-        height: '12%',
+        height: '110px',
         width: '100%',
         background: "white",
         display: 'flex',
@@ -40,30 +41,27 @@ const useStyles = makeStyles((theme) => ({
     },
     button: {
         width: '50%',
+        border: '3px solid',
         background: 'transparent',
-        color: 'black',
-        borderColor: 'white',
         borderRadius: '50px',
         padding: '1vh',
-        margin: '2vh 0vh',
+        margin: '1vh 0vh',
         color: 'white',
-        borderWidth : '4px',
-        fontSize: '2vh',
+        fontSize: '1.8vh',
         fontWeight: 'bold'
     },
     contentText: {
         color: 'white',
-        padding: '1vh 15vh 1vh 5vh'
+        padding: '1vh 20vh 1vh 0vh'
     },
     table: {
         Width: '100%',
-        marginTop: '2vh',
+        marginTop: '4vh',
         minHeight: '60%',
         maxHeight: '60%',
         color: 'white',
         display: 'flex',
         flexDirection: 'column',
-        alignItems: 'center',
         padding: '0vh 15vh'
     },
     TableHead: {
@@ -143,22 +141,22 @@ const ChatEmpresa = props => {
                     />
                 </Grid>
                 <Grid className={classes.description}>
-                    <p className={classes.textDescription}>Monsters Inc.</p>
-                    <p className={classes.textDescription}>{rows.length} trabajadores</p>
+                    <Typography className={classes.textDescription}>Monsters Inc.</Typography>
+                    <Typography className={classes.textDescription}>{rows.length} trabajadores</Typography>
                 </Grid>
             </Grid>
             <Grid className={classes.Body}>
                 <Grid className={classes.contentButton} xs={4}>
-                    <button className={classes.button}>Iniciar Chat</button>
-                    <button className={classes.button}>Enviar Notificacion</button>
+                    <Button className={classes.button}>Iniciar Chat</Button>
+                    <Button className={classes.button}>Enviar Notificación</Button>
                 </Grid>
                 <Grid className={classes.contentText} xs={8}>
-                    <label>Reseña de la empresa</label>
-                    <p>"Labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur"</p>
+                    <Typography variant="h5" gutterBottom>Descripción de la Empresa</Typography>
+                    <Typography variant="body1">"Labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur"</Typography >
                 </Grid>
             </Grid>
             <Grid className={classes.table}>
-                <h2>Lista de trabajadores</h2>
+                <Typography variant="h4" gutterBottom align='left'>Lista de trabajadores</Typography>
                 <TableContainer component={Paper}>
                     <Table size="medium">
                         <TableHead className={classes.TableHead}>
