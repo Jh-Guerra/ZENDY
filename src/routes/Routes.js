@@ -8,6 +8,7 @@ import {
 import ThemeSettings from '../components/ThemeSettings';
 import PrivateRoute from './PrivateRoute';
 import LoginPage from 'pages/loginPage/LoginPage';
+import ErrorInfoPage from 'pages/error/ErrorInfoPage';
 
 const Routes = (props) => {
   return(  
@@ -18,6 +19,10 @@ const Routes = (props) => {
 
         <PrivateRoute exact path="/test-view" {...props}>
           <ChatPage/>
+        </PrivateRoute>
+
+        <PrivateRoute exact path="/error-info" {...props}>
+          <ErrorInfoPage/>
         </PrivateRoute>
 
       </Switch>
