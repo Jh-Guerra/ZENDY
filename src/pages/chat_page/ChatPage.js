@@ -23,7 +23,7 @@ class ChatPage extends Component {
 
   render() {
     return (
-      <Grid container style={{position:'sticky', width:'100%', height:'calc(100vh)'}}>
+      <Grid container style={{position:'sticky', width:'100%', height:'calc(90vh)'}}>
         <Grid item xs={12}>
           <ChatHeader/>
         </Grid>
