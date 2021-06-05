@@ -8,7 +8,7 @@ import {
 import ThemeSettings from '../components/ThemeSettings';
 import PrivateRoute from './PrivateRoute';
 import LoginPage from 'pages/loginPage/LoginPage';
-import ReportedBugPage from 'pages/error/ReportedBugPage';
+import ErrorInfoPage from 'pages/error/ErrorInfoPage';
 
 const Routes = (props) => {
   return(  
@@ -16,11 +16,13 @@ const Routes = (props) => {
       <Switch>
         <Route exact path="/" render={(props) => ( <LoginPage {...props} appTarget={"Dispatch"} routePush={"/test-view"} /> )}/>
         <Route exact path="/login" render={(props) => ( <LoginPage {...props} appTarget={"Dispatch"} routePush={"/test-view"} /> )}/>
+
         <PrivateRoute exact path="/test-view" {...props}>
           <ChatPage/>
         </PrivateRoute>
-        <PrivateRoute exact path="/reportedBugPage" {...props}>
-          <ReportedBugPage/>
+
+        <PrivateRoute exact path="/error-info" {...props}>
+          <ErrorInfoPage/>
         </PrivateRoute>
 
       </Switch>

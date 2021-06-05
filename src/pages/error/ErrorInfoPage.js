@@ -67,7 +67,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-const ReportedBugPage = props => {
+const ErrorInfoPage = props => {
   const classes = useStyles();
   const [modulo, setModulo] = React.useState('');
   //const [allChatUsers, setAllChat] = React.useState([]);
@@ -206,4 +206,4 @@ const ReportedBugPage = props => {
   );
 }
 
-export default ReportedBugPage;
+export default ErrorInfoPage;
