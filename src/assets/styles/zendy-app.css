@@ -142,3 +142,18 @@ body {
     color: white;
     font-size: xxx-large;
 }
+
+
+/* resposive pagina login  */
+@media screen and (max-width: 768px) {
+  .login-logo{
+  display: none;
+  
+  }
+  .login-form{
+    min-width: 100%;
+    
+  }
+}
+
+  
