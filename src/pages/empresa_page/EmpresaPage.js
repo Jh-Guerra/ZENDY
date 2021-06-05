@@ -69,7 +69,7 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-const ChatEmpresa = props => {
+const EmpresaPage = props => {
     const classes = useStyles();
 
     const rows = [{
@@ -131,7 +131,7 @@ const ChatEmpresa = props => {
     ];
 
     return (
-        <Grid container className={classes.root, 'container_ChatEmpresa'} direction="column">
+        <Grid container className={classes.root, 'container-chat-empresa'} direction="column">
             <Grid container className={classes.Header}>
                 <Grid className={classes.img}>
                     <ChatAvatar
@@ -186,4 +186,4 @@ const ChatEmpresa = props => {
     );
 }
 
-export default ChatEmpresa;
+export default EmpresaPage;
