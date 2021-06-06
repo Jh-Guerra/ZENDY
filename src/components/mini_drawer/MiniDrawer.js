@@ -19,7 +19,9 @@ const useStyles = makeStyles((theme) => ({
     width: 50,
     // height: "100%"
   },
-
+  drawerBorder: {
+    borderRight: 'none'
+  }
 }));
 
 const MiniDrawer = (props) => {
@@ -72,7 +74,7 @@ const MiniDrawer = (props) => {
 
   return (
     <div className={classes.root}  >
-      <Drawer variant="permanent" style={{height:"100%"}} className={clsx(classes.drawer, { [classes.drawerOpen]: true, [classes.drawerClose]: false })} classes={{ paper: clsx({ [classes.drawerOpen]: true, [classes.drawerClose]: false, }), }}>
+      <Drawer variant="permanent" style={{height:"100%", borderRight: '0 !important'}} className={clsx(classes.drawer, { [classes.drawerOpen]: true, [classes.drawerClose]: false })} classes={{ paper: clsx({ [classes.drawerOpen]: true, [classes.drawerClose]: false, [customClasses.drawerBorder]: true,}), }}>
         <AvatarHeader />
         <Grid container style={{height:"90%"}}>
           <div className="mini-drawer-sections">
