@@ -42,7 +42,8 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    margin: theme.spacing(19, 13.1)
+    margin: theme.spacing(19, 13.1),
+    border:'#d1d0d0 15px solid',
   },
   paper: {
     margin: theme.spacing(18, 4),
