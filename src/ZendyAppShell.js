@@ -65,7 +65,7 @@ class ZendyAppShell extends Component {
 
     return (
       <StylesProvider injectFirst>
-        <div className="App">
+        <div className="App" style={{height:"100%"}}>
           <Helmet>
             <title>Zendy</title>
           </Helmet>

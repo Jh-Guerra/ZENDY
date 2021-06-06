@@ -13,7 +13,7 @@ import ErrorInfoPage from 'pages/error/ErrorInfoPage';
 const Routes = (props) => {
   return(  
     <ThemeSettings>
-      <Switch>
+      <Switch style={{height:"100%"}}>
         <Route exact path="/" render={(props) => ( <LoginPage {...props} appTarget={"Dispatch"} routePush={"/test-view"} /> )}/>
         <Route exact path="/login" render={(props) => ( <LoginPage {...props} appTarget={"Dispatch"} routePush={"/test-view"} /> )}/>
 

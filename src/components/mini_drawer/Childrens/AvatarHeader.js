@@ -32,7 +32,7 @@ import Avatar from "../Components/Avatar";
               />
               <div className="data">
                 <p>Homero Simpons</p>
-                <button>Cerrar Sección</button>
+                <button style={{backgroundColor:'red'}}>Cerrar Sessión</button>
               </div>
             </div>
           </div>

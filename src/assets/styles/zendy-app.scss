@@ -3,13 +3,16 @@ $pLetter: 'PT Serif';
 
 // Colors
 $pColor: #2F103D;
-$sColor: #F39651;
+// $sColor: #F39651;
+$sColor: white;
 
 $pColorL: #4F1B66;
 $pColorD: #1E0A27;
 
-$sColorL: #E68B6A;
-$sColorD: #D14A19;
+// $sColorL: #E68B6A;
+// $sColorD: #D14A19;
+$sColorL: white;
+$sColorD: white;
 
 $onLine: #38F909;
 $offLine: #ECECEB;
@@ -49,14 +52,16 @@ html, body {
 /* ===========================        CHAT              =============================================*/
 /* ============================    CHAT HEADER       ============================================*/
 .chat-header{
-    margin-top: 0px;
+    height: 100%;
 
     .chat-header-content {
-        height: 110px;
-        padding-top: 18px;
         border-bottom: 1px solid #ebe7fb;
         background-color: $pColor;
         vertical-align: middle;
+
+        flex-grow: 1;
+        max-width: 100%;
+        border-right: 1px solid #ebe7fb;
     }
 
     .chat-header-buttons {
@@ -77,10 +82,10 @@ html, body {
     .chat-header-name {
         font-size: 23px;
         color: #fff;
-
-        div {
-            display:table;
-        }
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding: 0px 10px;
 
         p {
             margin: 0;
@@ -140,18 +145,19 @@ html, body {
 }
 
 /*========================   CHAT BODY       ====================================*/
-.main__chatcontent {
+.main-chat-content {
     flex-grow: 1;
     max-width: 100%;
     border-right: 1px solid #ebe7fb;
-  }
-  .content__body {
+    height: 100%;
+
     padding: 20px 40px;
-    max-height: calc(135vh - calc(135vh / 2));
+    max-height: 100%;
+    height: 100%;
     overflow: auto;
-  }
+}
   
-  @keyframes showIn {
+@keyframes showIn {
     0% {
       transform: scale(0);
     }
@@ -163,14 +169,12 @@ html, body {
 /* ============================    CHAT FOOTER       ============================================*/
 .chat-footer {
     background-color: $pColor;
-    padding: 15px 470px 20px 20px;
+    padding: 30px 470px 20px 20px;
     display: flex;
     justify-content: space-between;
-    border-radius: 8px;
     width:100%;
-    min-width: 100%;
-    height: 80px;
-    min-height: 80px;
+    max-width: 100%;
+    height: 10%;
     position:fixed; 
     bottom: 0; 
     
@@ -326,7 +330,6 @@ html, body {
 }
 
 .mini-drawer-chatlist {
-    border-right: 1px solid #ebe7fb;
     width: 100%;
     height: 100%;
 }
@@ -513,9 +516,8 @@ top: .1em;
 }
 
 .avatar-header {
-    width: 9.2vh;
-    height: 9.2vh;
-    border-radius: 50%;
+    width: 70px;
+    height: 70px;
     position: relative;
 }
 

@@ -72,10 +72,8 @@ const ChatBody = props => {
   };
   
   return (
-    <div className="main__chatcontent">
-      <div className="content__body">
-        <div>
-          {chat.map((itm, index) => {
+    <div className="main-chat-content">
+      {chat.map((itm, index) => {
             return (
               <ChatItem
                 key={index}
@@ -86,9 +84,7 @@ const ChatBody = props => {
               />
             );
           })}
-          <div ref={messagesEndRef} />
-        </div>
-      </div>
+      <div ref={messagesEndRef} />
     </div>
   );
 
