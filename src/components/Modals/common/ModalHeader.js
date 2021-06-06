@@ -17,19 +17,19 @@ const DialogTitle = withStyles(styles)((props) => {
     const { children, classes, onClose, ...other } = props;
     return (
       <MuiDialogTitle disableTypography className="modal-header" {...other}>
-        <Typography variant="h5">{children}</Typography>
+        {children}
         {onClose ? (
-          <div aria-label="close" className={classes.closeButton} onClick={onClose}>
-            <CancelIcon style={{width: '30px'}} />
+          <div aria-label="close" className={classes.closeButton} onClick={onClose} >
+            <CancelIcon style={{fontSize: '30px'}} />
           </div>
         ) : null}
       </MuiDialogTitle>
     );
 });
 
-const ModalHeader = ({children, handleClose}) => {
+const ModalHeader = ({children, handleClose, textAlign = 'center'}) => {
     return (
-        <DialogTitle onClose={handleClose}>
+        <DialogTitle onClose={handleClose} style={{textAlign: textAlign}}>
                 {children}
         </DialogTitle>
     )

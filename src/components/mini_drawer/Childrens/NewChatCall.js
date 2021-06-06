@@ -1,15 +1,26 @@
 import { Grid } from "@material-ui/core";
+import ModalNuevaNotification from "components/Modals/ModalNuevaNotification";
 import React, { Component } from "react";
 
 class NewChatCall extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            open: false,
         };
     }
 
     componentDidMount() {
     }
+
+    handleClickOpen() {
+        this.setState({open: true});
+    }
+
+    handleClose() {
+        this.setState({open: false});
+    }
+
     render() {
         return (
 
@@ -30,7 +41,8 @@ class NewChatCall extends Component {
                             </svg> Nuevo Chat</button>
                     </Grid>
                     <Grid item xs={12}>
-                        <button> <svg width="35" height="35" viewBox="0 0 35 35" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <ModalNuevaNotification open={this.state.open} handleClose={() => this.handleClose()}/>
+                        <button onClick={() => this.handleClickOpen()}> <svg width="35" height="35" viewBox="0 0 35 35" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M29.1667 22.6042C27.3438 22.6042 25.5938 22.3125 23.9604 21.7729C23.45 21.6125 22.8813 21.7292 22.4729 22.1229L19.2646 25.3313C15.1375 23.2313 11.7542 19.8625 9.65417 15.7354L12.8625 12.5125C13.2708 12.1188 13.3875 11.55 13.2271 11.0396C12.6875 9.40625 12.3958 7.65625 12.3958 5.83333C12.3958 5.03125 11.7396 4.375 10.9375 4.375H5.83333C5.03125 4.375 4.375 5.03125 4.375 5.83333C4.375 19.5271 15.4729 30.625 29.1667 30.625C29.9688 30.625 30.625 29.9688 30.625 29.1667V24.0625C30.625 23.2604 29.9688 22.6042 29.1667 22.6042ZM17.5 4.375V18.9583L21.875 14.5833H30.625V4.375H17.5Z" fill="#D0D0D0" fillOpacity="0.67" />
                         </svg> Llamadas</button>
                     </Grid>
