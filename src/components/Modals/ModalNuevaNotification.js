@@ -9,32 +9,12 @@ import Typography from '@material-ui/core/Typography';
 import ImageIcon from '@material-ui/icons/Image';
 
 const useStyles = makeStyles(theme => ({
-    boxMessage: {
-        width: '100%',
-        height: '80px',
-        backgroundColor: 'white',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center'
-    },
-    iconTitle: {
-        width: '70px',
-        height: 'auto',
-        marginRight: '10px'
-    },
     textArea: {
         width: '75%',
         backgroundColor: 'white',
         color: 'black',
         padding: '3px',
         marginLeft: '15px'
-    },
-    buttonIcon: {
-        width: '25px',
-        marginRight: '10px'
-    },
-    separation: {
-        marginBottom: '15px !important',
     },
     legend: {
         color: 'white',
