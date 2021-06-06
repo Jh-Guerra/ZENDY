@@ -27,9 +27,9 @@ const DialogTitle = withStyles(styles)((props) => {
     );
 });
 
-const ModalHeader = ({children, handleClose, textAlign = 'center'}) => {
+const ModalHeader = ({children, handleClose, style = {}, className = ''}) => {
     return (
-        <DialogTitle onClose={handleClose} style={{textAlign: textAlign}}>
+        <DialogTitle onClose={handleClose} style={style} className={className}>
                 {children}
         </DialogTitle>
     )

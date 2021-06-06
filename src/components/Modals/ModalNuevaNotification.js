@@ -66,7 +66,7 @@ const ModalNuevaNotification = ({open, handleClose}) => {
 
     return (
         <Modal open={open} handleClose={handleClose} size="sm">
-            <ModalHeader handleClose={handleClose} textAlign="left">
+            <ModalHeader handleClose={handleClose} style={{textAlign: 'center'}}>
                 <div className={classes.title}>
                     <NotificationsIcon style={{margin: '0 10px'}}/>
                     <Typography variant="h5">Nueva Notificación</Typography>
