@@ -1,3 +1,4 @@
+import { Button } from "@material-ui/core";
 import React, { Component, useState, createRef, useEffect } from "react";
 
 import Avatar from "../Components/Avatar";
@@ -30,9 +31,9 @@ import Avatar from "../Components/Avatar";
                 isOnline="active"
                 image="https://www.fundacionpersonasyempresas.org/wp-content/uploads/2013/10/images_curiosita_homer-2.jpg"
               />
-              <div className="data">
+              <div>
                 <p>Homero Simpons</p>
-                <button style={{backgroundColor:'red'}}>Cerrar Sessión</button>
+                <Button variant="outlined" size="small">Cerrar Sesión</Button>
               </div>
             </div>
           </div>

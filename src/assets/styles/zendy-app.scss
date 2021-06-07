@@ -422,7 +422,6 @@ top: .1em;
 }
 
 .mini-drawer-user {
-    // height: 110px;
     display: flex;
     flex-direction: row;
     color: #fff;
@@ -441,12 +440,13 @@ top: .1em;
     }
 
     button {
-        font-size: smaller;
-        margin: 2px 10px;
-        border-radius: 30px;
+        margin: 0px 10px;
         align-content: center;
         color: white;
         border-color: white;
+        background-color: #d66565;
+        padding: 2px 15px;
+        border: 0;
     }
 }
 
@@ -488,7 +488,7 @@ top: .1em;
 
 // color button cerrar sección
 .mini-drawer-user button {
-    background-color: $sColor;
+    background-color: #d66565;
 }
 
 .chat-mini-details {
