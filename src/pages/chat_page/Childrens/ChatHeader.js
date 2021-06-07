@@ -7,6 +7,7 @@ import MoreVertIcon from '@material-ui/icons/MoreVert';
 import SearchIcon from '@material-ui/icons/Search';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import ModalNotification from "components/Modals/ModalNotification";
+import ModalRecomendarUsuario from "components/Modals/ModalRecomendarUsuario";
 
 const ChatHeader = props => {
 
@@ -15,6 +16,7 @@ const ChatHeader = props => {
   }, []);
 
   const [open, setOpen] = useState(false);
+  const [openUser, setOpenUser] = useState(false)
 
   const handleClickOpen = () => {
       setOpen(true);
@@ -22,6 +24,13 @@ const ChatHeader = props => {
 
   const handleClose = () => {
       setOpen(false);
+  }
+
+  const handleUserOpen = () => {
+    setOpenUser(true);
+  }
+  const handleUserClose = () => {
+    setOpenUser(false);
   }
 
   return (
@@ -67,7 +76,7 @@ const ChatHeader = props => {
                   }}
                 />
                 <IconButton onClick={handleClickOpen} className="chat-header-button"><PersonAddIcon style={{ fontSize: 35 }} /></IconButton>
-                <IconButton className="chat-header-button"><MoreVertIcon style={{ fontSize: 40 }} /></IconButton>
+                <IconButton onClick={handleUserOpen}className="chat-header-button"><MoreVertIcon style={{ fontSize: 40 }} /></IconButton>
               </Grid>              
             </Grid>
           </Grid>
@@ -76,6 +85,10 @@ const ChatHeader = props => {
       <ModalNotification 
         open={open} 
         handleClose={handleClose}
+      />
+        <ModalRecomendarUsuario
+        open={openUser} 
+        handleClose={handleUserClose}
       />
     </Grid>
   );
