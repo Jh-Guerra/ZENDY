@@ -17,7 +17,7 @@ const DialogTitle = withStyles(styles)((props) => {
     const { children, classes, onClose, ...other } = props;
     return (
       <MuiDialogTitle disableTypography className="modal-header" {...other}>
-        <Typography variant="h5">{children}</Typography>
+        <Typography variant="h6">{children}</Typography>
         {onClose ? (
           <div aria-label="close" className={classes.closeButton} onClick={onClose}>
             <CancelIcon style={{width: '30px'}} />

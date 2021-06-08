@@ -575,13 +575,14 @@ top: .1em;
 }
 
 .modal-header {
-    background-color: white;
+    background-color: $pColor;
     text-align: center;
+    color: white !important;
     padding: 5px;
 }
 
 .modal-body {
-    background-color: $pColor;
+    // background-color: $pColor;
     display: flex;
     flex-direction: column;
     ::placeholder {
@@ -612,6 +613,10 @@ top: .1em;
         display: inline-block;
         margin: 0;
     }
+}
+
+.modal-footer {
+    justify-content: space-around;
 }
 
 /* ============================ Chat Empresas  ========================================*/

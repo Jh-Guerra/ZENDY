@@ -7,6 +7,7 @@ import MoreVertIcon from '@material-ui/icons/MoreVert';
 import SearchIcon from '@material-ui/icons/Search';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import ModalNotification from "components/Modals/ModalNotification";
+import ModalAcceptChat from "components/Modals/ModalAcceptChat";
 
 const ChatHeader = props => {
 
@@ -69,7 +70,7 @@ const ChatHeader = props => {
           </Grid>              
         </Grid>
       </Grid>
-      <ModalNotification 
+      <ModalAcceptChat 
         open={open} 
         handleClose={handleClose}
       />
