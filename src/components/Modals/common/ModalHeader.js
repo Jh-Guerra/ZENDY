@@ -14,22 +14,27 @@ const styles = (theme) => ({
 });
 
 const DialogTitle = withStyles(styles)((props) => {
-    const { children, classes, onClose, ...other } = props;
+    const { children, classes, onClose=true, ...other } = props;
+
     return (
-      <MuiDialogTitle disableTypography className="modal-header" {...other}>
-        <Typography variant="h6">{children}</Typography>
-        {onClose ? (
-          <div aria-label="close" className={classes.closeButton} onClick={onClose}>
-            <CancelIcon style={{width: '30px'}} />
-          </div>
-        ) : null}
+      <MuiDialogTitle {...other} disableTypography className="modal-header" >
+       <>
+        <div>
+          {children}
+        </div>
+          {onClose ? (
+            <div aria-label="close" className={classes.closeButton} onClick={onClose} >
+              <CancelIcon />
+            </div>
+          ) : null}
+       </> 
       </MuiDialogTitle>
     );
 });
 
-const ModalHeader = ({children, handleClose}) => {
+const ModalHeader = ({children, handleClose, style = {}, className = ''}) => {
     return (
-        <DialogTitle onClose={handleClose}>
+        <DialogTitle onClose={handleClose} style={style} className={className}>
                 {children}
         </DialogTitle>
     )

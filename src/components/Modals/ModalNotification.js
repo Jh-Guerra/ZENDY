@@ -44,7 +44,7 @@ const ModalNotification = ({open, handleClose}) => {
     return (
         <Modal open={open} handleClose={handleClose}>
             <ModalHeader handleClose={handleClose}>
-                Enviar Notificación
+                <Typography variant="h5">Enviar Notificación</Typography>
             </ModalHeader>
             <ModalBody>
                 <div className={`${classes.boxMessage} ${classes.separation}`}>
