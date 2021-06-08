@@ -12,7 +12,6 @@ class NewChatCall extends Component {
     }
     render() {
         return (
-
             <Grid container>
                 <div className="mini-drawer-buttons">
                     <Grid item xs={12}>
@@ -36,7 +35,6 @@ class NewChatCall extends Component {
                     </Grid>
                 </div>
             </Grid >
-
         )
     }
 }

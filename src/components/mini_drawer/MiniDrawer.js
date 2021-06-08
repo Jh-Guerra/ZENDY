@@ -12,7 +12,8 @@ import CurrentChat from './Childrens/CurrentChat';
 const useStyles = makeStyles((theme) => ({
   root: {
     width: 380,
-    height: "100%"
+    height: "100%",
+    minWidth: 380
   },
   tab: {
     minWidth: 50,

@@ -1,8 +1,10 @@
 // Letters
 $pLetter: 'PT Serif';
+$letterMinSize: 16px;
 
 // Colors
-$pColor: #2F103D;
+// $pColor: #2F103D;
+$pColor: #341041;
 // $sColor: #F39651;
 $sColor: white;
 
@@ -34,29 +36,31 @@ html, body {
 /* ===========================        LOGIN              =============================================*/
 
 .login-form{
-    background-color: $pColor;
+    // background-color: $sColor;
 }
 
 .login-logo{
-    background-color: $sColor;
+    background-color: $pColor;
 }
 
 .login-input > *{
-    color: white;
+    color: black;
 }
 
 .login-icon{
-    color: $sColor;
+    color: $pColor;
 }
 
 /* ===========================        CHAT              =============================================*/
 /* ============================    CHAT HEADER       ============================================*/
 .chat-header{
     height: 100%;
+    min-width: 730px;
 
     .chat-header-content {
         border-bottom: 1px solid #ebe7fb;
         background-color: $pColor;
+        padding: 0px 10px;
         vertical-align: middle;
 
         flex-grow: 1;
@@ -319,6 +323,7 @@ html, body {
     width: 100%;
     padding: 2px 0px;
     height: 10%;
+    min-height: 110px;
 }
 
 .mini-drawer-options {
@@ -366,7 +371,7 @@ top: .1em;
     width: 100%;
     color: #fff;
     padding: 10px;
-    
+    margin-top: 15px;
 
     button {
         margin: 5px 5px;
@@ -518,6 +523,8 @@ top: .1em;
 .avatar-header {
     width: 70px;
     height: 70px;
+    min-width: 70px;
+    min-height: 70px;
     position: relative;
 }
 
@@ -616,4 +623,23 @@ top: .1em;
 
 .report-form{
     background-color: $pColorL;
+}
+
+@media (max-width: 1200px) {
+    .chat-header-content * {
+        font-size: $letterMinSize !important;
+    }
+
+    .chat-header-name {
+        padding: 0px 25px !important;
+    }
+
+    .online-spane {
+        font-size: $letterMinSize - 3px !important;
+    }
+
+    .online-icon {
+        width: 8px !important;
+        height: 8px !important;
+    }
 }

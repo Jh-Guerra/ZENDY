@@ -44,7 +44,7 @@ const ChatHeader = props => {
               </div>
               <div>
                   <span className="online-icon"/>
-                  <span className="online-spane">En línea...</span>
+                  <span className="online-spane">En línea</span>
               </div>
             </Grid>
           </Grid>

@@ -24,13 +24,13 @@ class ChatPage extends Component {
   render() {
     return (
       <Grid container style={{height:'100%'}}>
-        <Grid item xs={12} style={{height:'10%'}}>
+        <Grid item xs={12} style={{height:'10%', minHeight: '110px'}}>
           <ChatHeader/>
         </Grid>
-        <Grid item xs={12} style={{height:'80%'}}>
+        <Grid item xs={12} style={{height:'70%'}}>
           <ChatBody/>
         </Grid>
-        <Grid item xs={12} style={{height:'10%'}}>
+        <Grid item xs={12} style={{height:'10%', minHeight: '110px'}}>
           <ChatFooter/>
         </Grid>
       </Grid>

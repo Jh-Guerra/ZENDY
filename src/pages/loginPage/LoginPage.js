@@ -10,12 +10,12 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import LogoZendy from 'assets/images/Zendy-logo.jpg';
 import VpnKeyIcon from '@material-ui/icons/VpnKey';
-import { sColor } from 'assets/styles/zendy-css';
+import { sColor, pColor } from 'assets/styles/zendy-css';
 import { useHistory } from 'react-router';
 
 const useStyles = makeStyles((theme) => ({
   loginTitle: {
-    color: "white",
+    color: pColor,
     fontWeight: "bold",
     fontSize: '4rem'
   },
@@ -24,9 +24,6 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.down('xs')]: {
       width: '65vw',
     },
-  },
-  prueba: {
-    height: '100vh'
   },
   root: {
     height: '98vh',
@@ -48,7 +45,10 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(18, 4),
     display: 'flex',
     flexDirection: 'column',
-    alignItems: 'center'
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: "100%",
+    margin: "0px"
   },
   form: {
     width: '80%',
@@ -65,24 +65,25 @@ const useStyles = makeStyles((theme) => ({
     borderRadius:'10px',
     fontWeight:'900',
     fontSize:'1.2rem',
-    backgroundColor:'#F4E6E6',
+    backgroundColor: pColor,
+    color: "white"
   },
 }));
 
 const CssTextField = withStyles({
   root: {
     '& .MuiInput-underline:after': {
-      borderBottomColor: sColor,
+      // borderBottomColor: pColor,
     },
     '& .MuiOutlinedInput-root': {
       '& fieldset': {
-        borderColor: 'white',
+        borderColor: 'black',
       },
       '&:hover fieldset': {
-        borderColor: 'white',
+        borderColor: 'black',
       },
       '&.Mui-focused fieldset': {
-        borderColor: sColor,
+        borderColor: pColor,
       },
     },
   },
@@ -100,7 +101,10 @@ const LoginPage = props => {
     <>
       <CssBaseline />
       <Grid container className={classes.root}>
-        <Grid item xs={8} className={`login-form ${classes.prueba}`} component={Paper}>
+        <Grid container alignItems="center" justify="center" item xs={4} className="login-logo">
+          <img src={LogoZendy} className={classes.image}/>
+        </Grid>
+        <Grid item xs={8} className={`login-form`} component={Paper}>
           <Grid item xs={12} />
           <div className={classes.paper}>
             <Typography variant="h4" className={classes.loginTitle}>
@@ -156,9 +160,6 @@ const LoginPage = props => {
               </Button>
             </form>
           </div>    
-      </Grid>
-      <Grid container alignItems="center" justify="center" item xs={4} className="login-logo">
-        <img src={LogoZendy} className={classes.image}/>
       </Grid>
     </Grid>
     </>
