@@ -1,5 +1,16 @@
 import React, { Component, useState, createRef, useEffect } from "react";
 import ItemAvatarRow from "../Components/ItemAvatarRow";
+import { withStyles } from "@material-ui/core/styles";
+import { Input, InputAdornment, TextField } from "@material-ui/core";
+import SearchIcon from '@material-ui/icons/Search';
+
+const styles = theme => ({
+  search: {
+    position: 'relative',
+    marginBottom: '30px'
+  }
+});
+
 
 class ChatListBar extends Component {
   allChatUsers = [
@@ -59,6 +70,7 @@ class ChatListBar extends Component {
     };
   }
   render() {
+    const { classes } = this.props;
     return (  
       <div className="mini-drawer-chatlist">  
       <br />
@@ -70,10 +82,20 @@ class ChatListBar extends Component {
             <span className="divider-line"></span>
           </div>  
         <br />   
-        <div className="chatList__search">
-          <div className="search_wrap">
-            <input type="text" placeholder="Buscar..." />
-          </div>
+        <div className={`chatList__search ${classes.search}`}>
+          {/* <div> */}
+            <SearchIcon />
+            <Input className="chatList__search search_wrap" 
+              style={{paddingLeft: '10px', width: '90%', position: 'absolute',top: '0', left: '0', right: '0', margin: 'auto'}}
+              type="text"
+              placeholder="Buscar..."
+              startAdornment= {
+                <InputAdornment position="start" InputProps={{ disableUnderline: true }}>
+                  <SearchIcon />
+                </InputAdornment>
+              }
+              disableUnderline={true}
+            />
         </div>
         <div className="chat-list-items">
           {this.state.allChats.map((item, index) => {
@@ -96,4 +118,4 @@ class ChatListBar extends Component {
     );
   }
 }
-export default ChatListBar
+export default withStyles(styles, { withTheme: true })(ChatListBar);
