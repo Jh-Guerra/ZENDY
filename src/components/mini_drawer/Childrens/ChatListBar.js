@@ -87,7 +87,6 @@ class ChatListBar extends Component {
             <SearchIcon />
             <Input className="chatList__search search_wrap" 
               style={{paddingLeft: '10px', width: '90%', position: 'absolute',top: '0', left: '0', right: '0', margin: 'auto'}}
-              // className={`${classes.search}`}
               type="text"
               placeholder="Buscar..."
               startAdornment= {
@@ -97,8 +96,6 @@ class ChatListBar extends Component {
               }
               disableUnderline={true}
             />
-            {/* <input type="text" placeholder="Buscar" className={`${classes.search}`} /> */}
-          {/* </div> */}
         </div>
         <div className="chat-list-items">
           {this.state.allChats.map((item, index) => {
