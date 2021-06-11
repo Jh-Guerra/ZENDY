@@ -8,6 +8,7 @@ import SearchIcon from '@material-ui/icons/Search';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import ModalNotification from "components/Modals/ModalNotification";
 import ModalAcceptChat from "components/Modals/ModalAcceptChat";
+import ModalNewChat from "components/Modals/ModalNewChat";
 
 const ChatHeader = props => {
 
@@ -70,7 +71,7 @@ const ChatHeader = props => {
           </Grid>              
         </Grid>
       </Grid>
-      <ModalAcceptChat 
+      <ModalNewChat 
         open={open} 
         handleClose={handleClose}
       />
