@@ -648,3 +648,19 @@ top: .1em;
         height: 8px !important;
     }
 }
+
+/* ============================ Common  ========================================*/
+.chat__button {
+    margin: auto;
+    padding: 5px;
+    width: 95%;
+    border-radius: 30px;
+    border: 2px white solid;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: transparent;
+    color: white;
+    font-size: 1.3rem;
+    font-style: italic;
+}
