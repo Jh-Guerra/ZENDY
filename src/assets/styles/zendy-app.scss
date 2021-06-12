@@ -33,6 +33,10 @@ html, body {
     height: 100%;
 }
 
+/* ===========================        INPUTS              =============================================*/
+
+
+
 /* ===========================        LOGIN              =============================================*/
 
 .login-form{
@@ -579,6 +583,20 @@ top: .1em;
     text-align: center;
     color: white !important;
     padding: 5px;
+    display: flex;
+
+    h2 {
+        display: flex;
+        align-items: center;
+    }
+
+    svg {
+        margin: 0px 10px;
+    }
+
+    h5 {
+        display: inline-block;
+    }
 }
 
 .modal-body {

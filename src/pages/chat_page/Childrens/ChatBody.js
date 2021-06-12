@@ -1,7 +1,11 @@
 import React, { Component, createRef } from "react";
+import ModalReportErrorFalse from "components/Modals/ModalReportErrorFalse";
 
 import "assets/styles/zendy-app.css";
 import ChatItem from "../Components/ChatItem";
+import ModalNuevaNotification from "components/Modals/ModalNuevaNotification";
+import ModalNotification from "components/Modals/ModalNotification";
+import ModalAcceptChat from "components/Modals/ModalAcceptChat";
 
 const ChatBody = props => {
   var messagesEndRef = createRef(null);
@@ -60,6 +64,7 @@ const ChatBody = props => {
 
   const [chat, setChat] = React.useState([]);
   const [message, setMessage] = React.useState("");
+  const [open, setOpen] = React.useState(true);
 
   React.useEffect(() => {
     setChat([...chatItems]);
@@ -70,6 +75,10 @@ const ChatBody = props => {
   const scrollToBottom = () => {
     messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
   };
+
+  const handleClose = () => {
+    setOpen(false);
+}
   
   return (
     <div className="main-chat-content">
@@ -85,6 +94,10 @@ const ChatBody = props => {
             );
           })}
       <div ref={messagesEndRef} />
+      <ModalAcceptChat
+        open={open} 
+        handleClose={handleClose}
+      />
     </div>
   );
 

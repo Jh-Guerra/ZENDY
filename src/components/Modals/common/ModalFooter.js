@@ -1,36 +1,26 @@
-import { DialogActions, withStyles } from '@material-ui/core';
+import { Button, DialogActions, withStyles } from '@material-ui/core';
 import React from 'react'
-// import MuiDialogTitle from '@material-ui/core/DialogTitle';
-// import Typography from '@material-ui/core/Typography';
-// import CancelIcon from '@material-ui/icons/Cancel';
 
-// const styles = (theme) => ({
-//     closeButton: {
-//       position: 'absolute',
-//       right: theme.spacing(1),
-//       top: theme.spacing(1),
-//       cursor: 'pointer'
-//     },
-// });
+const ModalFooter = (props) => {
 
-// const DialogTitle = withStyles(styles)((props) => {
-//     const { children, classes, onClose, ...other } = props;
-//     return (
-//       <MuiDialogTitle disableTypography className="modal-header" {...other}>
-//         <Typography variant="h5">{children}</Typography>
-//         {onClose ? (
-//           <div aria-label="close" className={classes.closeButton} onClick={onClose}>
-//             <CancelIcon style={{width: '30px'}} />
-//           </div>
-//         ) : null}
-//       </MuiDialogTitle>
-//     );
-// });
+  const { confirmText, onConfirm, cancelText, onCancel } = props;
 
-const ModalFooter = ({children, handleClose}) => {
     return (
       <DialogActions className="modal-footer">
-        { children }
+        {
+          cancelText && (
+            <Button onClick={onCancel} size="small" color="secondary" >
+              {cancelText}
+            </Button>
+          )
+        }
+        {
+          confirmText && (
+            <Button onClick={onConfirm} size="small" color="primary" autoFocus>
+              {confirmText}
+            </Button>
+          )
+        }
       </DialogActions>
     )
 }

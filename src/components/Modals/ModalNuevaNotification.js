@@ -1,12 +1,12 @@
-import { makeStyles } from '@material-ui/core';
+import { Button, Grid, InputAdornment, makeStyles } from '@material-ui/core';
 import React from 'react'
 import ModalBody from './common/ModalBody'
 import ModalHeader from './common/ModalHeader'
 import Modal from './common/Modal'
 import { TextField } from '@material-ui/core';
 import NotificationsIcon from '@material-ui/icons/Notifications';
-import Typography from '@material-ui/core/Typography';
-import ImageIcon from '@material-ui/icons/Image';
+import ModalFooter from './common/ModalFooter';
+import { AccountCircle } from '@material-ui/icons';
 
 const useStyles = makeStyles(theme => ({
     textArea: {
@@ -17,7 +17,6 @@ const useStyles = makeStyles(theme => ({
         marginLeft: '15px'
     },
     legend: {
-        // color: 'white',
         fontSize: '16px',
         fontStyle: 'italic'
     },
@@ -35,29 +34,17 @@ const useStyles = makeStyles(theme => ({
         width: '90%'
     },
     label: {
-        // color: 'white',
         fontStyle: 'italic',
         fontSize: '16px'
     },
-    button: {
-        cursor: 'pointer',
-        // color: 'white',
-        padding: '10px',
-        fontSize: '16px',
-        fontWeight: '900',
-        textAlign: 'center',
-        borderRadius: '10px',
-        backgroundColor: '#394C5F',
-        displa: 'inline-block',
-        width: '40%'
+    inputText: {
+        margin: theme.spacing(1),
+        width: "50%"
     },
-    groupButtons: {
-        display: 'flex',
+    fullInputText: {
+        margin: theme.spacing(1),
+        width: "100%"
     },
-    title: {
-        display: 'flex',
-        alignItems: 'center'
-    }
 }));
 
 const ModalNuevaNotification = ({open, handleClose}) => {
@@ -65,54 +52,67 @@ const ModalNuevaNotification = ({open, handleClose}) => {
     const classes = useStyles();
 
     return (
-        <Modal open={open} handleClose={handleClose} size="sm">
-            <ModalHeader handleClose={handleClose} style={{textAlign: 'center'}}>
-                <div className={classes.title}>
-                    <NotificationsIcon style={{margin: '0 10px'}}/>
-                    <Typography variant="h5">Nueva Notificación</Typography>
-                </div>
-            </ModalHeader>
+        <Modal 
+            open={open} 
+            handleClose={handleClose} 
+            size="sm"
+        >
+            <ModalHeader 
+                icon={<NotificationsIcon />}
+                text="Nueva Notificación"
+            />
+
             <ModalBody>
-                <fieldset>
-                    <legend className={`${classes.legend}`}>Formulario Notificación</legend>
-                    <div className={classes.container}>
-                        <div className={classes.inputContainer}>
-                            <label className={classes.label} htmlFor="textFieldMensaje">Asunto: </label>
-                            <TextField 
-                                className={`${classes.textArea}`} 
-                                InputProps={{ disableUnderline: true }} 
-                            />
-                        </div>
-                        <div className={classes.inputContainer} style={{alignItems: 'flex-start'}}>
-                            <label className={classes.label} htmlFor="textFieldMensaje">Descripción: </label>
-                            <TextField
-                                id="textFieldMensaje"
-                                multiline
-                                className={`${classes.textArea}`}
-                                rows={5}
-                                rowsMax={Infinity}
-                                InputProps={{ disableUnderline: true }}
-                                />
-                        </div>
-                        <div className={classes.inputContainer} style={{alignItems: 'flex-start'}}>
-                            <label className={classes.label} htmlFor="textFieldMensaje">Imágenes: </label>
-                            <div className={classes.textArea} style={{backgroundColor: 'transparent', padding: '0'}}>
-                                <ImageIcon style={{color: 'white', height: '40px', width: 'auto'}}/>
-                            </div>
-                        </div>
-                        <div className={classes.inputContainer}>
-                            <div className={`${classes.textArea} ${classes.groupButtons}`} style={{backgroundColor: 'transparent', padding: '0'}}>
-                                <div className={`${classes.button}`} onClick={handleClose} style={{marginRight: '50px'}}>
-                                    <p>Enviar a todos</p>
-                                </div>
-                                <div className={`${classes.button}`} onClick={handleClose}>
-                                    <p>Cancelar</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </fieldset>
+                <Grid container spacing={3}>
+                    <Grid item xs={12}>
+                        <TextField
+                            className={classes.inputText}
+                            label="Asunto"
+                            placeholder=""
+                            InputProps={{
+                                startAdornment: (
+                                    <InputAdornment position="start">
+                                        <AccountCircle />
+                                    </InputAdornment>
+                                ),
+                            }}
+                        />
+                    </Grid>
+                    <Grid item xs={12}>
+                        <TextField
+                            className={classes.fullInputText}
+                            label="Descripción"
+                            multiline
+                            rows={8}
+                            rowsMax={8}
+                            placeholder=""
+                            InputProps={{
+                                startAdornment: (
+                                    <InputAdornment position="start">
+                                        {/* <AccountCircle /> */}
+                                    </InputAdornment>
+                                ),
+                            }}
+                        />
+                    </Grid>
+                    <Grid item xs={12}>
+                        <Button
+                            variant="contained"
+                            component="label"
+                        >
+                            Upload File
+                            <input type="file" hidden />
+                        </Button>
+                    </Grid>
+                </Grid>
             </ModalBody>
+
+            <ModalFooter 
+                confirmText={"Enviar a todos"}
+                onConfirm={{}}
+                cancelText={"Cancelar"}
+                onCancel={handleClose}
+            />
         </Modal>
     )
 }
