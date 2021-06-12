@@ -10,7 +10,7 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import LogoZendy from 'assets/images/Zendy-logo.jpg';
 import VpnKeyIcon from '@material-ui/icons/VpnKey';
-import { sColor, pColor } from 'assets/styles/zendy-css';
+import { pColor, sColorL } from 'assets/styles/zendy-css';
 import { useHistory } from 'react-router';
 
 const useStyles = makeStyles((theme) => ({
@@ -40,7 +40,7 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: 'column',
     alignItems: 'center',
     margin: theme.spacing(19, 13.1),
-    border:'#d1d0d0 15px solid',
+    border: sColorL + ' 15px solid',
   },
   paper: {
     margin: theme.spacing(18, 4),
@@ -153,7 +153,7 @@ const LoginPage = props => {
               <Button
                 type="button"
                 variant="contained"
-                color="default"
+                color="primary"
                 className={classes.loginBtn}
                 onClick={logIn}
               >
