@@ -14,9 +14,10 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
-const ModalNotification = ({open, handleClose}) => {
+const ModalNotification = (props) => {
     
     const classes = useStyles();
+    const { open, handleClose } = props;
 
     return (
         <Modal 

@@ -1,10 +1,6 @@
 import React, { Component, createRef } from "react";
-import ModalReportErrorFalse from "components/Modals/ModalReportErrorFalse";
-
 import "assets/styles/zendy-app.css";
 import ChatItem from "../Components/ChatItem";
-import ModalNuevaNotification from "components/Modals/ModalNuevaNotification";
-import ModalNotification from "components/Modals/ModalNotification";
 import ModalAcceptChat from "components/Modals/ModalAcceptChat";
 
 const ChatBody = props => {
@@ -64,7 +60,7 @@ const ChatBody = props => {
 
   const [chat, setChat] = React.useState([]);
   const [message, setMessage] = React.useState("");
-  const [open, setOpen] = React.useState(true);
+  const [open, setOpen] = React.useState(false);
 
   React.useEffect(() => {
     setChat([...chatItems]);

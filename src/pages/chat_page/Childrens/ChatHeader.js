@@ -8,6 +8,7 @@ import SearchIcon from '@material-ui/icons/Search';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import ModalNotification from "components/Modals/ModalNotification";
 import ModalAcceptChat from "components/Modals/ModalAcceptChat";
+import ModalRecomendarUsuario from "components/Modals/ModalRecomendarUsuario";
 
 const ChatHeader = props => {
 
@@ -16,6 +17,7 @@ const ChatHeader = props => {
   }, []);
 
   const [open, setOpen] = useState(false);
+  const [openUser, setOpenUser] = useState(false)
 
   const handleClickOpen = () => {
       setOpen(true);
@@ -23,6 +25,10 @@ const ChatHeader = props => {
 
   const handleClose = () => {
       setOpen(false);
+  }
+
+  const handleUserOpen = () => {
+    setOpenUser(true);
   }
 
   return (
@@ -65,14 +71,18 @@ const ChatHeader = props => {
                 ),disableUnderline: true
               }}
             />
-            <IconButton onClick={handleClickOpen} className="chat-header-button"><PersonAddIcon style={{ fontSize: 35 }} /></IconButton>
-            <IconButton className="chat-header-button"><MoreVertIcon style={{ fontSize: 40 }} /></IconButton>
+            <IconButton onClick={handleUserOpen} className="chat-header-button"><PersonAddIcon style={{ fontSize: 35 }} /></IconButton>
+            <IconButton onClick={handleClickOpen} className="chat-header-button"><MoreVertIcon style={{ fontSize: 40 }} /></IconButton>
           </Grid>              
         </Grid>
       </Grid>
       <ModalAcceptChat 
         open={open} 
         handleClose={handleClose}
+      />
+      <ModalRecomendarUsuario
+        open={openUser} 
+        handleClose={() => { setOpenUser(false); }}
       />
     </Grid>
   );

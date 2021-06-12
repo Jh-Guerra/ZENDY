@@ -18,9 +18,10 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
-const ModalAcceptChat = ({ open, handleClose }) => {
+const ModalAcceptChat = (props) => {
 
     const classes = useStyles();
+    const { open, handleClose } = props;
 
     return (
         <Modal 

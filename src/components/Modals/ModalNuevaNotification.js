@@ -47,9 +47,10 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-const ModalNuevaNotification = ({open, handleClose}) => {
+const ModalNuevaNotification = (props) => {
     
     const classes = useStyles();
+    const { open, handleClose } = props;
 
     return (
         <Modal 
