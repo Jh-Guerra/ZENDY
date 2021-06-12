@@ -9,6 +9,7 @@ import ThemeSettings from '../components/ThemeSettings';
 import PrivateRoute from './PrivateRoute';
 import LoginPage from 'pages/loginPage/LoginPage';
 import ErrorInfoPage from 'pages/error/ErrorInfoPage';
+import ReportPage from 'pages/report/ReportPage';
 
 const Routes = (props) => {
   return(  
@@ -23,6 +24,10 @@ const Routes = (props) => {
 
         <PrivateRoute exact path="/error-info" {...props}>
           <ErrorInfoPage/>
+        </PrivateRoute>
+
+        <PrivateRoute exact path="/report" {...props}>
+          <ReportPage/>
         </PrivateRoute>
 
       </Switch>
