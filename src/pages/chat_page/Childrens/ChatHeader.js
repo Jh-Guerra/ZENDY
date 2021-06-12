@@ -9,6 +9,7 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 import ModalNotification from "components/Modals/ModalNotification";
 import ModalAcceptChat from "components/Modals/ModalAcceptChat";
 import ModalRecomendarUsuario from "components/Modals/ModalRecomendarUsuario";
+import ModalNewChat from "components/Modals/ModalNewChat";
 
 const ChatHeader = props => {
 
@@ -76,7 +77,7 @@ const ChatHeader = props => {
           </Grid>              
         </Grid>
       </Grid>
-      <ModalAcceptChat 
+      <ModalNewChat 
         open={open} 
         handleClose={handleClose}
       />
