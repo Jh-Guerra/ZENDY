@@ -77,7 +77,7 @@ class ChatListBar extends Component {
           <div className="chatlist__heading">
             <span className="divider-line"></span>
               <p className="divider-content">
-                  Chats Vigentes
+                  {this.props.title}
               </p>
             <span className="divider-line"></span>
           </div>  

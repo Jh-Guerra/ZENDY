@@ -19,7 +19,7 @@ class CurrentChat extends Component {
         return (
             <div className="mini-drawer-current-chat">
                 <NewChatCall />
-                <ChatListBar />
+                <ChatListBar title={this.props.title}/>
             </div>
         )
     }

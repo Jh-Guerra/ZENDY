@@ -111,10 +111,10 @@ const MiniDrawer = (props) => {
           </div>
           <div className="mini-drawer-tabs">
             <TabPanel value={tab} index={0} >
-              <CurrentChat />
+              <CurrentChat title="Chats Vigentes" />
             </TabPanel>
             <TabPanel value={tab} index={1} >
-                Item two
+              <CurrentChat title="Consultas Entrantes" />
             </TabPanel>
             <TabPanel value={tab} index={2} >
               Item Three
