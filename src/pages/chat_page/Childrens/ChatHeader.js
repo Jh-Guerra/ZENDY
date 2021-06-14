@@ -10,7 +10,7 @@ import ModalNotification from "components/Modals/ModalNotification";
 import ModalAcceptChat from "components/Modals/ModalAcceptChat";
 import ModalRecomendarUsuario from "components/Modals/ModalRecomendarUsuario";
 import ModalNewChat from "components/Modals/ModalNewChat";
-
+import ModalDetailUser from "components/Modals/ModalDetailUser";
 const ChatHeader = props => {
 
   React.useEffect(() => {
@@ -77,7 +77,7 @@ const ChatHeader = props => {
           </Grid>              
         </Grid>
       </Grid>
-      <ModalNewChat 
+      <ModalDetailUser 
         open={open} 
         handleClose={handleClose}
       />

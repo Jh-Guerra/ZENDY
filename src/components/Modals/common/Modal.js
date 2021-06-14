@@ -4,7 +4,7 @@ import Dialog from '@material-ui/core/Dialog';
 
 const Modal = (props) => {
 
-    const { open, handleClose, size="", children } = props;
+    const { open, handleClose, size="", children, style } = props;
 
     return (
         <Dialog 
