@@ -110,7 +110,7 @@ const ModalNuevaNotification = (props) => {
 
             <ModalFooter 
                 confirmText={"Enviar a todos"}
-                onConfirm={{}}
+                onConfirm={null}
                 cancelText={"Cancelar"}
                 onCancel={handleClose}
             />

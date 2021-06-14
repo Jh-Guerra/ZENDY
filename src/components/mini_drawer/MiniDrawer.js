@@ -77,15 +77,14 @@ const MiniDrawer = (props) => {
         <AvatarHeader />
         <Grid container style={{height:"90%"}}>
           <div className="mini-drawer-sections">
-            <Grid xs={12} classes={{root: customClasses.root}}>
+            <Grid item xs={12} classes={{root: customClasses.root}}>
               <AppBar position="static" className="mini-drawer-options" style={{backgroundColor:"transparent"}}>
               
                 <Tabs 
                   value={tab} 
                   onChange={handleChangeTab} 
                   aria-label="simple tabs example" 
-                  variant="fullWidth" 
-                  inkBarStyle={{background: 'blue'}}
+                  variant="fullWidth"
                   indicatorColor="primary"
                   textColor="primary"
                   style={{height:"100%"}}

@@ -90,7 +90,7 @@ class ChatListBar extends Component {
               type="text"
               placeholder="Buscar..."
               startAdornment= {
-                <InputAdornment position="start" InputProps={{ disableUnderline: true }}>
+                <InputAdornment position="start">
                   <SearchIcon />
                 </InputAdornment>
               }

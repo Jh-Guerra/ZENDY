@@ -52,7 +52,7 @@ const ModalNotification = (props) => {
 
             <ModalFooter
                 confirmText={"Notificar"}
-                onConfirm={{}}
+                onConfirm={null}
                 cancelText={"Cancelar"}
                 onCancel={handleClose}
             />

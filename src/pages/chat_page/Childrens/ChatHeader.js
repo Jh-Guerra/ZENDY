@@ -11,6 +11,7 @@ import ModalAcceptChat from "components/Modals/ModalAcceptChat";
 import ModalRecomendarUsuario from "components/Modals/ModalRecomendarUsuario";
 import ModalNewChat from "components/Modals/ModalNewChat";
 import ModalDetailUser from "components/Modals/ModalDetailUser";
+import ModalEndChat from "components/Modals/ModalEndChat";
 const ChatHeader = props => {
 
   React.useEffect(() => {
@@ -66,7 +67,7 @@ const ChatHeader = props => {
               placeholder="Buscar..."
               InputProps={{
                 startAdornment: (
-                  <InputAdornment position="start" InputProps={{ disableUnderline: true }}>
+                  <InputAdornment position="start">
                     <SearchIcon />
                   </InputAdornment>
                 ),disableUnderline: true
@@ -77,7 +78,7 @@ const ChatHeader = props => {
           </Grid>              
         </Grid>
       </Grid>
-      <ModalDetailUser 
+      <ModalEndChat 
         open={open} 
         handleClose={handleClose}
       />

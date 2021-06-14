@@ -46,7 +46,7 @@ const ModalAcceptChat = (props) => {
 
             <ModalFooter
                 confirmText={"Aceptar"}
-                onConfirm={{}}
+                onConfirm={null}
                 cancelText={"Cancelar"}
                 onCancel={handleClose}
             />

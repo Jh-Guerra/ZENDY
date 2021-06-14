@@ -65,7 +65,7 @@ const ModalReportErrorFalse = (props) => {
 
             <ModalFooter 
                 confirmText={"Aceptar"}
-                onConfirm={{}}
+                onConfirm={null}
                 cancelText={"Cancelar"}
                 onCancel={handleClose}
             />

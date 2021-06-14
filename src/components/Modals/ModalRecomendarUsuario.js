@@ -124,7 +124,7 @@ const ModalRecomendarUsuario = (props) => {
 
       <ModalFooter 
         confirmText={"Recomendar"}
-        onConfirm={{}}
+        onConfirm={null}
       />
     </Modal>
   )

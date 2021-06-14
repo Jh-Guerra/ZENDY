@@ -48,19 +48,19 @@ const ModalEndChat = ({ open, handleClose }) => {
                             <Typography variant="h5" gutterBottom className={classes.typography}>¿Está seguro de finalizar el chat con "Homero Simpons"?</Typography>
                         </Box>
                     </Grid>
-                    <Grid xs={12}>
+                    <Grid item xs={12}>
                         <Grid container direction="row" className={classes.margin} >
 
-                            <Grid xs={3}>
+                            <Grid item xs={3}>
                                 <Typography variant="h6" gutterBottom >Estado:</Typography>
                             </Grid>
-                            <Grid xs={6}>
+                            <Grid item xs={6}>
                                 <Select
                                     className={classes.select}
                                 >
                                 {
-                                    MenuItems.map((item) => (
-                                        <MenuItem value={item}>{item}</MenuItem>
+                                    MenuItems.map((item, index) => (
+                                        <MenuItem key={index} value={item}>{item}</MenuItem>
                                     ))
                                 }
                                 </Select>
@@ -68,11 +68,11 @@ const ModalEndChat = ({ open, handleClose }) => {
 
                         </Grid>
                     </Grid>
-                    <Grid xs={12} className={classes.margin}>
-                        <Grid xs={12}>
+                    <Grid item xs={12} className={classes.margin}>
+                        <Grid item xs={12}>
                             <Typography variant="h6" gutterBottom >Razón y/o motivo:</Typography>
                         </Grid>
-                        <Grid xs={12}>
+                        <Grid item xs={12}>
                             <TextField
                                 placeholder="Ingrese una descripción ..."
                                 multiline
@@ -87,7 +87,7 @@ const ModalEndChat = ({ open, handleClose }) => {
             </ModalBody>
             <ModalFooter 
                 confirmText={"Aceptar"}
-                onConfirm={{}}
+                onConfirm={null}
                 cancelText={"Cancelar"}
                 onCancel={handleClose}
             />
