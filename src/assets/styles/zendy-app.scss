@@ -4,7 +4,7 @@ $letterMinSize: 16px;
 
 // Colors
 // $pColor: #2F103D;
-$pColor: #341041;
+$pColor: #303e7a;
 $sColor: #F39651;
 
 $pColorL: #4F1B66;
@@ -366,34 +366,8 @@ top: .1em;
 }
 
 .mini-drawer-buttons {
-    display: flex;
-    flex-direction: row;
-    align-content: space-between;
-    width: 100%;
-    color: #fff;
     padding: 10px;
-    margin-top: 15px;
-
-    button {
-        margin: 5px 5px;
-        padding: 5px;
-        width: 95%;
-        border-radius: 30px;
-        border: 2px white solid;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        background-color: transparent;
-        color: white;
-        font-size: 1.3rem;
-        font-style: italic;
-      }
-
-    svg {
-        width: 25px;
-        height: 25px;
-        margin-right: 5px;
-    }
+    margin-top: 10px;
 }
 
 .mini-drawer-current-chat {
