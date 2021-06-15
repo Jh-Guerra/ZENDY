@@ -7,7 +7,7 @@ import EmojiEmotionsIcon from '@material-ui/icons/EmojiEmotions';
 import ImageIcon from '@material-ui/icons/Image';
 import DescriptionIcon from '@material-ui/icons/Description';
 
-export default class ChatFooter extends Component {
+export default class MainFooter extends Component {
   messagesEndRef = createRef(null);
 
   constructor(props) {

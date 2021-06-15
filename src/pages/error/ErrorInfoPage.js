@@ -3,7 +3,7 @@ import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
-import ChatAvatar from "pages/chat_page/Components/ChatAvatar";
+import ChatAvatar from "pages/main_page/Components/ChatAvatar";
 import Box from '@material-ui/core/Box';
 
 

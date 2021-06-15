@@ -1,5 +1,5 @@
 import React, { Component, createRef, useState } from "react";
-import ChatAvatar from "pages/chat_page/Components/ChatAvatar";
+import ChatAvatar from "pages/main_page/Components/ChatAvatar";
 import IconButton from '@material-ui/core/IconButton';
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
 import { Grid, TextField } from "@material-ui/core";
@@ -12,7 +12,8 @@ import ModalRecomendarUsuario from "components/Modals/ModalRecomendarUsuario";
 import ModalNewChat from "components/Modals/ModalNewChat";
 import ModalDetailUser from "components/Modals/ModalDetailUser";
 import ModalEndChat from "components/Modals/ModalEndChat";
-const ChatHeader = props => {
+
+const MainHeader = props => {
 
   React.useEffect(() => {
 
@@ -91,4 +92,4 @@ const ChatHeader = props => {
 
 }
 
-export default ChatHeader;
+export default MainHeader;

@@ -3,7 +3,7 @@ import "assets/styles/zendy-app.css";
 import ChatItem from "../Components/ChatItem";
 import ModalAcceptChat from "components/Modals/ModalAcceptChat";
 
-const ChatBody = props => {
+const MainBody = props => {
   var messagesEndRef = createRef(null);
 
   const chatItems = [
@@ -99,4 +99,4 @@ const ChatBody = props => {
 
 }
 
-export default ChatBody;
+export default MainBody;

@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import BasePage from 'components/BasePage';
 import { Grid } from "@material-ui/core";
-import ChatHeader from "pages/chat_page/Childrens/ChatHeader";
-import ChatBody from "pages/chat_page/Childrens/ChatBody";
-import ChatFooter from "pages/chat_page/Childrens/ChatFooter";
-class ChatPage extends Component {
+import MainHeader from "pages/main_page/Childrens/MainHeader";
+import MainBody from "pages/main_page/Childrens/MainBody";
+import MainFooter from "pages/main_page/Childrens/MainFooter";
+
+class MainPage extends Component {
 
   constructor(props) {
     super(props);
@@ -25,17 +26,17 @@ class ChatPage extends Component {
     return (
       <Grid container style={{height:'100%'}}>
         <Grid item xs={12} style={{height:'10%', minHeight: '110px'}}>
-          <ChatHeader/>
+          <MainHeader/>
         </Grid>
         <Grid item xs={12} style={{height:'70%'}}>
-          <ChatBody/>
+          <MainBody/>
         </Grid>
         <Grid item xs={12} style={{height:'10%', minHeight: '110px'}}>
-          <ChatFooter/>
+          <MainFooter/>
         </Grid>
       </Grid>
     );
   }
 }
 
-export default ChatPage;
+export default MainPage;

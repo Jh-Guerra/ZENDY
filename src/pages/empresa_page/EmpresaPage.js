@@ -1,5 +1,5 @@
 import React from "react";
-import ChatAvatar from "pages/chat_page/Components/ChatAvatar";
+import ChatAvatar from "pages/main_page/Components/ChatAvatar";
 import { Button, Grid, makeStyles, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@material-ui/core";
 import { Label } from "@material-ui/icons";
 
