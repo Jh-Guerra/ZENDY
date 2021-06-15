@@ -1,8 +1,8 @@
 import { Button, Grid } from "@material-ui/core";
-import ModalNuevaNotification from "components/Modals/ModalNuevaNotification";
 import React, { Component } from "react";
 import RateReviewIcon from '@material-ui/icons/RateReview';
 import CustomButton from "components/CustomButtom";
+import ModalNewChat from "components/Modals/ModalNewChat";
 
 class NewChatCall extends Component {
     constructor(props) {
@@ -26,19 +26,19 @@ class NewChatCall extends Component {
     render() {
         return (
             <>
-            <Grid container spacing={3} className="mini-drawer-buttons">
-                <Grid item xs={6}>
-                    <CustomButton fullWidth onClick={() => this.handleClickOpen()} variant="contained" color="#158851" size="sm" startIcon={<RateReviewIcon />}>
-                        Nuevo Chat
-                    </CustomButton>
-                </Grid>
-                <Grid item xs={6}>
-                    <CustomButton fullWidth disabled variant="contained" color="#158851" size="sm" startIcon={<RateReviewIcon />}>
-                        Llamadas
-                    </CustomButton>
-                </Grid>
-            </Grid >
-            <ModalNuevaNotification 
+                <Grid container spacing={3} className="mini-drawer-buttons">
+                    <Grid item xs={6}>
+                        <CustomButton fullWidth onClick={() => this.handleClickOpen()} variant="contained" color="#158851" size="sm" startIcon={<RateReviewIcon />}>
+                            Nuevo Chat
+                        </CustomButton>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <CustomButton fullWidth disabled variant="contained" color="#158851" size="sm" startIcon={<RateReviewIcon />}>
+                            Llamadas
+                        </CustomButton>
+                    </Grid>
+                </Grid >
+                <ModalNewChat
                     open={this.state.open} 
                     handleClose={() => this.handleClose()}
                 />
