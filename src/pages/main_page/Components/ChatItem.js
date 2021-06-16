@@ -4,15 +4,26 @@ import IconButton from '@material-ui/core/IconButton';
 import ReplyIcon from '@material-ui/icons/Reply';
 import Fade from '@material-ui/core/Fade';
 import Tooltip from '@material-ui/core/Tooltip';
+import ModalResendMessage from "components/Modals/ModalResendMessage";
 
 
 const ChatItem = props => {
 
    const [open, setOpen] = useState(false);
+   const [openUser, setOpenUser] = useState(false)
+
     
    const handleClickOpen = () => {
     setOpen((prev) => !prev);
    }
+
+   const handleClose = () => {
+    setOpen(false);
+  }
+
+  const handleUserOpen = () => {
+  setOpenUser(true);
+}
  
   const { user, message, image } = props;
   
@@ -23,7 +34,7 @@ const ChatItem = props => {
     >
       <Fade in={open} >
       <Tooltip title="Reenviar">
-          <IconButton className="chat-input-button"> 
+          <IconButton onClick={handleUserOpen} className="chat-input-button"> 
             <ReplyIcon className="chat-input-icon" />
          </IconButton>
       </Tooltip>
@@ -36,6 +47,10 @@ const ChatItem = props => {
         <div className="chat-msg">{message}</div>
       </div>
       <ChatAvatar isOnline="active" image={image} />
+      <ModalResendMessage
+        open={openUser} 
+        handleClose={() => { setOpenUser(false); }}
+      />
     </div>
   );
 }
