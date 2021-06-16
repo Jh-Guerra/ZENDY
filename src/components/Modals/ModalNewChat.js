@@ -1,5 +1,5 @@
 import {Button, Grid, makeStyles } from '@material-ui/core';
-import React from 'react'
+import React,{useState } from 'react'
 import ModalBody from './common/ModalBody'
 import ModalHeader from './common/ModalHeader'
 import Modal from './common/Modal'
@@ -10,6 +10,7 @@ import PersonIcon from '@material-ui/icons/Person';
 import AddCommentIcon from '@material-ui/icons/AddComment';
 import { pColor, successButtonColor } from 'assets/styles/zendy-css';
 import CustomButton from "components/CustomButtom";
+import ModalNewInternalChat from "components/Modals/ModalNewInternalChat";
 
 const useStyles = makeStyles(theme => ({
     button: {
@@ -18,9 +19,15 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const ModalNewChat = (props) => {
-    
+
     const classes = useStyles();
     const { open, handleClose } = props;
+    const [openUser, setOpenUser] = useState(false)
+  
+    const handleUserOpen = () => {
+      setOpenUser(true);
+    }
+    
      
     return (
         <Modal 
@@ -64,10 +71,15 @@ const ModalNewChat = (props) => {
                             className={classes.button}
                             startIcon={<PersonIcon />}
                             customColor={successButtonColor}
+                            onClick={handleUserOpen}
                         >
                             Chat Interno
                         </CustomButton>
                     </Grid>
+                    <ModalNewInternalChat
+                        open={openUser}
+                        handleClose={() => { setOpenUser(false); }}
+                    />
                 </Grid>
             </ModalBody>
         </Modal>
