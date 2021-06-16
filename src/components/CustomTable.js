@@ -15,7 +15,7 @@ const useStyles = makeStyles({
       width: '100%',
     },
     container: {
-      maxHeight: 440,
+      maxHeight: 800,
     },
 });
 
@@ -65,7 +65,7 @@ const CustomTable = props => {
               <TableBody>
                 {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
                   return (
-                    <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
+                    <TableRow hover role="checkbox" tabIndex={-1} key={row.code} onClick={props.onRowClick}>
                       {columns.map((column) => {
                         const value = row[column.id];
                         return (

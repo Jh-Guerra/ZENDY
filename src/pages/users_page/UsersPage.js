@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import { Grid, Typography } from "@material-ui/core";
 import CustomTable from 'components/CustomTable';
 import { listUsers } from 'services/actions/UserAction';
+import CustomButton from 'components/CustomButtom';
+import AddCircleIcon from '@material-ui/icons/AddCircle';
+import { successButtonColor } from 'assets/styles/zendy-css';
 
 class UsersPage extends Component {
 
@@ -20,6 +23,10 @@ class UsersPage extends Component {
 
   componentWillUnmount() {
     
+  }
+
+  showDetails(){
+    console.log("show details")
   }
 
   render() {
@@ -61,6 +68,19 @@ class UsersPage extends Component {
     {name: "Edu", code: "In", pupulation: 1324171354, size: 3287263, density: 1324171354/3287263},
     {name: "Edu", code: "In", pupulation: 1324171354, size: 3287263, density: 1324171354/3287263},
     {name: "Edu", code: "In", pupulation: 1324171354, size: 3287263, density: 1324171354/3287263},
+    {name: "Edu", code: "In", pupulation: 1324171354, size: 3287263, density: 1324171354/3287263},
+    {name: "Edu", code: "In", pupulation: 1324171354, size: 3287263, density: 1324171354/3287263},
+    {name: "Edu", code: "In", pupulation: 1324171354, size: 3287263, density: 1324171354/3287263},
+    {name: "Edu", code: "In", pupulation: 1324171354, size: 3287263, density: 1324171354/3287263},
+    {name: "Edu", code: "In", pupulation: 1324171354, size: 3287263, density: 1324171354/3287263},
+    {name: "Edu", code: "In", pupulation: 1324171354, size: 3287263, density: 1324171354/3287263},
+    {name: "Edu", code: "In", pupulation: 1324171354, size: 3287263, density: 1324171354/3287263},
+    {name: "Edu", code: "In", pupulation: 1324171354, size: 3287263, density: 1324171354/3287263},
+    {name: "Edu", code: "In", pupulation: 1324171354, size: 3287263, density: 1324171354/3287263},
+    {name: "Edu", code: "In", pupulation: 1324171354, size: 3287263, density: 1324171354/3287263},
+    {name: "Edu", code: "In", pupulation: 1324171354, size: 3287263, density: 1324171354/3287263},
+    {name: "Edu", code: "In", pupulation: 1324171354, size: 3287263, density: 1324171354/3287263},
+    
   ];
 
 
@@ -72,11 +92,23 @@ class UsersPage extends Component {
           </Typography>
         </Grid> 
         <Grid item xs={11} style={{height:'90%'}}>
-          <Grid container>
-            <Grid xs={12}>
+          <Grid container spacing={1}>
+            <Grid item xs={12}>
+              <p style={{textAlign:'end'}}>
+                <CustomButton
+                  variant="contained"
+                  startIcon={<AddCircleIcon />}
+                  customColor={successButtonColor}
+                >
+                  Agregar Usuario
+                </CustomButton>
+              </p>
+            </Grid>
+            <Grid item xs={12}>
               <CustomTable 
                 columns={columns}
                 rows={rows}
+                onRowClick={this.showDetails}
               />
             </Grid>
           </Grid>
