@@ -8,10 +8,9 @@ let config =
     'debug'    : process.env.REACT_APP_DEBUG || false,
     'baseName' : process.env.REACT_APP_BASENAME || '',
     'api' : process.env.REACT_APP_API,
-    'report_api' : process.env.REACT_APP_REPORT_API || process.env.REACT_APP_API,
     'token': (localStorage.getItem('user') && JSON.parse(localStorage.getItem('user')).accessToken) || '',
     'assetToken': (localStorage.getItem('user') && JSON.parse(localStorage.getItem('user')).assetAccessToken) || '',
-    'version': process.env.REACT_APP_API_VERSION || 'api/v1/',
+    'version': 'api/',
     'headers': {
         'Content-type': 'application/json',
         'Accept': 'application/json',

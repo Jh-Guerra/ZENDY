@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Grid, Typography } from "@material-ui/core";
 import CustomTable from 'components/CustomTable';
+import { listUsers } from 'services/actions/UserAction';
 
 class UsersPage extends Component {
 
@@ -12,7 +13,9 @@ class UsersPage extends Component {
   }
 
   async componentDidMount(){
-
+    this.props.dispatch(listUsers()).then(res => {
+      console.log("res", res)
+    });
   }
 
   componentWillUnmount() {
