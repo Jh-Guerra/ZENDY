@@ -3,6 +3,7 @@ import React, { Component } from "react";
 import RateReviewIcon from '@material-ui/icons/RateReview';
 import CustomButton from "components/CustomButtom";
 import ModalNewChat from "components/Modals/ModalNewChat";
+import { successButtonColor } from "assets/styles/zendy-css";
 
 class NewChatCall extends Component {
     constructor(props) {
@@ -28,12 +29,12 @@ class NewChatCall extends Component {
             <>
                 <Grid container spacing={3} className="mini-drawer-buttons">
                     <Grid item xs={6}>
-                        <CustomButton fullWidth onClick={() => this.handleClickOpen()} variant="contained" color="#158851" size="sm" startIcon={<RateReviewIcon />}>
+                        <CustomButton fullWidth onClick={() => this.handleClickOpen()} variant="contained" customColor={successButtonColor} startIcon={<RateReviewIcon />}>
                             Nuevo Chat
                         </CustomButton>
                     </Grid>
                     <Grid item xs={6}>
-                        <CustomButton fullWidth disabled variant="contained" color="#158851" size="sm" startIcon={<RateReviewIcon />}>
+                        <CustomButton fullWidth disabled variant="contained" customColor={successButtonColor} startIcon={<RateReviewIcon />}>
                             Llamadas
                         </CustomButton>
                     </Grid>

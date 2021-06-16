@@ -4,17 +4,17 @@ import React from 'react';
 import { LightenDarkenColor } from 'utils/common';
 
 const CustomButton = props => {
-    const { children, startIcon, size, variant, color } = props;
+    const { children, startIcon, customColor="" } = props;
 
     const ColorButton = withStyles((theme) => ({
         root: {
-        color: theme.palette.getContrastText(color),
-            backgroundColor: color,
+        color: theme.palette.getContrastText(customColor),
+            backgroundColor: customColor,
             '&:hover': {
-                backgroundColor: LightenDarkenColor(color, 25),
+                backgroundColor: LightenDarkenColor(customColor, 25),
             },
             '&:disabled': {
-                backgroundColor: LightenDarkenColor(color, 40),
+                backgroundColor: LightenDarkenColor(customColor, 40),
             },
         },
     }))(Button);

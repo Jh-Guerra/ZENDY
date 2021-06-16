@@ -8,6 +8,7 @@ import AvatarHeader from './Childrens/AvatarHeader';
 import PropTypes from 'prop-types';
 import { CurrentChatIcon, PendingChatIcon, CompaniesIcon, ErrorsIcon, MoreIcon } from "assets/styles/svg-icons";
 import CurrentChat from './Childrens/CurrentChat';
+import ModalMoreActions from 'components/Modals/ModalMoreActions';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -32,6 +33,7 @@ const MiniDrawer = (props) => {
   const { session = {} } = props;
 
   const [tab, setTab] = React.useState(0);
+  const [showModalMoreActions, setShowModalMoreActions] = React.useState(false);
 
   React.useEffect(() => {
     if (!props.common.lastRoute) {
@@ -42,7 +44,16 @@ const MiniDrawer = (props) => {
 
 
   const handleChangeTab = (event, newTab) => {
-    setTab(newTab);
+    if(newTab==4){
+      setShowModalMoreActions(true);
+    }else{
+      setTab(newTab);
+    }
+  }
+
+  const goToView = (route) => {
+    setShowModalMoreActions(false);
+    history.push(route);
   }
 
   const TabPanel = (props) => {
@@ -121,6 +132,12 @@ const MiniDrawer = (props) => {
           </div> 
         </Grid>
       </Drawer>
+      <ModalMoreActions 
+        open={showModalMoreActions}
+        handleClose={() => { setShowModalMoreActions(false) }}
+        goToView={goToView}
+      />
+
     </div>
   );
 }

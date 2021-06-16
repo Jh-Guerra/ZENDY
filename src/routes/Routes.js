@@ -6,6 +6,7 @@ import LoginPage from 'pages/loginPage/LoginPage';
 import ErrorInfoPage from 'pages/error/ErrorInfoPage';
 import ReportPage from 'pages/report/ReportPage';
 import MainPage from 'pages/main_page/MainPage';
+import UsersPage from 'pages/users_page/UsersPage';
 
 const Routes = (props) => {
   return(  
@@ -24,6 +25,10 @@ const Routes = (props) => {
 
         <PrivateRoute exact path="/report" {...props}>
           <ReportPage/>
+        </PrivateRoute>
+
+        <PrivateRoute exact path="/users" {...props}>
+          <UsersPage/>
         </PrivateRoute>
 
       </Switch>

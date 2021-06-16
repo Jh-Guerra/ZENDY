@@ -3,13 +3,13 @@ import React from 'react'
 import ModalBody from './common/ModalBody'
 import ModalHeader from './common/ModalHeader'
 import Modal from './common/Modal'
-import Typography from '@material-ui/core/Typography';
-import SupervisedUserCircleIcon from '@material-ui/icons/SupervisedUserCircle';
-import BusinessIcon from '@material-ui/icons/Business';
-import PersonIcon from '@material-ui/icons/Person';
-import AddCommentIcon from '@material-ui/icons/AddComment';
-import { pColor, successButtonColor } from 'assets/styles/zendy-css';
+import MoreVertIcon from '@material-ui/icons/MoreVert';
+import SpeakerNotesIcon from '@material-ui/icons/SpeakerNotes';
+import SmsFailedIcon from '@material-ui/icons/SmsFailed';
+import AssessmentIcon from '@material-ui/icons/Assessment';
+import PeopleIcon from '@material-ui/icons/People';
 import CustomButton from "components/CustomButtom";
+import { successButtonColor } from 'assets/styles/zendy-css';
 
 const useStyles = makeStyles(theme => ({
     button: {
@@ -17,7 +17,7 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-const ModalNewChat = (props) => {
+const ModalMoreActions = (props) => {
     
     const classes = useStyles();
     const { open, handleClose } = props;
@@ -29,8 +29,8 @@ const ModalNewChat = (props) => {
             size="xs" 
         >
             <ModalHeader 
-                icon={<AddCommentIcon />}
-                text="Nuevo Chat"
+                icon={<MoreVertIcon />}
+                text="Más opciones..."
             />
 
             <ModalBody>
@@ -40,10 +40,10 @@ const ModalNewChat = (props) => {
                             variant="contained"
                             fullWidth
                             className={classes.button}
-                            startIcon={<SupervisedUserCircleIcon />}
+                            startIcon={<SpeakerNotesIcon />}
                             customColor={successButtonColor}
                         >
-                            Chat Cliente
+                            Chats - Historial
                         </CustomButton>
                     </Grid>
                     <Grid item xs={12}>
@@ -51,10 +51,10 @@ const ModalNewChat = (props) => {
                             variant="contained"
                             fullWidth
                             className={classes.button}
-                            startIcon={<BusinessIcon />}
+                            startIcon={<SmsFailedIcon />}
                             customColor={successButtonColor}
                         >
-                            Chat por Empresa
+                            Notificaciones
                         </CustomButton>
                     </Grid>
                     <Grid item xs={12}>
@@ -62,10 +62,22 @@ const ModalNewChat = (props) => {
                             variant="contained"
                             fullWidth
                             className={classes.button}
-                            startIcon={<PersonIcon />}
+                            startIcon={<AssessmentIcon />}
                             customColor={successButtonColor}
                         >
-                            Chat Interno
+                            Reportes
+                        </CustomButton>
+                    </Grid>
+                    <Grid item xs={12}>
+                        <CustomButton 
+                            variant="contained"
+                            fullWidth
+                            className={classes.button}
+                            startIcon={<PeopleIcon />}
+                            customColor={successButtonColor}
+                            onClick={() => { props.goToView && props.goToView("users") }}
+                        >
+                            Usuarios
                         </CustomButton>
                     </Grid>
                 </Grid>
@@ -74,4 +86,4 @@ const ModalNewChat = (props) => {
     )
 }
 
-export default ModalNewChat
+export default ModalMoreActions
