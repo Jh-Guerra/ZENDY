@@ -2,12 +2,12 @@ import React, { Component, createRef, useState } from "react";
 import ChatAvatar from "pages/chat_page/Components/ChatAvatar";
 import IconButton from '@material-ui/core/IconButton';
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
-import { Grid, TextField } from "@material-ui/core";
+import { Grid, TextField, Typography } from "@material-ui/core";
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import SearchIcon from '@material-ui/icons/Search';
 import InputAdornment from '@material-ui/core/InputAdornment';
-import ModalNotification from "components/Modals/ModalNotification";
 import ModalAcceptChat from "components/Modals/ModalAcceptChat";
+import ModalChatDetail from "components/Modals/ModalChatDetail";
 
 const ChatHeader = props => {
 
@@ -16,6 +16,7 @@ const ChatHeader = props => {
   }, []);
 
   const [open, setOpen] = useState(false);
+  const [openDetail, setOpenDetail] = useState(false);
 
   const handleClickOpen = () => {
       setOpen(true);
@@ -25,12 +26,16 @@ const ChatHeader = props => {
       setOpen(false);
   }
 
+  const handleClickDetail = () => {
+    setOpenDetail(true);
+  }
+
   return (
-    <Grid container className="chat-header">
+    <Grid container className="chat-header">    
       <Grid container className="chat-header-content">
-        <Grid item xs={6}>
-          <Grid container style={{height:"100%", padding:"0px 10px"}}>
-            <Grid item xs={2} style={{display:"flex"}}>
+        <Grid item xs={6}>       
+          <Grid container style={{height:"100%", padding:"0px 10px"}}>           
+            <Grid item xs={2} style={{display:"flex"}}>             
               <div className="chat-header-avatar">
                 <ChatAvatar
                   isOnline="active"
@@ -38,16 +43,13 @@ const ChatHeader = props => {
                   imgClassName="avatar-header"
                 />
               </div>
-            </Grid>
-            <Grid item xs={8} className="chat-header-name">
+            </Grid>                      
+            <Grid onClick={handleClickDetail} item xs={8} className="chat-header-name">                                                        
               <div>
-                <p>Homero Simpons</p>
+                <Typography style={{fontSize:"25px", color:"white"}}>Homero Simpons</Typography>
               </div>
-              <div>
-                  <span className="online-icon"/>
-                  <span className="online-spane">En línea</span>
-              </div>
-            </Grid>
+              <Typography style={{fontSize:"20px", color:"white", marginLeft:"30px"}}> <span className="online-icon"/>En linea</Typography>                 
+            </Grid>               
           </Grid>
         </Grid>
         
@@ -67,13 +69,21 @@ const ChatHeader = props => {
             />
             <IconButton onClick={handleClickOpen} className="chat-header-button"><PersonAddIcon style={{ fontSize: 35 }} /></IconButton>
             <IconButton className="chat-header-button"><MoreVertIcon style={{ fontSize: 40 }} /></IconButton>
+              {open &&
+                <ModalAcceptChat 
+                  open={open} 
+                  handleClose={handleClose}
+                />
+              } 
+              {openDetail &&
+                <ModalChatDetail 
+                  open={openDetail} 
+                  onClose={()=> { setOpenDetail(false) }}
+                />
+              }   
           </Grid>              
         </Grid>
-      </Grid>
-      <ModalAcceptChat 
-        open={open} 
-        handleClose={handleClose}
-      />
+      </Grid>   
     </Grid>
   );
 
