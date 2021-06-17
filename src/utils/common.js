@@ -37,3 +37,29 @@ export const LightenDarkenColor = (col, amt) => {
   return (usePound?"#":"") + (g | (b << 8) | (r << 16)).toString(16);
 
 }
+
+export const trimObject = obj => {
+  _.each(obj, (v, k) => {
+    if (v !== undefined) {
+      if (_.isObject(v)) {
+        obj[k] = trimObject(v);
+      } else {
+        obj[k] = typeof v === 'string' ? v.replace(/\s\s+/g, ' ') : v;
+      }
+    }
+  });
+  return obj;
+};
+
+export const onlyNumbers = (text) => {
+  const onlyNums = text && text.replace(/[^0-9]/g, '');
+  if (onlyNums.length < 10) {
+    return onlyNums+"";
+  }else{
+      const number = onlyNums.replace(
+          /(\d{3})(\d{3})(\d{4})/,
+          '($1) $2-$3'
+      );
+      return number+"";
+  }
+}

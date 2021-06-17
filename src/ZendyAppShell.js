@@ -10,6 +10,7 @@ import CustomSnackbar from 'components/CustomSnackbar';
 import CustomBackdrop from 'components/CustomBackdrop';
 import moment from 'moment'
 import { withRouter } from 'react-router-dom';
+import 'date-fns';
 
 class ZendyAppShell extends Component {
 

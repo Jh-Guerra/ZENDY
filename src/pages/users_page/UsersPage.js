@@ -5,13 +5,14 @@ import { listUsers } from 'services/actions/UserAction';
 import CustomButton from 'components/CustomButtom';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import { successButtonColor } from 'assets/styles/zendy-css';
+import ModalUser from 'components/Modals/ModalUser';
 
 class UsersPage extends Component {
 
   constructor(props) {
     super(props);
     this.state = {
-
+      showModalUser: false
     };
   }
 
@@ -25,11 +26,17 @@ class UsersPage extends Component {
     
   }
 
-  showDetails(){
+  showDetails = () => {
     console.log("show details")
   }
 
+  onCreateNewUser = () => {
+    this.setState({showModalUser: true })
+  }
+
   render() {
+    const { showModalUser } = this.state;
+
     const columns = [
       { id: 'name', label: 'Name', minWidth: 170 },
       { id: 'code', label: 'ISO\u00a0Code', minWidth: 100 },
@@ -54,34 +61,34 @@ class UsersPage extends Component {
         align: 'right',
         format: (value) => value.toFixed(2),
       },
-  ];
+    ];
 
-  const rows = [
-    {name: "Edu", code: "In", pupulation: 1324171354, size: 3287263, density: 1324171354/3287263},
-    {name: "Edu", code: "In", pupulation: 1324171354, size: 3287263, density: 1324171354/3287263},
-    {name: "Edu", code: "In", pupulation: 1324171354, size: 3287263, density: 1324171354/3287263},
-    {name: "Edu", code: "In", pupulation: 1324171354, size: 3287263, density: 1324171354/3287263},
-    {name: "Edu", code: "In", pupulation: 1324171354, size: 3287263, density: 1324171354/3287263},
-    {name: "Edu", code: "In", pupulation: 1324171354, size: 3287263, density: 1324171354/3287263},
-    {name: "Edu", code: "In", pupulation: 1324171354, size: 3287263, density: 1324171354/3287263},
-    {name: "Edu", code: "In", pupulation: 1324171354, size: 3287263, density: 1324171354/3287263},
-    {name: "Edu", code: "In", pupulation: 1324171354, size: 3287263, density: 1324171354/3287263},
-    {name: "Edu", code: "In", pupulation: 1324171354, size: 3287263, density: 1324171354/3287263},
-    {name: "Edu", code: "In", pupulation: 1324171354, size: 3287263, density: 1324171354/3287263},
-    {name: "Edu", code: "In", pupulation: 1324171354, size: 3287263, density: 1324171354/3287263},
-    {name: "Edu", code: "In", pupulation: 1324171354, size: 3287263, density: 1324171354/3287263},
-    {name: "Edu", code: "In", pupulation: 1324171354, size: 3287263, density: 1324171354/3287263},
-    {name: "Edu", code: "In", pupulation: 1324171354, size: 3287263, density: 1324171354/3287263},
-    {name: "Edu", code: "In", pupulation: 1324171354, size: 3287263, density: 1324171354/3287263},
-    {name: "Edu", code: "In", pupulation: 1324171354, size: 3287263, density: 1324171354/3287263},
-    {name: "Edu", code: "In", pupulation: 1324171354, size: 3287263, density: 1324171354/3287263},
-    {name: "Edu", code: "In", pupulation: 1324171354, size: 3287263, density: 1324171354/3287263},
-    {name: "Edu", code: "In", pupulation: 1324171354, size: 3287263, density: 1324171354/3287263},
-    {name: "Edu", code: "In", pupulation: 1324171354, size: 3287263, density: 1324171354/3287263},
-    {name: "Edu", code: "In", pupulation: 1324171354, size: 3287263, density: 1324171354/3287263},
-    {name: "Edu", code: "In", pupulation: 1324171354, size: 3287263, density: 1324171354/3287263},
-    
-  ];
+    const rows = [
+      {name: "Edu", code: "In", pupulation: 1324171354, size: 3287263, density: 1324171354/3287263},
+      {name: "Edu", code: "In", pupulation: 1324171354, size: 3287263, density: 1324171354/3287263},
+      {name: "Edu", code: "In", pupulation: 1324171354, size: 3287263, density: 1324171354/3287263},
+      {name: "Edu", code: "In", pupulation: 1324171354, size: 3287263, density: 1324171354/3287263},
+      {name: "Edu", code: "In", pupulation: 1324171354, size: 3287263, density: 1324171354/3287263},
+      {name: "Edu", code: "In", pupulation: 1324171354, size: 3287263, density: 1324171354/3287263},
+      {name: "Edu", code: "In", pupulation: 1324171354, size: 3287263, density: 1324171354/3287263},
+      {name: "Edu", code: "In", pupulation: 1324171354, size: 3287263, density: 1324171354/3287263},
+      {name: "Edu", code: "In", pupulation: 1324171354, size: 3287263, density: 1324171354/3287263},
+      {name: "Edu", code: "In", pupulation: 1324171354, size: 3287263, density: 1324171354/3287263},
+      {name: "Edu", code: "In", pupulation: 1324171354, size: 3287263, density: 1324171354/3287263},
+      {name: "Edu", code: "In", pupulation: 1324171354, size: 3287263, density: 1324171354/3287263},
+      {name: "Edu", code: "In", pupulation: 1324171354, size: 3287263, density: 1324171354/3287263},
+      {name: "Edu", code: "In", pupulation: 1324171354, size: 3287263, density: 1324171354/3287263},
+      {name: "Edu", code: "In", pupulation: 1324171354, size: 3287263, density: 1324171354/3287263},
+      {name: "Edu", code: "In", pupulation: 1324171354, size: 3287263, density: 1324171354/3287263},
+      {name: "Edu", code: "In", pupulation: 1324171354, size: 3287263, density: 1324171354/3287263},
+      {name: "Edu", code: "In", pupulation: 1324171354, size: 3287263, density: 1324171354/3287263},
+      {name: "Edu", code: "In", pupulation: 1324171354, size: 3287263, density: 1324171354/3287263},
+      {name: "Edu", code: "In", pupulation: 1324171354, size: 3287263, density: 1324171354/3287263},
+      {name: "Edu", code: "In", pupulation: 1324171354, size: 3287263, density: 1324171354/3287263},
+      {name: "Edu", code: "In", pupulation: 1324171354, size: 3287263, density: 1324171354/3287263},
+      {name: "Edu", code: "In", pupulation: 1324171354, size: 3287263, density: 1324171354/3287263},
+      
+    ];
 
 
     return (
@@ -99,6 +106,7 @@ class UsersPage extends Component {
                   variant="contained"
                   startIcon={<AddCircleIcon />}
                   customColor={successButtonColor}
+                  onClick={this.onCreateNewUser}
                 >
                   Agregar Usuario
                 </CustomButton>
@@ -113,6 +121,10 @@ class UsersPage extends Component {
             </Grid>
           </Grid>
         </Grid>
+        <ModalUser 
+          open={showModalUser}
+          handleClose={() => { this.setState({showModalUser: false}) }}
+        />
       </Grid>
     );
   }
