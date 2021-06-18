@@ -10,9 +10,10 @@ import { Form, Formik } from 'formik';
 import CustomInput from 'components/CustomInput';
 import AlternateEmailIcon from '@material-ui/icons/AlternateEmail';
 import LockIcon from '@material-ui/icons/Lock';
-import { onlyNumbers, trimObject } from 'utils/common';
+import { onlyNumbers, trimObject, userTypes } from 'utils/common';
 import PhoneIcon from '@material-ui/icons/Phone';
 import BusinessIcon from '@material-ui/icons/Business';
+import { createUser } from 'services/actions/UserAction';
 
 const useStyles = makeStyles(theme => ({
     inputText: {
@@ -37,12 +38,6 @@ const ModalUser = (props) => {
         type: "User",
         company: ""
     });
-
-    const userTypes = [
-        { id: "User", name: "Usuario"},
-        { id: "UserEmpresa", name: "Administrador de Empresa"},
-        { id: "Admin", name: "Administrador General"}, 
-    ];
 
     const validateForm = user => {
         const errors = {};
@@ -75,7 +70,14 @@ const ModalUser = (props) => {
     };
 
     const onSubmit = (user, { setSubmitting }) => {
-        console.log("user", user);
+        props.showBackdrop(true);
+        props.dispatch(createUser(user)).then(res => {
+            props.showBackdrop(false);
+            handleClose();
+        }).catch(error => {
+            props.showBackdrop(false);
+            console.error('error', error);
+        });
     }
 
     return (

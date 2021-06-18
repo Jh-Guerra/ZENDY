@@ -20,7 +20,7 @@ const useStyles = makeStyles({
 });
 
 const CustomTable = props => {
-    const { columns=[], rows=[] } = props;
+    const { columns=[], rows=[], loading=false } = props;
 
     const classes = useStyles();
     const [page, setPage] = React.useState(0);
@@ -49,12 +49,12 @@ const CustomTable = props => {
         <Paper className={classes.root}>
           <TableContainer className={classes.container}>
             <Table stickyHeader aria-label="sticky table">
+            { loading && <caption>Cargando...</caption> }
               <TableHead>
                 <TableRow>
                   {columns.map((column, i) => (
                     <StyledTableCell
                       key={i}
-                      align={column.align}
                       style={{ minWidth: column.minWidth }}
                     >
                       {column.label}
@@ -67,10 +67,9 @@ const CustomTable = props => {
                   return (
                     <TableRow hover role="checkbox" tabIndex={-1} key={i} onClick={props.onRowClick}>
                       {columns.map((column, i2) => {
-                        const value = row[column.id];
                         return (
-                          <TableCell key={i2} align={column.align}>
-                            {column.format && typeof value === 'number' ? column.format(value) : value}
+                          <TableCell key={i2} align={column.align} style={{fontSize:"12px"}}>
+                            {column.format ? column.format(row) : row[column.field] || ""}
                           </TableCell>
                         );
                       })}
@@ -80,15 +79,17 @@ const CustomTable = props => {
               </TableBody>
             </Table>
           </TableContainer>
-          <TablePagination
-            rowsPerPageOptions={[10, 25, 100]}
-            component="div"
-            count={rows.length}
-            rowsPerPage={rowsPerPage}
-            page={page}
-            onChangePage={handleChangePage}
-            onChangeRowsPerPage={handleChangeRowsPerPage}
-          />
+          { !loading && (
+            <TablePagination
+              rowsPerPageOptions={[10, 25, 100]}
+              component="div"
+              count={rows.length}
+              rowsPerPage={rowsPerPage}
+              page={page}
+              onChangePage={handleChangePage}
+              onChangeRowsPerPage={handleChangeRowsPerPage}
+            />
+          ) }
         </Paper>
     );
 }

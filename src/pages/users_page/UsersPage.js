@@ -6,90 +6,63 @@ import CustomButton from 'components/CustomButtom';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import { successButtonColor } from 'assets/styles/zendy-css';
 import ModalUser from 'components/Modals/ModalUser';
+import moment from 'moment';
+import { getUserTypeName } from 'utils/common';
+
+const columns = [
+  { type: 'text', field: 'name', label: 'Nombre', minWidth: 250, format: (row) => `${row.firstName} ${row.lastName}` },
+  { type: 'text', field: 'company', label: 'Empresa', minWidth: 170 },
+  { type: 'text', field: 'type', label: 'Tipo', minWidth: 200, format: (row) => getUserTypeName(row.type) },
+  { type: 'text', field: 'email', label: 'Correo', minWidth: 200 },
+  { type: 'text', field: 'phone', label: 'N° Celular', minWidth: 150 },
+  { type: 'text', field: 'dob', label: 'Fecha de Nacimiento', minWidth: 170, align: 'center', format: (row) => moment(row.dob || "").format("DD/MM/YYYY") },
+];
 
 class UsersPage extends Component {
 
   constructor(props) {
     super(props);
     this.state = {
-      showModalUser: false
+      showModalUser: false,
+      users: [],
+      loading: false
     };
   }
 
   async componentDidMount(){
-    this.props.dispatch(listUsers()).then(res => {
-      console.log("res", res)
-    });
+    this.props.showBackdrop(true);
+    this.listUsers();
   }
 
   componentWillUnmount() {
     
   }
 
+  listUsers = () => {
+    this.props.showBackdrop(true);
+    this.setState({loading: true});
+    this.props.dispatch(listUsers()).then(res => {
+      this.setState({users: res || []});
+      this.setState({loading: false});
+      this.props.showBackdrop(false);
+    });
+  }
+
   showDetails = () => {
     console.log("show details")
   }
 
-  onCreateNewUser = () => {
+  openModalUser = () => {
     this.setState({showModalUser: true })
   }
 
+  onCreateUser = () => {
+    this.setState({showModalUser: false });
+    this.listUsers();
+  }
+
   render() {
-    const { showModalUser } = this.state;
-
-    const columns = [
-      { id: 'name', label: 'Name', minWidth: 170 },
-      { id: 'code', label: 'ISO\u00a0Code', minWidth: 100 },
-      {
-        id: 'population',
-        label: 'Population',
-        minWidth: 170,
-        align: 'right',
-        format: (value) => value.toLocaleString('en-US'),
-      },
-      {
-        id: 'size',
-        label: 'Size\u00a0(km\u00b2)',
-        minWidth: 170,
-        align: 'right',
-        format: (value) => value.toLocaleString('en-US'),
-      },
-      {
-        id: 'density',
-        label: 'Density',
-        minWidth: 170,
-        align: 'right',
-        format: (value) => value.toFixed(2),
-      },
-    ];
-
-    const rows = [
-      {name: "Edu", code: "In", pupulation: 1324171354, size: 3287263, density: 1324171354/3287263},
-      {name: "Edu", code: "In", pupulation: 1324171354, size: 3287263, density: 1324171354/3287263},
-      {name: "Edu", code: "In", pupulation: 1324171354, size: 3287263, density: 1324171354/3287263},
-      {name: "Edu", code: "In", pupulation: 1324171354, size: 3287263, density: 1324171354/3287263},
-      {name: "Edu", code: "In", pupulation: 1324171354, size: 3287263, density: 1324171354/3287263},
-      {name: "Edu", code: "In", pupulation: 1324171354, size: 3287263, density: 1324171354/3287263},
-      {name: "Edu", code: "In", pupulation: 1324171354, size: 3287263, density: 1324171354/3287263},
-      {name: "Edu", code: "In", pupulation: 1324171354, size: 3287263, density: 1324171354/3287263},
-      {name: "Edu", code: "In", pupulation: 1324171354, size: 3287263, density: 1324171354/3287263},
-      {name: "Edu", code: "In", pupulation: 1324171354, size: 3287263, density: 1324171354/3287263},
-      {name: "Edu", code: "In", pupulation: 1324171354, size: 3287263, density: 1324171354/3287263},
-      {name: "Edu", code: "In", pupulation: 1324171354, size: 3287263, density: 1324171354/3287263},
-      {name: "Edu", code: "In", pupulation: 1324171354, size: 3287263, density: 1324171354/3287263},
-      {name: "Edu", code: "In", pupulation: 1324171354, size: 3287263, density: 1324171354/3287263},
-      {name: "Edu", code: "In", pupulation: 1324171354, size: 3287263, density: 1324171354/3287263},
-      {name: "Edu", code: "In", pupulation: 1324171354, size: 3287263, density: 1324171354/3287263},
-      {name: "Edu", code: "In", pupulation: 1324171354, size: 3287263, density: 1324171354/3287263},
-      {name: "Edu", code: "In", pupulation: 1324171354, size: 3287263, density: 1324171354/3287263},
-      {name: "Edu", code: "In", pupulation: 1324171354, size: 3287263, density: 1324171354/3287263},
-      {name: "Edu", code: "In", pupulation: 1324171354, size: 3287263, density: 1324171354/3287263},
-      {name: "Edu", code: "In", pupulation: 1324171354, size: 3287263, density: 1324171354/3287263},
-      {name: "Edu", code: "In", pupulation: 1324171354, size: 3287263, density: 1324171354/3287263},
-      {name: "Edu", code: "In", pupulation: 1324171354, size: 3287263, density: 1324171354/3287263},
-      
-    ];
-
+    const { showModalUser, users, loading } = this.state;
 
     return (
       <Grid container spacing={3} style={{height:'100%', justifyContent:'center'}}>
@@ -106,7 +79,7 @@ class UsersPage extends Component {
                   variant="contained"
                   startIcon={<AddCircleIcon />}
                   customColor={successButtonColor}
-                  onClick={this.onCreateNewUser}
+                  onClick={this.openModalUser}
                 >
                   Agregar Usuario
                 </CustomButton>
@@ -115,15 +88,17 @@ class UsersPage extends Component {
             <Grid item xs={12}>
               <CustomTable 
                 columns={columns}
-                rows={rows}
+                rows={users}
                 onRowClick={this.showDetails}
+                loading={loading}
               />
             </Grid>
           </Grid>
         </Grid>
-        <ModalUser 
+        <ModalUser
+          {...this.props}
           open={showModalUser}
-          handleClose={() => { this.setState({showModalUser: false}) }}
+          handleClose={() => { this.onCreateUser() }}
         />
       </Grid>
     );

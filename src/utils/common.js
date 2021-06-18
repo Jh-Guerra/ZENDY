@@ -63,3 +63,15 @@ export const onlyNumbers = (text) => {
       return number+"";
   }
 }
+
+// USERS
+export const userTypes = [
+  { id: "User", name: "Usuario"},
+  { id: "UserEmpresa", name: "Administrador de Empresa"},
+  { id: "Admin", name: "Administrador General"}, 
+];
+
+export const getUserTypeName = (type) => {
+  const typeO = userTypes.find(t => t.id == type);
+  return typeO ? typeO.name : "";
+}
