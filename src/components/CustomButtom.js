@@ -1,5 +1,4 @@
-import { Button, ButtonBase, Tooltip, withStyles} from '@material-ui/core';
-import { purple } from '@material-ui/core/colors';
+import { Button, withStyles} from '@material-ui/core';
 import React from 'react';
 import { LightenDarkenColor } from 'utils/common';
 

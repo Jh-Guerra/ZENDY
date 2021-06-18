@@ -1,4 +1,3 @@
-import { Grid } from "@material-ui/core";
 import React, { Component } from "react";
 import ChatListBar from "./ChatListBar";
 import NewChatCall from "./NewChatCall";

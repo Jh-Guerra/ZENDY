@@ -1,4 +1,4 @@
-import React, { Component, createRef } from "react";
+import React, { createRef } from "react";
 import "assets/styles/zendy-app.css";
 import ChatItem from "../Components/ChatItem";
 import ModalAcceptChat from "components/Modals/ModalAcceptChat";
@@ -59,12 +59,10 @@ const MainBody = props => {
   ];
 
   const [chat, setChat] = React.useState([]);
-  const [message, setMessage] = React.useState("");
   const [open, setOpen] = React.useState(false);
 
   React.useEffect(() => {
     setChat([...chatItems]);
-    setMessage("");
     scrollToBottom();
   }, []);
 

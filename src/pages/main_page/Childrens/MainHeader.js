@@ -1,4 +1,4 @@
-import React, { Component, createRef, useState } from "react";
+import React, { useState } from "react";
 import ChatAvatar from "pages/main_page/Components/ChatAvatar";
 import IconButton from '@material-ui/core/IconButton';
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
@@ -6,11 +6,7 @@ import { Grid, TextField } from "@material-ui/core";
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import SearchIcon from '@material-ui/icons/Search';
 import InputAdornment from '@material-ui/core/InputAdornment';
-import ModalNotification from "components/Modals/ModalNotification";
-import ModalAcceptChat from "components/Modals/ModalAcceptChat";
 import ModalRecomendarUsuario from "components/Modals/ModalRecomendarUsuario";
-import ModalNewChat from "components/Modals/ModalNewChat";
-import ModalDetailUser from "components/Modals/ModalDetailUser";
 import ModalEndChat from "components/Modals/ModalEndChat";
 
 const MainHeader = props => {

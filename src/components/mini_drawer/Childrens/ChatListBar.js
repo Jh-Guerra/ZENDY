@@ -1,7 +1,7 @@
-import React, { Component, useState, createRef, useEffect } from "react";
+import React, { Component } from "react";
 import ItemAvatarRow from "../Components/ItemAvatarRow";
 import { withStyles } from "@material-ui/core/styles";
-import { Input, InputAdornment, TextField } from "@material-ui/core";
+import { Input, InputAdornment } from "@material-ui/core";
 import SearchIcon from '@material-ui/icons/Search';
 
 const styles = theme => ({

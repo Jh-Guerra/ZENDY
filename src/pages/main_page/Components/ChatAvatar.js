@@ -1,9 +1,9 @@
-import React, { Component } from "react";
+import React from "react";
 import "assets/styles/zendy-app.css";
 
 const ChatAvatar = props => {
 
-  const { image, isOnline, imgClassName="" } = props;
+  const { image, imgClassName="" } = props;
 
   return (
     <div className={imgClassName || "avatar"}>

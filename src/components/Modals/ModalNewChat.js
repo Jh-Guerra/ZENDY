@@ -1,14 +1,13 @@
-import {Button, Grid, makeStyles } from '@material-ui/core';
+import { Grid, makeStyles } from '@material-ui/core';
 import React from 'react'
 import ModalBody from './common/ModalBody'
 import ModalHeader from './common/ModalHeader'
 import Modal from './common/Modal'
-import Typography from '@material-ui/core/Typography';
 import SupervisedUserCircleIcon from '@material-ui/icons/SupervisedUserCircle';
 import BusinessIcon from '@material-ui/icons/Business';
 import PersonIcon from '@material-ui/icons/Person';
 import AddCommentIcon from '@material-ui/icons/AddComment';
-import { pColor, successButtonColor } from 'assets/styles/zendy-css';
+import { successButtonColor } from 'assets/styles/zendy-css';
 import CustomButton from "components/CustomButtom";
 
 const useStyles = makeStyles(theme => ({

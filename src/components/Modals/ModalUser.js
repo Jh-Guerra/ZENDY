@@ -1,4 +1,4 @@
-import { Grid, Divider, makeStyles } from '@material-ui/core';
+import { Grid, Divider } from '@material-ui/core';
 import React from 'react'
 import ModalBody from './common/ModalBody'
 import ModalHeader from './common/ModalHeader'
@@ -15,16 +15,8 @@ import PhoneIcon from '@material-ui/icons/Phone';
 import BusinessIcon from '@material-ui/icons/Business';
 import { createUser } from 'services/actions/UserAction';
 
-const useStyles = makeStyles(theme => ({
-    inputText: {
-        margin: theme.spacing(1),
-        width: "100%"
-    },
-}));
-
 const ModalUser = (props) => {
     
-    const classes = useStyles();
     const { open, handleClose } = props;
 
     const [data, setData] = React.useState({
