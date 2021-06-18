@@ -65,7 +65,7 @@ const ModalUser = (props) => {
         props.showBackdrop(true);
         props.dispatch(createUser(user)).then(res => {
             props.showBackdrop(false);
-            handleClose();
+            props.onConfirmCallBack();
         }).catch(error => {
             props.showBackdrop(false);
             console.error('error', error);

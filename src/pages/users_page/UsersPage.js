@@ -98,7 +98,8 @@ class UsersPage extends Component {
         <ModalUser
           {...this.props}
           open={showModalUser}
-          handleClose={() => { this.onCreateUser() }}
+          onConfirmCallBack={() => { this.onCreateUser() }}
+          handleClose={() => { this.setState({showModalUser: false }) }}
         />
       </Grid>
     );
