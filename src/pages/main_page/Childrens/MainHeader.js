@@ -12,6 +12,7 @@ import ModalRecomendarUsuario from "components/Modals/ModalRecomendarUsuario";
 import ModalNewChat from "components/Modals/ModalNewChat";
 import ModalDetailUser from "components/Modals/ModalDetailUser";
 import ModalEndChat from "components/Modals/ModalEndChat";
+import ModalAddToConversation from "components/Modals/ModalAddToConversation";
 
 const MainHeader = props => {
 
@@ -21,6 +22,7 @@ const MainHeader = props => {
 
   const [open, setOpen] = useState(false);
   const [openUser, setOpenUser] = useState(false)
+  const [openAddToConversation, setOpenAddToConversation] = useState(true);
 
   const handleClickOpen = () => {
       setOpen(true);
@@ -32,6 +34,10 @@ const MainHeader = props => {
 
   const handleUserOpen = () => {
     setOpenUser(true);
+  }
+
+  const handleAddConversationOpen = () => {
+    setOpenAddToConversation(true);
   }
 
   return (
@@ -86,6 +92,10 @@ const MainHeader = props => {
       <ModalRecomendarUsuario
         open={openUser} 
         handleClose={() => { setOpenUser(false); }}
+      />
+      <ModalAddToConversation 
+        open={openAddToConversation}
+        handleClose={() => { setOpenAddToConversation(false); }}
       />
     </Grid>
   );
