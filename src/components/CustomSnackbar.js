@@ -12,7 +12,7 @@ const CustomSnackbar = props => {
     } = props;
 
     return(
-        <Snackbar anchorOrigin={{ vertical: 'top', horizontal:'center' }} open={open} autoHideDuration={duration} onClose={onClose}>
+        <Snackbar anchorOrigin={{ vertical: 'top', horizontal:'right' }} open={open} autoHideDuration={duration} onClose={onClose}>
             <Alert onClose={onClose} severity={alertType}>
                 {message || ""}
             </Alert>

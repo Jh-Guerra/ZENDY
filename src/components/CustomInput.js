@@ -61,6 +61,7 @@ const CustomInput = props => {
                             <Select
                                 value={props.value}
                                 onChange={props.onChange}
+                                disabled={props.disabled}
                             >
                                 {
                                     options.map((option, i) => {

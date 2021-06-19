@@ -6,7 +6,7 @@ const ModalHeader = (props) => {
   const { icon, text } = props;
 
   return (
-    <DialogTitle className="modal-header">
+    <DialogTitle className="modal-header" style={{backgroundColor: props.backgroundColor}}>
       {
         icon && icon
       }

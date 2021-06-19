@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
 import { Grid, Typography } from "@material-ui/core";
 import CustomTable from 'components/CustomTable';
-import { listUsers } from 'services/actions/UserAction';
+import { deleteUser, findUser, listUsers } from 'services/actions/UserAction';
 import CustomButton from 'components/CustomButtom';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import { successButtonColor } from 'assets/styles/zendy-css';
 import ModalUser from 'components/Modals/ModalUser';
 import moment from 'moment';
 import { getUserTypeName } from 'utils/common';
+import ModalDelete from 'components/Modals/ModalDelete';
 
 const columns = [
   { type: 'text', field: 'name', label: 'Nombre', minWidth: 250, format: (row) => `${row.firstName} ${row.lastName}` },
@@ -24,6 +25,8 @@ class UsersPage extends Component {
     super(props);
     this.state = {
       showModalUser: false,
+      showModalDelete: false,
+      user: {},
       users: [],
       loading: false
     };
@@ -38,6 +41,18 @@ class UsersPage extends Component {
     
   }
 
+  openModalUser = () => {
+    this.setState({
+      user: {},
+      showModalUser: true 
+    })
+  }
+
+  onConfirmUser = () => {
+    this.setState({showModalUser: false });
+    this.listUsers();
+  }
+
   listUsers = () => {
     this.props.showBackdrop(true);
     this.setState({loading: true});
@@ -48,21 +63,35 @@ class UsersPage extends Component {
     });
   }
 
-  showDetails = () => {
-    console.log("show details")
+  showDetails = (row) => {
+    this.props.dispatch(findUser(row && row.id)).then(res => {
+      this.setState({
+        user: res || {},
+        showModalUser: true
+      });
+    });
   }
 
-  openModalUser = () => {
-    this.setState({showModalUser: true })
+  onDelete = () => {
+    const { user } = this.state;
+    this.props.showBackdrop(true);
+    this.props.dispatch(deleteUser(user && user.id)).then(res => {
+      this.setState({
+        user: {},
+        showModalDelete: false,
+        showModalUser: false,
+      });
+      this.props.showSnackbar("warning", res && res.success || "");
+      this.props.showBackdrop(false);
+      this.listUsers();
+    }).catch(error => {
+      this.props.showBackdrop(false);
+      console.error('error', error);
+    });
   }
-
-  onCreateUser = () => {
-    this.setState({showModalUser: false });
-    this.listUsers();
-  }
-
+ 
   render() {
-    const { showModalUser, users, loading } = this.state;
+    const { showModalUser, showModalDelete, user, users, loading } = this.state;
 
     return (
       <Grid container spacing={3} style={{height:'100%', justifyContent:'center'}}>
@@ -98,8 +127,16 @@ class UsersPage extends Component {
         <ModalUser
           {...this.props}
           open={showModalUser}
-          onConfirmCallBack={() => { this.onCreateUser() }}
+          onConfirmCallBack={() => { this.onConfirmUser() }}
+          openModalDelete={ () => { this.setState({showModalDelete: true }) } }
           handleClose={() => { this.setState({showModalUser: false }) }}
+          user={user}
+        />
+        <ModalDelete
+          open={showModalDelete}
+          title="Eliminar Usuario"
+          handleClose={() => { this.setState({showModalDelete: false }) }}
+          onDelete={this.onDelete}
         />
       </Grid>
     );

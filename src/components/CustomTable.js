@@ -49,7 +49,23 @@ const CustomTable = props => {
         <Paper className={classes.root}>
           <TableContainer className={classes.container}>
             <Table stickyHeader aria-label="sticky table">
-            { loading && <caption>Cargando...</caption> }
+            { loading ? <caption>Cargando...</caption> : (
+              <TableBody>
+                {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, i) => {
+                  return (
+                    <TableRow hover role="checkbox" tabIndex={-1} key={i} onClick={() => { props.onRowClick(row) } } style={{cursor:'pointer'}}>
+                      {columns.map((column, i2) => {
+                        return (
+                          <TableCell key={i2} align={column.align} style={{fontSize:"12px"}}>
+                            {column.format ? column.format(row) : row[column.field] || ""}
+                          </TableCell>
+                        );
+                      })}
+                    </TableRow>
+                  );
+                })}
+              </TableBody>
+            ) }
               <TableHead>
                 <TableRow>
                   {columns.map((column, i) => (
@@ -62,21 +78,6 @@ const CustomTable = props => {
                   ))}
                 </TableRow>
               </TableHead>
-              <TableBody>
-                {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, i) => {
-                  return (
-                    <TableRow hover role="checkbox" tabIndex={-1} key={i} onClick={props.onRowClick}>
-                      {columns.map((column, i2) => {
-                        return (
-                          <TableCell key={i2} align={column.align} style={{fontSize:"12px"}}>
-                            {column.format ? column.format(row) : row[column.field] || ""}
-                          </TableCell>
-                        );
-                      })}
-                    </TableRow>
-                  );
-                })}
-              </TableBody>
             </Table>
           </TableContainer>
           { !loading && (

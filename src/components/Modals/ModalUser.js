@@ -13,11 +13,13 @@ import LockIcon from '@material-ui/icons/Lock';
 import { onlyNumbers, trimObject, userTypes } from 'utils/common';
 import PhoneIcon from '@material-ui/icons/Phone';
 import BusinessIcon from '@material-ui/icons/Business';
-import { createUser } from 'services/actions/UserAction';
+import { createUser, updateUser } from 'services/actions/UserAction';
+import AssignmentIndIcon from '@material-ui/icons/AssignmentInd';
+import EditIcon from '@material-ui/icons/Edit';
 
 const ModalUser = (props) => {
     
-    const { open, handleClose } = props;
+    const { open, handleClose, user } = props;
 
     const [data, setData] = React.useState({
         id: "",
@@ -30,6 +32,38 @@ const ModalUser = (props) => {
         type: "User",
         company: ""
     });
+
+    const [title, setTitle] = React.useState("Agregar Usuario");
+    const [icon, setIcon] = React.useState(<PersonAddIcon />);
+    const [editMode, setEditMode] = React.useState(false);
+
+    React.useEffect(() => {
+        if(open){
+            if(user && user.id){
+                // Ver el detalle de un usuario
+                setData(user);
+                setTitle("Detalle del usuario");
+                setIcon(<AssignmentIndIcon />);
+                setEditMode(false);
+            }else{
+                // Crear un nuevo usuario
+                setData({
+                    id: "",
+                    firstName: "",
+                    lastName: "",
+                    email: "",
+                    password: "",
+                    dob: new Date(),
+                    phone: "",
+                    type: "User",
+                    company: ""
+                });
+                setTitle("Agregar usuario");
+                setIcon(<PersonAddIcon />);
+                setEditMode(true);
+            }
+        }
+    }, [open]);
 
     const validateForm = user => {
         const errors = {};
@@ -63,13 +97,31 @@ const ModalUser = (props) => {
 
     const onSubmit = (user, { setSubmitting }) => {
         props.showBackdrop(true);
-        props.dispatch(createUser(user)).then(res => {
-            props.showBackdrop(false);
-            props.onConfirmCallBack();
-        }).catch(error => {
-            props.showBackdrop(false);
-            console.error('error', error);
-        });
+        if(user.id){
+            // Editar
+            props.dispatch(updateUser(user.id, user)).then(res => {
+                props.showBackdrop(false);
+                props.onConfirmCallBack();
+            }).catch(error => {
+                props.showBackdrop(false);
+                console.error('error', error);
+            });
+        }else{
+            // Agregar
+            props.dispatch(createUser(user)).then(res => {
+                props.showBackdrop(false);
+                props.onConfirmCallBack();
+            }).catch(error => {
+                props.showBackdrop(false);
+                console.error('error', error);
+            });
+        }
+    }
+
+    const onEdit = () => {
+        setEditMode(true);
+        setTitle("Editar Usuario");
+        setIcon(<EditIcon />);
     }
 
     return (
@@ -79,8 +131,8 @@ const ModalUser = (props) => {
             size="sm"
         >
             <ModalHeader 
-                icon={<PersonAddIcon />}
-                text="Nuevo Usuario"
+                icon={icon}
+                text={title}
             />
 
             <ModalBody>
@@ -99,6 +151,7 @@ const ModalUser = (props) => {
                                             error={ errors.firstName && touched.firstName ? true : false }
                                             helperText={ errors.firstName && touched.firstName && errors.firstName }
                                             icon={<AccountCircle />}
+                                            disabled={!editMode}
                                         />
                                     </Grid>
                                     <Grid item xs={12}>
@@ -111,6 +164,7 @@ const ModalUser = (props) => {
                                             error={ errors.lastName && touched.lastName ? true : false }
                                             helperText={ errors.lastName && touched.lastName && errors.lastName }
                                             icon={<AccountCircle />}
+                                            disabled={!editMode}
                                         />
                                     </Grid>
                                     <Grid item xs={12}>
@@ -123,6 +177,7 @@ const ModalUser = (props) => {
                                             error={ errors.email && touched.email ? true : false }
                                             helperText={ errors.email && touched.email && errors.email }
                                             icon={<AlternateEmailIcon />}
+                                            disabled={!editMode}
                                         />
                                     </Grid>
                                     <Grid item xs={12}>
@@ -136,6 +191,7 @@ const ModalUser = (props) => {
                                             error={ errors.password && touched.password ? true : false }
                                             helperText={ errors.password && touched.password && errors.password }
                                             icon={<LockIcon />}
+                                            disabled={!editMode}
                                         />
                                     </Grid>
                                     <Grid item xs={12} md={6}>
@@ -147,6 +203,7 @@ const ModalUser = (props) => {
                                                 setFieldValue("dob", date);
                                             }}
                                             value={values.dob}
+                                            disabled={!editMode}
                                         />
                                     </Grid>
                                     <Grid item xs={12} md={6}>
@@ -161,6 +218,7 @@ const ModalUser = (props) => {
                                             error={ errors.phone && touched.phone ? true : false }
                                             helperText={ errors.phone && touched.phone && errors.phone }
                                             icon={<PhoneIcon />}
+                                            disabled={!editMode}
                                         />
                                     </Grid>
                                     <Grid item xs={12}>
@@ -173,6 +231,7 @@ const ModalUser = (props) => {
                                             }}
                                             value={values.type}
                                             options={userTypes}
+                                            disabled={!editMode}
                                        />
                                     </Grid>
                                     {
@@ -187,6 +246,7 @@ const ModalUser = (props) => {
                                                     error={ errors.company && touched.company ? true : false }
                                                     helperText={ errors.company && touched.company && errors.company }
                                                     icon={<BusinessIcon />}
+                                                    disabled={!editMode}
                                                 />
                                             </Grid>
                                         )
@@ -196,10 +256,18 @@ const ModalUser = (props) => {
                                 <Divider style={{marginTop:"20px"}} />
 
                                 <ModalFooter
-                                    confirmText={"Guardar"}
                                     buttonType={"submit"}
-                                    cancelText={"Cancelar"}
+
+                                    cancelText={editMode && "Cancelar"}
                                     onCancel={handleClose}
+
+                                    confirmText={editMode && "Guardar"}
+                                    
+                                    deleteText={!editMode && "Eliminar"}
+                                    onDelete={() => { props.openModalDelete() }}
+
+                                    editText={!editMode && "Editar"}
+                                    onEdit={onEdit}
                                 />
                             </Form>
                         )

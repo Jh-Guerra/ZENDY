@@ -47,12 +47,20 @@ class ZendyAppShell extends Component {
     
   }
 
-  showSnackbar = (open, message, alertType) => {
+  showSnackbar = (alertType, message) => {
+
     this.setState({
-      snackbar: open || false,
+      snackbar: true,
       message: message || "",
       alertType: alertType || "info"
     })
+
+    setTimeout(() => {
+      this.setState({
+        snackbar: false
+      })
+    }, 5000)
+
   }
 
   showBackdrop = (open) => {
@@ -75,15 +83,18 @@ class ZendyAppShell extends Component {
             showSnackbar={this.showSnackbar}
             showBackdrop={this.showBackdrop}
           />
-          <CustomSnackbar
-            open={snackbar || false}
-            message={message || ""}
-            alertType={alertType || "info"}
-            onClose={(event, reason) => {
-              this.showSnackbar(false, "", "");
-            }}
-            duration={3000}
-          />
+          {
+            snackbar && (
+              <CustomSnackbar
+                open={snackbar || false}
+                message={message || ""}
+                alertType={alertType || "info"}
+                onClose={(event, reason) => {
+                }}
+                duration={5000}
+              />
+            )
+          }
           <CustomBackdrop 
             open={backdrop || false} 
           />

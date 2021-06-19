@@ -9,7 +9,7 @@ const Modal = (props) => {
     return (
         <Dialog 
             onClose={handleClose} 
-            fullWidth maxWidth={size}
+            maxWidth={size}
             color="primary" 
             open={open}
             size={size}
