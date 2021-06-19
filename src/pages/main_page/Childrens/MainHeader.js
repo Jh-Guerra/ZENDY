@@ -8,6 +8,7 @@ import SearchIcon from '@material-ui/icons/Search';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import ModalRecomendarUsuario from "components/Modals/ModalRecomendarUsuario";
 import ModalEndChat from "components/Modals/ModalEndChat";
+import ModalGroupChatDetail from "components/Modals/ModalGroupChatDetail";
 
 const MainHeader = props => {
 
@@ -17,6 +18,7 @@ const MainHeader = props => {
 
   const [open, setOpen] = useState(false);
   const [openUser, setOpenUser] = useState(false)
+  const [openGroupChat, setOpenGroupChat] = useState(true)
 
   const handleClickOpen = () => {
       setOpen(true);
@@ -28,6 +30,10 @@ const MainHeader = props => {
 
   const handleUserOpen = () => {
     setOpenUser(true);
+  }
+
+  const handleGroupChat = () => {
+    setOpenGroupChat(true);
   }
 
   return (
@@ -82,6 +88,10 @@ const MainHeader = props => {
       <ModalRecomendarUsuario
         open={openUser} 
         handleClose={() => { setOpenUser(false); }}
+      />
+      <ModalGroupChatDetail 
+        open={openGroupChat} 
+        handleClose={() => { setOpenGroupChat(false); }}
       />
     </Grid>
   );
