@@ -7,13 +7,14 @@ import ErrorInfoPage from 'pages/error/ErrorInfoPage';
 import ReportPage from 'pages/report/ReportPage';
 import MainPage from 'pages/main_page/MainPage';
 import UsersPage from 'pages/users_page/UsersPage';
+import BlankPage from 'pages/test_page/BlankPage';
 
 const Routes = (props) => {
   return(  
     <ThemeSettings>
       <Switch style={{height:"100%"}}>
-        <Route exact path="/" render={(props) => ( <LoginPage {...props} appTarget={"Dispatch"} routePush={"/test-view"} /> )}/>
-        <Route exact path="/login" render={(props) => ( <LoginPage {...props} appTarget={"Dispatch"} routePush={"/test-view"} /> )}/>
+        <Route exact path="/" render={(props) => ( <LoginPage {...props} appTarget={"Dispatch"} routePush={"/blank"} /> )}/>
+        <Route exact path="/login" render={(props) => ( <LoginPage {...props} appTarget={"Dispatch"} routePush={"/blank"} /> )}/>
 
         <PrivateRoute exact path="/test-view" {...props}>
           <MainPage/>
@@ -29,6 +30,10 @@ const Routes = (props) => {
 
         <PrivateRoute exact path="/users" {...props}>
           <UsersPage/>
+        </PrivateRoute>
+
+        <PrivateRoute exact path="/blank" {...props}>
+          <BlankPage/>
         </PrivateRoute>
 
       </Switch>

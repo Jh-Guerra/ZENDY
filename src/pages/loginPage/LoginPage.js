@@ -12,6 +12,10 @@ import LogoZendy from 'assets/images/Zendy-logo.jpg';
 import VpnKeyIcon from '@material-ui/icons/VpnKey';
 import { pColor, sColorL } from 'assets/styles/zendy-css';
 import { useHistory } from 'react-router';
+import  {loginUser}  from 'services/actions/LoginAction';
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
+
 
 const useStyles = makeStyles((theme) => ({
   loginTitle: {
@@ -90,13 +94,90 @@ const CssTextField = withStyles({
   },
 })(TextField);
 
+
 const LoginPage = props => {
   const classes = useStyles();
-  const history = useHistory();
+  //const history = useHistory();
 
-  const logIn = () => {
-    history.push("/test-view");
+/* ==========LOGIN================== */
+
+  const [email, setEmail] = React.useState("");
+  const [password, setPassword] = React.useState("");
+  const [message, setMessage] = React.useState();
+  const [errors, setErrors] = React.useState({});
+
+  const handleValidation =()=>{
+    let errors = {};
+    let formIsValid = true;
+
+    //Password
+    if(!password){
+       formIsValid = false;
+       errors["password"] = "Contraseña requerida";
+    }
+
+    //Email
+    if(!email){
+       formIsValid = false;
+       errors["email"] = "Email requerido";
+    }
+
+    if(typeof email !== "undefined"){
+       let lastAtPos = email.lastIndexOf('@');
+       let lastDotPos = email.lastIndexOf('.');
+
+       if (!(lastAtPos < lastDotPos && lastAtPos > 0 && email.indexOf('@@') == -1 && lastDotPos > 2 && (email.length - lastDotPos) > 2)) {
+          formIsValid = false;
+          errors["email"] = "Email no es valido";
+        }
+   } 
+
+   setErrors(errors);
+   return formIsValid;
+}
+
+  const onChangeEmail = (e) => {
+    const email = e.target.value;
+    setEmail(email);
+  };
+
+  const onChangePassword = (e) => {
+    const password = e.target.value;
+    setPassword(password);
+  };
+
+  const body = {
+    email: email,
+    password: password
+
   }
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+
+    if(handleValidation()){
+       
+      props.dispatch(loginUser(body)).then(
+       (res) => {
+         console.log("res", res)
+         props.history.push("/blank");
+       },
+       (error) => {
+         const resMessage =
+           (error.response &&
+             error.response.data &&
+             error.response.data.message) ||
+           error.message ||
+           error.toString();
+  
+         setMessage(resMessage);
+         alert(error.response.data.error)
+       }
+     ); 
+    }else{
+       //alert("Form has errors.")
+    }
+  };
 
   return (
     <>
@@ -130,7 +211,10 @@ const LoginPage = props => {
                 name="email"
                 autoComplete="email"
                 autoFocus
+                onChange={onChangeEmail}
+                value={email}
               />
+              <span style={{color: "red"}}>{errors["email"]}</span>
               <CssTextField
                 className={`login-input ${classes.loginInput}`}
                 variant="outlined"
@@ -149,13 +233,16 @@ const LoginPage = props => {
                   ),
                 }}
                 autoComplete="current-password"
+                value={password}
+                onChange={onChangePassword}
               />
+               <span style={{color: "red"}}>{errors["password"]}</span>
               <Button
                 type="button"
                 variant="contained"
                 color="primary"
                 className={classes.loginBtn}
-                onClick={logIn}
+                onClick={handleLogin}
               >
                 INICIAR SESION
               </Button>
@@ -167,4 +254,7 @@ const LoginPage = props => {
   );
 }
 
-export default LoginPage;
+//export default LoginPage;
+const mapStateToProps = (state) => ({ ...state })
+
+export default connect(mapStateToProps)(withRouter(LoginPage));
