@@ -9,7 +9,7 @@ import PropTypes from 'prop-types';
 import { CurrentChatIcon, PendingChatIcon, CompaniesIcon, ErrorsIcon, MoreIcon } from "assets/styles/svg-icons";
 import CurrentChat from './Childrens/CurrentChat';
 import ModalMoreActions from 'components/Modals/ModalMoreActions';
-
+import HistoryChat from 'components/mini_drawer/Childrens/HistoryChat';
 const useStyles = makeStyles((theme) => ({
   root: {
     width: 380,
@@ -128,6 +128,7 @@ const MiniDrawer = (props) => {
             </TabPanel>
             <TabPanel value={tab} index={2} >
               Item Three
+              {/* <HistoryChat/> */}
             </TabPanel>
           </div> 
         </Grid>
