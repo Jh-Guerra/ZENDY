@@ -3,6 +3,7 @@ import ItemAvatarRow from "../Components/ItemAvatarRow";
 import { withStyles } from "@material-ui/core/styles";
 import { Input, InputAdornment } from "@material-ui/core";
 import SearchIcon from '@material-ui/icons/Search';
+import ItemAvatarNotifyRow from "../Components/ItemAvatarNotifyRow";
 
 const styles = theme => ({
   search: {
@@ -102,7 +103,6 @@ class ChatListBar extends Component {
         <div className="chat-list-items">
           {this.state.allChats.map((item, index) => {
             return (
-
               <div key={index}>
                 <ItemAvatarRow
                   image={item.image}

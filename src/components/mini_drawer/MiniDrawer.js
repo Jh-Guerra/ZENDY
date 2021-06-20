@@ -10,6 +10,7 @@ import { CurrentChatIcon, PendingChatIcon, CompaniesIcon, ErrorsIcon, MoreIcon }
 import CurrentChat from './Childrens/CurrentChat';
 import ModalMoreActions from 'components/Modals/ModalMoreActions';
 import HistoryChat from 'components/mini_drawer/Childrens/HistoryChat';
+import NotifyChat from './Childrens/NotifyChat';
 const useStyles = makeStyles((theme) => ({
   root: {
     width: 380,
@@ -128,7 +129,7 @@ const MiniDrawer = (props) => {
             </TabPanel>
             <TabPanel value={tab} index={2} >
               Item Three
-              {/* <HistoryChat/> */}
+              {/* <NotifyChat/> */}
             </TabPanel>
           </div> 
         </Grid>
