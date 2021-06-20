@@ -1,13 +1,11 @@
 import React, { Component } from "react";
 import ChatListBar from "./ChatListBar";
 import NewChatCall from "./NewChatCall";
-import CheckHistory from "./CheckHistory";
+import CheckHistory from "../Components/CheckHistory";
  
  
 
 class HistoryChat extends Component {
-
- 
     render() {
         return (
             
