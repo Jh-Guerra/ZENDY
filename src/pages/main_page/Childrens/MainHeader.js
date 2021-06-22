@@ -21,7 +21,7 @@ const MainHeader = props => {
   const [showRecomendarUsuario, setShowRecomendarUsuario] = useState(false)
   const [showChatDetail, setShowChatDetail] = useState(false);
 
-  const handleClickOpen = () => {
+  const handleAcceptChat = () => {
       setShowAcceptChat(true);
   }
 
@@ -40,7 +40,7 @@ const MainHeader = props => {
   return (
     <Grid container className="chat-header">    
       <Grid container className="chat-header-content">
-        <Grid item xs={6}>       
+        <Grid item xs={6} onClick={handleChatDetail} style={{cursor:"pointer"}}>       
           <Grid container style={{height:"100%", padding:"0px 10px"}}>           
             <Grid item xs={2} style={{display:"flex"}}>             
               <div className="chat-header-avatar">
@@ -51,7 +51,7 @@ const MainHeader = props => {
                 />
               </div>
             </Grid>                      
-            <Grid onClick={handleChatDetail} item xs={8} className="chat-header-name">                                                        
+            <Grid item xs={8} className="chat-header-name">                                                        
               <div>
                 <Typography style={{fontSize:"25px", color:"white"}}>Homero Simpons</Typography>
               </div>
@@ -75,7 +75,7 @@ const MainHeader = props => {
               }}
             />
             <IconButton onClick={handleRecomendarUsuario} className="chat-header-button"><PersonAddIcon style={{ fontSize: 35 }} /></IconButton>
-            <IconButton onClick={handleClickOpen} className="chat-header-button"><MoreVertIcon style={{ fontSize: 40 }} /></IconButton>
+            <IconButton onClick={handleAcceptChat} className="chat-header-button"><MoreVertIcon style={{ fontSize: 40 }} /></IconButton>
           </Grid>              
         </Grid>
       </Grid>
