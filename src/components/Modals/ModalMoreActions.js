@@ -10,6 +10,7 @@ import AssessmentIcon from '@material-ui/icons/Assessment';
 import PeopleIcon from '@material-ui/icons/People';
 import CustomButton from "components/CustomButtom";
 import { successButtonColor } from 'assets/styles/zendy-css';
+import BusinessIcon from '@material-ui/icons/Business';
 
 const useStyles = makeStyles(theme => ({
     button: {
@@ -75,9 +76,21 @@ const ModalMoreActions = (props) => {
                             className={classes.button}
                             startIcon={<PeopleIcon />}
                             customColor={successButtonColor}
-                            onClick={() => { props.goToView && props.goToView("users") }}
+                            onClick={() => { props.goToView && props.goToView("usuarios") }}
                         >
                             Usuarios
+                        </CustomButton>
+                    </Grid>
+                    <Grid item xs={12}>
+                        <CustomButton 
+                            variant="contained"
+                            fullWidth
+                            className={classes.button}
+                            startIcon={<BusinessIcon />}
+                            customColor={successButtonColor}
+                            onClick={() => { props.goToView && props.goToView("empresas") }}
+                        >
+                            Empresas
                         </CustomButton>
                     </Grid>
                 </Grid>
