@@ -611,6 +611,15 @@ top: .1em;
     justify-content: space-around;
 }
 
+/* ============================ MODAL CHAT DETAIL  ========================================*/
+
+.base-modal{
+    background-color: $pColor;   
+    line-height: 118px;
+    text-align: center;   
+    overflow-x: hidden;
+  }
+
 /* ============================ Chat Empresas  ========================================*/
 .container-chat-empresa {
     background: $pColor;
