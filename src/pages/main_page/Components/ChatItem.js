@@ -10,19 +10,16 @@ import ModalResendMessage from "components/Modals/ModalResendMessage";
 const ChatItem = props => {
 
    const [open, setOpen] = useState(false);
-   const [openUser, setOpenUser] = useState(false)
+   const [showResendMessage, setShowResendMessage] = useState(false)
 
     
    const handleClickOpen = () => {
     setOpen((prev) => !prev);
    }
 
-   const handleClose = () => {
-    setOpen(false);
-  }
 
-  const handleUserOpen = () => {
-  setOpenUser(true);
+  const handleResendMessage = () => {
+    setShowResendMessage(true);
 }
  
   const { user, message, image } = props;
@@ -34,7 +31,7 @@ const ChatItem = props => {
     >
       <Fade in={open} >
       <Tooltip title="Reenviar">
-          <IconButton onClick={handleUserOpen} className="chat-input-button"> 
+          <IconButton onClick={handleResendMessage} className="chat-input-button"> 
             <ReplyIcon className="chat-input-icon" />
          </IconButton>
       </Tooltip>
@@ -48,8 +45,8 @@ const ChatItem = props => {
       </div>
       <ChatAvatar isOnline="active" image={image} />
       <ModalResendMessage
-        open={openUser} 
-        handleClose={() => { setOpenUser(false); }}
+        open={showResendMessage} 
+        handleClose={() => { setShowResendMessage(false); }}
       />
     </div>
   );

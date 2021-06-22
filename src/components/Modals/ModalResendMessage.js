@@ -17,14 +17,9 @@ import Paper from '@material-ui/core/Paper';
 import InputBase from '@material-ui/core/InputBase';
 import IconButton from '@material-ui/core/IconButton';
 import ModalFooter from './common/ModalFooter';
-import AccountBoxIcon from '@material-ui/icons/AccountBox';
-
+import SendIcon from '@material-ui/icons/Send';
 
 const useStyles = makeStyles(theme => ({
-    buttonIcon: {
-        width: '30px',
-        marginRight: '10px'
-    },
     letters:{
         fontSize:'20px',
         fontStyle:'oblique',
@@ -36,11 +31,7 @@ const useStyles = makeStyles(theme => ({
     },
     iconButton: {
         padding: 10,
-    },
-    divider: {
-        height: 28,
-        margin: 4,
-    },
+    }
 }));
 
 const ModalResendMessage = (props) => {
@@ -71,9 +62,8 @@ const ModalResendMessage = (props) => {
       size="sm"
     >
         <ModalHeader
-          icon={<AccountBoxIcon />}
-          text="Reenviar Usuario"
-          size="md"
+          icon={<SendIcon />}
+          text="Reenviar Mensaje"
         />
 
         <ModalBody>
@@ -93,7 +83,7 @@ const ModalResendMessage = (props) => {
             </Grid>
             <Grid item xs={12}>
               <List dense>
-                <span> Empresa N°1</span>
+                <b> Empresa N°1</b>
                 {[0, 1, 2].map((value) => {
                   const labelId = `checkbox-list-secondary-label-${value}`;
                   return (
@@ -121,7 +111,7 @@ const ModalResendMessage = (props) => {
               </List>
 
               <List dense>
-                <span> Empresa N°2</span>
+                <b> Empresa N°2</b>
                 {[0, 1].map((valueE2) => {
                   const labelId = `checkbox-list-secondary-label-${valueE2}`;
                   return (
