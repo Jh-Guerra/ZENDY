@@ -1,4 +1,4 @@
-import React, { Component, createRef, useState } from "react";
+import React, { useState } from "react";
 import ChatAvatar from "pages/chat_page/Components/ChatAvatar";
 import IconButton from '@material-ui/core/IconButton';
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
