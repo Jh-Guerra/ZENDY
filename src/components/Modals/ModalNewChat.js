@@ -1,5 +1,5 @@
 import {Button, Grid, makeStyles } from '@material-ui/core';
-import React,{useState } from 'react'
+import React, {useState } from 'react'
 import ModalBody from './common/ModalBody'
 import ModalHeader from './common/ModalHeader'
 import Modal from './common/Modal'
@@ -22,10 +22,10 @@ const ModalNewChat = (props) => {
 
     const classes = useStyles();
     const { open, handleClose } = props;
-    const [openUser, setOpenUser] = useState(false)
+    const [showNewInternalChat, setShowNewInternalChat] = useState(false)
   
-    const handleUserOpen = () => {
-      setOpenUser(true);
+    const handleNewTerminalChat = () => {
+        setShowNewInternalChat(true);
     }
     
      
@@ -71,14 +71,14 @@ const ModalNewChat = (props) => {
                             className={classes.button}
                             startIcon={<PersonIcon />}
                             customColor={successButtonColor}
-                            onClick={handleUserOpen}
+                            onClick={handleNewTerminalChat}
                         >
                             Chat Interno
                         </CustomButton>
                     </Grid>
                     <ModalNewInternalChat
-                        open={openUser}
-                        handleClose={() => { setOpenUser(false); }}
+                        open={showNewInternalChat}
+                        handleClose={() => { setShowNewInternalChat(false); }}
                     />
                 </Grid>
             </ModalBody>

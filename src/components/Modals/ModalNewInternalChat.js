@@ -18,12 +18,7 @@ import IconButton from '@material-ui/core/IconButton';
 import ModalFooter from './common/ModalFooter';
 import ChatIcon from '@material-ui/icons/Chat';
 
-
 const useStyles = makeStyles(theme => ({
-    buttonIcon: {
-        width: '30px',
-        marginRight: '10px'
-    },
     letters:{
         fontSize:'20px',
         fontStyle:'oblique',
@@ -72,7 +67,6 @@ const ModalNewInternalChat = (props) => {
         <ModalHeader
           icon={<ChatIcon />}
           text="Nuevo Chat Interno"
-          size="md"
         />
 
         <ModalBody>
