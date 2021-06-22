@@ -10,6 +10,7 @@ import ModalRecomendarUsuario from "components/Modals/ModalRecomendarUsuario";
 // import ModalEndChat from "components/Modals/ModalEndChat";
 import ModalAcceptChat from "components/Modals/ModalAcceptChat";
 import ModalChatDetail from "components/Modals/ModalChatDetail";
+import ModalAddToConversation from "components/Modals/ModalAddToConversation";
 
 const MainHeader = props => {
 
@@ -20,6 +21,7 @@ const MainHeader = props => {
   const [showAcceptChat, setShowAcceptChat] = useState(false);
   const [showRecomendarUsuario, setShowRecomendarUsuario] = useState(false)
   const [showChatDetail, setShowChatDetail] = useState(false);
+  const [showAddToConversation, setShowAddToConversation] = useState(false);
 
   const handleAcceptChat = () => {
       setShowAcceptChat(true);
@@ -35,6 +37,10 @@ const MainHeader = props => {
 
   const handleChatDetail = () => {
     setShowChatDetail(true);
+  }
+
+  const handleAddToConversation = () => {
+    setShowAddToConversation(true);
   }
 
   return (
@@ -75,6 +81,7 @@ const MainHeader = props => {
               }}
             />
             <IconButton onClick={handleRecomendarUsuario} className="chat-header-button"><PersonAddIcon style={{ fontSize: 35 }} /></IconButton>
+            <IconButton onClick={handleAddToConversation} className="chat-header-button"><PersonAddIcon style={{ fontSize: 35 }} /></IconButton>
             <IconButton onClick={handleAcceptChat} className="chat-header-button"><MoreVertIcon style={{ fontSize: 40 }} /></IconButton>
           </Grid>              
         </Grid>
@@ -95,6 +102,10 @@ const MainHeader = props => {
           onClose={()=> { setShowChatDetail(false) }}
         />
       }   
+      <ModalAddToConversation 
+        open={showAddToConversation}
+        handleClose={() => { setShowAddToConversation (false); }}
+      />
     </Grid>
   );
 
