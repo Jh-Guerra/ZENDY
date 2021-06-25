@@ -130,7 +130,7 @@ const ModalNewCompanyChat = (props) => {
               </Paper>
             </Grid>
             <Grid>
-              <Typography>todos los usuarios</Typography>
+              <Typography>Todos los usuarios</Typography>
               <Checkbox
                 onChange={selectAllUser}
                 checkedIcon={<RadioButtonCheckedIcon style={{ color: '#4F1B66' }} />}
