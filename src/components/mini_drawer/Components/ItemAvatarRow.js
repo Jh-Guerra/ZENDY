@@ -33,7 +33,11 @@ import ItemAvatar from "./ItemAvatar";
               <div style={{width:"80%"}}>
                   <div className="chat-mini-details">
                     <span style={{fontSize:"18px"}}>{this.props.name}</span>
-                    <span className="chat-mini-time">{this.props.hour}</span>
+                    {
+                      (this.props.hour) 
+                        && 
+                      <span className="chat-mini-time">{this.props.hour}</span>
+                    }
                   </div>                
                   <p style={{fontSize:"14px", color:"gray"}}>
                     {this.props.message}

@@ -9,6 +9,7 @@ import PropTypes from 'prop-types';
 import { CurrentChatIcon, PendingChatIcon, CompaniesIcon, ErrorsIcon, MoreIcon } from "assets/styles/svg-icons";
 import CurrentChat from './Childrens/CurrentChat';
 import ModalMoreActions from 'components/Modals/ModalMoreActions';
+import EnterpriseChat from './Childrens/EnterpriseChat';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -124,10 +125,10 @@ const MiniDrawer = (props) => {
               <CurrentChat />
             </TabPanel>
             <TabPanel value={tab} index={1} >
-                Item two
+              Item Two
             </TabPanel>
             <TabPanel value={tab} index={2} >
-              Item Three
+              <EnterpriseChat />
             </TabPanel>
           </div> 
         </Grid>
