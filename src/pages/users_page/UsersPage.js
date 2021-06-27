@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Grid, Typography } from "@material-ui/core";
+import { Grid, Typography, Box } from "@material-ui/core";
 import CustomTable from 'components/CustomTable';
 import { deleteUser, findUser, listUsers } from 'services/actions/UserAction';
 import CustomButton from 'components/CustomButtom';
@@ -9,6 +9,7 @@ import ModalUser from 'components/Modals/ModalUser';
 import moment from 'moment';
 import { getUserTypeName } from 'utils/common';
 import ModalDelete from 'components/Modals/ModalDelete';
+import PersonIcon from '@material-ui/icons/Person';
 
 const columns = [
   { type: 'text', field: 'name', label: 'Nombre', minWidth: 250, format: (row) => `${row.firstName} ${row.lastName}` },
@@ -94,17 +95,23 @@ class UsersPage extends Component {
     const { showModalUser, showModalDelete, user, users, loading } = this.state;
 
     return (
-      <Grid container spacing={3} style={{height:'100%', justifyContent:'center'}}>
-        <Grid item xs={11} style={{height:'10%', minHeight: '110px'}}>
+      <Grid container spacing={3} style={{height:'100%' , padding:'25px' }}>
+        <Grid item xs={9}  container 
+        direction="column"
+        justify="center"
+        alignItems="center" >
+          <Grid item xs={6}  style={{boxShadow: '0px 8px 8px -6px black' , padding:'10px 10px 0px 10px' }}>
           <Typography variant="h4" component="h4" gutterBottom>
-            Usuarios
+              <PersonIcon fontSize="large"/> Usuarios
           </Typography>
+          </Grid>
         </Grid> 
-        <Grid item xs={11} style={{height:'90%'}}>
+        <Grid item xs={9}  style={{height:'90%'}}>
           <Grid container spacing={1}>
             <Grid item xs={12}>
               <p style={{textAlign:'end'}}>
                 <CustomButton
+                style={{boxShadow: '0px 10px 10px -6px black' } }
                   variant="contained"
                   startIcon={<AddCircleIcon />}
                   customColor={successButtonColor}

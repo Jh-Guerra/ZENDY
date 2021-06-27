@@ -95,9 +95,9 @@ class ZendyAppShell extends Component {
               />
             )
           }
-          <CustomBackdrop 
+          {/* <CustomBackdrop 
             open={backdrop || false} 
-          />
+          /> */}
         </div>
       </StylesProvider>
     )
