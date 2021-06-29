@@ -18,7 +18,7 @@ const MainHeader = props => {
 
   const [open, setOpen] = useState(false);
   const [openUser, setOpenUser] = useState(false)
-  const [openGroupChat, setOpenGroupChat] = useState(true)
+  const [openGroupChat, setOpenGroupChat] = useState(false)
 
   const handleClickOpen = () => {
       setOpen(true);

@@ -10,15 +10,16 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
-import IconButton from "@material-ui/core/IconButton";
+import IconButton from '@material-ui/core/IconButton';
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
+import ModalHeader from './common/ModalHeader';
 
 const useStyles = makeStyles(theme => ({
   large: {
     width: theme.spacing(12),
     height: theme.spacing(14),
-    borderColor: 'blue'
+    borderColor: 'blue',
   },
   detailsBox: {
     display: 'flex',
@@ -32,81 +33,10 @@ const ModalGroupChatDetail = props => {
 
   return (
     <Modal open={open} handleClose={handleClose} size="xs">
+      <ModalHeader icon={<PeopleAltIcon />} text="4 participantes" />
       <ModalBody>
-        <Grid container spacing={3} direction="column" >        
-          <Box display="flex" justifyContent="center"> 
-            <PeopleAltIcon className={classes.large}/> 
-          </Box>
-          <Box height="15px" />
-            <Divider variant="middle" />
-          <Box height="15px" />
-          <Grid container spacing={3}>
-            <Grid item xs={12}>
-              <Box display="flex" justifyContent="center"> 
-                <Typography>4 participantes</Typography>
-              </Box>
-              <Box height="15px" />
-              <Grid item md={12}>
-                <List>
-                  <ListItem>
-                    <ListItemAvatar>
-                      <Avatar alt="" src="" />
-                    </ListItemAvatar>
-                      <ListItemText primary="Homero Simpson"/>                                              
-                  </ListItem>
-                <Divider variant="inset" />
-                </List>
-                <List>
-                  <ListItem>
-                    <ListItemAvatar>
-                      <Avatar alt="" src="" />
-                    </ListItemAvatar>
-                      <ListItemText primary="Homero Simpson"/>
-                        <ListItemSecondaryAction> 
-                          <Button variant="contained" color="primary" >Quitar</Button>  
-                        </ListItemSecondaryAction>  
-                  </ListItem>
-                <Divider variant="inset" />
-                </List>
-                <List>
-                  <ListItem>
-                    <ListItemAvatar>
-                      <Avatar alt="" src="" />
-                    </ListItemAvatar>
-                      <ListItemText primary="Homero Simpson" secondary="Nombre ERP"/>
-                        <ListItemSecondaryAction> 
-                          <Button variant="contained" color="primary" >Quitar</Button>
-                        </ListItemSecondaryAction>  
-                  </ListItem>
-                <Divider variant="inset" />
-                </List>
-                <List>
-                  <ListItem>
-                    <ListItemAvatar>
-                      <Avatar alt="" src="" />
-                    </ListItemAvatar>
-                      <ListItemText primary="Homero Simpson" secondary="Nombre Empresa"/>
-                        <ListItemSecondaryAction>
-                          <Button variant="contained" color="primary" >Quitar</Button> 
-                        </ListItemSecondaryAction>  
-                  </ListItem>
-                <Divider variant="inset" />
-                </List>
-                <List>
-                  <ListItem>             
-                    <IconButton onClick={{}}>
-                      <AddCircleOutlineIcon />
-                    </IconButton>                    
-                      <ListItemText primary="Agregar más personas"/>    
-                  </ListItem>
-                <Divider variant="inset" />
-                </List>
-              </Grid>
-            </Grid>
-          </Grid>
-          <Box height="15px" />
-            
-          <Grid container item direction="column" alignItems="center" justify="center" spacing={1}>   
+        <Grid container spacing={3} direction="column">
+          <Grid container item xs={12} direction="column" alignItems="center" justify="center" spacing={3}>
             <Grid container item direction="row" justify="space-between" alignItems="flex-start" width="100%">
               <Box className={classes.detailsBox}>
                 <TimerIcon style={{ margin: '0px 5px' }} /> Tiempo de Vida del Chat{' '}
@@ -119,6 +49,74 @@ const ModalGroupChatDetail = props => {
                 <EventBusyIcon style={{ margin: '0px 5px' }} /> Fecha de finalización{' '}
               </Box>
               <Box>21/06/2021</Box>
+            </Grid>
+          </Grid>
+
+          <Grid container spacing={3}>
+            <Grid item xs={12}>
+              <Box height="15px" />
+              <Grid item md={12}>
+                <List>
+                  <ListItem>
+                    <ListItemAvatar>
+                      <Avatar alt="" src="" />
+                    </ListItemAvatar>
+                    <ListItemText primary="Homero Simpson" />
+                  </ListItem>
+                  <Divider variant="inset" />
+                </List>
+                <List>
+                  <ListItem>
+                    <ListItemAvatar>
+                      <Avatar alt="" src="" />
+                    </ListItemAvatar>
+                    <ListItemText primary="Homero Simpson" />
+                    <ListItemSecondaryAction>
+                      <Button variant="contained" color="primary">
+                        Quitar
+                      </Button>
+                    </ListItemSecondaryAction>
+                  </ListItem>
+                  <Divider variant="inset" />
+                </List>
+                <List>
+                  <ListItem>
+                    <ListItemAvatar>
+                      <Avatar alt="" src="" />
+                    </ListItemAvatar>
+                    <ListItemText primary="Homero Simpson" secondary="Nombre ERP" />
+                    <ListItemSecondaryAction>
+                      <Button variant="contained" color="primary">
+                        Quitar
+                      </Button>
+                    </ListItemSecondaryAction>
+                  </ListItem>
+                  <Divider variant="inset" />
+                </List>
+                <List>
+                  <ListItem>
+                    <ListItemAvatar>
+                      <Avatar alt="" src="" />
+                    </ListItemAvatar>
+                    <ListItemText primary="Homero Simpson" secondary="Nombre Empresa" />
+                    <ListItemSecondaryAction>
+                      <Button variant="contained" color="primary">
+                        Quitar
+                      </Button>
+                    </ListItemSecondaryAction>
+                  </ListItem>
+                  <Divider variant="inset" />
+                </List>
+                <List>
+                  <ListItem>
+                    <IconButton onClick={{}}>
+                      <AddCircleOutlineIcon />
+                    </IconButton>
+                    <ListItemText primary="Agregar más personas" />
+                  </ListItem>
+                  <Divider variant="inset" />
+                </List>
+              </Grid>
             </Grid>
           </Grid>
         </Grid>
