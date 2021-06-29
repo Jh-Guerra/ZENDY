@@ -9,6 +9,7 @@ import PersonIcon from '@material-ui/icons/Person';
 import AddCommentIcon from '@material-ui/icons/AddComment';
 import { successButtonColor } from 'assets/styles/zendy-css';
 import CustomButton from "components/CustomButtom";
+import ModalNewCustomerChat from "components/Modals/ModalNewCustomerChat";
 
 const useStyles = makeStyles(theme => ({
     button: {
@@ -20,8 +21,15 @@ const ModalNewChat = (props) => {
     
     const classes = useStyles();
     const { open, handleClose } = props;
+
+    const [openNewCustomerChat, setOpenNewCustomerChat] = React.useState(false);
+
+    const handleNewCustomerChatOpen = () => {
+        setOpenNewCustomerChat(true);
+    }
      
     return (
+        <>
         <Modal 
             open={open} 
             handleClose={handleClose} 
@@ -41,6 +49,7 @@ const ModalNewChat = (props) => {
                             className={classes.button}
                             startIcon={<SupervisedUserCircleIcon />}
                             customColor={successButtonColor}
+                            onClick={handleNewCustomerChatOpen}
                         >
                             Chat Cliente
                         </CustomButton>
@@ -70,6 +79,11 @@ const ModalNewChat = (props) => {
                 </Grid>
             </ModalBody>
         </Modal>
+        <ModalNewCustomerChat 
+            open={openNewCustomerChat}
+            handleClose={() => { setOpenNewCustomerChat(false); }}
+        />
+        </>
     )
 }
 
