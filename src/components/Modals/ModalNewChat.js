@@ -10,6 +10,7 @@ import AddCommentIcon from '@material-ui/icons/AddComment';
 import { successButtonColor } from 'assets/styles/zendy-css';
 import CustomButton from "components/CustomButtom";
 import ModalNewInternalChat from "components/Modals/ModalNewInternalChat";
+import ModalNewCompanyChat from './ModalNewCompanyChat';
 
 const useStyles = makeStyles(theme => ({
     button: {
@@ -21,36 +22,65 @@ const ModalNewChat = (props) => {
 
     const classes = useStyles();
     const { open, handleClose } = props;
-    const [showNewInternalChat, setShowNewInternalChat] = useState(false)
+    const [showNewInternalChat, setShowNewInternalChat] = useState(false);
+    const [showNewCompanyChat, setShowNewCompanyChat] = React.useState(false);
   
     const handleNewTerminalChat = () => {
         setShowNewInternalChat(true);
     }
     
+    const handleNewCompanyChat = () => {
+        setShowNewCompanyChat(true);
+    }
      
     return (
-        <Modal 
-            open={open} 
-            handleClose={handleClose} 
-            size="xs" 
-        >
-            <ModalHeader 
-                icon={<AddCommentIcon />}
-                text="Nuevo Chat"
-            />
+        <>
+            <Modal 
+                open={open} 
+                handleClose={handleClose} 
+                size="xs" 
+            >
+                <ModalHeader 
+                    icon={<AddCommentIcon />}
+                    text="Nuevo Chat"
+                />
 
-            <ModalBody>
-                <Grid container spacing={1}>
-                    <Grid item xs={12}>
-                        <CustomButton 
-                            variant="contained"
-                            fullWidth
-                            className={classes.button}
-                            startIcon={<SupervisedUserCircleIcon />}
-                            customColor={successButtonColor}
-                        >
-                            Chat Cliente
-                        </CustomButton>
+                <ModalBody>
+                    <Grid container spacing={1}>
+                        <Grid item xs={12}>
+                            <CustomButton 
+                                variant="contained"
+                                fullWidth
+                                className={classes.button}
+                                startIcon={<SupervisedUserCircleIcon />}
+                                customColor={successButtonColor}
+                            >
+                                Chat Cliente
+                            </CustomButton>
+                        </Grid>
+                        <Grid item xs={12}>
+                            <CustomButton 
+                                variant="contained"
+                                fullWidth
+                                className={classes.button}
+                                startIcon={<BusinessIcon />}
+                                customColor={successButtonColor}
+                                onClick={handleNewCompanyChat}
+                            >
+                                Chat por Empresa
+                            </CustomButton>
+                        </Grid>
+                        <Grid item xs={12}>
+                            <CustomButton 
+                                variant="contained"
+                                fullWidth
+                                className={classes.button}
+                                startIcon={<PersonIcon />}
+                                customColor={successButtonColor}
+                            >
+                                Chat Interno
+                            </CustomButton>
+                        </Grid>
                     </Grid>
                     <Grid item xs={12}>
                         <CustomButton 
@@ -75,13 +105,17 @@ const ModalNewChat = (props) => {
                             Chat Interno
                         </CustomButton>
                     </Grid>
-                    <ModalNewInternalChat
-                        open={showNewInternalChat}
-                        handleClose={() => { setShowNewInternalChat(false); }}
-                    />
-                </Grid>
             </ModalBody>
         </Modal>
+        <ModalNewInternalChat
+            open={showNewInternalChat}
+            handleClose={() => { setShowNewInternalChat(false); }}
+        />
+        <ModalNewCompanyChat
+            open={showNewCompanyChat} 
+            handleClose={() => { setShowNewCompanyChat(false) }}
+        />
+        </>
     )
 }
 
