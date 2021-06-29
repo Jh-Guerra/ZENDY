@@ -77,33 +77,11 @@ const ModalNewChat = (props) => {
                                 className={classes.button}
                                 startIcon={<PersonIcon />}
                                 customColor={successButtonColor}
+                                onClick={handleNewTerminalChat}
                             >
                                 Chat Interno
                             </CustomButton>
                         </Grid>
-                    </Grid>
-                    <Grid item xs={12}>
-                        <CustomButton 
-                            variant="contained"
-                            fullWidth
-                            className={classes.button}
-                            startIcon={<BusinessIcon />}
-                            customColor={successButtonColor}
-                        >
-                            Chat por Empresa
-                        </CustomButton>
-                    </Grid>
-                    <Grid item xs={12}>
-                        <CustomButton 
-                            variant="contained"
-                            fullWidth
-                            className={classes.button}
-                            startIcon={<PersonIcon />}
-                            customColor={successButtonColor}
-                            onClick={handleNewTerminalChat}
-                        >
-                            Chat Interno
-                        </CustomButton>
                     </Grid>
             </ModalBody>
         </Modal>
