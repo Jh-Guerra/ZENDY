@@ -11,6 +11,7 @@ import { successButtonColor } from 'assets/styles/zendy-css';
 import CustomButton from "components/CustomButtom";
 import ModalNewInternalChat from "components/Modals/ModalNewInternalChat";
 import ModalNewCompanyChat from './ModalNewCompanyChat';
+import ModalNewCustomerChat from "components/Modals/ModalNewCustomerChat";
 
 const useStyles = makeStyles(theme => ({
     button: {
@@ -24,6 +25,7 @@ const ModalNewChat = (props) => {
     const { open, handleClose } = props;
     const [showNewInternalChat, setShowNewInternalChat] = useState(false);
     const [showNewCompanyChat, setShowNewCompanyChat] = React.useState(false);
+    const [openNewCustomerChat, setOpenNewCustomerChat] = React.useState(false);
   
     const handleNewTerminalChat = () => {
         setShowNewInternalChat(true);
@@ -31,6 +33,10 @@ const ModalNewChat = (props) => {
     
     const handleNewCompanyChat = () => {
         setShowNewCompanyChat(true);
+    }
+
+    const handleNewCustomerChatOpen = () => {
+        setOpenNewCustomerChat(true);
     }
      
     return (
@@ -54,6 +60,7 @@ const ModalNewChat = (props) => {
                                 className={classes.button}
                                 startIcon={<SupervisedUserCircleIcon />}
                                 customColor={successButtonColor}
+                                onClick={handleNewCustomerChatOpen}
                             >
                                 Chat Cliente
                             </CustomButton>
@@ -83,16 +90,20 @@ const ModalNewChat = (props) => {
                             </CustomButton>
                         </Grid>
                     </Grid>
-            </ModalBody>
-        </Modal>
-        <ModalNewInternalChat
-            open={showNewInternalChat}
-            handleClose={() => { setShowNewInternalChat(false); }}
-        />
-        <ModalNewCompanyChat
-            open={showNewCompanyChat} 
-            handleClose={() => { setShowNewCompanyChat(false) }}
-        />
+                </ModalBody>
+            </Modal>
+            <ModalNewInternalChat
+                open={showNewInternalChat}
+                handleClose={() => { setShowNewInternalChat(false); }}
+            />
+            <ModalNewCompanyChat
+                open={showNewCompanyChat} 
+                handleClose={() => { setShowNewCompanyChat(false) }}
+            /> 
+            <ModalNewCustomerChat 
+                open={openNewCustomerChat}
+                handleClose={() => { setOpenNewCustomerChat(false); }}
+            />
         </>
     )
 }
