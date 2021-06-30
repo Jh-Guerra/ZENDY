@@ -3,6 +3,7 @@ import ItemAvatarRow from "../Components/ItemAvatarRow";
 import { withStyles } from "@material-ui/core/styles";
 import { Input, InputAdornment } from "@material-ui/core";
 import SearchIcon from '@material-ui/icons/Search';
+import ItemAvatarNotifyRow from "../Components/ItemAvatarNotifyRow";
 
 const styles = theme => ({
   search: {
@@ -71,17 +72,19 @@ class ChatListBar extends Component {
   }
   render() {
     const { classes } = this.props;
+
     return (  
       <div className="mini-drawer-chatlist">  
       <br />
           <div className="chatlist__heading">
             <span className="divider-line"></span>
               <p className="divider-content">
-                  Chats Vigentes
+                  {this.props.txt}
               </p>
             <span className="divider-line"></span>
           </div>  
-        <br />   
+        <br />  
+        {this.props.itemxx}
         <div className={`chatList__search ${classes.search}`}>
           {/* <div> */}
             <SearchIcon />
@@ -91,16 +94,15 @@ class ChatListBar extends Component {
               placeholder="Buscar..."
               startAdornment= {
                 <InputAdornment position="start">
-                  <SearchIcon />
+            <SearchIcon />
                 </InputAdornment>
               }
               disableUnderline={true}
-            />
+            />  
         </div>
         <div className="chat-list-items">
           {this.state.allChats.map((item, index) => {
             return (
-
               <div key={index}>
                 <ItemAvatarRow
                   image={item.image}

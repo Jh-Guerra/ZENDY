@@ -1,26 +1,18 @@
 import React, { Component } from "react";
 import ChatListBar from "./ChatListBar";
 import NewChatCall from "./NewChatCall";
+import CheckHistory from "../Components/CheckHistory";
+ 
+ 
 
-class CurrentChat extends Component {
-
-    constructor(props) {
-        super(props);
-        this.state = {
-        };
-    }
-
-    componentDidMount() {
-
-    }
-
+class HistoryChat extends Component {
     render() {
         return (
             <div className="mini-drawer-current-chat">
                 <NewChatCall />
-                <ChatListBar  txt='Chats Vigentes'/>
+                <ChatListBar txt='Historial De Chats' itemxx={<CheckHistory/>}/>
             </div>
         )
     }
 }
-export default CurrentChat
+export default HistoryChat 
