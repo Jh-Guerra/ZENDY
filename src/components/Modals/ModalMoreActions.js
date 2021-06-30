@@ -20,7 +20,7 @@ const useStyles = makeStyles(theme => ({
 const ModalMoreActions = (props) => {
     
     const classes = useStyles();
-    const { open, handleClose } = props;
+    const { open, handleClose, handleChangeTab } = props;
      
     return (
         <Modal 
@@ -42,6 +42,10 @@ const ModalMoreActions = (props) => {
                             className={classes.button}
                             startIcon={<SpeakerNotesIcon />}
                             customColor={successButtonColor}
+                            onClick={() => {
+                                handleClose();
+                                handleChangeTab(null, 5);
+                            }}
                         >
                             Chats - Historial
                         </CustomButton>
@@ -53,6 +57,10 @@ const ModalMoreActions = (props) => {
                             className={classes.button}
                             startIcon={<SmsFailedIcon />}
                             customColor={successButtonColor}
+                            onClick={() => {
+                                handleClose();
+                                handleChangeTab(null, 6);
+                            }}
                         >
                             Notificaciones
                         </CustomButton>

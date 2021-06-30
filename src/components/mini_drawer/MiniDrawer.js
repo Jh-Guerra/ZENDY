@@ -131,6 +131,12 @@ const MiniDrawer = (props) => {
               Item Three
               {/* <NotifyChat/> */}
             </TabPanel>
+            <TabPanel value={tab} index={5} >
+              <HistoryChat/>
+            </TabPanel>
+            <TabPanel value={tab} index={6} >
+              <NotifyChat/>
+            </TabPanel>
           </div> 
         </Grid>
       </Drawer>
@@ -138,6 +144,7 @@ const MiniDrawer = (props) => {
         open={showModalMoreActions}
         handleClose={() => { setShowModalMoreActions(false) }}
         goToView={goToView}
+        handleChangeTab={handleChangeTab}
       />
 
     </div>
