@@ -12,6 +12,8 @@ import ModalMoreActions from 'components/Modals/ModalMoreActions';
 import HistoryChat from 'components/mini_drawer/Childrens/HistoryChat';
 import NotifyChat from './Childrens/NotifyChat';
 import ReportList from './Childrens/ReportList';
+import EnterpriseChat from './Childrens/EnterpriseChat';
+
 const useStyles = makeStyles((theme) => ({
   root: {
     width: 380,
@@ -126,11 +128,10 @@ const MiniDrawer = (props) => {
               <CurrentChat />
             </TabPanel>
             <TabPanel value={tab} index={1} >
-                Item two
+              Item Two
             </TabPanel>
             <TabPanel value={tab} index={2} >
-              Item Three
-              {/* <NotifyChat/> */}
+              <EnterpriseChat />
             </TabPanel>
             <TabPanel value={tab} index={5} >
               <HistoryChat/>
