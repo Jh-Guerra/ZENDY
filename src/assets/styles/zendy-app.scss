@@ -7,7 +7,7 @@ $letterMinSize: 16px;
 $pColor: #303e7a;
 $sColor: #F39651;
 
-$pColorL: #4F1B66;
+$pColorL: #6a97a1;
 $pColorD: #1E0A27;
 
 $sColorL: #E68B6A;
@@ -465,8 +465,12 @@ top: .1em;
 }
   
 
-.mini-drawer-content, .mini-drawer-chatlist, .mini-drawer-buttons, .mini-drawer-sections, .blank-container {
+.mini-drawer-content, .mini-drawer-chatlist, .mini-drawer-buttons, .mini-drawer-sections {
     background-color: $pColor;
+}
+
+.blank-container {
+    background-color: $pColorL;
 }
 
 // color button cerrar sección

@@ -180,20 +180,24 @@ const ModalUser = (props) => {
                                             disabled={!editMode}
                                         />
                                     </Grid>
-                                    <Grid item xs={12}>
-                                        <CustomInput
-                                            id="password"
-                                            inputType="inputText"
-                                            label="Contraseña"
-                                            type="password"
-                                            onChange={handleChange}
-                                            value={values.password}
-                                            error={ errors.password && touched.password ? true : false }
-                                            helperText={ errors.password && touched.password && errors.password }
-                                            icon={<LockIcon />}
-                                            disabled={!editMode}
-                                        />
-                                    </Grid>
+                                    {
+                                        !data.id && editMode && (
+                                            <Grid item xs={12}>
+                                                <CustomInput
+                                                    id="password"
+                                                    inputType="inputText"
+                                                    label="Contraseña"
+                                                    type="password"
+                                                    onChange={handleChange}
+                                                    value={values.password}
+                                                    error={ errors.password && touched.password ? true : false }
+                                                    helperText={ errors.password && touched.password && errors.password }
+                                                    icon={<LockIcon />}
+                                                    disabled={!editMode}
+                                                />
+                                            </Grid>
+                                        )
+                                    }
                                     <Grid item xs={12} md={6}>
                                         <CustomInput
                                             id="dob"
