@@ -3,7 +3,7 @@ import React, { Component, createRef } from "react";
 import InsertDriveFileIcon from '@material-ui/icons/InsertDriveFile';
 import { Input, InputAdornment } from "@material-ui/core";
 
- class ReportSection extends Component {
+ class ReportItem extends Component {
   messagesEndRef = createRef(null);
 
 
@@ -41,4 +41,4 @@ import { Input, InputAdornment } from "@material-ui/core";
     );
   }
 }
-export default ReportSection
+export default ReportItem

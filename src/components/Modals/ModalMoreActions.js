@@ -73,6 +73,10 @@ const ModalMoreActions = (props) => {
                             className={classes.button}
                             startIcon={<AssessmentIcon />}
                             customColor={successButtonColor}
+                            onClick={() => {
+                                handleClose();
+                                handleChangeTab(null, 7);
+                            }}
                         >
                             Reportes
                         </CustomButton>

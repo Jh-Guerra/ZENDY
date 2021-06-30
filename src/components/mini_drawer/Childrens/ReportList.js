@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import ReportSection from "../Components/ReportSection";
+import ReportItem from "../Components/ReportItem";
 import { withStyles } from "@material-ui/core/styles";
 
 const styles = theme => ({
@@ -53,7 +53,7 @@ class ReportList extends Component {
           {this.state.allChats.map((item, index) => {
             return (
               <div key={index}>
-                <ReportSection               
+                <ReportItem               
                   name={item.name}                 
                 />
               </div>
