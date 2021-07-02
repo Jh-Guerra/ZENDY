@@ -1,22 +1,20 @@
 import React, { Component } from 'react';
 import { Grid, Typography } from "@material-ui/core";
 import CustomTable from 'components/CustomTable';
-import { deleteUser, findUser, listUsers } from 'services/actions/UserAction';
+import { deleteCompany, findCompany, listCompanies } from 'services/actions/CompanyAction';
 import CustomButton from 'components/CustomButtom';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import { successButtonColor } from 'assets/styles/zendy-css';
-import ModalUser from 'components/Modals/ModalUser';
-import moment from 'moment';
-import { getUserTypeName } from 'utils/common';
+import ModalCompany from 'components/Modals/ModalCompany';
 import ModalDelete from 'components/Modals/ModalDelete';
 
 const columns = [
-  { type: 'text', field: 'name', label: 'Nombre', minWidth: 250, format: (row) => `${row.firstName} ${row.lastName}` },
-  { type: 'text', field: 'company', label: 'Empresa', minWidth: 170 },
-  { type: 'text', field: 'type', label: 'Tipo', minWidth: 200, format: (row) => getUserTypeName(row.type) },
-  { type: 'text', field: 'email', label: 'Correo', minWidth: 200 },
-  { type: 'text', field: 'phone', label: 'N° Celular', minWidth: 150 },
-  { type: 'text', field: 'dob', label: 'Fecha de Nacimiento', minWidth: 170, align: 'center', format: (row) => moment(row.dob || "").format("DD/MM/YYYY") },
+  { type: 'text', field: 'name', label: 'Nombre', minWidth: 250 },
+  { type: 'text', field: 'address', label: 'Dirección', minWidth: 250 },
+  { type: 'text', field: 'adminName', label: 'Administrador', minWidth: 250 },
+  { type: 'text', field: 'email', label: 'Correo', minWidth: 250 },
+  { type: 'text', field: 'phone', label: 'N° Celular', minWidth: 170 },
+  { type: 'text', field: 'currentBytes', label: 'Mbs Máximos', minWidth: 170, format: (row) => `${row.currentBytes} / ${row.maxBytes} Mbs` },
 ];
 
 class CompaniesPage extends Component {
@@ -24,66 +22,66 @@ class CompaniesPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      showModalUser: false,
+      showModalCompany: false,
       showModalDelete: false,
-      user: {},
-      users: [],
+      company: {},
+      companies: [],
       loading: false
     };
   }
 
   async componentDidMount(){
     this.props.showBackdrop(true);
-    this.listUsers();
+    this.onListCompanies();
   }
 
   componentWillUnmount() {
     
   }
 
-  openModalUser = () => {
+  openModalCompany = () => {
     this.setState({
-      user: {},
-      showModalUser: true 
+      company: {},
+      showModalCompany: true 
     })
   }
 
-  onConfirmUser = () => {
-    this.setState({showModalUser: false });
-    this.listUsers();
+  onConfirmCompany = () => {
+    this.setState({showModalCompany: false });
+    this.onListCompanies();
   }
 
-  listUsers = () => {
+  onListCompanies = () => {
     this.props.showBackdrop(true);
     this.setState({loading: true});
-    this.props.dispatch(listUsers()).then(res => {
-      this.setState({users: res || []});
+    this.props.dispatch(listCompanies()).then(res => {
+      this.setState({companies: res || []});
       this.setState({loading: false});
       this.props.showBackdrop(false);
     });
   }
 
   showDetails = (row) => {
-    this.props.dispatch(findUser(row && row.id)).then(res => {
+    this.props.dispatch(findCompany(row && row.id)).then(res => {
       this.setState({
-        user: res || {},
-        showModalUser: true
+        company: res || {},
+        showModalCompany: true
       });
     });
   }
 
   onDelete = () => {
-    const { user } = this.state;
+    const { company } = this.state;
     this.props.showBackdrop(true);
-    this.props.dispatch(deleteUser(user && user.id)).then(res => {
+    this.props.dispatch(deleteCompany(company && company.id)).then(res => {
       this.setState({
-        user: {},
+        company: {},
         showModalDelete: false,
-        showModalUser: false,
+        showModalCompany: false,
       });
       this.props.showSnackbar("warning", res && res.success || "");
       this.props.showBackdrop(false);
-      this.listUsers();
+      this.onListCompanies();
     }).catch(error => {
       this.props.showBackdrop(false);
       console.error('error', error);
@@ -91,7 +89,7 @@ class CompaniesPage extends Component {
   }
  
   render() {
-    const { showModalUser, showModalDelete, user, users, loading } = this.state;
+    const { showModalCompany, showModalDelete, company, companies, loading } = this.state;
 
     return (
       <Grid container spacing={3} style={{height:'100%', justifyContent:'center'}}>
@@ -108,33 +106,33 @@ class CompaniesPage extends Component {
                   variant="contained"
                   startIcon={<AddCircleIcon />}
                   customColor={successButtonColor}
-                  onClick={this.openModalUser}
+                  onClick={this.openModalCompany}
                 >
-                  Agregar Usuario
+                  Agregar Empresa
                 </CustomButton>
               </p>
             </Grid>
             <Grid item xs={12}>
               <CustomTable 
                 columns={columns}
-                rows={users}
+                rows={companies}
                 onRowClick={this.showDetails}
                 loading={loading}
               />
             </Grid>
           </Grid>
         </Grid>
-        <ModalUser
+        <ModalCompany
           {...this.props}
-          open={showModalUser}
-          onConfirmCallBack={() => { this.onConfirmUser() }}
+          open={showModalCompany}
+          onConfirmCallBack={() => { this.onConfirmCompany() }}
           openModalDelete={ () => { this.setState({showModalDelete: true }) } }
-          handleClose={() => { this.setState({showModalUser: false }) }}
-          user={user}
+          handleClose={() => { this.setState({showModalCompany: false }) }}
+          company={company}
         />
         <ModalDelete
           open={showModalDelete}
-          title="Eliminar Usuario"
+          title="Eliminar empresa"
           handleClose={() => { this.setState({showModalDelete: false }) }}
           onDelete={this.onDelete}
         />

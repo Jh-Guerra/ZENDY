@@ -34,7 +34,7 @@ class UsersPage extends Component {
 
   async componentDidMount(){
     this.props.showBackdrop(true);
-    this.listUsers();
+    this.onListUsers();
   }
 
   componentWillUnmount() {
@@ -50,10 +50,10 @@ class UsersPage extends Component {
 
   onConfirmUser = () => {
     this.setState({showModalUser: false });
-    this.listUsers();
+    this.onListUsers();
   }
 
-  listUsers = () => {
+  onListUsers = () => {
     this.props.showBackdrop(true);
     this.setState({loading: true});
     this.props.dispatch(listUsers()).then(res => {
@@ -83,7 +83,7 @@ class UsersPage extends Component {
       });
       this.props.showSnackbar("warning", res && res.success || "");
       this.props.showBackdrop(false);
-      this.listUsers();
+      this.onListUsers();
     }).catch(error => {
       this.props.showBackdrop(false);
       console.error('error', error);
