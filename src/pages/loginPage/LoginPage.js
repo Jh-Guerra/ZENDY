@@ -152,7 +152,37 @@ const LoginPage = props => {
 
   }
 
-  const handleLogin = async (e) => {
+  React.useEffect(() => {
+    const listener = event => {
+      if (event.code === "Enter" || event.code === "NumpadEnter") {
+        if(handleValidation()){
+       
+          props.dispatch(loginUser(body)).then(
+           (res) => {
+             console.log("res", res)
+             props.history.push("/inicio");
+           },
+           (error) => {
+             const resMessage =
+               (error.response &&
+                 error.response.data &&
+                 error.response.data.message) ||
+               error.message ||
+               error.toString();
+      
+             setMessage(resMessage);
+           }
+         ); 
+        }
+      }
+    };
+    document.addEventListener("keydown", listener);
+    return () => {
+      document.removeEventListener("keydown", listener);
+    };
+  }, [body]);
+
+  async function handleLogin(e) {
     e.preventDefault();
 
     if(handleValidation()){
@@ -171,11 +201,10 @@ const LoginPage = props => {
            error.toString();
   
          setMessage(resMessage);
-         alert(error.response.data.error)
+         //alert(error.response.data.error)
        }
      ); 
     }else{
-       //alert("Form has errors.")
     }
   };
 
