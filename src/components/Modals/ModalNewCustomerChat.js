@@ -1,4 +1,4 @@
-import { Checkbox, Divider, Grid, Typography } from '@material-ui/core';
+import { Checkbox, Divider, Grid, Typography, FormControl, InputLabel, Input, InputAdornment} from '@material-ui/core';
 import React from 'react';
 import ModalBody from './common/ModalBody';
 import ModalHeader from './common/ModalHeader';
@@ -17,9 +17,53 @@ import InputBase from '@material-ui/core/InputBase';
 import IconButton from '@material-ui/core/IconButton';
 import ModalFooter from './common/ModalFooter';
 import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
+import { pColor } from 'assets/styles/zendy-css';
+import { listUsers } from 'services/actions/UserAction';
+import { showBackdrop } from 'services/actions/CustomAction';
+import { createClientChat } from 'services/actions/ChatAction';
 
 const ModalNewCustomerChat = props => {
   const { open, handleClose } = props;
+
+  const [users, setUsers] = React.useState([]);
+
+  React.useEffect(() => {
+    if(open){
+      onListUsers();
+    }
+  }, [open]);
+
+  const onListUsers = (term) => {
+    // props.dispatch(showBackdrop(true));
+    props.dispatch(listUsers(term)).then(res => {
+      setUsers(res || []);
+      // props.dispatch(showBackdrop(false));
+    });
+  }
+
+  const onSearch = (term) => {
+    onListUsers(term);
+  }
+  
+  const onSelectUser = (user) => {
+    const updatedUsers = [...users] || [];
+    updatedUsers.map(u => {
+      if(u.id == user.id){
+        u.checked = u.checked ? false : true;
+      }
+    });
+
+    setUsers(updatedUsers);
+  }
+
+  const onConfirm = () => {
+    const selectedRows = users.filter(user => user.checked);
+
+    props.dispatch(createClientChat(selectedRows)).then(res => {
+      handleClose();
+    });
+
+  }
 
   return (
     <Modal open={open} handleClose={handleClose} size="sm">
@@ -27,81 +71,61 @@ const ModalNewCustomerChat = props => {
       <ModalBody>
         <Grid container spacing={3}>
           <Grid item xs={12}>
-            <Paper>
-              <IconButton>
-                <SearchIcon />
-              </IconButton>
-              <InputBase placeholder="Buscar..." />
-            </Paper>
-            <Divider />
+            <FormControl fullWidth>
+              <Input
+                id="search-input"
+                startAdornment={
+                  <InputAdornment position="start">
+                    <SearchIcon />
+                  </InputAdornment>
+                }
+                fullWidth
+                placeholder="Buscar..."
+                onChange={(event) => onSearch(event.target.value)}
+              />
+            </FormControl>
           </Grid>
           <Grid item xs={12}>
-            <List>
-              <ListItem>
-                <ListItemAvatar>
-                  <Avatar alt="" src="" />
-                </ListItemAvatar>
-                <ListItemText
-                  primary="Lisa Simpson"
-                  secondary={
-                    <React.Fragment>
-                      <Typography variant="body2">Simpson's Company</Typography>
-                    </React.Fragment>
-                  }
-                />
-                <ListItemSecondaryAction>
-                  <Checkbox
-                    icon={<RadioButtonUncheckedIcon />}
-                    checkedIcon={<RadioButtonCheckedIcon style={{ color: '#4F1B66' }} />}
-                  />
-                </ListItemSecondaryAction>
-              </ListItem>
-              <Divider variant="inset" />
-              <ListItem>
-                <ListItemAvatar>
-                  <Avatar alt="" src="" />
-                </ListItemAvatar>
-                <ListItemText
-                  primary="Marge Simpsons"
-                  secondary={
-                    <React.Fragment>
-                      <Typography variant="body2">Simpson's Company</Typography>
-                    </React.Fragment>
-                  }
-                />
-                <ListItemSecondaryAction>
-                  <Checkbox
-                    icon={<RadioButtonUncheckedIcon />}
-                    checkedIcon={<RadioButtonCheckedIcon style={{ color: '#4F1B66' }} />}
-                  />
-                </ListItemSecondaryAction>
-              </ListItem>
-              <Divider variant="inset" />
-              <ListItem>
-                <ListItemAvatar>
-                  <Avatar alt="" src="" />
-                </ListItemAvatar>
-                <ListItemText
-                  primary="Milhaus Van Houten"
-                  secondary={
-                    <React.Fragment>
-                      <Typography variant="body2">Otra empresa</Typography>
-                    </React.Fragment>
-                  }
-                />
-                <ListItemSecondaryAction>
-                  <Checkbox
-                    icon={<RadioButtonUncheckedIcon />}
-                    checkedIcon={<RadioButtonCheckedIcon style={{ color: '#4F1B66' }} />}
-                  />
-                </ListItemSecondaryAction>
-              </ListItem>
-              <Divider variant="inset" />
+            <List style={{padding: "0px", maxHeight: "550px", overflow: "auto"}}>
+              {
+                users.map((user, index) => {
+                  if(!user.checked) user.checked = false;
+                  return (
+                    <ListItem key={index}>
+                      <ListItemAvatar>
+                        <Avatar alt="" src={user.avatar || ""} />
+                      </ListItemAvatar>
+                      <ListItemText
+                        primary={`${user.firstName} ${user.lastName}`}
+                        secondary={
+                          <React.Fragment>
+                            <Typography variant="body2">{user.company && user.company.name || "Empresa sin asignar"}</Typography>
+                          </React.Fragment>
+                        }
+                      />
+                      <ListItemSecondaryAction>
+                        <Checkbox
+                          checked={user.checked || false}
+                          onChange={() => {onSelectUser(user)}}
+                          icon={<RadioButtonUncheckedIcon />}
+                          checkedIcon={<RadioButtonCheckedIcon style={{ color: pColor }} />}
+                        />
+                      </ListItemSecondaryAction>
+                      {
+                        index != users.length-1 && (
+                          <Divider />
+                        )
+                      }
+                    </ListItem>
+                  )
+                })
+              }
+
             </List>
           </Grid>
         </Grid>
       </ModalBody>
-      <ModalFooter confirmText={'Iniciar Chat'} onConfirm={{}} />
+      <ModalFooter confirmText={'Iniciar Chat'} onConfirm={onConfirm} />
     </Modal>
   );
 };

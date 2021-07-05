@@ -29,9 +29,9 @@ class UserService {
             }
     )}
 
-    async listUsers() {
+    async listUsers(term="") {
         return await axios.get(
-            config.apiVersion + `users/list`,
+            config.apiVersion + `users/list?term=${term}`,
             { 
                 headers: config.headers
             }

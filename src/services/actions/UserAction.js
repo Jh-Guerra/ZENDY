@@ -17,8 +17,8 @@ export const findUser = (id) => async dispatch => {
     return res && res.data || [];
 }
 
-export const listUsers = () => async dispatch => {
-    const res = await userService.listUsers();
+export const listUsers = (term) => async dispatch => {
+    const res = await userService.listUsers(term);
     return res && res.data || [];
 }
 

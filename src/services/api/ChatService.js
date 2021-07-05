@@ -12,6 +12,16 @@ class ChatService {
             }
     )}
 
+    async createClientChat(data) {
+        return await axios.post(
+            config.apiVersion + `chats-client/register`, 
+            data,
+            { headers: {
+                ...config.headers, 
+                Authorization: `token ${JSON.parse(localStorage.getItem('user')).token || ''}` 
+            } }
+    )}
+
     async updateChat(id, data) {
         return await axios.post(
             config.apiVersion + `chats/update/` + id, 

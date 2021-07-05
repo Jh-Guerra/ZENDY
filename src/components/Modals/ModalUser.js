@@ -16,6 +16,7 @@ import BusinessIcon from '@material-ui/icons/Business';
 import { createUser, updateUser } from 'services/actions/UserAction';
 import AssignmentIndIcon from '@material-ui/icons/AssignmentInd';
 import EditIcon from '@material-ui/icons/Edit';
+import { showBackdrop } from 'services/actions/CustomAction';
 
 const ModalUser = (props) => {
     
@@ -96,23 +97,23 @@ const ModalUser = (props) => {
     };
 
     const onSubmit = (user, { setSubmitting }) => {
-        props.showBackdrop(true);
+        props.dispatch(showBackdrop(true));
         if(user.id){
             // Editar
             props.dispatch(updateUser(user.id, user)).then(res => {
-                props.showBackdrop(false);
+                props.dispatch(showBackdrop(false));
                 props.onConfirmCallBack();
             }).catch(error => {
-                props.showBackdrop(false);
+                props.dispatch(showBackdrop(false));
                 console.error('error', error);
             });
         }else{
             // Agregar
             props.dispatch(createUser(user)).then(res => {
-                props.showBackdrop(false);
+                props.dispatch(showBackdrop(false));
                 props.onConfirmCallBack();
             }).catch(error => {
-                props.showBackdrop(false);
+                props.dispatch(showBackdrop(false));
                 console.error('error', error);
             });
         }

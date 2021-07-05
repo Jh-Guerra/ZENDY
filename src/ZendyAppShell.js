@@ -18,10 +18,7 @@ class ZendyAppShell extends Component {
     super(props);
 
     this.state = {
-      snackbar: false,
-      message: "",
-      alertType: "info",
-      backdrop: false
+
     }
   }
 
@@ -37,7 +34,7 @@ class ZendyAppShell extends Component {
     //   return;
     // }
 
-    if (user && user.accessToken) {
+    if (user && user.token) {
       this.props.dispatch(setCurrentSession(JSON.parse(localStorage.getItem('user'))));
       // this.props.dispatch(renewToken());
     }
@@ -47,30 +44,9 @@ class ZendyAppShell extends Component {
     
   }
 
-  showSnackbar = (alertType, message) => {
-
-    this.setState({
-      snackbar: true,
-      message: message || "",
-      alertType: alertType || "info"
-    })
-
-    setTimeout(() => {
-      this.setState({
-        snackbar: false
-      })
-    }, 5000)
-
-  }
-
-  showBackdrop = (open) => {
-    this.setState({
-      backdrop: open
-    });
-  }
-
   render() {
-    const { snackbar, message, alertType, backdrop } = this.state;
+    const { custom={} } = this.props;
+    const { snackbar={}, backdrop={} } = custom;
 
     return (
       <StylesProvider injectFirst>
@@ -80,15 +56,13 @@ class ZendyAppShell extends Component {
           </Helmet>
           <Routes 
             {...this.props}
-            showSnackbar={this.showSnackbar}
-            showBackdrop={this.showBackdrop}
           />
           {
-            snackbar && (
+            snackbar.show && (
               <CustomSnackbar
-                open={snackbar || false}
-                message={message || ""}
-                alertType={alertType || "info"}
+                open={snackbar.show || false}
+                message={snackbar.message || ""}
+                alertType={snackbar.alertType || "info"}
                 onClose={(event, reason) => {
                 }}
                 duration={5000}
@@ -96,7 +70,7 @@ class ZendyAppShell extends Component {
             )
           }
           <CustomBackdrop 
-            open={backdrop || false} 
+            open={backdrop.show || false} 
           />
         </div>
       </StylesProvider>

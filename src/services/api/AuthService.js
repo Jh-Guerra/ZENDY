@@ -9,7 +9,7 @@ class AuthService {
     //         { shopId:shopId },
     //         { headers: {
     //             ...config.headers, 
-    //             Authorization: `token ${JSON.parse(localStorage.getItem('user')).accessToken || ''}` 
+    //             Authorization: `token ${JSON.parse(localStorage.getItem('user')).token || ''}` 
     //         } }
     // )}
 
@@ -19,7 +19,7 @@ class AuthService {
             { 
                 headers: {
                     ...config.headers, 
-                    Authorization: `token ${JSON.parse(localStorage.getItem('user')).accessToken || ''}` 
+                    Authorization: `token ${JSON.parse(localStorage.getItem('user')).token || ''}` 
                 }
             }
     )}

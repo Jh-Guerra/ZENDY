@@ -15,6 +15,7 @@ import { createCompany, updateCompany } from 'services/actions/CompanyAction';
 import AssignmentIndIcon from '@material-ui/icons/AssignmentInd';
 import EditIcon from '@material-ui/icons/Edit';
 import HomeIcon from '@material-ui/icons/Home';
+import { showBackdrop } from 'services/actions/CustomAction';
 
 const ModalCompany = (props) => {
     
@@ -89,23 +90,23 @@ const ModalCompany = (props) => {
     };
 
     const onSubmit = (company, { setSubmitting }) => {
-        props.showBackdrop(true);
+        props.dispatch(showBackdrop(true));
         if(company.id){
             // Editar
             props.dispatch(updateCompany(company.id, company)).then(res => {
-                props.showBackdrop(false);
+                props.dispatch(showBackdrop(false));
                 props.onConfirmCallBack();
             }).catch(error => {
-                props.showBackdrop(false);
+                props.dispatch(showBackdrop(false));
                 console.error('error', error);
             });
         }else{
             // Agregar
             props.dispatch(createCompany(company)).then(res => {
-                props.showBackdrop(false);
+                props.dispatch(showBackdrop(false));
                 props.onConfirmCallBack();
             }).catch(error => {
-                props.showBackdrop(false);
+                props.dispatch(showBackdrop(false));
                 console.error('error', error);
             });
         }

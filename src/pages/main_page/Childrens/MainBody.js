@@ -1,7 +1,7 @@
 import React, { createRef } from "react";
 import "assets/styles/zendy-app.css";
 import ChatItem from "../Components/ChatItem";
-import ModalAcceptChat from "components/Modals/ModalAcceptChat";
+import CustomModal from "components/Modals/common/CustomModal";
 
 const MainBody = props => {
   var messagesEndRef = createRef(null);
@@ -88,7 +88,8 @@ const MainBody = props => {
             );
           })}
       <div ref={messagesEndRef} />
-      <ModalAcceptChat
+      <CustomModal 
+        customModal="ModalAcceptChat"
         open={open} 
         handleClose={handleClose}
       />

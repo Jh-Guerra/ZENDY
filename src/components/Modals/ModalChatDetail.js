@@ -1,12 +1,12 @@
 import React from 'react';
 import { Typography, Box, Button, Grid, Avatar } from '@material-ui/core';
-import CustomModal from 'components/Modals/components/CustomModal';
+import LateralModal from 'components/Modals/components/LateralModal';
 import { makeStyles } from '@material-ui/core/styles';
 import Divider from '@material-ui/core/Divider';
 import InfoIcon from '@material-ui/icons/Info';
 import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
-import ModalGroupChatDetail from "components/Modals/ModalGroupChatDetail";
+import CustomModal from "components/Modals/common/CustomModal";
 
 const useStyles = makeStyles(theme => ({
   gridList: {
@@ -85,7 +85,7 @@ const ModalChatDetail = props => {
 
   return (
     <>
-      <CustomModal openDetail={props.open} onClose={onCloseModal}>
+      <LateralModal openDetail={props.open} onClose={onCloseModal}>
         <Grid container style={{height:"100%"}}>
           <Grid item xs={12}>
             <Box display="flex" justifyContent="center" alignItems="center" style={{height:"100%", paddingTop:"20px"}}>
@@ -125,8 +125,9 @@ const ModalChatDetail = props => {
             </GridList>
           </Grid>
         </Grid>
-      </CustomModal>
-      <ModalGroupChatDetail 
+      </LateralModal>
+      <CustomModal 
+        customModal="ModalGroupChatDetail"
         open={openGroupChat} 
         handleClose={() => { setOpenGroupChat(false); }}
       />

@@ -135,7 +135,7 @@ const ModalAddToConversation = (props) => {
     </ModalBody>
     <ModalFooter 
       confirmText={"Añadir"}
-      onConfirm={{}}
+      onConfirm={() => {}}
     />
     </Modal>
   )

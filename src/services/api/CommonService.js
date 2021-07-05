@@ -9,7 +9,7 @@ class CommonService {
     //         config.apiVersion + `mgmt/contracts/byCompany`, 
     //         { headers: {
     //             ...config.headers, 
-    //             Authorization: `token ${JSON.parse(localStorage.getItem('user')).accessToken || ''}` 
+    //             Authorization: `token ${JSON.parse(localStorage.getItem('user')).token || ''}` 
     //         } }
     // )}
 
@@ -19,7 +19,7 @@ class CommonService {
     //         body,
     //         { headers: {
     //             ...config.headers, 
-    //             Authorization: `token ${JSON.parse(localStorage.getItem('user')).accessToken || ''}` 
+    //             Authorization: `token ${JSON.parse(localStorage.getItem('user')).token || ''}` 
     //         } }
     // )}
 
@@ -29,7 +29,7 @@ class CommonService {
     //         { 
     //             headers: {
     //                 ...config.headers, 
-    //                 Authorization: `token ${JSON.parse(localStorage.getItem('user')).accessToken || ''}` 
+    //                 Authorization: `token ${JSON.parse(localStorage.getItem('user')).token || ''}` 
     //             },
     //             data: data
     //         }
@@ -41,7 +41,7 @@ class CommonService {
     //         { 
     //             headers: {
     //                 ...config.headers, 
-    //                 Authorization: `token ${JSON.parse(localStorage.getItem('user')).accessToken || ''}` 
+    //                 Authorization: `token ${JSON.parse(localStorage.getItem('user')).token || ''}` 
     //             },
     //             params: {
     //                 start: start || 0,

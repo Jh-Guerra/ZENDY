@@ -8,6 +8,11 @@ export const createChat = (data) => async dispatch => {
     return res && res.data || [];
 }
 
+export const createClientChat = (users) => async dispatch => {
+    const res = await chatService.createClientChat(users);
+    return res && res.data || [];
+}
+
 export const updateChat = (id, data) => async dispatch => {
     const res = await chatService.updateChat(id, data);
     return res && res.data || [];

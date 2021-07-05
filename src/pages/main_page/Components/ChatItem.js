@@ -4,8 +4,7 @@ import IconButton from '@material-ui/core/IconButton';
 import ReplyIcon from '@material-ui/icons/Reply';
 import Fade from '@material-ui/core/Fade';
 import Tooltip from '@material-ui/core/Tooltip';
-import ModalResendMessage from "components/Modals/ModalResendMessage";
-
+import CustomModal from "components/Modals/common/CustomModal";
 
 const ChatItem = props => {
 
@@ -44,7 +43,8 @@ const ChatItem = props => {
         <div className="chat-msg">{message}</div>
       </div>
       <ChatAvatar isOnline="active" image={image} />
-      <ModalResendMessage
+      <CustomModal
+        customModal="ModalResendMessage"
         open={showResendMessage} 
         handleClose={() => { setShowResendMessage(false); }}
       />

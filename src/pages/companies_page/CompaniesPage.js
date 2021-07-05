@@ -7,6 +7,7 @@ import AddCircleIcon from '@material-ui/icons/AddCircle';
 import { successButtonColor } from 'assets/styles/zendy-css';
 import ModalCompany from 'components/Modals/ModalCompany';
 import ModalDelete from 'components/Modals/ModalDelete';
+import { showBackdrop, showSnackBar } from 'services/actions/CustomAction';
 
 const columns = [
   { type: 'text', field: 'name', label: 'Nombre', minWidth: 250 },
@@ -31,7 +32,7 @@ class CompaniesPage extends Component {
   }
 
   async componentDidMount(){
-    this.props.showBackdrop(true);
+    this.props.dispatch(showBackdrop(true));
     this.onListCompanies();
   }
 
@@ -52,12 +53,12 @@ class CompaniesPage extends Component {
   }
 
   onListCompanies = () => {
-    this.props.showBackdrop(true);
+    this.props.dispatch(showBackdrop(true));
     this.setState({loading: true});
     this.props.dispatch(listCompanies()).then(res => {
       this.setState({companies: res || []});
       this.setState({loading: false});
-      this.props.showBackdrop(false);
+      this.props.dispatch(showBackdrop(false));
     });
   }
 
@@ -72,18 +73,18 @@ class CompaniesPage extends Component {
 
   onDelete = () => {
     const { company } = this.state;
-    this.props.showBackdrop(true);
+    this.props.dispatch(showBackdrop(true));
     this.props.dispatch(deleteCompany(company && company.id)).then(res => {
       this.setState({
         company: {},
         showModalDelete: false,
         showModalCompany: false,
       });
-      this.props.showSnackbar("warning", res && res.success || "");
-      this.props.showBackdrop(false);
+      this.props.dispatch(showSnackBar("warning", res && res.success || ""));
+      this.props.dispatch(showBackdrop(false));
       this.onListCompanies();
     }).catch(error => {
-      this.props.showBackdrop(false);
+      this.props.dispatch(showBackdrop(false));
       console.error('error', error);
     });
   }

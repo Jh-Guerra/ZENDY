@@ -6,7 +6,7 @@ const useStyles = makeStyles(theme => ({
 
 }));
 
-const CustomModal = props => {
+const LateralModal = props => {
   const classes = useStyles();
 
   return (
@@ -18,4 +18,4 @@ const CustomModal = props => {
   );
 };
 
-export default CustomModal;
+export default LateralModal;

@@ -6,11 +6,7 @@ import { Grid, TextField, Typography } from "@material-ui/core";
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import SearchIcon from '@material-ui/icons/Search';
 import InputAdornment from '@material-ui/core/InputAdornment';
-import ModalRecomendarUsuario from "components/Modals/ModalRecomendarUsuario";
-// import ModalEndChat from "components/Modals/ModalEndChat";
-import ModalAcceptChat from "components/Modals/ModalAcceptChat";
-import ModalChatDetail from "components/Modals/ModalChatDetail";
-import ModalAddToConversation from "components/Modals/ModalAddToConversation";
+import CustomModal from "components/Modals/common/CustomModal";
 
 const MainHeader = props => {
 
@@ -86,23 +82,23 @@ const MainHeader = props => {
           </Grid>              
         </Grid>
       </Grid>
-      <ModalRecomendarUsuario
+      <CustomModal 
+        customModal="ModalRecomendarUsuario"
         open={showRecomendarUsuario} 
         handleClose={() => { setShowRecomendarUsuario(false); }}
       />
-      {showAcceptChat &&
-        <ModalAcceptChat 
-          open={showAcceptChat} 
-          handleClose={handleClose}
-        />
-      } 
-      {showChatDetail &&
-        <ModalChatDetail 
-          open={showChatDetail} 
-          onClose={()=> { setShowChatDetail(false) }}
-        />
-      }   
-      <ModalAddToConversation 
+      <CustomModal 
+        customModal="ModalAcceptChat"
+        open={showAcceptChat} 
+        handleClose={handleClose}
+      />
+      <CustomModal 
+        customModal="ModalChatDetail"
+        open={showChatDetail} 
+        onClose={()=> { setShowChatDetail(false) }}
+      />
+      <CustomModal 
+        customModal="ModalAddToConversation"
         open={showAddToConversation}
         handleClose={() => { setShowAddToConversation (false); }}
       />

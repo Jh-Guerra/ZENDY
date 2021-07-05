@@ -9,9 +9,7 @@ import PersonIcon from '@material-ui/icons/Person';
 import AddCommentIcon from '@material-ui/icons/AddComment';
 import { successButtonColor } from 'assets/styles/zendy-css';
 import CustomButton from "components/CustomButtom";
-import ModalNewInternalChat from "components/Modals/ModalNewInternalChat";
-import ModalNewCompanyChat from './ModalNewCompanyChat';
-import ModalNewCustomerChat from "components/Modals/ModalNewCustomerChat";
+import CustomModal from "components/Modals/common/CustomModal";
 
 const useStyles = makeStyles(theme => ({
     button: {
@@ -92,17 +90,20 @@ const ModalNewChat = (props) => {
                     </Grid>
                 </ModalBody>
             </Modal>
-            <ModalNewInternalChat
+            <CustomModal 
+                customModal="ModalNewCustomerChat"
+                open={openNewCustomerChat}
+                handleClose={() => { setOpenNewCustomerChat(false); handleClose(); }}
+            />
+            <CustomModal 
+                customModal="ModalNewInternalChat"
                 open={showNewInternalChat}
                 handleClose={() => { setShowNewInternalChat(false); }}
             />
-            <ModalNewCompanyChat
+            <CustomModal 
+                customModal="ModalNewCompanyChat"
                 open={showNewCompanyChat} 
                 handleClose={() => { setShowNewCompanyChat(false) }}
-            /> 
-            <ModalNewCustomerChat 
-                open={openNewCustomerChat}
-                handleClose={() => { setOpenNewCustomerChat(false); }}
             />
         </>
     )

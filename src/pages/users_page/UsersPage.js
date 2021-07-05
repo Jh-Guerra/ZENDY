@@ -9,6 +9,7 @@ import ModalUser from 'components/Modals/ModalUser';
 import moment from 'moment';
 import { getUserTypeName } from 'utils/common';
 import ModalDelete from 'components/Modals/ModalDelete';
+import { showBackdrop } from 'services/actions/CustomAction';
 
 const columns = [
   { type: 'text', field: 'name', label: 'Nombre', minWidth: 250, format: (row) => `${row.firstName} ${row.lastName}` },
@@ -33,7 +34,7 @@ class UsersPage extends Component {
   }
 
   async componentDidMount(){
-    this.props.showBackdrop(true);
+    this.props.dispatch(showBackdrop(true));
     this.onListUsers();
   }
 
@@ -54,12 +55,12 @@ class UsersPage extends Component {
   }
 
   onListUsers = () => {
-    this.props.showBackdrop(true);
+    this.props.dispatch(showBackdrop(true));
     this.setState({loading: true});
     this.props.dispatch(listUsers()).then(res => {
       this.setState({users: res || []});
       this.setState({loading: false});
-      this.props.showBackdrop(false);
+      this.props.dispatch(showBackdrop(false));
     });
   }
 
@@ -74,7 +75,7 @@ class UsersPage extends Component {
 
   onDelete = () => {
     const { user } = this.state;
-    this.props.showBackdrop(true);
+    this.props.dispatch(showBackdrop(true));
     this.props.dispatch(deleteUser(user && user.id)).then(res => {
       this.setState({
         user: {},
@@ -82,10 +83,10 @@ class UsersPage extends Component {
         showModalUser: false,
       });
       this.props.showSnackbar("warning", res && res.success || "");
-      this.props.showBackdrop(false);
+      this.props.dispatch(showBackdrop(false));
       this.onListUsers();
     }).catch(error => {
-      this.props.showBackdrop(false);
+      this.props.dispatch(showBackdrop(false));
       console.error('error', error);
     });
   }

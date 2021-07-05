@@ -2,8 +2,8 @@ import { Grid } from "@material-ui/core";
 import React, { Component } from "react";
 import RateReviewIcon from '@material-ui/icons/RateReview';
 import CustomButton from "components/CustomButtom";
-import ModalNewChat from "components/Modals/ModalNewChat";
 import { successButtonColor } from "assets/styles/zendy-css";
+import CustomModal from "components/Modals/common/CustomModal";
 
 class NewChatCall extends Component {
     constructor(props) {
@@ -39,7 +39,8 @@ class NewChatCall extends Component {
                         </CustomButton>
                     </Grid>
                 </Grid >
-                <ModalNewChat
+                <CustomModal
+                    customModal="ModalNewChat"
                     open={this.state.open} 
                     handleClose={() => this.handleClose()}
                 />

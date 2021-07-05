@@ -8,13 +8,13 @@ let config =
     'debug'    : process.env.REACT_APP_DEBUG || false,
     'baseName' : process.env.REACT_APP_BASENAME || '',
     'api' : process.env.REACT_APP_API,
-    'token': (localStorage.getItem('user') && JSON.parse(localStorage.getItem('user')).accessToken) || '',
-    'assetToken': (localStorage.getItem('user') && JSON.parse(localStorage.getItem('user')).assetAccessToken) || '',
+    'token': (localStorage.getItem('user') && JSON.parse(localStorage.getItem('user')).token) || '',
+    'assetToken': (localStorage.getItem('user') && JSON.parse(localStorage.getItem('user')).token) || '',
     'version': 'api/',
     'headers': {
         'Content-type': 'application/json',
         'Accept': 'application/json',
-        'Authorization': `Token ${(localStorage.getItem('user') && JSON.parse(localStorage.getItem('user')).accessToken) || ''}`
+        'Authorization': `Token ${(localStorage.getItem('user') && JSON.parse(localStorage.getItem('user')).token) || ''}`
     },
     'gaID' : process.env.REACT_APP_GA_ID || 'UA-82642500-5',
     'stripePK': process.env.REACT_APP_stripePK || 'pk_test_AEL7yfcOpRn4OfAISb5Mg0oj',
