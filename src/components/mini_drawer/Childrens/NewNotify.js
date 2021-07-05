@@ -3,6 +3,7 @@ import React, { Component } from "react";
 import CustomButton from "components/CustomButtom";
 import { successButtonColor } from "assets/styles/zendy-css";
 import NotificationsNew from '@material-ui/icons/NotificationsActive';
+import ModalNuevaNotification from "components/Modals/ModalNuevaNotification";
 
 
 class NewNotify extends Component {
@@ -15,10 +16,11 @@ class NewNotify extends Component {
     componentDidMount() {
     }
     handleClickOpen() {
-        /* Cambiando Estado */
+        this.setState({open: true});
     }
+
     handleClose() {
-        /* Cambiando Estado */
+        this.setState({open: false});
     }
     render() {
         return (
@@ -33,6 +35,10 @@ class NewNotify extends Component {
                     </Grid>
                 </Grid >
                    {/* Modal */}
+                   <ModalNuevaNotification
+                    open={this.state.open} 
+                    handleClose={() => this.handleClose()}
+                />
             </>
         )
     }
