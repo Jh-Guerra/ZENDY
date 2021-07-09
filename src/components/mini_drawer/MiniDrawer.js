@@ -13,6 +13,7 @@ import HistoryChat from 'components/mini_drawer/Childrens/HistoryChat';
 import NotifyChat from './Childrens/NotifyChat';
 import ReportList from './Childrens/ReportList';
 import EnterpriseChat from './Childrens/EnterpriseChat';
+import EntryQueryChat from './Childrens/EntryQueryChat';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -128,7 +129,7 @@ const MiniDrawer = (props) => {
               <CurrentChat />
             </TabPanel>
             <TabPanel value={tab} index={1} >
-              Item Two
+              <EntryQueryChat />
             </TabPanel>
             <TabPanel value={tab} index={2} >
               <EnterpriseChat />
