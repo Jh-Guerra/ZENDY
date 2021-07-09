@@ -1,7 +1,16 @@
 import { Button } from "@material-ui/core";
+import { withStyles } from "@material-ui/core/styles"
 import React, { Component, useState, createRef, useEffect } from "react";
 
 import Avatar from "../Components/Avatar";
+
+const styles = theme => ({
+  root: {
+    '&:hover': {
+      backgroundColor: '#FF7878',
+    }
+  }
+})
 
  class AvatarHeader extends Component {
   messagesEndRef = createRef(null);
@@ -24,6 +33,9 @@ import Avatar from "../Components/Avatar";
   
 
   render() {
+
+    const { classes } = this.props
+
     return (
         <div className="mini-drawer-content">
             <div className="mini-drawer-user">
@@ -33,11 +45,11 @@ import Avatar from "../Components/Avatar";
               />
               <div>
                 <p>Homero Simpons</p>
-                <Button variant="outlined" size="small">Cerrar Sesión</Button>
+                <Button className={classes.root} variant="outlined" size="small">Cerrar Sesión</Button>
               </div>
             </div>
           </div>
     );
   }
 }
-export default AvatarHeader
+export default withStyles(styles, {withTheme: true})(AvatarHeader);
