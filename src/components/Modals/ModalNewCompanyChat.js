@@ -17,6 +17,8 @@ import InputBase from '@material-ui/core/InputBase';
 import IconButton from '@material-ui/core/IconButton';
 import BusinessIcon from '@material-ui/icons/Business';
 import ModalFooter from './common/ModalFooter';
+import { listCompanies } from 'services/actions/CompanyAction';
+import { listUsers } from 'services/actions/UserAction';
 
 
 const useStyles = makeStyles(theme => ({
@@ -50,10 +52,31 @@ const useStyles = makeStyles(theme => ({
 const ModalNewCompanyChat = (props) => {
 
   const { open, handleClose } = props;
-  const Companies = ["Opcion 1", "Opcion 2", "Opcion 3", "Opcion 4"]
-  const Users = ['Lisa Simpons 1', 'Lisa Simpons 2', 'Lisa Simpons 3', 'Lisa Simpons 4', 'Lisa Simpons 5', 'Lisa Simpons 6', 'Lisa Simpons 7', 'Lisa Simpons 8', 'Lisa Simpons 9', 'Lisa Simpons 10']
+  const [companies, setCompanies] = React.useState([])
+  const [users, setUsers] = React.useState([])
 
+  const [companie, setCompanie] = React.useState('')
+  const [user, setUser] = React.useState('')
 
+  React.useEffect(() => {
+    if(open){
+      onListCompanies();
+    }
+  }, [open]);
+
+  const onListCompanies = (term) => {
+    // props.dispatch(showBackdrop(true));
+    props.dispatch(listCompanies(term)).then(res => {
+      setCompanies(res || []);
+      // props.dispatch(showBackdrop(false));
+    });
+  }
+
+  const onListUsers = (term, company) => {
+    props.dispatch(listUsers(term, company)).then(res => {
+      setUsers(res || []);
+    });
+  }
 
   const classes = useStyles();
 
@@ -73,14 +96,24 @@ const ModalNewCompanyChat = (props) => {
     setChecked(newChecked);
   };
 
+  const handleOnChangeCompany = e => {
+    setCompanie(e.target.value);
+    onListUsers(user, e.target.value);
+  }
+
+  const handleOnChangeUser = e => {
+    setUser(e.target.value);
+    onListUsers(e.target.value, companie);
+  }
+
   const selectAllUser = (e) => {
     const newCheckedAll = [];
     if (e.target.checked) {     
-      Users.map(value => {
+      users.map(value => {
         newCheckedAll.push(value);
       })
     }else{
-      newCheckedAll.splice(Users);
+      newCheckedAll.splice(users);
     }
     setChecked(newCheckedAll);
   };
@@ -106,10 +139,11 @@ const ModalNewCompanyChat = (props) => {
             <Grid item xs={7}>
               <Select
                 className={classes.select}
+                onChange={handleOnChangeCompany}
               >
                 {
-                  Companies.map((item, index) => (
-                    <MenuItem key={index} value={item}>{item}</MenuItem>
+                  companies.map(({name, id}) => (
+                    <MenuItem key={id} value={name}>{name}</MenuItem>
                   ))
                 }
               </Select>
@@ -121,6 +155,7 @@ const ModalNewCompanyChat = (props) => {
                     <SearchIcon />
                   </IconButton>
                   <InputBase
+                    onChange={handleOnChangeUser}
                     className={classes.input}
                     placeholder="Buscar contactos"
                     inputProps={{ 'aria-label': 'Buscar contactos' }}
@@ -142,22 +177,23 @@ const ModalNewCompanyChat = (props) => {
         <Grid container spacing={3}>
           <Grid item xs={12}>
             <List dense style={{ maxHeight: 250, overflow: 'auto' }}>
-              {Users.map((value) => {
-                const labelId = `checkbox-list-secondary-label-${value}`;
+              {users.map(({firstName, lastName, id}, index) => {
+                const labelId = `checkbox-list-secondary-label-${id}`;
+                const nameComplete = firstName + ' ' + lastName;
                 return (
-                  <ListItem key={value} button divider>
+                  <ListItem key={id} button divider>
                     <ListItemAvatar>
                       <Avatar
-                        alt={`Avatar n°${value + 1}`}
+                        alt={`Avatar n°${index + 1}`}
                         src="https://w7.pngwing.com/pngs/847/821/png-transparent-lisa-simpson-maggie-simpson-drawing-marge-simpson-others-text-hand-head.png"
                       />
                     </ListItemAvatar>
-                    <ListItemText style={{ marginLeft: '7px' }} id={labelId} primary={`${value}`} className={classes.letters} />
+                    <ListItemText style={{ marginLeft: '7px' }} id={labelId} primary={`${nameComplete}`} className={classes.letters} />
                     <ListItemSecondaryAction>
                       <Checkbox
                         edge="end"
-                        onChange={handleToggle(value)}
-                        checked={checked.indexOf(value) !== -1}
+                        onChange={handleToggle(nameComplete)}
+                        checked={checked.indexOf(nameComplete) !== -1}
                         inputProps={{ 'aria-labelledby': labelId }}
                         icon={<RadioButtonUncheckedIcon />}
                         checkedIcon={<RadioButtonCheckedIcon style={{ color: '#4F1B66' }} />}
