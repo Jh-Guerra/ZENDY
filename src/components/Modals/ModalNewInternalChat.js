@@ -17,6 +17,7 @@ import InputBase from '@material-ui/core/InputBase';
 import IconButton from '@material-ui/core/IconButton';
 import ModalFooter from './common/ModalFooter';
 import ChatIcon from '@material-ui/icons/Chat';
+import { listUsers } from 'services/actions/UserAction';
 
 const useStyles = makeStyles(theme => ({
     letters:{
@@ -43,7 +44,20 @@ const ModalNewInternalChat = (props) => {
 
   const classes = useStyles();
 
+  React.useEffect(() => {
+    if(open){
+      onListUsers();
+    }
+  }, [open]);
+
+  const [users, setUsers] = React.useState([])
   const [checked, setChecked] = React.useState([1]);
+
+  const onListUsers = (term) => {
+    props.dispatch(listUsers(term, '')).then(res => {
+      setUsers(res || []);
+    });
+  }
     
   const handleToggle = (value) => () => {
       const currentIndex = checked.indexOf(value);
@@ -57,6 +71,10 @@ const ModalNewInternalChat = (props) => {
   
       setChecked(newChecked);
   };
+
+  const handleOnChangeUser = e => {
+    onListUsers(e.target.value);
+  }
 
   return (
     <Modal 
@@ -77,6 +95,7 @@ const ModalNewInternalChat = (props) => {
                   <SearchIcon />
                 </IconButton>
                 <InputBase
+                  onChange={handleOnChangeUser}
                   className={classes.input}
                   placeholder="Buscar contactos"
                   inputProps={{ 'aria-label': 'Buscar contactos' }}
@@ -86,22 +105,23 @@ const ModalNewInternalChat = (props) => {
             </Grid>
             <Grid item xs={12}>
               <List dense style={{maxHeight: 350, overflow: 'auto'}}>
-                {[0, 1, 2, 3].map((value) => {
-                  const labelId = `checkbox-list-secondary-label-${value}`;
+                {users.map(({firstName, lastName, id}, index) => {
+                  const labelId = `checkbox-list-secondary-label-${id}`;
+                  const nameComplete = firstName + ' ' + lastName;
                   return (
-                  <ListItem key={value} button divider>
+                  <ListItem key={id} button divider>
                     <ListItemAvatar>
                       <Avatar
-                          alt={`Avatar n°${value + 1}`}
+                          alt={`Avatar n°${id + 1}`}
                           src="https://w7.pngwing.com/pngs/847/821/png-transparent-lisa-simpson-maggie-simpson-drawing-marge-simpson-others-text-hand-head.png"
                       />
                     </ListItemAvatar>
-                    <ListItemText style={{marginLeft:'7px'}} id={labelId} primary={`Lisa Simpons ${value + 1}`} className={classes.letters} />
+                    <ListItemText style={{marginLeft:'7px'}} id={labelId} primary={`${nameComplete}`} className={classes.letters} />
                     <ListItemSecondaryAction>
                       <Checkbox
                           edge="end"
-                          onChange={handleToggle(value)}
-                          checked={checked.indexOf(value) !== -1}
+                          onChange={handleToggle(index)}
+                          checked={checked.indexOf(id) !== -1}
                           inputProps={{ 'aria-labelledby': labelId }}
                           icon={<RadioButtonUncheckedIcon />} 
                           checkedIcon={<RadioButtonCheckedIcon style={{color:'#4F1B66'}}/>}           

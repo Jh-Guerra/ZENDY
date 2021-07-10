@@ -30,7 +30,6 @@ class UserService {
     )}
 
     async listUsers(term="", company="") {
-        console.log('>>>>>>>>>> listUsers', company)
         return await axios.get(
             config.apiVersion + `users/list?term=${term}&company=${company}`,
             { 
