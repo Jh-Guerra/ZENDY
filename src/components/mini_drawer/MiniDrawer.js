@@ -45,7 +45,10 @@ const MiniDrawer = (props) => {
     }
   }, [history.location.pathname, props.path]);
 
-
+  const LogOut = () => {
+    localStorage.clear();
+    props.history.push("/");
+  }
 
   const handleChangeTab = (event, newTab) => {
     if(newTab==4){
@@ -89,7 +92,9 @@ const MiniDrawer = (props) => {
   return (
     <div className={classes.root}  >
       <Drawer variant="permanent" style={{height:"100%"}} className={clsx(classes.drawer, { [classes.drawerOpen]: true, [classes.drawerClose]: false })} classes={{ paper: clsx({ [classes.drawerOpen]: true, [classes.drawerClose]: false, }), }}>
-        <AvatarHeader />
+        <AvatarHeader 
+          Logout={() => {LogOut()}} 
+          />
         <Grid container style={{height:"90%"}}>
           <div className="mini-drawer-sections">
             <Grid item xs={12} classes={{root: customClasses.root}}>

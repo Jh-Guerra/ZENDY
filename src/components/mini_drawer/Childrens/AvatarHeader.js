@@ -33,7 +33,7 @@ import Avatar from "../Components/Avatar";
               />
               <div>
                 <p>Homero Simpons</p>
-                <Button variant="outlined" size="small">Cerrar Sesión</Button>
+                <Button variant="outlined" size="small" onClick={() => (this.props.Logout())}>Cerrar Sesión</Button>
               </div>
             </div>
           </div>
