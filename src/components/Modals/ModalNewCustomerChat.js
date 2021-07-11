@@ -26,6 +26,7 @@ const ModalNewCustomerChat = props => {
   const { open, handleClose } = props;
 
   const [users, setUsers] = React.useState([]);
+  const [searchTimeout, setSearchTimeout] = React.useState(null);
 
   React.useEffect(() => {
     if(open){
@@ -42,7 +43,12 @@ const ModalNewCustomerChat = props => {
   }
 
   const onSearch = (term) => {
-    onListUsers(term);
+    clearTimeout(searchTimeout);
+    setSearchTimeout(
+      setTimeout(() => {
+        onListUsers(term);
+      }, 1000)
+    )
   }
   
   const onSelectUser = (user) => {
