@@ -45,7 +45,7 @@ const styles = theme => ({
               />
               <div>
                 <p>Homero Simpons</p>
-                <Button className={classes.root} variant="outlined" size="small">Cerrar Sesión</Button>
+                <Button className={classes.root} variant="outlined" size="small" onClick={() => (this.props.Logout())}>Cerrar Sesión</Button>
               </div>
             </div>
           </div>
