@@ -327,7 +327,6 @@ html, body {
     width: 100%;
     padding: 2px 0px;
     height: 10%;
-    min-height: 110px;
 }
 
 .mini-drawer-options {
@@ -408,11 +407,11 @@ top: .1em;
     display: flex;
     flex-direction: row;
     color: #fff;
-    padding: 5px 10px 5px 10px;
+    padding: 5px 10px 5px 15px;
 
     p {
         font-size: large;
-        margin: 10px 10px;
+        margin: 7px 10px;
         font-size: 25px;
     }
 
@@ -483,13 +482,13 @@ top: .1em;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    margin-top: 3px;
+    margin-top: 2px;
 }
 
 .chat-mini-time {
-    font-size: 11px;
+    font-size: 13px;
     padding-top: 6px;
-    color: gray;
+    color: silver;
 }
 
 /* ===========================        AVATAR             =============================================*/

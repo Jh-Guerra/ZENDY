@@ -29,6 +29,7 @@ import ItemAvatar from "./ItemAvatar";
               <ItemAvatar
                 isOnline={this.props.isOnline}
                 image={this.props.image ? this.props.image : "http://placehold.it/80x80"}
+                isChatCompany={this.props.isChatCompany}
               />
               <div style={{width:"80%"}}>
                   <div className="chat-mini-details">
@@ -39,7 +40,7 @@ import ItemAvatar from "./ItemAvatar";
                       <span className="chat-mini-time">{this.props.hour}</span>
                     }
                   </div>                
-                  <p style={{fontSize:"14px", color:"gray"}}>
+                  <p style={{fontSize:"16px", color:"silver"}}>
                     {this.props.message}
                   </p>
               </div>

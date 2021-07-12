@@ -37,7 +37,7 @@ const styles = theme => ({
     const { classes } = this.props
 
     return (
-        <div className="mini-drawer-content">
+        <div className="mini-drawer-content" style={{minHeight:"110px"}}>
             <div className="mini-drawer-user">
               <Avatar
                 isOnline="active"
