@@ -121,7 +121,7 @@ const ModalNewInternalChat = (props) => {
                       <Checkbox
                           edge="end"
                           onChange={handleToggle(index)}
-                          checked={checked.indexOf(id) !== -1}
+                          checked={checked.indexOf(index) !== -1}
                           inputProps={{ 'aria-labelledby': labelId }}
                           icon={<RadioButtonUncheckedIcon />} 
                           checkedIcon={<RadioButtonCheckedIcon style={{color:'#4F1B66'}}/>}           
