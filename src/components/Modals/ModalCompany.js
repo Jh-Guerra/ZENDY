@@ -90,10 +90,6 @@ const ModalCompany = (props) => {
         return errors;
     };
 
-    // React.useEffect(() => {
-    //     validateForm(data)
-    // }, [data])
-
     const onSubmit = (company, { setSubmitting }) => {
         props.dispatch(showBackdrop(true));
         if(company.id){
