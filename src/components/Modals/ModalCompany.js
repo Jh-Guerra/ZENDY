@@ -62,6 +62,7 @@ const ModalCompany = (props) => {
                 setIcon(<BusinessIcon />);
                 setEditMode(true);
             }
+            validateForm(data)
         }
     }, [open]);
 
@@ -69,25 +70,29 @@ const ModalCompany = (props) => {
         const errors = {};
         company = trimObject(company);
         if (!company.name) 
-            errors.name = '*';
+            errors.name = <span style={{color: 'red'}}>*</span>;
         
         if (!company.address)
-            errors.address = '*'
+            errors.address = <span style={{color: 'red'}}>*</span>
 
         if (!company.adminName)
-            errors.adminName = '*'
+            errors.adminName = <span style={{color: 'red'}}>*</span>
             
         if (!company.email)
-            errors.email = '*'
+            errors.email = <span style={{color: 'red'}}>*</span>
 
         if (!company.phone)
-            errors.phone = '*'
+            errors.phone = <span style={{color: 'red'}}>*</span>
 
         if (!company.maxBytes) 
-            errors.maxBytes = '*';
+            errors.maxBytes = <span style={{color: 'red'}}>*</span>;
 
         return errors;
     };
+
+    // React.useEffect(() => {
+    //     validateForm(data)
+    // }, [data])
 
     const onSubmit = (company, { setSubmitting }) => {
         props.dispatch(showBackdrop(true));
@@ -130,7 +135,7 @@ const ModalCompany = (props) => {
             />
 
             <ModalBody>
-                <Formik enableReinitialize initialValues={data} validate={values => validateForm(values)} onSubmit={onSubmit}>
+                <Formik enableReinitialize validateOnMount initialValues={data} validate={values => validateForm(values)} onSubmit={onSubmit}>
                     {({values, errors, touched, handleChange, handleBlur, handleSubmit, setFieldValue}) => {
                         return (
                             <Form onSubmit={handleSubmit}>
@@ -138,7 +143,7 @@ const ModalCompany = (props) => {
                                     <Grid item xs={12}>
                                         <CustomInput
                                             id="name"
-                                            label={`Nombre ${errors.name && touched.name ? errors.name : ''}`}
+                                            label={<p>Nombre {errors.name}</p>}
                                             inputType="inputText"
                                             onChange={handleChange}
                                             value={values.name}
@@ -151,7 +156,7 @@ const ModalCompany = (props) => {
                                         <CustomInput
                                             id="address"
                                             inputType="inputText"
-                                            label={`Dirección ${errors.address && touched.address ? errors.address : ''}`}
+                                            label={<p>Dirección {errors.address}</p>}
                                             onChange={handleChange}
                                             value={values.address}
                                             error={ errors.address && touched.address ? true : false }
@@ -163,7 +168,7 @@ const ModalCompany = (props) => {
                                         <CustomInput
                                             id="email"
                                             inputType="inputText"
-                                            label={`Correo Electrónico ${errors.email && touched.email ? errors.email : ''}`}
+                                            label={<p>Correo Electrónico {errors.email}</p>}
                                             onChange={handleChange}
                                             value={values.email}
                                             error={ errors.email && touched.email ? true : false }
@@ -175,7 +180,7 @@ const ModalCompany = (props) => {
                                         <CustomInput
                                             id="phone"
                                             inputType="inputText"
-                                            label={`N° Celular ${errors.phone && touched.phone ? errors.phone : ''}`}
+                                            label={<p>N° Celular {errors.phone}</p>}
                                             onChange={(event) => { 
                                                 setFieldValue("phone", onlyNumbers(event.target.value))
                                             }}
@@ -188,7 +193,7 @@ const ModalCompany = (props) => {
                                     <Grid item xs={12}>
                                         <CustomInput
                                             id="adminName"
-                                            label={`Administrador ${errors.adminName && touched.adminName ? errors.adminName : ''}`}
+                                            label={<p>Administrador {errors.adminName}</p>}
                                             inputType="inputText"
                                             onChange={handleChange}
                                             value={values.adminName}
@@ -201,7 +206,7 @@ const ModalCompany = (props) => {
                                         <CustomInput
                                             id="maxBytes"
                                             inputType="inputText"
-                                            label={`Mbsmáximos ${errors.maxBytes && touched.maxBytes ? errors.maxBytes : ''}`}
+                                            label={<p>Mbsmáximos {errors.maxBytes}</p>}
                                             onChange={(event) => { 
                                                 setFieldValue("maxBytes", onlyNumbers(event.target.value))
                                             }}
