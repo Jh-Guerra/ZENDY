@@ -62,7 +62,6 @@ const ModalCompany = (props) => {
                 setIcon(<BusinessIcon />);
                 setEditMode(true);
             }
-            validateForm(data)
         }
     }, [open]);
 
@@ -70,22 +69,22 @@ const ModalCompany = (props) => {
         const errors = {};
         company = trimObject(company);
         if (!company.name) 
-            errors.name = <span style={{color: 'red'}}>*</span>;
+            errors.name = true;
         
         if (!company.address)
-            errors.address = <span style={{color: 'red'}}>*</span>
+            errors.address = true;
 
         if (!company.adminName)
-            errors.adminName = <span style={{color: 'red'}}>*</span>
+            errors.adminName = true;
             
         if (!company.email)
-            errors.email = <span style={{color: 'red'}}>*</span>
+            errors.email = true;
 
         if (!company.phone)
-            errors.phone = <span style={{color: 'red'}}>*</span>
+            errors.phone = true;
 
         if (!company.maxBytes) 
-            errors.maxBytes = <span style={{color: 'red'}}>*</span>;
+            errors.maxBytes = true;
 
         return errors;
     };
@@ -139,7 +138,7 @@ const ModalCompany = (props) => {
                                     <Grid item xs={12}>
                                         <CustomInput
                                             id="name"
-                                            label={<p>Nombre {errors.name}</p>}
+                                            label={<p>Nombre *</p>}
                                             inputType="inputText"
                                             onChange={handleChange}
                                             value={values.name}
@@ -152,7 +151,7 @@ const ModalCompany = (props) => {
                                         <CustomInput
                                             id="address"
                                             inputType="inputText"
-                                            label={<p>Dirección {errors.address}</p>}
+                                            label={<p>Dirección *</p>}
                                             onChange={handleChange}
                                             value={values.address}
                                             error={ errors.address && touched.address ? true : false }
@@ -164,7 +163,7 @@ const ModalCompany = (props) => {
                                         <CustomInput
                                             id="email"
                                             inputType="inputText"
-                                            label={<p>Correo Electrónico {errors.email}</p>}
+                                            label={<p>Correo Electrónico *</p>}
                                             onChange={handleChange}
                                             value={values.email}
                                             error={ errors.email && touched.email ? true : false }
@@ -176,7 +175,7 @@ const ModalCompany = (props) => {
                                         <CustomInput
                                             id="phone"
                                             inputType="inputText"
-                                            label={<p>N° Celular {errors.phone}</p>}
+                                            label={<p>N° Celular *</p>}
                                             onChange={(event) => { 
                                                 setFieldValue("phone", onlyNumbers(event.target.value))
                                             }}
@@ -189,7 +188,7 @@ const ModalCompany = (props) => {
                                     <Grid item xs={12}>
                                         <CustomInput
                                             id="adminName"
-                                            label={<p>Administrador {errors.adminName}</p>}
+                                            label={<p>Administrador *</p>}
                                             inputType="inputText"
                                             onChange={handleChange}
                                             value={values.adminName}
@@ -202,7 +201,7 @@ const ModalCompany = (props) => {
                                         <CustomInput
                                             id="maxBytes"
                                             inputType="inputText"
-                                            label={<p>Mbsmáximos {errors.maxBytes}</p>}
+                                            label={<p>Mbsmáximos *</p>}
                                             onChange={(event) => { 
                                                 setFieldValue("maxBytes", onlyNumbers(event.target.value))
                                             }}
