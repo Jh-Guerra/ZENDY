@@ -39,20 +39,11 @@ class NewChatCall extends Component {
                         </CustomButton>
                     </Grid>
                 </Grid >
-                {
-                    this.props.isChatCompany ? 
-                    <CustomModal
-                        customModal="ModalNewCompanyChat"
-                        open={this.state.open} 
-                        handleClose={() => this.handleClose()}
-                    /> : 
-                    <CustomModal
-                        customModal="ModalNewChat"
-                        open={this.state.open} 
-                        handleClose={() => this.handleClose()}
-                    />
-                }
-               
+                <CustomModal
+                    customModal={this.props.isChatCompany ? "ModalNewCompanyChat" : "ModalNewChat" }
+                    open={this.state.open} 
+                    handleClose={() => this.handleClose()}
+                />
             </>
         )
     }
