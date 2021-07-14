@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route } from 'react-router-dom';
+import { Redirect, Route } from 'react-router-dom';
 import { CssBaseline, makeStyles } from '@material-ui/core';
 
 import MiniDrawer from 'components/mini_drawer/MiniDrawer';
@@ -12,14 +12,10 @@ const useStyles = makeStyles(theme => ({
   },
 }))
 
-const PrivateRoute = ({ children, ...rest }) => {
+const PrivateRoute = ({ component:Component, ...rest }) => {
   const classes = useStyles();
-  const childrenWithProps = React.Children.map(children, child => {
-    if (React.isValidElement(child)) {
-        return React.cloneElement(child, {...rest});
-    }
-    return child;
-  });
+
+  const user = JSON.parse(localStorage.getItem('user'));
 
   return (
     <div className={classes.root}>
@@ -27,9 +23,8 @@ const PrivateRoute = ({ children, ...rest }) => {
       <MiniDrawer {...rest}/> 
       <Route
         {...rest}
-        render={({ location }) => childrenWithProps}
-      /> 
-      
+        render={props => ( user ? <Component {...props} /> : <Redirect to="/" />)}
+      />     
     </div>
   );
 }
