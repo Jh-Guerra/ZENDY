@@ -18,33 +18,25 @@ class ChatListBar extends Component {
       image:"https://picsum.photos/id/1064/200/300",
       name: "Nombre Empresa",
       message: "N° trabajadores",
-      hour: "10:20 pm",
-      active: true,
-      isOnline: true,
+      hour: "10:20 pm"
     },
     {
       image:"https://picsum.photos/id/1029/200/300",
       name: "Monster Inc.",
       message: "15 trabajadores",
-      hour: "10:20 pm",
-      active: false,
-      isOnline: false,
+      hour: "10:20 pm"
     },
     {
       image:"https://picsum.photos/id/1032/200/300",
       name: "Moe's Enterprise",
       message: "20 trabajadores",
-      hour: "10:20 pm",
-      active: true,
-      isOnline: true,
+      hour: "10:20 pm"
     },
     {
       image:"https://picsum.photos/id/1064/200/300",
       name: "Nombre Empresa",
       message: "N° trabajadores",
-      hour: "10:20 pm",
-      active: false,
-      isOnline: false,
+      hour: "10:20 pm"
     }
   ];
 
@@ -91,8 +83,7 @@ class ChatListBar extends Component {
                   image={item.image}
                   name={item.name}
                   message={item.message}
-                  active={item.active ? "active" : ""}
-                  isOnline={item.isOnline ? "active" : ""}
+                  isChatCompany={true}
                 />
               </div>
             );

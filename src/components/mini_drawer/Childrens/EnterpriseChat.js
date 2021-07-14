@@ -6,7 +6,8 @@ const EnterpriseChat = () => {
     return (
         <div>
             <div className="mini-drawer-current-chat">
-                <NewChatCall />
+                <NewChatCall 
+                 isChatCompany={true}/>
                 <ChatListBarEnterprise />
             </div>
         </div>
