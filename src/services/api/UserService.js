@@ -29,10 +29,17 @@ class UserService {
             }
     )}
 
-    async listUsers(term="", company="") {
-        console.log('>>>>>>>>>> listUsers', company)
+    async listUsers(term="") {
         return await axios.get(
-            config.apiVersion + `users/list?term=${term}&company=${company}`,
+            config.apiVersion + `users/list?term=${term}`,
+            { 
+                headers: config.headers
+            }
+    )}
+
+    async listUsersByCompany(company="", term="") {
+        return await axios.get(
+            config.apiVersion + `users/list-by-company?company=${company}&term=${term}`,
             { 
                 headers: config.headers
             }

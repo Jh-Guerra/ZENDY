@@ -18,7 +18,7 @@ import IconButton from '@material-ui/core/IconButton';
 import BusinessIcon from '@material-ui/icons/Business';
 import ModalFooter from './common/ModalFooter';
 import { listCompanies } from 'services/actions/CompanyAction';
-import { listUsers } from 'services/actions/UserAction';
+import { listUsers, listUsersByCompany } from 'services/actions/UserAction';
 
 
 const useStyles = makeStyles(theme => ({
@@ -55,7 +55,7 @@ const ModalNewCompanyChat = (props) => {
   const [companies, setCompanies] = React.useState([])
   const [users, setUsers] = React.useState([])
 
-  const [companie, setCompanie] = React.useState('')
+  const [company, setCompany] = React.useState('')
   const [user, setUser] = React.useState('')
 
   React.useEffect(() => {
@@ -65,15 +65,13 @@ const ModalNewCompanyChat = (props) => {
   }, [open]);
 
   const onListCompanies = (term) => {
-    // props.dispatch(showBackdrop(true));
     props.dispatch(listCompanies(term)).then(res => {
       setCompanies(res || []);
-      // props.dispatch(showBackdrop(false));
     });
   }
 
-  const onListUsers = (term, company) => {
-    props.dispatch(listUsers(term, company)).then(res => {
+  const onListUsersByCompany = (company, term) => {
+    props.dispatch(listUsersByCompany(company, term)).then(res => {
       setUsers(res || []);
     });
   }
@@ -97,13 +95,15 @@ const ModalNewCompanyChat = (props) => {
   };
 
   const handleOnChangeCompany = e => {
-    setCompanie(e.target.value);
-    onListUsers(user, e.target.value);
+    const companySelected = e.target.value
+    setCompany(companySelected);
+    onListUsersByCompany(companySelected, user);
   }
 
   const handleOnChangeUser = e => {
-    setUser(e.target.value);
-    onListUsers(e.target.value, companie);
+    const userName = e.target.value
+    setUser(userName);
+    onListUsersByCompany(company, user);
   }
 
   const selectAllUser = (e) => {
