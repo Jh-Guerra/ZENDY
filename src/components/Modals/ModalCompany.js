@@ -69,22 +69,22 @@ const ModalCompany = (props) => {
         const errors = {};
         company = trimObject(company);
         if (!company.name) 
-            errors.name = 'Nombre requerido';
+            errors.name = true;
         
         if (!company.address)
-            errors.address = 'Dirección requerido'
+            errors.address = true;
 
         if (!company.adminName)
-            errors.adminName = 'Administrador requerido'
+            errors.adminName = true;
             
         if (!company.email)
-            errors.email = 'Correo electrónico requerido'
+            errors.email = true;
 
         if (!company.phone)
-            errors.phone = 'N° Celular requerido'
+            errors.phone = true;
 
         if (!company.maxBytes) 
-            errors.maxBytes = 'Mbs requeridos';
+            errors.maxBytes = true;
 
         return errors;
     };
@@ -130,7 +130,7 @@ const ModalCompany = (props) => {
             />
 
             <ModalBody>
-                <Formik enableReinitialize initialValues={data} validate={values => validateForm(values)} onSubmit={onSubmit}>
+                <Formik enableReinitialize validateOnMount initialValues={data} validate={values => validateForm(values)} onSubmit={onSubmit}>
                     {({values, errors, touched, handleChange, handleBlur, handleSubmit, setFieldValue}) => {
                         return (
                             <Form onSubmit={handleSubmit}>
@@ -138,12 +138,11 @@ const ModalCompany = (props) => {
                                     <Grid item xs={12}>
                                         <CustomInput
                                             id="name"
-                                            label="Nombre"
+                                            label={<p>Nombre *</p>}
                                             inputType="inputText"
                                             onChange={handleChange}
                                             value={values.name}
                                             error={ errors.name && touched.name ? true : false }
-                                            helperText={ errors.name && touched.name && errors.name }
                                             icon={<BusinessIcon />}
                                             disabled={!editMode}
                                         />
@@ -152,11 +151,10 @@ const ModalCompany = (props) => {
                                         <CustomInput
                                             id="address"
                                             inputType="inputText"
-                                            label="Dirección"
+                                            label={<p>Dirección *</p>}
                                             onChange={handleChange}
                                             value={values.address}
                                             error={ errors.address && touched.address ? true : false }
-                                            helperText={ errors.address && touched.address && errors.address }
                                             icon={<HomeIcon />}
                                             disabled={!editMode}
                                         />
@@ -165,11 +163,10 @@ const ModalCompany = (props) => {
                                         <CustomInput
                                             id="email"
                                             inputType="inputText"
-                                            label="Correo Electrónico"
+                                            label={<p>Correo Electrónico *</p>}
                                             onChange={handleChange}
                                             value={values.email}
                                             error={ errors.email && touched.email ? true : false }
-                                            helperText={ errors.email && touched.email && errors.email }
                                             icon={<AlternateEmailIcon />}
                                             disabled={!editMode}
                                         />
@@ -178,13 +175,12 @@ const ModalCompany = (props) => {
                                         <CustomInput
                                             id="phone"
                                             inputType="inputText"
-                                            label="N° Celular"
+                                            label={<p>N° Celular *</p>}
                                             onChange={(event) => { 
                                                 setFieldValue("phone", onlyNumbers(event.target.value))
                                             }}
                                             value={values.phone}
                                             error={ errors.phone && touched.phone ? true : false }
-                                            helperText={ errors.phone && touched.phone && errors.phone }
                                             icon={<PhoneIcon />}
                                             disabled={!editMode}
                                         />
@@ -192,12 +188,11 @@ const ModalCompany = (props) => {
                                     <Grid item xs={12}>
                                         <CustomInput
                                             id="adminName"
-                                            label="Administrador"
+                                            label={<p>Administrador *</p>}
                                             inputType="inputText"
                                             onChange={handleChange}
                                             value={values.adminName}
                                             error={ errors.adminName && touched.adminName ? true : false }
-                                            helperText={ errors.adminName && touched.adminName && errors.adminName }
                                             icon={<AccountCircle />}
                                             disabled={!editMode}
                                         />
@@ -206,13 +201,12 @@ const ModalCompany = (props) => {
                                         <CustomInput
                                             id="maxBytes"
                                             inputType="inputText"
-                                            label="Mbsmáximos"
+                                            label={<p>Mbsmáximos *</p>}
                                             onChange={(event) => { 
                                                 setFieldValue("maxBytes", onlyNumbers(event.target.value))
                                             }}
                                             value={values.maxBytes}
                                             error={ errors.maxBytes && touched.maxBytes ? true : false }
-                                            helperText={ errors.maxBytes && touched.maxBytes && errors.maxBytes }
                                             icon={<PhoneIcon />}
                                             disabled={!editMode}
                                         />
