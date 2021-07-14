@@ -474,7 +474,25 @@ top: .1em;
 }
 
 .notfound-page {
+    display:flex; 
+    flex-direction: column;
+    text-align:center;
+    align-items:center;
+    justify-content:center;
+    width: 100%;
+    height: 100vh;
     background-color: $pColor;
+}
+  
+.notfound-page img {   
+    border-radius: 50%;
+    height: 320px;
+    width: 320px;
+}
+  
+.notfound-page p {
+    color: white;
+    font-size: xxx-large;
 }
 
 // color button cerrar sección

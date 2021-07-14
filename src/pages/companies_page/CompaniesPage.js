@@ -8,8 +8,6 @@ import { successButtonColor } from 'assets/styles/zendy-css';
 import ModalCompany from 'components/Modals/ModalCompany';
 import ModalDelete from 'components/Modals/ModalDelete';
 import { showBackdrop, showSnackBar } from 'services/actions/CustomAction';
-import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
 
 const columns = [
   { type: 'text', field: 'name', label: 'Nombre', minWidth: 250 },
@@ -144,6 +142,4 @@ class CompaniesPage extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({ ...state })
-
-export default connect(mapStateToProps)(withRouter(CompaniesPage));
+export default CompaniesPage;

@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   root: {
-    height: '98vh',
+    height: '100vh',
     marginBottom: theme.spacing(1)
   },
   image:{

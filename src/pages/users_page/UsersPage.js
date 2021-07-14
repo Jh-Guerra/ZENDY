@@ -10,8 +10,6 @@ import moment from 'moment';
 import { getUserTypeName } from 'utils/common';
 import ModalDelete from 'components/Modals/ModalDelete';
 import { showBackdrop } from 'services/actions/CustomAction';
-import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
 
 const columns = [
   { type: 'text', field: 'name', label: 'Nombre', minWidth: 250, format: (row) => `${row.firstName} ${row.lastName}` },
@@ -146,6 +144,4 @@ class UsersPage extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({ ...state })
-
-export default connect(mapStateToProps)(withRouter(UsersPage));
+export default UsersPage;

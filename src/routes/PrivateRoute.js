@@ -23,7 +23,7 @@ const PrivateRoute = ({ component:Component, ...rest }) => {
       <MiniDrawer {...rest}/> 
       <Route
         {...rest}
-        render={props => ( user ? <Component {...props} /> : <Redirect to="/" />)}
+        render={props => ( user ? <Component {...props} {...rest} /> : <Redirect to="/" />)}
       />     
     </div>
   );
