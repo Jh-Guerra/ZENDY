@@ -13,10 +13,13 @@ import LockIcon from '@material-ui/icons/Lock';
 import { onlyNumbers, trimObject, userTypes } from 'utils/common';
 import PhoneIcon from '@material-ui/icons/Phone';
 import BusinessIcon from '@material-ui/icons/Business';
-import { createUser, updateUser } from 'services/actions/UserAction';
+import { createUser, updateUser,uploadImage} from 'services/actions/UserAction';
 import AssignmentIndIcon from '@material-ui/icons/AssignmentInd';
 import EditIcon from '@material-ui/icons/Edit';
 import { showBackdrop } from 'services/actions/CustomAction';
+import { listCompanies } from 'services/actions/CompanyAction';
+import IconButton from '@material-ui/core/IconButton';
+import PhotoCamera from '@material-ui/icons/PhotoCamera';
 
 const ModalUser = (props) => {
     
@@ -31,12 +34,13 @@ const ModalUser = (props) => {
         dob: new Date(),
         phone: "",
         type: "User",
-        company: ""
+        idCompany: ""
     });
 
     const [title, setTitle] = React.useState("Agregar Usuario");
     const [icon, setIcon] = React.useState(<PersonAddIcon />);
     const [editMode, setEditMode] = React.useState(false);
+    const [companies, setCompanies] = React.useState([]);
 
     React.useEffect(() => {
         if(open){
@@ -46,6 +50,9 @@ const ModalUser = (props) => {
                 setTitle("Detalle del usuario");
                 setIcon(<AssignmentIndIcon />);
                 setEditMode(false);
+                props.dispatch(listCompanies()).then(response =>{
+                    setCompanies(response)
+                })
             }else{
                 // Crear un nuevo usuario
                 setData({
@@ -57,11 +64,14 @@ const ModalUser = (props) => {
                     dob: new Date(),
                     phone: "",
                     type: "User",
-                    company: ""
+                    idCompany: ""
                 });
                 setTitle("Agregar usuario");
                 setIcon(<PersonAddIcon />);
                 setEditMode(true);
+                props.dispatch(listCompanies()).then(response =>{
+                    setCompanies(response)
+                })
             }
         }
     }, [open]);
@@ -69,17 +79,20 @@ const ModalUser = (props) => {
     const validateForm = user => {
         const errors = {};
         user = trimObject(user);
+
         if (!user.firstName) 
             errors.firstName = 'Nombre requerido';
-        
+
         if (!user.lastName)
             errors.lastName = 'Apellido requerido'
 
         if (!user.email)
             errors.email = 'Correo requerido'
 
-        if (!user.password)
-            errors.password = 'Contraseña requerida'
+        if(user && user.id){
+        } else { if (!user.password)
+                errors.password = 'Contraseña requerida'
+            }
 
         if (!user.dob)
             errors.dob = 'Fecha de Nacimiento requerido'
@@ -90,11 +103,33 @@ const ModalUser = (props) => {
         if (!user.type)
             errors.type = 'Tipo de Usuario requerido'
 
-        if (user.type != 'Admin' && !user.company)
-            errors.company = 'Empresa requerida'
+        if (user.type != 'Admin' && !user.idCompany)
+            errors.idCompany = 'Empresa requerida'
 
         return errors;
     };
+
+        //upload image
+        const fileSelectedHandler =(file)=>{
+            setData({image:file[0]})
+        }
+    
+        const handleSubmitImage =(event)=>{
+            
+            const fileInput = document.querySelector('#icon-button-file') ;
+            const formData = new FormData();
+            formData.append('image', fileInput.files[0]);
+            console.log('image', fileInput.files[0])
+            fetch('http://127.0.0.1:8000/api/users/upload', {
+              method: 'POST',
+              body: formData
+            })
+            .then(res => res.json())
+            .then(data => {
+                console.log('data',data)
+            })
+      
+        }
 
     const onSubmit = (user, { setSubmitting }) => {
         props.dispatch(showBackdrop(true));
@@ -109,6 +144,7 @@ const ModalUser = (props) => {
             });
         }else{
             // Agregar
+            handleSubmitImage()
             props.dispatch(createUser(user)).then(res => {
                 props.dispatch(showBackdrop(false));
                 props.onConfirmCallBack();
@@ -243,19 +279,24 @@ const ModalUser = (props) => {
                                         values.type != 'Admin' && (
                                             <Grid item xs={12}>
                                                 <CustomInput
-                                                    id="company"
-                                                    inputType="inputText"
+                                                    id="idCompany"
+                                                    inputType="select2"
                                                     label="Empresa"
-                                                    onChange={handleChange}
-                                                    value={values.company}
-                                                    error={ errors.company && touched.company ? true : false }
-                                                    helperText={ errors.company && touched.company && errors.company }
-                                                    icon={<BusinessIcon />}
+                                                    onChange={(event) => {
+                                                        setFieldValue("idCompany", event.target.value)
+                                                    }}
+                                                    value={values.idCompany}
+                                                    options={companies}
                                                     disabled={!editMode}
                                                 />
                                             </Grid>
                                         )
                                     }
+
+                                    <Grid item xs={12} md={6}>
+                                        <input accept="image/*" id="icon-button-file" type="file" onchange={e => fileSelectedHandler(e.target.files)}
+                                            ref={fileInput => fileInput = fileInput} />
+                                    </Grid>
                                 </Grid>
                                 
                                 <Divider style={{marginTop:"20px"}} />

@@ -20,6 +20,10 @@ const useStyles = makeStyles(theme => ({
     select: {
         // margin: theme.spacing(1),
         minWidth: "100%",
+    },
+    select2: {
+        // margin: theme.spacing(1),
+        minWidth: "100%",
     }
 }));
 
@@ -65,6 +69,21 @@ const CustomInput = props => {
                             >
                                 {
                                     options.map((option, i) => {
+                                        return <MenuItem key={i} value={option.id}>{option.name}</MenuItem>
+                                    })
+                                }
+                            </Select>
+                        </FormControl>
+            case "select2":
+                return <FormControl className={classes[inputType]}>
+                            <InputLabel>{props.label || ""}</InputLabel>
+                            <Select
+                                value={props.value}
+                                onChange={props.onChange}
+                                disabled={props.disabled}
+                            >
+                                {
+                                    options && options.map((option, i) => {
                                         return <MenuItem key={i} value={option.id}>{option.name}</MenuItem>
                                     })
                                 }

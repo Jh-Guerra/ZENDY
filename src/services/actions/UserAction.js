@@ -26,3 +26,8 @@ export const deleteUser = (id) => async dispatch => {
     const res = await userService.deleteUser(id);
     return res && res.data || [];
 }
+
+export const uploadImage = () => async dispatch => {
+    const res = await userService.uploadImage();
+    return res && res.data || [];
+}
