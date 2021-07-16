@@ -21,12 +21,14 @@ import { pColor } from 'assets/styles/zendy-css';
 import { listUsers } from 'services/actions/UserAction';
 import { showBackdrop } from 'services/actions/CustomAction';
 import { createClientChat } from 'services/actions/ChatAction';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 const ModalNewCustomerChat = props => {
   const { open, handleClose } = props;
 
   const [users, setUsers] = React.useState([]);
   const [searchTimeout, setSearchTimeout] = React.useState(null);
+  const [loading, setLoading] = React.useState(false);
 
   React.useEffect(() => {
     if(open){
@@ -35,10 +37,10 @@ const ModalNewCustomerChat = props => {
   }, [open]);
 
   const onListUsers = (term) => {
-    // props.dispatch(showBackdrop(true));
+    setLoading(true);
     props.dispatch(listUsers(term)).then(res => {
       setUsers(res || []);
-      // props.dispatch(showBackdrop(false));
+      setLoading(false);
     });
   }
 
@@ -72,9 +74,10 @@ const ModalNewCustomerChat = props => {
   }
 
   return (
-    <Modal open={open} handleClose={handleClose} size="sm">
-      <ModalHeader icon={<PeopleAltIcon />} text="Nuevo Chat Cliente" />
+    <Modal open={open} handleClose={handleClose} size="sm" style={{minHeight: '100%', minWidth: '100%'}}>     
+      <ModalHeader icon={<PeopleAltIcon />} text="Nuevo Chat Cliente" />     
       <ModalBody>
+      {loading ? <Grid item xs={12} direction='column' alignItems='center' style={{display:'flex'}}> <CircularProgress /> </Grid> :       
         <Grid container spacing={3}>
           <Grid item xs={12}>
             <FormControl fullWidth>
@@ -130,8 +133,9 @@ const ModalNewCustomerChat = props => {
             </List>
           </Grid>
         </Grid>
-      </ModalBody>
-      <ModalFooter confirmText={'Iniciar Chat'} onConfirm={onConfirm} />
+      }    
+      </ModalBody>      
+      <ModalFooter confirmText={'Iniciar Chat'} onConfirm={onConfirm} />   
     </Modal>
   );
 };
