@@ -50,9 +50,7 @@ const ModalUser = (props) => {
                 setTitle("Detalle del usuario");
                 setIcon(<AssignmentIndIcon />);
                 setEditMode(false);
-                props.dispatch(listCompanies()).then(response =>{
-                    setCompanies(response)
-                })
+
             }else{
                 // Crear un nuevo usuario
                 setData({
@@ -69,10 +67,10 @@ const ModalUser = (props) => {
                 setTitle("Agregar usuario");
                 setIcon(<PersonAddIcon />);
                 setEditMode(true);
-                props.dispatch(listCompanies()).then(response =>{
-                    setCompanies(response)
-                })
             }
+            props.dispatch(listCompanies()).then(response =>{
+                setCompanies(response)
+            })
         }
     }, [open]);
 
