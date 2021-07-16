@@ -45,6 +45,14 @@ class UserService {
             }
     )}
    
+    async uploadImage(){
+        return await axios.post(
+            config.apiVersion + `users/sample-restful-apis`,
+            { 
+                headers: config.headers
+            }
+        )
+    }
 }
 
 export default UserService;

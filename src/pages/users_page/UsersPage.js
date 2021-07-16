@@ -13,7 +13,7 @@ import { showBackdrop } from 'services/actions/CustomAction';
 
 const columns = [
   { type: 'text', field: 'name', label: 'Nombre', minWidth: 250, format: (row) => `${row.firstName} ${row.lastName}` },
-  { type: 'text', field: 'company', label: 'Empresa', minWidth: 170 },
+  { type: 'text', field: 'companyName', label: 'Empresa', minWidth: 170 },
   { type: 'text', field: 'type', label: 'Tipo', minWidth: 200, format: (row) => getUserTypeName(row.type) },
   { type: 'text', field: 'email', label: 'Correo', minWidth: 200 },
   { type: 'text', field: 'phone', label: 'N° Celular', minWidth: 150 },
