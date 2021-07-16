@@ -37,6 +37,14 @@ class UserService {
             }
     )}
 
+    async listUsersByCompany(company="", term="") {
+        return await axios.get(
+            config.apiVersion + `users/list-by-company?company=${company}&term=${term}`,
+            { 
+                headers: config.headers
+            }
+    )}
+
     async deleteUser(id) {
         return await axios.delete(
             config.apiVersion + `users/delete/` + id,

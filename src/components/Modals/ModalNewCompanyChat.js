@@ -17,6 +17,9 @@ import InputBase from '@material-ui/core/InputBase';
 import IconButton from '@material-ui/core/IconButton';
 import BusinessIcon from '@material-ui/icons/Business';
 import ModalFooter from './common/ModalFooter';
+import { listCompanies } from 'services/actions/CompanyAction';
+import { listUsers, listUsersByCompany } from 'services/actions/UserAction';
+import { pColor } from 'assets/styles/zendy-css';
 
 
 const useStyles = makeStyles(theme => ({
@@ -49,40 +52,71 @@ const useStyles = makeStyles(theme => ({
 
 const ModalNewCompanyChat = (props) => {
 
-  const { open, handleClose } = props;
-  const Companies = ["Opcion 1", "Opcion 2", "Opcion 3", "Opcion 4"]
-  const Users = ['Lisa Simpons 1', 'Lisa Simpons 2', 'Lisa Simpons 3', 'Lisa Simpons 4', 'Lisa Simpons 5', 'Lisa Simpons 6', 'Lisa Simpons 7', 'Lisa Simpons 8', 'Lisa Simpons 9', 'Lisa Simpons 10']
-
-
-
   const classes = useStyles();
 
-  const [checked, setChecked] = React.useState([]);
-  const [selectAll, setSelectAll] = React.useState(false);
+  const { open, handleClose } = props;
+  const [companies, setCompanies] = React.useState([])
+  const [users, setUsers] = React.useState([])
 
-  const handleToggle = (value) => () => {
-    const currentIndex = checked.indexOf(value);
-    const newChecked = [...checked];
+  const [companyId, setCompanyId] = React.useState('');
+  const [term, setTerm] = React.useState('');
+  const [allChecked, setAllChecked] = React.useState(false);
 
-    if (currentIndex === -1) {
-      newChecked.push(value);
-    } else {
-      newChecked.splice(currentIndex, 1);
+  React.useEffect(() => {
+    if(open){
+      onListCompanies();
     }
+  }, [open]);
 
-    setChecked(newChecked);
-  };
+  const onListCompanies = () => {
+    props.dispatch(listCompanies()).then(res => {
+      const resCompanies = res || [];
+      setCompanies(resCompanies);
+      if(resCompanies[0]){
+        setCompanyId(resCompanies[0].id || "");
+        onListUsersByCompany(resCompanies[0].id, "");
+      }
+    });
+  }
 
-  const selectAllUser = (e) => {
-    const newCheckedAll = [];
-    if (e.target.checked) {     
-      Users.map(value => {
-        newCheckedAll.push(value);
-      })
-    }else{
-      newCheckedAll.splice(Users);
-    }
-    setChecked(newCheckedAll);
+  const onListUsersByCompany = (companyId, term) => {
+    props.dispatch(listUsersByCompany(companyId, term)).then(res => {
+      setUsers(res || []);
+    });
+  }
+
+  const onChangeCompany = companyId => {
+    setCompanyId(companyId);
+    setTerm("");
+    onListUsersByCompany(companyId, "");
+  }
+
+  const onSearchUser = term => {
+    setTerm(term);
+    onListUsersByCompany(companyId, term);
+  }
+
+  const onSelectUser = (user) => {
+    const updatedUsers = [...users] || [];
+    updatedUsers.map(u => {
+      if(u.id == user.id){
+        u.checked = u.checked ? false : true;
+      }
+    });
+
+    const unchecked = updatedUsers.find(user => !user.checked);
+
+    setAllChecked(unchecked ? false : true);
+    setUsers(updatedUsers);
+  }
+
+  const selectAllUser = checked => {
+    const allUsers = users.map(user => {
+      return {...user, checked: checked}
+    });
+
+    setAllChecked(checked);
+    setUsers(allUsers);
   };
 
   return (
@@ -100,20 +134,6 @@ const ModalNewCompanyChat = (props) => {
       <ModalBody>
         <Grid item xs={12}>
           <Grid container direction="row">
-            <Grid item xs={3}>
-              <Typography variant="h6" gutterBottom >Empresa:</Typography>
-            </Grid>
-            <Grid item xs={7}>
-              <Select
-                className={classes.select}
-              >
-                {
-                  Companies.map((item, index) => (
-                    <MenuItem key={index} value={item}>{item}</MenuItem>
-                  ))
-                }
-              </Select>
-            </Grid>
             <Grid item xs={12}>
               <Paper style={{ margin: '0px 0px 20px 0px' }} component="form" >
                 <Grid container direction="row" >
@@ -121,19 +141,38 @@ const ModalNewCompanyChat = (props) => {
                     <SearchIcon />
                   </IconButton>
                   <InputBase
+                    onChange={event => { onSearchUser(event.target.value) }}
                     className={classes.input}
                     placeholder="Buscar contactos"
                     inputProps={{ 'aria-label': 'Buscar contactos' }}
                   />
                 </Grid>
-
               </Paper>
+            </Grid>
+            <Grid item xs={12} container>
+              <Grid item xs={4}>
+                <Typography variant="h6" gutterBottom >Empresa:</Typography>
+              </Grid>
+              <Grid item xs={8}>
+                <Select
+                  className={classes.select}
+                  onChange={event => { onChangeCompany(event.target.value) }}
+                  value={companyId}
+                >
+                  {
+                    companies.map((company, i) => (
+                      <MenuItem key={i} value={company.id}>{company.name}</MenuItem>
+                    ))
+                  }
+                </Select>
+              </Grid>
             </Grid>
             <Grid>
               <Typography>Todos los usuarios</Typography>
               <Checkbox
-                onChange={selectAllUser}
-                checkedIcon={<RadioButtonCheckedIcon style={{ color: '#4F1B66' }} />}
+                checked={allChecked}
+                onChange={(event) => { selectAllUser(event.target.checked) }}
+                checkedIcon={<RadioButtonCheckedIcon style={{ color: pColor }} />}
               />
             </Grid>
           </Grid>
@@ -142,30 +181,30 @@ const ModalNewCompanyChat = (props) => {
         <Grid container spacing={3}>
           <Grid item xs={12}>
             <List dense style={{ maxHeight: 250, overflow: 'auto' }}>
-              {Users.map((value) => {
-                const labelId = `checkbox-list-secondary-label-${value}`;
-                return (
-                  <ListItem key={value} button divider>
-                    <ListItemAvatar>
-                      <Avatar
-                        alt={`Avatar n°${value + 1}`}
-                        src="https://w7.pngwing.com/pngs/847/821/png-transparent-lisa-simpson-maggie-simpson-drawing-marge-simpson-others-text-hand-head.png"
+              {
+                users.map((user, i) => {
+                  if(!user.checked) user.checked = false;
+
+                  return (
+                    <ListItem key={i} button divider>
+                      <ListItemAvatar>
+                        <Avatar alt="" src={user.avatar || ""} />
+                      </ListItemAvatar>
+                      <ListItemText
+                        primary={`${user.firstName} ${user.lastName}`}
                       />
-                    </ListItemAvatar>
-                    <ListItemText style={{ marginLeft: '7px' }} id={labelId} primary={`${value}`} className={classes.letters} />
-                    <ListItemSecondaryAction>
-                      <Checkbox
-                        edge="end"
-                        onChange={handleToggle(value)}
-                        checked={checked.indexOf(value) !== -1}
-                        inputProps={{ 'aria-labelledby': labelId }}
-                        icon={<RadioButtonUncheckedIcon />}
-                        checkedIcon={<RadioButtonCheckedIcon style={{ color: '#4F1B66' }} />}
-                      />
-                    </ListItemSecondaryAction>
-                  </ListItem>
-                );
-              })}
+                      <ListItemSecondaryAction>
+                        <Checkbox
+                          checked={user.checked || false}
+                          onChange={() => {onSelectUser(user)}}
+                          icon={<RadioButtonUncheckedIcon />}
+                          checkedIcon={<RadioButtonCheckedIcon style={{ color: pColor }} />}
+                        />
+                      </ListItemSecondaryAction>
+                    </ListItem>
+                  );
+                })
+              }
             </List>
           </Grid>
         </Grid>

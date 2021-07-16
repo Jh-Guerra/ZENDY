@@ -22,6 +22,11 @@ export const listUsers = (term) => async dispatch => {
     return res && res.data || [];
 }
 
+export const listUsersByCompany = (company, term) => async dispatch => {
+    const res = await userService.listUsersByCompany(company, term);
+    return res && res.data || [];
+}
+
 export const deleteUser = (id) => async dispatch => {
     const res = await userService.deleteUser(id);
     return res && res.data || [];
