@@ -2,6 +2,10 @@ import React from "react";
 import ChatAvatar from "pages/main_page/Components/ChatAvatar";
 import { Button, Grid, makeStyles, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@material-ui/core";
 import { Label } from "@material-ui/icons";
+import { deleteCompany, findCompany, listCompanies } from 'services/actions/CompanyAction';
+import { showBackdrop, showSnackBar } from 'services/actions/CustomAction';
+import { useParams } from "react-router-dom";
+import { findUserByIdCompany } from "services/actions/UserAction";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -65,70 +69,31 @@ const useStyles = makeStyles((theme) => ({
         padding: '0vh 15vh'
     },
     TableHead: {
-        background:'lightgrey'
+        background: 'lightgrey'
     }
 }));
 
 const EmpresaPage = props => {
     const classes = useStyles();
 
-    const rows = [{
-        nombres: 'Tim Ayub',
-        apellidos: 'Hover Rossi',
-        cargo: 'Administrador',
-        celular: '999999999',
-        email: 'Tim@tim.com'
-    },
-    {
-        nombres: 'Ayub Tim',
-        apellidos: 'Rossi Hover',
-        cargo: 'Administrador',
-        celular: '999999999',
-        email: 'Ayub@ayub.com'
-    },
-    {
-        nombres: 'Tim Ayub',
-        apellidos: 'Hover Rossi',
-        cargo: 'Administrador',
-        celular: '999999999',
-        email: 'Tim@tim.com'
-    },
-    {
-        nombres: 'Ayub Tim',
-        apellidos: 'Rossi Hover',
-        cargo: 'Administrador',
-        celular: '999999999',
-        email: 'Ayub@ayub.com'
-    },
-    {
-        nombres: 'Tim Ayub',
-        apellidos: 'Hover Rossi',
-        cargo: 'Administrador',
-        celular: '999999999',
-        email: 'Tim@tim.com'
-    },
-    {
-        nombres: 'Ayub Tim',
-        apellidos: 'Rossi Hover',
-        cargo: 'Administrador',
-        celular: '999999999',
-        email: 'Ayub@ayub.com'
-    },
-    {
-        nombres: 'Tim Ayub',
-        apellidos: 'Hover Rossi',
-        cargo: 'Administrador',
-        celular: '999999999',
-        email: 'Tim@tim.com'
-    },
-    {
-        nombres: 'Ayub Tim',
-        apellidos: 'Rossi Hover',
-        cargo: 'Administrador',
-        celular: '999999999',
-        email: 'Ayub@ayub.com'
+    const [companies, setCompanies] = React.useState([]);
+    const [users, setUsers] = React.useState([]);
+    const { empresaId } = useParams();
+
+    React.useEffect(() => {
+        onListCompanies();
+    }, [props.location.pathname]);
+
+    const onListCompanies = () => {
+        props.dispatch(showBackdrop(true));
+        props.dispatch(findCompany(empresaId)).then(res => {
+                setCompanies(res || []);
+            props.dispatch(findUserByIdCompany(empresaId)).then(res => {
+                setUsers(res || []); 
+                props.dispatch(showBackdrop(false));
+            });       
+        });      
     }
-    ];
 
     return (
         <Grid container className={classes.root, 'container-chat-empresa'} direction="column">
@@ -136,13 +101,13 @@ const EmpresaPage = props => {
                 <Grid className={classes.img}>
                     <ChatAvatar
                         isOnline="active"
-                        image="http://pm1.narvii.com/6243/9ec76120e367892837884808897852a49e5dbc40_00.jpg"
+                        image={companies.logo != "" ? companies.logo :"https://images.assetsdelivery.com/compings_v2/triken/triken1608/triken160800029.jpg"}
                         imgClassName="avatar-header"
                     />
                 </Grid>
                 <Grid className={classes.description}>
-                    <Typography className={classes.textDescription}>Monsters Inc.</Typography>
-                    <Typography className={classes.textDescription}>{rows.length} trabajadores</Typography>
+                    <Typography className={classes.textDescription}>{companies.name}</Typography>
+                    <Typography className={classes.textDescription}>{users.length} trabajadores</Typography>
                 </Grid>
             </Grid>
             <Grid className={classes.Body}>
@@ -169,12 +134,12 @@ const EmpresaPage = props => {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {rows.map((row) => (
+                            {users.map((row) => (
                                 <TableRow key={row.name}>
-                                    <TableCell align="center">{row.nombres}</TableCell>
-                                    <TableCell align="center">{row.apellidos}</TableCell>
-                                    <TableCell align="center">{row.cargo}</TableCell>
-                                    <TableCell align="center">{row.celular}</TableCell>
+                                    <TableCell align="center">{row.firstName}</TableCell>
+                                    <TableCell align="center">{row.lastName}</TableCell>
+                                    <TableCell align="center">{row.type}</TableCell>
+                                    <TableCell align="center">{row.phone}</TableCell>
                                     <TableCell align="center">{row.email}</TableCell>
                                 </TableRow>
                             ))}

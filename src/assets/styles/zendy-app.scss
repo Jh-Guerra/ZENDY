@@ -524,10 +524,12 @@ top: .1em;
 }
 
 .avatar-header {
-    width: 70px;
-    height: 70px;
-    min-width: 70px;
-    min-height: 70px;
+    border-radius: 50%;
+    overflow: hidden;
+    width: 9vh;
+    height: 9vh;
+    min-width: 9vh;
+    min-height: 9vh;
     position: relative;
 }
 

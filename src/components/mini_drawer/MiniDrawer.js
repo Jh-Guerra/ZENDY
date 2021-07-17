@@ -62,6 +62,7 @@ const MiniDrawer = (props) => {
 
   const goToView = (route) => {
     setShowModalMoreActions(false);
+    props.history.push("/");
     history.push(route);
   }
 
@@ -93,19 +94,19 @@ const MiniDrawer = (props) => {
 
   return (
     <div className={classes.root}  >
-      <Drawer variant="permanent" style={{height:"100%"}} className={clsx(classes.drawer, { [classes.drawerOpen]: true, [classes.drawerClose]: false })} classes={{ paper: clsx({ [classes.drawerOpen]: true, [classes.drawerClose]: false, }), }}>
-        <AvatarHeader 
-          Logout={() => {LogOut()}} 
-          />
-        <Grid container style={{height:"90%"}}>
+      <Drawer variant="permanent" style={{ height: "100%" }} className={clsx(classes.drawer, { [classes.drawerOpen]: true, [classes.drawerClose]: false })} classes={{ paper: clsx({ [classes.drawerOpen]: true, [classes.drawerClose]: false, }), }}>
+        <AvatarHeader
+          Logout={() => { LogOut() }}
+        />
+        <Grid container style={{ height: "90%" }}>
           <div className="mini-drawer-sections">
-            <Grid item xs={12} classes={{root: customClasses.root}}>
-              <AppBar position="static" className="mini-drawer-options" style={{backgroundColor:"transparent"}}>
-              
-                <Tabs 
-                  value={tab} 
-                  onChange={handleChangeTab} 
-                  aria-label="simple tabs example" 
+            <Grid item xs={12} classes={{ root: customClasses.root }}>
+              <AppBar position="static" className="mini-drawer-options" style={{ backgroundColor: "transparent" }}>
+
+                <Tabs
+                  value={tab}
+                  onChange={handleChangeTab}
+                  aria-label="simple tabs example"
                   variant="fullWidth"
                   indicatorColor="primary"
                   textColor="primary"
@@ -138,7 +139,9 @@ const MiniDrawer = (props) => {
               <EntryQueryChat />
             </TabPanel>
             <TabPanel value={tab} index={2} >
-              <EnterpriseChat />
+              <EnterpriseChat
+                {...props}
+                goToView={goToView} />
             </TabPanel>
             <TabPanel value={tab} index={3} >
               <ReportedErrorChat />

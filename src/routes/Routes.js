@@ -10,6 +10,7 @@ import UsersPage from 'pages/users_page/UsersPage';
 import CompaniesPage from 'pages/companies_page/CompaniesPage';
 import BlankPage from 'pages/test_page/BlankPage';
 import PageNotFound from 'pages/PageNotFound';
+import EmpresaPage from 'pages/empresa_page/EmpresaPage';
 
 const Routes = (props) => {
   return(  
@@ -26,6 +27,7 @@ const Routes = (props) => {
           <PrivateRoute exact path="/usuarios" {...props} component={UsersPage} />
           <PrivateRoute exact path="/empresas" {...props} component={CompaniesPage} />
           <PrivateRoute exact path="/inicio" {...props} component={BlankPage} />
+          <PrivateRoute exact path='/empresas/:empresaId' {...props} component={EmpresaPage}/>
 
           <Route path="/no-encontrado" component={PageNotFound}/>
           <Redirect from="*" to="/no-encontrado" />

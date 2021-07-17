@@ -2,13 +2,16 @@ import React from 'react'
 import ChatListBarEnterprise from './ChatListBarEnterprise'
 import NewChatCall from './NewChatCall'
 
-const EnterpriseChat = () => {
+const EnterpriseChat = (props) => {
     return (
         <div>
             <div className="mini-drawer-current-chat">
-                <NewChatCall 
-                 isChatCompany={true}/>
-                <ChatListBarEnterprise />
+                <NewChatCall
+                    isChatCompany={true} />
+                <ChatListBarEnterprise
+                    {...props}
+                    goToView={props.goToView}
+                />
             </div>
         </div>
     )
