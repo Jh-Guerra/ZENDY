@@ -35,11 +35,12 @@ const ModalAddToConversation = (props) => {
     <ModalBody>
       <Grid container spacing={3}>
         <Grid item xs={12}>
-          <Paper>
-            <IconButton>
+          <Paper component="form">
+            <IconButton style={{marginLeft:'5px', padding:10}} aria-label="search">
               <SearchIcon />
             </IconButton>             
-              <InputBase                     
+              <InputBase  
+                style={{flex: 1, width: '80%'}}                   
                 placeholder="Buscar..."              
               />
           </Paper>

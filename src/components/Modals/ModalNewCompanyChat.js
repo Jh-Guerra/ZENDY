@@ -35,8 +35,7 @@ const useStyles = makeStyles(theme => ({
   input: {
     marginLeft: theme.spacing(1),
     flex: 1,
-    width: '80%',
-    marginTop: '20px'
+    width: '80%'
   },
   iconButton: {
     padding: 10,
