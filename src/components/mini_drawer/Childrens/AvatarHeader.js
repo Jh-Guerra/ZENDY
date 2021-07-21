@@ -37,18 +37,19 @@ const styles = theme => ({
     const { classes } = this.props
 
     return (
-        <div className="mini-drawer-content" style={{minHeight:"110px"}}>
+        <div className="mini-drawer-content" style={{minHeight:"110px", maxHeight:"110px"}}>
             <div className="mini-drawer-user">
               <Avatar
                 isOnline="active"
                 image="https://www.fundacionpersonasyempresas.org/wp-content/uploads/2013/10/images_curiosita_homer-2.jpg"
+                style={{maxHeight:"10vh", minHeight:'10vh',position:'static'}}
               />
               <div>
                 <p>Homero Simpons</p>
                 <Button className={classes.root} variant="outlined" size="small" onClick={() => (this.props.Logout())}>Cerrar Sesión</Button>
               </div>
             </div>
-          </div>
+        </div>
     );
   }
 }

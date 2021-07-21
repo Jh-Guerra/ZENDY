@@ -74,7 +74,7 @@ const MiniDrawer = (props) => {
         hidden={value !== index}
         id={`simple-tabpanel-${index}`}
         aria-labelledby={`simple-tab-${index}`}
-        style={{width:"100%", maxHeight: "100%"}}
+        style={{width:"100%", maxHeight: "100%", minHeight:"100%"}}
         {...other}
       >
         {value === index && (
@@ -93,12 +93,12 @@ const MiniDrawer = (props) => {
 
   return (
     <div className={classes.root}  >
-      <Drawer variant="permanent" style={{ height: "100%" }} className={clsx(classes.drawer, { [classes.drawerOpen]: true, [classes.drawerClose]: false })} classes={{ paper: clsx({ [classes.drawerOpen]: true, [classes.drawerClose]: false, }), }}>
+      <Drawer variant="permanent" style={{ height: "100vh" }} className={clsx(classes.drawer, { [classes.drawerOpen]: true, [classes.drawerClose]: false })} classes={{ paper: clsx({ [classes.drawerOpen]: true, [classes.drawerClose]: false, }), }}>
         <AvatarHeader
           Logout={() => { LogOut() }}
         />
-        <Grid container style={{ height: "90%" }}>
-          <div className="mini-drawer-sections">
+        <Grid container style={{ height: "93%" }}>
+          <div className="mini-drawer-sections" style={{minHeight:'70px', maxHeight:'70px'}}>
             <Grid item xs={12} classes={{ root: customClasses.root }}>
               <AppBar position="static" className="mini-drawer-options" style={{ backgroundColor: "transparent" }}>
 
@@ -130,7 +130,7 @@ const MiniDrawer = (props) => {
               </AppBar>
             </Grid>
           </div>
-          <div className="mini-drawer-tabs">
+          <div className="mini-drawer-tabs" style={{minHeight:'100%',maxHeight:'100%'}}>
             <TabPanel value={tab} index={0} >
               <CurrentChat />
             </TabPanel>
