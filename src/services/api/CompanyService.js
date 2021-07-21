@@ -37,6 +37,15 @@ class CompanyService {
             }
     )}
 
+    async listWithUsersCount() {
+        return await axios.get(
+            config.apiVersion + `companies/list/count/users`,
+            { headers: {
+                ...config.headers, 
+                Authorization: `token ${JSON.parse(localStorage.getItem('user')).token || ''}` 
+            } }
+    )}
+
     async deleteCompany(id) {
         return await axios.delete(
             config.apiVersion + `companies/delete/` + id,

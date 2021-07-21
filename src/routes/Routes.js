@@ -27,7 +27,7 @@ const Routes = (props) => {
           <PrivateRoute exact path="/usuarios" {...props} component={UsersPage} />
           <PrivateRoute exact path="/empresas" {...props} component={CompaniesPage} />
           <PrivateRoute exact path="/inicio" {...props} component={BlankPage} />
-          <PrivateRoute exact path='/empresas/:empresaId' {...props} component={EmpresaPage}/>
+          <PrivateRoute exact path='/empresas/:companyId' {...props} component={EmpresaPage}/>
 
           <Route path="/no-encontrado" component={PageNotFound}/>
           <Redirect from="*" to="/no-encontrado" />

@@ -49,7 +49,7 @@ const MiniDrawer = (props) => {
 
   const LogOut = () => {
     localStorage.clear();
-    props.history.push("/");
+    history.push("/");
   }
 
   const handleChangeTab = (event, newTab) => {
@@ -62,8 +62,7 @@ const MiniDrawer = (props) => {
 
   const goToView = (route) => {
     setShowModalMoreActions(false);
-    props.history.push("/");
-    history.push(route);
+    history.push(`/${route}`);
   }
 
   const TabPanel = (props) => {

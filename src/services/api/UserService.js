@@ -29,15 +29,6 @@ class UserService {
             }
     )}
 
-    
-    async findUserByIdCompany(idCompany) {
-        return await axios.get(
-            config.apiVersion + `users/findUserByIdCompany/` + idCompany,
-            { 
-                headers: config.headers
-            }
-    )}
-
     async listUsers(term="") {
         return await axios.get(
             config.apiVersion + `users/list?term=${term}`,

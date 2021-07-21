@@ -1,5 +1,4 @@
 import React from 'react'
-import ChatListBarEnterprise from './ChatListBarEnterprise'
 import ChatListBarReportedError from './ChatListBarReportedError'
 import NewChatCall from './NewChatCall'
 

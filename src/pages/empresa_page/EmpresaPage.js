@@ -5,7 +5,7 @@ import { Label } from "@material-ui/icons";
 import { deleteCompany, findCompany, listCompanies } from 'services/actions/CompanyAction';
 import { showBackdrop, showSnackBar } from 'services/actions/CustomAction';
 import { useParams } from "react-router-dom";
-import { findUserByIdCompany } from "services/actions/UserAction";
+import { listUsersByCompany } from "services/actions/UserAction";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -78,21 +78,22 @@ const EmpresaPage = props => {
 
     const [companies, setCompanies] = React.useState([]);
     const [users, setUsers] = React.useState([]);
-    const { empresaId } = useParams();
+    const { companyId } = useParams();
 
     React.useEffect(() => {
         onListCompanies();
     }, [props.location.pathname]);
 
-    const onListCompanies = () => {
+    const onListCompanies = async () => {
         props.dispatch(showBackdrop(true));
-        props.dispatch(findCompany(empresaId)).then(res => {
-                setCompanies(res || []);
-            props.dispatch(findUserByIdCompany(empresaId)).then(res => {
-                setUsers(res || []); 
-                props.dispatch(showBackdrop(false));
-            });       
-        });      
+        await props.dispatch(findCompany(companyId)).then(res => {
+            setCompanies(res || []);
+        });
+        await props.dispatch(listUsersByCompany(companyId)).then(res => {
+            setUsers(res || []);
+        }); 
+        
+        props.dispatch(showBackdrop(false));
     }
 
     return (
@@ -111,11 +112,11 @@ const EmpresaPage = props => {
                 </Grid>
             </Grid>
             <Grid className={classes.Body}>
-                <Grid className={classes.contentButton} xs={4}>
+                <Grid item className={classes.contentButton} xs={4}>
                     <Button className={classes.button}>Iniciar Chat</Button>
                     <Button className={classes.button}>Enviar Notificación</Button>
                 </Grid>
-                <Grid className={classes.contentText} xs={8}>
+                <Grid item className={classes.contentText} xs={8}>
                     <Typography variant="h5" gutterBottom>Descripción de la Empresa</Typography>
                     <Typography variant="body1">"Labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur"</Typography >
                 </Grid>
@@ -134,8 +135,8 @@ const EmpresaPage = props => {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {users.map((row) => (
-                                <TableRow key={row.name}>
+                            {users.map((row, i) => (
+                                <TableRow key={i}>
                                     <TableCell align="center">{row.firstName}</TableCell>
                                     <TableCell align="center">{row.lastName}</TableCell>
                                     <TableCell align="center">{row.type}</TableCell>
