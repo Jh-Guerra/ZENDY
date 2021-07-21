@@ -27,7 +27,9 @@ class NewChatCall extends Component {
     render() {
         return (
             <>
-                <Grid container spacing={3} className="mini-drawer-buttons">
+                <div style = {{ borderTop:'0.8px solid', borderColor:'white'}}>
+                <Grid container spacing={3} style = {{padding:'10px', marginTop:'10px'}}>
+
                     <Grid item xs={6}>
                         <CustomButton fullWidth onClick={() => this.handleClickOpen()} variant="contained" customColor={successButtonColor} startIcon={<RateReviewIcon />}>
                             Nuevo Chat
@@ -43,7 +45,8 @@ class NewChatCall extends Component {
                     customModal={this.props.isChatCompany ? "ModalNewCompanyChat" : "ModalNewChat" }
                     open={this.state.open} 
                     handleClose={() => this.handleClose()}
-                />
+                    />
+            </div>
             </>
         )
     }

@@ -380,7 +380,7 @@ top: .1em;
 .mini-drawer-sections {
     display: flex;
     background-color: $pColorD;
-    height: 10%;
+    height: 10vh;
     width: 100%;
 
     button {
@@ -398,7 +398,7 @@ top: .1em;
 }
 
 .mini-drawer-tabs {
-    height: 90%;
+    height: 100%;
     width: 100%;
     background-color: $pColor;
 }

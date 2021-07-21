@@ -85,21 +85,25 @@ class ChatListBar extends Component {
           </div>  
         <br />  
         {this.props.itemxx}
-        <div className={`chatList__search ${classes.search}`}>
-          {/* <div> */}
-            <SearchIcon />
-            <Input className="chatList__search search_wrap" 
-              style={{paddingLeft: '10px', width: '90%', position: 'absolute',top: '0', left: '0', right: '0', margin: 'auto'}}
-              type="text"
-              placeholder="Buscar..."
-              startAdornment= {
-                <InputAdornment position="start">
-            <SearchIcon />
-                </InputAdornment>
-              }
-              disableUnderline={true}
-            />  
+        <div>
+          <div className={`chatList__search ${classes.search}`}>
+            {/* <div> */}
+              <SearchIcon />
+              <Input className="chatList__search search_wrap" 
+                style={{paddingLeft: '10px', width: '90%', position: 'absolute',top: '0', left: '0', right: '0', margin: 'auto'}}
+                type="text"
+                placeholder="Buscar..."
+                startAdornment= {
+                  <InputAdornment position="start">
+                    <SearchIcon />
+                  </InputAdornment>
+                }
+                disableUnderline={true}
+              />  
+          </div>
         </div>
+
+        <div >
         <div className="chat-list-items">
           {this.state.allChats.map((item, index) => {
             return (
@@ -115,6 +119,7 @@ class ChatListBar extends Component {
               </div>
             );
           })}
+        </div>
         </div>
       </div>
     );
