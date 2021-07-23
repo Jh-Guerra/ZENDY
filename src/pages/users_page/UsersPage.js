@@ -95,16 +95,21 @@ class UsersPage extends Component {
     const { showModalUser, showModalDelete, user, users, loading } = this.state;
 
     return (
-      <Grid container spacing={3} style={{height:'100%', justifyContent:'center'}}>
-        <Grid item xs={11} style={{height:'10%', minHeight: '110px'}}>
-          <Typography variant="h4" component="h4" gutterBottom>
+      /* Contenedor 1 */
+      <Grid container xs={12} spacing={1} style={{height:'100%' , marginLeft:'35px'  }} style={{overflow:'scroll' }}>
+        {/* Contenedores 2 */}
+        <Grid   item container direction="column" xs={12} style={{height:'8%', minHeight: '90px', backgroundColor:'#303e7a',paddingTop:'35px', color:'#e6e5ea',boxShadow:'10px 10px 5px grey'}}>
+          <Typography variant="h4" component="h4" gutterBottom style={{textAlign:'center'}}>
             Usuarios
           </Typography>
         </Grid> 
-        <Grid item xs={11} style={{height:'90%'}}>
-          <Grid container spacing={1}>
+        {/* Contenedores 2  */}
+        <Grid  item container direction="column" xs={9} style={{height:'100%' , marginLeft:'13%'}}>
+          {/* Contenedor 3 */}
+          <Grid item xs={12} container   spacing={1}>
+            {/* Contenedor 4 */}
             <Grid item xs={12}>
-              <p style={{textAlign:'end'}}>
+              <p style={{textAlign:'end' , marginTop:'40px'}}>
                 <CustomButton
                   variant="contained"
                   startIcon={<AddCircleIcon />}
@@ -115,7 +120,8 @@ class UsersPage extends Component {
                 </CustomButton>
               </p>
             </Grid>
-            <Grid item xs={12}>
+            {/*  Contenedor 4 */}
+            <Grid item xs={12} style={{marginBottom:'30%'}}>
               <CustomTable 
                 columns={columns}
                 rows={users}
