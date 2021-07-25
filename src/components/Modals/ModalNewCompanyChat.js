@@ -81,11 +81,13 @@ const ModalNewCompanyChat = (props) => {
 
   const onListUsersByCompany = (companyId, term) => {
     props.dispatch(listUsersByCompany(companyId, term)).then(res => {
+      console.log('res<>>>>>><', res);
       setUsers(res || []);
     });
   }
 
   const onChangeCompany = companyId => {
+    console.log('>>>>>>>>>>>>>', companyId)
     setCompanyId(companyId);
     setTerm("");
     onListUsersByCompany(companyId, "");
@@ -168,12 +170,20 @@ const ModalNewCompanyChat = (props) => {
               </Grid>
             </Grid>
             <Grid>
-              <Typography>Todos los usuarios</Typography>
-              <Checkbox
-                checked={allChecked}
-                onChange={(event) => { selectAllUser(event.target.checked) }}
-                checkedIcon={<RadioButtonCheckedIcon style={{ color: pColor }} />}
-              />
+              {
+                (users.length !== 0)
+                &&
+               (
+                 <>
+                  <Typography>Todos los usuarios</Typography>
+                  <Checkbox
+                    checked={allChecked}
+                    onChange={(event) => { selectAllUser(event.target.checked) }}
+                    checkedIcon={<RadioButtonCheckedIcon style={{ color: pColor }} />}
+                  />
+                </>
+               )
+              }
             </Grid>
           </Grid>
         </Grid>
