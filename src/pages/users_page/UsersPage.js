@@ -98,7 +98,7 @@ class UsersPage extends Component {
       /* Contenedor 1 */
       <Grid container xs={12} spacing={1} style={{height:'100%' , marginLeft:'35px'  }} style={{overflow:'scroll' }}>
         {/* Contenedores 2 */}
-        <Grid   item container direction="column" xs={12} style={{height:'8%', minHeight: '90px', backgroundColor:'#303e7a',paddingTop:'35px', color:'#e6e5ea',boxShadow:'10px 10px 5px grey'}}>
+        <Grid item container direction="column" xs={12} className="top-header">
           <Typography variant="h4" component="h4" gutterBottom style={{textAlign:'center'}}>
             Usuarios
           </Typography>
