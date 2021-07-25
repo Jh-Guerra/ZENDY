@@ -86,6 +86,7 @@ const ModalNewCompanyChat = (props) => {
   }
 
   const onChangeCompany = companyId => {
+    setAllChecked(false);
     setCompanyId(companyId);
     setTerm("");
     onListUsersByCompany(companyId, "");
@@ -171,7 +172,8 @@ const ModalNewCompanyChat = (props) => {
               <Typography>Todos los usuarios</Typography>
               <Checkbox
                 checked={allChecked}
-                onChange={(event) => { selectAllUser(event.target.checked) }}
+                onChange={(event) => { console.log('xd');
+                  selectAllUser(event.target.checked); }}
                 checkedIcon={<RadioButtonCheckedIcon style={{ color: pColor }} />}
               />
             </Grid>
