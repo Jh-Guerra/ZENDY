@@ -80,19 +80,18 @@ const ModalNewCustomerChat = props => {
       {loading ? <Grid item xs={12} direction='column' alignItems='center' style={{display:'flex'}}> <CircularProgress /> </Grid> :       
         <Grid container spacing={3}>
           <Grid item xs={12}>
-            <FormControl fullWidth>
-              <Input
-                id="search-input"
-                startAdornment={
-                  <InputAdornment position="start">
-                    <SearchIcon />
-                  </InputAdornment>
-                }
-                fullWidth
-                placeholder="Buscar..."
+            <Paper component="form" >
+              <Grid container direction="row" >
+              <IconButton style={{ marginLeft: '5px', padding:10 }} type="button" aria-label="search">
+                <SearchIcon />
+              </IconButton>
+              <InputBase
+                style={{flex: 1, width: '80%'}}
+                placeholder="Buscar contactos"
                 onChange={(event) => onSearch(event.target.value)}
               />
-            </FormControl>
+              </Grid>
+            </Paper>
           </Grid>
           <Grid item xs={12}>
             <List style={{padding: "0px", maxHeight: "550px", overflow: "auto"}}>
