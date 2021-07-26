@@ -15,6 +15,7 @@ import { useHistory } from 'react-router';
 import  {loginUser}  from 'services/actions/LoginAction';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
+import CustomSnackbar from 'components/CustomSnackbar';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -105,6 +106,7 @@ const LoginPage = props => {
   const [password, setPassword] = React.useState("");
   const [message, setMessage] = React.useState();
   const [errors, setErrors] = React.useState({});
+  const [isOpenAlert, setIsOpenAlert] = React.useState(false);
 
   const handleValidation =()=>{
     let errors = {};
@@ -170,8 +172,9 @@ const LoginPage = props => {
            error.message ||
            error.toString();
   
-         setMessage(resMessage);
-         alert(error.response.data.error)
+         setMessage(error.response.data.error);
+         setIsOpenAlert(true);
+        //  alert(error.response.data.error)
        }
      ); 
     }else{
@@ -246,6 +249,12 @@ const LoginPage = props => {
               >
                 INICIAR SESION
               </Button>
+              <CustomSnackbar 
+                open={isOpenAlert}
+                duration={6000} 
+                onClose={() => {setIsOpenAlert(false)}} 
+                alertType={'error'}
+                message={message} />
             </form>
           </div>    
       </Grid>
