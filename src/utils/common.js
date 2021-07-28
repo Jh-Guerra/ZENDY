@@ -66,8 +66,8 @@ export const onlyNumbers = (text) => {
 
 // USERS
 export const userTypes = [
-  { id: "User", name: "Usuario"},
-  { id: "UserEmpresa", name: "Administrador de Empresa"},
+  { id: "UserEmpresa", name: "Usuario"},
+  { id: "AdminEmpresa", name: "Administrador de Empresa"},
   { id: "Admin", name: "Administrador General"}, 
 ];
 

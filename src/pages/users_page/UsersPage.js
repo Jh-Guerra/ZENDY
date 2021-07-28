@@ -9,7 +9,7 @@ import ModalUser from 'components/Modals/ModalUser';
 import moment from 'moment';
 import { getUserTypeName } from 'utils/common';
 import ModalDelete from 'components/Modals/ModalDelete';
-import { showBackdrop } from 'services/actions/CustomAction';
+import { showBackdrop, showSnackBar } from 'services/actions/CustomAction';
 
 const columns = [
   { type: 'text', field: 'name', label: 'Nombre', minWidth: 250, format: (row) => `${row.firstName} ${row.lastName}` },
@@ -82,7 +82,7 @@ class UsersPage extends Component {
         showModalDelete: false,
         showModalUser: false,
       });
-      this.props.showSnackbar("warning", res && res.success || "");
+      this.props.dispatch(showSnackBar("warning", res && res.success || ""));
       this.props.dispatch(showBackdrop(false));
       this.onListUsers();
     }).catch(error => {

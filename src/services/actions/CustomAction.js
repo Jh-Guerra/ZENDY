@@ -1,16 +1,26 @@
 import { SHOW_SNACKBAR, HIDE_SNACKBAR, SHOW_BACKDROP, HIDE_BACKDROP } from "services/redux/common/Types"
 
+export const onShowSnackBar = payload => ({
+    type: SHOW_SNACKBAR,
+    payload: payload
+})
+
+export const onHideSnackBar = payload => ({
+    type: HIDE_SNACKBAR,
+    payload: payload
+})
+
 export const showSnackBar = (alertType, message) => async dispatch => {
-    dispatch({
+    dispatch(onShowSnackBar({
         type: SHOW_SNACKBAR,
         alertType: alertType,
         message: message
-    })
+    }));
 
     setTimeout(() => {
-        dispatch({
+        dispatch(onHideSnackBar({
             type: HIDE_SNACKBAR
-        })
+        }));
     }, 5000)
 }
 

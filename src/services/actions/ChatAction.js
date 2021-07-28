@@ -13,6 +13,11 @@ export const createClientChat = (users) => async dispatch => {
     return res && res.data || [];
 }
 
+export const listClientChats = () => async dispatch => {
+    const res = await chatService.listClientChats();
+    return res && res.data || [];
+}
+
 export const updateChat = (id, data) => async dispatch => {
     const res = await chatService.updateChat(id, data);
     return res && res.data || [];

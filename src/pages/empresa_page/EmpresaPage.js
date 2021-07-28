@@ -3,7 +3,7 @@ import ChatAvatar from "pages/main_page/Components/ChatAvatar";
 import { Button, Grid, makeStyles, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@material-ui/core";
 import { Label } from "@material-ui/icons";
 import { deleteCompany, findCompany, listCompanies } from 'services/actions/CompanyAction';
-import { showBackdrop, showSnackBar } from 'services/actions/CustomAction';
+import { showBackdrop } from 'services/actions/CustomAction';
 import { useParams } from "react-router-dom";
 import { listUsersByCompany } from "services/actions/UserAction";
 

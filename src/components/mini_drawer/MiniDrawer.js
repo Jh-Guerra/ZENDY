@@ -132,7 +132,7 @@ const MiniDrawer = (props) => {
           </div>
           <div className="mini-drawer-tabs" style={{minHeight:'100%',maxHeight:'100%'}}>
             <TabPanel value={tab} index={0} >
-              <CurrentChat />
+              <CurrentChat {...props}/>
             </TabPanel>
             <TabPanel value={tab} index={1} >
               <EntryQueryChat />

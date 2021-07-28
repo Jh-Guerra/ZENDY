@@ -16,25 +16,25 @@ const CustomModal = (props) => {
     const getCustomModal = (customModal) => {
         switch(customModal){
             case "ModalNewChat":
-                return <ModalNewChat dispatch={props.dispatch} open={props.open} handleClose={props.handleClose}/>
+                return <ModalNewChat {...props}/>
             case "ModalGroupChatDetail":
-                return <ModalGroupChatDetail dispatch={props.dispatch} open={props.open} handleClose={props.handleClose}/>
+                return <ModalGroupChatDetail {...props}/>
             case "ModalNewCustomerChat":
-                return <ModalNewCustomerChat dispatch={props.dispatch} open={props.open} handleClose={props.handleClose}/>
+                return <ModalNewCustomerChat {...props}/>
             case "ModalNewInternalChat":
-                return <ModalNewInternalChat dispatch={props.dispatch} open={props.open} handleClose={props.handleClose}/>
+                return <ModalNewInternalChat {...props}/>
             case "ModalNewCompanyChat":
-                return <ModalNewCompanyChat dispatch={props.dispatch} open={props.open} handleClose={props.handleClose}/>
+                return <ModalNewCompanyChat {...props}/>
             case "ModalAcceptChat":
-                return <ModalAcceptChat dispatch={props.dispatch} open={props.open} handleClose={props.handleClose}/>
+                return <ModalAcceptChat {...props}/>
             case "ModalRecomendarUsuario":
-                return <ModalRecomendarUsuario dispatch={props.dispatch} open={props.open} handleClose={props.handleClose}/>
+                return <ModalRecomendarUsuario {...props}/>
             case "ModalChatDetail":
-                return <ModalChatDetail dispatch={props.dispatch} open={props.open} handleClose={props.handleClose}/>
+                return <ModalChatDetail {...props}/>
             case "ModalAddToConversation":
-                return <ModalAddToConversation dispatch={props.dispatch} open={props.open} handleClose={props.handleClose}/>
+                return <ModalAddToConversation {...props}/>
             case "ModalResendMessage":
-                return <ModalResendMessage dispatch={props.dispatch} open={props.open} handleClose={props.handleClose}/>
+                return <ModalResendMessage {...props}/>
                 
             default:
                 return null;

@@ -24,8 +24,8 @@ export default function(state = initialState, action){
                 ...state,
                 snackbar: {
                     show: true,
-                    alertType: action.alertType,
-                    message: action.message
+                    alertType: action.payload.alertType,
+                    message: action.payload.message
                 }
             }
         case HIDE_SNACKBAR:

@@ -18,8 +18,8 @@ import IconButton from '@material-ui/core/IconButton';
 import ModalFooter from './common/ModalFooter';
 import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
 import { pColor } from 'assets/styles/zendy-css';
-import { listUsers } from 'services/actions/UserAction';
-import { showBackdrop } from 'services/actions/CustomAction';
+import { listAvailableUsers } from 'services/actions/UserAction';
+import { showBackdrop, showSnackBar } from 'services/actions/CustomAction';
 import { createClientChat } from 'services/actions/ChatAction';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
@@ -32,13 +32,13 @@ const ModalNewCustomerChat = props => {
 
   React.useEffect(() => {
     if(open){
-      onListUsers();
+      onListAvailableUsers();
     }
   }, [open]);
 
-  const onListUsers = (term) => {
+  const onListAvailableUsers = (term) => {
     setLoading(true);
-    props.dispatch(listUsers(term)).then(res => {
+    props.dispatch(listAvailableUsers("UserEmpresa", term)).then(res => {
       setUsers(res || []);
       setLoading(false);
     });
@@ -48,7 +48,7 @@ const ModalNewCustomerChat = props => {
     clearTimeout(searchTimeout);
     setSearchTimeout(
       setTimeout(() => {
-        onListUsers(term);
+        onListAvailableUsers(term);
       }, 1000)
     )
   }
@@ -69,6 +69,9 @@ const ModalNewCustomerChat = props => {
 
     props.dispatch(createClientChat(selectedRows)).then(res => {
       handleClose();
+    }).catch(err => {
+      console.log("err", err.response.data.error);
+      props.dispatch(showSnackBar("error", err.response.data ? err.response.data.error : "ERROR"));
     });
 
   }

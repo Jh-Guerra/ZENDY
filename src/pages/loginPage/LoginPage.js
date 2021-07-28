@@ -16,6 +16,7 @@ import  {loginUser}  from 'services/actions/LoginAction';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import CustomSnackbar from 'components/CustomSnackbar';
+import { showSnackBar } from 'services/actions/CustomAction';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -158,27 +159,15 @@ const LoginPage = props => {
     e.preventDefault();
 
     if(handleValidation()){
-       
       props.dispatch(loginUser(body)).then(
        (res) => {
          console.log("res", res)
          props.history.push("/inicio");
        },
        (error) => {
-         const resMessage =
-           (error.response &&
-             error.response.data &&
-             error.response.data.message) ||
-           error.message ||
-           error.toString();
-  
-         setMessage(error.response.data.error);
-         setIsOpenAlert(true);
-        //  alert(error.response.data.error)
+        props.dispatch(showSnackBar("warning", error.response.data.error || ""));
        }
      ); 
-    }else{
-       //alert("Form has errors.")
     }
   };
 
@@ -249,12 +238,6 @@ const LoginPage = props => {
               >
                 INICIAR SESION
               </Button>
-              <CustomSnackbar 
-                open={isOpenAlert}
-                duration={6000} 
-                onClose={() => {setIsOpenAlert(false)}} 
-                alertType={'error'}
-                message={message} />
             </form>
           </div>    
       </Grid>
