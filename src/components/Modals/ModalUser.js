@@ -20,6 +20,7 @@ import { showBackdrop } from 'services/actions/CustomAction';
 import { listCompanies } from 'services/actions/CompanyAction';
 import IconButton from '@material-ui/core/IconButton';
 import PhotoCamera from '@material-ui/icons/PhotoCamera';
+import config from "../../config/Config";
 
 const ModalUser = (props) => {
     
@@ -118,7 +119,7 @@ const ModalUser = (props) => {
             const formData = new FormData();
             formData.append('image', fileInput.files[0]);
             console.log('image', fileInput.files[0])
-            fetch('http://127.0.0.1:8000/api/users/upload', {
+            fetch( config.apiVersion + 'users/upload', {
               method: 'POST',
               body: formData
             })
