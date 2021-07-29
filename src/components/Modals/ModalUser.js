@@ -1,4 +1,4 @@
-import { Grid, Divider } from '@material-ui/core';
+import { Grid, Divider, Avatar } from '@material-ui/core';
 import React from 'react'
 import ModalBody from './common/ModalBody'
 import ModalHeader from './common/ModalHeader'
@@ -249,9 +249,10 @@ const ModalUser = (props) => {
                                         <CustomInput
                                             id="phone"
                                             inputType="inputText"
+                                            maxlength="16"
                                             label="N° Celular"
                                             onChange={(event) => { 
-                                                setFieldValue("phone", onlyNumbers(event.target.value))
+                                                 setFieldValue("phone", onlyNumbers(Math.max(0, parseInt(event.target.value)).toString().slice(0,15)))
                                             }}
                                             value={values.phone}
                                             error={ errors.phone && touched.phone ? true : false }
@@ -291,10 +292,13 @@ const ModalUser = (props) => {
                                         )
                                     }
 
-                                    <Grid item xs={12} md={6}>
+                                    <Grid item xs={12} md={8}>
                                         <input accept="image/*" id="icon-button-file" type="file" onchange={e => fileSelectedHandler(e.target.files)}
-                                            ref={fileInput => fileInput = fileInput} />
+                                         ref={fileInput => fileInput = fileInput} />
                                     </Grid>
+                                    <Grid item xs={12} md={4}>
+                                        <Avatar variant="rounded" style={{height:100, width:100}} src="*"/>
+                                    </Grid>   
                                 </Grid>
                                 
                                 <Divider style={{marginTop:"20px"}} />

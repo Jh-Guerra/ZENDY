@@ -53,7 +53,7 @@ export const trimObject = obj => {
 
 export const onlyNumbers = (text) => {
   const onlyNums = text && text.replace(/[^0-9]/g, '');
-  if (onlyNums.length < 10) {
+  /*if (onlyNums.length < 10) {
     return onlyNums+"";
   }else{
       const number = onlyNums.replace(
@@ -61,7 +61,8 @@ export const onlyNumbers = (text) => {
           '($1) $2-$3'
       );
       return number+"";
-  }
+  }*/
+  return onlyNums;
 }
 
 // USERS
