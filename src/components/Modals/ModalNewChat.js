@@ -93,7 +93,7 @@ const ModalNewChat = (props) => {
             <CustomModal 
                 customModal="ModalNewCustomerChat"
                 open={openNewCustomerChat}
-                handleClose={() => { setOpenNewCustomerChat(false); handleClose(); }}
+                handleClose={() => { setOpenNewCustomerChat(false); }}
             />
             <CustomModal 
                 customModal="ModalNewInternalChat"

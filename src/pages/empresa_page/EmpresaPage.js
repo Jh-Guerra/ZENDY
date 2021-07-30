@@ -6,6 +6,7 @@ import { deleteCompany, findCompany, listCompanies } from 'services/actions/Comp
 import { showBackdrop } from 'services/actions/CustomAction';
 import { useParams } from "react-router-dom";
 import { listUsersByCompany } from "services/actions/UserAction";
+import NotificationsActiveIcon from '@material-ui/icons/NotificationsActive';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -42,12 +43,12 @@ const useStyles = makeStyles((theme) => ({
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
+        justifyContent: 'center'
     },
     button: {
         width: '50%',
         border: '3px solid',
-        background: 'transparent',
-        borderRadius: '50px',
+        borderRadius: '30px',
         padding: '1vh',
         margin: '1vh 0vh',
         color: 'white',
@@ -56,7 +57,8 @@ const useStyles = makeStyles((theme) => ({
     },
     contentText: {
         color: 'white',
-        padding: '1vh 20vh 1vh 0vh'
+        padding: '1vh 20vh 1vh 10vh',
+        textAlign: 'justifyContent'
     },
     table: {
         Width: '100%',
@@ -112,13 +114,20 @@ const EmpresaPage = props => {
                 </Grid>
             </Grid>
             <Grid className={classes.Body}>
-                <Grid item className={classes.contentButton} xs={4}>
-                    <Button className={classes.button}>Iniciar Chat</Button>
-                    <Button className={classes.button}>Enviar Notificación</Button>
-                </Grid>
-                <Grid item className={classes.contentText} xs={8}>
+                <Grid item className={classes.contentText} xs={10}>
                     <Typography variant="h5" gutterBottom>Descripción de la Empresa</Typography>
-                    <Typography variant="body1">"Labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur"</Typography >
+                    <Typography variant="body1" style={{width:'100%'}}>"Labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur"</Typography >
+                </Grid>
+                <Grid item className={classes.contentButton} xs={2}>
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        //className={classes.button}
+                        style={{margin:'2px 2px 2px 2px'}}
+                        endIcon={<NotificationsActiveIcon/>}
+                    >
+                        Enviar Notificación
+                    </Button>
                 </Grid>
             </Grid>
             <Grid className={classes.table}>

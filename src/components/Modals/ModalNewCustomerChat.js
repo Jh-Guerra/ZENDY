@@ -104,7 +104,7 @@ const ModalNewCustomerChat = props => {
                   return (
                     <ListItem key={index}>
                       <ListItemAvatar>
-                        <Avatar alt="" src={user.avatar || ""} />
+                        <Avatar alt="" src={process.env.REACT_APP_API+ user.avatar} >{user.firstName.charAt(0).toUpperCase()}</Avatar>
                       </ListItemAvatar>
                       <ListItemText
                         primary={`${user.firstName} ${user.lastName}`}

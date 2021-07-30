@@ -140,7 +140,7 @@ const ModalNewCompanyChat = (props) => {
                     <SearchIcon />
                   </IconButton>
                   <InputBase
-                    onChange={event => { onSearchUser(event.target.value) }}
+                    onChange={event => { setTimeout(onSearchUser,1000,(event.target.value))  }}
                     className={classes.input}
                     placeholder="Buscar contactos"
                     inputProps={{ 'aria-label': 'Buscar contactos' }}
@@ -187,7 +187,7 @@ const ModalNewCompanyChat = (props) => {
                   return (
                     <ListItem key={i} button divider>
                       <ListItemAvatar>
-                        <Avatar alt="" src={user.avatar || ""} />
+                        <Avatar alt="" src={process.env.REACT_APP_API+user.avatar || ""} />
                       </ListItemAvatar>
                       <ListItemText
                         primary={`${user.firstName} ${user.lastName}`}
