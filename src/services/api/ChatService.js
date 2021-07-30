@@ -23,13 +23,15 @@ class ChatService {
             } }
     )}
 
-    async listClientChats() {
+    async listClientChats(term) {
         return await axios.get(
-            config.apiVersion + `chats-client/list`,
-            { headers: {
-                ...config.headers, 
-                Authorization: `token ${JSON.parse(localStorage.getItem('user')).token || ''}` 
-            } }
+            config.apiVersion + `chats-client/list?term=${term}`,
+            { 
+                headers: {
+                    ...config.headers, 
+                    Authorization: `token ${JSON.parse(localStorage.getItem('user')).token || ''}` 
+                }
+            }
     )}
 
     async updateChat(id, data) {

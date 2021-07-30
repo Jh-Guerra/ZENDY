@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import ItemAvatarRow from '../Components/ItemAvatarRow';
 import { withStyles } from '@material-ui/core/styles';
-import { Input, InputAdornment } from '@material-ui/core';
+import { Input, InputAdornment, Paper, Grid, IconButton, InputBase } from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search';
 import ItemAvatarNotifyRow from '../Components/ItemAvatarNotifyRow';
 import { listClientChats } from 'services/actions/ChatAction';
@@ -14,102 +14,82 @@ const styles = theme => ({
   },
 });
 
-class CurrentChat extends Component {
+const CurrentChat = (props) => {
 
-  // {
-  //   image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTA78Na63ws7B7EAWYgTr9BxhX_Z8oLa1nvOA&usqp=CAU',
-  //   name: 'Tim Hover',
-  //   message: 'hola',
-  //   hour: '10:20 pm',
-  //   active: true,
-  //   isOnline: true,
-  // },
+  const { classes={} } = props;
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      allChats: [],
-      loading: false,
-    };
-  }
+  const [allChats, setAllChats] = React.useState([]);
+  const [loading, setLoading] = React.useState(false);
+  const [searchTimeout, setSearchTimeout] = React.useState(null);
 
-  componentDidMount() {
-    this.onListClientChats();
-  }
+  React.useEffect(() => {
+    setLoading(true);
+    onListClientChats("");
+  }, []);
 
-  onListClientChats = () => {
-    this.setState({ loading: true });
-    this.props.dispatch(listClientChats()).then(res => {
-      this.setState({
-        allChats: res || [],
-        loading: false,
-      });
+  const onListClientChats = (term) => {
+    setLoading(true);
+    props.dispatch(listClientChats(term)).then(res => {
+      setAllChats(res || []);
+      setLoading(false);
     });
-  };
+  }
 
-  render() {
-    const { classes } = this.props;
-    const { allChats = [], loading } = this.state;
+  const onSearch = (term) => {
+    clearTimeout(searchTimeout);
+    setSearchTimeout(
+      setTimeout(() => {
+        onListClientChats(term);
+      }, 1000)
+    )
+  }
 
-    return (
-      <div className="mini-drawer-current-chat">
-        <NewChatCall />
-        <div className="mini-drawer-chatlist">
-          <br />
-          <div className="chatlist__heading">
-            <span className="divider-line"></span>
-            <p className="divider-content">Chats Vigentes</p>
-            <span className="divider-line"></span>
-          </div>
-          <br />
-          {this.props.itemxx}
-          <div>
-            <div className={`chatList__search ${classes.search}`}>
-              <SearchIcon />
-              <Input
-                className="chatList__search search_wrap"
-                style={{
-                  paddingLeft: '10px',
-                  width: '90%',
-                  position: 'absolute',
-                  top: '0',
-                  left: '0',
-                  right: '0',
-                  margin: 'auto',
-                }}
-                type="text"
-                placeholder="Buscar..."
-                startAdornment={
-                  <InputAdornment position="start">
-                    <SearchIcon />
-                  </InputAdornment>
-                }
-                disableUnderline={true}
-              />
-            </div>
-          </div>
 
-          <div>
-            <div className="chat-list-items">
-              {/* {allChats.map((item, index) => {
-                return (
-                  <div key={index}>
-                    <ItemAvatarRow
-                      image={item.image}
-                      name={item.name}
-                      message={item.message}
-                      hour= {item.hour}
-                      active={item.active ? "active" : ""}
-                      isOnline={item.isOnline ? "active" : ""}
-                    />
-                  </div>
-                );
-              })} */}
-            </div>
+  return (
+    <div className="mini-drawer-current-chat">
+      <NewChatCall />
+      <div className="mini-drawer-chatlist">
+        <br />
+        <div className="chatlist__heading">
+          <span className="divider-line"></span>
+          <p className="divider-content">Chats Vigentes</p>
+          <span className="divider-line"></span>
+        </div>
+        <br />
+        {props.itemxx}
+        <Paper component="form" >
+          <Grid container direction="row" >
+          <IconButton style={{ marginLeft: '5px', padding:10 }} type="button" aria-label="search">
+            <SearchIcon />
+          </IconButton>
+          <InputBase
+            style={{flex: 1, width: '80%'}}
+            placeholder="Buscar contactos"
+            onChange={(event) => onSearch(event.target.value)}
+          />
+          </Grid>
+        </Paper>
+        <div>
+          <div className="chat-list-items">
+            {allChats.map((chat, i) => {
+              return (
+                <div key={i}>
+                  <ItemAvatarRow
+                    image={chat.user.avatar || ""}
+                    name={chat.receiver && (chat.receiver.firstName + " " + chat.receiver.lastName) || ""}
+                    message={chat.lastMessage || "..."}
+                    hour= {chat.lastMessageHour || "00:00"}
+                    isOnline={chat.isOnline ? "active" : ""}
+                  />
+                </div>
+              );
+            })}
           </div>
         </div>
       </div>
-    );
-  }
+    </div>
+  );
+
 }
+
 export default withStyles(styles, { withTheme: true })(CurrentChat);
