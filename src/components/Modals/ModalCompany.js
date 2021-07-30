@@ -177,7 +177,7 @@ const ModalCompany = (props) => {
                                             inputType="inputText"
                                             label={<p>N° Celular *</p>}
                                             onChange={(event) => { 
-                                                setFieldValue("phone", onlyNumbers(event.target.value))
+                                                setFieldValue("phone", onlyNumbers(Math.max(0, parseInt(event.target.value)).toString().slice(0,15)))
                                             }}
                                             value={values.phone}
                                             error={ errors.phone && touched.phone ? true : false }
