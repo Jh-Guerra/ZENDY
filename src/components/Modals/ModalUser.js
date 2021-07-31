@@ -48,13 +48,11 @@ const ModalUser = (props) => {
     React.useEffect(() => {
         if(open){
             if(user && user.id){
-                console.log("detalle ususario",user)
                 // Ver el detalle de un usuario
                 setData(user);
                 setTitle("Detalle del usuario");
                 setIcon(<AssignmentIndIcon />);
                 setEditMode(false);
-
             }else{
                 // Crear un nuevo usuario
                 setData({
@@ -113,7 +111,6 @@ const ModalUser = (props) => {
     };
 
     const onSubmit = (user, { setSubmitting }) => {
-        console.error('user', user);
         props.dispatch(showBackdrop(true));
         if(user.id){
             // Editar
@@ -129,7 +126,6 @@ const ModalUser = (props) => {
                 data = {...user,
                     avatar: (data.image).substr(1)
                 }
-                console.error('data', data);
 
                  // Editar
                 props.dispatch(updateUser(data.id, data)).then(res => {
@@ -163,9 +159,7 @@ const ModalUser = (props) => {
                     props.dispatch(showBackdrop(false));
                     console.error('error', error);
                 });
-
             })    
-           
         }
     }
 
