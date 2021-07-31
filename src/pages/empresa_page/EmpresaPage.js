@@ -7,6 +7,8 @@ import { showBackdrop } from 'services/actions/CustomAction';
 import { useParams } from "react-router-dom";
 import { listUsersByCompany } from "services/actions/UserAction";
 import NotificationsActiveIcon from '@material-ui/icons/NotificationsActive';
+import CustomTable from 'components/CustomTable';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -16,8 +18,10 @@ const useStyles = makeStyles((theme) => ({
     },
     Header: {
         height: '110px',
+        minHeight:'110px',
+        maxHeight:'110px',
         width: '100%',
-        background: "white",
+        background: "#303e7a",
         display: 'flex',
         justifyContent: 'center'
     },
@@ -25,16 +29,18 @@ const useStyles = makeStyles((theme) => ({
         padding: '1vh 2vh'
     },
     description: {
-        margin: '1vh'
+        margin: '1vh',  
+        height: '50px'
     },
     textDescription: {
-        fontSize: '3.2vh',
+        fontSize: '150%',
         margin: '0px',
-        fontWeight: 'bold'
+        fontWeight: 'bold',
+        color:'white'
     },
     Body: {
         marginTop: '5vh',
-        height: '18%',
+        height: '150px',
         width: '100%',
         display: 'flex',
         flexDirection: 'row'
@@ -42,7 +48,7 @@ const useStyles = makeStyles((theme) => ({
     contentButton: {
         display: 'flex',
         flexDirection: 'column',
-        alignItems: 'center',
+        alignItems: 'left',
         justifyContent: 'center'
     },
     button: {
@@ -56,24 +62,28 @@ const useStyles = makeStyles((theme) => ({
         fontWeight: 'bold'
     },
     contentText: {
-        color: 'white',
-        padding: '1vh 20vh 1vh 10vh',
-        textAlign: 'justifyContent'
+        padding: '1vh 25vh 1vh 10vh',
+        textAlign: 'justifyContent',
+        color: 'black',
+        with:'100%'       
     },
     table: {
         Width: '100%',
-        marginTop: '4vh',
-        minHeight: '60%',
-        maxHeight: '60%',
+        maxHeight: '10%',
         color: 'white',
-        display: 'flex',
-        flexDirection: 'column',
-        padding: '0vh 15vh'
+        padding: '1vh 25vh 1vh 10vh',
     },
     TableHead: {
         background: 'lightgrey'
     }
 }));
+const columns = [
+    { type: 'text', field: 'firstName', label: 'Nombres', minWidth: 250 },
+    { type: 'text', field: 'lastName', label: 'Apellidos', minWidth: 250 },
+    { type: 'text', field: 'type', label: 'Cargo', minWidth: 250 },
+    { type: 'text', field: 'phone', label: 'N° Celular', minWidth: 170 },
+    { type: 'text', field: 'email', label: 'Email', minWidth: 250 },
+    ];
 
 const EmpresaPage = props => {
     const classes = useStyles();
@@ -99,7 +109,7 @@ const EmpresaPage = props => {
     }
 
     return (
-        <Grid container className={classes.root, 'container-chat-empresa'} direction="column">
+        <Grid container className={classes.root, 'container-chat-empresa'} direction="column" style={{backgroundColor:'white'}}>
             <Grid container className={classes.Header}>
                 <Grid className={classes.img}>
                     <ChatAvatar
@@ -114,48 +124,29 @@ const EmpresaPage = props => {
                 </Grid>
             </Grid>
             <Grid className={classes.Body}>
-                <Grid item className={classes.contentText} xs={10}>
-                    <Typography variant="h5" gutterBottom>Descripción de la Empresa</Typography>
+                <Grid item className={classes.contentText} xs={12}>
+                    <Typography variant="h5" gutterBottom style={{fontWeight:'bold'}}>Descripción de la Empresa</Typography>
                     <Typography variant="body1" style={{width:'100%'}}>"Labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur"</Typography >
                 </Grid>
-                <Grid item className={classes.contentButton} xs={2}>
-                    <Button
-                        variant="contained"
-                        color="primary"
-                        //className={classes.button}
-                        style={{margin:'2px 2px 2px 2px'}}
-                        endIcon={<NotificationsActiveIcon/>}
-                    >
-                        Enviar Notificación
-                    </Button>
-                </Grid>
             </Grid>
-            <Grid className={classes.table}>
-                <Typography variant="h4" gutterBottom align='left'>Lista de trabajadores</Typography>
-                <TableContainer component={Paper}>
-                    <Table size="medium">
-                        <TableHead className={classes.TableHead}>
-                            <TableRow>
-                                <TableCell align="center">NOMBRES</TableCell>
-                                <TableCell align="center">APELLIDOS</TableCell>
-                                <TableCell align="center">CARGO</TableCell>
-                                <TableCell align="center">CELULAR</TableCell>
-                                <TableCell align="center">EMAIL</TableCell>
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            {users.map((row, i) => (
-                                <TableRow key={i}>
-                                    <TableCell align="center">{row.firstName}</TableCell>
-                                    <TableCell align="center">{row.lastName}</TableCell>
-                                    <TableCell align="center">{row.type}</TableCell>
-                                    <TableCell align="center">{row.phone}</TableCell>
-                                    <TableCell align="center">{row.email}</TableCell>
-                                </TableRow>
-                            ))}
-                        </TableBody>
-                    </Table>
-                </TableContainer>
+            <Grid className={classes.table} xs={12} >
+                <Button
+                    variant="contained"
+                    color="primary"
+                    style={{ margin: '2px 2px 30px 2px' }}
+                    size='large'
+                    endIcon={<NotificationsActiveIcon />}
+                >
+                    Enviar Notificación
+                </Button>
+                <Typography variant="h4" gutterBottom align='left' style={{color:'black',fontWeight:'bold'}}>Lista de trabajadores</Typography>
+                <Grid item xs={12}>
+                    <CustomTable
+                        columns={columns}
+                        rows={users}  
+                    > 
+                    </CustomTable>
+                </Grid>
             </Grid>
         </Grid>
     );
