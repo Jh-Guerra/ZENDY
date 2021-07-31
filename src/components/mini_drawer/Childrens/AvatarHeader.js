@@ -1,4 +1,4 @@
-import { Button } from "@material-ui/core";
+import { Button, Typography } from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles"
 import React, { Component, useState, createRef, useEffect } from "react";
 
@@ -35,17 +35,21 @@ const styles = theme => ({
   render() {
 
     const { classes } = this.props
+    const sessionUser = JSON.parse(localStorage.getItem('user'));
+    const user = sessionUser.user;
 
     return (
         <div className="mini-drawer-content" style={{minHeight:"110px", maxHeight:"110px"}}>
             <div className="mini-drawer-user">
               <Avatar
                 isOnline="active"
-                image="https://www.fundacionpersonasyempresas.org/wp-content/uploads/2013/10/images_curiosita_homer-2.jpg"
+                image={process.env.REACT_APP_API+user.avatar || ""}
                 style={{maxHeight:"10vh", minHeight:'10vh',position:'static'}}
               />
               <div>
-                <p>Homero Simpons</p>
+                <div>               
+                <Typography style={{fontSize:'19px'}}>{`${user.firstName} ${user.lastName}`}</Typography>               
+                </div>
                 <Button className={classes.root} variant="outlined" size="small" onClick={() => (this.props.Logout())}>Cerrar Sesión</Button>
               </div>
             </div>
