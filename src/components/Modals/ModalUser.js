@@ -35,17 +35,20 @@ const ModalUser = (props) => {
         dob: new Date(),
         phone: "",
         type: "User",
-        idCompany: ""
+        idCompany: "",
+        avatar: ""
     });
 
     const [title, setTitle] = React.useState("Agregar Usuario");
     const [icon, setIcon] = React.useState(<PersonAddIcon />);
     const [editMode, setEditMode] = React.useState(false);
     const [companies, setCompanies] = React.useState([]);
+    const [avatar, setAvatar] = React.useState("");
 
     React.useEffect(() => {
         if(open){
             if(user && user.id){
+                console.log("detalle ususario",user)
                 // Ver el detalle de un usuario
                 setData(user);
                 setTitle("Detalle del usuario");
@@ -63,7 +66,8 @@ const ModalUser = (props) => {
                     dob: new Date(),
                     phone: "",
                     type: "User",
-                    idCompany: ""
+                    idCompany: "",
+                    avatar: ""
                 });
                 setTitle("Agregar usuario");
                 setIcon(<PersonAddIcon />);
@@ -108,49 +112,60 @@ const ModalUser = (props) => {
         return errors;
     };
 
-        //upload image
-        const fileSelectedHandler =(file)=>{
-            setData({image:file[0]})
-        }
-    
-        const handleSubmitImage =(event)=>{
-            
-            const fileInput = document.querySelector('#icon-button-file') ;
-            const formData = new FormData();
-            formData.append('image', fileInput.files[0]);
-            console.log('image', fileInput.files[0])
-            fetch( config.apiVersion + 'users/upload', {
-              method: 'POST',
-              body: formData
-            })
-            .then(res => res.json())
-            .then(data => {
-                console.log('data',data)
-            })
-      
-        }
-
     const onSubmit = (user, { setSubmitting }) => {
+        console.error('user', user);
         props.dispatch(showBackdrop(true));
         if(user.id){
             // Editar
-            props.dispatch(updateUser(user.id, user)).then(res => {
-                props.dispatch(showBackdrop(false));
-                props.onConfirmCallBack();
-            }).catch(error => {
-                props.dispatch(showBackdrop(false));
-                console.error('error', error);
-            });
+            const fileInput = document.querySelector('#icon-button-file') ;
+            const formData = new FormData();
+            formData.append('image', fileInput.files[0]);
+            fetch('http://127.0.0.1:8000/api/users/upload', {
+              method: 'POST',
+              body: formData
+            })
+            .then(res =>  res.json())
+            .then(data => {
+                data = {...user,
+                    avatar: (data.image).substr(1)
+                }
+                console.error('data', data);
+
+                 // Editar
+                props.dispatch(updateUser(data.id, data)).then(res => {
+                    props.dispatch(showBackdrop(false));
+                    props.onConfirmCallBack();
+                }).catch(error => {
+                    props.dispatch(showBackdrop(false));                    
+                });
+
+            })    
         }else{
             // Agregar
-            handleSubmitImage()
-            props.dispatch(createUser(user)).then(res => {
-                props.dispatch(showBackdrop(false));
-                props.onConfirmCallBack();
-            }).catch(error => {
-                props.dispatch(showBackdrop(false));
-                console.error('error', error);
-            });
+            const fileInput = document.querySelector('#icon-button-file') ;
+            const formData = new FormData();
+            formData.append('image', fileInput.files[0]);
+            fetch('http://127.0.0.1:8000/api/users/upload', {
+              method: 'POST',
+              body: formData
+            })
+            .then(res =>  res.json())
+            .then(data => {
+                data = {...user,
+                    avatar: (data.image).substr(1)
+                }
+                  
+                // Agregar
+                props.dispatch(createUser(data)).then(res => {
+                    props.dispatch(showBackdrop(false));
+                    props.onConfirmCallBack();
+                }).catch(error => {
+                    props.dispatch(showBackdrop(false));
+                    console.error('error', error);
+                });
+
+            })    
+           
         }
     }
 
@@ -294,11 +309,10 @@ const ModalUser = (props) => {
                                     }
 
                                     <Grid item xs={12} md={8}>
-                                        <input accept="image/*" id="icon-button-file" type="file" onchange={e => fileSelectedHandler(e.target.files)}
-                                         ref={fileInput => fileInput = fileInput} />
+                                        <input accept="image/*" id="icon-button-file" type="file"/>
                                     </Grid>
                                     <Grid item xs={12} md={4}>
-                                        <Avatar variant="rounded" style={{height:100, width:100}} src="*"/>
+                                        <Avatar variant="rounded" style={{height:100, width:100}} src={process.env.REACT_APP_API+data.avatar || ""}/>
                                     </Grid>   
                                 </Grid>
                                 
