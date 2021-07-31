@@ -306,7 +306,7 @@ const ModalUser = (props) => {
                                         <input accept="image/*" id="icon-button-file" type="file"/>
                                     </Grid>
                                     <Grid item xs={12} md={4}>
-                                        <Avatar variant="rounded" style={{height:100, width:100}} src={process.env.REACT_APP_API+data.avatar || ""}/>
+                                        <Avatar variant="rounded" style={{height:100, width:100}} src={data.avatar ? (config.api+data.avatar) : "ruta-por-defecto-del-front"}/>
                                     </Grid>   
                                 </Grid>
                                 

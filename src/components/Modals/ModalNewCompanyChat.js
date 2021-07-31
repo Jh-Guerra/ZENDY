@@ -20,6 +20,7 @@ import ModalFooter from './common/ModalFooter';
 import { listCompanies } from 'services/actions/CompanyAction';
 import { listUsers, listUsersByCompany } from 'services/actions/UserAction';
 import { pColor } from 'assets/styles/zendy-css';
+import config from 'config/Config';
 
 
 const useStyles = makeStyles(theme => ({
@@ -187,7 +188,7 @@ const ModalNewCompanyChat = (props) => {
                   return (
                     <ListItem key={i} button divider>
                       <ListItemAvatar>
-                        <Avatar alt="" src={process.env.REACT_APP_API+user.avatar || ""} />
+                        <Avatar alt="" src={user.avatar ? (config.api+user.avatar) : "ruta-por-defecto-del-front"} />
                       </ListItemAvatar>
                       <ListItemText
                         primary={`${user.firstName} ${user.lastName}`}

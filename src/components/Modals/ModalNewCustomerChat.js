@@ -22,6 +22,7 @@ import { listAvailableUsers } from 'services/actions/UserAction';
 import { showBackdrop, showSnackBar } from 'services/actions/CustomAction';
 import { createClientChat } from 'services/actions/ChatAction';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import config from 'config/Config';
 
 const ModalNewCustomerChat = props => {
   const { open, handleClose } = props;
@@ -104,7 +105,7 @@ const ModalNewCustomerChat = props => {
                   return (
                     <ListItem key={index}>
                       <ListItemAvatar>
-                        <Avatar alt="" src={process.env.REACT_APP_API+ user.avatar} >{user.firstName.charAt(0).toUpperCase()}</Avatar>
+                        <Avatar alt="" src={user.avatar ? (config.api+user.avatar) : "ruta-por-defecto-del-front"} >{user.firstName.charAt(0).toUpperCase()}</Avatar>
                       </ListItemAvatar>
                       <ListItemText
                         primary={`${user.firstName} ${user.lastName}`}
