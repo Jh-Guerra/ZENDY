@@ -20,14 +20,15 @@ const Routes = (props) => {
 
           <Route exact path="/" render={(props) => ( <LoginPage {...props} appTarget={"Dispatch"} routePush={"/blank"} /> )}/>
           <Route exact path="/login" render={(props) => ( <LoginPage {...props} appTarget={"Dispatch"} routePush={"/blank"} /> )}/>
-
-          <PrivateRoute exact path="/test-view" {...props} component={MainPage} />
+          
           <PrivateRoute exact path="/error-info" {...props} component={ErrorInfoPage} />
           <PrivateRoute exact path="/report" {...props} component={ReportPage} />
           <PrivateRoute exact path="/usuarios" {...props} component={UsersPage} />
           <PrivateRoute exact path="/empresas" {...props} component={CompaniesPage} />
           <PrivateRoute exact path="/inicio" {...props} component={BlankPage} />
           <PrivateRoute exact path='/empresas/:companyId' {...props} component={EmpresaPage}/>
+
+          <PrivateRoute exact path="/chat/:type/:chatId" {...props} component={MainPage} />
 
           <Route path="/no-encontrado" component={PageNotFound}/>
           <Redirect from="*" to="/no-encontrado" />

@@ -117,8 +117,8 @@ const ModalChatDetail = props => {
             </Typography>
             <Divider  className={classes.divider} variant="middle" />
             <GridList className={classes.gridList} cols={2.5}>
-              {dataImg.map(tile => (
-                <GridListTile style={{ width: '48%', cursor: 'pointer' }}>
+              {dataImg.map((tile, i) => (
+                <GridListTile key={i} style={{ width: '48%', cursor: 'pointer' }}>
                   <img src={tile.img} />
                 </GridListTile>
               ))}

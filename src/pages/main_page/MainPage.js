@@ -24,14 +24,14 @@ class MainPage extends Component {
 
   render() {
     return (
-      <Grid container style={{height:'100%'}}>
-        <Grid item xs={12} style={{height:'10%', minHeight: '110px'}}>
+      <Grid container style={{height:'100vh'}}>
+        <Grid item xs={12} style={{height:'13vh'}}>
           <MainHeader/>
         </Grid>
-        <Grid item xs={12} style={{height:'70%'}}>
+        <Grid item xs={12} style={{height:'74vh'}}>
           <MainBody/>
         </Grid>
-        <Grid item xs={12} style={{height:'10%', minHeight: '110px'}}>
+        <Grid item xs={12} style={{height:'13vh'}}>
           <MainFooter/>
         </Grid>
       </Grid>

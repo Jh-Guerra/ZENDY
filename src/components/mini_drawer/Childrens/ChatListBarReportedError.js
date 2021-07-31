@@ -75,19 +75,12 @@ class ChatListBarReportedError extends Component {
             />
         </div>
         <div className="chat-list-items">
-          {this.state.allChats.map((item, index) => {
+          {this.state.allChats.map((item, i) => {
             return (
-
-              <div key={index}>
                 <ItemAvatarRow
-                  image={item.image}
-                  name={item.name}
-                  hour= {item.hour}
-                  message={item.message}
-                  active={item.active ? "active" : ""}
-                  isOnline={item.isOnline ? "active" : ""}
+                  key={i}
+                  chat={item}
                 />
-              </div>
             );
           })}
         </div>

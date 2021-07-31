@@ -348,6 +348,7 @@ html, body {
     align-items: center;
     -webkit-box-orient: horizontal;
     display: flex;
+    margin: 15px 0px;
   }
 
 .divider-line {
@@ -398,7 +399,7 @@ top: .1em;
 }
 
 .mini-drawer-tabs {
-    height: 100%;
+    // height: 100%;
     width: 100%;
     background-color: $pColor;
 }

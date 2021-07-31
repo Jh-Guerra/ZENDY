@@ -97,8 +97,8 @@ const MiniDrawer = (props) => {
         <AvatarHeader
           Logout={() => { LogOut() }}
         />
-        <Grid container style={{ height: "93%" }}>
-          <div className="mini-drawer-sections" style={{minHeight:'70px', maxHeight:'70px'}}>
+        <Grid container style={{ height: "87vh" }}>
+          <div className="mini-drawer-sections" style={{height:'8vh'}}>
             <Grid item xs={12} classes={{ root: customClasses.root }}>
               <AppBar position="static" className="mini-drawer-options" style={{ backgroundColor: "transparent" }}>
 
@@ -130,7 +130,7 @@ const MiniDrawer = (props) => {
               </AppBar>
             </Grid>
           </div>
-          <div className="mini-drawer-tabs" style={{minHeight:'100%',maxHeight:'100%'}}>
+          <div className="mini-drawer-tabs" style={{height:'79vh'}}>
             <TabPanel value={tab} index={0} >
               <CurrentChat {...props}/>
             </TabPanel>

@@ -2,51 +2,41 @@ import React, { Component, createRef } from "react";
 
 import ItemAvatar from "./ItemAvatar";
 
- class ItemAvatarRow extends Component {
-  messagesEndRef = createRef(null);
+const ItemAvatarRow = (props) => {
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      chat: this.chatItms,
-      msg: "",
-    };
+  const { chat={} } = props;
+
+  const image = chat.user && chat.user.avatar || '';
+  const name = chat.receiver && (chat.receiver.firstName + ' ' + chat.receiver.lastName) || '';
+  const message = chat.lastMessage || '...';
+  const hour = chat.lastMessageHour || '00:00';
+  const isOnline = chat.isOnline ? 'active' : '';
+
+
+  const onClickAction = (id) => {
+    props.goToChat && props.goToChat(id);
   }
 
-  scrollToBottom = () => {
-    this.messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
-  };
-
-  componentDidMount() {
-    
-  }
-  
-
-  render() {
-    return (
-        <div className="mini-drawer-content">
-            <div className="mini-drawer-user">
-              <ItemAvatar
-                isOnline={this.props.isOnline}
-                image={this.props.image ? this.props.image : "http://placehold.it/80x80"}
-                isChatCompany={this.props.isChatCompany}
-              />
-              <div style={{width:"80%"}}>
-                  <div className="chat-mini-details">
-                    <span style={{fontSize:"18px"}}>{this.props.name}</span>
-                    {
-                      (this.props.hour) 
-                        && 
-                      <span className="chat-mini-time">{this.props.hour}</span>
-                    }
-                  </div>                
-                  <p style={{fontSize:"16px", color:"silver"}}>
-                    {this.props.message}
-                  </p>
-              </div>
-            </div>
-          </div>
-    );
-  }
+  return (
+    <div className="mini-drawer-content" onClick={() => { onClickAction(chat.id) }}>
+      <div className="mini-drawer-user">
+        <ItemAvatar
+          isOnline={isOnline}
+          image={image || "http://placehold.it/80x80"}
+          isChatCompany={props.isChatCompany}
+        />
+        <div style={{width:"80%"}}>
+            <div className="chat-mini-details">
+              <span style={{fontSize:"18px"}}>{name}</span>
+              <span className="chat-mini-time">{hour}</span>
+            </div>                
+            <p style={{fontSize:"16px", color:"silver"}}>
+              {message}
+            </p>
+        </div>
+      </div>
+    </div>
+  );
 }
+
 export default ItemAvatarRow

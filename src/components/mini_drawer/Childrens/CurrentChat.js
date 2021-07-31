@@ -6,6 +6,7 @@ import SearchIcon from '@material-ui/icons/Search';
 import ItemAvatarNotifyRow from '../Components/ItemAvatarNotifyRow';
 import { listClientChats } from 'services/actions/ChatAction';
 import NewChatCall from './NewChatCall';
+import { useHistory } from 'react-router-dom';
 
 const styles = theme => ({
   search: {
@@ -14,9 +15,9 @@ const styles = theme => ({
   },
 });
 
-const CurrentChat = (props) => {
-
-  const { classes={} } = props;
+const CurrentChat = props => {
+  const { classes = {} } = props;
+  const history = useHistory();
 
   const [allChats, setAllChats] = React.useState([]);
   const [loading, setLoading] = React.useState(false);
@@ -24,72 +25,80 @@ const CurrentChat = (props) => {
 
   React.useEffect(() => {
     setLoading(true);
-    onListClientChats("");
+    onListClientChats('');
   }, []);
 
-  const onListClientChats = (term) => {
+  const onListClientChats = term => {
     setLoading(true);
     props.dispatch(listClientChats(term)).then(res => {
       setAllChats(res || []);
       setLoading(false);
     });
-  }
+  };
 
-  const onSearch = (term) => {
+  const onSearch = term => {
     clearTimeout(searchTimeout);
     setSearchTimeout(
       setTimeout(() => {
         onListClientChats(term);
       }, 1000)
-    )
-  }
+    );
+  };
 
+  const goToChat = (id) => {
+    history.push("/chat/empresa/" + id);
+  }
 
   return (
     <div className="mini-drawer-current-chat">
-      <NewChatCall />
-      <div className="mini-drawer-chatlist">
-        <br />
-        <div className="chatlist__heading">
-          <span className="divider-line"></span>
-          <p className="divider-content">Chats Vigentes</p>
-          <span className="divider-line"></span>
-        </div>
-        <br />
-        {props.itemxx}
-        <Paper component="form" >
-          <Grid container direction="row" >
-          <IconButton style={{ marginLeft: '5px', padding:10 }} type="button" aria-label="search">
-            <SearchIcon />
-          </IconButton>
-          <InputBase
-            style={{flex: 1, width: '80%'}}
-            placeholder="Buscar contactos"
-            onChange={(event) => onSearch(event.target.value)}
-          />
+      <Grid container>
+        <Grid xs={12}>
+          <NewChatCall />
+        </Grid>
+        <Grid xs={12} container>
+          <Grid xs={12}>
+            <div className="chatlist__heading">
+              <span className="divider-line"></span>
+              <p className="divider-content">Chats Vigentes</p>
+              <span className="divider-line"></span>
+            </div>
           </Grid>
-        </Paper>
-        <div>
-          <div className="chat-list-items">
-            {allChats.map((chat, i) => {
-              return (
-                <div key={i}>
+          <Grid xs={12}>
+            {props.itemxx}
+            <br />
+          </Grid>
+          <Grid xs={12}>
+            <Paper component="form">
+              <Grid container direction="row">
+                <IconButton style={{ marginLeft: '5px', padding: 10 }} type="button" aria-label="search">
+                  <SearchIcon />
+                </IconButton>
+                <InputBase
+                  style={{ flex: 1, width: '80%' }}
+                  placeholder="Buscar contactos"
+                  onChange={event => onSearch(event.target.value)}
+                />
+              </Grid>
+            </Paper>
+          </Grid>
+          <br />
+          <Grid xs={12}>
+            <div className="chat-list-items">
+              {allChats.map((chat, i) => {
+                return (
                   <ItemAvatarRow
-                    image={chat.user.avatar || ""}
-                    name={chat.receiver && (chat.receiver.firstName + " " + chat.receiver.lastName) || ""}
-                    message={chat.lastMessage || "..."}
-                    hour= {chat.lastMessageHour || "00:00"}
-                    isOnline={chat.isOnline ? "active" : ""}
+                    key={i}
+                    chat={chat}
+                    goToChat={goToChat}
                   />
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      </div>
+                );
+              })}
+            </div>
+          </Grid>
+        </Grid>
+      </Grid>
     </div>
   );
-
-}
+};
 
 export default withStyles(styles, { withTheme: true })(CurrentChat);

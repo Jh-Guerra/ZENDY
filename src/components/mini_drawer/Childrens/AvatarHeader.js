@@ -40,7 +40,7 @@ const styles = theme => ({
     const user = sessionUser.user || {};
 
     return (
-        <div className="mini-drawer-content" style={{minHeight:"110px", maxHeight:"110px"}}>
+        <div className="mini-drawer-content" style={{height:"13vh"}}>
             <div className="mini-drawer-user">
               <Avatar
                 isOnline="active"

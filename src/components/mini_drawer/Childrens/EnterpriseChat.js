@@ -47,14 +47,13 @@ const EnterpriseChat = (props) => {
                     />
                     </div>
                     <div className="chat-list-items">
-                    {companies && companies.map((item, index) => {
+                    {companies && companies.map((item, i) => {
                         return (
-                        <div key={index} onClick={() => { props.goToView(`empresas/${item.id}`) }}>
+                        <div onClick={() => { props.goToView(`empresas/${item.id}`) }}>
                             <ItemAvatarRow
-                                image={item.logo != "" ? item.logo :"https://images.assetsdelivery.com/compings_v2/triken/triken1608/triken160800029.jpg"}
-                                name={item.name}
-                                message={item.usersCount + " Trabajadores"}
-                                isChatCompany={true}
+                                key={i}
+                                chat={item}
+                                isChatCompany
                             />
                         </div>
                         );
