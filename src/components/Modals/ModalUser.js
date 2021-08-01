@@ -20,6 +20,7 @@ import { showBackdrop } from 'services/actions/CustomAction';
 import { listCompanies } from 'services/actions/CompanyAction';
 import IconButton from '@material-ui/core/IconButton';
 import PhotoCamera from '@material-ui/icons/PhotoCamera';
+import defaultAvatar from 'assets/images/defaultAvatar.jpg';
 import config from "../../config/Config";
 
 const ModalUser = (props) => {
@@ -43,7 +44,7 @@ const ModalUser = (props) => {
     const [icon, setIcon] = React.useState(<PersonAddIcon />);
     const [editMode, setEditMode] = React.useState(false);
     const [companies, setCompanies] = React.useState([]);
-    const [avatar, setAvatar] = React.useState("");
+    const [fileUrl, setFileUrl] = React.useState(null);
 
     React.useEffect(() => {
         if(open){
@@ -74,6 +75,7 @@ const ModalUser = (props) => {
             props.dispatch(listCompanies()).then(response =>{
                 setCompanies(response)
             })
+            setFileUrl(null)
         }
     }, [open]);
 
@@ -101,7 +103,7 @@ const ModalUser = (props) => {
         if (!user.phone)
             errors.phone = 'N° celular requerido'
 
-        if (!user.type)
+        if (user.type == "User")
             errors.type = 'Tipo de Usuario requerido'
 
         if (user.type != 'Admin' && !user.idCompany)
@@ -124,7 +126,7 @@ const ModalUser = (props) => {
             .then(res =>  res.json())
             .then(data => {
                 data = {...user,
-                    avatar: (data.image).substr(1)
+                    avatar: data.image ? (data.image).substr(1) : ""
                 }
 
                  // Editar
@@ -148,7 +150,7 @@ const ModalUser = (props) => {
             .then(res =>  res.json())
             .then(data => {
                 data = {...user,
-                    avatar: (data.image).substr(1)
+                    avatar: data.image ? (data.image).substr(1) : ""
                 }
                   
                 // Agregar
@@ -162,6 +164,12 @@ const ModalUser = (props) => {
             })    
         }
     }
+
+    function processImage(event){
+        const imageFile = event.target.files[0];
+        const imageUrl = URL.createObjectURL(imageFile);
+        setFileUrl(imageUrl)
+     }
 
     const onEdit = () => {
         setEditMode(true);
@@ -281,6 +289,8 @@ const ModalUser = (props) => {
                                             }}
                                             value={values.type}
                                             options={userTypes}
+                                            error={ errors.type && touched.type ? true : false }
+                                            helperText={ errors.type && touched.type && errors.type }
                                             disabled={!editMode}
                                        />
                                     </Grid>
@@ -295,19 +305,23 @@ const ModalUser = (props) => {
                                                         setFieldValue("idCompany", event.target.value)
                                                     }}
                                                     value={values.idCompany}
+                                                    error={ errors.idCompany && touched.idCompany ? true : false }
+                                                    helperText={ errors.idCompany && touched.idCompany && errors.idCompany }
                                                     options={companies}
                                                     disabled={!editMode}
                                                 />
                                             </Grid>
                                         )
                                     }
-
-                                    <Grid item xs={12} md={8}>
-                                        <input accept="image/*" id="icon-button-file" type="file"/>
-                                    </Grid>
-                                    <Grid item xs={12} md={4}>
-                                        <Avatar variant="rounded" style={{height:100, width:100}} src={data.avatar ? (config.api+data.avatar) : "ruta-por-defecto-del-front"}/>
+                                    <Grid container  direction="row" alignItems="center" justify="right">
+                                        <Grid item xs={12} md={8}>
+                                            <input accept="image/*" id="icon-button-file" type="file" onChange={processImage} disabled={!editMode}/>
+                                        </Grid>
+                                        <Grid item xs={12} md={4} >
+                                            <Avatar style={{height:140, width:140}} src={fileUrl ? fileUrl : (data.avatar ? (config.api+data.avatar) : defaultAvatar)}/>
+                                        </Grid>   
                                     </Grid>   
+                                   
                                 </Grid>
                                 
                                 <Divider style={{marginTop:"20px"}} />
