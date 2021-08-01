@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import BasePage from 'components/BasePage';
-import zen from '../../assets/images/Zendy-icon.jpg'
+import ZendyIcon from '../../assets/images/zendy-icon.jpg'
 
 class BlankPage extends Component {
   constructor(props) {
@@ -18,7 +18,7 @@ class BlankPage extends Component {
     return (
       <BasePage privateHeader={null}>
         <div className="blank-container">
-          <img img src={zen} />
+          <img src={ZendyIcon} />
           <p>Servicio de Mensajeria</p>
         </div>
       </BasePage>

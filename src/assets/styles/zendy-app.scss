@@ -322,6 +322,12 @@ html, body {
 
 /* ===========================        MENU LATERAL              =============================================*/
 //color menu lateral
+.mini-drawer{ 
+    width: 450px;
+    flex-shrink: 0;
+}
+
+
 .mini-drawer-content {
     border-bottom: 1px solid #ebe7fb;
     width: 100%;
@@ -352,11 +358,11 @@ html, body {
   }
 
 .divider-line {
-flex-grow: 1;
-background-color: white;
-height: 1px;
-position: relative;
-top: .1em;
+    flex-grow: 1;
+    background-color: white;
+    height: 1px;
+    position: relative;
+    top: .1em;
 }
   
 .divider-content {
@@ -404,6 +410,11 @@ top: .1em;
     background-color: $pColor;
 }
 
+.mini-drawer-tab {
+    min-width: 50px;
+    width: 50px;
+}
+
 .mini-drawer-user {
     display: flex;
     flex-direction: row;
@@ -431,6 +442,14 @@ top: .1em;
         padding: 2px 15px;
         border: 0;
     }
+}
+
+.mini-drawer .MuiPaper-root {
+    overflow-x: hidden;
+}
+
+.close-session-button:hover {
+    background-color: #FF7878;
 }
 
 .item-avatar-content {

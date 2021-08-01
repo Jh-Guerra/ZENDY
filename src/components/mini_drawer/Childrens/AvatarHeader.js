@@ -5,14 +5,6 @@ import React, { Component, useState, createRef, useEffect } from "react";
 
 import Avatar from "../Components/Avatar";
 
-const styles = theme => ({
-  root: {
-    '&:hover': {
-      backgroundColor: '#FF7878',
-    }
-  }
-})
-
  class AvatarHeader extends Component {
   messagesEndRef = createRef(null);
 
@@ -51,11 +43,11 @@ const styles = theme => ({
                 <div>               
                 <Typography style={{fontSize:'19px'}}>{`${user.firstName} ${user.lastName}`}</Typography>               
                 </div>
-                <Button className={classes.root} variant="outlined" size="small" onClick={() => (this.props.Logout())}>Cerrar Sesión</Button>
+                <Button className="close-session-button" variant="outlined" size="small" onClick={() => (this.props.logout())}>Cerrar Sesión</Button>
               </div>
             </div>
         </div>
     );
   }
 }
-export default withStyles(styles, {withTheme: true})(AvatarHeader);
+export default AvatarHeader;

@@ -1,9 +1,6 @@
 import React from 'react';
-import clsx from 'clsx';
 import { useHistory, withRouter } from "react-router-dom";
 import { AppBar, Box, Drawer, Grid, makeStyles, Tab, Tabs, Tooltip, Typography} from '@material-ui/core';
-import { updateLastRoute } from 'services/actions/CommonAction';
-import { drawerStyles } from './style';
 import AvatarHeader from './Childrens/AvatarHeader';
 import PropTypes from 'prop-types';
 import { CurrentChatIcon, PendingChatIcon, CompaniesIcon, ErrorsIcon, MoreIcon } from "assets/styles/svg-icons";
@@ -16,24 +13,27 @@ import EnterpriseChat from './Childrens/EnterpriseChat';
 import ReportedErrorChat from './Childrens/ReportedErrorChat';
 import EntryQueryChat from './Childrens/EntryQueryChat';
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    width: 380,
-    height: "100%",
-    minWidth: 380
-  },
-  tab: {
-    minWidth: 50,
-    width: 50,
-    // height: "100%"
-  },
+const TabPanel = (props) => {
+  const { children, value, index, ...other } = props;
 
-}));
+  return (
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      id={`simple-tabpanel-${index}`}
+      aria-labelledby={`simple-tab-${index}`}
+      style={{width:"100%", maxHeight: "100%", minHeight:"100%"}}
+      {...other}
+    >
+      {value === index && (
+        children
+      )}
+    </div>
+  );
+}
 
 const MiniDrawer = (props) => {
 
-  const classes = drawerStyles();
-  const customClasses = useStyles();
   const history = useHistory();
 
   const { session = {} } = props;
@@ -41,13 +41,7 @@ const MiniDrawer = (props) => {
   const [tab, setTab] = React.useState(0);
   const [showModalMoreActions, setShowModalMoreActions] = React.useState(false);
 
-  React.useEffect(() => {
-    if (!props.common.lastRoute) {
-      props.dispatch(updateLastRoute(history.location.pathname));
-    }
-  }, [history.location.pathname, props.path]);
-
-  const LogOut = () => {
+  const logOut = () => {
     localStorage.clear();
     history.push("/");
   }
@@ -64,25 +58,6 @@ const MiniDrawer = (props) => {
     setShowModalMoreActions(false);
     history.push(`/${route}`);
   }
-
-  const TabPanel = (props) => {
-    const { children, value, index, ...other } = props;
-  
-    return (
-      <div
-        role="tabpanel"
-        hidden={value !== index}
-        id={`simple-tabpanel-${index}`}
-        aria-labelledby={`simple-tab-${index}`}
-        style={{width:"100%", maxHeight: "100%", minHeight:"100%"}}
-        {...other}
-      >
-        {value === index && (
-          children
-        )}
-      </div>
-    );
-  }
   
   TabPanel.propTypes = {
     children: PropTypes.node,
@@ -92,16 +67,15 @@ const MiniDrawer = (props) => {
   };
 
   return (
-    <div className={classes.root}  >
-      <Drawer variant="permanent" style={{ height: "100vh" }} className={clsx(classes.drawer, { [classes.drawerOpen]: true, [classes.drawerClose]: false })} classes={{ paper: clsx({ [classes.drawerOpen]: true, [classes.drawerClose]: false, }), }}>
+    <div style={{display: 'flex'}}  >
+      <Drawer variant="permanent" style={{ height: "100vh" }} className="mini-drawer">
         <AvatarHeader
-          Logout={() => { LogOut() }}
+          logout={() => { logOut() }}
         />
-        <Grid container style={{ height: "87vh" }}>
-          <div className="mini-drawer-sections" style={{height:'8vh'}}>
-            <Grid item xs={12} classes={{ root: customClasses.root }}>
+        <Grid container style={{ height: "87vh", width: '450px'}}>
+          <Grid item xs={12}>
+            <div className="mini-drawer-sections" style={{height:'8vh'}}>
               <AppBar position="static" className="mini-drawer-options" style={{ backgroundColor: "transparent" }}>
-
                 <Tabs
                   value={tab}
                   onChange={handleChangeTab}
@@ -112,24 +86,24 @@ const MiniDrawer = (props) => {
                   style={{height:"100%"}}
                 >
                   <Tooltip title="Chats Vigentes">
-                    <Tab classes={{root: customClasses.tab}} icon={<CurrentChatIcon />} />
+                    <Tab className="mini-drawer-tab" icon={<CurrentChatIcon />} />
                   </Tooltip>
                   <Tooltip title="Consultas Entrantes">
-                    <Tab classes={{root: customClasses.tab}} icon={<PendingChatIcon />} />
+                    <Tab className="mini-drawer-tab" icon={<PendingChatIcon />} />
                   </Tooltip>
                   <Tooltip title="Empresas">
-                    <Tab classes={{root: customClasses.tab}} icon={<CompaniesIcon />} />
+                    <Tab className="mini-drawer-tab" icon={<CompaniesIcon />} />
                   </Tooltip>
                   <Tooltip title="Errores Reportados">
-                    <Tab classes={{root: customClasses.tab}} icon={<ErrorsIcon />} />
+                    <Tab className="mini-drawer-tab" icon={<ErrorsIcon />} />
                   </Tooltip>
                   <Tooltip title="Más">
-                    <Tab classes={{root: customClasses.tab}} icon={<MoreIcon />} />
+                    <Tab className="mini-drawer-tab" icon={<MoreIcon />} />
                   </Tooltip>
                 </Tabs>
               </AppBar>
-            </Grid>
-          </div>
+            </div>
+          </Grid>
           <div className="mini-drawer-tabs" style={{height:'79vh'}}>
             <TabPanel value={tab} index={0} >
               <CurrentChat {...props}/>

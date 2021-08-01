@@ -43,13 +43,13 @@ class UserService {
 
     async listAvailableUsers(type, term) {
         return await axios.get(
-            config.apiVersion + `users/list-available?term=${term}`,
+            config.apiVersion + `users/list-available`,
             { 
                 headers: {
                     ...config.headers, 
                     Authorization: `token ${JSON.parse(localStorage.getItem('user')).token || ''}` 
                 },
-                params: { type }
+                params: { term, type }
             }
     )}
 

@@ -15,7 +15,7 @@ const useStyles = makeStyles(theme => ({
 const PrivateRoute = ({ component:Component, ...rest }) => {
   const classes = useStyles();
 
-  const user = JSON.parse(localStorage.getItem('user'));
+  const user = localStorage.getItem('user') && JSON.parse(localStorage.getItem('user'));
 
   return (
     <div className={classes.root}>

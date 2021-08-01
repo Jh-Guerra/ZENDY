@@ -52,22 +52,22 @@ const CurrentChat = props => {
   return (
     <div className="mini-drawer-current-chat">
       <Grid container>
-        <Grid xs={12}>
+        <Grid item xs={12}>
           <NewChatCall />
         </Grid>
-        <Grid xs={12} container>
-          <Grid xs={12}>
+        <Grid item xs={12} container>
+          <Grid item xs={12}>
             <div className="chatlist__heading">
               <span className="divider-line"></span>
               <p className="divider-content">Chats Vigentes</p>
               <span className="divider-line"></span>
             </div>
           </Grid>
-          <Grid xs={12}>
+          <Grid item xs={12}>
             {props.itemxx}
             <br />
           </Grid>
-          <Grid xs={12}>
+          <Grid item xs={12}>
             <Paper component="form">
               <Grid container direction="row">
                 <IconButton style={{ marginLeft: '5px', padding: 10 }} type="button" aria-label="search">
@@ -82,7 +82,7 @@ const CurrentChat = props => {
             </Paper>
           </Grid>
           <br />
-          <Grid xs={12}>
+          <Grid item xs={12}>
             <div className="chat-list-items">
               {allChats.map((chat, i) => {
                 return (
