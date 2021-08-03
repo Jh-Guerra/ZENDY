@@ -333,7 +333,7 @@ html, body {
     border-bottom: 1px solid #ebe7fb;
     width: 100%;
     padding: 2px 0px;
-    height: 10%;
+    // height: 10%;
 }
 
 .mini-drawer-options {
@@ -387,8 +387,7 @@ html, body {
 
 .mini-drawer-sections {
     display: flex;
-    background-color: $pColorD;
-    height: 10vh;
+    height: 100%;
     width: 100%;
 
     button {
