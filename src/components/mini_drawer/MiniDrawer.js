@@ -74,7 +74,7 @@ const MiniDrawer = (props) => {
         />
         <Grid container style={{ height: "87vh", width: '450px'}}>
           <Grid item xs={12}>
-            <div className="mini-drawer-sections" style={{height:'8vh'}}>
+            <div className="mini-drawer-sections" style={{height:'8vh',minHeight:'70px',maxHeight:'70px'}}>
               <AppBar position="static" className="mini-drawer-options" style={{ backgroundColor: "transparent" }}>
                 <Tabs
                   value={tab}
@@ -104,7 +104,7 @@ const MiniDrawer = (props) => {
               </AppBar>
             </div>
           </Grid>
-          <div className="mini-drawer-tabs" style={{height:'79vh'}}>
+          <div className="mini-drawer-tabs" style={{height:'93vh'}}>
             <TabPanel value={tab} index={0} >
               <CurrentChat {...props}/>
             </TabPanel>
