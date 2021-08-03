@@ -24,8 +24,10 @@ const CurrentChat = props => {
   const [searchTimeout, setSearchTimeout] = React.useState(null);
 
   React.useEffect(() => {
-    setLoading(true);
-    onListClientChats('');
+    if(localStorage.getItem('user') && JSON.parse(localStorage.getItem('user')).token){
+      setLoading(true);
+      onListClientChats('');
+    }   
   }, []);
 
   const onListClientChats = term => {
