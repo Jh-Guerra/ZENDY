@@ -46,38 +46,38 @@ const CustomTable = props => {
     }))(TableCell);
 
     return (
-        <Paper className={classes.root}>
-          <TableContainer className={classes.container}>
-            <Table stickyHeader aria-label="sticky table">
-            { loading ? <caption>Cargando...</caption> : (
-              <TableBody>
-                {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, i) => {
-                  return (
-                    <TableRow hover role="checkbox" tabIndex={-1} key={i} onClick={() => { props.onRowClick(row) } } style={{cursor:'pointer'}}>
-                      {columns.map((column, i2) => {
-                        return (
-                          <TableCell key={i2} align={column.align} style={{fontSize:"12px"}}>
-                            {column.format ? column.format(row) : row[column.field] || ""}
-                          </TableCell>
-                        );
-                      })}
-                    </TableRow>
-                  );
-                })}
-              </TableBody>
-            ) }
+        <>
+          <TableContainer className={classes.container} style={{overflow:"auto", width: "100%", minWidth: "500px"}}>
+            <Table>
               <TableHead>
                 <TableRow>
                   {columns.map((column, i) => (
                     <StyledTableCell
                       key={i}
-                      style={{ minWidth: column.minWidth }}
+                      style={{ fontSize: "12px" }}
                     >
                       {column.label}
                     </StyledTableCell>
                   ))}
                 </TableRow>
               </TableHead>
+              { loading ? <caption>Cargando...</caption> : (
+                <TableBody>
+                  {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, i) => {
+                    return (
+                      <TableRow hover role="checkbox" tabIndex={-1} key={i} onClick={() => { props.onRowClick(row) } } style={{cursor:'pointer'}}>
+                        {columns.map((column, i2) => {
+                          return (
+                            <TableCell key={i2} align={column.align} style={{fontSize:"11px"}}>
+                              {column.format ? column.format(row) : row[column.field] || ""}
+                            </TableCell>
+                          );
+                        })}
+                      </TableRow>
+                    );
+                  })}
+                </TableBody>
+              ) }
             </Table>
           </TableContainer>
           { !loading && (
@@ -91,7 +91,7 @@ const CustomTable = props => {
               onChangeRowsPerPage={handleChangeRowsPerPage}
             />
           ) }
-        </Paper>
+        </>
     );
 }
 

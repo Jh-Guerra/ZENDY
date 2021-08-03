@@ -670,13 +670,14 @@ html, body {
   }
 
 .top-header{
-    height: 10%;
+    height: 13vh;
     min-height: 90px;
     background-color: #303e7a;
     color: #e6e5ea;
     box-shadow: 0px 10px 5px grey;
     display: flex;
     justify-content: center;
+    align-items: center;
 }
 
 /* ============================ Chat Empresas  ========================================*/

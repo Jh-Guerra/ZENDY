@@ -12,12 +12,12 @@ import ModalDelete from 'components/Modals/ModalDelete';
 import { showBackdrop, showSnackBar } from 'services/actions/CustomAction';
 
 const columns = [
-  { type: 'text', field: 'name', label: 'Nombre', minWidth: 250, format: (row) => `${row.firstName} ${row.lastName}` },
-  { type: 'text', field: 'companyName', label: 'Empresa', minWidth: 170 },
-  { type: 'text', field: 'type', label: 'Tipo', minWidth: 200, format: (row) => getUserTypeName(row.type) },
-  { type: 'text', field: 'email', label: 'Correo', minWidth: 200 },
-  { type: 'text', field: 'phone', label: 'N° Celular', minWidth: 150 },
-  { type: 'text', field: 'dob', label: 'Fecha de Nacimiento', minWidth: 170, align: 'center', format: (row) => moment(row.dob || "").format("DD/MM/YYYY") },
+  { type: 'text', field: 'name', label: 'Nombre', format: (row) => `${row.firstName} ${row.lastName}` },
+  { type: 'text', field: 'companyName', label: 'Empresa' },
+  { type: 'text', field: 'type', label: 'Tipo', format: (row) => getUserTypeName(row.type) },
+  { type: 'text', field: 'email', label: 'Correo' },
+  { type: 'text', field: 'phone', label: 'N° Celular' },
+  { type: 'text', field: 'dob', label: 'Fecha de Nacimiento', align: 'center', format: (row) => moment(row.dob || "").format("DD/MM/YYYY") },
 ];
 
 class UsersPage extends Component {
@@ -95,41 +95,29 @@ class UsersPage extends Component {
     const { showModalUser, showModalDelete, user, users, loading } = this.state;
 
     return (
-      /* Contenedor 1 */
-      <Grid container xs={12} spacing={1} style={{height:'100%' , marginLeft:'35px'  }} style={{overflow:'scroll' }}>
-        {/* Contenedores 2 */}
-        <Grid item container direction="column" xs={12} className="top-header">
+      <Grid container>
+        <Grid item xs={12} className="top-header">
           <Typography variant="h4" component="h4" gutterBottom style={{textAlign:'center'}}>
             Usuarios
           </Typography>
-        </Grid> 
-        {/* Contenedores 2  */}
-        <Grid  item container direction="column" xs={9} style={{height:'100%' , marginLeft:'13%'}}>
-          {/* Contenedor 3 */}
-          <Grid item xs={12} container   spacing={1}>
-            {/* Contenedor 4 */}
-            <Grid item xs={12}>
-              <p style={{textAlign:'end' , marginTop:'40px'}}>
-                <CustomButton
-                  variant="contained"
-                  startIcon={<AddCircleIcon />}
-                  customColor={successButtonColor}
-                  onClick={this.openModalUser}
-                >
-                  Agregar Usuario
-                </CustomButton>
-              </p>
-            </Grid>
-            {/*  Contenedor 4 */}
-            <Grid item xs={12} style={{marginBottom:'30%'}}>
-              <CustomTable 
-                columns={columns}
-                rows={users}
-                onRowClick={this.showDetails}
-                loading={loading}
-              />
-            </Grid>
-          </Grid>
+        </Grid>
+        <Grid item xs={12} style={{padding: "0px 20px"}}>
+          <p style={{textAlign:'end'}}>
+            <CustomButton
+              variant="contained"
+              startIcon={<AddCircleIcon />}
+              customColor={successButtonColor}
+              onClick={this.openModalUser}
+            >
+              Agregar Usuario
+            </CustomButton>
+          </p>
+          <CustomTable 
+            columns={columns}
+            rows={users}
+            onRowClick={this.showDetails}
+            loading={loading}
+          />
         </Grid>
         <ModalUser
           {...this.props}

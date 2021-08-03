@@ -67,7 +67,7 @@ const MiniDrawer = (props) => {
   };
 
   return (
-    <div style={{display: 'flex'}}  >
+    <>
       <Drawer variant="permanent" style={{ height: "100vh" }} className="mini-drawer">
         <AvatarHeader
           logout={() => { logOut() }}
@@ -138,7 +138,7 @@ const MiniDrawer = (props) => {
         handleChangeTab={handleChangeTab}
       />
 
-    </div>
+    </>
   );
 }
 export default withRouter(MiniDrawer);
