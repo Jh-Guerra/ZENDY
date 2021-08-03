@@ -1,6 +1,6 @@
 import { 
     TextField, InputAdornment, makeStyles, Grid,
-    FormControl, InputLabel, Select, MenuItem
+    FormControl, InputLabel, Select, MenuItem, FormHelperText
 } from '@material-ui/core';
 import React from 'react';
 import {
@@ -60,7 +60,7 @@ const CustomInput = props => {
                             </Grid>
                         </MuiPickersUtilsProvider>
             case "select":
-                return <FormControl className={classes[inputType]}>
+                return <FormControl error={props.error} className={classes[inputType]}>
                             <InputLabel>{props.label || ""}</InputLabel>
                             <Select
                                 value={props.value}
@@ -73,9 +73,10 @@ const CustomInput = props => {
                                     })
                                 }
                             </Select>
+                            <FormHelperText>{props.helperText}</FormHelperText>
                         </FormControl>
             case "select2":
-                return <FormControl className={classes[inputType]}>
+                return <FormControl error={props.error} className={classes[inputType]}>
                             <InputLabel>{props.label || ""}</InputLabel>
                             <Select
                                 value={props.value}
@@ -88,6 +89,7 @@ const CustomInput = props => {
                                     })
                                 }
                             </Select>
+                            <FormHelperText>{props.helperText}</FormHelperText>
                         </FormControl>
         }
     }
