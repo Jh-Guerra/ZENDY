@@ -1,4 +1,4 @@
-import { Grid, Divider } from '@material-ui/core';
+import { Grid, Divider, Avatar } from '@material-ui/core';
 import React from 'react'
 import ModalBody from './common/ModalBody'
 import ModalHeader from './common/ModalHeader'
@@ -16,6 +16,8 @@ import AssignmentIndIcon from '@material-ui/icons/AssignmentInd';
 import EditIcon from '@material-ui/icons/Edit';
 import HomeIcon from '@material-ui/icons/Home';
 import { showBackdrop } from 'services/actions/CustomAction';
+import defaultCompany from 'assets/images/defaultCompany.png';
+import config from 'config/Config';
 
 const ModalCompany = (props) => {
     
@@ -30,12 +32,14 @@ const ModalCompany = (props) => {
         phone: "",
         logo: "",
         currentBytes: 0,
-        maxBytes: 0
+        maxBytes: 0,
+        avatar: ""
     });
 
     const [title, setTitle] = React.useState("Agregar Empresa");
     const [icon, setIcon] = React.useState(<BusinessIcon />);
     const [editMode, setEditMode] = React.useState(false);
+    const [fileUrl, setFileUrl] = React.useState(null);
 
     React.useEffect(() => {
         if(open){
@@ -56,12 +60,14 @@ const ModalCompany = (props) => {
                     phone: "",
                     logo: "",
                     currentBytes: 0,
-                    maxBytes: 0
+                    maxBytes: 0,
+                    avatar: ""
                 });
                 setTitle("Agregar empresa");
                 setIcon(<BusinessIcon />);
                 setEditMode(true);
             }
+            setFileUrl(null)
         }
     }, [open]);
 
@@ -93,24 +99,56 @@ const ModalCompany = (props) => {
         props.dispatch(showBackdrop(true));
         if(company.id){
             // Editar
-            props.dispatch(updateCompany(company.id, company)).then(res => {
-                props.dispatch(showBackdrop(false));
-                props.onConfirmCallBack();
-            }).catch(error => {
-                props.dispatch(showBackdrop(false));
-                console.error('error', error);
-            });
+            const fileInput = document.querySelector('#icon-button-file') ;
+            const formData = new FormData();
+            formData.append('image', fileInput.files[0]);
+            fetch('http://127.0.0.1:8000/api/users/upload', {
+              method: 'POST',
+              body: formData
+            })
+            .then(res =>  res.json())
+            .then(data => {
+                data = {...company,
+                    avatar: data.image ? (data.image).substr(1) : ""
+                }
+                 // Editar
+                props.dispatch(updateCompany(data.id, data)).then(res => {
+                    props.dispatch(showBackdrop(false));
+                    props.onConfirmCallBack();
+                }).catch(error => {
+                    props.dispatch(showBackdrop(false));
+                });                
+            })  
         }else{
             // Agregar
-            props.dispatch(createCompany(company)).then(res => {
-                props.dispatch(showBackdrop(false));
-                props.onConfirmCallBack();
-            }).catch(error => {
-                props.dispatch(showBackdrop(false));
-                console.error('error', error);
-            });
+            const fileInput = document.querySelector('#icon-button-file') ;
+            const formData = new FormData();
+            formData.append('image', fileInput.files[0]);
+            fetch('http://127.0.0.1:8000/api/users/upload', {
+              method: 'POST',
+              body: formData
+            })
+            .then(res =>  res.json())
+            .then(data => {
+                data = {...company,
+                    avatar: data.image ? (data.image).substr(1) : ""
+                }
+                 // Agregar
+                 props.dispatch(createCompany(data)).then(res => {
+                    props.dispatch(showBackdrop(false));
+                    props.onConfirmCallBack();
+                }).catch(error => {
+                    props.dispatch(showBackdrop(false));
+                });              
+            })
         }
     }
+
+    function processImage(event){
+        const imageFile = event.target.files[0];
+        const imageUrl = URL.createObjectURL(imageFile);
+        setFileUrl(imageUrl)
+     }
 
     const onEdit = () => {
         setEditMode(true);
@@ -211,6 +249,14 @@ const ModalCompany = (props) => {
                                             disabled={!editMode}
                                         />
                                     </Grid>
+                                    <Grid container  direction="row" alignItems="center" justify="right">
+                                        <Grid item xs={12} md={8}>
+                                            <input accept="image/*" id="icon-button-file" type="file" onChange={processImage} disabled={!editMode}/>
+                                        </Grid>
+                                        <Grid item xs={12} md={4} >
+                                            <Avatar variant="rounded" style={{height:140, width:140}} src={fileUrl ? fileUrl : (data.avatar ? (config.api+data.avatar) : defaultCompany)}/>
+                                        </Grid>   
+                                    </Grid>   
                                 </Grid>
                                 
                                 <Divider style={{marginTop:"20px"}} />
