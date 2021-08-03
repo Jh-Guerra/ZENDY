@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
@@ -17,6 +17,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import CustomSnackbar from 'components/CustomSnackbar';
 import { showSnackBar } from 'services/actions/CustomAction';
+import config from 'config/Config';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -109,6 +110,14 @@ const LoginPage = props => {
   const [errors, setErrors] = React.useState({});
   const [isOpenAlert, setIsOpenAlert] = React.useState(false);
 
+  useEffect(()=>{
+    if(localStorage.getItem('user') && JSON.parse(localStorage.getItem('user')).token){
+      props.history.push("/inicio");
+    }else{
+      props.history.push("/");
+    }
+  }, []);
+
   const handleValidation =()=>{
     let errors = {};
     let formIsValid = true;
@@ -161,7 +170,6 @@ const LoginPage = props => {
     if(handleValidation()){
       props.dispatch(loginUser(body)).then(
        (res) => {
-         console.log("res", res)
          props.history.push("/inicio");
        },
        (error) => {
