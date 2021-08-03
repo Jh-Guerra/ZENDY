@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import zen from '../assets/images/Zendy-icon.jpg'
+import zen from '../assets/images/zendy-icon.jpg'
 import BasePage from 'components/BasePage';
 
 /* const useStyles = makeStyles((theme) => ({
