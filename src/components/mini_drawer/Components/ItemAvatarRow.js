@@ -1,4 +1,5 @@
 import React, { Component, createRef } from "react";
+import config from 'config/Config';
 
 import ItemAvatar from "./ItemAvatar";
 
@@ -22,7 +23,7 @@ const ItemAvatarRow = (props) => {
       <div className="mini-drawer-user">
         <ItemAvatar
           isOnline={isOnline}
-          image={image || "http://placehold.it/80x80"}
+          image={image ? (config.api+image) : "http://placehold.it/80x80"}
           isChatCompany={props.isChatCompany}
         />
         <div style={{width:"80%"}}>

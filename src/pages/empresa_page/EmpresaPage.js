@@ -9,6 +9,7 @@ import { listUsersByCompany } from "services/actions/UserAction";
 import NotificationsActiveIcon from '@material-ui/icons/NotificationsActive';
 import CustomTable from 'components/CustomTable';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
+import config from 'config/Config';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -114,7 +115,7 @@ const EmpresaPage = props => {
                 <Grid className={classes.img}>
                     <ChatAvatar
                         isOnline="active"
-                        image={companies.logo != "" ? companies.logo :"https://images.assetsdelivery.com/compings_v2/triken/triken1608/triken160800029.jpg"}
+                        image={companies.avatar != "" ? (config.api+companies.avatar) :"https://images.assetsdelivery.com/compings_v2/triken/triken1608/triken160800029.jpg"}
                         imgClassName="avatar-header"
                     />
                 </Grid>
