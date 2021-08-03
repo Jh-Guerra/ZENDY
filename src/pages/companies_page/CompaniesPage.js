@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Grid, Typography } from "@material-ui/core";
+import { Grid, Typography } from '@material-ui/core';
 import CustomTable from 'components/CustomTable';
 import { deleteCompany, findCompany, listCompanies } from 'services/actions/CompanyAction';
 import CustomButton from 'components/CustomButtom';
@@ -15,11 +15,16 @@ const columns = [
   { type: 'text', field: 'adminName', label: 'Administrador', minWidth: 250 },
   { type: 'text', field: 'email', label: 'Correo', minWidth: 250 },
   { type: 'text', field: 'phone', label: 'N° Celular', minWidth: 170 },
-  { type: 'text', field: 'currentBytes', label: 'Mbs Máximos', minWidth: 170, format: (row) => `${row.currentBytes} / ${row.maxBytes} Mbs` },
+  {
+    type: 'text',
+    field: 'currentBytes',
+    label: 'Mbs Máximos',
+    minWidth: 170,
+    format: row => `${row.currentBytes} / ${row.maxBytes} Mbs`,
+  },
 ];
 
 class CompaniesPage extends Component {
-
   constructor(props) {
     super(props);
     this.state = {
@@ -27,114 +32,112 @@ class CompaniesPage extends Component {
       showModalDelete: false,
       company: {},
       companies: [],
-      loading: false
+      loading: false,
     };
   }
 
-  async componentDidMount(){
+  async componentDidMount() {
     this.props.dispatch(showBackdrop(true));
     this.onListCompanies();
   }
 
-  componentWillUnmount() {
-    
-  }
+  componentWillUnmount() {}
 
   openModalCompany = () => {
     this.setState({
       company: {},
-      showModalCompany: true 
-    })
-  }
+      showModalCompany: true,
+    });
+  };
 
   onConfirmCompany = () => {
-    this.setState({showModalCompany: false });
+    this.setState({ showModalCompany: false });
     this.onListCompanies();
-  }
+  };
 
   onListCompanies = () => {
     this.props.dispatch(showBackdrop(true));
-    this.setState({loading: true});
+    this.setState({ loading: true });
     this.props.dispatch(listCompanies()).then(res => {
-      this.setState({companies: res || []});
-      this.setState({loading: false});
+      this.setState({ companies: res || [] });
+      this.setState({ loading: false });
       this.props.dispatch(showBackdrop(false));
     });
-  }
+  };
 
-  showDetails = (row) => {
+  showDetails = row => {
     this.props.dispatch(findCompany(row && row.id)).then(res => {
       this.setState({
         company: res || {},
-        showModalCompany: true
+        showModalCompany: true,
       });
     });
-  }
+  };
 
   onDelete = () => {
     const { company } = this.state;
     this.props.dispatch(showBackdrop(true));
-    this.props.dispatch(deleteCompany(company && company.id)).then(res => {
-      this.setState({
-        company: {},
-        showModalDelete: false,
-        showModalCompany: false,
+    this.props
+      .dispatch(deleteCompany(company && company.id))
+      .then(res => {
+        this.setState({
+          company: {},
+          showModalDelete: false,
+          showModalCompany: false,
+        });
+        this.props.dispatch(showSnackBar('warning', (res && res.success) || ''));
+        this.props.dispatch(showBackdrop(false));
+        this.onListCompanies();
+      })
+      .catch(error => {
+        this.props.dispatch(showBackdrop(false));
+        console.error('error', error);
       });
-      this.props.dispatch(showSnackBar("warning", res && res.success || ""));
-      this.props.dispatch(showBackdrop(false));
-      this.onListCompanies();
-    }).catch(error => {
-      this.props.dispatch(showBackdrop(false));
-      console.error('error', error);
-    });
-  }
- 
+  };
+
   render() {
     const { showModalCompany, showModalDelete, company, companies, loading } = this.state;
 
     return (
-      <Grid container spacing={3} style={{height:'100%', justifyContent:'center'}}>
-        <Grid item xs={11} style={{height:'10%', minHeight: '110px'}}>
-          <Typography variant="h4" component="h4" gutterBottom>
+      <Grid container>
+        <Grid item xs={12} className="top-header">
+          <Typography variant="h4" component="h4" gutterBottom style={{ textAlign: 'center' }}>
             Empresas
           </Typography>
-        </Grid> 
-        <Grid item xs={11} style={{height:'90%'}}>
-          <Grid container spacing={1}>
-            <Grid item xs={12}>
-              <p style={{textAlign:'end'}}>
-                <CustomButton
-                  variant="contained"
-                  startIcon={<AddCircleIcon />}
-                  customColor={successButtonColor}
-                  onClick={this.openModalCompany}
-                >
-                  Agregar Empresa
-                </CustomButton>
-              </p>
-            </Grid>
-            <Grid item xs={12}>
-              <CustomTable 
-                columns={columns}
-                rows={companies}
-                onRowClick={this.showDetails}
-                loading={loading}
-              />
-            </Grid>
-          </Grid>
+        </Grid>
+        <Grid item xs={12} style={{ padding: '0px 20px' }}>
+          <p style={{ textAlign: 'end' }}>
+            <CustomButton
+              variant="contained"
+              startIcon={<AddCircleIcon />}
+              customColor={successButtonColor}
+              onClick={this.openModalCompany}
+            >
+              Agregar Empresa
+            </CustomButton>
+          </p>
+          <CustomTable columns={columns} rows={companies} onRowClick={this.showDetails} loading={loading} />
         </Grid>
         <ModalCompany
           {...this.props}
           open={showModalCompany}
-          onConfirmCallBack={() => { this.onConfirmCompany() }}
-          openModalDelete={ () => { this.setState({showModalDelete: true }) } }
-          handleClose={() => { this.setState({showModalCompany: false }) }}
+          onConfirmCallBack={() => {
+            this.onConfirmCompany();
+          }}
+          openModalDelete={() => {
+            this.setState({ showModalDelete: true });
+          }}
+          handleClose={() => {
+            this.setState({ showModalCompany: false });
+          }}
           company={company}
         />
         <ModalDelete
           open={showModalDelete}
           title="Eliminar empresa"
-          handleClose={() => { this.setState({showModalDelete: false }) }}
+          handleClose={() => {
+            this.setState({ showModalDelete: false });
+          }}
           onDelete={this.onDelete}
         />
       </Grid>
