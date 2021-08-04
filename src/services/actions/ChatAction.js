@@ -8,6 +8,7 @@ export const createChat = (data) => async dispatch => {
     return res && res.data || [];
 }
 
+// CHAT - CLIENT ..................................................
 export const createClientChat = (users) => async dispatch => {
     const res = await chatService.createClientChat(users);
     return res && res.data || [];
@@ -17,6 +18,18 @@ export const listClientChats = (term) => async dispatch => {
     const res = await chatService.listClientChats(term);
     return res && res.data || [];
 }
+
+// CHAT - COMPANY ..................................................
+export const createCompanyChat = (userIds, companyId, allChecked) => async dispatch => {
+    const res = await chatService.createCompanyChat(userIds, companyId, allChecked);
+    return res && res.data || [];
+}
+
+// export const listClientChats = (term) => async dispatch => {
+//     const res = await chatService.listClientChats(term);
+//     return res && res.data || [];
+// }
+
 
 export const updateChat = (id, data) => async dispatch => {
     const res = await chatService.updateChat(id, data);

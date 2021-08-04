@@ -13,6 +13,9 @@ class ChatService {
             } }
     )}
 
+
+//  CHAT - CLIENT ...................................................................................
+
     async createClientChat(data) {
         return await axios.post(
             config.apiVersion + `chats-client/register`, 
@@ -33,6 +36,30 @@ class ChatService {
                 }
             }
     )}
+
+//  CHAT - COMPANY ...................................................................................
+async createCompanyChat(userIds, companyId, allChecked) {
+    return await axios.post(
+        config.apiVersion + `chats-company/register`,
+        {userIds, companyId, allChecked},
+        { headers: {
+            ...config.headers, 
+            Authorization: `token ${JSON.parse(localStorage.getItem('user')).token || ''}` 
+        } }
+)}
+
+// async listClientChats(term) {
+//     return await axios.get(
+//         config.apiVersion + `chats-client/list?term=${term}`,
+//         { 
+//             headers: {
+//                 ...config.headers, 
+//                 Authorization: `token ${JSON.parse(localStorage.getItem('user')).token || ''}` 
+//             }
+//         }
+// )}
+
+//  ..................................................................................................
 
     async updateChat(id, data) {
         return await axios.post(

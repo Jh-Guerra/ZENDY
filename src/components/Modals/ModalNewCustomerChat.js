@@ -59,6 +59,8 @@ const ModalNewCustomerChat = props => {
     updatedUsers.map(u => {
       if(u.id == user.id){
         u.checked = u.checked ? false : true;
+      }else{
+        u.checked = false;
       }
     });
 
@@ -68,9 +70,18 @@ const ModalNewCustomerChat = props => {
   const onConfirm = () => {
     const selectedRows = users.filter(user => user.checked);
 
+    if(selectedRows.length == 0){
+      props.dispatch(showSnackBar("warning", "Necesita seleccionar al menos un cliente"));
+      return;
+    }
+
+    setLoading(true);
     props.dispatch(createClientChat(selectedRows)).then(res => {
+      setLoading(false);
       handleClose();
+      props.dispatch(showSnackBar("success", "Chat iniciado correctamente."));
     }).catch(err => {
+      setLoading(false);
       console.log("err", err.response.data.error);
       props.dispatch(showSnackBar("error", err.response.data ? err.response.data.error : "ERROR"));
     });
@@ -79,7 +90,7 @@ const ModalNewCustomerChat = props => {
 
   return (
     <Modal open={open} handleClose={handleClose} size="sm" style={{minHeight: '100%', minWidth: '100%'}}>     
-      <ModalHeader icon={<PeopleAltIcon />} text="Nuevo Chat Cliente" />     
+      <ModalHeader icon={<PeopleAltIcon />} text="Nuevo Chat - Cliente" />     
       <ModalBody>
       {loading ? <Grid item xs={12} direction='column' alignItems='center' style={{display:'flex'}}> <CircularProgress /> </Grid> :       
         <Grid container spacing={3}>
@@ -100,18 +111,18 @@ const ModalNewCustomerChat = props => {
           <Grid item xs={12}>
             <List style={{padding: "0px", maxHeight: "550px", overflow: "auto"}}>
               {
-                users.map((user, index) => {
+                users.map((user, i) => {
                   if(!user.checked) user.checked = false;
                   return (
-                    <ListItem key={index}>
+                    <ListItem key={i} button divider onClick={() => { onSelectUser(user) }}>
                       <ListItemAvatar>
-                        <Avatar alt="" src={user.avatar ? (config.api+user.avatar) : "ruta-por-defecto-del-front"} >{user.firstName.charAt(0).toUpperCase()}</Avatar>
+                        <Avatar alt="" src={user.avatar ? (config.api+user.avatar) : "ruta-por-defecto-del-front"} />
                       </ListItemAvatar>
                       <ListItemText
                         primary={`${user.firstName} ${user.lastName}`}
                         secondary={
                           <React.Fragment>
-                            <Typography variant="body2">{user.company && user.company.name || "Empresa sin asignar"}</Typography>
+                            <Typography variant="body2">{user.companyName || "Empresa sin asignar"}</Typography>
                           </React.Fragment>
                         }
                       />
@@ -123,11 +134,6 @@ const ModalNewCustomerChat = props => {
                           checkedIcon={<RadioButtonCheckedIcon style={{ color: pColor }} />}
                         />
                       </ListItemSecondaryAction>
-                      {
-                        index != users.length-1 && (
-                          <Divider />
-                        )
-                      }
                     </ListItem>
                   )
                 })

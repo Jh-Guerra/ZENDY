@@ -1,4 +1,4 @@
-import { Checkbox, Divider, Grid, makeStyles, MenuItem, Typography, Select } from '@material-ui/core';
+import { Checkbox, Divider, Grid, makeStyles, MenuItem, Typography, Select, CircularProgress } from '@material-ui/core';
 import React from 'react'
 import ModalBody from './common/ModalBody'
 import ModalHeader from './common/ModalHeader'
@@ -21,6 +21,9 @@ import { listCompanies } from 'services/actions/CompanyAction';
 import { listUsers, listUsersByCompany } from 'services/actions/UserAction';
 import { pColor } from 'assets/styles/zendy-css';
 import config from 'config/Config';
+import CheckBoxIcon from '@material-ui/icons/CheckBox';
+import { showSnackBar } from 'services/actions/CustomAction';
+import { createCompanyChat } from 'services/actions/ChatAction';
 
 
 const useStyles = makeStyles(theme => ({
@@ -56,7 +59,9 @@ const ModalNewCompanyChat = (props) => {
 
   const { open, handleClose } = props;
   const [companies, setCompanies] = React.useState([])
-  const [users, setUsers] = React.useState([])
+  const [users, setUsers] = React.useState([]);
+  const [searchTimeout, setSearchTimeout] = React.useState(null);
+  const [loading, setLoading] = React.useState(false);
 
   const [companyId, setCompanyId] = React.useState('');
   const [term, setTerm] = React.useState('');
@@ -65,6 +70,7 @@ const ModalNewCompanyChat = (props) => {
   React.useEffect(() => {
     if(open){
       onListCompanies();
+      setAllChecked(false);
     }
   }, [open]);
 
@@ -91,9 +97,14 @@ const ModalNewCompanyChat = (props) => {
     onListUsersByCompany(companyId, "");
   }
 
-  const onSearchUser = term => {
+  const onSearch = (term) => {
     setTerm(term);
-    onListUsersByCompany(companyId, term);
+    clearTimeout(searchTimeout);
+    setSearchTimeout(
+      setTimeout(() => {
+        onListUsersByCompany(companyId, term);
+      }, 1000)
+    )
   }
 
   const onSelectUser = (user) => {
@@ -119,19 +130,35 @@ const ModalNewCompanyChat = (props) => {
     setUsers(allUsers);
   };
 
+  const onConfirm = () => {
+    const selectedRows = users.filter(user => user.checked);
+
+    if(selectedRows.length == 0){
+      props.dispatch(showSnackBar("warning", "Necesita seleccionar al menos un cliente"));
+      return;
+    }
+
+    const userIds = selectedRows.map(row => row.id);
+
+    setLoading(true);
+    props.dispatch(createCompanyChat(userIds, companyId, allChecked)).then(res => {
+      setLoading(false);
+      props.dispatch(showSnackBar("success", "Chat iniciado correctamente."));
+      handleClose();
+    }).catch(err => {
+      setLoading(false);
+      console.log("err", err.response.data.error);
+      props.dispatch(showSnackBar("error", err.response.data ? err.response.data.error : "ERROR"));
+    });
+
+  }
+
   return (
-    <Modal
-      open={open}
-      handleClose={handleClose}
-      size="xs"
-    >
-      <ModalHeader
-        icon={<BusinessIcon />}
-        text="Nuevo Chat Empresa"
-        size="md"
-      />
+    <Modal open={open} handleClose={handleClose} size="sm">
+      <ModalHeader icon={<BusinessIcon />} text="Nuevo Chat - Empresa" />
 
       <ModalBody>
+      {loading ? <Grid item xs={12} direction='column' alignItems='center' style={{display:'flex'}}> <CircularProgress /> </Grid> : 
         <Grid item xs={12}>
           <Grid container direction="row">
             <Grid item xs={12}>
@@ -141,10 +168,10 @@ const ModalNewCompanyChat = (props) => {
                     <SearchIcon />
                   </IconButton>
                   <InputBase
-                    onChange={event => { setTimeout(onSearchUser,1000,(event.target.value))  }}
-                    className={classes.input}
+                    value={term}
+                    style={{flex: 1, width: '80%'}}
                     placeholder="Buscar contactos"
-                    inputProps={{ 'aria-label': 'Buscar contactos' }}
+                    onChange={(event) => onSearch(event.target.value)}
                   />
                 </Grid>
               </Paper>
@@ -172,11 +199,12 @@ const ModalNewCompanyChat = (props) => {
               <Checkbox
                 checked={allChecked}
                 onChange={(event) => { selectAllUser(event.target.checked) }}
-                checkedIcon={<RadioButtonCheckedIcon style={{ color: pColor }} />}
+                checkedIcon={<CheckBoxIcon style={{ color: pColor }} />}
               />
             </Grid>
           </Grid>
         </Grid>
+        }
 
         <Grid container spacing={3}>
           <Grid item xs={12}>
@@ -186,7 +214,7 @@ const ModalNewCompanyChat = (props) => {
                   if(!user.checked) user.checked = false;
 
                   return (
-                    <ListItem key={i} button divider>
+                    <ListItem key={i} button divider onClick={() => { onSelectUser(user) }}>
                       <ListItemAvatar>
                         <Avatar alt="" src={user.avatar ? (config.api+user.avatar) : "ruta-por-defecto-del-front"} />
                       </ListItemAvatar>
@@ -213,7 +241,7 @@ const ModalNewCompanyChat = (props) => {
       <ModalFooter
         icon={<BusinessIcon />}
         confirmText={"Iniciar Chat"}
-        onConfirm={null}
+        onConfirm={onConfirm}
       />
     </Modal>
   )
