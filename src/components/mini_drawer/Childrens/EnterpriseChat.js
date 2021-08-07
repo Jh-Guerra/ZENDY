@@ -33,7 +33,7 @@ const EnterpriseChat = (props) => {
                     <br />
                     <div style={{ position: 'relative', marginBottom: '30px' }} >
                     {/* <div> */}
-                    <SearchIcon />
+                    <br></br>
                     <Input className="chatList__search search_wrap"
                         style={{ paddingLeft: '10px', width: '90%', position: 'absolute', top: '0', left: '0', right: '0', margin: 'auto' }}
                         type="text"

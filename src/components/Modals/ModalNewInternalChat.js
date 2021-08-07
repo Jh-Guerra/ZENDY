@@ -17,6 +17,7 @@ import InputBase from '@material-ui/core/InputBase';
 import IconButton from '@material-ui/core/IconButton';
 import ModalFooter from './common/ModalFooter';
 import ChatIcon from '@material-ui/icons/Chat';
+import { Input, InputAdornment } from "@material-ui/core";
 
 const useStyles = makeStyles(theme => ({
     letters:{
@@ -73,13 +74,16 @@ const ModalNewInternalChat = (props) => {
           <Grid container spacing={3}>
             <Grid item xs={12}>
               <Paper style={{margin:'0px 0px 20px 0px'}} component="form" >
-                <IconButton style={{marginLeft:'5px'}} type="button" className={classes.iconButton} aria-label="search">
-                  <SearchIcon />
-                </IconButton>
+
                 <InputBase
                   className={classes.input}
+                  fullWidth={true}
                   placeholder="Buscar contactos"
                   inputProps={{ 'aria-label': 'Buscar contactos' }}
+                  startAdornment= {
+                    <InputAdornment position="start" tyle={{marginLeft:'5px'}} type="button" className={classes.iconButton} aria-label="search">
+                      <SearchIcon />
+                    </InputAdornment>}
                 />
               </Paper>
               <Divider />
