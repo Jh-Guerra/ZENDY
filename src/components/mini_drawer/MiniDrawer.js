@@ -16,6 +16,7 @@ import EnterpriseChat from './Childrens/EnterpriseChat';
 import ReportedErrorChat from './Childrens/ReportedErrorChat';
 import EntryQueryChat from './Childrens/EntryQueryChat';
 
+
 const useStyles = makeStyles((theme) => ({
   root: {
     width: 380,
@@ -29,6 +30,18 @@ const useStyles = makeStyles((theme) => ({
   },
 
 }));
+
+const changeTabByUrl = (path, setTab) => {
+  switch (path) {
+    case '/empresas':
+      setTab(2)
+      break;
+  
+    default:
+      setTab(0)
+      break;
+  }
+}
 
 const MiniDrawer = (props) => {
 
@@ -45,6 +58,7 @@ const MiniDrawer = (props) => {
     if (!props.common.lastRoute) {
       props.dispatch(updateLastRoute(history.location.pathname));
     }
+    changeTabByUrl(props.path, setTab);
   }, [history.location.pathname, props.path]);
 
   const LogOut = () => {
