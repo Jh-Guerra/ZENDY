@@ -533,6 +533,22 @@ html, body {
     color: silver;
 }
 
+.chatList__search {
+    padding: 0 25px 0 25px;
+  }
+  
+  .search_wrap {
+    background-color: #e6e5ea;
+    border-radius: 20px;
+  }
+  .search_wrap input {
+    background-color: transparent;
+    border: none;
+    padding: 12px 12px;
+    outline: none;
+    width: 100%;
+  }
+
 /* ===========================        AVATAR             =============================================*/
 .avatar {
     width: 40px;

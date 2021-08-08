@@ -56,35 +56,42 @@ const CurrentChat = props => {
       <Grid container>
         <Grid item xs={12}>
           <NewChatCall />
-        </Grid>
-        <Grid item xs={12} container>
+        </Grid>      
+        <Grid item xs={12} container>        
           <Grid item xs={12}>
+            <br />
             <div className="chatlist__heading">
               <span className="divider-line"></span>
               <p className="divider-content">Chats Vigentes</p>
-              <span className="divider-line"></span>
+              <span className="divider-line"></span>            
             </div>
-          </Grid>
-          <Grid item xs={12}>
-            {props.itemxx}
             <br />
-          </Grid>
-          <Grid item xs={12}>
-            <Paper component="form">
-              <Grid container direction="row">
-                <IconButton style={{ marginLeft: '5px', padding: 10 }} type="button" aria-label="search">
-                  <SearchIcon />
-                </IconButton>
-                <InputBase
-                  style={{ flex: 1, width: '80%' }}
-                  placeholder="Buscar contactos"
-                  onChange={event => onSearch(event.target.value)}
-                />
-              </Grid>
-            </Paper>
           </Grid>
           <br />
           <Grid item xs={12}>
+            <div style={{ position: 'relative', marginBottom: '30px' }}>            
+                <Grid container direction="row" className={`chatList__search ${classes.search}`}>
+                  <Input
+                    style={{ paddingLeft: '10px', width: '90%', position: 'absolute',top: '0', left: '0', right: '0', margin: 'auto'}}
+                    className="chatList__search search_wrap"
+                    type="text"
+                    placeholder="Buscar contactos"
+                    onChange={event => onSearch(event.target.value)}
+                    disableUnderline={true}
+                    startAdornment= {
+                      <InputAdornment position="start">
+                        <IconButton style={{ marginLeft: '5px', padding: 10 }} type="button" aria-label="search">
+                          <SearchIcon />
+                        </IconButton>
+                      </InputAdornment>
+                    }
+                  />
+                </Grid>           
+            </div>
+          </Grid>
+          <br />
+          <Grid item xs={12}>
+            <br />
             <div className="chat-list-items">
               {allChats.map((chat, i) => {
                 return (
