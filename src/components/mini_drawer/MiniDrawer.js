@@ -48,6 +48,7 @@ const MiniDrawer = (props) => {
 
   const handleChangeTab = (event, newTab) => {
     if(newTab==4){
+      setTab(newTab);
       setShowModalMoreActions(true);
     }else{
       setTab(newTab);
@@ -82,7 +83,6 @@ const MiniDrawer = (props) => {
                   aria-label="simple tabs example"
                   variant="fullWidth"
                   indicatorColor="primary"
-                  textColor="primary"
                   style={{height:"100%"}}
                 >
                   <Tooltip title="Chats Vigentes">
