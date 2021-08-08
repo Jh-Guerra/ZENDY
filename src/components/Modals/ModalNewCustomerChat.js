@@ -30,6 +30,7 @@ const ModalNewCustomerChat = props => {
   const [users, setUsers] = React.useState([]);
   const [searchTimeout, setSearchTimeout] = React.useState(null);
   const [loading, setLoading] = React.useState(false);
+  const [term, setTerm] = React.useState("");
 
   React.useEffect(() => {
     if(open){
@@ -38,14 +39,15 @@ const ModalNewCustomerChat = props => {
   }, [open]);
 
   const onListAvailableUsers = (term) => {
-    setLoading(true);
+    //setLoading(true);
     props.dispatch(listAvailableUsers("UserEmpresa", term)).then(res => {
-      setUsers(res || []);
-      setLoading(false);
+      setUsers(res || []);     
     });
+    //setLoading(false);
   }
 
   const onSearch = (term) => {
+    setTerm(term);
     clearTimeout(searchTimeout);
     setSearchTimeout(
       setTimeout(() => {
@@ -101,6 +103,7 @@ const ModalNewCustomerChat = props => {
                 <SearchIcon />
               </IconButton>
               <InputBase
+                value={term}
                 style={{flex: 1, width: '80%'}}
                 placeholder="Buscar contactos"
                 onChange={(event) => onSearch(event.target.value)}
