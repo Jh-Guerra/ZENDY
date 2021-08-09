@@ -2,9 +2,8 @@ import React, { Component } from 'react';
 import ItemAvatarRow from '../Components/ItemAvatarRow';
 import { withStyles } from '@material-ui/core/styles';
 import { Input, InputAdornment, Paper, Grid, IconButton, InputBase } from '@material-ui/core';
-import SearchIcon from '@material-ui/icons/Search';
-import ItemAvatarNotifyRow from '../Components/ItemAvatarNotifyRow';
-import { listStatusChats } from 'services/actions/ChatAction';
+import SearchIcon from '@material-ui/icons/Search'
+import { listClientChats } from 'services/actions/ChatAction';
 import NewChatCall from './NewChatCall';
 import { useHistory } from 'react-router-dom';
 import { showBackdrop } from 'services/actions/CustomAction';
@@ -16,7 +15,7 @@ const styles = theme => ({
   },
 });
 
-const CurrentChat = props => {
+const EntryChat = props => {
   const { classes = {} } = props;
   const history = useHistory();
 
@@ -25,23 +24,23 @@ const CurrentChat = props => {
 
   React.useEffect(() => {
     if(localStorage.getItem('user') && JSON.parse(localStorage.getItem('user')).token){
-      onListStatusChats('');
+      onListClientChats('');
     }   
   }, []);
 
-  const onListStatusChats = term => {
+  const onListClientChats = term => {
     props.dispatch(showBackdrop(true));
-    props.dispatch(listStatusChats(term, "Vigente")).then(res => {
+    props.dispatch(listClientChats(term)).then(res => {
       setAllChats(res || []);
       props.dispatch(showBackdrop(false));
-    }).catch(err => props.dispatch(showBackdrop(false)));
+    });
   };
 
   const onSearch = term => {
     clearTimeout(searchTimeout);
     setSearchTimeout(
       setTimeout(() => {
-        onListStatusChats(term);
+        onListClientChats(term);
       }, 1000)
     );
   };
@@ -60,7 +59,7 @@ const CurrentChat = props => {
           <Grid item xs={12}>
             <div className="chatlist__heading">
               <span className="divider-line"></span>
-              <p className="divider-content">Chats Vigentes</p>
+              <p className="divider-content">Consultas Entrantes</p>
               <span className="divider-line"></span>
             </div>
           </Grid>
@@ -102,4 +101,4 @@ const CurrentChat = props => {
   );
 };
 
-export default withStyles(styles, { withTheme: true })(CurrentChat);
+export default withStyles(styles, { withTheme: true })(EntryChat);

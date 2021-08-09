@@ -22,7 +22,7 @@ import { listUsers, listUsersByCompany } from 'services/actions/UserAction';
 import { pColor } from 'assets/styles/zendy-css';
 import config from 'config/Config';
 import CheckBoxIcon from '@material-ui/icons/CheckBox';
-import { showSnackBar } from 'services/actions/CustomAction';
+import { showBackdrop, showSnackBar } from 'services/actions/CustomAction';
 import { createCompanyChat } from 'services/actions/ChatAction';
 
 
@@ -61,7 +61,6 @@ const ModalNewCompanyChat = (props) => {
   const [companies, setCompanies] = React.useState([])
   const [users, setUsers] = React.useState([]);
   const [searchTimeout, setSearchTimeout] = React.useState(null);
-  const [loading, setLoading] = React.useState(false);
 
   const [companyId, setCompanyId] = React.useState('');
   const [term, setTerm] = React.useState('');
@@ -75,6 +74,7 @@ const ModalNewCompanyChat = (props) => {
   }, [open]);
 
   const onListCompanies = () => {
+    props.dispatch(showBackdrop(true));
     props.dispatch(listCompanies()).then(res => {
       const resCompanies = res || [];
       setCompanies(resCompanies);
@@ -82,12 +82,15 @@ const ModalNewCompanyChat = (props) => {
         setCompanyId(resCompanies[0].id || "");
         onListUsersByCompany(resCompanies[0].id, "");
       }
+      props.dispatch(showBackdrop(false));
     });
   }
 
   const onListUsersByCompany = (companyId, term) => {
+    props.dispatch(showBackdrop(true));
     props.dispatch(listUsersByCompany(companyId, term)).then(res => {
       setUsers(res || []);
+      props.dispatch(showBackdrop(false));
     });
   }
 
@@ -140,13 +143,13 @@ const ModalNewCompanyChat = (props) => {
 
     const userIds = selectedRows.map(row => row.id);
 
-    setLoading(true);
+    props.dispatch(showBackdrop(true));
     props.dispatch(createCompanyChat(userIds, companyId, allChecked)).then(res => {
-      setLoading(false);
+      props.dispatch(showBackdrop(false));
       props.dispatch(showSnackBar("success", "Chat iniciado correctamente."));
-      handleClose();
+      handleClose(true);
     }).catch(err => {
-      setLoading(false);
+      props.dispatch(showBackdrop(false));
       console.log("err", err.response.data.error);
       props.dispatch(showSnackBar("error", err.response.data ? err.response.data.error : "ERROR"));
     });
@@ -158,7 +161,6 @@ const ModalNewCompanyChat = (props) => {
       <ModalHeader icon={<BusinessIcon />} text="Nuevo Chat - Empresa" />
 
       <ModalBody>
-      {loading ? <Grid item xs={12} direction='column' alignItems='center' style={{display:'flex'}}> <CircularProgress /> </Grid> : 
         <Grid item xs={12}>
           <Grid container direction="row">
             <Grid item xs={12}>
@@ -204,7 +206,6 @@ const ModalNewCompanyChat = (props) => {
             </Grid>
           </Grid>
         </Grid>
-        }
 
         <Grid container spacing={3}>
           <Grid item xs={12}>

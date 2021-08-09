@@ -11,7 +11,7 @@ import NotifyChat from './Childrens/NotifyChat';
 import ReportList from './Childrens/ReportList';
 import EnterpriseChat from './Childrens/EnterpriseChat';
 import ReportedErrorChat from './Childrens/ReportedErrorChat';
-import EntryQueryChat from './Childrens/EntryQueryChat';
+import EntryChat from './Childrens/EntryChat';
 
 const TabPanel = (props) => {
   const { children, value, index, ...other } = props;
@@ -109,7 +109,7 @@ const MiniDrawer = (props) => {
               <CurrentChat {...props}/>
             </TabPanel>
             <TabPanel value={tab} index={1} >
-              <EntryQueryChat />
+              <EntryChat {...props}/>
             </TabPanel>
             <TabPanel value={tab} index={2} >
               <EnterpriseChat

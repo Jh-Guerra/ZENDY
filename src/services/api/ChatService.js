@@ -13,6 +13,18 @@ class ChatService {
             } }
     )}
 
+    async listStatusChats(term, status) {
+        return await axios.get(
+            config.apiVersion + `chats/list?term=${term}`,
+            { 
+                headers: {
+                    ...config.headers, 
+                    Authorization: `token ${JSON.parse(localStorage.getItem('user')).token || ''}` 
+                },
+                params: { status }
+            }
+    )}
+
 
 //  CHAT - CLIENT ...................................................................................
 
@@ -38,28 +50,48 @@ class ChatService {
     )}
 
 //  CHAT - COMPANY ...................................................................................
-async createCompanyChat(userIds, companyId, allChecked) {
-    return await axios.post(
-        config.apiVersion + `chats-company/register`,
-        {userIds, companyId, allChecked},
-        { headers: {
-            ...config.headers, 
-            Authorization: `token ${JSON.parse(localStorage.getItem('user')).token || ''}` 
-        } }
-)}
+    async createCompanyChat(userIds, companyId, allChecked) {
+        return await axios.post(
+            config.apiVersion + `chats-company/register`,
+            {userIds, companyId, allChecked},
+            { headers: {
+                ...config.headers, 
+                Authorization: `token ${JSON.parse(localStorage.getItem('user')).token || ''}` 
+            } }
+    )}
 
-// async listClientChats(term) {
-//     return await axios.get(
-//         config.apiVersion + `chats-client/list?term=${term}`,
-//         { 
-//             headers: {
-//                 ...config.headers, 
-//                 Authorization: `token ${JSON.parse(localStorage.getItem('user')).token || ''}` 
-//             }
-//         }
-// )}
+    // async listClientChats(term) {
+    //     return await axios.get(
+    //         config.apiVersion + `chats-client/list?term=${term}`,
+    //         { 
+    //             headers: {
+    //                 ...config.headers, 
+    //                 Authorization: `token ${JSON.parse(localStorage.getItem('user')).token || ''}` 
+    //             }
+    //         }
+    // )}
 
-//  ..................................................................................................
+//  CHAT - INTERNAL ...................................................................................
+    async createInternalChat(data) {
+        return await axios.post(
+            config.apiVersion + `chats-internal/register`, 
+            data,
+            { headers: {
+                ...config.headers, 
+                Authorization: `token ${JSON.parse(localStorage.getItem('user')).token || ''}` 
+            } }
+    )}
+
+    async listInternalChats(term) {
+        return await axios.get(
+            config.apiVersion + `chats-internal/list?term=${term}`,
+            { 
+                headers: {
+                    ...config.headers, 
+                    Authorization: `token ${JSON.parse(localStorage.getItem('user')).token || ''}` 
+                }
+            }
+    )}
 
     async updateChat(id, data) {
         return await axios.post(

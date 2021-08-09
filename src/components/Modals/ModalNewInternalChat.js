@@ -1,4 +1,4 @@
-import { Checkbox, Divider, Grid, makeStyles } from '@material-ui/core';
+import { Checkbox, Divider, Grid, makeStyles, CircularProgress, Typography } from '@material-ui/core';
 import React from 'react'
 import ModalBody from './common/ModalBody'
 import ModalHeader from './common/ModalHeader'
@@ -17,108 +17,136 @@ import InputBase from '@material-ui/core/InputBase';
 import IconButton from '@material-ui/core/IconButton';
 import ModalFooter from './common/ModalFooter';
 import ChatIcon from '@material-ui/icons/Chat';
-
-const useStyles = makeStyles(theme => ({
-    letters:{
-        fontSize:'20px',
-        fontStyle:'oblique',
-        fontWeight:'bold'
-    },
-    input: {
-        marginLeft: theme.spacing(1),
-        flex: 1,
-    },
-    iconButton: {
-        padding: 10,
-    },
-    divider: {
-        height: 28,
-        margin: 4,
-    },
-}));
+import { listAvailableUsers } from 'services/actions/UserAction';
+import { showBackdrop, showSnackBar } from 'services/actions/CustomAction';
+import { createInternalChat } from 'services/actions/ChatAction';
+import { pColor } from 'assets/styles/zendy-css';
+import config from 'config/Config';
 
 const ModalNewInternalChat = (props) => {
 
   const { open, handleClose } = props;
 
-  const classes = useStyles();
+  const [users, setUsers] = React.useState([]);
+  const [searchTimeout, setSearchTimeout] = React.useState(null);
+  const [term, setTerm] = React.useState("");
 
-  const [checked, setChecked] = React.useState([1]);
-    
-  const handleToggle = (value) => () => {
-      const currentIndex = checked.indexOf(value);
-      const newChecked = [...checked];
+  React.useEffect(() => {
+    if(open){
+      onListAvailableUsers();
+      setTerm("");
+    }
+  }, [open]);
+
+  const onListAvailableUsers = (term) => {
+    props.dispatch(showBackdrop(true));
+    props.dispatch(listAvailableUsers(["Admin", "UserERP"], term)).then(res => {
+      setUsers(res || []);
+      props.dispatch(showBackdrop(false));
+    });
+  }
+
+  const onSearch = (term) => {
+    clearTimeout(searchTimeout);
+    setTerm(term);
+    setSearchTimeout(
+      setTimeout(() => {
+        onListAvailableUsers(term);
+      }, 1000)
+    )
+  }
   
-      if (currentIndex === -1) {
-        newChecked.push(value);
-      } else {
-        newChecked.splice(currentIndex, 1);
+  const onSelectUser = (user) => {
+    const updatedUsers = [...users] || [];
+    updatedUsers.map(u => {
+      if(u.id == user.id){
+        u.checked = u.checked ? false : true;
+      }else{
+        u.checked = false;
       }
-  
-      setChecked(newChecked);
-  };
+    });
+
+    setUsers(updatedUsers);
+  }
+
+  const onConfirm = () => {
+    const selectedRows = users.filter(user => user.checked);
+
+    if(selectedRows.length == 0){
+      props.dispatch(showSnackBar("warning", "Necesita seleccionar al menos un cliente"));
+      return;
+    }
+
+    props.dispatch(showBackdrop(true));
+    props.dispatch(createInternalChat(selectedRows)).then(res => {
+      props.dispatch(showBackdrop(false));
+      props.dispatch(showSnackBar("success", "Chat iniciado correctamente."));
+      handleClose(true);
+    }).catch(err => {
+      props.dispatch(showBackdrop(false));
+      console.log("err", err.response.data.error);
+      props.dispatch(showSnackBar("error", err.response.data ? err.response.data.error : "ERROR"));
+    });
+
+  }
+    
 
   return (
-    <Modal 
-      open={open} 
-      handleClose={handleClose}
-      size="sm"
-    >
-        <ModalHeader
-          icon={<ChatIcon />}
-          text="Nuevo Chat Interno"
-        />
-
-        <ModalBody>
-          <Grid container spacing={3}>
-            <Grid item xs={12}>
-              <Paper style={{margin:'0px 0px 20px 0px'}} component="form" >
-                <IconButton style={{marginLeft:'5px'}} type="button" className={classes.iconButton} aria-label="search">
-                  <SearchIcon />
-                </IconButton>
-                <InputBase
-                  className={classes.input}
-                  placeholder="Buscar contactos"
-                  inputProps={{ 'aria-label': 'Buscar contactos' }}
-                />
-              </Paper>
-              <Divider />
-            </Grid>
-            <Grid item xs={12}>
-              <List dense style={{maxHeight: 350, overflow: 'auto'}}>
-                {[0, 1, 2, 3].map((value) => {
-                  const labelId = `checkbox-list-secondary-label-${value}`;
-                  return (
-                  <ListItem key={value} button divider>
-                    <ListItemAvatar>
-                      <Avatar
-                          alt={`Avatar n°${value + 1}`}
-                          src="https://w7.pngwing.com/pngs/847/821/png-transparent-lisa-simpson-maggie-simpson-drawing-marge-simpson-others-text-hand-head.png"
-                      />
-                    </ListItemAvatar>
-                    <ListItemText style={{marginLeft:'7px'}} id={labelId} primary={`Lisa Simpons ${value + 1}`} className={classes.letters} />
-                    <ListItemSecondaryAction>
-                      <Checkbox
-                          edge="end"
-                          onChange={handleToggle(value)}
-                          checked={checked.indexOf(value) !== -1}
-                          inputProps={{ 'aria-labelledby': labelId }}
-                          icon={<RadioButtonUncheckedIcon />} 
-                          checkedIcon={<RadioButtonCheckedIcon style={{color:'#4F1B66'}}/>}           
-                      />
-                    </ListItemSecondaryAction>     
-                  </ListItem>
-                  );
-                })}
-              </List>
-            </Grid> 
+    <Modal open={open} handleClose={handleClose} size="sm" style={{minHeight: '100%', minWidth: '100%'}}>     
+      <ModalHeader icon={<ChatIcon />} text="Nuevo Chat - Interno" />     
+      <ModalBody>     
+        <Grid container spacing={3}>
+          <Grid item xs={12}>
+            <Paper component="form" >
+              <Grid container direction="row" >
+              <IconButton style={{ marginLeft: '5px', padding:10 }} type="button" aria-label="search">
+                <SearchIcon />
+              </IconButton>
+              <InputBase
+                style={{flex: 1, width: '80%'}}
+                placeholder="Buscar contactos"
+                onChange={(event) => onSearch(event.target.value)}
+                value={term}
+              />
+              </Grid>
+            </Paper>
           </Grid>
-        </ModalBody>
+          <Grid item xs={12}>
+            <List style={{padding: "0px", maxHeight: "550px", overflow: "auto"}}>
+              {
+                users.map((user, i) => {
+                  if(!user.checked) user.checked = false;
+                  return (
+                    <ListItem key={i} button divider onClick={() => { onSelectUser(user) }}>
+                      <ListItemAvatar>
+                        <Avatar alt="" src={user.avatar ? (config.api+user.avatar) : "ruta-por-defecto-del-front"} />
+                      </ListItemAvatar>
+                      <ListItemText
+                        primary={`${user.firstName} ${user.lastName}`}
+                        secondary={
+                          <React.Fragment>
+                            <Typography variant="body2">{user.companyName || "Empresa sin asignar"}</Typography>
+                          </React.Fragment>
+                        }
+                      />
+                      <ListItemSecondaryAction>
+                        <Checkbox
+                          checked={user.checked || false}
+                          onChange={() => {onSelectUser(user)}}
+                          icon={<RadioButtonUncheckedIcon />}
+                          checkedIcon={<RadioButtonCheckedIcon style={{ color: pColor }} />}
+                        />
+                      </ListItemSecondaryAction>
+                    </ListItem>
+                  )
+                })
+              }
 
-      <ModalFooter 
-        confirmText={"Iniciar Chat"}
-        onConfirm={null}
-      />
+            </List>
+          </Grid>
+        </Grid>
+      </ModalBody>      
+      <ModalFooter confirmText={'Iniciar Chat'} onConfirm={onConfirm} />   
     </Modal>
   )
 }

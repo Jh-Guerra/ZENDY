@@ -1,4 +1,4 @@
-import { Checkbox, Divider, Grid, Typography, FormControl, InputLabel, Input, InputAdornment} from '@material-ui/core';
+import { Checkbox, Divider, Grid, Typography, FormControl, InputLabel, Input, InputAdornment } from '@material-ui/core';
 import React from 'react';
 import ModalBody from './common/ModalBody';
 import ModalHeader from './common/ModalHeader';
@@ -29,122 +29,129 @@ const ModalNewCustomerChat = props => {
 
   const [users, setUsers] = React.useState([]);
   const [searchTimeout, setSearchTimeout] = React.useState(null);
-  const [loading, setLoading] = React.useState(false);
+  const [term, setTerm] = React.useState('');
 
   React.useEffect(() => {
-    if(open){
+    if (open) {
       onListAvailableUsers();
+      setTerm('');
     }
   }, [open]);
 
-  const onListAvailableUsers = (term) => {
-    setLoading(true);
-    props.dispatch(listAvailableUsers("UserEmpresa", term)).then(res => {
+  const onListAvailableUsers = term => {
+    props.dispatch(showBackdrop(true));
+    props.dispatch(listAvailableUsers(['UserEmpresa'], term)).then(res => {
       setUsers(res || []);
-      setLoading(false);
+      props.dispatch(showBackdrop(false));
     });
-  }
+  };
 
-  const onSearch = (term) => {
+  const onSearch = term => {
     clearTimeout(searchTimeout);
+    setTerm(term);
     setSearchTimeout(
       setTimeout(() => {
         onListAvailableUsers(term);
       }, 1000)
-    )
-  }
-  
-  const onSelectUser = (user) => {
+    );
+  };
+
+  const onSelectUser = user => {
     const updatedUsers = [...users] || [];
     updatedUsers.map(u => {
-      if(u.id == user.id){
+      if (u.id == user.id) {
         u.checked = u.checked ? false : true;
-      }else{
+      } else {
         u.checked = false;
       }
     });
 
     setUsers(updatedUsers);
-  }
+  };
 
   const onConfirm = () => {
     const selectedRows = users.filter(user => user.checked);
 
-    if(selectedRows.length == 0){
-      props.dispatch(showSnackBar("warning", "Necesita seleccionar al menos un cliente"));
+    if (selectedRows.length == 0) {
+      props.dispatch(showSnackBar('warning', 'Necesita seleccionar al menos un cliente'));
       return;
     }
 
-    setLoading(true);
+    props.dispatch(showBackdrop(true));
     props.dispatch(createClientChat(selectedRows)).then(res => {
-      setLoading(false);
-      handleClose();
-      props.dispatch(showSnackBar("success", "Chat iniciado correctamente."));
-    }).catch(err => {
-      setLoading(false);
-      console.log("err", err.response.data.error);
-      props.dispatch(showSnackBar("error", err.response.data ? err.response.data.error : "ERROR"));
+      props.dispatch(showBackdrop(false));
+      props.dispatch(showSnackBar('success', 'Chat iniciado correctamente.'));
+      handleClose(true);
+    })
+    .catch(err => {
+      props.dispatch(showBackdrop(false));
+      console.log('err', err.response.data.error);
+      props.dispatch(showSnackBar('error', err.response.data ? err.response.data.error : 'ERROR'));
     });
-
-  }
+  };
 
   return (
-    <Modal open={open} handleClose={handleClose} size="sm" style={{minHeight: '100%', minWidth: '100%'}}>     
-      <ModalHeader icon={<PeopleAltIcon />} text="Nuevo Chat - Cliente" />     
+    <Modal open={open} handleClose={handleClose} size="sm" style={{ minHeight: '100%', minWidth: '100%' }}>
+      <ModalHeader icon={<PeopleAltIcon />} text="Nuevo Chat - Cliente" />
       <ModalBody>
-      {loading ? <Grid item xs={12} direction='column' alignItems='center' style={{display:'flex'}}> <CircularProgress /> </Grid> :       
         <Grid container spacing={3}>
           <Grid item xs={12}>
-            <Paper component="form" >
-              <Grid container direction="row" >
-              <IconButton style={{ marginLeft: '5px', padding:10 }} type="button" aria-label="search">
-                <SearchIcon />
-              </IconButton>
-              <InputBase
-                style={{flex: 1, width: '80%'}}
-                placeholder="Buscar contactos"
-                onChange={(event) => onSearch(event.target.value)}
-              />
+            <Paper component="form">
+              <Grid container direction="row">
+                <IconButton style={{ marginLeft: '5px', padding: 10 }} type="button" aria-label="search">
+                  <SearchIcon />
+                </IconButton>
+                <InputBase
+                  style={{ flex: 1, width: '80%' }}
+                  placeholder="Buscar contactos"
+                  onChange={event => onSearch(event.target.value)}
+                  value={term}
+                />
               </Grid>
             </Paper>
           </Grid>
           <Grid item xs={12}>
-            <List style={{padding: "0px", maxHeight: "550px", overflow: "auto"}}>
-              {
-                users.map((user, i) => {
-                  if(!user.checked) user.checked = false;
-                  return (
-                    <ListItem key={i} button divider onClick={() => { onSelectUser(user) }}>
-                      <ListItemAvatar>
-                        <Avatar alt="" src={user.avatar ? (config.api+user.avatar) : "ruta-por-defecto-del-front"} />
-                      </ListItemAvatar>
-                      <ListItemText
-                        primary={`${user.firstName} ${user.lastName}`}
-                        secondary={
-                          <React.Fragment>
-                            <Typography variant="body2">{user.companyName || "Empresa sin asignar"}</Typography>
-                          </React.Fragment>
-                        }
+            <List style={{ padding: '0px', maxHeight: '550px', overflow: 'auto' }}>
+              {users.map((user, i) => {
+                if (!user.checked) user.checked = false;
+                return (
+                  <ListItem
+                    key={i}
+                    button
+                    divider
+                    onClick={() => {
+                      onSelectUser(user);
+                    }}
+                  >
+                    <ListItemAvatar>
+                      <Avatar alt="" src={user.avatar ? config.api + user.avatar : 'ruta-por-defecto-del-front'} />
+                    </ListItemAvatar>
+                    <ListItemText
+                      primary={`${user.firstName} ${user.lastName}`}
+                      secondary={
+                        <React.Fragment>
+                          <Typography variant="body2">{user.companyName || 'Empresa sin asignar'}</Typography>
+                        </React.Fragment>
+                      }
+                    />
+                    <ListItemSecondaryAction>
+                      <Checkbox
+                        checked={user.checked || false}
+                        onChange={() => {
+                          onSelectUser(user);
+                        }}
+                        icon={<RadioButtonUncheckedIcon />}
+                        checkedIcon={<RadioButtonCheckedIcon style={{ color: pColor }} />}
                       />
-                      <ListItemSecondaryAction>
-                        <Checkbox
-                          checked={user.checked || false}
-                          onChange={() => {onSelectUser(user)}}
-                          icon={<RadioButtonUncheckedIcon />}
-                          checkedIcon={<RadioButtonCheckedIcon style={{ color: pColor }} />}
-                        />
-                      </ListItemSecondaryAction>
-                    </ListItem>
-                  )
-                })
-              }
-
+                    </ListItemSecondaryAction>
+                  </ListItem>
+                );
+              })}
             </List>
           </Grid>
         </Grid>
-      }    
-      </ModalBody>      
-      <ModalFooter confirmText={'Iniciar Chat'} onConfirm={onConfirm} />   
+      </ModalBody>
+      <ModalFooter confirmText={'Iniciar Chat'} onConfirm={onConfirm} />
     </Modal>
   );
 };

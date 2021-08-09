@@ -1,10 +1,16 @@
 import ChatService from "services/api/ChatService";
+import { showBackdrop } from "./CustomAction";
 
 
 const chatService = new ChatService()
 
 export const createChat = (data) => async dispatch => {
     const res = await chatService.createChat(data);
+    return res && res.data || [];
+}
+
+export const listStatusChats = (term, status) => async dispatch => {
+    const res = await chatService.listStatusChats(term, status);
     return res && res.data || [];
 }
 
@@ -29,6 +35,17 @@ export const createCompanyChat = (userIds, companyId, allChecked) => async dispa
 //     const res = await chatService.listClientChats(term);
 //     return res && res.data || [];
 // }
+
+// CHAT - INTERNAL ..................................................
+export const createInternalChat = (users) => async dispatch => {
+    const res = await chatService.createInternalChat(users);
+    return res && res.data || [];
+}
+
+export const listInternalChats = (term) => async dispatch => {
+    const res = await chatService.listInternalChats(term);
+    return res && res.data || [];
+}
 
 
 export const updateChat = (id, data) => async dispatch => {
