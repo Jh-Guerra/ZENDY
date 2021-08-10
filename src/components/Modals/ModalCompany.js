@@ -109,7 +109,7 @@ const ModalCompany = (props) => {
             .then(res =>  res.json())
             .then(data => {
                 data = {...company,
-                    avatar: data.image ? (data.image).substr(1) : ""
+                    avatar: data.image ? (data.image).substr(1) : company.avatar
                 }
                  // Editar
                 props.dispatch(updateCompany(data.id, data)).then(res => {

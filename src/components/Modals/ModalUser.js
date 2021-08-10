@@ -126,7 +126,7 @@ const ModalUser = (props) => {
             .then(res =>  res.json())
             .then(data => {
                 data = {...user,
-                    avatar: data.image ? (data.image).substr(1) : ""
+                    avatar: data.image ? (data.image).substr(1) : user.avatar
                 }
 
                  // Editar
