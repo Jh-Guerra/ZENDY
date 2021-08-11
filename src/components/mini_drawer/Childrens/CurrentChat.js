@@ -85,7 +85,7 @@ const CurrentChat = props => {
             />
           </Grid>
           <br />
-          <Grid item xs={12}>
+          <Grid item xs={12} style={{minHeight: "550px"}}>
             <div className="chat-list-items">
               {allChats.map((chat, i) => {
                 return (
