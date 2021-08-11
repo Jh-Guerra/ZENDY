@@ -57,14 +57,8 @@ const MiniDrawer = (props) => {
 
   React.useEffect(() => {
     props.dispatch(updateLastRoute(history.location.pathname));
-    props.dispatch(updateLastTab(tab || 0));
     updateTabByView(history.location.pathname);
-  }, [history.location.pathname, tab]);
-
-  React.useEffect(() => {
-    props.dispatch(updateLastRoute(history.location.pathname));
-    props.dispatch(updateLastTab(tab || 0));
-  }, [history.location.pathname, tab]);
+  }, [history.location.pathname]);
 
   const logOut = () => {
     localStorage.clear();
@@ -72,7 +66,6 @@ const MiniDrawer = (props) => {
   }
 
   const updateTabByView = (path) => {
-    console.log(path)
     switch (true) {
       case path.includes("/empresas/"):
         return setTab(2);
@@ -80,6 +73,7 @@ const MiniDrawer = (props) => {
   }
 
   const handleChangeTab = (event, newTab) => {
+    props.dispatch(updateLastTab(newTab || 0));
     if(newTab==4){
       setTab(newTab);
       setShowModalMoreActions(true);
