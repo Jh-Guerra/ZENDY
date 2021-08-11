@@ -342,6 +342,7 @@ html, body {
 
 .mini-drawer-options .MuiTabs-flexContainer {
     height: 100%;
+    background-color: #6e81d6;
 }
 
 .mini-drawer-chatlist {
@@ -391,16 +392,15 @@ html, body {
     width: 100%;
 
     button {
-        background-color: transparent;
+        background-color: #151f47;
         border: none;
         cursor: pointer;
     }
 
     button:hover{
         path{
-            fill: $sColorL;
-        }
-        
+            fill: white;
+        } 
     }
 }
 
