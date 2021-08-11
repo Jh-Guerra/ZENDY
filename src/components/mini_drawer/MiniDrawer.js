@@ -12,6 +12,20 @@ import ReportList from './Childrens/ReportList';
 import EnterpriseChat from './Childrens/EnterpriseChat';
 import ReportedErrorChat from './Childrens/ReportedErrorChat';
 import EntryChat from './Childrens/EntryChat';
+import { updateLastRoute, updateLastTab } from 'services/actions/CommonAction';
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    width: 380,
+    height: "100%",
+    minWidth: 380
+  },
+  tab: {
+    minWidth: 50,
+    width: 50,
+    // height: "100%"
+  }
+}));
 
 const TabPanel = (props) => {
   const { children, value, index, ...other } = props;
@@ -41,9 +55,28 @@ const MiniDrawer = (props) => {
   const [tab, setTab] = React.useState(0);
   const [showModalMoreActions, setShowModalMoreActions] = React.useState(false);
 
+  React.useEffect(() => {
+    props.dispatch(updateLastRoute(history.location.pathname));
+    props.dispatch(updateLastTab(tab || 0));
+    updateTabByView(history.location.pathname);
+  }, [history.location.pathname, tab]);
+
+  React.useEffect(() => {
+    props.dispatch(updateLastRoute(history.location.pathname));
+    props.dispatch(updateLastTab(tab || 0));
+  }, [history.location.pathname, tab]);
+
   const logOut = () => {
     localStorage.clear();
     history.push("/");
+  }
+
+  const updateTabByView = (path) => {
+    console.log(path)
+    switch (true) {
+      case path.includes("/empresas/"):
+        return setTab(2);
+    }
   }
 
   const handleChangeTab = (event, newTab) => {
@@ -100,6 +133,9 @@ const MiniDrawer = (props) => {
                   <Tooltip title="Más">
                     <Tab className="mini-drawer-tab" icon={<MoreIcon />} />
                   </Tooltip>
+                  <Tab style={{display: "none"}} className="mini-drawer-tab" icon={<MoreIcon />} />
+                  <Tab style={{display: "none"}} className="mini-drawer-tab" icon={<MoreIcon />} />
+                  <Tab style={{display: "none"}} className="mini-drawer-tab" icon={<MoreIcon />} />
                 </Tabs>
               </AppBar>
             </div>

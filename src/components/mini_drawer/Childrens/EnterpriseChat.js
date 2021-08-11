@@ -49,7 +49,7 @@ const EnterpriseChat = (props) => {
                     <div className="chat-list-items">
                     {companies && companies.map((item, i) => {
                         return (
-                        <div onClick={() => { props.goToView(`empresas/${item.id}`) }} style={{cursor:'pointer'}}>
+                        <div key={i} onClick={() => { props.goToView(`empresas/${item.id}`) }} style={{cursor:'pointer'}}>
                             <ItemAvatarRow
                                 key={i}
                                 chat={item}
