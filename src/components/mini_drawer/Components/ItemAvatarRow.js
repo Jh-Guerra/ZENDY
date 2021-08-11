@@ -7,12 +7,6 @@ const ItemAvatarRow = (props) => {
 
   const { chat={} } = props;
 
-  const image = chat.user && chat.user.avatar || '';
-  const name = getChatName();
-  const message = chat.lastMessage || '...';
-  const hour = chat.lastMessageHour || '00:00';
-  const isOnline = chat.isOnline ? 'active' : '';
-
   const getChatName = () => {
     switch(chat.type){
       case "Cliente":
@@ -20,8 +14,15 @@ const ItemAvatarRow = (props) => {
       case "Empresa":
         return chat.company && (chat.company.name) || '';
       default:
+        return "";
     }
   }
+
+  const image = chat.user && chat.user.avatar || '';
+  const name = getChatName();
+  const message = chat.lastMessage || '...';
+  const hour = chat.lastMessageHour || '00:00';
+  const isOnline = chat.isOnline ? 'active' : '';
 
   const onClickAction = (id) => {
     props.goToChat && props.goToChat(id);
