@@ -124,7 +124,7 @@ const ModalCompany = (props) => {
                 }).catch(error => {
                     props.dispatch(showBackdrop(false));
                 });                
-            })  
+            }).catch(err => props.dispatch(showBackdrop(false)));
         }else{
             // Agregar
             const fileInput = document.querySelector('#icon-button-file') ;
@@ -146,7 +146,7 @@ const ModalCompany = (props) => {
                 }).catch(error => {
                     props.dispatch(showBackdrop(false));
                 });              
-            })
+            }).catch(err => props.dispatch(showBackdrop(false)));
         }
     }
 

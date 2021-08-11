@@ -35,7 +35,7 @@ const ModalUser = (props) => {
         password: "",
         dob: new Date(),
         phone: "",
-        type: "User",
+        type: "UserEmpresa",
         idCompany: "",
         avatar: ""
     });
@@ -64,7 +64,7 @@ const ModalUser = (props) => {
                     password: "",
                     dob: new Date(),
                     phone: "",
-                    type: "User",
+                    type: "UserEmpresa",
                     idCompany: "",
                     avatar: ""
                 });
@@ -72,9 +72,11 @@ const ModalUser = (props) => {
                 setIcon(<PersonAddIcon />);
                 setEditMode(true);
             }
+            props.dispatch(showBackdrop(true));
             props.dispatch(listCompanies()).then(response =>{
                 setCompanies(response)
-            })
+                props.dispatch(showBackdrop(false))
+            }).catch(err => props.dispatch(showBackdrop(false)));
             setFileUrl(null)
         }
     }, [open]);
@@ -136,8 +138,7 @@ const ModalUser = (props) => {
                 }).catch(error => {
                     props.dispatch(showBackdrop(false));                    
                 });
-
-            })    
+            }).catch(err => props.dispatch(showBackdrop(false)));
         }else{
             // Agregar
             const fileInput = document.querySelector('#icon-button-file') ;
@@ -161,7 +162,7 @@ const ModalUser = (props) => {
                     props.dispatch(showBackdrop(false));
                     console.error('error', error);
                 });
-            })    
+            }).catch(err => props.dispatch(showBackdrop(false)));  
         }
     }
 

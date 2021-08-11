@@ -74,6 +74,7 @@ class UserService {
     async uploadImage(){
         return await axios.post(
             config.apiVersion + `users/sample-restful-apis`,
+            {},
             { headers: {
                 ...config.headers, 
                 Authorization: `token ${JSON.parse(localStorage.getItem('user')).token || ''}` 

@@ -5,7 +5,7 @@ import ChartListBarNotify from "./ChartListBarNotify";
 class NotifyChat extends Component {
     render() {
         return (
-            <div className="mini-drawer-current-chat">
+            <div style={{height: "79vh"}}>
                 <NewNotify />
                 <ChartListBarNotify   txt='Notificaciones'  />
             </div>

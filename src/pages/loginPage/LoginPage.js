@@ -16,7 +16,7 @@ import  {loginUser}  from 'services/actions/LoginAction';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import CustomSnackbar from 'components/CustomSnackbar';
-import { showSnackBar } from 'services/actions/CustomAction';
+import { showBackdrop, showSnackBar } from 'services/actions/CustomAction';
 import config from 'config/Config';
 
 
@@ -168,12 +168,15 @@ const LoginPage = props => {
     e.preventDefault();
 
     if(handleValidation()){
+      props.dispatch(showBackdrop(true));
       props.dispatch(loginUser(body)).then(
        (res) => {
          props.history.push("/inicio");
+         props.dispatch(showBackdrop(false));
        },
        (error) => {
         props.dispatch(showSnackBar("warning", error.response.data.error || ""));
+        props.dispatch(showBackdrop(false));
        }
      ); 
     }

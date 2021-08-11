@@ -4,20 +4,23 @@ import { Input, InputAdornment } from "@material-ui/core";
 import SearchIcon from '@material-ui/icons/Search';
 import NewChatCall from './NewChatCall';
 import { listWithUsersCount } from "services/actions/CompanyAction";
+import { showBackdrop } from "services/actions/CustomAction";
 
 const EnterpriseChat = (props) => {
 
     const [companies, setCompanies] = React.useState([]);
 
     React.useEffect(() => {
+        props.dispatch(showBackdrop(true));
         props.dispatch(listWithUsersCount()).then(res => {
+            props.dispatch(showBackdrop(false));
             setCompanies(res || []);
-        });
+        }).catch(err => props.dispatch(showBackdrop(false)));;
     }, []);
 
     return (
         <div>
-            <div className="mini-drawer-current-chat">
+            <div style={{height: "79vh"}}>
                 <NewChatCall
                     isChatCompany={true} 
                 />

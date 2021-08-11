@@ -5,7 +5,7 @@ import NewChatCall from './NewChatCall'
 const ReportedErrorChat = () => {
     return (
         <div>
-            <div className="mini-drawer-current-chat">
+            <div style={{height: "79vh"}}>
                 <NewChatCall />
                 <ChatListBarReportedError />
             </div>

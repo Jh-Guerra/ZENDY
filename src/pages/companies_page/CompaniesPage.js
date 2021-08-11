@@ -62,16 +62,18 @@ class CompaniesPage extends Component {
       this.setState({ companies: res || [] });
       this.setState({ loading: false });
       this.props.dispatch(showBackdrop(false));
-    });
+    }).catch(err => this.props.dispatch(showBackdrop(false)));
   };
 
   showDetails = row => {
+    this.props.dispatch(showBackdrop(true));
     this.props.dispatch(findCompany(row && row.id)).then(res => {
       this.setState({
         company: res || {},
         showModalCompany: true,
       });
-    });
+      this.props.dispatch(showBackdrop(false));
+    }).catch(err => this.props.dispatch(showBackdrop(false)));;
   };
 
   onDelete = () => {
@@ -88,8 +90,7 @@ class CompaniesPage extends Component {
         this.props.dispatch(showSnackBar('warning', (res && res.success) || ''));
         this.props.dispatch(showBackdrop(false));
         this.onListCompanies();
-      })
-      .catch(error => {
+      }).catch(error => {
         this.props.dispatch(showBackdrop(false));
         console.error('error', error);
       });

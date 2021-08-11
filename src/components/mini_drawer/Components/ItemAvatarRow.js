@@ -10,6 +10,7 @@ const ItemAvatarRow = (props) => {
   const getChatName = () => {
     switch(chat.type){
       case "Cliente":
+      case "Interno":
         return chat.receiver && (chat.receiver.firstName + ' ' + chat.receiver.lastName) || '';
       case "Empresa":
         return chat.company && (chat.company.name) || '';

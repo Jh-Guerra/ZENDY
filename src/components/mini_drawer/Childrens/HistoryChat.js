@@ -7,7 +7,7 @@ import CheckHistory from "../Components/CheckHistory";
 class HistoryChat extends Component {
     render() {
         return (
-            <div className="mini-drawer-current-chat">
+            <div style={{height: "79vh"}}>
                 <NewChatCall />
                 {/* <ChatListBar txt='Historial De Chats' itemxx={<CheckHistory/>}/> */}
             </div>

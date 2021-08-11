@@ -20,7 +20,7 @@ const useStyles = makeStyles(theme => ({
 const ModalNewChat = (props) => {
 
     const classes = useStyles();
-    const { open, handleClose } = props;
+    const { open, handleClose, onSaveForm } = props;
     const [showNewInternalChat, setShowNewInternalChat] = useState(false);
     const [showNewCompanyChat, setShowNewCompanyChat] = React.useState(false);
     const [openNewCustomerChat, setOpenNewCustomerChat] = React.useState(false);
@@ -93,17 +93,32 @@ const ModalNewChat = (props) => {
             <CustomModal 
                 customModal="ModalNewCustomerChat"
                 open={openNewCustomerChat}
-                handleClose={(closeNewChat) => { setOpenNewCustomerChat(false); closeNewChat && handleClose(); }}
+                handleClose={() => { setOpenNewCustomerChat(false); }}
+                onSaveForm={() => {
+                    setOpenNewCustomerChat(false);
+                    handleClose();
+                    onSaveForm && onSaveForm();
+                }}
             />
             <CustomModal 
                 customModal="ModalNewInternalChat"
                 open={showNewInternalChat}
-                handleClose={(closeNewChat) => { setShowNewInternalChat(false); closeNewChat && handleClose(); }}
+                handleClose={() => { setShowNewInternalChat(false); }}
+                onSaveForm={() => {
+                    setShowNewInternalChat(false);
+                    handleClose();
+                    onSaveForm && onSaveForm();
+                }}
             />
             <CustomModal 
                 customModal="ModalNewCompanyChat"
                 open={showNewCompanyChat} 
-                handleClose={(closeNewChat) => { setShowNewCompanyChat(false); closeNewChat && handleClose(); }}
+                handleClose={() => { setShowNewCompanyChat(false); }}
+                onSaveForm={() => {
+                    setShowNewCompanyChat(false);
+                    handleClose();
+                    onSaveForm && onSaveForm();
+                }}
             />
         </>
     )

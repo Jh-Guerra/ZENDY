@@ -24,9 +24,7 @@ const CurrentChat = props => {
   const [searchTimeout, setSearchTimeout] = React.useState(null);
 
   React.useEffect(() => {
-    if(localStorage.getItem('user') && JSON.parse(localStorage.getItem('user')).token){
-      onListStatusChats('');
-    }   
+    onListStatusChats('');
   }, []);
 
   const onListStatusChats = term => {
@@ -50,11 +48,15 @@ const CurrentChat = props => {
     history.push("/chat/empresa/" + id);
   }
 
+  const onSaveForm = () => {
+    onListStatusChats('');
+  }
+
   return (
-    <div className="mini-drawer-current-chat">
-      <Grid container>
+    <div style={{height: "79vh"}}>
+      <Grid container style={{height: "100%"}}>
         <Grid item xs={12}>
-          <NewChatCall />
+          <NewChatCall onSaveForm={onSaveForm} />
         </Grid>
         <Grid item xs={12} container>
           <Grid item xs={12}>

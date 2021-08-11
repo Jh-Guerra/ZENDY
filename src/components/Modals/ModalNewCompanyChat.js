@@ -57,7 +57,7 @@ const ModalNewCompanyChat = (props) => {
 
   const classes = useStyles();
 
-  const { open, handleClose } = props;
+  const { open, handleClose, onSaveForm } = props;
   const [companies, setCompanies] = React.useState([])
   const [users, setUsers] = React.useState([]);
   const [searchTimeout, setSearchTimeout] = React.useState(null);
@@ -83,7 +83,7 @@ const ModalNewCompanyChat = (props) => {
         onListUsersByCompany(resCompanies[0].id, "");
       }
       props.dispatch(showBackdrop(false));
-    });
+    }).catch(err => props.dispatch(showBackdrop(false)));;
   }
 
   const onListUsersByCompany = (companyId, term) => {
@@ -91,7 +91,7 @@ const ModalNewCompanyChat = (props) => {
     props.dispatch(listUsersByCompany(companyId, term)).then(res => {
       setUsers(res || []);
       props.dispatch(showBackdrop(false));
-    });
+    }).catch(err => props.dispatch(showBackdrop(false)));;
   }
 
   const onChangeCompany = companyId => {
@@ -147,7 +147,7 @@ const ModalNewCompanyChat = (props) => {
     props.dispatch(createCompanyChat(userIds, companyId, allChecked)).then(res => {
       props.dispatch(showBackdrop(false));
       props.dispatch(showSnackBar("success", "Chat iniciado correctamente."));
-      handleClose(true);
+      onSaveForm && onSaveForm();
     }).catch(err => {
       props.dispatch(showBackdrop(false));
       console.log("err", err.response.data.error);

@@ -23,9 +23,7 @@ const EntryChat = props => {
   const [searchTimeout, setSearchTimeout] = React.useState(null);
 
   React.useEffect(() => {
-    if(localStorage.getItem('user') && JSON.parse(localStorage.getItem('user')).token){
-      onListClientChats('');
-    }   
+    onListClientChats('');
   }, []);
 
   const onListClientChats = term => {
@@ -33,7 +31,7 @@ const EntryChat = props => {
     props.dispatch(listClientChats(term)).then(res => {
       setAllChats(res || []);
       props.dispatch(showBackdrop(false));
-    });
+    }).catch(err => props.dispatch(showBackdrop(false)));;
   };
 
   const onSearch = term => {
@@ -50,8 +48,8 @@ const EntryChat = props => {
   }
 
   return (
-    <div className="mini-drawer-current-chat">
-      <Grid container>
+    <div style={{height: "79vh"}}>
+      <Grid container style={{height: "100%"}}>
         <Grid item xs={12}>
           <NewChatCall />
         </Grid>

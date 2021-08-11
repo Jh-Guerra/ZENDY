@@ -45,6 +45,7 @@ class NewChatCall extends Component {
                     customModal={this.props.isChatCompany ? "ModalNewCompanyChat" : "ModalNewChat" }
                     open={this.state.open} 
                     handleClose={() => this.handleClose()}
+                    onSaveForm={this.props.onSaveForm}
                 />
             </div>
             </>

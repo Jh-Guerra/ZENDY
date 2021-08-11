@@ -44,7 +44,7 @@ const useStyles = makeStyles(theme => ({
 
 const ModalNewInternalChat = (props) => {
 
-  const { open, handleClose } = props;
+  const { open, handleClose, onSaveForm } = props;
   const classes = useStyles(props);
 
   const [users, setUsers] = React.useState([]);
@@ -63,7 +63,7 @@ const ModalNewInternalChat = (props) => {
     props.dispatch(listAvailableUsers(["Admin", "UserERP"], term)).then(res => {
       setUsers(res || []);
       props.dispatch(showBackdrop(false));
-    });
+    }).catch(err => props.dispatch(showBackdrop(false)));;
   }
 
   const onSearch = (term) => {
@@ -101,7 +101,7 @@ const ModalNewInternalChat = (props) => {
     props.dispatch(createInternalChat(selectedRows)).then(res => {
       props.dispatch(showBackdrop(false));
       props.dispatch(showSnackBar("success", "Chat iniciado correctamente."));
-      handleClose(true);
+      onSaveForm && onSaveForm();
     }).catch(err => {
       props.dispatch(showBackdrop(false));
       console.log("err", err.response.data.error);

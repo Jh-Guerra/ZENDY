@@ -104,8 +104,7 @@ const EmpresaPage = props => {
         });
         await props.dispatch(listUsersByCompany(companyId)).then(res => {
             setUsers(res || []);
-        }); 
-        
+        });
         props.dispatch(showBackdrop(false));
     }
 

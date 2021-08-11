@@ -25,7 +25,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import config from 'config/Config';
 
 const ModalNewCustomerChat = props => {
-  const { open, handleClose } = props;
+  const { open, handleClose, onSaveForm } = props;
 
   const [users, setUsers] = React.useState([]);
   const [searchTimeout, setSearchTimeout] = React.useState(null);
@@ -43,7 +43,7 @@ const ModalNewCustomerChat = props => {
     props.dispatch(listAvailableUsers(['UserEmpresa'], term)).then(res => {
       setUsers(res || []);
       props.dispatch(showBackdrop(false));
-    });
+    }).catch(err => props.dispatch(showBackdrop(false)));;
   };
 
   const onSearch = term => {
@@ -81,9 +81,8 @@ const ModalNewCustomerChat = props => {
     props.dispatch(createClientChat(selectedRows)).then(res => {
       props.dispatch(showBackdrop(false));
       props.dispatch(showSnackBar('success', 'Chat iniciado correctamente.'));
-      handleClose(true);
-    })
-    .catch(err => {
+      onSaveForm && onSaveForm();
+    }).catch(err => {
       props.dispatch(showBackdrop(false));
       console.log('err', err.response.data.error);
       props.dispatch(showSnackBar('error', err.response.data ? err.response.data.error : 'ERROR'));

@@ -61,7 +61,7 @@ class UsersPage extends Component {
       this.setState({users: res || []});
       this.setState({loading: false});
       this.props.dispatch(showBackdrop(false));
-    });
+    }).catch(err => this.props.dispatch(showBackdrop(false)));;
   }
 
   showDetails = (row) => {
@@ -70,7 +70,7 @@ class UsersPage extends Component {
         user: res || {},
         showModalUser: true
       });
-    });
+    }).catch(err => this.props.dispatch(showBackdrop(false)));;
   }
 
   onDelete = () => {

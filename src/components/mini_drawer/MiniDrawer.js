@@ -75,7 +75,6 @@ const MiniDrawer = (props) => {
   const handleChangeTab = (event, newTab) => {
     props.dispatch(updateLastTab(newTab || 0));
     if(newTab==4){
-      setTab(newTab);
       setShowModalMoreActions(true);
     }else{
       setTab(newTab);
