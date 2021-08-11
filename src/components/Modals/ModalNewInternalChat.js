@@ -1,4 +1,4 @@
-import { Checkbox, Divider, Grid, makeStyles, CircularProgress, Typography } from '@material-ui/core';
+import { Checkbox, Divider, Grid, makeStyles, CircularProgress, Typography, Input, InputAdornment } from '@material-ui/core';
 import React from 'react'
 import ModalBody from './common/ModalBody'
 import ModalHeader from './common/ModalHeader'
@@ -23,9 +23,29 @@ import { createInternalChat } from 'services/actions/ChatAction';
 import { pColor } from 'assets/styles/zendy-css';
 import config from 'config/Config';
 
+const useStyles = makeStyles(theme => ({
+  letters:{
+      fontSize:'20px',
+      fontStyle:'oblique',
+      fontWeight:'bold'
+  },
+  input: {
+      marginLeft: theme.spacing(1),
+      flex: 1,
+  },
+  iconButton: {
+      padding: 10,
+  },
+  divider: {
+      height: 28,
+      margin: 4,
+  },
+}));
+
 const ModalNewInternalChat = (props) => {
 
   const { open, handleClose } = props;
+  const classes = useStyles(props);
 
   const [users, setUsers] = React.useState([]);
   const [searchTimeout, setSearchTimeout] = React.useState(null);
@@ -103,9 +123,16 @@ const ModalNewInternalChat = (props) => {
                 <SearchIcon />
               </IconButton>
               <InputBase
+                className={classes.input}
+                fullWidth={true}
                 style={{flex: 1, width: '80%'}}
                 placeholder="Buscar contactos"
                 onChange={(event) => onSearch(event.target.value)}
+                inputProps={{ 'aria-label': 'Buscar contactos' }}
+                  startAdornment= {
+                    <InputAdornment position="start" tyle={{marginLeft:'5px'}} type="button" className={classes.iconButton} aria-label="search">
+                      <SearchIcon />
+                    </InputAdornment>}
                 value={term}
               />
               </Grid>

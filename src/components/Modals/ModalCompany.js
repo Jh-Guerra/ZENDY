@@ -18,6 +18,7 @@ import HomeIcon from '@material-ui/icons/Home';
 import { showBackdrop } from 'services/actions/CustomAction';
 import defaultCompany from 'assets/images/defaultCompany.png';
 import config from 'config/Config';
+import DescriptionIcon from '@material-ui/icons/Description';
 
 const ModalCompany = (props) => {
     
@@ -33,7 +34,8 @@ const ModalCompany = (props) => {
         logo: "",
         currentBytes: 0,
         maxBytes: 0,
-        avatar: ""
+        avatar: "",
+        description: "",
     });
 
     const [title, setTitle] = React.useState("Agregar Empresa");
@@ -61,7 +63,8 @@ const ModalCompany = (props) => {
                     logo: "",
                     currentBytes: 0,
                     maxBytes: 0,
-                    avatar: ""
+                    avatar: "",
+                    description:""
                 });
                 setTitle("Agregar empresa");
                 setIcon(<BusinessIcon />);
@@ -76,6 +79,9 @@ const ModalCompany = (props) => {
         company = trimObject(company);
         if (!company.name) 
             errors.name = true;
+        
+        if (!company.description) 
+            errors.description = true;
         
         if (!company.address)
             errors.address = true;
@@ -182,6 +188,18 @@ const ModalCompany = (props) => {
                                             value={values.name}
                                             error={ errors.name && touched.name ? true : false }
                                             icon={<BusinessIcon />}
+                                            disabled={!editMode}
+                                        />
+                                    </Grid>
+                                    <Grid item xs={12}>
+                                        <CustomInput
+                                            id="description"
+                                            label={<p>Descripción *</p>}
+                                            inputType="inputText"
+                                            onChange={handleChange}
+                                            value={values.description}
+                                            error={ errors.description && touched.description ? true : false }
+                                            icon={<DescriptionIcon />}
                                             disabled={!editMode}
                                         />
                                     </Grid>
