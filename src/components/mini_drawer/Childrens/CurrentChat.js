@@ -63,24 +63,24 @@ const CurrentChat = props => {
               <p className="divider-content">Chats Vigentes</p>
               <span className="divider-line"></span>
             </div>
-          </Grid>
-          <Grid item xs={12}>
-            {props.itemxx}
             <br />
           </Grid>
-          <Grid item xs={12}>
-            <Paper component="form">
-              <Grid container direction="row">
-                <IconButton style={{ marginLeft: '5px', padding: 10 }} type="button" aria-label="search">
-                  <SearchIcon />
-                </IconButton>
-                <InputBase
-                  style={{ flex: 1, width: '80%' }}
-                  placeholder="Buscar contactos"
-                  onChange={event => onSearch(event.target.value)}
-                />
-              </Grid>
-            </Paper>
+          <Grid item xs={12} style={{padding: '10px'}}>
+            <Input
+              fullWidth
+              className="search_wrap"
+              type="text"
+              placeholder="Buscar contactos"
+              onChange={event => onSearch(event.target.value)}
+              disableUnderline
+              startAdornment= {
+                <InputAdornment position="start">
+                  <IconButton type="button" aria-label="search">
+                    <SearchIcon />
+                  </IconButton>
+                </InputAdornment>
+              }
+            />
           </Grid>
           <br />
           <Grid item xs={12}>

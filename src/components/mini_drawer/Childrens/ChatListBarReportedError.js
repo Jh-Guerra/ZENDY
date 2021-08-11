@@ -59,10 +59,10 @@ class ChatListBarReportedError extends Component {
             <span className="divider-line"></span>
           </div>  
         <br />   
-        <div className={`chatList__search ${classes.search}`}>
+        <div className={`${classes.search}`}>
           {/* <div> */}
             <SearchIcon />
-            <Input className="chatList__search search_wrap" 
+            <Input className="search_wrap" 
               style={{paddingLeft: '10px', width: '90%', position: 'absolute',top: '0', left: '0', right: '0', margin: 'auto'}}
               type="text"
               placeholder="Buscar..."

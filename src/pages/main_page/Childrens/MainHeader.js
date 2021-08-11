@@ -64,7 +64,7 @@ const MainHeader = props => {
         
         <Grid item xs={6}>
           <Grid container className="chat-header-buttons">
-            <TextField className="chatList__search search_wrap" 
+            <TextField className="search_wrap" 
               style={{paddingLeft: '20px'}}
               type="text"
               placeholder="Buscar..."

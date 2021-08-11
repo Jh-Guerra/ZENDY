@@ -532,6 +532,18 @@ html, body {
     padding-top: 6px;
     color: silver;
 }
+  
+  .search_wrap {
+    background-color: #e6e5ea;
+    border-radius: 10px;
+  }
+  .search_wrap input {
+    background-color: transparent;
+    border: none;
+    padding: 12px 12px;
+    outline: none;
+    width: 100%;
+  }
 
 /* ===========================        AVATAR             =============================================*/
 .avatar {
