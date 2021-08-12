@@ -44,8 +44,8 @@ const CurrentChat = props => {
     );
   };
 
-  const goToChat = (id) => {
-    history.push("/chat/empresa/" + id);
+  const goToChat = (chat) => {
+    history.push(`/chat/${chat.type}/${chat.id}`);
   }
 
   const onSaveForm = () => {

@@ -25,17 +25,16 @@ const ItemAvatarRow = (props) => {
   const hour = chat.lastMessageHour || '00:00';
   const isOnline = chat.isOnline ? 'active' : '';
 
-  const onClickAction = (id) => {
-    props.goToChat && props.goToChat(id);
+  const onClickAction = (chat) => {
+    props.goToChat && props.goToChat(chat);
   }
 
   return (
-    <div className="mini-drawer-content" onClick={() => { onClickAction(chat.id) }}>
+    <div className="mini-drawer-content" onClick={() => { onClickAction(chat) }}>
       <div className="mini-drawer-user">
         <ItemAvatar
           isOnline={isOnline}
           image={image ? (config.api+image) : "http://placehold.it/80x80"}
-          isChatCompany={props.isChatCompany}
         />
         <div style={{width:"80%"}}>
             <div className="chat-mini-details">

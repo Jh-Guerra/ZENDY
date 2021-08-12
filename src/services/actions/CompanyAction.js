@@ -22,8 +22,8 @@ export const listCompanies = () => async dispatch => {
     return res && res.data || [];
 }
 
-export const listWithUsersCount = () => async dispatch => {
-    const res = await companyService.listWithUsersCount();
+export const listWithUsersCount = (term) => async dispatch => {
+    const res = await companyService.listWithUsersCount(term);
     return res && res.data || [];
 }
 

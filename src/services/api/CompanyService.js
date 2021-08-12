@@ -8,7 +8,7 @@ class CompanyService {
             config.apiVersion + `companies/register`, 
             data,
             { 
-                headers: config.headers 
+                headers: { ...config.headers, Authorization: `token ${JSON.parse(localStorage.getItem('user')).token || ''}` }
             }
     )}
 
@@ -17,7 +17,7 @@ class CompanyService {
             config.apiVersion + `companies/update/` + id, 
             data,
             { 
-                headers: config.headers 
+                headers: { ...config.headers, Authorization: `token ${JSON.parse(localStorage.getItem('user')).token || ''}` }
             }
     )}
 
@@ -25,7 +25,7 @@ class CompanyService {
         return await axios.get(
             config.apiVersion + `companies/find/` + id,
             { 
-                headers: config.headers
+                headers: { ...config.headers, Authorization: `token ${JSON.parse(localStorage.getItem('user')).token || ''}` }
             }
     )}
 
@@ -33,24 +33,24 @@ class CompanyService {
         return await axios.get(
             config.apiVersion + `companies/list`,
             { 
-                headers: config.headers
+                headers: { ...config.headers, Authorization: `token ${JSON.parse(localStorage.getItem('user')).token || ''}` }
             }
     )}
 
-    async listWithUsersCount() {
+    async listWithUsersCount(term) {
         return await axios.get(
             config.apiVersion + `companies/list/count/users`,
-            { headers: {
-                ...config.headers, 
-                Authorization: `token ${JSON.parse(localStorage.getItem('user')).token || ''}` 
-            } }
+            { 
+                headers: { ...config.headers, Authorization: `token ${JSON.parse(localStorage.getItem('user')).token || ''}` },
+                params: { term } 
+            }
     )}
 
     async deleteCompany(id) {
         return await axios.delete(
             config.apiVersion + `companies/delete/` + id,
             { 
-                headers: config.headers 
+                headers: { ...config.headers, Authorization: `token ${JSON.parse(localStorage.getItem('user')).token || ''}` }
             }
     )}
    

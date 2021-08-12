@@ -101,11 +101,11 @@ const EmpresaPage = props => {
         props.dispatch(showBackdrop(true));
         await props.dispatch(findCompany(companyId)).then(res => {
             setCompanies(res || []);
-        });
+        }).catch(err => props.dispatch(showBackdrop(false)));
         await props.dispatch(listUsersByCompany(companyId)).then(res => {
             setUsers(res || []);
-        });
-        props.dispatch(showBackdrop(false));
+            props.dispatch(showBackdrop(false));
+        }).catch(err => props.dispatch(showBackdrop(false)));
     }
 
     return (
