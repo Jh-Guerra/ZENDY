@@ -1,4 +1,4 @@
-import { Grid, Divider, Avatar } from '@material-ui/core';
+import { Grid, Divider, Avatar, Button } from '@material-ui/core';
 import React from 'react'
 import ModalBody from './common/ModalBody'
 import ModalHeader from './common/ModalHeader'
@@ -12,16 +12,14 @@ import AlternateEmailIcon from '@material-ui/icons/AlternateEmail';
 import LockIcon from '@material-ui/icons/Lock';
 import { onlyNumbers, trimObject, userTypes } from 'utils/common';
 import PhoneIcon from '@material-ui/icons/Phone';
-import BusinessIcon from '@material-ui/icons/Business';
 import { createUser, updateUser,uploadImage} from 'services/actions/UserAction';
 import AssignmentIndIcon from '@material-ui/icons/AssignmentInd';
 import EditIcon from '@material-ui/icons/Edit';
 import { showBackdrop } from 'services/actions/CustomAction';
 import { listCompanies } from 'services/actions/CompanyAction';
-import IconButton from '@material-ui/core/IconButton';
-import PhotoCamera from '@material-ui/icons/PhotoCamera';
 import defaultAvatar from 'assets/images/defaultAvatar.jpg';
 import config from "../../config/Config";
+import GetAppIcon from '@material-ui/icons/GetApp';
 
 const ModalUser = (props) => {
     
@@ -167,9 +165,13 @@ const ModalUser = (props) => {
     }
 
     function processImage(event){
-        const imageFile = event.target.files[0];
-        const imageUrl = URL.createObjectURL(imageFile);
-        setFileUrl(imageUrl)
+        if(event){
+            const imageFile = event.target.files[0];
+            const imageUrl = URL.createObjectURL(imageFile);
+            setFileUrl(imageUrl)
+        }else{
+            setFileUrl(null)
+        }
      }
 
     const onEdit = () => {
@@ -314,15 +316,28 @@ const ModalUser = (props) => {
                                             </Grid>
                                         )
                                     }
-                                    <Grid container  direction="row" alignItems="center" justify="right">
-                                        <Grid item xs={12} md={8}>
-                                            <input accept="image/*" id="icon-button-file" type="file" onChange={processImage} disabled={!editMode}/>
-                                        </Grid>
-                                        <Grid item xs={12} md={4} >
-                                            <Avatar style={{height:140, width:140}} src={fileUrl ? fileUrl : (data.avatar ? (config.api+data.avatar) : defaultAvatar)}/>
-                                        </Grid>   
-                                    </Grid>   
-                                   
+                                    {
+                                        editMode && (
+                                            <Grid item xs={12}>
+                                                <p style={{color: "rgba(0, 0, 0, 0.54)", marginBottom:"5px"}}> Avatar </p>
+                                                <Button
+                                                    variant="contained"
+                                                    component="label"
+                                                    fullWidth
+                                                    disabled={!editMode}
+                                                >
+                                                    <GetAppIcon style={{marginRight: "12px"}} />
+                                                    <input id="icon-button-file" accept="image/*" type="file" onChange={processImage} />
+                                                </Button>
+                                            </Grid>
+                                        )
+                                    }
+                                    <Grid item xs={6} md={4} >
+                                        <Avatar 
+                                            style={{height:140, width:140, display:fileUrl || (user.id && user.avatar) ? "flex" : "none"}} 
+                                            src={fileUrl ? fileUrl : (data.avatar ? (config.api+data.avatar) : defaultAvatar)}
+                                        />
+                                    </Grid>
                                 </Grid>
                                 
                                 <Divider style={{marginTop:"20px"}} />

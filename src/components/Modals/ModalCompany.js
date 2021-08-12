@@ -1,4 +1,4 @@
-import { Grid, Divider, Avatar } from '@material-ui/core';
+import { Grid, Divider, Avatar, Button } from '@material-ui/core';
 import React from 'react'
 import ModalBody from './common/ModalBody'
 import ModalHeader from './common/ModalHeader'
@@ -19,6 +19,7 @@ import { showBackdrop } from 'services/actions/CustomAction';
 import defaultCompany from 'assets/images/defaultCompany.png';
 import config from 'config/Config';
 import DescriptionIcon from '@material-ui/icons/Description';
+import GetAppIcon from '@material-ui/icons/GetApp';
 
 const ModalCompany = (props) => {
     
@@ -153,6 +154,8 @@ const ModalCompany = (props) => {
     function processImage(event){
         const imageFile = event.target.files[0];
         const imageUrl = URL.createObjectURL(imageFile);
+        console.log("imageFile", imageFile)
+        console.log("imageUrl", imageUrl)
         setFileUrl(imageUrl)
      }
 
@@ -241,18 +244,6 @@ const ModalCompany = (props) => {
                                             disabled={!editMode}
                                         />
                                     </Grid>
-                                    <Grid item xs={12}>
-                                        <CustomInput
-                                            id="adminName"
-                                            label={<p>Administrador *</p>}
-                                            inputType="inputText"
-                                            onChange={handleChange}
-                                            value={values.adminName}
-                                            error={ errors.adminName && touched.adminName ? true : false }
-                                            icon={<AccountCircle />}
-                                            disabled={!editMode}
-                                        />
-                                    </Grid>
                                     <Grid item xs={12} md={6}>
                                         <CustomInput
                                             id="maxBytes"
@@ -267,14 +258,40 @@ const ModalCompany = (props) => {
                                             disabled={!editMode}
                                         />
                                     </Grid>
-                                    <Grid container  direction="row" alignItems="center" justify="right">
-                                        <Grid item xs={12} md={8}>
-                                            <input accept="image/*" id="icon-button-file" type="file" onChange={processImage} disabled={!editMode}/>
-                                        </Grid>
-                                        <Grid item xs={12} md={4} >
-                                            <Avatar variant="rounded" style={{height:140, width:140}} src={fileUrl ? fileUrl : (data.avatar ? (config.api+data.avatar) : defaultCompany)}/>
-                                        </Grid>   
-                                    </Grid>   
+                                    <Grid item xs={12}>
+                                        <CustomInput
+                                            id="adminName"
+                                            label={<p>Administrador *</p>}
+                                            inputType="inputText"
+                                            onChange={handleChange}
+                                            value={values.adminName}
+                                            error={ errors.adminName && touched.adminName ? true : false }
+                                            icon={<AccountCircle />}
+                                            disabled={!editMode}
+                                        />
+                                    </Grid>
+                                    {
+                                        editMode && (
+                                            <Grid item xs={12}>
+                                                <p style={{color: "rgba(0, 0, 0, 0.54)", marginBottom:"5px"}}> Avatar </p>
+                                                <Button
+                                                    variant="contained"
+                                                    component="label"
+                                                    fullWidth
+                                                    disabled={!editMode}
+                                                >
+                                                    <GetAppIcon style={{marginRight: "12px"}} />
+                                                    <input id="icon-button-file" accept="image/*" type="file" onChange={processImage} />
+                                                </Button>
+                                            </Grid>
+                                        )
+                                    }
+                                    <Grid item xs={6} md={4} >
+                                        <Avatar 
+                                            style={{height:140, width:140, display:fileUrl || (company.id && company.avatar) ? "flex" : "none"}} 
+                                            src={fileUrl ? fileUrl : (data.avatar ? (config.api+data.avatar) : defaultCompany)}
+                                        />
+                                    </Grid>
                                 </Grid>
                                 
                                 <Divider style={{marginTop:"20px"}} />
