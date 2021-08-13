@@ -60,7 +60,7 @@ const ModalNewInternalChat = (props) => {
 
   const onListAvailableUsers = (term) => {
     props.dispatch(showBackdrop(true));
-    props.dispatch(listAvailableUsers(["Admin", "UserERP"], term)).then(res => {
+    props.dispatch(listAvailableUsers(["Admin", "UserHD"], term)).then(res => {
       setUsers(res || []);
       props.dispatch(showBackdrop(false));
     }).catch(err => props.dispatch(showBackdrop(false)));;

@@ -298,7 +298,7 @@ const ModalUser = (props) => {
                                        />
                                     </Grid>
                                     {
-                                        values.type != 'Admin' && (
+                                        values.type != 'Admin' && values.type != "UserHD" && (
                                             <Grid item xs={12}>
                                                 <CustomInput
                                                     id="idCompany"

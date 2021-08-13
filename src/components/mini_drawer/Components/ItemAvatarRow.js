@@ -19,7 +19,7 @@ const ItemAvatarRow = (props) => {
     }
   }
 
-  const image = chat.user && chat.user.avatar || '';
+  const image = chat.receiver && chat.receiver.avatar || '';
   const name = getChatName();
   const message = chat.lastMessage || '...';
   const hour = chat.lastMessageHour || '00:00';
