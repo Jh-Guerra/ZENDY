@@ -2,9 +2,10 @@ import React, { Component, createRef } from "react";
 import config from 'config/Config';
 
 import ItemAvatar from "./ItemAvatar";
-
+import { listUsersOnline } from 'services/actions/UserAction';
 const ItemAvatarRow = (props) => {
 
+  console.log('pruebasSourcetree')
   const { chat={} } = props;
 
   const getChatName = () => {
