@@ -47,52 +47,54 @@ const EntryChat = props => {
     // history.push("/chat/empresa/" + id);
   }
 
+  const onSaveForm = () => {
+    
+  }
+
   return (
     <div style={{height: "79vh"}}>
-      <Grid container style={{height: "100%"}}>
+      <Grid container>
         <Grid item xs={12}>
-          <NewChatCall />
+          <NewChatCall onSaveForm={onSaveForm} />
         </Grid>
-        <Grid item xs={12} container>
-          <Grid item xs={12}>
-            <div className="chatlist__heading">
-              <span className="divider-line"></span>
-              <p className="divider-content">Consultas Entrantes</p>
-              <span className="divider-line"></span>
-            </div>
-          </Grid>
-          <Grid item xs={12}>
-            {props.itemxx}
-            <br />
-          </Grid>
-          <Grid item xs={12}>
-            <Paper component="form">
-              <Grid container direction="row">
-                <IconButton style={{ marginLeft: '5px', padding: 10 }} type="button" aria-label="search">
+        <Grid item xs={12}>
+          <div className="chatlist__heading">
+            <span className="divider-line"></span>
+            <p className="divider-content">Consultas Entrantes </p>
+            <span className="divider-line"></span>
+          </div>
+          <br />
+        </Grid>
+        <Grid item xs={12} style={{padding: '0px 10px'}}>
+          <Input
+            fullWidth
+            className="search_wrap"
+            type="text"
+            placeholder="Buscar contactos"
+            onChange={event => onSearch(event.target.value)}
+            disableUnderline
+            startAdornment= {
+              <InputAdornment position="start">
+                <IconButton type="button" aria-label="search">
                   <SearchIcon />
                 </IconButton>
-                <InputBase
-                  style={{ flex: 1, width: '80%' }}
-                  placeholder="Buscar contactos"
-                  onChange={event => onSearch(event.target.value)}
+              </InputAdornment>
+            }
+          />
+        </Grid>
+        <Grid item xs={12}>
+          {/* <div className="chat-list-items"> */}
+          <div>
+            {allChats.map((chat, i) => {
+              return (
+                <ItemAvatarRow
+                  key={i}
+                  chat={chat}
+                  goToChat={goToChat}
                 />
-              </Grid>
-            </Paper>
-          </Grid>
-          <br />
-          <Grid item xs={12}>
-            <div className="chat-list-items">
-              {allChats.map((chat, i) => {
-                return (
-                  <ItemAvatarRow
-                    key={i}
-                    chat={chat}
-                    goToChat={goToChat}
-                  />
-                );
-              })}
-            </div>
-          </Grid>
+              );
+            })}
+          </div>
         </Grid>
       </Grid>
     </div>
