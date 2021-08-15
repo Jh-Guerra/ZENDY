@@ -1,10 +1,7 @@
 import React, { Component } from 'react';
 import BasePage from 'components/BasePage';
 import ZendyIcon from '../../assets/images/zendy-icon.jpg'
-import Pusher from "pusher-js";
 import Echo from "laravel-echo";
-window.Pusher = require('pusher-js')
-
 
 class BlankPage extends Component {
   constructor(props) {
