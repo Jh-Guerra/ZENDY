@@ -41,7 +41,7 @@ class UserService {
             } }
     )}
 
-    async listAvailableUsers(type, term) {
+    async listAvailableUsers(type, term, isInternalChat) {
         return await axios.get(
             config.apiVersion + `users/list-available`,
             { 
@@ -49,7 +49,7 @@ class UserService {
                     ...config.headers, 
                     Authorization: `token ${JSON.parse(localStorage.getItem('user')).token || ''}` 
                 },
-                params: { term, type }
+                params: { term, type, isInternalChat }
             }
     )}
 

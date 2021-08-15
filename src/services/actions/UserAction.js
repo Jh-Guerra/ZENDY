@@ -22,8 +22,8 @@ export const listUsers = (term) => async dispatch => {
     return res && res.data || [];
 }
 
-export const listAvailableUsers = (type, term) => async dispatch => {
-    const res = await userService.listAvailableUsers(type, term);
+export const listAvailableUsers = (type, term, isInternalChat = '') => async dispatch => {
+    const res = await userService.listAvailableUsers(type, term, isInternalChat);
     return res && res.data || [];
 }
 

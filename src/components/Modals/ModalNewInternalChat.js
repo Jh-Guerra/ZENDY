@@ -22,6 +22,7 @@ import { showBackdrop, showSnackBar } from 'services/actions/CustomAction';
 import { createInternalChat } from 'services/actions/ChatAction';
 import { pColor } from 'assets/styles/zendy-css';
 import config from 'config/Config';
+import ModalReportErrorFalse from './ModalReportErrorFalse';
 
 const useStyles = makeStyles(theme => ({
   letters:{
@@ -60,7 +61,7 @@ const ModalNewInternalChat = (props) => {
 
   const onListAvailableUsers = (term) => {
     props.dispatch(showBackdrop(true));
-    props.dispatch(listAvailableUsers(["Admin", "UserHD"], term)).then(res => {
+    props.dispatch(listAvailableUsers(["Admin", "UserHD"], term, 'internalChat')).then(res => {
       setUsers(res || []);
       props.dispatch(showBackdrop(false));
     }).catch(err => props.dispatch(showBackdrop(false)));;
@@ -119,13 +120,10 @@ const ModalNewInternalChat = (props) => {
           <Grid item xs={12}>
             <Paper component="form" >
               <Grid container direction="row" >
-              <IconButton style={{ marginLeft: '5px', padding:10 }} type="button" aria-label="search">
-                <SearchIcon />
-              </IconButton>
               <InputBase
                 className={classes.input}
                 fullWidth={true}
-                style={{flex: 1, width: '80%'}}
+                style={{flex: 1, width: '80%', height: '50px'}}
                 placeholder="Buscar contactos"
                 onChange={(event) => onSearch(event.target.value)}
                 inputProps={{ 'aria-label': 'Buscar contactos' }}
@@ -150,11 +148,6 @@ const ModalNewInternalChat = (props) => {
                       </ListItemAvatar>
                       <ListItemText
                         primary={`${user.firstName} ${user.lastName}`}
-                        secondary={
-                          <React.Fragment>
-                            <Typography variant="body2">{user.companyName || "Empresa sin asignar"}</Typography>
-                          </React.Fragment>
-                        }
                       />
                       <ListItemSecondaryAction>
                         <Checkbox
