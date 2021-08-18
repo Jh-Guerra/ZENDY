@@ -1,45 +1,31 @@
 import axiosClassic from 'axios';
 
 const handleAxiosResponse = async (config) => {
-
     const results = { response: null, error: null };
 
     try {
-
         const res = await axiosClassic(config.url, config);
-
         results.response = res;
-
     } catch (error) {
-
         results.error = error;
-
         const { data } = error.response;
 
         if (data.status === 'Token is Expired') {
-
             localStorage.clear();
-
             window.location.href('/');
-
         }
-
     }
 
     return new Promise((resolve, reject) => {
-        if(results.response) {
+        if(results.response) 
             resolve(results.response);
-        }
 
-        if(results.error) {
+        if(results.error) 
             reject(results.error);
-        }
     });
-
 }
 
 class CustomAxios {
-
     get(url, config){
         return handleAxiosResponse({
             ...config,
