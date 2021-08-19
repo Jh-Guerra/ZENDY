@@ -106,7 +106,7 @@ const ModalUser = (props) => {
         if (user.type == "User")
             errors.type = 'Tipo de Usuario requerido'
 
-        if (user.type != 'Admin' && !user.idCompany)
+        if (user.type != 'Admin' && user.type != 'UserHD' && !user.idCompany)
             errors.idCompany = 'Empresa requerida'
 
         return errors;
