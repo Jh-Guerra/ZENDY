@@ -13,6 +13,8 @@ const useStyles = makeStyles(theme => ({
     inputText: {
         // width: "100%",
     },
+    textArea: {
+    },
     inputDate: {
         width: "100%",
         marginTop: "0px"
@@ -43,6 +45,18 @@ const CustomInput = props => {
                             fullWidth
                             {...props}
                         />
+            case "textArea":
+              return <TextField
+                          className={classes[inputType]}
+                          multiline
+                          rows={4}
+                          InputProps={{
+                              startAdornment: props.icon && ( <InputAdornment position="start"> { props.icon } </InputAdornment> ),
+                          }}
+                          fullWidth
+                          {...props}
+                      />
+                        
             case "inputDate":
                 return <MuiPickersUtilsProvider utils={DateFnsUtils}>
                             <Grid container justify="space-around">
