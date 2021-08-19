@@ -1,73 +1,73 @@
-import React, { Component, createRef } from "react";
+// import React, { Component, createRef } from "react";
 
-import "assets/styles/zendy-app.css";
-import SendIcon from '@material-ui/icons/Send';
-import IconButton from '@material-ui/core/IconButton';
-import EmojiEmotionsIcon from '@material-ui/icons/EmojiEmotions';
-import ImageIcon from '@material-ui/icons/Image';
-import DescriptionIcon from '@material-ui/icons/Description';
+// import "assets/styles/zendy-app.css";
+// import SendIcon from '@material-ui/icons/Send';
+// import IconButton from '@material-ui/core/IconButton';
+// import EmojiEmotionsIcon from '@material-ui/icons/EmojiEmotions';
+// import ImageIcon from '@material-ui/icons/Image';
+// import DescriptionIcon from '@material-ui/icons/Description';
 
-export default class MainFooter extends Component {
-  messagesEndRef = createRef(null);
+// export default class MainFooter extends Component {
+//   messagesEndRef = createRef(null);
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      chat: this.chatItms,
-      msg: "",
-    };
-  }
+//   constructor(props) {
+//     super(props);
+//     this.state = {
+//       chat: this.chatItms,
+//       msg: "",
+//     };
+//   }
 
-  scrollToBottom = () => {
-    this.messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
-  };
+//   scrollToBottom = () => {
+//     this.messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
+//   };
 
-  componentDidMount() {
-    window.addEventListener("keydown", (e) => {
-      if (e.keyCode == 13) {
-        if (this.state.msg != "") {
-          this.chatItms.push({
-            key: 1,
-            type: "",
-            msg: this.state.msg,
-            image:
-              "https://pbs.twimg.com/profile_images/1116431270697766912/-NfnQHvh_400x400.jpg",
-          });
-          this.setState({ chat: [...this.chatItms] });
+//   componentDidMount() {
+//     window.addEventListener("keydown", (e) => {
+//       if (e.keyCode == 13) {
+//         if (this.state.msg != "") {
+//           this.chatItms.push({
+//             key: 1,
+//             type: "",
+//             msg: this.state.msg,
+//             image:
+//               "https://pbs.twimg.com/profile_images/1116431270697766912/-NfnQHvh_400x400.jpg",
+//           });
+//           this.setState({ chat: [...this.chatItms] });
         
-          this.setState({ msg: "" });
-        }
-      }
-    });
+//           this.setState({ msg: "" });
+//         }
+//       }
+//     });
    
-  }
-  onStateChange = (e) => {
-    this.setState({ msg: e.target.value });
-  };
+//   }
+//   onStateChange = (e) => {
+//     this.setState({ msg: e.target.value });
+//   };
 
-  render() {
-    return (
-      <div className="chat-footer">
-        <IconButton className="chat-input-button"> 
-          <EmojiEmotionsIcon className="chat-input-icon" />
-        </IconButton>
-        <IconButton className="chat-input-button"> 
-          <ImageIcon className="chat-input-icon" />
-        </IconButton>
-        <IconButton className="chat-input-button"> 
-          <DescriptionIcon className="chat-input-icon" />
-        </IconButton>
+//   render() {
+//     return (
+//       <div className="chat-footer">
+//         <IconButton className="chat-input-button"> 
+//           <EmojiEmotionsIcon className="chat-input-icon" />
+//         </IconButton>
+//         <IconButton className="chat-input-button"> 
+//           <ImageIcon className="chat-input-icon" />
+//         </IconButton>
+//         <IconButton className="chat-input-button"> 
+//           <DescriptionIcon className="chat-input-icon" />
+//         </IconButton>
         
-        <input
-          type="text"
-          placeholder="Escribe un mensaje aquí."
-          onChange={this.onStateChange}
-          value={this.state.msg}
-        />
-        <IconButton className="chat-input-button">
-          <SendIcon className="chat-icon-send" />
-        </IconButton>
-      </div>
-    );
-  }
-}
+//         <input
+//           type="text"
+//           placeholder="Escribe un mensaje aquí."
+//           onChange={this.onStateChange}
+//           value={this.state.msg}
+//         />
+//         <IconButton className="chat-input-button">
+//           <SendIcon className="chat-icon-send" />
+//         </IconButton>
+//       </div>
+//     );
+//   }
+// }
