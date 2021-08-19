@@ -13,6 +13,8 @@ import EnterpriseChat from './Childrens/EnterpriseChat';
 import ReportedErrorChat from './Childrens/ReportedErrorChat';
 import EntryChat from './Childrens/EntryChat';
 import { updateLastRoute, updateLastTab } from 'services/actions/CommonAction';
+import Echo from "laravel-echo";
+window.Pusher = require('pusher-js')
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -61,6 +63,8 @@ const MiniDrawer = (props) => {
   }, [history.location.pathname]);
 
   const logOut = () => {
+    //desconectado en el chanel
+    window.Echo.connector.pusher.disconnect();
     localStorage.clear();
     history.push("/");
   }

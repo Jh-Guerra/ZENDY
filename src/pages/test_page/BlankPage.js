@@ -3,6 +3,7 @@ import BasePage from 'components/BasePage';
 import ZendyIcon from '../../assets/images/zendy-icon.jpg'
 import Echo from "laravel-echo";
 
+window.Pusher = require('pusher-js')
 class BlankPage extends Component {
   constructor(props) {
     super(props);
@@ -23,6 +24,10 @@ class BlankPage extends Component {
     window.Echo.channel('home3').listen('sendMessage', (e) => {
       console.log("event",e)
     })
+    //Conectado en el canal
+    window.Echo.connector.pusher.connection.bind('connected', () => {
+      console.log('connected');
+    });
   }
 
   render() {
