@@ -263,7 +263,6 @@ const ModalCompany = (props) => {
                                             onChange={handleChange}
                                             value={values.description}
                                             error={ errors.description && touched.description ? true : false }
-                                            icon={<DescriptionIcon />}
                                             disabled={!editMode}
                                         />
                                     </Grid>
