@@ -81,9 +81,6 @@ const ModalCompany = (props) => {
         if (!company.name) 
             errors.name = true;
         
-        if (!company.description) 
-            errors.description = true;
-        
         if (!company.address)
             errors.address = true;
 
@@ -196,18 +193,6 @@ const ModalCompany = (props) => {
                                     </Grid>
                                     <Grid item xs={12}>
                                         <CustomInput
-                                            id="description"
-                                            label={<p>Descripción *</p>}
-                                            inputType="inputText"
-                                            onChange={handleChange}
-                                            value={values.description}
-                                            error={ errors.description && touched.description ? true : false }
-                                            icon={<DescriptionIcon />}
-                                            disabled={!editMode}
-                                        />
-                                    </Grid>
-                                    <Grid item xs={12}>
-                                        <CustomInput
                                             id="address"
                                             inputType="inputText"
                                             label={<p>Dirección *</p>}
@@ -270,6 +255,18 @@ const ModalCompany = (props) => {
                                             disabled={!editMode}
                                         />
                                     </Grid>
+                                    <Grid item xs={12}>
+                                        <CustomInput
+                                            id="description"
+                                            label={<p>Descripción *</p>}
+                                            inputType="textArea"
+                                            onChange={handleChange}
+                                            value={values.description}
+                                            error={ errors.description && touched.description ? true : false }
+                                            icon={<DescriptionIcon />}
+                                            disabled={!editMode}
+                                        />
+                                    </Grid>
                                     {
                                         editMode && (
                                             <Grid item xs={12}>
@@ -286,7 +283,7 @@ const ModalCompany = (props) => {
                                             </Grid>
                                         )
                                     }
-                                    <Grid item xs={6} md={4} >
+                                    <Grid container item xs={12} justify = "center">
                                         <Avatar 
                                             style={{height:140, width:140, display:fileUrl || (company.id && company.avatar) ? "flex" : "none"}} 
                                             src={fileUrl ? fileUrl : (data.avatar ? (config.api+data.avatar) : defaultCompany)}
