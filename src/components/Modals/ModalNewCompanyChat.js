@@ -101,6 +101,8 @@ const ModalNewCompanyChat = (props) => {
   }
 
   const onSearch = (term) => {
+    setAllChecked(false);
+    selectAllUser(false);
     setTerm(term);
     clearTimeout(searchTimeout);
     setSearchTimeout(
