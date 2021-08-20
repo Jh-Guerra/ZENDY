@@ -36,7 +36,7 @@ class NewChatCall extends Component {
                 customColor={successButtonColor}
                 startIcon={<RateReviewIcon />}
               >
-                Nuevo Chat
+                Buscar Chat
               </CustomButton>
             </Grid>
             <Grid item xs={6}>

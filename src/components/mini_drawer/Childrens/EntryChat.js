@@ -7,6 +7,7 @@ import { listClientChats } from 'services/actions/ChatAction';
 import NewChatCall from './NewChatCall';
 import { useHistory } from 'react-router-dom';
 import { showBackdrop } from 'services/actions/CustomAction';
+import { listPendingQueries } from 'services/actions/EntryQueryAction';
 
 const styles = theme => ({
   search: {
@@ -19,17 +20,18 @@ const EntryChat = props => {
   const { classes = {} } = props;
   const history = useHistory();
 
-  const [allChats, setAllChats] = React.useState([]);
+  const [entryQueries, setEntryQueries] = React.useState([]);
   const [searchTimeout, setSearchTimeout] = React.useState(null);
 
   React.useEffect(() => {
-    onListClientChats('');
+    onList("");
   }, []);
 
-  const onListClientChats = term => {
+  const onList = (term) => {
     props.dispatch(showBackdrop(true));
-    props.dispatch(listClientChats(term)).then(res => {
-      setAllChats(res || []);
+    props.dispatch(listPendingQueries(term)).then(res => {
+      console.log("res", res);
+      setEntryQueries(res || []);
       props.dispatch(showBackdrop(false));
     }).catch(err => props.dispatch(showBackdrop(false)));;
   };
@@ -38,7 +40,7 @@ const EntryChat = props => {
     clearTimeout(searchTimeout);
     setSearchTimeout(
       setTimeout(() => {
-        onListClientChats(term);
+        onList(term);
       }, 1000)
     );
   };
@@ -70,7 +72,7 @@ const EntryChat = props => {
             fullWidth
             className="search_wrap"
             type="text"
-            placeholder="Buscar contactos"
+            placeholder="Buscar consulta"
             onChange={event => onSearch(event.target.value)}
             disableUnderline
             startAdornment= {
@@ -83,18 +85,16 @@ const EntryChat = props => {
           />
         </Grid>
         <Grid item xs={12}>
-          {/* <div className="chat-list-items"> */}
-          <div>
-            {allChats.map((chat, i) => {
-              return (
-                <ItemAvatarRow
-                  key={i}
-                  chat={chat}
-                  goToChat={goToChat}
-                />
-              );
-            })}
-          </div>
+          {entryQueries.map((query, i) => {
+            return (
+              <p> asdasd </p>
+              // <ItemAvatarRow
+              //   key={i}
+              //   chat={query}
+              //   goToChat={goToChat}
+              // />
+            );
+          })}
         </Grid>
       </Grid>
     </div>

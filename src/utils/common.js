@@ -77,3 +77,7 @@ export const getUserTypeName = (type) => {
   const typeO = userTypes.find(t => t.id == type);
   return typeO ? typeO.name : "";
 }
+
+export const getUserInfo = () => {
+  return localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : null;
+}

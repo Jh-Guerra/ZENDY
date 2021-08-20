@@ -13,6 +13,7 @@ import EnterpriseChat from './Childrens/EnterpriseChat';
 import ReportedErrorChat from './Childrens/ReportedErrorChat';
 import EntryChat from './Childrens/EntryChat';
 import { updateLastRoute, updateLastTab } from 'services/actions/CommonAction';
+import { getUserInfo } from 'utils/common';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -49,8 +50,8 @@ const TabPanel = (props) => {
 const MiniDrawer = (props) => {
 
   const history = useHistory();
-
   const { session = {} } = props;
+  const user = getUserInfo();
 
   const [tab, setTab] = React.useState(0);
   const [showModalMoreActions, setShowModalMoreActions] = React.useState(false);
@@ -86,12 +87,12 @@ const MiniDrawer = (props) => {
     history.push(`/${route}`);
   }
   
-  TabPanel.propTypes = {
-    children: PropTypes.node,
-    index: PropTypes.any.isRequired,
-    value: PropTypes.any.isRequired,
-    classes: PropTypes.object
-  };
+  // TabPanel.propTypes = {
+  //   children: PropTypes.node,
+  //   index: PropTypes.any.isRequired,
+  //   value: PropTypes.any.isRequired,
+  //   classes: PropTypes.object
+  // };
 
   return (
     <>
@@ -117,7 +118,7 @@ const MiniDrawer = (props) => {
                   <Tooltip title="Consultas Entrantes">
                     <Tab className="mini-drawer-tab" icon={<PendingChatIcon />} />
                   </Tooltip>
-                  <Tooltip title="Empresas">
+                  <Tooltip style={{display: (user && (user.type=="Admin" || user.type=="UserHD")) ? "flex" : "none" }} title="Empresas">
                     <Tab className="mini-drawer-tab" icon={<CompaniesIcon />} />
                   </Tooltip>
                   <Tooltip title="Errores Reportados">
