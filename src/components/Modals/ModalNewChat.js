@@ -10,6 +10,7 @@ import AddCommentIcon from '@material-ui/icons/AddComment';
 import { successButtonColor } from 'assets/styles/zendy-css';
 import CustomButton from "components/CustomButtom";
 import CustomModal from "components/Modals/common/CustomModal";
+import { useHistory } from 'react-router-dom';
 
 const useStyles = makeStyles(theme => ({
     button: {
@@ -19,6 +20,7 @@ const useStyles = makeStyles(theme => ({
 
 const ModalNewChat = (props) => {
 
+    const history = useHistory();
     const classes = useStyles();
     const { open, handleClose, onSaveForm } = props;
     const [showNewInternalChat, setShowNewInternalChat] = useState(false);
@@ -36,6 +38,11 @@ const ModalNewChat = (props) => {
     const handleNewCustomerChatOpen = () => {
         setOpenNewCustomerChat(true);
     }
+
+    const goToView = (chat,handleClose) => {
+        handleClose(false);
+        history.push(`/chat/${chat.type}/${chat.id}`);
+      }
      
     return (
         <>
@@ -46,7 +53,7 @@ const ModalNewChat = (props) => {
             >
                 <ModalHeader 
                     icon={<AddCommentIcon />}
-                    text="Nuevo Chat"
+                    text="Buscar Chat"
                 />
 
                 <ModalBody>
@@ -60,7 +67,7 @@ const ModalNewChat = (props) => {
                                 customColor={successButtonColor}
                                 onClick={handleNewCustomerChatOpen}
                             >
-                                Chat Cliente
+                                Con Usuarios De La Empresa
                             </CustomButton>
                         </Grid>
                         <Grid item xs={12}>
@@ -72,7 +79,7 @@ const ModalNewChat = (props) => {
                                 customColor={successButtonColor}
                                 onClick={handleNewCompanyChat}
                             >
-                                Chat por Empresa
+                                Con Usuarios De Alguna Empresa
                             </CustomButton>
                         </Grid>
                         <Grid item xs={12}>
@@ -84,7 +91,7 @@ const ModalNewChat = (props) => {
                                 customColor={successButtonColor}
                                 onClick={handleNewTerminalChat}
                             >
-                                Chat Interno
+                                Interno
                             </CustomButton>
                         </Grid>
                     </Grid>
@@ -94,6 +101,7 @@ const ModalNewChat = (props) => {
                 customModal="ModalNewCustomerChat"
                 open={openNewCustomerChat}
                 handleClose={() => { setOpenNewCustomerChat(false); }}
+                goToView={goToView}
                 onSaveForm={() => {
                     setOpenNewCustomerChat(false);
                     handleClose();
@@ -104,6 +112,7 @@ const ModalNewChat = (props) => {
                 customModal="ModalNewInternalChat"
                 open={showNewInternalChat}
                 handleClose={() => { setShowNewInternalChat(false); }}
+                goToView={goToView}
                 onSaveForm={() => {
                     setShowNewInternalChat(false);
                     handleClose();
@@ -114,6 +123,7 @@ const ModalNewChat = (props) => {
                 customModal="ModalNewCompanyChat"
                 open={showNewCompanyChat} 
                 handleClose={() => { setShowNewCompanyChat(false); }}
+                goToView={goToView}
                 onSaveForm={() => {
                     setShowNewCompanyChat(false);
                     handleClose();
