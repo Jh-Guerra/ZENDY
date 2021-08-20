@@ -79,19 +79,30 @@ const ModalNewCustomerChat = props => {
 
     props.dispatch(showBackdrop(true));
     props.dispatch(createClientChat(selectedRows)).then(res => {
-      props.dispatch(showBackdrop(false));
-      props.dispatch(showSnackBar('success', 'Chat iniciado correctamente.'));
-      onSaveForm && onSaveForm();
+      if(res.chat)
+      {
+        props.goToView && props.goToView(res.chat,handleClose)
+        props.dispatch(showBackdrop(false));
+        props.dispatch(showSnackBar('success', 'Chat iniciado correctamente.'));
+        onSaveForm && onSaveForm();
+      }
+
+      if(res.activeChat)
+      {
+        props.goToView && props.goToView(res.activeChat,handleClose)
+        props.dispatch(showBackdrop(false));
+        props.dispatch(showSnackBar('error', 'Ya tiene una conversación iniciada con este usuario.'));
+        onSaveForm && onSaveForm();
+      }
     }).catch(err => {
       props.dispatch(showBackdrop(false));
-      console.log('err', err.response.data.error);
-      props.dispatch(showSnackBar('error', err.response.data ? err.response.data.error : 'ERROR'));
+      props.dispatch(showSnackBar("error", err.response.data ? err.response.data.error : "ERROR")); 
     });
   };
 
   return (
     <Modal open={open} handleClose={handleClose} size="sm" style={{ minHeight: '100%', minWidth: '100%' }}>
-      <ModalHeader icon={<PeopleAltIcon />} text="Nuevo Chat - Cliente" />
+      <ModalHeader icon={<PeopleAltIcon />} text="Chat con usuarios de la empresa" />
       <ModalBody>
         <Grid container spacing={3}>
           <Grid item xs={12}>

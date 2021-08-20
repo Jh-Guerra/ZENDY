@@ -144,21 +144,32 @@ const ModalNewCompanyChat = (props) => {
     const userIds = selectedRows.map(row => row.id);
 
     props.dispatch(showBackdrop(true));
-    props.dispatch(createCompanyChat(userIds, companyId, allChecked)).then(res => {
-      props.dispatch(showBackdrop(false));
-      props.dispatch(showSnackBar("success", "Chat iniciado correctamente."));
-      onSaveForm && onSaveForm();
+    props.dispatch(createCompanyChat(userIds, companyId, allChecked)).then(res => {   
+      if(res.chat)
+      {
+        props.goToView && props.goToView(res.chat,handleClose)
+        props.dispatch(showBackdrop(false));
+        props.dispatch(showSnackBar('success', 'Chat iniciado correctamente.'));
+        onSaveForm && onSaveForm();
+      }
+
+      if(res.activeChat)
+      {
+        props.goToView && props.goToView(res.activeChat,handleClose)
+        props.dispatch(showBackdrop(false));
+        props.dispatch(showSnackBar('error', 'Ya tiene una conversación iniciada con este usuario.'));
+        onSaveForm && onSaveForm();
+      }
     }).catch(err => {
-      props.dispatch(showBackdrop(false));
-      console.log("err", err.response.data.error);
-      props.dispatch(showSnackBar("error", err.response.data ? err.response.data.error : "ERROR"));
+       props.dispatch(showBackdrop(false));
+       props.dispatch(showSnackBar("error", err.response.data ? err.response.data.error : "ERROR")); 
     });
 
   }
 
   return (
     <Modal open={open} handleClose={handleClose} size="sm">
-      <ModalHeader icon={<BusinessIcon />} text="Nuevo Chat - Empresa" />
+      <ModalHeader icon={<BusinessIcon />} text="Chat con usuarios de alguna empresa" />
 
       <ModalBody>
         <Grid item xs={12}>
