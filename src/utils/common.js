@@ -79,5 +79,5 @@ export const getUserTypeName = (type) => {
 }
 
 export const getUserInfo = () => {
-  return localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : null;
+  return localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')).user : null;
 }

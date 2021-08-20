@@ -145,21 +145,9 @@ const ModalNewCompanyChat = (props) => {
 
     props.dispatch(showBackdrop(true));
     props.dispatch(createCompanyChat(userIds, companyId, allChecked)).then(res => {   
-      if(res.chat)
-      {
-        props.goToView && props.goToView(res.chat,handleClose)
-        props.dispatch(showBackdrop(false));
-        props.dispatch(showSnackBar('success', 'Chat iniciado correctamente.'));
-        onSaveForm && onSaveForm();
-      }
-
-      if(res.activeChat)
-      {
-        props.goToView && props.goToView(res.activeChat,handleClose)
-        props.dispatch(showBackdrop(false));
-        props.dispatch(showSnackBar('error', 'Ya tiene una conversación iniciada con este usuario.'));
-        onSaveForm && onSaveForm();
-      }
+      props.goToView && props.goToView(res.chat, handleClose);
+      props.dispatch(showBackdrop(false));
+      onSaveForm && onSaveForm();
     }).catch(err => {
        props.dispatch(showBackdrop(false));
        props.dispatch(showSnackBar("error", err.response.data ? err.response.data.error : "ERROR")); 
