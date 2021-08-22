@@ -14,7 +14,8 @@ export const setImageProfile = (type, receiver) => {
                 if(receiver == null) return defaultAvatarCompany
                 break;
             default:
-                return ''
+                if(receiver == null) return defaultAvatarMale
+                break;
         }
     }
 
