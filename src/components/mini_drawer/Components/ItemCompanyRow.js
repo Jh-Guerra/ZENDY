@@ -2,6 +2,7 @@ import React, { Component, createRef } from "react";
 import config from 'config/Config';
 
 import ItemAvatar from "./ItemAvatar";
+import { setImageProfile } from 'utils/default-profile-image';
 
 const ItemCompanyRow = (props) => {
 
@@ -19,7 +20,7 @@ const ItemCompanyRow = (props) => {
     <div className="mini-drawer-content" onClick={() => { onClickAction(company) }}>
       <div className="mini-drawer-user">
         <ItemAvatar
-          image={image ? (config.api+image) : "http://placehold.it/80x80"}
+          image={setImageProfile('Empresa', company)}
           isChatCompany
         />
         <div style={{width:"80%"}}>

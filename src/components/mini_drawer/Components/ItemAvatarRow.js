@@ -2,6 +2,7 @@ import React, { Component, createRef } from "react";
 import config from 'config/Config';
 
 import ItemAvatar from "./ItemAvatar";
+import { setImageProfile } from 'utils/default-profile-image';
 
 const ItemAvatarRow = (props) => {
 
@@ -34,7 +35,7 @@ const ItemAvatarRow = (props) => {
       <div className="mini-drawer-user">
         <ItemAvatar
           isOnline={isOnline}
-          image={image ? (config.api+image) : "http://placehold.it/80x80"}
+          image={setImageProfile(chat.type, chat.receiver)}
         />
         <div style={{width:"80%"}}>
             <div className="chat-mini-details">

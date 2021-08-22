@@ -17,6 +17,7 @@ class ChatListBarReportedError extends Component {
     {
       image:"https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTA78Na63ws7B7EAWYgTr9BxhX_Z8oLa1nvOA&usqp=CAU",
       name: "Tim Hover",
+      type: 'Empresa',
       message: "Encontre un error en ......",
       hour: "01:00 am",
       active: true,
@@ -25,6 +26,7 @@ class ChatListBarReportedError extends Component {
     {
       image:"https://placeimg.com/200/300/people",
       name: "Monster Inc.",
+      type: 'Cliente',
       message: "Me aparecio un error en el modulo ...",
       hour: "23:16 pm",
       active: false,
@@ -33,6 +35,7 @@ class ChatListBarReportedError extends Component {
     {
       image:"https://picsum.photos/id/1032/200/300",
       name: "Ayub Rossi",
+      type: 'Empresa',
       message: "Buen dia. estoy reportando un error ...",
       hour: "20:00 pm",
       active: false,

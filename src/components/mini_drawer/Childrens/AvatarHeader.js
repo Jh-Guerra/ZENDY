@@ -2,7 +2,6 @@ import { Button, Typography } from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles"
 import config from "config/Config";
 import React, { Component, useState, createRef, useEffect } from "react";
-import defaultAvatar from 'assets/images/defaultAvatar.jpg';
 
 import Avatar from "../Components/Avatar";
 
@@ -37,7 +36,7 @@ import Avatar from "../Components/Avatar";
             <div className="mini-drawer-user">
               <Avatar
                 isOnline="active"
-                image={user.avatar ? (config.api + (user.avatar) ) : defaultAvatar}
+                image={user}
                 style={{maxHeight:"10vh", minHeight:'10vh',position:'static'}}
               />
               <div>

@@ -10,14 +10,14 @@ import { Form, Formik } from 'formik';
 import CustomInput from 'components/CustomInput';
 import AlternateEmailIcon from '@material-ui/icons/AlternateEmail';
 import LockIcon from '@material-ui/icons/Lock';
-import { onlyNumbers, trimObject, userTypes } from 'utils/common';
+import { onlyNumbers, trimObject, userTypes, sexTypes } from 'utils/common';
 import PhoneIcon from '@material-ui/icons/Phone';
 import { createUser, updateUser,uploadImage} from 'services/actions/UserAction';
 import AssignmentIndIcon from '@material-ui/icons/AssignmentInd';
 import EditIcon from '@material-ui/icons/Edit';
 import { showBackdrop } from 'services/actions/CustomAction';
 import { listCompanies } from 'services/actions/CompanyAction';
-import defaultAvatar from 'assets/images/defaultAvatar.jpg';
+import defaultAvatar from 'assets/images/defaultAvatarMale.jpg';
 import config from "../../config/Config";
 import GetAppIcon from '@material-ui/icons/GetApp';
 
@@ -32,6 +32,7 @@ const ModalUser = (props) => {
         email: "",
         password: "",
         dob: new Date(),
+        sex: "",
         phone: "",
         type: "UserEmpresa",
         idCompany: "",
@@ -61,6 +62,7 @@ const ModalUser = (props) => {
                     email: "",
                     password: "",
                     dob: new Date(),
+                    sex: "",
                     phone: "",
                     type: "UserEmpresa",
                     idCompany: "",
@@ -99,6 +101,9 @@ const ModalUser = (props) => {
 
         if (!user.dob)
             errors.dob = 'Fecha de Nacimiento requerido'
+            
+        if (!user.sex)
+            errors.sex = 'Sexo requerido'
 
         if (!user.phone)
             errors.phone = 'N° celular requerido'
@@ -254,6 +259,21 @@ const ModalUser = (props) => {
                                             </Grid>
                                         )
                                     }
+                                    <Grid item xs={12} md={6}>
+                                        <CustomInput
+                                            id="sex"
+                                            inputType="select"
+                                            label="Sexo"
+                                            onChange={(event) => {
+                                                setFieldValue("sex", event.target.value);
+                                            }}
+                                            value={values.sex}
+                                            options={sexTypes}
+                                            error={ errors.sex && touched.sex ? true : false }
+                                            helperText={ errors.sex && touched.sex && errors.sex }
+                                            disabled={!editMode}
+                                        />
+                                    </Grid>
                                     <Grid item xs={12} md={6}>
                                         <CustomInput
                                             id="dob"

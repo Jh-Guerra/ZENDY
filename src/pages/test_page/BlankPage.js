@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import BasePage from 'components/BasePage';
-import ZendyIcon from '../../assets/images/zendy-icon.jpg'
+import ZendyIcon from '../../assets/images/Zendy-icon.jpg'
 import Echo from "laravel-echo";
 window.Pusher = require('pusher-js')
 

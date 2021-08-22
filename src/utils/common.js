@@ -73,6 +73,12 @@ export const userTypes = [
   { id: "Admin", name: "Administrador General"}, 
 ];
 
+export const sexTypes = [
+  { id: "masculino", name: "Hombre"},
+  { id: "femenino", name: "Mujer"},
+  { id: "otros", name: "Otros"}, 
+];
+
 export const getUserTypeName = (type) => {
   const typeO = userTypes.find(t => t.id == type);
   return typeO ? typeO.name : "";
