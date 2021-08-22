@@ -8,6 +8,7 @@ import { listUsersByCompany } from "services/actions/UserAction";
 import NotificationsActiveIcon from '@material-ui/icons/NotificationsActive';
 import CustomTable from 'components/CustomTable';
 import config from 'config/Config';
+import { getImageProfile } from 'utils/common';
 
 const useStyles = makeStyles((theme) => ({
     textHeader: {
@@ -60,7 +61,7 @@ const EmpresaPage = props => {
                 <Grid style={{padding: '1vh 2vh'}}>
                     <ChatAvatar
                         isOnline="active"
-                        image={company.avatar ? (config.api+company.avatar) :"https://images.assetsdelivery.com/compings_v2/triken/triken1608/triken160800029.jpg"}
+                        image={company.avatar ? (config.api+company.avatar) : getImageProfile("Company")}
                         imgClassName="avatar-header"
                     />
                 </Grid>

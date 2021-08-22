@@ -1,5 +1,10 @@
 import _ from 'lodash';
 import moment from 'moment';
+import defaultAvatarMale from 'assets/images/defaultAvatarMale.jpg'
+import defaultAvatarFemale from 'assets/images/defaultAvatarFemale.jpg'
+import defaultAvatarCompany from 'assets/images/defaultCompany.png'
+import avatarOthers from 'assets/images/avatarOthers.png';
+import LogoZendy from 'assets/images/Zendy-logo.jpg';
 
 export const saveUser = (value) => {
   if (window && window.localStorage) {
@@ -73,6 +78,12 @@ export const userRoles = [
   { id: "4", name: "Usuario de Empresa"}
 ];
 
+export const sexTypes = [
+  { id: "M", name: "Hombre"},
+  { id: "F", name: "Mujer"},
+  { id: "O", name: "Otros"}, 
+];
+
 export const getUserTypeName = (idRole) => {
   const typeO = userRoles.find(t => t.id == idRole);
   return typeO ? typeO.name : "";
@@ -85,4 +96,19 @@ export const getSessionInfo = () => {
 export const checkPermission = (session, permission) => {
   const userPermissions = session && session.role && session.role.permissions || [];
   return userPermissions.includes(permission);
+}
+
+export const getImageProfile = (type) => {
+  switch(type){
+    case "M":
+      return defaultAvatarMale;
+    case "F":
+      return defaultAvatarFemale;
+    case "O":
+      return avatarOthers;
+    case "Company":
+      return defaultAvatarCompany;
+    default:
+      return LogoZendy;
+  }
 }

@@ -2,25 +2,27 @@ import React, { Component, createRef } from "react";
 import config from 'config/Config';
 
 import ItemAvatar from "./ItemAvatar";
+import { getImageProfile } from 'utils/common';
 
 const ItemAvatarRow = (props) => {
 
   const { chat={} } = props;
 
-  const getChatName = () => {
-    switch(chat.type){
-      case "Cliente":
-      case "Interno":
-        return chat.receiver && (chat.receiver.firstName + ' ' + chat.receiver.lastName) || '';
-      case "Empresa":
-        return chat.company && (chat.company.name) || '';
-      default:
-        return "";
-    }
+  const type = chat.type;
+  var image;
+  var name;
+  var defaultImageType;
+
+  if(type == "Empresa"){
+    image = chat.company && chat.company.avatar || "";
+    defaultImageType = "Company";
+    name = chat.company && (chat.company.name) || '';
+  }else{
+    image = chat.receiver && chat.receiver.avatar || "";
+    defaultImageType = chat.receiver && chat.receiver.sex || "O";
+    name = chat.receiver && (chat.receiver.firstName + ' ' + chat.receiver.lastName);
   }
 
-  const image = chat.receiver && chat.receiver.avatar || '';
-  const name = getChatName();
   const message = chat.lastMessage || '...';
   const hour = chat.lastMessageHour || '00:00';
   const isOnline = chat.isOnline ? 'active' : '';
@@ -34,7 +36,7 @@ const ItemAvatarRow = (props) => {
       <div className="mini-drawer-user">
         <ItemAvatar
           isOnline={isOnline}
-          image={image ? (config.api+image) : "http://placehold.it/80x80"}
+          image={image ? config.api+image : getImageProfile(defaultImageType)}
         />
         <div style={{width:"80%"}}>
             <div className="chat-mini-details">

@@ -32,30 +32,3 @@ class PageNotFound extends Component {
 }
 
 export default PageNotFound;
-
-/* import React from 'react'
-import { makeStyles } from '@material-ui/core/styles';
-import zen from '../assets/images/Zendy-icon.jpg'
-import BasePage from 'components/BasePage';
-
-const useStyles = makeStyles((theme) => ({
-  root: {
-    backgroundColor: '#303e7a'
-  }
-}));
-
-const PageNotFound = () => {
-
-  const classes = useStyles();
-  
-    return (
-      <BasePage privateHeader={null}>
-        <div className="notfound-page">
-          <img img src={zen} />
-          <p>Página no encontrada</p>    
-        </div>
-      </BasePage>
-    )
-}
-
-export default PageNotFound; */
