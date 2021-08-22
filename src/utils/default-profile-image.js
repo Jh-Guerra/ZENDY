@@ -28,9 +28,9 @@ export const setImageProfile = (type, receiver) => {
 
         if(image == null) {
             switch (sex) {
-                case 'masculino':
+                case 'M':
                     return defaultAvatarMale
-                case 'femenino' :
+                case 'F':
                     return defaultAvatarFemale
                 default:
                     return defaultAvatarMale;

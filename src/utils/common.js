@@ -74,9 +74,9 @@ export const userTypes = [
 ];
 
 export const sexTypes = [
-  { id: "masculino", name: "Hombre"},
-  { id: "femenino", name: "Mujer"},
-  { id: "otros", name: "Otros"}, 
+  { id: "M", name: "Hombre"},
+  { id: "F", name: "Mujer"},
+  { id: "O", name: "Otros"}, 
 ];
 
 export const getUserTypeName = (type) => {
