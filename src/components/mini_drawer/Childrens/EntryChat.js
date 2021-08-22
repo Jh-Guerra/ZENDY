@@ -17,7 +17,7 @@ const styles = theme => ({
 });
 
 const EntryChat = props => {
-  const { classes = {} } = props;
+  const { classes = {}, session } = props;
   const history = useHistory();
 
   const [entryQueries, setEntryQueries] = React.useState([]);
@@ -62,7 +62,7 @@ const EntryChat = props => {
         <Grid item xs={12}>
           <div className="chatlist__heading">
             <span className="divider-line"></span>
-            <p className="divider-content">Consultas Entrantes </p>
+            <p className="divider-content">{ (session && session.role && ['1', '2'].includes(session.role.id)) ? "Consultas Entrantes" : "Consultas" } </p>
             <span className="divider-line"></span>
           </div>
           <br />

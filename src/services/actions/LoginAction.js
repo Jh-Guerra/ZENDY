@@ -7,7 +7,7 @@ export const loginUser = ({email='', password=''}) => async dispatch => {
         const body ={email:email, password:password}
         const res = await loginService.loginUser(body).then((response) => {
             if (response.data) {
-              localStorage.setItem("user", JSON.stringify(response.data));
+              localStorage.setItem("session", JSON.stringify(response.data));
             }
       
             return response.data;

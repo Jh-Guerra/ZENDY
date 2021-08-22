@@ -13,8 +13,8 @@ import { showBackdrop, showSnackBar } from 'services/actions/CustomAction';
 
 const columns = [
   { type: 'text', field: 'name', label: 'Nombre', format: (row) => `${row.firstName} ${row.lastName}` },
-  { type: 'text', field: 'companyName', label: 'Empresa' },
-  { type: 'text', field: 'type', label: 'Tipo', format: (row) => getUserTypeName(row.type) },
+  { type: 'text', field: 'roleName', label: 'Rol' },
+  { type: 'text', field: 'companyName', label: 'Empresa', format: (row) => `${row.company && row.company.name || ""}` },
   { type: 'text', field: 'email', label: 'Correo' },
   { type: 'text', field: 'phone', label: 'N° Celular' },
   { type: 'text', field: 'dob', label: 'Fecha de Nacimiento', align: 'center', format: (row) => moment(row.dob || "").format("DD/MM/YYYY") },

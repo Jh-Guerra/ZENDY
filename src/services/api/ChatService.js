@@ -9,7 +9,7 @@ class ChatService {
             data,
             { headers: {
                 ...config.headers, 
-                Authorization: `token ${JSON.parse(localStorage.getItem('user')).token || ''}` 
+                Authorization: `token ${JSON.parse(localStorage.getItem('session')).token || ''}` 
             } }
     )}
 
@@ -19,7 +19,7 @@ class ChatService {
             { 
                 headers: {
                     ...config.headers, 
-                    Authorization: `token ${JSON.parse(localStorage.getItem('user')).token || ''}` 
+                    Authorization: `token ${JSON.parse(localStorage.getItem('session')).token || ''}` 
                 },
                 params: { status }
             }
@@ -34,7 +34,7 @@ class ChatService {
             data,
             { headers: {
                 ...config.headers, 
-                Authorization: `token ${JSON.parse(localStorage.getItem('user')).token || ''}` 
+                Authorization: `token ${JSON.parse(localStorage.getItem('session')).token || ''}` 
             } }
     )}
 
@@ -44,7 +44,7 @@ class ChatService {
             { 
                 headers: {
                     ...config.headers, 
-                    Authorization: `token ${JSON.parse(localStorage.getItem('user')).token || ''}` 
+                    Authorization: `token ${JSON.parse(localStorage.getItem('session')).token || ''}` 
                 }
             }
     )}
@@ -56,7 +56,7 @@ class ChatService {
             {userIds, companyId, allChecked},
             { headers: {
                 ...config.headers, 
-                Authorization: `token ${JSON.parse(localStorage.getItem('user')).token || ''}` 
+                Authorization: `token ${JSON.parse(localStorage.getItem('session')).token || ''}` 
             } }
     )}
 
@@ -66,7 +66,7 @@ class ChatService {
     //         { 
     //             headers: {
     //                 ...config.headers, 
-    //                 Authorization: `token ${JSON.parse(localStorage.getItem('user')).token || ''}` 
+    //                 Authorization: `token ${JSON.parse(localStorage.getItem('session')).token || ''}` 
     //             }
     //         }
     // )}
@@ -78,7 +78,7 @@ class ChatService {
             data,
             { headers: {
                 ...config.headers, 
-                Authorization: `token ${JSON.parse(localStorage.getItem('user')).token || ''}` 
+                Authorization: `token ${JSON.parse(localStorage.getItem('session')).token || ''}` 
             } }
     )}
 
@@ -88,7 +88,7 @@ class ChatService {
             { 
                 headers: {
                     ...config.headers, 
-                    Authorization: `token ${JSON.parse(localStorage.getItem('user')).token || ''}` 
+                    Authorization: `token ${JSON.parse(localStorage.getItem('session')).token || ''}` 
                 }
             }
     )}
@@ -99,7 +99,7 @@ class ChatService {
             data,
             { headers: {
                 ...config.headers, 
-                Authorization: `token ${JSON.parse(localStorage.getItem('user')).token || ''}` 
+                Authorization: `token ${JSON.parse(localStorage.getItem('session')).token || ''}` 
             } }
     )}
 
@@ -108,7 +108,7 @@ class ChatService {
             config.apiVersion + `chats/find/` + id,
             { headers: {
                 ...config.headers, 
-                Authorization: `token ${JSON.parse(localStorage.getItem('user')).token || ''}` 
+                Authorization: `token ${JSON.parse(localStorage.getItem('session')).token || ''}` 
             } }
     )}
 
@@ -117,7 +117,7 @@ class ChatService {
             config.apiVersion + `chats/list`,
             { headers: {
                 ...config.headers, 
-                Authorization: `token ${JSON.parse(localStorage.getItem('user')).token || ''}` 
+                Authorization: `token ${JSON.parse(localStorage.getItem('session')).token || ''}` 
             } }
     )}
 
@@ -126,7 +126,7 @@ class ChatService {
             config.apiVersion + `chats/delete/` + id,
             { headers: {
                 ...config.headers, 
-                Authorization: `token ${JSON.parse(localStorage.getItem('user')).token || ''}` 
+                Authorization: `token ${JSON.parse(localStorage.getItem('session')).token || ''}` 
             } }
     )}
    

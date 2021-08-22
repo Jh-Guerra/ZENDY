@@ -11,6 +11,7 @@ import CustomBackdrop from 'components/CustomBackdrop';
 import moment from 'moment'
 import { withRouter } from 'react-router-dom';
 import 'date-fns';
+import { getSessionInfo } from 'utils/common';
 
 class ZendyAppShell extends Component {
 
@@ -23,19 +24,13 @@ class ZendyAppShell extends Component {
   }
 
   componentDidMount() {
-    const user = JSON.parse(localStorage.getItem('user'));
+    const session = getSessionInfo();
 
     let dt = moment();
     dt.subtract(dt.parseZone().utcOffset(), 'minutes');
 
-    // if (user === null || user.expirationTime < dt.valueOf()) {
-    //   this.props.dispatch(logOut());
-    //   this.props.history.push('/');
-    //   return;
-    // }
-
-    if (user && user.token) {
-      this.props.dispatch(setCurrentSession(JSON.parse(localStorage.getItem('user'))));
+    if (session && session.token) {
+      this.props.dispatch(setCurrentSession(session));
       // this.props.dispatch(renewToken());
     }
   }

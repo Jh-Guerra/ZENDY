@@ -4,6 +4,7 @@ import MoreVertIcon from '@material-ui/icons/MoreVert';
 import PerfilMenu from 'components/perfil_menu/PerfilMenu';
 import { logOut } from 'services/actions/AuthAction';
 import { useHistory } from 'react-router-dom';
+import { getSessionInfo } from 'utils/common';
 
 const useStyles = makeStyles((theme) => ({
     search: {
@@ -37,9 +38,10 @@ const useStyles = makeStyles((theme) => ({
 
 const HeaderActions = props => {
   const history = useHistory();
-  const user = localStorage.getItem('user') && JSON.parse(localStorage.getItem('user')).employee || {}
-  const nameFirstLetter = user && user.firstName && user.firstName.charAt(0)
-  const nameSecondLetter = user && user.lastName && user.lastName.charAt(0)
+  const session = getSessionInfo();
+  const user = session && session.user;
+  const nameFirstLetter = user && user.firstName.charAt(0)
+  const nameSecondLetter = user && user.lastName.charAt(0)
   const avatarLetters = `${nameFirstLetter}${nameSecondLetter}`
 
   const [perfilAnchor, setPerfilAnchor] = React.useState(null);

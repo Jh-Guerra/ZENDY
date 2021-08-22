@@ -10,7 +10,7 @@ import { Form, Formik } from 'formik';
 import CustomInput from 'components/CustomInput';
 import AlternateEmailIcon from '@material-ui/icons/AlternateEmail';
 import LockIcon from '@material-ui/icons/Lock';
-import { onlyNumbers, trimObject, userTypes } from 'utils/common';
+import { onlyNumbers, trimObject, userRoles } from 'utils/common';
 import PhoneIcon from '@material-ui/icons/Phone';
 import { createUser, updateUser,uploadImage} from 'services/actions/UserAction';
 import AssignmentIndIcon from '@material-ui/icons/AssignmentInd';
@@ -33,7 +33,7 @@ const ModalUser = (props) => {
         password: "",
         dob: new Date(),
         phone: "",
-        type: "UserEmpresa",
+        idRole: "4",
         idCompany: "",
         avatar: ""
     });
@@ -62,7 +62,7 @@ const ModalUser = (props) => {
                     password: "",
                     dob: new Date(),
                     phone: "",
-                    type: "UserEmpresa",
+                    idRole: "4",
                     idCompany: "",
                     avatar: ""
                 });
@@ -103,10 +103,7 @@ const ModalUser = (props) => {
         if (!user.phone)
             errors.phone = 'N° celular requerido'
 
-        if (user.type == "User")
-            errors.type = 'Tipo de Usuario requerido'
-
-        if (user.type != 'Admin' && user.type != 'UserHD' && !user.idCompany)
+        if (!['1', '2'].includes(user.idRole) && !user.idCompany)
             errors.idCompany = 'Empresa requerida'
 
         return errors;
@@ -284,21 +281,21 @@ const ModalUser = (props) => {
                                     </Grid>
                                     <Grid item xs={12}>
                                        <CustomInput 
-                                            id="type"
+                                            id="idRole"
                                             inputType="select"
                                             label="Tipo de Usuario"
                                             onChange={(event) => {
-                                                setFieldValue("type", event.target.value)
+                                                setFieldValue("idRole", event.target.value)
                                             }}
-                                            value={values.type}
-                                            options={userTypes}
-                                            error={ errors.type && touched.type ? true : false }
-                                            helperText={ errors.type && touched.type && errors.type }
+                                            value={values.idRole}
+                                            options={userRoles}
+                                            error={ errors.idRole && touched.idRole ? true : false }
+                                            helperText={ errors.idRole && touched.idRole && errors.idRole }
                                             disabled={!editMode}
                                        />
                                     </Grid>
                                     {
-                                        values.type != 'Admin' && values.type != "UserHD" && (
+                                        !['1', '2'].includes(values.idRole) && (
                                             <Grid item xs={12}>
                                                 <CustomInput
                                                     id="idCompany"

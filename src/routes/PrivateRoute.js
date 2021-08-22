@@ -3,6 +3,7 @@ import { Redirect, Route } from 'react-router-dom';
 import { CssBaseline, makeStyles } from '@material-ui/core';
 
 import MiniDrawer from 'components/mini_drawer/MiniDrawer';
+import { getSessionInfo } from 'utils/common';
 
 
 const useStyles = makeStyles(theme => ({
@@ -15,7 +16,7 @@ const useStyles = makeStyles(theme => ({
 const PrivateRoute = ({ component:Component, ...rest }) => {
   const classes = useStyles();
 
-  const user = localStorage.getItem('user') && JSON.parse(localStorage.getItem('user'));
+  const session = getSessionInfo();
 
   return (
     <div className={classes.root}>
@@ -23,7 +24,7 @@ const PrivateRoute = ({ component:Component, ...rest }) => {
       <MiniDrawer {...rest}/> 
       <Route
         {...rest}
-        render={props => ( user ? (
+        render={props => ( session ? (
           <div style={{width: "100%"}}> <Component {...props} {...rest} /> </div>
         ) : <Redirect to="/" />)}
       />

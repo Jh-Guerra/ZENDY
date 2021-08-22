@@ -11,6 +11,7 @@ import PeopleIcon from '@material-ui/icons/People';
 import CustomButton from "components/CustomButtom";
 import { successButtonColor } from 'assets/styles/zendy-css';
 import BusinessIcon from '@material-ui/icons/Business';
+import { checkPermission } from 'utils/common';
 
 const useStyles = makeStyles(theme => ({
     button: {
@@ -21,7 +22,7 @@ const useStyles = makeStyles(theme => ({
 const ModalMoreActions = (props) => {
     
     const classes = useStyles();
-    const { open, handleClose, handleChangeTab } = props;
+    const { open, handleClose, handleChangeTab, session } = props;
      
     return (
         <Modal 
@@ -66,45 +67,57 @@ const ModalMoreActions = (props) => {
                             Notificaciones
                         </CustomButton>
                     </Grid>
-                    <Grid item xs={12}>
-                        <CustomButton 
-                            variant="contained"
-                            fullWidth
-                            className={classes.button}
-                            startIcon={<AssessmentIcon />}
-                            customColor={successButtonColor}
-                            onClick={() => {
-                                handleClose();
-                                handleChangeTab(null, 7);
-                            }}
-                        >
-                            Reportes
-                        </CustomButton>
-                    </Grid>
-                    <Grid item xs={12}>
-                        <CustomButton 
-                            variant="contained"
-                            fullWidth
-                            className={classes.button}
-                            startIcon={<PeopleIcon />}
-                            customColor={successButtonColor}
-                            onClick={() => { props.goToView && props.goToView("usuarios") }}
-                        >
-                            Usuarios
-                        </CustomButton>
-                    </Grid>
-                    <Grid item xs={12}>
-                        <CustomButton 
-                            variant="contained"
-                            fullWidth
-                            className={classes.button}
-                            startIcon={<BusinessIcon />}
-                            customColor={successButtonColor}
-                            onClick={() => { props.goToView && props.goToView("empresas") }}
-                        >
-                            Empresas
-                        </CustomButton>
-                    </Grid>
+                    {
+                        checkPermission(session, "showTabReports") && (
+                            <Grid item xs={12}>
+                                <CustomButton 
+                                    variant="contained"
+                                    fullWidth
+                                    className={classes.button}
+                                    startIcon={<AssessmentIcon />}
+                                    customColor={successButtonColor}
+                                    onClick={() => {
+                                        handleClose();
+                                        handleChangeTab(null, 7);
+                                    }}
+                                >
+                                    Reportes
+                                </CustomButton>
+                            </Grid>
+                        )
+                     }
+                    {
+                        checkPermission(session, "showUserCrud") && (
+                            <Grid item xs={12}>
+                                <CustomButton 
+                                    variant="contained"
+                                    fullWidth
+                                    className={classes.button}
+                                    startIcon={<PeopleIcon />}
+                                    customColor={successButtonColor}
+                                    onClick={() => { props.goToView && props.goToView("usuarios") }}
+                                >
+                                    Usuarios
+                                </CustomButton>
+                            </Grid>
+                        )
+                     }
+                    {
+                        checkPermission(session, "showCompanyCrud") && (
+                            <Grid item xs={12}>
+                                <CustomButton 
+                                    variant="contained"
+                                    fullWidth
+                                    className={classes.button}
+                                    startIcon={<BusinessIcon />}
+                                    customColor={successButtonColor}
+                                    onClick={() => { props.goToView && props.goToView("empresas") }}
+                                >
+                                    Empresas
+                                </CustomButton>
+                            </Grid>
+                        )
+                     }
                 </Grid>
             </ModalBody>
         </Modal>

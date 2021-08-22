@@ -66,18 +66,23 @@ export const onlyNumbers = (text) => {
 }
 
 // USERS
-export const userTypes = [
-  { id: "UserEmpresa", name: "Usuario de Empresa"},
-  { id: "AdminEmpresa", name: "Administrador de Empresa"},
-  { id: "UserHD", name: "Mesa de Ayuda"}, 
-  { id: "Admin", name: "Administrador General"}, 
+export const userRoles = [
+  { id: "1", name: "Administrador General"},
+  { id: "2", name: "Mesa de Ayuda"},
+  { id: "3", name: "Administrador de Empresa"},
+  { id: "4", name: "Usuario de Empresa"}
 ];
 
-export const getUserTypeName = (type) => {
-  const typeO = userTypes.find(t => t.id == type);
+export const getUserTypeName = (idRole) => {
+  const typeO = userRoles.find(t => t.id == idRole);
   return typeO ? typeO.name : "";
 }
 
-export const getUserInfo = () => {
-  return localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')).user : null;
+export const getSessionInfo = () => {
+  return localStorage.getItem('session') ? JSON.parse(localStorage.getItem('session')) : null;
+}
+
+export const checkPermission = (session, permission) => {
+  const userPermissions = session && session.role && session.role.permissions || [];
+  return userPermissions.includes(permission);
 }

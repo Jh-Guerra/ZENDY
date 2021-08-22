@@ -8,7 +8,7 @@ class CompanyService {
             config.apiVersion + `companies/register`, 
             data,
             { 
-                headers: { ...config.headers, Authorization: `token ${JSON.parse(localStorage.getItem('user')).token || ''}` }
+                headers: { ...config.headers, Authorization: `token ${JSON.parse(localStorage.getItem('session')).token || ''}` }
             }
     )}
 
@@ -17,7 +17,7 @@ class CompanyService {
             config.apiVersion + `companies/update/` + id, 
             data,
             { 
-                headers: { ...config.headers, Authorization: `token ${JSON.parse(localStorage.getItem('user')).token || ''}` }
+                headers: { ...config.headers, Authorization: `token ${JSON.parse(localStorage.getItem('session')).token || ''}` }
             }
     )}
 
@@ -25,7 +25,7 @@ class CompanyService {
         return await axios.get(
             config.apiVersion + `companies/find/` + id,
             { 
-                headers: { ...config.headers, Authorization: `token ${JSON.parse(localStorage.getItem('user')).token || ''}` }
+                headers: { ...config.headers, Authorization: `token ${JSON.parse(localStorage.getItem('session')).token || ''}` }
             }
     )}
 
@@ -33,7 +33,7 @@ class CompanyService {
         return await axios.get(
             config.apiVersion + `companies/list`,
             { 
-                headers: { ...config.headers, Authorization: `token ${JSON.parse(localStorage.getItem('user')).token || ''}` }
+                headers: { ...config.headers, Authorization: `token ${JSON.parse(localStorage.getItem('session')).token || ''}` }
             }
     )}
 
@@ -41,7 +41,7 @@ class CompanyService {
         return await axios.get(
             config.apiVersion + `companies/list/count/users`,
             { 
-                headers: { ...config.headers, Authorization: `token ${JSON.parse(localStorage.getItem('user')).token || ''}` },
+                headers: { ...config.headers, Authorization: `token ${JSON.parse(localStorage.getItem('session')).token || ''}` },
                 params: { term } 
             }
     )}
@@ -50,7 +50,7 @@ class CompanyService {
         return await axios.delete(
             config.apiVersion + `companies/delete/` + id,
             { 
-                headers: { ...config.headers, Authorization: `token ${JSON.parse(localStorage.getItem('user')).token || ''}` }
+                headers: { ...config.headers, Authorization: `token ${JSON.parse(localStorage.getItem('session')).token || ''}` }
             }
     )}
    

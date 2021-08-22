@@ -18,6 +18,7 @@ import { withRouter } from 'react-router-dom';
 import CustomSnackbar from 'components/CustomSnackbar';
 import { showBackdrop, showSnackBar } from 'services/actions/CustomAction';
 import config from 'config/Config';
+import { getSessionInfo } from 'utils/common';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -110,8 +111,10 @@ const LoginPage = props => {
   const [errors, setErrors] = React.useState({});
   const [isOpenAlert, setIsOpenAlert] = React.useState(false);
 
+  const session = getSessionInfo();
+
   useEffect(()=>{
-    if(localStorage.getItem('user') && JSON.parse(localStorage.getItem('user')).token){
+    if(session && session.token){
       props.history.push("/inicio");
     }else{
       props.history.push("/");

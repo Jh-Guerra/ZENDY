@@ -13,7 +13,7 @@ import EnterpriseChat from './Childrens/EnterpriseChat';
 import ReportedErrorChat from './Childrens/ReportedErrorChat';
 import EntryChat from './Childrens/EntryChat';
 import { updateLastRoute, updateLastTab } from 'services/actions/CommonAction';
-import { getUserInfo } from 'utils/common';
+import { checkPermission, getSessionInfo } from 'utils/common';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -50,8 +50,7 @@ const TabPanel = (props) => {
 const MiniDrawer = (props) => {
 
   const history = useHistory();
-  const { session = {} } = props;
-  const user = getUserInfo();
+  const session = getSessionInfo();
 
   const [tab, setTab] = React.useState(0);
   const [showModalMoreActions, setShowModalMoreActions] = React.useState(false);
@@ -115,10 +114,10 @@ const MiniDrawer = (props) => {
                   <Tooltip title="Chats Vigentes">
                     <Tab className="mini-drawer-tab" icon={<CurrentChatIcon />} />
                   </Tooltip>
-                  <Tooltip title="Consultas Entrantes">
+                  <Tooltip title={(session && session.role && ['1', '2'].includes(session.role.id)) ? "Consultas Entrantes" : "Consultas" }>
                     <Tab className="mini-drawer-tab" icon={<PendingChatIcon />} />
                   </Tooltip>
-                  <Tooltip style={{display: (user && (user.type=="Admin" || user.type=="UserHD")) ? "flex" : "none" }} title="Empresas">
+                  <Tooltip style={{display: checkPermission(session, "showTabCompany") ? "inline-flex" : "none" }} title="Empresas">
                     <Tab className="mini-drawer-tab" icon={<CompaniesIcon />} />
                   </Tooltip>
                   <Tooltip title="Errores Reportados">
@@ -139,7 +138,7 @@ const MiniDrawer = (props) => {
               <CurrentChat {...props}/>
             </TabPanel>
             <TabPanel value={tab} index={1} >
-              <EntryChat {...props}/>
+              <EntryChat {...props} session={session}/>
             </TabPanel>
             <TabPanel value={tab} index={2} >
               <EnterpriseChat
@@ -166,6 +165,7 @@ const MiniDrawer = (props) => {
         handleClose={() => { setShowModalMoreActions(false) }}
         goToView={goToView}
         handleChangeTab={handleChangeTab}
+        session={session}
       />
 
     </>

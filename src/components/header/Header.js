@@ -21,9 +21,7 @@ class Header extends Component {
   }
 
   componentDidMount(){
-    const savedTabs = JSON.parse(localStorage.getItem('tabs'));
-    if (savedTabs !== null) {
-    }
+
   }
  
   componentDidUpdate(prevProps) {

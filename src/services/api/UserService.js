@@ -9,7 +9,7 @@ class UserService {
             data,
             { headers: {
                 ...config.headers, 
-                Authorization: `token ${JSON.parse(localStorage.getItem('user')).token || ''}` 
+                Authorization: `token ${JSON.parse(localStorage.getItem('session')).token || ''}` 
             } }
     )}
 
@@ -19,7 +19,7 @@ class UserService {
             data,
             { headers: {
                 ...config.headers, 
-                Authorization: `token ${JSON.parse(localStorage.getItem('user')).token || ''}` 
+                Authorization: `token ${JSON.parse(localStorage.getItem('session')).token || ''}` 
             } }
     )}
 
@@ -28,7 +28,7 @@ class UserService {
             config.apiVersion + `users/find/` + id,
             { headers: {
                 ...config.headers, 
-                Authorization: `token ${JSON.parse(localStorage.getItem('user')).token || ''}` 
+                Authorization: `token ${JSON.parse(localStorage.getItem('session')).token || ''}` 
             } }
     )}
 
@@ -37,7 +37,7 @@ class UserService {
             config.apiVersion + `users/list?term=${term}`,
             { headers: {
                 ...config.headers, 
-                Authorization: `token ${JSON.parse(localStorage.getItem('user')).token || ''}` 
+                Authorization: `token ${JSON.parse(localStorage.getItem('session')).token || ''}` 
             } }
     )}
 
@@ -47,7 +47,7 @@ class UserService {
             { 
                 headers: {
                     ...config.headers, 
-                    Authorization: `token ${JSON.parse(localStorage.getItem('user')).token || ''}` 
+                    Authorization: `token ${JSON.parse(localStorage.getItem('session')).token || ''}` 
                 },
                 params: { term, type }
             }
@@ -58,7 +58,7 @@ class UserService {
             config.apiVersion + `users/list-by-company?company=${company}&term=${term}`,
             { headers: {
                 ...config.headers, 
-                Authorization: `token ${JSON.parse(localStorage.getItem('user')).token || ''}` 
+                Authorization: `token ${JSON.parse(localStorage.getItem('session')).token || ''}` 
             } }
     )}
 
@@ -67,7 +67,7 @@ class UserService {
             config.apiVersion + `users/delete/` + id,
             { headers: {
                 ...config.headers, 
-                Authorization: `token ${JSON.parse(localStorage.getItem('user')).token || ''}` 
+                Authorization: `token ${JSON.parse(localStorage.getItem('session')).token || ''}` 
             } }
     )}
    
@@ -77,7 +77,7 @@ class UserService {
             {},
             { headers: {
                 ...config.headers, 
-                Authorization: `token ${JSON.parse(localStorage.getItem('user')).token || ''}` 
+                Authorization: `token ${JSON.parse(localStorage.getItem('session')).token || ''}` 
             } }
         )
     }

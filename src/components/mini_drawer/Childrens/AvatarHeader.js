@@ -5,6 +5,7 @@ import React, { Component, useState, createRef, useEffect } from "react";
 import defaultAvatar from 'assets/images/defaultAvatar.jpg';
 
 import Avatar from "../Components/Avatar";
+import { getSessionInfo } from "utils/common";
 
  class AvatarHeader extends Component {
   messagesEndRef = createRef(null);
@@ -29,8 +30,8 @@ import Avatar from "../Components/Avatar";
   render() {
 
     const { classes } = this.props
-    const sessionUser = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : {};
-    const user = sessionUser.user || {};
+    const session = getSessionInfo();
+    const user = session && session.user || {};
 
     return (
         <div className="mini-drawer-content" style={{height:"13vh", minHeight:"110px"}}>
