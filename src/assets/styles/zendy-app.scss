@@ -710,3 +710,13 @@ html, body {
         height: 8px !important;
     }
 }
+
+/* ============================ EMOJIS  ========================================*/
+  
+.emojiPicker-wrapper {
+    position: absolute;
+    top: -1000%;
+    left: 0%;
+    z-index: 2;
+    animation: fadeIn 0.15s ease-in forwards;
+}
