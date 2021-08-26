@@ -20,7 +20,7 @@ const ModalIncomingQueries = props => {
     >
       <ModalHeader
         icon={<LibraryBooksIcon />}
-        text="CONSULTAS ENTRANTES"
+        text="Ingresar Consulta"
       />
       <ModalBody>
         <Formik >
