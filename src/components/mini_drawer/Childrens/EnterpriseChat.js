@@ -86,7 +86,6 @@ const EnterpriseChat = (props) => {
                             key={i}
                             company={company}
                             goTo={goTo}
-                            isChatCompany
                         />
                         );
                     })}

@@ -146,7 +146,9 @@ const MiniDrawer = (props) => {
                 goToView={goToView} />
             </TabPanel>
             <TabPanel value={tab} index={3} >
-              <ReportedErrorChat />
+              <ReportedErrorChat 
+                {...props}
+              />
             </TabPanel>
             <TabPanel value={tab} index={5} >
               <HistoryChat/>

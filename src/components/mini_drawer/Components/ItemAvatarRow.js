@@ -20,7 +20,7 @@ const ItemAvatarRow = (props) => {
   }else{
     image = chat.receiver && chat.receiver.avatar || "";
     defaultImageType = chat.receiver && chat.receiver.sex || "O";
-    name = chat.receiver && (chat.receiver.firstName + ' ' + chat.receiver.lastName);
+    name = chat.receiver && (chat.receiver.firstName + ' ' + chat.receiver.lastName) || "";
   }
 
   const message = chat.lastMessage || '...';

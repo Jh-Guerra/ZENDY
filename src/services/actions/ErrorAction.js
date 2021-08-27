@@ -1,28 +1,29 @@
 import ErrorService from "services/api/ErrorService";
+import { showBackdrop } from "./CustomAction";
 
-const errorService = new ErrorService()
+const service = new ErrorService();
 
 export const createError = (data) => async dispatch => {
-    const res = await errorService.createError(data);
-    return res && res.data || [];
-}
-
-export const updateError = (id, data) => async dispatch => {
-    const res = await errorService.updateError(id, data);
+    const res = await service.createError(data);
     return res && res.data || [];
 }
 
 export const findError = (id) => async dispatch => {
-    const res = await errorService.findError(id);
+    const res = await service.findError(id);
     return res && res.data || [];
 }
 
-export const listError = () => async dispatch => {
-    const res = await errorService.listErrors();
+export const listErrors = (term) => async dispatch => {
+    const res = await service.listErrors(term);
+    return res && res.data || [];
+}
+
+export const listErrorsByUser = (term) => async dispatch => {
+    const res = await service.listErrorsByUser(term);
     return res && res.data || [];
 }
 
 export const deleteError = (id) => async dispatch => {
-    const res = await errorService.deleteError(id);
+    const res = await service.deleteError(id);
     return res && res.data || [];
 }

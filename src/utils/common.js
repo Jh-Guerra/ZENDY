@@ -5,6 +5,7 @@ import defaultAvatarFemale from 'assets/images/defaultAvatarFemale.jpg'
 import defaultAvatarCompany from 'assets/images/defaultCompany.png'
 import avatarOthers from 'assets/images/avatarOthers.png';
 import LogoZendy from 'assets/images/Zendy-logo.jpg';
+import config from 'config/Config';
 
 export const saveUser = (value) => {
   if (window && window.localStorage) {
@@ -93,6 +94,10 @@ export const getSessionInfo = () => {
   return localStorage.getItem('session') ? JSON.parse(localStorage.getItem('session')) : null;
 }
 
+export const isClientUser = (role) => {
+  return role ? ![1, 2].includes(role.id) : true;
+} 
+
 export const checkPermission = (session, permission) => {
   const userPermissions = session && session.role && session.role.permissions || [];
   return userPermissions.includes(permission);
@@ -111,4 +116,17 @@ export const getImageProfile = (type) => {
     default:
       return LogoZendy;
   }
+}
+
+export const defaultHeaders = () => { 
+  return {
+      headers: {
+          ...config.headers, 
+          Authorization: `token ${JSON.parse(localStorage.getItem('session')).token || ''}` 
+      }
+  }
+};
+
+export const getCustomUrl = (apiPrefix, url) => {
+  return apiPrefix + url;
 }
