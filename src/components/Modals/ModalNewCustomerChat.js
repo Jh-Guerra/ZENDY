@@ -128,7 +128,7 @@ const ModalNewCustomerChat = props => {
                       primary={`${user.firstName} ${user.lastName}`}
                       secondary={
                         <React.Fragment>
-                          <Typography variant="body2">{user.companyName || 'Empresa sin asignar'}</Typography>
+                          <Typography variant="body2">{user.company && user.company.name || ''}</Typography>
                         </React.Fragment>
                       }
                     />
@@ -158,7 +158,7 @@ const ModalNewCustomerChat = props => {
           </Grid>
         </Grid>
       </ModalBody>
-      <ModalFooter confirmText={'Iniciar Chat'} onConfirm={onConfirm} />
+      <ModalFooter confirmText={'Buscar Chat'} onConfirm={onConfirm} />
     </Modal>
   );
 };

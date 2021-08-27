@@ -249,7 +249,7 @@ const ModalNewCompanyChat = (props) => {
 
       <ModalFooter
         icon={<BusinessIcon />}
-        confirmText={"Iniciar Chat"}
+        confirmText={"Buscar Chat"}
         onConfirm={onConfirm}
       />
     </Modal>
