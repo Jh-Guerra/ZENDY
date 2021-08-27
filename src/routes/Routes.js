@@ -11,8 +11,11 @@ import CompaniesPage from 'pages/companies_page/CompaniesPage';
 import BlankPage from 'pages/test_page/BlankPage';
 import PageNotFound from 'pages/PageNotFound';
 import EmpresaPage from 'pages/empresa_page/EmpresaPage';
+import { checkPermission, getSessionInfo } from 'utils/common';
 
 const Routes = (props) => {
+  const session = getSessionInfo();
+
   return(  
     <ThemeSettings>
       <BrowserRouter> 
@@ -23,8 +26,12 @@ const Routes = (props) => {
           
           <PrivateRoute exact path="/error-info" {...props} component={ErrorInfoPage} />
           <PrivateRoute exact path="/report" {...props} component={ReportPage} />
-          <PrivateRoute exact path="/usuarios" {...props} component={UsersPage} />
-          <PrivateRoute exact path="/empresas" {...props} component={CompaniesPage} />
+          {checkPermission(session, "showUserCrud") && (
+            <PrivateRoute exact path="/usuarios" {...props} component={UsersPage} />
+          )}
+          {checkPermission(session, "showCompanyCrud") && (
+            <PrivateRoute exact path="/empresas" {...props} component={CompaniesPage} />
+          )}
           <PrivateRoute exact path="/inicio" {...props} component={BlankPage} />
           <PrivateRoute exact path='/empresas/:companyId' {...props} component={EmpresaPage}/>
 
