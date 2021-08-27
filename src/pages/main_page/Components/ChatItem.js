@@ -21,7 +21,7 @@ const ChatItem = props => {
     setShowResendMessage(true);
 }
  
-  const { user, message, image } = props;
+  const { user, msg, image } = props;
   
   return (
     <div
@@ -40,7 +40,7 @@ const ChatItem = props => {
           <span>{user}</span>
           <span>12:05 PM</span>
         </div>
-        <div className="chat-msg">{message}</div>
+        <div className="chat-msg">{msg}</div>
       </div>
       <ChatAvatar isOnline="active" image={image} />
       <CustomModal
