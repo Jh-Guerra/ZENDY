@@ -12,7 +12,8 @@ import moment from 'moment'
 import { withRouter } from 'react-router-dom';
 import 'date-fns';
 import { getSessionInfo } from 'utils/common';
-
+import { findUserStatus, findUserStatusOn } from 'services/actions/UserAction';
+import { Prompt } from "react-router-dom";
 class ZendyAppShell extends Component {
 
   constructor(props) {
@@ -31,20 +32,41 @@ class ZendyAppShell extends Component {
 
     if (session && session.token) {
       this.props.dispatch(setCurrentSession(session));
-      // this.props.dispatch(renewToken());
+      window.addEventListener('beforeunload', this.alertUser)
+      window.addEventListener('unload', this.handleEndConcert)
+      window.addEventListener("beforeunload", this.props.dispatch(findUserStatusOn(session.user.id, '1')));
     }
+  }
+  componentWillUnmount() {
+
+    window.removeEventListener('beforeunload', this.alertUser)
+    window.removeEventListener('unload', this.handleEndConcert)
+
   }
 
   componentDidUpdate(prevProps) {
-    
   }
+
+ alertUser = e => {
+  e.preventDefault()
+  e.returnValue = ''
+  this.handleEndConcert()
+}
+ handleEndConcert = async () => {
+  const session = getSessionInfo();
+  await this.props.dispatch(findUserStatus(session.user.id, '0'))
+}
 
   render() {
     const { custom={} } = this.props;
     const { snackbar={}, backdrop={} } = custom;
-
+    const isMain = this.useIsMainWindow;
     return (
       <StylesProvider injectFirst>
+        <Prompt
+        when={()=>this.isPrompt()}
+        message={() => 'Are you sure you want to leave this page?'}
+      />
         <div className="App" style={{height:"100%"}}>
           <Helmet>
             <title>Zendy</title>

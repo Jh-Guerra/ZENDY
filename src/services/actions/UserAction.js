@@ -41,3 +41,16 @@ export const uploadImage = () => async dispatch => {
     const res = await userService.uploadImage();
     return res && res.data || [];
 }
+export const listUsersOnline = () => async dispatch => {
+    const res = await userService.listUsersOnline();
+    return res && res.data || [];
+}
+export const findUserStatus = (id, data) => async dispatch => {
+    const res = await userService.findUserStatus(id, data);
+    return res && res.data || [];
+}
+export const findUserStatusOn = (id, data) => async dispatch => {
+    const res = await userService.findUserStatusOn(id, data);
+    return res && res.data || [];
+}
+

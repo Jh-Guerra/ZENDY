@@ -81,6 +81,36 @@ class UserService {
             } }
         )
     }
+
+    async listUsersOnline() {
+        return await axios.get(
+            config.apiVersion + `users/listUserOnline`,
+            { headers: {
+                ...config.headers, 
+                Authorization: `token ${JSON.parse(localStorage.getItem('session')).token || ''}` 
+            } }
+    )}
+
+    async findUserStatus(id, data) {
+        return await axios.post(
+            config.apiVersion + `users/updateStatus/` + id,
+            data,
+            { headers: {
+                ...config.headers, 
+                Authorization: `token ${JSON.parse(localStorage.getItem('session')).token || ''}` 
+            } }
+    )}
+
+    async findUserStatusOn(id, data) {
+        return await axios.post(
+            config.apiVersion + `users/updateStatusOn/` + id,
+            data,
+            { headers: {
+                ...config.headers, 
+                Authorization: `token ${JSON.parse(localStorage.getItem('session')).token || ''}` 
+            } }
+    )}
+
 }
 
 export default UserService;

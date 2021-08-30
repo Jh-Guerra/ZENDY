@@ -25,7 +25,7 @@ const ItemAvatarRow = (props) => {
 
   const message = chat.lastMessage || '...';
   const hour = chat.lastMessageHour || '00:00';
-  const isOnline = chat.isOnline ? 'active' : '';
+  const isOnline = (chat.receiver.isOnline == "1") ? 'active' : '';
 
   const onClickAction = (chat) => {
     props.goToChat && props.goToChat(chat);
