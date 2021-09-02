@@ -7,6 +7,8 @@ import InfoIcon from '@material-ui/icons/Info';
 import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
 import CustomModal from "components/Modals/common/CustomModal";
+import config from 'config/Config';
+import { getImageProfile } from 'utils/common';
 
 const useStyles = makeStyles(theme => ({
   gridList: {
@@ -83,6 +85,22 @@ const ModalChatDetail = props => {
     setOpenGroupChat(true);
   }
 
+  const type = props.chatdata.type;
+  var image;
+  var name;
+  var defaultImageType;
+  var companyNamechat = props.chatdata.company && props.chatdata.company.name;
+
+  if(type == "Empresa"){
+    image = props.chatdata.company && props.chatdata.company.avatar || "";
+    defaultImageType = "Company";
+    name = props.chatdata.company && (props.chatdata.company.name) || '';
+  }else{
+    image = props.chatdata.receiver && props.chatdata.receiver.avatar || "";
+    defaultImageType = props.chatdata.receiver && props.chatdata.receiver.sex || "O";
+    name = props.chatdata.receiver && (props.chatdata.receiver.firstName + ' ' + props.chatdata.receiver.lastName) || "";
+  }
+
   return (
     <>
       <LateralModal openDetail={props.open} onClose={onCloseModal}>
@@ -91,7 +109,7 @@ const ModalChatDetail = props => {
             <Box display="flex" justifyContent="center" alignItems="center" style={{height:"100%", paddingTop:"20px"}}>
               <Avatar
                 alt="#"
-                src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTA78Na63ws7B7EAWYgTr9BxhX_Z8oLa1nvOA&usqp=CAU"
+                src={image ? config.api+image : getImageProfile(defaultImageType)}
                 className={classes.large}
               ></Avatar>
             </Box>
@@ -99,10 +117,10 @@ const ModalChatDetail = props => {
           <Grid item xs={12}>
             <Divider  className={classes.divider} variant="middle" />
             <Typography style={{ fontSize: '30px', color: 'white' }} align="center">
-              Homero Simpons
+              {name}
             </Typography>
             <Typography style={{ fontSize: '23px', color: 'white' }} align="center">
-              Simpson's Company
+              {companyNamechat}
             </Typography>
             <Typography style={{ fontSize: '20px', color: 'white' }}>en línea</Typography>
             <Divider  className={classes.divider} variant="middle" />
