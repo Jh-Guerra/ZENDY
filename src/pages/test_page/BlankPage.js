@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import BasePage from 'components/BasePage';
-import ZendyIcon from '../../assets/images/zendy-icon.jpg'
+import ZendyIcon from '../../assets/images/ZendyIcon.jpg'
 import Echo from "laravel-echo";
 import { listUsersOnline } from 'services/actions/UserAction';
 window.Pusher = require('pusher-js')
@@ -14,9 +14,9 @@ class BlankPage extends Component {
   }
 
   async componentDidMount() {
-    this.props.dispatch(listUsersOnline()).then((res)=> {
-      console.log('res',res)
-    })
+    // this.props.dispatch(listUsersOnline()).then((res)=> {
+    //   console.log('res',res)
+    // })
     
     window.Echo = new Echo({
       broadcaster: "pusher",

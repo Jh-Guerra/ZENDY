@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import zen from '../assets/images/zendy-icon.jpg'
+import ZendyIcon from '../assets/images/ZendyIcon.jpg'
 import BasePage from 'components/BasePage';
 
 /* const useStyles = makeStyles((theme) => ({
@@ -24,7 +24,7 @@ class PageNotFound extends Component {
     return (
 
         <div className="notfound-page">
-          <img img src={zen} />
+          <img img src={ZendyIcon} />
           <p>Página no encontrada</p>    
         </div>
     );
