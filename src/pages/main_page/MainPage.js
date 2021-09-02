@@ -6,50 +6,50 @@ import MainBody from "pages/main_page/Childrens/MainBody";
 import MainFooter from "pages/main_page/Childrens/MainFooter";
 import { showBackdrop } from 'services/actions/CustomAction';
 import { findChat } from 'services/actions/ChatAction';
-class MainPage extends Component {
+import { useHistory } from 'react-router-dom';
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      chatdata: {}
-    };
-  }
+const MainPage = (props) => {
 
-  async componentDidMount(){
+  const history = useHistory();
 
-  }
+  const [chat, setChat] = React.useState({});
 
-  onListChatData = (chatId) => {
-    this.props.dispatch(showBackdrop(true));
-    this.props.dispatch(findChat(chatId)).then(res => {
-      this.setState({ chatdata: res.chat || {} });
-      this.props.dispatch(showBackdrop(false));
-    }).catch(err => this.props.dispatch(showBackdrop(false)));
+  React.useEffect(() => {
+    if(props.location.pathname){
+      const pathArray = props.location.pathname.split("/");
+      const chatId = pathArray && pathArray[pathArray.length-1];
+      if(chatId){
+        onGetChatData(chatId);
+      }else{
+        history.push("/");
+      }
+    }
+  }, [props.location.pathname]);
+
+
+  const onGetChatData = (chatId) => {
+    props.dispatch(showBackdrop(true));
+    props.dispatch(findChat(chatId)).then(res => {
+      setChat(res.chat || {});
+      props.dispatch(showBackdrop(false));
+    }).catch(err => props.dispatch(showBackdrop(false)));
   };
 
-  componentWillUnmount() {
-    
-  }
-
-  render() {
-    const { chatdata } = this.state;
-    return (
-      <Grid container style={{height:'100vh'}}>
-        <Grid item xs={12} style={{height:'13vh'}}>
-          <MainHeader
-            onListChatData={this.onListChatData}
-            chatdata={chatdata}
-          />
-        </Grid>
-        <Grid item xs={12} style={{height:'13vh'}}>
-          <MainBody/>
-        </Grid>
-        <Grid item xs={12} style={{height:'74vh'}}>
-          <MainFooter/>
-        </Grid>
+  return (
+    <Grid container style={{height:'100vh'}}>
+      <Grid item xs={12} style={{height:'13vh'}}>
+        <MainHeader
+          chat={chat}
+        />
       </Grid>
-    );
-  }
+      <Grid item xs={12} style={{height:'13vh'}}>
+        <MainBody/>
+      </Grid>
+      <Grid item xs={12} style={{height:'74vh'}}>
+        <MainFooter/>
+      </Grid>
+    </Grid>
+  );
 }
 
 export default MainPage;

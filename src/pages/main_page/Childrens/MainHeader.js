@@ -12,18 +12,13 @@ import config from "config/Config";
 import { getImageProfile } from "utils/common";
 const MainHeader = props => {
 
+  const { chat={} } = props;
+
   const history = useHistory();
   const [showAcceptChat, setShowAcceptChat] = useState(false);
   const [showRecomendarUsuario, setShowRecomendarUsuario] = useState(false)
   const [showChatDetail, setShowChatDetail] = useState(false);
   const [showAddToConversation, setShowAddToConversation] = useState(false);
-
-  React.useEffect(() => {
-    history.listen((location) => {
-      const chatId = location.pathname.substring(location.pathname.lastIndexOf("/")+1);
-      props.onListChatData(chatId)
-    });
-  }, []);
 
   const handleAcceptChat = () => {
       setShowAcceptChat(true);
@@ -45,19 +40,19 @@ const MainHeader = props => {
     setShowAddToConversation(true);
   }
 
-  const type = props.chatdata.type;
+  const type = chat.type || "";
   var image;
   var name;
   var defaultImageType;
 
   if(type == "Empresa"){
-    image = props.chatdata.company && props.chatdata.company.avatar || "";
+    image = chat.company && chat.company.avatar || "";
     defaultImageType = "Company";
-    name = props.chatdata.company && (props.chatdata.company.name) || '';
+    name = chat.company && (chat.company.name) || '';
   }else{
-    image = props.chatdata.receiver && props.chatdata.receiver.avatar || "";
-    defaultImageType = props.chatdata.receiver && props.chatdata.receiver.sex || "O";
-    name = props.chatdata.receiver && (props.chatdata.receiver.firstName + ' ' + props.chatdata.receiver.lastName) || "";
+    image = chat.receiver && chat.receiver.avatar || "";
+    defaultImageType = chat.receiver && chat.receiver.sex || "O";
+    name = chat.receiver && (chat.receiver.firstName + ' ' + chat.receiver.lastName) || "";
   }
 
   return (
@@ -117,7 +112,7 @@ const MainHeader = props => {
         customModal="ModalChatDetail"
         open={showChatDetail} 
         onClose={()=> { setShowChatDetail(false) }}
-        chatdata={props.chatdata}
+        chatdata={chat}
       />
       <CustomModal 
         customModal="ModalAddToConversation"

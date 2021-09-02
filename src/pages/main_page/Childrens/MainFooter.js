@@ -113,8 +113,8 @@ const MainFooter = props => {
         </div>
 
         <div className="chat-footer">
-          <IconButton className="chat-input-button"> 
-            <EmojiEmotionsIcon className="chat-input-icon" onClick={handleShowEmojis} />
+          <IconButton className="chat-input-button" onClick={handleShowEmojis}> 
+            <EmojiEmotionsIcon className="chat-input-icon"  />
             {showEmoji && (
                 <div className="emojiPicker-wrapper">
                   <EmojiPicker onEmojiClick={pickEmoji} />              
