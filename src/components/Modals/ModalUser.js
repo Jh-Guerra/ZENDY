@@ -118,48 +118,50 @@ const ModalUser = (props) => {
             const fileInput = document.querySelector('#icon-button-file') ;
             const formData = new FormData();
             formData.append('image', fileInput.files[0]);
-            fetch('http://127.0.0.1:8000/api/users/upload', {
-              method: 'POST',
-              body: formData
-            })
-            .then(res =>  res.json())
-            .then(data => {
-                data = {...user,
-                    avatar: data.image ? (data.image).substr(1) : user.avatar
-                }
+            formData.append('image', fileInput.files[0]);
+            //for de objetos averiguar
+            formData.append('firstName', user.firstName)
+            formData.append('lastName', user.lastName)
+            formData.append('email', user.email)
+            var dateDOB = (new Date(user.dob)).toUTCString();
+            formData.append('dob', dateDOB)
+            formData.append('phone', user.phone)
+            formData.append('sex', user.sex)
+            formData.append('idRole', user.idRole)
+            formData.append('idCompany', user.idCompany)
 
-                 // Editar
-                props.dispatch(updateUser(data.id, data)).then(res => {
-                    props.dispatch(showBackdrop(false));
-                    props.onConfirmCallBack();
-                }).catch(error => {
+            // Editar
+           props.dispatch(updateUser(data.id, formData)).then(res => {
+               props.dispatch(showBackdrop(false));
+               props.onConfirmCallBack();
+           }).catch(error => {
+               props.dispatch(showBackdrop(false));                    
                     props.dispatch(showBackdrop(false));                    
-                });
-            }).catch(err => props.dispatch(showBackdrop(false)));
+               props.dispatch(showBackdrop(false));                    
+           });
         }else{
             // Agregar
             const fileInput = document.querySelector('#icon-button-file') ;
             const formData = new FormData();
             formData.append('image', fileInput.files[0]);
-            fetch('http://127.0.0.1:8000/api/users/upload', {
-              method: 'POST',
-              body: formData
-            })
-            .then(res =>  res.json())
-            .then(data => {
-                data = {...user,
-                    avatar: data.image ? (data.image).substr(1) : ""
-                }
-                  
-                // Agregar
-                props.dispatch(createUser(data)).then(res => {
-                    props.dispatch(showBackdrop(false));
-                    props.onConfirmCallBack();
-                }).catch(error => {
-                    props.dispatch(showBackdrop(false));
-                    console.error('error', error);
-                });
-            }).catch(err => props.dispatch(showBackdrop(false)));  
+            //for de objetos averiguar
+            formData.append('firstName', user.firstName)
+            formData.append('lastName', user.lastName)
+            formData.append('email', user.email)
+            var dateDOB = (new Date(user.dob)).toUTCString();
+            formData.append('dob', dateDOB)
+            formData.append('phone', user.phone)
+            formData.append('sex', user.sex)
+            formData.append('idRole', user.idRole)
+            formData.append('idCompany', user.idCompany)
+            
+            props.dispatch(createUser(formData)).then(res => {
+                props.dispatch(showBackdrop(false));
+                props.onConfirmCallBack();
+            }).catch(error => {
+                props.dispatch(showBackdrop(false));
+                console.error('error', error);
+            });
         }
     }
 
@@ -191,10 +193,10 @@ const ModalUser = (props) => {
             />
 
             <ModalBody>
-                <Formik enableReinitialize initialValues={data} validate={values => validateForm(values)} onSubmit={onSubmit}>
+                <Formik enableReinitialize initialValues={data} validate={values => validateForm(values)} onSubmit={onSubmit} encType="multipart/form-data">
                     {({values, errors, touched, handleChange, handleBlur, handleSubmit, setFieldValue}) => {
                         return (
-                            <Form onSubmit={handleSubmit}>
+                            <Form onSubmit={handleSubmit} encType="multipart/form-data">
                                 <Grid container spacing={3}>
                                     <Grid item xs={12}>
                                         <CustomInput

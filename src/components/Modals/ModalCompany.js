@@ -106,45 +106,44 @@ const ModalCompany = (props) => {
             const fileInput = document.querySelector('#icon-button-file') ;
             const formData = new FormData();
             formData.append('image', fileInput.files[0]);
-            fetch('http://127.0.0.1:8000/api/users/upload', {
-              method: 'POST',
-              body: formData
-            })
-            .then(res =>  res.json())
-            .then(data => {
-                data = {...company,
-                    avatar: data.image ? (data.image).substr(1) : company.avatar
-                }
-                 // Editar
-                props.dispatch(updateCompany(data.id, data)).then(res => {
+            formData.append('name', company.name);
+            formData.append('address', company.address);
+            formData.append('email', company.email);
+            formData.append('adminName', company.adminName);
+            formData.append('phone', company.phone);
+            formData.append('maxBytes', company.maxBytes);
+            formData.append('description', company.description);
+            formData.append('currentBytes', company.currentBytes);
+
+
+                // Editar
+                props.dispatch(updateCompany(data.id, formData)).then(res => {
                     props.dispatch(showBackdrop(false));
                     props.onConfirmCallBack();
                 }).catch(error => {
                     props.dispatch(showBackdrop(false));
                 });                
-            }).catch(err => props.dispatch(showBackdrop(false)));
         }else{
             // Agregar
             const fileInput = document.querySelector('#icon-button-file') ;
             const formData = new FormData();
             formData.append('image', fileInput.files[0]);
-            fetch('http://127.0.0.1:8000/api/users/upload', {
-              method: 'POST',
-              body: formData
-            })
-            .then(res =>  res.json())
-            .then(data => {
-                data = {...company,
-                    avatar: data.image ? (data.image).substr(1) : ""
-                }
-                 // Agregar
-                 props.dispatch(createCompany(data)).then(res => {
-                    props.dispatch(showBackdrop(false));
-                    props.onConfirmCallBack();
-                }).catch(error => {
-                    props.dispatch(showBackdrop(false));
-                });              
-            }).catch(err => props.dispatch(showBackdrop(false)));
+            formData.append('name', company.name);
+            formData.append('address', company.address);
+            formData.append('email', company.email);
+            formData.append('adminName', company.adminName);
+            formData.append('phone', company.phone);
+            formData.append('maxBytes', company.maxBytes);
+            formData.append('description', company.description);
+            formData.append('currentBytes', company.currentBytes);
+
+            // Agregar
+            props.dispatch(createCompany(formData)).then(res => {
+               props.dispatch(showBackdrop(false));
+               props.onConfirmCallBack();
+           }).catch(error => {
+               props.dispatch(showBackdrop(false));
+           });              
         }
     }
 
