@@ -11,6 +11,7 @@ import ModalRecomendarUsuario from '../ModalRecomendarUsuario';
 import ModalChatDetail from '../ModalChatDetail';
 import ModalAddToConversation from '../ModalAddToConversation';
 import ModalResendMessage from '../ModalResendMessage';
+import ModalEntryQuery from '../ModalEntryQuery';
 
 const CustomModal = (props) => {
     const getCustomModal = (customModal) => {
@@ -35,7 +36,9 @@ const CustomModal = (props) => {
                 return <ModalAddToConversation {...props}/>
             case "ModalResendMessage":
                 return <ModalResendMessage {...props}/>
-                
+            case "ModalEntryQuery":
+                return <ModalEntryQuery {...props}/>
+
             default:
                 return null;
         }

@@ -7,7 +7,7 @@ import CustomModal from 'components/Modals/common/CustomModal';
 
 const TabOptions = (props) => {
 
-  const { onSaveForm, view } = props;
+  const { onSaveForm, onOpenModal, view } = props;
 
   const [open, setOpen] = React.useState(false);
 
@@ -34,6 +34,21 @@ const TabOptions = (props) => {
                   startIcon={<RateReviewIcon />}
                 >
                   Reportar Error
+                </CustomButton>
+              </Grid>
+            )
+          }
+          {
+            view=="entryQueries" && (
+              <Grid item xs={6}>
+                <CustomButton
+                  fullWidth
+                  onClick={() => { onOpenModal && onOpenModal() }}
+                  variant="contained"
+                  customColor={successButtonColor}
+                  startIcon={<RateReviewIcon />}
+                >
+                  Iniciar Consulta
                 </CustomButton>
               </Grid>
             )
