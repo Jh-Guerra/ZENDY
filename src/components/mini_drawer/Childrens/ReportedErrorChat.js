@@ -65,14 +65,12 @@ const ReportedErrorChat = props => {
   return (
     <div style={{ height: '79vh' }}>
       <Grid container style={{ height: '100%' }}>
-        {
-            <Grid item xs={12}>
-                <TabOptions 
-                    onSaveForm={onSaveForm} 
-                    view="reportedErrors"
-                />
-            </Grid>
-        }
+        <Grid item xs={12}>
+          <TabOptions 
+            onSaveForm={onSaveForm} 
+            view="reportedErrors"
+          />
+        </Grid>
         <Grid item xs={12} container>
           <Grid item xs={12}>
             <div className="chatlist__heading">

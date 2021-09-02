@@ -291,7 +291,6 @@ const ModalCompany = (props) => {
                                 </Grid>
                                 
                                 <Divider style={{marginTop:"20px"}} />
-
                                 <ModalFooter
                                     buttonType={"submit"}
 

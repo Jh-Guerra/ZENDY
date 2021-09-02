@@ -4,10 +4,11 @@ import { withStyles } from '@material-ui/core/styles';
 import { Input, InputAdornment, Paper, Grid, IconButton, InputBase } from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search'
 import { listClientChats } from 'services/actions/ChatAction';
-import NewChatCall from './NewChatCall';
 import { useHistory } from 'react-router-dom';
 import { showBackdrop } from 'services/actions/CustomAction';
 import { listPendingQueries } from 'services/actions/EntryQueryAction';
+import TabOptions from './TabOptions';
+import CustomModal from 'components/Modals/common/CustomModal';
 
 const styles = theme => ({
   search: {
@@ -22,6 +23,8 @@ const EntryChat = props => {
 
   const [entryQueries, setEntryQueries] = React.useState([]);
   const [searchTimeout, setSearchTimeout] = React.useState(null);
+  const [showModalEntryChat, setShowModalEntryChat] = React.useState(false);
+
 
   React.useEffect(() => {
     onList("");
@@ -53,11 +56,19 @@ const EntryChat = props => {
     
   }
 
+  const onOpenModal = () => {
+    setShowModalEntryChat(true);
+  }
+
   return (
     <div style={{height: "79vh"}}>
       <Grid container>
         <Grid item xs={12}>
-          <NewChatCall onSaveForm={onSaveForm} />
+          <TabOptions
+            onSaveForm={onSaveForm}
+            onOpenModal={onOpenModal}
+            view="entryQueries"
+          />
         </Grid>
         <Grid item xs={12}>
           <div className="chatlist__heading">
@@ -97,6 +108,12 @@ const EntryChat = props => {
           })}
         </Grid>
       </Grid>
+      <CustomModal
+        customModal={'ModalEntryQuery'}
+        open={showModalEntryChat}
+        handleClose={() => { setShowModalEntryChat(false) }}
+        onSaveForm={() => {}}
+      />
     </div>
   );
 };
