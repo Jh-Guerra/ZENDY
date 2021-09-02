@@ -36,7 +36,7 @@ import { getImageProfile, getSessionInfo } from "utils/common";
         <div className="mini-drawer-content" style={{height:"13vh", minHeight:"110px"}}>
             <div className="mini-drawer-user">
               <Avatar
-                isOnline="active"
+                isOnline={(user.isOnline == "1") ? "active" : ""}
                 image={user.avatar ? (config.api + (user.avatar) ) : getImageProfile(user.sex)}
                 style={{maxHeight:"10vh", minHeight:'10vh',position:'static'}}
               />

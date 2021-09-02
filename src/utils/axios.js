@@ -1,4 +1,6 @@
 import axiosClassic from 'axios';
+import { findUserStatus } from 'services/actions/UserAction';
+import { getSessionInfo } from 'utils/common';
 
 const handleAxiosResponse = async (config) => {
     const results = { response: null, error: null };
@@ -10,7 +12,10 @@ const handleAxiosResponse = async (config) => {
         results.error = error;
         const { data } = error.response;
 
+        const session = getSessionInfo();
+
         if (data.status === 'Token is Expired') {
+            this.props.dispatch(findUserStatus(session.user.id, '0' ))
             localStorage.clear();
             window.location.href('/');
         }
