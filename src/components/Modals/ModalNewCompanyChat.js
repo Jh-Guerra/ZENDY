@@ -71,6 +71,8 @@ const ModalNewCompanyChat = (props) => {
       onListCompanies();
       setAllChecked(false);
     }
+    setUsers([]);
+    setTerm("");
   }, [open]);
 
   const onListCompanies = () => {
@@ -87,9 +89,23 @@ const ModalNewCompanyChat = (props) => {
   }
 
   const onListUsersByCompany = (companyId, term) => {
-    props.dispatch(showBackdrop(true));
+    const selectUsers = [];
+    const selectUserIds = [];
+    const resultValues = [];
+    props.dispatch(showBackdrop(true));    
+    users.map(user => { 
+      if(user.checked == true) {
+        selectUsers.push(user)
+        selectUserIds.push(user.id)
+      } });
     props.dispatch(listUsersByCompany(companyId, term)).then(res => {
-      setUsers(res || []);
+      setAllChecked(false);
+      // filter result of selected users
+      res && res.map(value => { 
+      if(!selectUserIds.includes(value.id)){
+        resultValues.push(value)
+      }})
+      setUsers(selectUsers.concat(resultValues) || []);      
       props.dispatch(showBackdrop(false));
     }).catch(err => props.dispatch(showBackdrop(false)));;
   }
