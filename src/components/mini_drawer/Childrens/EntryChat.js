@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import ItemAvatarRow from '../Components/ItemAvatarRow';
+import ItemQueryRow from '../Components/ItemQueryRow';
 import { withStyles } from '@material-ui/core/styles';
 import { Input, InputAdornment, Paper, Grid, IconButton, InputBase } from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search'
@@ -53,7 +53,7 @@ const EntryChat = props => {
   }
 
   const onSaveForm = () => {
-    
+    onList('');
   }
 
   const onOpenModal = () => {
@@ -98,12 +98,12 @@ const EntryChat = props => {
         <Grid item xs={12}>
           {entryQueries.map((query, i) => {
             return (
-              <p> asdasd </p>
-              // <ItemAvatarRow
-              //   key={i}
-              //   chat={query}
-              //   goToChat={goToChat}
-              // />
+             // <p> asdasd </p>
+               <ItemQueryRow
+                 key={i}
+                 query={query}
+                 goToChat={goToChat}
+               />
             );
           })}
         </Grid>
@@ -112,7 +112,11 @@ const EntryChat = props => {
         customModal={'ModalEntryQuery'}
         open={showModalEntryChat}
         handleClose={() => { setShowModalEntryChat(false) }}
-        onSaveForm={() => {}}
+        onSaveForm={() => {
+          setShowModalEntryChat(false);
+         // handleClose();
+          onSaveForm();
+      }}
       />
     </div>
   );

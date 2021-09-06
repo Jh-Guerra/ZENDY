@@ -11,9 +11,11 @@ import GetAppIcon from '@material-ui/icons/GetApp';
 import { Form, Formik } from 'formik';
 import { trimObject } from 'utils/common';
 import TitleIcon from '@material-ui/icons/Title';
+import {createEntryQuery} from 'services/actions/EntryQueryAction';
+import { showBackdrop , showSnackBar} from 'services/actions/CustomAction';
 
 const ModalEntryQuery = props => {
-  const { open, handleClose } = props;
+  const { open, handleClose, onSaveForm } = props;
 
   const [data, setData] = React.useState({
     id: '',
@@ -39,17 +41,43 @@ const ModalEntryQuery = props => {
   };
 
   const onSubmit = (entryQuery, { setSubmitting }) => {
-    console.log('entryQuery', entryQuery);
+    props.dispatch(showBackdrop(true));
+    
+            // Agregar
+            const imageInput = document.querySelector('#image1') ;
+            const imageInput1 = document.querySelector('#image2') ;
+            const fileInput = document.querySelector('#file1') ;
+            const fileInput1 = document.querySelector('#file2') ;
+
+            const formData = new FormData();
+            formData.append('image', imageInput.files[0] || '');
+            formData.append('image1', imageInput1.files[0] || '');
+            formData.append('archivo', fileInput.files[0] || '');
+            formData.append('archivo1', fileInput1.files[0] || '');
+            formData.append("reason", entryQuery.reason)
+            formData.append('description', entryQuery.description)
+
+            
+            props.dispatch(createEntryQuery(formData)).then(res => {
+              props.dispatch(showSnackBar('warning', 'Agregado Correctamente!!!'));
+                 props.dispatch(showBackdrop(false));
+                onSaveForm && onSaveForm();
+              }).catch(error => {
+                props.dispatch(showBackdrop(false));
+                props.dispatch(showSnackBar("warning", error.message || ""));
+                //console.error('error', error);
+              });
+            
   };
 
   return (
     <Modal open={open} handleClose={handleClose} size="sm">
       <ModalHeader icon={<LibraryBooksIcon />} text="Ingresar Consulta" />
       <ModalBody>
-        <Formik enableReinitialize initialValues={data} validate={values => validateForm(values)} onSubmit={onSubmit}>
+        <Formik enableReinitialize initialValues={data} validate={values => validateForm(values)} onSubmit={onSubmit} encType="multipart/form-data">
           {({ values, errors, touched, handleChange, handleBlur, handleSubmit, setFieldValue }) => {
             return (
-              <Form onSubmit={handleSubmit}>
+              <Form onSubmit={handleSubmit} encType="multipart/form-data">
                 <Grid container spacing={3}>
                   <Grid item xs={12}>
                     <CustomInput
@@ -88,7 +116,7 @@ const ModalEntryQuery = props => {
                     <Grid item xs={6} style={{padding: "0px 5px"}}>
                       <Button variant="contained" component="label" style={{maxWidth: "100%"}}>
                         <GetAppIcon style={{ marginRight: '10px' }} />
-                        <input id="imagen2" accept="image/*" type="file" />
+                        <input id="image2" accept="image/*" type="file" />
                       </Button>
                     </Grid>
                   </Grid>
@@ -100,13 +128,13 @@ const ModalEntryQuery = props => {
                     <Grid item xs={6} style={{padding: "0px 5px"}}>
                       <Button variant="contained" component="label" style={{maxWidth: "100%"}}>
                         <GetAppIcon style={{ marginRight: '10px' }} />
-                        <input id="file1" accept="image/*" type="file" />
+                        <input id="file1" accept="application/pdf" type="file" />
                       </Button>
                     </Grid>
                     <Grid item xs={6} style={{padding: "0px 5px"}}>
                       <Button variant="contained" component="label" style={{maxWidth: "100%"}}>
                         <GetAppIcon style={{ marginRight: '10px' }} />
-                        <input id="file2" accept="image/*" type="file" />
+                        <input id="file2" accept="application/pdf" type="file" />
                       </Button>
                     </Grid>
                   </Grid>
