@@ -129,6 +129,15 @@ class ChatService {
                 Authorization: `token ${JSON.parse(localStorage.getItem('session')).token || ''}` 
             } }
     )}
+     
+    async finalizeChat(idChat) {
+        return await axios.post(
+            config.apiVersion + `chats/finalize/` + idChat,
+            { headers: {    
+                ...config.headers, 
+                Authorization: `token ${JSON.parse(localStorage.getItem('session')).token || ''}` 
+            } }
+    )}
    
 }
 
