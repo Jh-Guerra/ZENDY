@@ -257,7 +257,7 @@ const ModalCompany = (props) => {
                                     <Grid item xs={12}>
                                         <CustomInput
                                             id="description"
-                                            label={<p>Descripción *</p>}
+                                            label={<p>Descripción</p>}
                                             inputType="textArea"
                                             onChange={handleChange}
                                             value={values.description}
