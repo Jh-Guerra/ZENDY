@@ -92,7 +92,7 @@ class UserService {
             } }
     )}
 
-    async findUserStatus(id, data) {
+    async updateStatus(id, data) {
         return await axios.post(
             config.apiVersion + `users/updateStatus/` + id,
             data,

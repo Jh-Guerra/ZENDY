@@ -18,7 +18,7 @@ let config =
     },
     'gaID' : process.env.REACT_APP_GA_ID || 'UA-82642500-5',
     'stripePK': process.env.REACT_APP_stripePK || 'pk_test_AEL7yfcOpRn4OfAISb5Mg0oj',
-    'commonHost': process.env.REACT_APP_COMMON_HOST,
+    'commonHost': process.env.REACT_APP_HOST,
     'pusherAppKey': process.env.REACT_APP_PUSHER_APP_KEY,
     'pusherCluster': process.env.REACT_APP_PUSHER_CLUSTER,
     'pusherChannelPrefix': process.env.REACT_APP_PUSHER_CHANNEL_PREFIX

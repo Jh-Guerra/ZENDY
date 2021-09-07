@@ -1,12 +1,14 @@
+import React from 'react';
 import axiosClassic from 'axios';
-import { findUserStatus } from 'services/actions/UserAction';
-import { getSessionInfo } from 'utils/common';
+import { updateStatus } from 'services/actions/UserAction';
+import { defaultHeaders, getSessionInfo } from 'utils/common';
+import config from './../config/Config';
 
-const handleAxiosResponse = async (config) => {
+const handleAxiosResponse = async (rConfig) => {
     const results = { response: null, error: null };
 
     try {
-        const res = await axiosClassic(config.url, config);
+        const res = await axiosClassic(rConfig.url, rConfig);
         results.response = res;
     } catch (error) {
         results.error = error;
@@ -15,9 +17,11 @@ const handleAxiosResponse = async (config) => {
         const session = getSessionInfo();
 
         if (data.status === 'Token is Expired') {
-            this.props.dispatch(findUserStatus(session.user.id, '0' ))
+            const axiosService = new CustomAxios();
+            axiosService.post(config.apiVersion + `users/updateStatus/` + session.user.id, '0', defaultHeaders() );
             localStorage.clear();
-            window.location.href('/');
+            console.log("")
+            window.location.href = config.commonHost;
         }
     }
 

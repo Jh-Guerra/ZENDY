@@ -45,8 +45,8 @@ export const listUsersOnline = () => async dispatch => {
     const res = await userService.listUsersOnline();
     return res && res.data || [];
 }
-export const findUserStatus = (id, data) => async dispatch => {
-    const res = await userService.findUserStatus(id, data);
+export const updateStatus = (id, data) => async dispatch => {
+    const res = await userService.updateStatus(id, data);
     return res && res.data || [];
 }
 export const findUserStatusOn = (id, data) => async dispatch => {

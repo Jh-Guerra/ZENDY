@@ -14,7 +14,7 @@ import ReportedErrorChat from './Childrens/ReportedErrorChat';
 import EntryChat from './Childrens/EntryChat';
 import { updateLastRoute, updateLastTab } from 'services/actions/CommonAction';
 import { checkPermission, getSessionInfo } from 'utils/common';
-import { findUserStatus } from 'services/actions/UserAction';
+import { updateStatus } from 'services/actions/UserAction';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -63,7 +63,7 @@ const MiniDrawer = (props) => {
   }, [history.location.pathname]);
 
   const logOut = () => {
-    props.dispatch(findUserStatus(session.user.id, '0' ))
+    props.dispatch(updateStatus(session.user.id, '0' ))
     localStorage.clear();
     history.push("/");
   }

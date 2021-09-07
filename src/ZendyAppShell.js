@@ -12,7 +12,7 @@ import moment from 'moment'
 import { withRouter } from 'react-router-dom';
 import 'date-fns';
 import { getSessionInfo } from 'utils/common';
-import { findUserStatus, findUserStatusOn } from 'services/actions/UserAction';
+import { updateStatus, findUserStatusOn } from 'services/actions/UserAction';
 import { Prompt } from "react-router-dom";
 class ZendyAppShell extends Component {
 
@@ -54,7 +54,7 @@ class ZendyAppShell extends Component {
 }
  handleEndConcert = async () => {
   const session = getSessionInfo();
-  await this.props.dispatch(findUserStatus(session.user.id, '0'))
+  await this.props.dispatch(updateStatus(session.user.id, '0'))
 }
 
   render() {
