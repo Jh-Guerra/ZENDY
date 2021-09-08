@@ -43,28 +43,27 @@ const ModalEntryQuery = props => {
   const onSubmit = (entryQuery, { setSubmitting }) => {
     props.dispatch(showBackdrop(true));
     
-            // Agregar
             const imageInput = document.querySelector('#image1') ;
             const imageInput1 = document.querySelector('#image2') ;
             const fileInput = document.querySelector('#file1') ;
             const fileInput1 = document.querySelector('#file2') ;
 
             const formData = new FormData();
-            formData.append('image', imageInput.files[0] || '');
-            formData.append('image1', imageInput1.files[0] || '');
-            formData.append('archivo', fileInput.files[0] || '');
-            formData.append('archivo1', fileInput1.files[0] || '');
+            formData.append('image1', imageInput.files[0] || '');
+            formData.append('image2', imageInput1.files[0] || '');
+            formData.append('file1', fileInput.files[0] || '');
+            formData.append('file2', fileInput1.files[0] || '');
             formData.append("reason", entryQuery.reason)
             formData.append('description', entryQuery.description)
 
             
             props.dispatch(createEntryQuery(formData)).then(res => {
-              props.dispatch(showSnackBar('warning', 'Agregado Correctamente!!!'));
+              props.dispatch(showSnackBar('success', 'Consulta registrada'));
                  props.dispatch(showBackdrop(false));
                 onSaveForm && onSaveForm();
               }).catch(error => {
                 props.dispatch(showBackdrop(false));
-                props.dispatch(showSnackBar("warning", error.message || ""));
+                props.dispatch(showSnackBar("error", error.message || ""));
                 //console.error('error', error);
               });
             
@@ -128,13 +127,13 @@ const ModalEntryQuery = props => {
                     <Grid item xs={6} style={{padding: "0px 5px"}}>
                       <Button variant="contained" component="label" style={{maxWidth: "100%"}}>
                         <GetAppIcon style={{ marginRight: '10px' }} />
-                        <input id="file1" accept="application/pdf" type="file" />
+                        <input id="file1" type="file" />
                       </Button>
                     </Grid>
                     <Grid item xs={6} style={{padding: "0px 5px"}}>
                       <Button variant="contained" component="label" style={{maxWidth: "100%"}}>
                         <GetAppIcon style={{ marginRight: '10px' }} />
-                        <input id="file2" accept="application/pdf" type="file" />
+                        <input id="file2" type="file" />
                       </Button>
                     </Grid>
                   </Grid>
