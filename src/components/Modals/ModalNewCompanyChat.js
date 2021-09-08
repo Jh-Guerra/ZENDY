@@ -68,11 +68,11 @@ const ModalNewCompanyChat = (props) => {
 
   React.useEffect(() => {
     if(open){
-      onListCompanies();
-      setAllChecked(false);
+      onListCompanies();      
     }
+    setAllChecked(false);
     setUsers([]);
-    setTerm("");
+    setTerm("");    
   }, [open]);
 
   const onListCompanies = () => {
@@ -88,24 +88,24 @@ const ModalNewCompanyChat = (props) => {
     }).catch(err => props.dispatch(showBackdrop(false)));;
   }
 
-  const onListUsersByCompany = (companyId, term) => {
-    const selectUsers = [];
-    const selectUserIds = [];
-    const resultValues = [];
-    props.dispatch(showBackdrop(true));    
-    users.map(user => { 
-      if(user.checked == true) {
-        selectUsers.push(user)
-        selectUserIds.push(user.id)
-      } });
-    props.dispatch(listUsersByCompany(companyId, term)).then(res => {
-      setAllChecked(false);
-      // filter result of selected users
-      res && res.map(value => { 
-      if(!selectUserIds.includes(value.id)){
-        resultValues.push(value)
-      }})
-      setUsers(selectUsers.concat(resultValues) || []);      
+  const onListUsersByCompany = (paramCompanyId, term) => {
+    props.dispatch(showBackdrop(true));
+    const selectedUsers = users.filter(user => user.checked) || [];
+    const selectedUserIds = selectedUsers.map(user => user.id) || [];
+    props.dispatch(listUsersByCompany(paramCompanyId, term)).then(res => {
+      if(companyId != paramCompanyId){
+        setUsers(res);
+        setAllChecked(false);
+      }else{
+        res && res.map(user => {
+          if (!selectedUserIds.includes(user.id)) {
+            selectedUsers.push(user)
+          }}
+        )
+        const validateSelectAll = selectedUsers.filter(user => !user.checked) || [];
+        setAllChecked(validateSelectAll.length==0);
+        setUsers(selectedUsers);
+      }
       props.dispatch(showBackdrop(false));
     }).catch(err => props.dispatch(showBackdrop(false)));;
   }
