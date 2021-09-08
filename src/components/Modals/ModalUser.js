@@ -105,7 +105,7 @@ const ModalUser = (props) => {
         if (!user.phone)
             errors.phone = 'N° celular requerido'
 
-        if (!['1', '2'].includes(user.idRole) && !user.idCompany)
+        if (!['1', '2'].includes(user.idRole+"") && !user.idCompany)
             errors.idCompany = 'Empresa requerida'
 
         return errors;
@@ -314,7 +314,7 @@ const ModalUser = (props) => {
                                        />
                                     </Grid>
                                     {
-                                        !['1', '2'].includes(values.idRole) && (
+                                        !['1', '2'].includes(values.idRole+"") && (
                                             <Grid item xs={12}>
                                                 <CustomInput
                                                     id="idCompany"
