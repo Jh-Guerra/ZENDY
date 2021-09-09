@@ -148,11 +148,13 @@ const ModalCompany = (props) => {
     }
 
     function processImage(event){
-        const imageFile = event.target.files[0];
-        const imageUrl = URL.createObjectURL(imageFile);
-        console.log("imageFile", imageFile)
-        console.log("imageUrl", imageUrl)
-        setFileUrl(imageUrl)
+        if(event && event.target.files && event.target.files.length > 0){
+            const imageFile = event.target.files[0];
+            const imageUrl = URL.createObjectURL(imageFile);
+            setFileUrl(imageUrl)
+        }else{
+            setFileUrl(null)
+        }
      }
 
     const onEdit = () => {

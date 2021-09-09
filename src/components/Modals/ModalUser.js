@@ -166,7 +166,7 @@ const ModalUser = (props) => {
     }
 
     function processImage(event){
-        if(event){
+        if(event && event.target.files && event.target.files.length > 0){
             const imageFile = event.target.files[0];
             const imageUrl = URL.createObjectURL(imageFile);
             setFileUrl(imageUrl)
