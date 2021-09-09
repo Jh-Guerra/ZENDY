@@ -10,6 +10,8 @@ import CustomModal from "components/Modals/common/CustomModal";
 import { useHistory, withRouter } from "react-router-dom";
 import config from "config/Config";
 import { getImageProfile } from "utils/common";
+import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
+
 const MainHeader = props => {
 
   const { chat={} } = props;
@@ -92,7 +94,7 @@ const MainHeader = props => {
                 ),disableUnderline: true
               }}
             />
-            <IconButton onClick={handleRecomendarUsuario} className="chat-header-button"><PersonAddIcon style={{ fontSize: 35 }} /></IconButton>
+            <IconButton onClick={handleRecomendarUsuario} className="chat-header-button"><PeopleAltIcon style={{ fontSize: 35 }} /></IconButton>
             <IconButton onClick={handleAddToConversation} className="chat-header-button"><PersonAddIcon style={{ fontSize: 35 }} /></IconButton>
             <IconButton onClick={handleAcceptChat} className="chat-header-button"><MoreVertIcon style={{ fontSize: 40 }} /></IconButton>
           </Grid>              
