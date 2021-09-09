@@ -127,6 +127,17 @@ html, body {
         margin: 1px 5px;
         border-radius: 50%;
     }
+
+    .offline-icon {
+        background-color: $offLine;
+        width: 12px;
+        height: 12px;
+        border: none;
+        padding: 5px;
+        display: inline-block;
+        margin: 1px 5px;
+        border-radius: 50%;
+    }
 }
 
 .is-online {
@@ -706,6 +717,10 @@ html, body {
     }
 
     .online-icon {
+        width: 8px !important;
+        height: 8px !important;
+    }
+    .offline-icon {
         width: 8px !important;
         height: 8px !important;
     }
