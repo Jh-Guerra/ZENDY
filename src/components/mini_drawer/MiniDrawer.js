@@ -117,7 +117,7 @@ const MiniDrawer = (props) => {
                   <Tooltip title="Chats Vigentes">
                     <Tab className="mini-drawer-tab" icon={<CurrentChatIcon />} />
                   </Tooltip>
-                  <Tooltip title={(session && session.role && ['1', '2'].includes(session.role.id)) ? "Consultas Entrantes" : "Consultas" }>
+                  <Tooltip style={{display: checkPermission(session, "createEntryQuery") ? "inline-flex" : "none" }} title={(session && session.role && ['1', '2'].includes(session.role.id)) ? "Consultas Entrantes" : "Consultas" }>
                     <Tab className="mini-drawer-tab" icon={<PendingChatIcon />} />
                   </Tooltip>
                   <Tooltip style={{display: checkPermission(session, "showTabCompany") ? "inline-flex" : "none" }} title="Empresas">
