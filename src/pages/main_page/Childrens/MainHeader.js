@@ -46,6 +46,7 @@ const MainHeader = props => {
   var image;
   var name;
   var defaultImageType;
+  var isOnline;
 
   if(type == "Empresa"){
     image = chat.company && chat.company.avatar || "";
@@ -55,6 +56,7 @@ const MainHeader = props => {
     image = chat.receiver && chat.receiver.avatar || "";
     defaultImageType = chat.receiver && chat.receiver.sex || "O";
     name = chat.receiver && (chat.receiver.firstName + ' ' + chat.receiver.lastName) || "";
+    isOnline = chat.receiver && chat.receiver.isOnline || "";
   }
 
   return (
@@ -75,7 +77,14 @@ const MainHeader = props => {
               <div>
                 <Typography style={{fontSize:"25px", color:"white"}}>{name}</Typography>
               </div>
-              <Typography style={{fontSize:"20px", color:"white", marginLeft:"30px"}}> <span className="online-icon"/>En linea</Typography>                 
+                {
+                  (isOnline == 1) ?
+              (<Typography style={{fontSize:"20px", color:"white", marginLeft:"30px"}}>
+                 <span className="online-icon"/>En linea</Typography> )
+                 :      
+                ( <Typography style={{fontSize:"20px", color:"white", marginLeft:"30px"}}>
+                 <span className="offline-icon"/>Fuera de línea</Typography> )          
+                }
             </Grid>               
           </Grid>
         </Grid>
