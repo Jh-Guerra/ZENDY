@@ -8,7 +8,7 @@ import SpeakerNotesIcon from '@material-ui/icons/SpeakerNotes';
 import SmsFailedIcon from '@material-ui/icons/SmsFailed';
 import AssessmentIcon from '@material-ui/icons/Assessment';
 import PeopleIcon from '@material-ui/icons/People';
-import CustomButton from "components/CustomButtom";
+import CustomButton from "components/CustomButton";
 import { successButtonColor } from 'assets/styles/zendy-css';
 import BusinessIcon from '@material-ui/icons/Business';
 import { checkPermission } from 'utils/common';

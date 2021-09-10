@@ -12,6 +12,7 @@ import BlankPage from 'pages/test_page/BlankPage';
 import PageNotFound from 'pages/PageNotFound';
 import EmpresaPage from 'pages/empresa_page/EmpresaPage';
 import { checkPermission, getSessionInfo } from 'utils/common';
+import EntryQueryPage from 'pages/entry_query_page/EntryQueryPage';
 
 const Routes = (props) => {
   const session = getSessionInfo();
@@ -26,16 +27,20 @@ const Routes = (props) => {
           
           <PrivateRoute exact path="/error-info" {...props} component={ErrorInfoPage} />
           <PrivateRoute exact path="/report" {...props} component={ReportPage} />
+
           {checkPermission(session, "showUserCrud") && (
             <PrivateRoute exact path="/usuarios" {...props} component={UsersPage} />
           )}
           {checkPermission(session, "showCompanyCrud") && (
             <PrivateRoute exact path="/empresas" {...props} component={CompaniesPage} />
           )}
+
           <PrivateRoute exact path="/inicio" {...props} component={BlankPage} />
           <PrivateRoute exact path='/empresas/:companyId' {...props} component={EmpresaPage}/>
 
           <PrivateRoute exact path="/chat/:type/:chatId" {...props} component={MainPage} />
+
+          <PrivateRoute exact path="/consultas/:chatId" {...props} component={EntryQueryPage} />
 
           <Route path="/no-encontrado" component={PageNotFound}/>
           <Redirect from="*" to="/no-encontrado" />

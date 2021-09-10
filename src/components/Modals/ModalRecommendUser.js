@@ -43,7 +43,7 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-const ModalRecomendarUsuario = (props) => {
+const ModalRecommendUser = (props) => {
 
   const { open, handleClose } = props;
 
@@ -130,4 +130,4 @@ const ModalRecomendarUsuario = (props) => {
   )
 }
 
-export default ModalRecomendarUsuario
+export default ModalRecommendUser

@@ -5,6 +5,8 @@ export const sColorL = "#E68B6A";
 
 // Colors
 export const dangerColor = "#ff1744";
+export const infoColor = "#53EAE6";
 
 // Buttons
-export const successButtonColor = "#158851"; 
+export const successButtonColor = "#158851";
+

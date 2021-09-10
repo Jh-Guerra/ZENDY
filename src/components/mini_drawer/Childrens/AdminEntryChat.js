@@ -17,7 +17,7 @@ const styles = theme => ({
   },
 });
 
-const EntryChat = props => {
+const AdminEntryChat = props => {
   const { classes = {}, session } = props;
   const history = useHistory();
 
@@ -47,8 +47,10 @@ const EntryChat = props => {
     );
   };
 
-  const goToChat = (chat) => {
-    // history.push("/chat/empresa/" + id);
+  const goTo = (entryQuery) => {
+    if(entryQuery && entryQuery.id){
+      history.push("/consultas/" + entryQuery.id);
+    }
   }
 
   const onSaveForm = () => {
@@ -63,16 +65,9 @@ const EntryChat = props => {
     <div style={{height: "79vh"}}>
       <Grid container>
         <Grid item xs={12}>
-          <TabOptions
-            onSaveForm={onSaveForm}
-            onOpenModal={onOpenModal}
-            view="entryQueries"
-          />
-        </Grid>
-        <Grid item xs={12}>
           <div className="chatlist__heading">
             <span className="divider-line"></span>
-            <p className="divider-content"> Consultas </p>
+            <p className="divider-content"> Consultas Entrantes </p>
             <span className="divider-line"></span>
           </div>
           <br />
@@ -81,6 +76,7 @@ const EntryChat = props => {
           <Input
             fullWidth
             className="search_wrap"
+            style={{margin: "0px 0px 20px 0px"}}
             type="text"
             placeholder="Buscar consulta"
             onChange={event => onSearch(event.target.value)}
@@ -97,11 +93,10 @@ const EntryChat = props => {
         <Grid item xs={12}>
           {entryQueries.map((query, i) => {
             return (
-             // <p> asdasd </p>
                <ItemQueryRow
                  key={i}
                  query={query}
-                 goToChat={goToChat}
+                 goTo={goTo}
                />
             );
           })}
@@ -121,4 +116,4 @@ const EntryChat = props => {
   );
 };
 
-export default withStyles(styles, { withTheme: true })(EntryChat);
+export default withStyles(styles, { withTheme: true })(AdminEntryChat);

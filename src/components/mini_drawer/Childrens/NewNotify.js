@@ -1,6 +1,6 @@
 import { Grid } from "@material-ui/core";
 import React, { Component } from "react";
-import CustomButton from "components/CustomButtom";
+import CustomButton from "components/CustomButton";
 import { successButtonColor } from "assets/styles/zendy-css";
 import NotificationsNew from '@material-ui/icons/NotificationsActive';
 

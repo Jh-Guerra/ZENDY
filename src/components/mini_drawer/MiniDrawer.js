@@ -15,6 +15,7 @@ import EntryChat from './Childrens/EntryChat';
 import { updateLastRoute, updateLastTab } from 'services/actions/CommonAction';
 import { checkPermission, getSessionInfo } from 'utils/common';
 import { updateStatus } from 'services/actions/UserAction';
+import AdminEntryChat from './Childrens/AdminEntryChat';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -77,7 +78,7 @@ const MiniDrawer = (props) => {
 
   const handleChangeTab = (event, newTab) => {
     props.dispatch(updateLastTab(newTab || 0));
-    if(newTab==4){
+    if(newTab==5){
       setShowModalMoreActions(true);
     }else{
       setTab(newTab);
@@ -117,7 +118,10 @@ const MiniDrawer = (props) => {
                   <Tooltip title="Chats Vigentes">
                     <Tab className="mini-drawer-tab" icon={<CurrentChatIcon />} />
                   </Tooltip>
-                  <Tooltip style={{display: checkPermission(session, "createEntryQuery") ? "inline-flex" : "none" }} title={(session && session.role && ['1', '2'].includes(session.role.id)) ? "Consultas Entrantes" : "Consultas" }>
+                  <Tooltip style={{display: checkPermission(session, "createEntryQuery") ? "inline-flex" : "none" }} title="Consultas">
+                    <Tab className="mini-drawer-tab" icon={<PendingChatIcon />} />
+                  </Tooltip>
+                  <Tooltip style={{display: checkPermission(session, "adminEntryQuery") ? "inline-flex" : "none" }} title="Consultas Entrantes">
                     <Tab className="mini-drawer-tab" icon={<PendingChatIcon />} />
                   </Tooltip>
                   <Tooltip style={{display: checkPermission(session, "showTabCompany") ? "inline-flex" : "none" }} title="Empresas">
@@ -144,22 +148,25 @@ const MiniDrawer = (props) => {
               <EntryChat {...props} session={session}/>
             </TabPanel>
             <TabPanel value={tab} index={2} >
+              <AdminEntryChat {...props} session={session}/>
+            </TabPanel>
+            <TabPanel value={tab} index={3} >
               <EnterpriseChat
                 {...props}
                 goToView={goToView} />
             </TabPanel>
-            <TabPanel value={tab} index={3} >
+            <TabPanel value={tab} index={4} >
               <ReportedErrorChat 
                 {...props}
               />
             </TabPanel>
-            <TabPanel value={tab} index={5} >
+            <TabPanel value={tab} index={6} >
               <HistoryChat/>
             </TabPanel>
-            <TabPanel value={tab} index={6} >
+            <TabPanel value={tab} index={7} >
               <NotifyChat/>
             </TabPanel>
-            <TabPanel value={tab} index={7} >
+            <TabPanel value={tab} index={8} >
               <ReportList/>
             </TabPanel>
           </div> 

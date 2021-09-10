@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Grid, Typography } from "@material-ui/core";
 import CustomTable from 'components/CustomTable';
 import { deleteUser, findUser, listUsers } from 'services/actions/UserAction';
-import CustomButton from 'components/CustomButtom';
+import CustomButton from 'components/CustomButton';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import { successButtonColor } from 'assets/styles/zendy-css';
 import ModalUser from 'components/Modals/ModalUser';

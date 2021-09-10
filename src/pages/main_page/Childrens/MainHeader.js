@@ -18,7 +18,7 @@ const MainHeader = props => {
 
   const history = useHistory();
   const [showAcceptChat, setShowAcceptChat] = useState(false);
-  const [showRecomendarUsuario, setShowRecomendarUsuario] = useState(false)
+  const [showRecommendUser, setShowRecommendUser] = useState(false)
   const [showChatDetail, setShowChatDetail] = useState(false);
   const [showAddToConversation, setShowAddToConversation] = useState(false);
 
@@ -30,8 +30,8 @@ const MainHeader = props => {
       setShowAcceptChat(false);
   }
 
-  const handleRecomendarUsuario = () => {
-    setShowRecomendarUsuario(true);
+  const handleRecommendUser = () => {
+    setShowRecommendUser(true);
   }
 
   const handleChatDetail = () => {
@@ -103,16 +103,16 @@ const MainHeader = props => {
                 ),disableUnderline: true
               }}
             />
-            <IconButton onClick={handleRecomendarUsuario} className="chat-header-button"><PeopleAltIcon style={{ fontSize: 35 }} /></IconButton>
+            <IconButton onClick={handleRecommendUser} className="chat-header-button"><PeopleAltIcon style={{ fontSize: 35 }} /></IconButton>
             <IconButton onClick={handleAddToConversation} className="chat-header-button"><PersonAddIcon style={{ fontSize: 35 }} /></IconButton>
             <IconButton onClick={handleAcceptChat} className="chat-header-button"><MoreVertIcon style={{ fontSize: 40 }} /></IconButton>
           </Grid>              
         </Grid>
       </Grid>
       <CustomModal 
-        customModal="ModalRecomendarUsuario"
-        open={showRecomendarUsuario} 
-        handleClose={() => { setShowRecomendarUsuario(false); }}
+        customModal="ModalRecommendUser"
+        open={showRecommendUser} 
+        handleClose={() => { setShowRecommendUser(false); }}
       />
       <CustomModal 
         customModal="ModalAcceptChat"

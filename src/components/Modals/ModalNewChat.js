@@ -8,7 +8,7 @@ import BusinessIcon from '@material-ui/icons/Business';
 import PersonIcon from '@material-ui/icons/Person';
 import AddCommentIcon from '@material-ui/icons/AddComment';
 import { successButtonColor } from 'assets/styles/zendy-css';
-import CustomButton from "components/CustomButtom";
+import CustomButton from "components/CustomButton";
 import CustomModal from "components/Modals/common/CustomModal";
 import { useHistory } from 'react-router-dom';
 
