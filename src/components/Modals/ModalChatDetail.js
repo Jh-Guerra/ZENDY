@@ -32,6 +32,7 @@ const ModalChatDetail = props => {
   const { onClose } = props;
 
   const [openGroupChat, setOpenGroupChat] = React.useState(false);
+  const [openModalEndChat,setOpenModalEndChat] = React.useState(false);
 
   const onCloseModal = () => {
     onClose();
@@ -84,6 +85,9 @@ const ModalChatDetail = props => {
   const handleGroupChat = () => {
     setOpenGroupChat(true);
   }
+  const handleModalGroupChat = () => {
+    setOpenModalEndChat(true);
+  }
 
   const type = props.chatdata.type;
   var image;
@@ -127,6 +131,9 @@ const ModalChatDetail = props => {
             <Button variant="contained" startIcon={<InfoIcon />} style={{ height: '50px', width: '300px' }} onClick={handleGroupChat}>
               Detalles de chat
             </Button>
+            <Button variant="contained" startIcon={<InfoIcon />} style={{ height: '50px', width: '300px' }} onClick={handleModalGroupChat}>
+              Finalizar chat
+            </Button>
           </Grid>
           <Grid item xs={12}>
             {/* <Divider  className={classes.divider} variant="middle" /> */}
@@ -148,6 +155,11 @@ const ModalChatDetail = props => {
         customModal="ModalGroupChatDetail"
         open={openGroupChat} 
         handleClose={() => { setOpenGroupChat(false); }}
+      />
+      <CustomModal 
+        customModal="ModalEndChat"
+        open={openModalEndChat} 
+        handleClose={() => { setOpenModalEndChat(false); }}
       />
     </>
   );
