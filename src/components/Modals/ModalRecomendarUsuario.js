@@ -1,4 +1,4 @@
-import { Checkbox, Divider, Grid, makeStyles } from '@material-ui/core';
+import { Checkbox, Divider, Grid, makeStyles, InputAdornment, Typography } from '@material-ui/core';
 import React from 'react'
 import ModalBody from './common/ModalBody'
 import ModalHeader from './common/ModalHeader'
@@ -17,7 +17,11 @@ import InputBase from '@material-ui/core/InputBase';
 import IconButton from '@material-ui/core/IconButton';
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
 import ModalFooter from './common/ModalFooter';
-
+import { listAvailableUsers } from 'services/actions/UserAction';
+import { showBackdrop, showSnackBar } from 'services/actions/CustomAction';
+import config from 'config/Config';
+import { pColor } from 'assets/styles/zendy-css';
+import { getImageProfile } from "utils/common";
 
 const useStyles = makeStyles(theme => ({
     buttonIcon: {
@@ -49,21 +53,45 @@ const ModalRecomendarUsuario = (props) => {
 
   const classes = useStyles();
 
-  const [checked, setChecked] = React.useState([1]);
-    
-  const handleToggle = (value) => () => {
-      const currentIndex = checked.indexOf(value);
-      const newChecked = [...checked];
-  
-      if (currentIndex === -1) {
-        newChecked.push(value);
-      } else {
-        newChecked.splice(currentIndex, 1);
-      }
-  
-      setChecked(newChecked);
-  };
+  const [users, setUsers] = React.useState([]);
+  const [searchTimeout, setSearchTimeout] = React.useState(null);
+  const [term, setTerm] = React.useState('');
 
+  React.useEffect(() => {
+    if(open){
+      onListAvailableUsers();
+      setTerm("");
+    }
+  }, [open]);
+
+  const onListAvailableUsers = (term) => {
+    props.dispatch(showBackdrop(true));
+    props.dispatch(listAvailableUsers(["Admin", "UserHD"], term)).then(res => {
+      setUsers(res || []);
+      props.dispatch(showBackdrop(false));
+    }).catch(err => props.dispatch(showBackdrop(false)));;
+  }
+
+  const onSearch = (term) => {
+    clearTimeout(searchTimeout);
+    setTerm(term);
+    setSearchTimeout(
+      setTimeout(() => {
+        onListAvailableUsers(term);
+      }, 1000)
+    )
+  }
+
+  const onSelectUser = (user) => {
+    const updatedUsers = [...users] || [];
+    updatedUsers.map(u => {
+      if(u.id == user.id){
+        u.checked = u.checked ? false : true;
+      }
+    });
+    setUsers(updatedUsers);
+  }
+    
   return (
     <Modal 
       open={open} 
@@ -77,46 +105,61 @@ const ModalRecomendarUsuario = (props) => {
         />
 
         <ModalBody>
-          <Grid container spacing={3}>
-            <Grid item xs={12}>
-              <Paper style={{margin:'0px 0px 20px 0px'}} component="form" >
-                <IconButton style={{marginLeft:'5px'}} type="button" className={classes.iconButton} aria-label="search">
-                  <SearchIcon />
-                </IconButton>
+        <Grid container spacing={3}>
+          <Grid item xs={12}>
+            <Paper style={{ margin: '0px 0px 20px 0px' }} component="form" >
+              <Grid container direction="row" >
                 <InputBase
                   className={classes.input}
+                  fullWidth={true}
+                  style={{ flex: 1, width: '80%' }}
                   placeholder="Buscar contactos"
+                  onChange={(event) => onSearch(event.target.value)}
                   inputProps={{ 'aria-label': 'Buscar contactos' }}
+                  startAdornment={
+                    <InputAdornment position="start" tyle={{ marginLeft: '5px' }} type="button" className={classes.iconButton} aria-label="search">
+                      <SearchIcon />
+                    </InputAdornment>}
+                  value={term}
                 />
-              </Paper>
-              <Divider />
-            </Grid>
+              </Grid>
+            </Paper>
+            <Divider />
+          </Grid>
             <Grid item xs={12}>
-              <List dense>
-                {[0, 1, 2, 3].map((value) => {
-                  const labelId = `checkbox-list-secondary-label-${value}`;
+            <List style={{ padding: "0px", maxHeight: "550px", overflow: "auto" }}>
+              {
+                users.map((user, i) => {
+                  if (!user.checked) user.checked = false;
                   return (
-                  <ListItem key={value} button divider>
-                    <ListItemAvatar>
-                      <Avatar
-                          alt={`Avatar n°${value + 1}`}
-                          src="https://w7.pngwing.com/pngs/847/821/png-transparent-lisa-simpson-maggie-simpson-drawing-marge-simpson-others-text-hand-head.png"
+                    <ListItem key={i} button divider onClick={() => { onSelectUser(user) }}>
+                      <ListItemAvatar>
+                        <Avatar alt="" src={user.avatar ? (config.api + user.avatar) : getImageProfile(user.sex)} />
+                      </ListItemAvatar>
+                      <ListItemText
+                        primary={`${user.firstName} ${user.lastName}`}
                       />
-                    </ListItemAvatar>
-                    <ListItemText style={{marginLeft:'7px'}} id={labelId} primary={`Lisa Simpons ${value + 1}`} className={classes.letters} />
-                    <ListItemSecondaryAction>
-                      <Checkbox
-                          edge="end"
-                          onChange={handleToggle(value)}
-                          checked={checked.indexOf(value) !== -1}
-                          inputProps={{ 'aria-labelledby': labelId }}
-                          icon={<RadioButtonUncheckedIcon />} 
-                          checkedIcon={<RadioButtonCheckedIcon style={{color:'#4F1B66'}}/>}           
-                      />
-                    </ListItemSecondaryAction>     
+                      <ListItemSecondaryAction>
+                        <Checkbox
+                          checked={user.checked || false}
+                          onChange={() => { onSelectUser(user) }}
+                          icon={<RadioButtonUncheckedIcon />}
+                          checkedIcon={<RadioButtonCheckedIcon style={{ color: pColor }} />}
+                        />
+                      </ListItemSecondaryAction>
+                    </ListItem>
+                  )
+                })
+              }
+              {
+                users.length === 0 && (
+                  <ListItem divider style={{ padding: '12px 55px 12px 55px' }}>
+                    <ListItemText
+                      primary={`USUARIO NO ENCONTRADO `}
+                    />
                   </ListItem>
-                  );
-                })}
+                )
+              }
               </List>
             </Grid> 
           </Grid>
