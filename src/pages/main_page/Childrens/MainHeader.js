@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import ChatAvatar from "pages/main_page/Components/ChatAvatar";
 import IconButton from '@material-ui/core/IconButton';
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
-import { Grid, TextField, Typography } from "@material-ui/core";
+import { Grid, TextField, Tooltip, Typography } from "@material-ui/core";
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import SearchIcon from '@material-ui/icons/Search';
 import InputAdornment from '@material-ui/core/InputAdornment';
@@ -92,7 +92,7 @@ const MainHeader = props => {
         <Grid item xs={6}>
           <Grid container className="chat-header-buttons">
             <TextField className="search_wrap" 
-              style={{paddingLeft: '20px'}}
+              style={{paddingLeft: '20px', paddingRight:'20px'}}
               type="text"
               placeholder="Buscar..."
               InputProps={{
@@ -103,9 +103,12 @@ const MainHeader = props => {
                 ),disableUnderline: true
               }}
             />
-            <IconButton onClick={handleRecommendUser} className="chat-header-button"><PeopleAltIcon style={{ fontSize: 35 }} /></IconButton>
-            <IconButton onClick={handleAddToConversation} className="chat-header-button"><PersonAddIcon style={{ fontSize: 35 }} /></IconButton>
-            <IconButton onClick={handleAcceptChat} className="chat-header-button"><MoreVertIcon style={{ fontSize: 40 }} /></IconButton>
+            <Tooltip title="Recomendar Usuario">
+              <IconButton onClick={handleRecommendUser} className="chat-header-button"><PeopleAltIcon style={{ fontSize: 35 }} /></IconButton>
+            </Tooltip>
+            <Tooltip title="Agregar a la conversación">
+              <IconButton onClick={handleAddToConversation} className="chat-header-button"><PersonAddIcon style={{ fontSize: 35 }} /></IconButton>
+            </Tooltip>
           </Grid>              
         </Grid>
       </Grid>
