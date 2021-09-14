@@ -112,6 +112,19 @@ class UserService {
             } }
     )}
 
+    async listAvailableUsersSameCompany(type, term) {
+        return await axios.post(
+            config.apiVersion + `users/list-available-sameCompany`,
+            { roles: type },
+            { 
+                headers: {
+                    ...config.headers, 
+                    Authorization: `token ${JSON.parse(localStorage.getItem('session')).token || ''}` 
+                },
+                params: { term }
+            }
+    )}
+
 }
 
 export default UserService;
