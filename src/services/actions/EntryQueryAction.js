@@ -27,3 +27,8 @@ export const deleteEntryQuery = (id) => async dispatch => {
     const res = await service.deleteEntryQuery(id);
     return res && res.data || [];
 }
+
+export const listQueries = (term) => async dispatch => {
+    const res = await service.listQueries(term);
+    return res && res.data || [];
+}

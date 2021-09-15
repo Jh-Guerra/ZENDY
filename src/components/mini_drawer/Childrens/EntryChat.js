@@ -6,9 +6,11 @@ import SearchIcon from '@material-ui/icons/Search'
 import { listClientChats } from 'services/actions/ChatAction';
 import { useHistory } from 'react-router-dom';
 import { showBackdrop } from 'services/actions/CustomAction';
-import { listPendingQueries } from 'services/actions/EntryQueryAction';
+import { listPendingQueries, listQueries } from 'services/actions/EntryQueryAction';
 import TabOptions from './TabOptions';
 import CustomModal from 'components/Modals/common/CustomModal';
+import { getSessionInfo } from "utils/common";
+
 
 const styles = theme => ({
   search: {
@@ -25,6 +27,8 @@ const EntryChat = props => {
   const [searchTimeout, setSearchTimeout] = React.useState(null);
   const [showModalEntryChat, setShowModalEntryChat] = React.useState(false);
 
+  const role = session && session.role || {};
+
 
   React.useEffect(() => {
     onList("");
@@ -32,10 +36,17 @@ const EntryChat = props => {
 
   const onList = (term) => {
     props.dispatch(showBackdrop(true));
-    props.dispatch(listPendingQueries(term)).then(res => {
-      setEntryQueries(res || []);
-      props.dispatch(showBackdrop(false));
-    }).catch(err => props.dispatch(showBackdrop(false)));;
+    if(role.name == 'UserEmpresa'){
+      props.dispatch(listQueries(term)).then(res => {
+        setEntryQueries(res || []);
+        props.dispatch(showBackdrop(false));
+      }).catch(err => props.dispatch(showBackdrop(false)));;
+    } else {
+      props.dispatch(listPendingQueries(term)).then(res => {
+        setEntryQueries(res || []);
+        props.dispatch(showBackdrop(false));
+      }).catch(err => props.dispatch(showBackdrop(false)));;
+    }
   };
 
   const onSearch = term => {
@@ -47,8 +58,8 @@ const EntryChat = props => {
     );
   };
 
-  const goToChat = (chat) => {
-    // history.push("/chat/empresa/" + id);
+  const goTo = (query) => {
+     history.push("/consultas/" + query.id);
   }
 
   const onSaveForm = () => {
@@ -101,7 +112,7 @@ const EntryChat = props => {
                <ItemQueryRow
                  key={i}
                  query={query}
-                 goToChat={goToChat}
+                 goTo={goTo}
                />
             );
           })}
