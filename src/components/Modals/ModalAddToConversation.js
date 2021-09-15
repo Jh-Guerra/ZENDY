@@ -1,4 +1,4 @@
-import { Checkbox, Divider, Grid, makeStyles, Typography} from '@material-ui/core';
+import { Checkbox, Divider, Grid, makeStyles, Typography, InputAdornment} from '@material-ui/core';
 import React from 'react'
 import ModalBody from './common/ModalBody'
 import ModalHeader from './common/ModalHeader'
@@ -17,10 +17,102 @@ import InputBase from '@material-ui/core/InputBase';
 import IconButton from '@material-ui/core/IconButton';
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
 import ModalFooter from './common/ModalFooter';
+import { listAvailableUsers, listAvailableUsersSameCompany } from 'services/actions/UserAction';
+import { showBackdrop, showSnackBar } from 'services/actions/CustomAction';
+import config from 'config/Config';
+import { pColor } from 'assets/styles/zendy-css';
+import { getImageProfile , getSessionInfo} from "utils/common";
+
+const useStyles = makeStyles(theme => ({
+  buttonIcon: {
+      width: '30px',
+      marginRight: '10px'
+  },
+  letters:{
+      fontSize:'20px',
+      fontStyle:'oblique',
+      fontWeight:'bold'
+  },
+  input: {
+      marginLeft: theme.spacing(1),
+      flex: 1,
+      width: '80%'
+  },
+  iconButton: {
+      padding: 10,
+  },
+  divider: {
+      height: 28,
+      margin: 4,
+  },
+}));
 
 const ModalAddToConversation = (props) => {
 
   const { open, handleClose } = props;
+  const classes = useStyles();
+
+  const [users, setUsers] = React.useState([]);
+  const [usersSC, setUsersSC] = React.useState([]);
+  const [searchTimeout, setSearchTimeout] = React.useState(null);
+  const [term, setTerm] = React.useState('');
+  const session = getSessionInfo();
+  const userAc = session && session.user || {};
+
+  React.useEffect(() => {
+    if(open){
+      onListAvailableUsers();
+      onListAvailableUsersSameCompany();
+      setTerm("");
+    }
+  }, [open]);
+
+  const onListAvailableUsers = (term) => {
+    props.dispatch(showBackdrop(true));
+    props.dispatch(listAvailableUsers(["Admin", "UserHD"], term)).then(res => {
+      setUsers(res || []);
+      props.dispatch(showBackdrop(false));
+    }).catch(err => props.dispatch(showBackdrop(false)));;
+  }
+
+  const onListAvailableUsersSameCompany = (term) => {
+    props.dispatch(showBackdrop(true));
+    props.dispatch(listAvailableUsersSameCompany(["UserEmpresa"], term)).then(res => {
+      setUsersSC(res || []);
+      props.dispatch(showBackdrop(false));
+    }).catch(err => props.dispatch(showBackdrop(false)));;
+  }
+
+  const onSearch = (term) => {
+    clearTimeout(searchTimeout);
+    setTerm(term);
+    setSearchTimeout(
+      setTimeout(() => {
+        onListAvailableUsers(term);
+        onListAvailableUsersSameCompany(term);
+      }, 1000)
+    )
+  }
+
+  const onSelectUser = (user) => {
+    const updatedUsers = [...users] || [];
+    updatedUsers.map(u => {
+      if(u.id == user.id){
+        u.checked = u.checked ? false : true;
+      }
+    });
+    setUsers(updatedUsers);
+  }
+
+  const onSelectUserSameCompany = (user) => {
+    const updatedUsers = [...usersSC] || [];
+    updatedUsers.map(u => {
+      if(u.id == user.id){
+        u.checked = u.checked ? false : true;
+      }
+    });
+    setUsersSC(updatedUsers);
+  }
   
   return (
     <Modal 
@@ -33,106 +125,105 @@ const ModalAddToConversation = (props) => {
       text="Agregar a la conversación"   
     />
     <ModalBody>
-      <Grid container spacing={3}>
-        <Grid item xs={12}>
-          <Paper component="form">
-            <IconButton style={{marginLeft:'5px', padding:10}} aria-label="search">
-              <SearchIcon />
-            </IconButton>             
-              <InputBase  
-                style={{flex: 1, width: '80%'}}                   
-                placeholder="Buscar..."              
-              />
-          </Paper>
-          <Divider />
-         </Grid>
-        <Grid item xs={12}>
-          <Typography style={{fontWeight:"bold"}}>ERP Usuarios</Typography>
-          <List>
-            <ListItem>
-              <ListItemAvatar>
-                <Avatar alt="LisaSimpson" src="" />
-              </ListItemAvatar>
-                <ListItemText
-                  primary="Lisa Simpson"
-                  secondary={
-                  <React.Fragment>
-                    <Typography variant="body2">Nombre ERP</Typography>                                                   
-                  </React.Fragment>
-                  }
+        <Grid container spacing={3}>
+          <Grid item xs={12}>
+            <Paper style={{ margin: '0px 0px 20px 0px' }} component="form" >
+              <Grid container direction="row" >
+                <InputBase
+                  className={classes.input}
+                  fullWidth={true}
+                  style={{ flex: 1, width: '80%' }}
+                  placeholder="Buscar contactos"
+                  onChange={(event) => onSearch(event.target.value)}
+                  inputProps={{ 'aria-label': 'Buscar contactos' }}
+                  startAdornment={
+                    <InputAdornment position="start" tyle={{ marginLeft: '5px' }} type="button" className={classes.iconButton} aria-label="search">
+                      <SearchIcon />
+                    </InputAdornment>}
+                  value={term}
                 />
-                  <ListItemSecondaryAction>
-                    <Checkbox                  
-                      icon={<RadioButtonUncheckedIcon />} 
-                      checkedIcon={<RadioButtonCheckedIcon style={{color:'#4F1B66'}}/>}           
+              </Grid>
+            </Paper>
+            <Divider />
+          </Grid>
+          <Grid item xs={12}>
+            <Typography style={{ fontWeight: "bold" }}>ERP Usuarios</Typography>
+
+            <List style={{ padding: "0px", maxHeight: "550px", overflow: "auto" }}>
+              {
+                users.map((user, i) => {
+                  if (!user.checked) user.checked = false;
+                  return (
+                    <ListItem key={i} button divider onClick={() => { onSelectUser(user) }}>
+                      <ListItemAvatar>
+                        <Avatar alt="" src={user.avatar ? (config.api + user.avatar) : getImageProfile(user.sex)} />
+                      </ListItemAvatar>
+                      <ListItemText
+                        primary={`${user.firstName} ${user.lastName}`}
+                      />
+                      <ListItemSecondaryAction>
+                        <Checkbox
+                          checked={user.checked || false}
+                          onChange={() => { onSelectUser(user) }}
+                          icon={<RadioButtonUncheckedIcon />}
+                          checkedIcon={<RadioButtonCheckedIcon style={{ color: pColor }} />}
+                        />
+                      </ListItemSecondaryAction>
+                    </ListItem>
+                  )
+                })
+              }
+              {
+                users.length === 0 && (
+                  <ListItem divider style={{ padding: '12px 55px 12px 55px' }}>
+                    <ListItemText
+                      primary={`USUARIO NO ENCONTRADO `}
                     />
-                  </ListItemSecondaryAction>
-              </ListItem>
-            <Divider variant="inset" />
-            <ListItem>
-              <ListItemAvatar>
-                <Avatar alt="MargeSimpsons" src="" />
-              </ListItemAvatar>
-                <ListItemText
-                  primary="Marge Simpsons"
-                  secondary={
-                    <React.Fragment>
-                      <Typography variant="body2">Nombre ERP</Typography>      
-                    </React.Fragment>
-                  }
-                />
-                  <ListItemSecondaryAction>
-                    <Checkbox    
-                      icon={<RadioButtonUncheckedIcon />} 
-                      checkedIcon={<RadioButtonCheckedIcon style={{color:'#4F1B66'}}/>}           
-                    />
-                  </ListItemSecondaryAction>
-              </ListItem>
+                  </ListItem>
+                )
+              }
+            </List>
+
+
             <Divider variant="inset" />
             <br />
-            <Typography style={{fontWeight:"bold"}}>Usuarios de la Empresa</Typography>
-            <ListItem>
-              <ListItemAvatar>
-                <Avatar alt="MilhausVanHouten" src="" />
-              </ListItemAvatar>      
-                <ListItemText
-                  primary="Milhaus Van Houten"
-                  secondary={
-                    <React.Fragment>
-                      <Typography  variant="body2">Nombre Empresa</Typography>
-                    </React.Fragment>
-                  }
-                />
-                  <ListItemSecondaryAction>
-                    <Checkbox
-                      icon={<RadioButtonUncheckedIcon />} 
-                      checkedIcon={<RadioButtonCheckedIcon style={{color:'#4F1B66'}}/>}           
+            <Typography style={{ fontWeight: "bold" }}>Usuarios de la Empresa</Typography>
+            <List style={{ padding: "0px", maxHeight: "550px", overflow: "auto" }}>
+              {
+                usersSC.map((user, i) => {
+                  if (!user.checked) user.checked = false;
+                  return (
+                    <ListItem key={i} button divider onClick={() => { onSelectUserSameCompany(user) }}>
+                      <ListItemAvatar>
+                        <Avatar alt="" src={user.avatar ? (config.api + user.avatar) : getImageProfile(user.sex)} />
+                      </ListItemAvatar>
+                      <ListItemText
+                        primary={`${user.firstName} ${user.lastName}`}
+                      />
+                      <ListItemSecondaryAction>
+                        <Checkbox
+                          checked={user.checked || false}
+                          onChange={() => { onSelectUserSameCompany(user) }}
+                          icon={<RadioButtonUncheckedIcon />}
+                          checkedIcon={<RadioButtonCheckedIcon style={{ color: pColor }} />}
+                        />
+                      </ListItemSecondaryAction>
+                    </ListItem>
+                  )
+                })
+              }
+              {
+                usersSC.length === 0 && (
+                  <ListItem divider style={{ padding: '12px 55px 12px 55px' }}>
+                    <ListItemText
+                      primary={`USUARIO NO ENCONTRADO `}
                     />
-                  </ListItemSecondaryAction>
-              </ListItem>
-              <Divider variant="inset" />
-              <ListItem alignItems="flex-start">
-                <ListItemAvatar>
-                  <Avatar alt="MoeSzyslak" src="" />
-                </ListItemAvatar>            
-                  <ListItemText
-                    primary="Moe Szyslak"
-                    secondary={
-                      <React.Fragment>
-                        <Typography variant="body2">Nombre Empresa</Typography> 
-                      </React.Fragment>
-                    }
-                  />
-                    <ListItemSecondaryAction>
-                      <Checkbox
-                        icon={<RadioButtonUncheckedIcon />} 
-                        checkedIcon={<RadioButtonCheckedIcon style={{color:'#4F1B66'}}/>}           
-                    />
-                    </ListItemSecondaryAction>
-              </ListItem> 
-          </List>  
-        </Grid> 
-      </Grid>
+                  </ListItem>
+                )
+              }
+            </List>
+          </Grid>
+        </Grid>
     </ModalBody>
     <ModalFooter 
       confirmText={"Añadir"}

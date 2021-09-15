@@ -53,4 +53,8 @@ export const findUserStatusOn = (id, data) => async dispatch => {
     const res = await userService.findUserStatusOn(id, data);
     return res && res.data || [];
 }
+export const listAvailableUsersSameCompany = (type, term) => async dispatch => {
+    const res = await userService.listAvailableUsersSameCompany(type, term);
+    return res && res.data || [];
+}
 
