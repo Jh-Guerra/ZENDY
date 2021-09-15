@@ -36,6 +36,11 @@ class EntryQueryService {
     async deleteEntryQuery(id) {
         return await axios.delete( getCustomUrl(`/delete/${id}`), defaultHeaders() )
     }
+
+    async listQueries(term) {
+        return await axios.get( getCustomUrl(`/list-query?term=${term}`), defaultHeaders());
+    }
+
 }
 
 export default EntryQueryService;
