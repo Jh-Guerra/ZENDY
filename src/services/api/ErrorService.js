@@ -1,29 +1,57 @@
 import axios from '../../utils/axios';
 import config from "../../config/Config";
-import { defaultHeaders, getCustomUrl } from 'utils/common';
-
-const apiPrefix = config.apiVersion + "errors";
-
 class ErrorService {    
     async createError(data) {
-        return await axios.post( getCustomUrl(apiPrefix, `/register`), data, defaultHeaders() );
-    }
+        return await axios.post( 
+            config.apiVersion + `errors/register`, 
+            data,
+            { 
+                headers: { 
+                    ...config.headers, 
+                    Authorization: `token ${JSON.parse(localStorage.getItem('session')).token || ''}` }
+            } 
+    )}
 
     async findError(id) {
-        return await axios.get( getCustomUrl(apiPrefix, `/find/${id}`), defaultHeaders() );
-    }
+        return await axios.get( 
+            config.apiVersion + `errors/find/` + id, 
+            { 
+                headers: { 
+                    ...config.headers, 
+                    Authorization: `token ${JSON.parse(localStorage.getItem('session')).token || ''}` }
+            } 
 
-    async listErrors(term) {
-        return await axios.get( getCustomUrl(apiPrefix, `/list?term=${term}`), defaultHeaders());
-    }
+    )}
 
-    async listErrorsByUser(term) {
-        return await axios.get( getCustomUrl(apiPrefix, `/list-by-user?term=${term}`), defaultHeaders());
-    }
+    async listErrors(term="") {
+        return await axios.get( 
+            config.apiVersion + `errors/list?term=${term}`, 
+            { 
+                headers: { 
+                    ...config.headers, 
+                    Authorization: `token ${JSON.parse(localStorage.getItem('session')).token || ''}` }
+            } 
+    )}
+
+    async listErrorsByUser(term="") {
+        return await axios.get( 
+            config.apiVersion + `errors/list-by-user?term=${term}`, 
+            { 
+                headers: { 
+                    ...config.headers, 
+                    Authorization: `token ${JSON.parse(localStorage.getItem('session')).token || ''}` }
+            }
+    )}
 
     async deleteError(id) {
-        return await axios.delete( getCustomUrl(apiPrefix, `/delete/${id}`), defaultHeaders() )
-    }
+        return await axios.delete( 
+            config.apiVersion + `errors/delete/` + id, 
+            { 
+                headers: { 
+                    ...config.headers, 
+                    Authorization: `token ${JSON.parse(localStorage.getItem('session')).token || ''}` }
+            }  
+    )}
 }
 
 export default ErrorService;
