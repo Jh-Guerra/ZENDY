@@ -12,6 +12,7 @@ import ModalChatDetail from '../ModalChatDetail';
 import ModalAddToConversation from '../ModalAddToConversation';
 import ModalResendMessage from '../ModalResendMessage';
 import ModalEntryQuery from '../ModalEntryQuery';
+import ModalReportedErrors from '../ModalReportedErrors';
 
 const CustomModal = (props) => {
     const getCustomModal = (customModal) => {
@@ -38,6 +39,8 @@ const CustomModal = (props) => {
                 return <ModalResendMessage {...props}/>
             case "ModalEntryQuery":
                 return <ModalEntryQuery {...props}/>
+            case "ModalReportedErrors":
+                return <ModalReportedErrors {...props}/>
 
             default:
                 return null;

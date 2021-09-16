@@ -55,7 +55,7 @@ const TabOptions = (props) => {
           }
         </Grid>
         <CustomModal
-          customModal={'ModalNewChat'}
+          customModal={'ModalReportedErrors'}
           open={open}
           handleClose={() => handleClose()}
           onSaveForm={onSaveForm}
