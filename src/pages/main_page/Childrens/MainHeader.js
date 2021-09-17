@@ -9,11 +9,12 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 import CustomModal from "components/Modals/common/CustomModal";
 import { useHistory, withRouter } from "react-router-dom";
 import config from "config/Config";
-import { getImageProfile } from "utils/common";
+import { getImageProfile, getSessionInfo } from "utils/common";
 import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
 
 const MainHeader = props => {
-
+  const session = getSessionInfo();
+  const user = session && session.user;
   const { chat={} } = props;
 
   const history = useHistory();
@@ -44,19 +45,24 @@ const MainHeader = props => {
 
   const type = chat.type || "";
   var image;
-  var name;
+  var name = "";
   var defaultImageType;
   var isOnline;
 
-  if(type == "Empresa"){
+
+  if(chat.participants && chat.participants.length > 2){
     image = chat.company && chat.company.avatar || "";
     defaultImageType = "Company";
-    name = chat.company && (chat.company.name) || '';
+    name = chat.name || '';
   }else{
-    image = chat.receiver && chat.receiver.avatar || "";
-    defaultImageType = chat.receiver && chat.receiver.sex || "O";
-    name = chat.receiver && (chat.receiver.firstName + ' ' + chat.receiver.lastName) || "";
-    isOnline = chat.receiver && chat.receiver.isOnline || "";
+    chat.participants && chat.participants.map(participant => {
+      if(participant.id != user.id){
+        image = participant.avatar || "";
+        defaultImageType = participant.sex || "O";
+        isOnline = (participant.isOnline) ? 'active' : '';
+      }
+    })    
+    name = chat.name || "";
   }
 
   return (
@@ -78,7 +84,7 @@ const MainHeader = props => {
                 <Typography style={{fontSize:"25px", color:"white"}}>{name}</Typography>
               </div>
                 {
-                  (isOnline == 1) ?
+                  (isOnline == "active") ?
               (<Typography style={{fontSize:"20px", color:"white", marginLeft:"30px"}}>
                  <span className="online-icon"/>En linea</Typography> )
                  :      
@@ -126,7 +132,7 @@ const MainHeader = props => {
         customModal="ModalChatDetail"
         open={showChatDetail} 
         onClose={()=> { setShowChatDetail(false) }}
-        chatdata={chat}
+        chat={chat}
       />
       <CustomModal 
         customModal="ModalAddToConversation"

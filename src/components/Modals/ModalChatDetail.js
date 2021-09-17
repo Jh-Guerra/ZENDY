@@ -8,7 +8,7 @@ import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
 import CustomModal from "components/Modals/common/CustomModal";
 import config from 'config/Config';
-import { getImageProfile } from 'utils/common';
+import { getImageProfile, getSessionInfo } from 'utils/common';
 
 const useStyles = makeStyles(theme => ({
   gridList: {
@@ -27,9 +27,11 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const ModalChatDetail = props => {
+  const session = getSessionInfo();
+  const user = session && session.user;
   const classes = useStyles();
 
-  const { onClose } = props;
+  const { onClose, chat } = props;
 
   const [openGroupChat, setOpenGroupChat] = React.useState(false);
 
@@ -85,20 +87,24 @@ const ModalChatDetail = props => {
     setOpenGroupChat(true);
   }
 
-  const type = props.chatdata.type;
+  const type = chat.type;
   var image;
   var name;
   var defaultImageType;
-  var companyNamechat = props.chatdata.company && props.chatdata.company.name;
+  var companyNamechat = chat.company && chat.company.name;
 
-  if(type == "Empresa"){
-    image = props.chatdata.company && props.chatdata.company.avatar || "";
+  if(chat.participants && chat.participants.length > 2){
+    image = chat.company && chat.company.avatar || "";
     defaultImageType = "Company";
-    name = props.chatdata.company && (props.chatdata.company.name) || '';
+    name = chat.name || '';
   }else{
-    image = props.chatdata.receiver && props.chatdata.receiver.avatar || "";
-    defaultImageType = props.chatdata.receiver && props.chatdata.receiver.sex || "O";
-    name = props.chatdata.receiver && (props.chatdata.receiver.firstName + ' ' + props.chatdata.receiver.lastName) || "";
+    chat.participants && chat.participants.map(participant => {
+      if(participant.id != user.id){
+        image = participant.avatar || "";
+        defaultImageType = participant.sex || "O";
+      }
+    })    
+    name = chat.name || "";
   }
 
   return (
@@ -148,6 +154,7 @@ const ModalChatDetail = props => {
         customModal="ModalGroupChatDetail"
         open={openGroupChat} 
         handleClose={() => { setOpenGroupChat(false); }}
+        chat={chat}
       />
     </>
   );

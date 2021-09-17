@@ -2,10 +2,11 @@ import React, { Component, createRef } from "react";
 import config from 'config/Config';
 
 import ItemAvatar from "./ItemAvatar";
-import { getImageProfile } from 'utils/common';
+import { getImageProfile, getSessionInfo } from 'utils/common';
 
 const ItemAvatarRow = (props) => {
-
+  const session = getSessionInfo();
+  const user = session && session.user;
   const { chat={} } = props;
 
   const type = chat.type;
@@ -13,19 +14,24 @@ const ItemAvatarRow = (props) => {
   var name;
   var defaultImageType;
 
-  if(type == "Empresa"){
+  var isOnline = '';
+  if(chat.participants && chat.participants.length > 2){
     image = chat.company && chat.company.avatar || "";
     defaultImageType = "Company";
-    name = chat.company && (chat.company.name) || '';
+    name = chat.name || '';
   }else{
-    image = chat.receiver && chat.receiver.avatar || "";
-    defaultImageType = chat.receiver && chat.receiver.sex || "O";
-    name = chat.receiver && (chat.receiver.firstName + ' ' + chat.receiver.lastName) || "";
+    chat.participants.map(participant => {
+      if(participant.id != user.id){
+        image = participant.avatar || "";
+        defaultImageType = participant.sex || "O";
+        isOnline = (participant.isOnline) ? 'active' : '';
+      }
+    })    
+    name = chat.name || "";
   }
 
   const message = chat.lastMessage || '...';
   const hour = chat.lastMessageHour || '00:00';
-  const isOnline = (chat.receiver && chat.receiver.isOnline) ? 'active' : '';
 
   const onClickAction = (chat) => {
     props.goToChat && props.goToChat(chat);
