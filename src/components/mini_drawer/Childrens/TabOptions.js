@@ -3,21 +3,11 @@ import React, { Component } from 'react';
 import RateReviewIcon from '@material-ui/icons/RateReview';
 import CustomButton from 'components/CustomButton';
 import { successButtonColor } from 'assets/styles/zendy-css';
-import CustomModal from 'components/Modals/common/CustomModal';
+import ErrorIcon from '@material-ui/icons/Error';
 
 const TabOptions = (props) => {
 
   const { onSaveForm, onOpenModal, view } = props;
-
-  const [open, setOpen] = React.useState(false);
-
-  const handleClickOpen = () => {
-    setOpen(true);
-  }
-
-  const handleClose = () => {
-    setOpen(false);
-  }
 
   return (
     <>
@@ -28,10 +18,10 @@ const TabOptions = (props) => {
               <Grid item xs={6}>
                 <CustomButton
                   fullWidth
-                  onClick={() => handleClickOpen()}
+                  onClick={() => { onOpenModal && onOpenModal() }}
                   variant="contained"
                   customColor={successButtonColor}
-                  startIcon={<RateReviewIcon />}
+                  startIcon={<ErrorIcon />}
                 >
                   Reportar Error
                 </CustomButton>
@@ -54,12 +44,6 @@ const TabOptions = (props) => {
             )
           }
         </Grid>
-        <CustomModal
-          customModal={'ModalReportedErrors'}
-          open={open}
-          handleClose={() => handleClose()}
-          onSaveForm={onSaveForm}
-        />
       </div>
     </>
   );

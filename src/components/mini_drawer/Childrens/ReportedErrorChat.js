@@ -10,12 +10,15 @@ import ItemErrorRow from '../Components/ItemErrorRow';
 import { listErrors, listErrorsByUser } from 'services/actions/ErrorAction';
 import { getSessionInfo, isClientUser } from 'utils/common';
 import TabOptions from './TabOptions';
+import CustomModal from 'components/Modals/common/CustomModal';
 
 const ReportedErrorChat = props => {
   const history = useHistory();
 
   const [errors, setErrors] = React.useState([]);
   const [searchTimeout, setSearchTimeout] = React.useState(null);
+
+  const [showReportedErrorModal, setShowReportedErrorModal] = React.useState(false);
 
   React.useEffect(() => {
     onList('');
@@ -54,6 +57,10 @@ const ReportedErrorChat = props => {
     );
   };
 
+  const openReportedErrorModal = () => {
+    setShowReportedErrorModal(true);
+  }
+
   const goTo = error => {
     // history.push("/errors/" + error.id);
   };
@@ -69,6 +76,7 @@ const ReportedErrorChat = props => {
           <TabOptions 
             onSaveForm={onSaveForm} 
             view="reportedErrors"
+            onOpenModal={openReportedErrorModal}
           />
         </Grid>
         <Grid item xs={12} container>
@@ -107,6 +115,12 @@ const ReportedErrorChat = props => {
           </Grid>
         </Grid>
       </Grid>
+      <CustomModal
+          customModal={'ModalReportedErrors'}
+          open={showReportedErrorModal}
+          handleClose={() => setShowReportedErrorModal(false)}
+          onSaveForm={onSaveForm}
+        />
     </div>
   );
 };
