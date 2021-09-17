@@ -3,12 +3,9 @@ import ItemQueryRow from '../Components/ItemQueryRow';
 import { withStyles } from '@material-ui/core/styles';
 import { Input, InputAdornment, Paper, Grid, IconButton, InputBase } from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search'
-import { listClientChats } from 'services/actions/ChatAction';
 import { useHistory } from 'react-router-dom';
 import { showBackdrop } from 'services/actions/CustomAction';
 import { listPendingQueries } from 'services/actions/EntryQueryAction';
-import TabOptions from './TabOptions';
-import CustomModal from 'components/Modals/common/CustomModal';
 
 const styles = theme => ({
   search: {
@@ -23,8 +20,6 @@ const AdminEntryChat = props => {
 
   const [entryQueries, setEntryQueries] = React.useState([]);
   const [searchTimeout, setSearchTimeout] = React.useState(null);
-  const [showModalEntryChat, setShowModalEntryChat] = React.useState(false);
-
 
   React.useEffect(() => {
     onList("");
@@ -51,14 +46,6 @@ const AdminEntryChat = props => {
     if(entryQuery && entryQuery.id){
       history.push("/consultas/" + entryQuery.id);
     }
-  }
-
-  const onSaveForm = () => {
-    onList('');
-  }
-
-  const onOpenModal = () => {
-    setShowModalEntryChat(true);
   }
 
   return (
@@ -102,16 +89,6 @@ const AdminEntryChat = props => {
           })}
         </Grid>
       </Grid>
-      <CustomModal
-        customModal={'ModalEntryQuery'}
-        open={showModalEntryChat}
-        handleClose={() => { setShowModalEntryChat(false) }}
-        onSaveForm={() => {
-          setShowModalEntryChat(false);
-         // handleClose();
-          onSaveForm();
-      }}
-      />
     </div>
   );
 };

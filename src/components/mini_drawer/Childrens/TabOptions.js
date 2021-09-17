@@ -4,6 +4,7 @@ import RateReviewIcon from '@material-ui/icons/RateReview';
 import CustomButton from 'components/CustomButton';
 import { successButtonColor } from 'assets/styles/zendy-css';
 import CustomModal from 'components/Modals/common/CustomModal';
+import AddAlertIcon from '@material-ui/icons/AddAlert';
 
 const TabOptions = (props) => {
 
@@ -49,6 +50,21 @@ const TabOptions = (props) => {
                   startIcon={<RateReviewIcon />}
                 >
                   Iniciar Consulta
+                </CustomButton>
+              </Grid>
+            )
+          }
+          {
+            view=="adminNotifications" && (
+              <Grid item xs={6}>
+                <CustomButton
+                  fullWidth
+                  onClick={() => { onOpenModal && onOpenModal() }}
+                  variant="contained"
+                  customColor={successButtonColor}
+                  startIcon={<AddAlertIcon />}
+                >
+                  Crear Notificación
                 </CustomButton>
               </Grid>
             )

@@ -1,23 +1,28 @@
 import NotificationService from "services/api/NotificationService";
 
-const notificationService = new NotificationService();
+const service = new NotificationService();
 
-export const createNotification = (data) => async => {
-    const res = await notificationService.createNotification(data);
+export const createNotification = (data) => async dispatch => {
+    const res = await service.createNotification(data);
+    return res && res.data;
+}
+
+export const findNotification = (id) => async dispatch => {
+    const res = await service.findNotification(id);
+    return res && res.data;
+}
+
+export const listAdminNotifications = (term) => async dispatch => {
+    const res = await service.listAdminNotifications(term);
     return res && res.data || [];
 }
 
-export const updateNotification = (idNotification, idUser, idError, data) => async => {
-    const res = await notificationService.updateNotification(idNotification, idUser, idError, data);
+export const listNotifications = (term) => async dispatch => {
+    const res = await service.listNotifications(term);
     return res && res.data || [];
 }
 
-export const findNotification = (idNotification) => async => {
-    const res = await notificationService.findNotification(idNotification);
-    return res && res.data || [];
-}
-
-export const listNotification = () => async => {
-    const res = await notificationService.listNotification();
-    return res && res.data || [];
+export const deleteNotification = (id) => async dispatch => {
+    const res = await service.deleteNotification(id);
+    return res && res.data;
 }

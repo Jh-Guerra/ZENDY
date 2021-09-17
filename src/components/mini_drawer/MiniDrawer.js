@@ -7,10 +7,10 @@ import { CurrentChatIcon, PendingChatIcon, CompaniesIcon, ErrorsIcon, MoreIcon }
 import CurrentChat from './Childrens/CurrentChat';
 import ModalMoreActions from 'components/Modals/ModalMoreActions';
 import HistoryChat from 'components/mini_drawer/Childrens/HistoryChat';
-import NotifyChat from './Childrens/NotifyChat';
+import AdminNotificationSection from './Childrens/AdminNotificationSection';
 import ReportList from './Childrens/ReportList';
-import EnterpriseChat from './Childrens/EnterpriseChat';
-import ReportedErrorChat from './Childrens/ReportedErrorChat';
+import CompanySection from './Childrens/CompanySection';
+import ReportedErrorSection from './Childrens/ReportedErrorSection';
 import EntryChat from './Childrens/EntryChat';
 import { updateLastRoute, updateLastTab } from 'services/actions/CommonAction';
 import { checkPermission, getSessionInfo } from 'utils/common';
@@ -151,12 +151,12 @@ const MiniDrawer = (props) => {
               <AdminEntryChat {...props} session={session}/>
             </TabPanel>
             <TabPanel value={tab} index={3} >
-              <EnterpriseChat
+              <CompanySection
                 {...props}
                 goToView={goToView} />
             </TabPanel>
             <TabPanel value={tab} index={4} >
-              <ReportedErrorChat 
+              <ReportedErrorSection
                 {...props}
               />
             </TabPanel>
@@ -164,7 +164,7 @@ const MiniDrawer = (props) => {
               <HistoryChat/>
             </TabPanel>
             <TabPanel value={tab} index={7} >
-              <NotifyChat/>
+              <AdminNotificationSection {...props} session={session}/>
             </TabPanel>
             <TabPanel value={tab} index={8} >
               <ReportList/>

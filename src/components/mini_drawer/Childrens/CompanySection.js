@@ -7,7 +7,7 @@ import { showBackdrop } from "services/actions/CustomAction";
 import { useHistory } from "react-router-dom";
 import ItemCompanyRow from "../Components/ItemCompanyRow";
 
-const EnterpriseChat = (props) => {
+const CompanySection = (props) => {
     const history = useHistory();
 
     const [companies, setCompanies] = React.useState([]);
@@ -97,4 +97,4 @@ const EnterpriseChat = (props) => {
     )
 }
 
-export default EnterpriseChat
+export default CompanySection

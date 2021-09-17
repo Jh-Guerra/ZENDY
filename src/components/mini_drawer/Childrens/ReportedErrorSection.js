@@ -11,7 +11,7 @@ import { listErrors, listErrorsByUser } from 'services/actions/ErrorAction';
 import { getSessionInfo, isClientUser } from 'utils/common';
 import TabOptions from './TabOptions';
 
-const ReportedErrorChat = props => {
+const ReportedErrorSection = props => {
   const history = useHistory();
 
   const [errors, setErrors] = React.useState([]);
@@ -111,4 +111,4 @@ const ReportedErrorChat = props => {
   );
 };
 
-export default ReportedErrorChat;
+export default ReportedErrorSection;

@@ -28,7 +28,7 @@ class NewNotify extends Component {
                 alignItems="center">
                     <Grid item xs={8}>
                         <CustomButton fullWidth onClick={() => this.handleClickOpen()} variant="contained" customColor={successButtonColor} startIcon={<NotificationsNew />}>
-                            Nueva Notificacion
+                            Nueva Notificación
                         </CustomButton>
                     </Grid>
                 </Grid >

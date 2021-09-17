@@ -1,46 +1,28 @@
 import axios from '../../utils/axios';
 import config from "../../config/Config";
+import { defaultHeaders, getCustomUrl } from 'utils/common';
 
-class NotificationService {
-    
+const apiPrefix = config.apiVersion + "notifications";
+class NotificationService {    
     async createNotification(data) {
-        return await axios.post(
-            config.apiVersion + `notification/create`, 
-            data,
-            { 
-                headers: config.headers 
-            }
-    )}
+        return await axios.post( getCustomUrl(apiPrefix, `/register`), data, defaultHeaders() );
+    }
 
-    async updateNotification(idNotification, idUser, idError, data) {
-        return await axios.post(
-            config.apiVersion + `notification/update/`, 
-            data,
-            { 
-                headers: config.headers,
-                params: {
-                    idNotification : idNotification,
-                    idUser : idUser,
-                    idError : idError
-                } 
-            }
-    )}
+    async findNotification(id) {
+        return await axios.get( getCustomUrl(apiPrefix, `/find/${id}`), defaultHeaders() );
+    }
 
-    async findNotification(idNotification) {
-        return await axios.get(
-            config.apiVersion + `notification/find/` + idNotification,
-            { 
-                headers: config.headers
-            }
-    )}
+    async listAdminNotifications(term) {
+        return await axios.get( getCustomUrl(apiPrefix, `/admin/list?term=${term}`), defaultHeaders());
+    }
 
-    async listNotification() {
-        return await axios.get(
-            config.apiVersion + `notification/list`,
-            { 
-                headers: config.headers
-            }
-    )}
+    async listNotifications(term) {
+        return await axios.get( getCustomUrl(apiPrefix, `/list?term=${term}`), defaultHeaders());
+    }
+
+    async deleteNotification(id) {
+        return await axios.delete( getCustomUrl(apiPrefix, `/delete/${id}`), defaultHeaders() )
+    }
 
 }
 
