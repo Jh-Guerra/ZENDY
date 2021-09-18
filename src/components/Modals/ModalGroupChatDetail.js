@@ -14,6 +14,8 @@ import IconButton from '@material-ui/core/IconButton';
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
 import ModalHeader from './common/ModalHeader';
+import TimerOutlinedIcon from '@material-ui/icons/TimerOutlined';
+import CustomModal from './common/CustomModal';
 
 const useStyles = makeStyles(theme => ({
   large: {
@@ -31,7 +33,14 @@ const ModalGroupChatDetail = props => {
   const classes = useStyles();
   const { open, handleClose } = props;
 
+
+const [openModalEndChat,setOpenModalEndChat] = React.useState(false);
+const handleModalEndChat = () => {
+  setOpenModalEndChat(true);
+} 
+
   return (
+    <>
     <Modal open={open} handleClose={handleClose} size="lg">
       <ModalHeader 
         icon={<PeopleAltIcon />} 
@@ -121,11 +130,23 @@ const ModalGroupChatDetail = props => {
                   <Divider variant="inset" />
                 </List>
               </Grid>
+              <Grid item md={12}>
+                <Button variant="contained" startIcon={<TimerOutlinedIcon />} style={{ height: '50px', width: '100%' }} onClick={handleModalEndChat}>
+                    Finzalizar chat
+                </Button>
+              </Grid>
             </Grid>
           </Grid>
         </Grid>
       </ModalBody>
     </Modal>
+    <CustomModal
+      CustomModal="ModalEndChat"
+      open={openModalEndChat}
+      handleClose={() => {setOpenModalEndChat(false)}}>
+
+    </CustomModal>
+    </>
   );
 };
 

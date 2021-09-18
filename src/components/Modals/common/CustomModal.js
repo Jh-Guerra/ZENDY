@@ -14,6 +14,7 @@ import ModalResendMessage from '../ModalResendMessage';
 import ModalEntryQuery from '../ModalEntryQuery';
 import ModalNotification from '../ModalNotification';
 import ModalReportedErrors from '../ModalReportedErrors';
+import ModalEndChat from '../ModalEndChat';
 
 const CustomModal = (props) => {
     const getCustomModal = (customModal) => {
@@ -44,6 +45,8 @@ const CustomModal = (props) => {
                 return <ModalNotification {...props}/>
             case "ModalReportedErrors":
                 return <ModalReportedErrors {...props}/>
+            case "ModalEndChat":
+                return <ModalEndChat {...props}/>
 
             default:
                 return null;
