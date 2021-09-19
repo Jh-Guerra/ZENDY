@@ -751,3 +751,20 @@ html, body {
     z-index: 2;
     animation: fadeIn 0.15s ease-in forwards;
 }
+
+/* ============================ IMAGE UPLOAD CHAT  ========================================*/
+
+.image-upload {
+    animation-name: showIn;
+    animation-duration: 0.4s;
+    animation-iteration-count: 1;
+    animation-direction: normal;
+    animation-timing-function: cubic-bezier(
+      0.88,
+      0.19,
+      0.37,
+      1.11
+    );
+    animation-fill-mode: both;
+    animation-delay: 0.2s;
+}
