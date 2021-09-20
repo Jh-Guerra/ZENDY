@@ -40,6 +40,9 @@ class EntryQueryService {
     async listQueries(term) {
         return await axios.get( getCustomUrl(`/list-query?term=${term}`), defaultHeaders());
     }
+    async updateEntryQuery(id, data) {
+        return await axios.post( getCustomUrl(`/update/${id}`), data, defaultHeaders());
+    }
 
 }
 

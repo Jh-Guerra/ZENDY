@@ -1,5 +1,5 @@
 import EntryQueryService from "services/api/EntryQueryService";
-import { showBackdrop } from "./CustomAction";
+import { ENTRY_QUERY } from "services/redux/common/Types"
 
 const service = new EntryQueryService();
 
@@ -24,11 +24,24 @@ export const listPendingQueries = (term) => async dispatch => {
 }
 
 export const deleteEntryQuery = (id) => async dispatch => {
-    const res = await service.deleteEntryQuery(id);
-    return res && res.data || [];
+     const res = await service.deleteEntryQuery(id);
+     return res && res.data || [];
 }
 
 export const listQueries = (term) => async dispatch => {
-    const res = await service.listQueries(term);
+    try{
+        const res = await service.listQueries(term);
+        dispatch({
+            type: ENTRY_QUERY,
+            payload: res.data
+        })
+        return res.data;
+    }catch(e){
+        //dispatch(showSnackBar('ERROR', e.response.data.message))
+    }
+}
+
+export const updateEntryQuery = (id, data) => async dispatch => {
+    const res = await service.updateEntryQuery(id, data);
     return res && res.data || [];
 }

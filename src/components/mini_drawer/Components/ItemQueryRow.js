@@ -8,7 +8,6 @@ const ItemQueryRow = (props) => {
 
   const { query={} } = props;
 
- // console.log('QUERY', query)
   const image =  '';
   const description = query.description || "";
   const reason = query.reason || 0;

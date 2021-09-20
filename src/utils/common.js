@@ -130,3 +130,9 @@ export const defaultHeaders = () => {
 export const getCustomUrl = (apiPrefix, url) => {
   return apiPrefix + url;
 }
+
+// QUERY - Module
+export const modulesQuery = [
+  { id: "Recursos Humanos", name: "Recursos Humanos"},
+  { id: "Tesorería", name: "Tesorería"},
+];

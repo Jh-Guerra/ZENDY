@@ -15,6 +15,8 @@ import ChatIcon from '@material-ui/icons/Chat';
 import CustomModal from 'components/Modals/common/CustomModal';
 
 const EQMainFooter = props => {
+  const { entryQuery={} } = props;
+
   const messagesEndRef = createRef(null);
 
   const chatItems = [
@@ -82,27 +84,33 @@ const EQMainFooter = props => {
       </div>
 
       <div className="entry-query-footer">
-        <CustomButton
-          onClick={openRecommendUser}
-          variant="contained"
-          customColor={infoColor}
-          startIcon={<PeopleAltIcon />}
-        >
-          Recomendar Usuario
-        </CustomButton>
-        <CustomButton
-          onClick={openAcceptChat}
-          variant="contained"
-          customColor={infoColor}
-          startIcon={<ChatIcon />}
-        >
-          Aceptar consulta e Iniciar Chat
-        </CustomButton>
+        {
+          entryQuery && entryQuery.status == "Pendiente" && (
+            <div>
+              <CustomButton
+                onClick={openRecommendUser}
+                variant="contained"
+                customColor={infoColor}
+                startIcon={<PeopleAltIcon />}
+              >
+                Recomendar Usuario
+              </CustomButton>
+              <CustomButton
+                onClick={openAcceptChat}
+                variant="contained"
+                customColor={infoColor}
+                startIcon={<ChatIcon />}
+              >
+                Aceptar consulta e Iniciar Chat
+              </CustomButton>
+            </div>
+          )
+        }
       </div>
 
-      <CustomModal 
+      <CustomModal
         customModal="ModalAcceptChat"
-        open={showAcceptChat} 
+        open={showAcceptChat}
         handleClose={() => { setShowAcceptChat(false) }}
       />
       <CustomModal
