@@ -1,4 +1,4 @@
-import { Avatar, Grid, makeStyles, Typography, Divider, Button } from '@material-ui/core';
+import { Avatar, Grid, makeStyles, Typography, Divider, Button, GridListTile } from '@material-ui/core';
 import React from 'react';
 import ModalBody from './common/ModalBody';
 import Modal from './common/Modal';
@@ -16,6 +16,7 @@ import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
 import ModalHeader from './common/ModalHeader';
 import TimerOutlinedIcon from '@material-ui/icons/TimerOutlined';
 import CustomModal from './common/CustomModal';
+import config from 'config/Config';
 
 const useStyles = makeStyles(theme => ({
   large: {
@@ -31,7 +32,8 @@ const useStyles = makeStyles(theme => ({
 
 const ModalGroupChatDetail = props => {
   const classes = useStyles();
-  const { open, handleClose } = props;
+  const { open, handleClose, chat } = props;
+  const chatLifetime = Math.round((new Date().getTime() - new Date(chat.startDate).getTime()) / (1000 * 60 * 60 * 24))
 
 
 const [openModalEndChat,setOpenModalEndChat] = React.useState(false);
@@ -42,9 +44,9 @@ const handleModalEndChat = () => {
   return (
     <>
     <Modal open={open} handleClose={handleClose} size="lg">
-      <ModalHeader 
-        icon={<PeopleAltIcon />} 
-        text="4 participantes" 
+      <ModalHeader
+        icon={<PeopleAltIcon />}
+        text={chat.participants && chat.participants.length + " participantes"}
       />
 
       <ModalBody>
@@ -54,14 +56,18 @@ const handleModalEndChat = () => {
               <Box className={classes.detailsBox}>
                 <TimerIcon style={{ margin: '0px 5px' }} /> Tiempo de Vida del Chat{' '}
               </Box>
-              <Box>24h 36min</Box>
+              <Box>
+                {chatLifetime > 0 ? chatLifetime + (chatLifetime == 1 ? " dia " : " dias") : "creado hoy"}
+              </Box>
             </Grid>
             <Box height="15px" />
             <Grid container item direction="row" justify="space-between" alignItems="flex-start" width="100%">
               <Box className={classes.detailsBox}>
                 <EventBusyIcon style={{ margin: '0px 5px' }} /> Fecha de finalización{' '}
               </Box>
-              <Box>21/06/2021</Box>
+              <Box>
+                {chat.endDate ? chat.endDate : "Activo"}
+              </Box>
             </Grid>
           </Grid>
 
@@ -70,55 +76,30 @@ const handleModalEndChat = () => {
               <Box height="15px" />
               <Grid item md={12}>
                 <List>
-                  <ListItem>
-                    <ListItemAvatar>
-                      <Avatar alt="" src="" />
-                    </ListItemAvatar>
-                    <ListItemText primary="Homero Simpson" />
-                  </ListItem>
-                  <Divider variant="inset" />
-                </List>
-                <List>
-                  <ListItem>
-                    <ListItemAvatar>
-                      <Avatar alt="" src="" />
-                    </ListItemAvatar>
-                    <ListItemText primary="Homero Simpson" />
-                    <ListItemSecondaryAction>
-                      <Button variant="contained" color="primary">
-                        Quitar
-                      </Button>
-                    </ListItemSecondaryAction>
-                  </ListItem>
-                  <Divider variant="inset" />
-                </List>
-                <List>
-                  <ListItem>
-                    <ListItemAvatar>
-                      <Avatar alt="" src="" />
-                    </ListItemAvatar>
-                    <ListItemText primary="Homero Simpson" secondary="Nombre ERP" />
-                    <ListItemSecondaryAction>
-                      <Button variant="contained" color="primary">
-                        Quitar
-                      </Button>
-                    </ListItemSecondaryAction>
-                  </ListItem>
-                  <Divider variant="inset" />
-                </List>
-                <List>
-                  <ListItem>
-                    <ListItemAvatar>
-                      <Avatar alt="" src="" />
-                    </ListItemAvatar>
-                    <ListItemText primary="Homero Simpson" secondary="Nombre Empresa" />
-                    <ListItemSecondaryAction>
-                      <Button variant="contained" color="primary">
-                        Quitar
-                      </Button>
-                    </ListItemSecondaryAction>
-                  </ListItem>
-                  <Divider variant="inset" />
+                  {
+                    chat.participants && chat.participants.map((participant, i) => {
+                      var user = participant.user || {};
+                      return (
+                        <>
+                          <ListItem key={i}>
+                            <ListItemAvatar>
+                              <Avatar alt="" src={user.avatar ? (config.api + user.avatar) : "ruta-por-defecto-del-front"} />
+                            </ListItemAvatar>
+                            <ListItemText
+                              primary={`${user.firstName} ${user.lastName}`}
+                              secondary={`${participant.type}`}
+                            />
+                            <ListItemSecondaryAction>
+                              {
+                                participant.type == "Participante" ? <Button variant="contained" color="primary">Quitar</Button> : null
+                              }
+                            </ListItemSecondaryAction>
+                          </ListItem>
+                          <Divider variant="inset" />
+                        </>
+                      );
+                    })
+                  }
                 </List>
                 <List>
                   <ListItem>

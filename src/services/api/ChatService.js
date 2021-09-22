@@ -13,9 +13,9 @@ class ChatService {
             } }
     )}
 
-    async listStatusChats(term, status) {
+    async listActiveChats(term, status) {
         return await axios.get(
-            config.apiVersion + `chats/list?term=${term}`,
+            config.apiVersion + `chats/active-list?term=${term}`,
             { 
                 headers: {
                     ...config.headers, 
@@ -106,15 +106,6 @@ class ChatService {
     async findChat(id) {
         return await axios.get(
             config.apiVersion + `chats/find/` + id,
-            { headers: {
-                ...config.headers, 
-                Authorization: `token ${JSON.parse(localStorage.getItem('session')).token || ''}` 
-            } }
-    )}
-
-    async listChats() {
-        return await axios.get(
-            config.apiVersion + `chats/list`,
             { headers: {
                 ...config.headers, 
                 Authorization: `token ${JSON.parse(localStorage.getItem('session')).token || ''}` 
