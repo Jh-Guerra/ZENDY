@@ -29,7 +29,7 @@ class EntryQueryService {
         return await axios.get( getCustomUrl(apiPrefix, `/list-query?term=${term}`), defaultHeaders());
     }
     async updateEntryQuery(id, data) {
-        return await axios.post( getCustomUrl(`/update/${id}`), data, defaultHeaders());
+        return await axios.post( getCustomUrl(apiPrefix, `/update/${id}`), data, defaultHeaders());
     }
 
 }
