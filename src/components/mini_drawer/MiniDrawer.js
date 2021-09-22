@@ -16,6 +16,7 @@ import { updateLastRoute, updateLastTab } from 'services/actions/CommonAction';
 import { checkPermission, getSessionInfo } from 'utils/common';
 import { updateStatus } from 'services/actions/UserAction';
 import AdminEntryChat from './Childrens/AdminEntryChat';
+import { connect } from "react-redux";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -183,4 +184,8 @@ const MiniDrawer = (props) => {
     </>
   );
 }
-export default withRouter(MiniDrawer);
+
+const mapStateToProps = (state) => ({ ...state })
+export default connect(mapStateToProps)(withRouter(MiniDrawer));
+
+//export default withRouter(MiniDrawer);

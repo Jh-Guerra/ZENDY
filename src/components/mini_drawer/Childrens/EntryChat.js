@@ -10,6 +10,7 @@ import { listPendingQueries, listQueries } from 'services/actions/EntryQueryActi
 import TabOptions from './TabOptions';
 import CustomModal from 'components/Modals/common/CustomModal';
 import { getSessionInfo } from "utils/common";
+import { ENTRY_QUERY } from 'services/redux/common/Types';
 
 
 const styles = theme => ({
@@ -20,7 +21,7 @@ const styles = theme => ({
 });
 
 const EntryChat = props => {
-  const { classes = {}, session } = props;
+  const { classes = {}, session, entryQueryRedux } = props;
   const history = useHistory();
 
   const [entryQueries, setEntryQueries] = React.useState([]);
@@ -38,12 +39,10 @@ const EntryChat = props => {
     props.dispatch(showBackdrop(true));
     if(role.name == 'UserEmpresa'){
       props.dispatch(listQueries(term)).then(res => {
-        setEntryQueries(res || []);
         props.dispatch(showBackdrop(false));
       }).catch(err => props.dispatch(showBackdrop(false)));;
     } else {
       props.dispatch(listPendingQueries(term)).then(res => {
-        setEntryQueries(res || []);
         props.dispatch(showBackdrop(false));
       }).catch(err => props.dispatch(showBackdrop(false)));;
     }
@@ -106,9 +105,8 @@ const EntryChat = props => {
           />
         </Grid>
         <Grid item xs={12}>
-          {entryQueries.map((query, i) => {
+          {entryQueryRedux.entryQueries && entryQueryRedux.entryQueries.map((query, i) => {
             return (
-             // <p> asdasd </p>
                <ItemQueryRow
                  key={i}
                  query={query}

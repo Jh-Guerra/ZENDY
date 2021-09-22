@@ -1,17 +1,20 @@
 import React, { Component } from 'react';
 import { Grid } from "@material-ui/core";
-import { showBackdrop } from 'services/actions/CustomAction';
+import { showBackdrop, showSnackBar } from 'services/actions/CustomAction';
 import { useHistory } from 'react-router-dom';
-import { findEntryQuery } from 'services/actions/EntryQueryAction';
+import { findEntryQuery, deleteEntryQuery } from 'services/actions/EntryQueryAction';
 import EQMainHeader from './Childrens/EQMainHeader';
 import EQMainBody from './Childrens/EQMainBody';
 import EQMainFooter from './Childrens/EQMainFooter';
+import { listQueries } from 'services/actions/EntryQueryAction';
 
 const EntryQueryPage = (props) => {
-
   const history = useHistory();
 
-  const [entryQuery, setEntryQuery] = React.useState({});
+  const [entryQuery1, setEntryQuery] = React.useState({});
+  const [showModalEntryChat, setShowModalEntryChat] = React.useState(false);
+  const [showModalDelete, setShowModalDelete] = React.useState(false);
+
 
   React.useEffect(() => {
     if(props.location.pathname){
@@ -25,28 +28,73 @@ const EntryQueryPage = (props) => {
     }
   }, [props.location.pathname]);
 
-
+  
   const onGetData = (entryQueryId) => {
     props.dispatch(showBackdrop(true));
     props.dispatch(findEntryQuery(entryQueryId)).then(res => {
-      setEntryQuery(res.entryQuery || {});
+      setEntryQuery(res.entryQuery|| {});
       props.dispatch(showBackdrop(false));
     }).catch(err => props.dispatch(showBackdrop(false)));
   };
 
+  const onOpenModal = () => {
+    setShowModalEntryChat(true);
+  }
+
+  const onOpenModalDelete = () => {
+    setShowModalDelete(true);
+  }
+
+  const onDelete = async () => {
+    props.dispatch(showBackdrop(true));
+    props
+      .dispatch(deleteEntryQuery(entryQuery1 && entryQuery1.id))
+      .then(res => {
+        setEntryQuery({});
+        setShowModalDelete(false);
+
+        onList('');
+        props.dispatch(showSnackBar("error", "Consulta eliminada"));
+        props.dispatch(showBackdrop(false));
+        history.push("/inicio");
+
+      }).catch(error => {
+        props.dispatch(showBackdrop(false));
+        console.error('error', error);
+      });
+  };
+
+  const onList = (term) => {
+    props.dispatch(showBackdrop(true));
+      props.dispatch(listQueries(term)).then(res => {
+        setEntryQuery(res || []);
+        props.dispatch(showBackdrop(false));
+      }).catch(err => props.dispatch(showBackdrop(false)));;
+  };
+
+
+
   return (
-    <Grid container style={{height:'100vh'}}>
-      <Grid item xs={12} style={{height:'13vh'}}>
+    <Grid container style={{ height: '100vh' }}>
+      <Grid item xs={12} style={{ height: '13vh' }}>
         <EQMainHeader
-          entryQuery={entryQuery}
+          entryQuery={entryQuery1}
+          onGetData={onGetData}
+          onOpenModal={onOpenModal}
+          onOpenModalDelete={onOpenModalDelete}
+          onDelete={onDelete}
+          view="entryQueries"
         />
       </Grid>
-      <Grid item xs={12} style={{height:'13vh'}}>
-        <EQMainBody/>
+      <Grid item xs={12} style={{ height: '13vh' }}>
+        <EQMainBody />
       </Grid>
-      <Grid item xs={12} style={{height:'74vh'}}>
-        <EQMainFooter/>
+      <Grid item xs={12} style={{ height: '74vh' }}>
+        <EQMainFooter 
+        entryQuery={entryQuery1}
+        />
       </Grid>
+
     </Grid>
   );
 }
