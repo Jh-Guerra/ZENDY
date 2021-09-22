@@ -131,8 +131,8 @@ const handleModalEndChat = () => {
                 </List>
               </Grid>
               <Grid item md={12}>
-                <Button variant="contained" startIcon={<TimerOutlinedIcon />} style={{ height: '50px', width: '100%' }} onClick={handleModalEndChat}>
-                    Finzalizar chat
+                <Button variant="contained" color="primary" startIcon={<TimerOutlinedIcon />} style={{ height: '50px', width: '100%' }} onClick={handleModalEndChat}>
+                    Finalizar chat
                 </Button>
               </Grid>
             </Grid>
