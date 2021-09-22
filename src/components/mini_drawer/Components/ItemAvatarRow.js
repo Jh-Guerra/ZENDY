@@ -7,27 +7,25 @@ import { getImageProfile, getSessionInfo } from 'utils/common';
 const ItemAvatarRow = (props) => {
   const session = getSessionInfo();
   const user = session && session.user;
+
   const { chat={} } = props;
 
-  const type = chat.type;
+  var name = chat.name || "";
   var image;
-  var name;
   var defaultImageType;
-
   var isOnline = '';
-  if(chat.participants && chat.participants.length > 2){
+
+  if(chat.scope == "Grupal"){
     image = chat.company && chat.company.avatar || "";
     defaultImageType = "Company";
-    name = chat.name || '';
   }else{
     chat.participants.map(participant => {
-      if(participant.id != user.id){
-        image = participant.avatar || "";
-        defaultImageType = participant.sex || "O";
-        isOnline = (participant.isOnline) ? 'active' : '';
+      if(participant.id != user.id && participant.user){
+        image = participant.user.avatar || "";
+        defaultImageType = participant.user.sex || "O";
+        isOnline = (participant.user.isOnline) ? 'active' : '';
       }
-    })    
-    name = chat.name || "";
+    })
   }
 
   const message = chat.lastMessage || '...';

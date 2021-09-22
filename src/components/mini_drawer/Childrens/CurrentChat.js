@@ -4,7 +4,7 @@ import { withStyles } from '@material-ui/core/styles';
 import { Input, InputAdornment, Paper, Grid, IconButton, InputBase } from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search';
 import ItemAvatarNotifyRow from '../Components/ItemAvatarNotifyRow';
-import { listStatusChats } from 'services/actions/ChatAction';
+import { listActiveChats } from 'services/actions/ChatAction';
 import NewChatCall from './NewChatCall';
 import { useHistory } from 'react-router-dom';
 import { showBackdrop } from 'services/actions/CustomAction';
@@ -24,12 +24,12 @@ const CurrentChat = props => {
   const [searchTimeout, setSearchTimeout] = React.useState(null);
 
   React.useEffect(() => {
-    onListStatusChats('');
+    onListActiveChats('');
   }, []);
 
-  const onListStatusChats = term => {
+  const onListActiveChats = term => {
     props.dispatch(showBackdrop(true));
-    props.dispatch(listStatusChats(term, "Vigente")).then(res => {
+    props.dispatch(listActiveChats(term, "Vigente")).then(res => {
       setAllChats(res || []);
       props.dispatch(showBackdrop(false));
     }).catch(err => props.dispatch(showBackdrop(false)));
@@ -39,7 +39,7 @@ const CurrentChat = props => {
     clearTimeout(searchTimeout);
     setSearchTimeout(
       setTimeout(() => {
-        onListStatusChats(term);
+        onListActiveChats(term);
       }, 1000)
     );
   };
@@ -49,7 +49,7 @@ const CurrentChat = props => {
   }
 
   const onSaveForm = () => {
-    onListStatusChats('');
+    onListActiveChats('');
   }
 
   return (

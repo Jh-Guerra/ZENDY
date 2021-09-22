@@ -43,26 +43,23 @@ const MainHeader = props => {
     setShowAddToConversation(true);
   }
 
-  const type = chat.type || "";
   var image;
-  var name = "";
+  var name = chat.name || '';
   var defaultImageType;
   var isOnline;
 
 
-  if(chat.participants && chat.participants.length > 2){
+  if(chat.scope == "Grupal"){
     image = chat.company && chat.company.avatar || "";
     defaultImageType = "Company";
-    name = chat.name || '';
   }else{
     chat.participants && chat.participants.map(participant => {
-      if(participant.id != user.id){
-        image = participant.avatar || "";
-        defaultImageType = participant.sex || "O";
-        isOnline = (participant.isOnline) ? 'active' : '';
+      if(participant.user.id != user.id){
+        image = participant.user.avatar || "";
+        defaultImageType = participant.user.sex || "O";
+        isOnline = (participant.user.isOnline) ? 'active' : '';
       }
     })    
-    name = chat.name || "";
   }
 
   return (

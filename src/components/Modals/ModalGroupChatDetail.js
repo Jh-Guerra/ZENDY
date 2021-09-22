@@ -68,7 +68,8 @@ const ModalGroupChatDetail = props => {
               <Grid item md={12}>
                 <List>
                   {
-                    chat.participants && chat.participants.map((user, i) => {
+                    chat.participants && chat.participants.map((participant, i) => {
+                      var user = participant.user || {};
                       return (
                         <>
                           <ListItem key={i}>
@@ -77,11 +78,11 @@ const ModalGroupChatDetail = props => {
                             </ListItemAvatar>
                             <ListItemText
                               primary={`${user.firstName} ${user.lastName}`}
-                              secondary={`${user.typeParticipant}`}
+                              secondary={`${participant.type}`}
                             />
                             <ListItemSecondaryAction>
                               {
-                                user.typeParticipant == "Participante" ? <Button variant="contained" color="primary">Quitar</Button> : null
+                                participant.type == "Participante" ? <Button variant="contained" color="primary">Quitar</Button> : null
                               }
                             </ListItemSecondaryAction>
                           </ListItem>

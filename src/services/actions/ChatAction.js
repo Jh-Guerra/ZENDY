@@ -9,8 +9,8 @@ export const createChat = (data) => async dispatch => {
     return res && res.data || [];
 }
 
-export const listStatusChats = (term, status) => async dispatch => {
-    const res = await chatService.listStatusChats(term, status);
+export const listActiveChats = (term, status) => async dispatch => {
+    const res = await chatService.listActiveChats(term, status);
     return res && res.data || [];
 }
 
@@ -55,11 +55,6 @@ export const updateChat = (id, data) => async dispatch => {
 
 export const findChat = (id) => async dispatch => {
     const res = await chatService.findChat(id);
-    return res && res.data || [];
-}
-
-export const listChats = () => async dispatch => {
-    const res = await chatService.listChats();
     return res && res.data || [];
 }
 
