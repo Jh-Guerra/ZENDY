@@ -24,9 +24,7 @@ const ModalEntryQuery = props => {
     reason: '',
     description: '',
     image1: '',
-    image2: '',
     file1: '',
-    file2: '',
     module:'',
   });
   const [title, setTitle] = React.useState("Ingresar Consulta");
@@ -51,9 +49,7 @@ const ModalEntryQuery = props => {
                 reason: '',
                 description: '',
                 image1: '',
-                image2: '',
                 file1: '',
-                file2: '',
                 module:'',
             });
             setTitle("Ingresar Consulta");
@@ -83,15 +79,11 @@ const ModalEntryQuery = props => {
     if(entryQuery.id){
              // Editar
              const imageInput = document.querySelector('#image1') ;
-              const imageInput1 = document.querySelector('#image2') ;
               const fileInput = document.querySelector('#file1') ;
-              const fileInput1 = document.querySelector('#file2') ;
   
               const formData = new FormData();
               formData.append('image1', imageInput.files[0] || '');
-              formData.append('image2', imageInput1.files[0] || '');
               formData.append('file1', fileInput.files[0] || '');
-              formData.append('file2', fileInput1.files[0] || '');
               formData.append("reason", entryQuery.reason)
               formData.append('description', entryQuery.description)
               formData.append('module', entryQuery.module)
@@ -110,15 +102,11 @@ const ModalEntryQuery = props => {
 
     } else{
               const imageInput = document.querySelector('#image1') ;
-              const imageInput1 = document.querySelector('#image2') ;
               const fileInput = document.querySelector('#file1') ;
-              const fileInput1 = document.querySelector('#file2') ;
   
               const formData = new FormData();
               formData.append('image1', imageInput.files[0] || '');
-              formData.append('image2', imageInput1.files[0] || '');
               formData.append('file1', fileInput.files[0] || '');
-              formData.append('file2', fileInput1.files[0] || '');
               formData.append("reason", entryQuery.reason)
               formData.append('description', entryQuery.description)
               formData.append('module', entryQuery.module)
@@ -212,15 +200,30 @@ const onEdit = () => {
                       disabled={!editMode}
                     />
                   </Grid>
+                  {
+                    editMode && (
+                      <Grid item xs={12} container>
+                        <Grid item xs={12}>
+                          <p style={{ color: 'rgba(0, 0, 0, 0.54)', marginBottom: '5px' }}> Archivo </p>
+                        </Grid>
+                        <Grid item xs={12} style={{ padding: "0px 5px" }}>
+                          <Button variant="contained" component="label" style={{ maxWidth: "100%", width: "100%"}} disabled={!editMode}>
+                            <GetAppIcon style={{ marginRight: '10px' }} />
+                            <input id="file1" type="file" />
+                          </Button>
+                        </Grid>
+                      </Grid>
+                    )
+                  }
 
                   {
                     editMode && (
                       <Grid item xs={12} container>
                         <Grid item xs={12}>
-                          <p style={{ color: 'rgba(0, 0, 0, 0.54)', marginBottom: '5px' }}> Imágen 01 </p>
+                          <p style={{ color: 'rgba(0, 0, 0, 0.54)', marginBottom: '5px' }}> Imágen </p>
                         </Grid>
                         <Grid item xs={12} style={{ padding: "0px 5px" }}>
-                          <Button variant="contained" component="label" style={{ maxWidth: "100%" }} disabled={!editMode}>
+                          <Button variant="contained" component="label" style={{ maxWidth: "100%", width: "100%" }} disabled={!editMode}>
                             <GetAppIcon style={{ marginRight: '10px' }} />
                             <input id="image1" accept="image/*" type="file" onChange={processImage} />
                           </Button>
@@ -234,51 +237,6 @@ const onEdit = () => {
                       src={fileUrl ? fileUrl : (data.image1 ? (config.api + data.image1) : defaultCompany)}
                     />
                   </Grid>
-
-                  {
-                    editMode && (
-                      <Grid item xs={12} container>
-                        <Grid item xs={12}>
-                          <p style={{ color: 'rgba(0, 0, 0, 0.54)', marginBottom: '5px' }}> Imágen 02 </p>
-                        </Grid>
-                        <Grid item xs={6} style={{ padding: "0px 5px" }}>
-                          <Button variant="contained" component="label" style={{ maxWidth: "100%" }} disabled={!editMode}>
-                            <GetAppIcon style={{ marginRight: '10px' }} />
-                            <input id="image2" accept="image/*" type="file" onChange={processImage1} />
-                          </Button>
-                        </Grid>
-                      </Grid>
-                    )
-                  }
-                  <Grid container item xs={12} justify="center">
-                    <Avatar
-                      style={{ height: 140, width: 140, display: fileUrl1 || (entryQuery && entryQuery.id && entryQuery.image2) ? "flex" : "none" }}
-                      src={fileUrl1 ? fileUrl1 : (data.image2 ? (config.api + data.image2) : defaultCompany)}
-                    />
-                  </Grid>
-
-                  {
-                    editMode && (
-                      <Grid item xs={12} container>
-                        <Grid item xs={12}>
-                          <p style={{ color: 'rgba(0, 0, 0, 0.54)', marginBottom: '5px' }}> Archivos Adjuntos </p>
-                        </Grid>
-                        <Grid item xs={6} style={{ padding: "0px 5px" }}>
-                          <Button variant="contained" component="label" style={{ maxWidth: "100%" }} disabled={!editMode}>
-                            <GetAppIcon style={{ marginRight: '10px' }} />
-                            <input id="file1" type="file" />
-                          </Button>
-                        </Grid>
-                        <Grid item xs={6} style={{ padding: "0px 5px" }}>
-                          <Button variant="contained" component="label" style={{ maxWidth: "100%" }} disabled={!editMode}>
-                            <GetAppIcon style={{ marginRight: '10px' }} />
-                            <input id="file2" type="file" />
-                          </Button>
-                        </Grid>
-                      </Grid>
-                    )
-                  }
-
                 </Grid>
 
                 <Divider style={{ marginTop: "20px" }} />
