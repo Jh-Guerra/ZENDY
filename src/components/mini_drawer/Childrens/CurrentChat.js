@@ -23,6 +23,8 @@ const CurrentChat = props => {
   const [allChats, setAllChats] = React.useState([]);
   const [searchTimeout, setSearchTimeout] = React.useState(null);
 
+  const isEmpty = allChats.length === 0;
+
   React.useEffect(() => {
     onListActiveChats('');
   }, []);
@@ -53,7 +55,7 @@ const CurrentChat = props => {
   }
 
   return (
-    <div style={{height: "79vh"}}>
+    <div style={{ height: "79vh" }}>
       <Grid container>
         <Grid item xs={12}>
           <NewChatCall onSaveForm={onSaveForm} />
@@ -66,7 +68,7 @@ const CurrentChat = props => {
           </div>
           <br />
         </Grid>
-        <Grid item xs={12} style={{padding: '0px 10px'}}>
+        <Grid item xs={12} style={{ padding: '0px 10px' }}>
           <Input
             fullWidth
             className="search_wrap"
@@ -74,7 +76,7 @@ const CurrentChat = props => {
             placeholder="Buscar contactos"
             onChange={event => onSearch(event.target.value)}
             disableUnderline
-            startAdornment= {
+            startAdornment={
               <InputAdornment position="start">
                 <IconButton type="button" aria-label="search">
                   <SearchIcon />
@@ -86,15 +88,23 @@ const CurrentChat = props => {
         <Grid item xs={12}>
           {/* <div className="chat-list-items"> */}
           <div>
-            {allChats.map((chat, i) => {
-              return (
-                <ItemAvatarRow
-                  key={i}
-                  chat={chat}
-                  goToChat={goToChat}
-                />
-              );
-            })}
+            {
+              isEmpty ? (
+                <div className="container-not-found">
+                  <p className="chat-not-found">No se encontró ningún chat</p>
+                </div>
+              ) : (
+                allChats.map((chat, i) => {
+                  return (
+                    <ItemAvatarRow
+                      key={i}
+                      chat={chat}
+                      goToChat={goToChat}
+                    />
+                  );
+                })
+              )
+            }
           </div>
         </Grid>
       </Grid>

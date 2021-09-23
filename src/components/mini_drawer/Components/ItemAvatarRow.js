@@ -8,7 +8,7 @@ const ItemAvatarRow = (props) => {
   const session = getSessionInfo();
   const user = session && session.user;
 
-  const { chat={} } = props;
+  const { chat = {} } = props;
 
   var name = chat.name || "";
   var image;
@@ -40,16 +40,21 @@ const ItemAvatarRow = (props) => {
       <div className="mini-drawer-user">
         <ItemAvatar
           isOnline={isOnline}
-          image={image ? config.api+image : getImageProfile(defaultImageType)}
+          image={image ? config.api + image : getImageProfile(defaultImageType)}
         />
-        <div style={{width:"80%"}}>
-            <div className="chat-mini-details">
-              <span style={{fontSize:"18px"}}>{name}</span>
-              <span className="chat-mini-time">{hour}</span>
-            </div>                
-            <p style={{fontSize:"16px", color:"silver"}}>
+        <div style={{ width: "80%" }}>
+          <div className="chat-mini-details">
+            <span style={{ fontSize: "18px" }}>{name}</span>
+            <span className="chat-mini-time">{hour}</span>
+          </div>
+          <div className="chat-mini-details">
+            <p style={{ fontSize: "16px", color: "silver" }}>
               {message}
             </p>
+            <p style={{ fontSize: "14px" }} className="border-number">
+              {"8"}
+            </p>
+          </div>
         </div>
       </div>
     </div>

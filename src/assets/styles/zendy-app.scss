@@ -403,6 +403,19 @@ html, body {
     margin: 0 25px;
 }
 
+.container-not-found {
+  display: flex;
+  margin-top: 40px;
+}
+.chat-not-found {
+  text-align: center;
+  justify-content: center;
+  width: 100%;
+  color: white;
+  opacity: 0.7;
+  font-size: 15px;
+}
+
 .mini-drawer-buttons {
     padding: 10px;
     margin-top: 10px;
@@ -547,6 +560,12 @@ html, body {
     flex-direction: row;
     justify-content: space-between;
     margin-top: 2px;
+    .border-number{
+      background: #22B86C;
+      border-radius: 0.8em;
+      padding-left: 7px;
+      padding-right: 7px;
+    }
 }
 
 .chat-mini-time {
