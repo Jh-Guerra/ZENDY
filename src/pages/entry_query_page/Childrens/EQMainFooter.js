@@ -15,8 +15,9 @@ import ChatIcon from '@material-ui/icons/Chat';
 import CustomModal from 'components/Modals/common/CustomModal';
 
 const EQMainFooter = props => {
-  const { entryQuery={} } = props;
+  const { entryQuery={}, session } = props;
 
+  const user = session && session.user && session.user.id|| "";
   const messagesEndRef = createRef(null);
 
   const chatItems = [
@@ -85,7 +86,7 @@ const EQMainFooter = props => {
 
       <div className="entry-query-footer">
         {
-          entryQuery && entryQuery.status == "Pendiente" && (
+          entryQuery && entryQuery.status == "Pendiente" && (entryQuery && entryQuery.createdBy == user) && (
             <div>
               <CustomButton
                 onClick={openRecommendUser}
