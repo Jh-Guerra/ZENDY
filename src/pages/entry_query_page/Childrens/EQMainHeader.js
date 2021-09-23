@@ -37,10 +37,6 @@ const EQMainHeader = props => {
   var defaultImageType =entryQuery.user && entryQuery.user.sex || "O";
   var name = entryQuery.user && (entryQuery.user.firstName + ' ' + entryQuery.user.lastName) || "";
 
-  const onClickAction = (entryQuery) => {
-    props.onGetData && props.onGetData(entryQuery);
-  }
-  
   return (
     <Grid container className="chat-header">    
       <Grid container className="chat-header-content">
@@ -81,7 +77,7 @@ const EQMainHeader = props => {
               entryQuery && entryQuery.status == "Pendiente" && (
                 <div>
                   <Tooltip title="Editar Consulta">
-                    <IconButton onClick={() => { onOpenModal && onOpenModal(); onClickAction(entryQuery.id); }} className="chat-header-button"><EditIcon style={{ fontSize: 35, color: "white" }} /></IconButton>
+                    <IconButton onClick={() => { onOpenModal && onOpenModal(); }} className="chat-header-button"><EditIcon style={{ fontSize: 35, color: "white" }} /></IconButton>
                   </Tooltip>
                   <Tooltip title="Eliminar Consulta">
                     <IconButton onClick={() => { onOpenModalDelete && onOpenModalDelete() }} className="chat-header-button"><DeleteIcon style={{ fontSize: 35, color: "white" }} /></IconButton>

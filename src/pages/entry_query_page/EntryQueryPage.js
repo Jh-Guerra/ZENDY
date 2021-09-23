@@ -11,7 +11,7 @@ import { listQueries } from 'services/actions/EntryQueryAction';
 const EntryQueryPage = (props) => {
   const history = useHistory();
 
-  const [entryQuery1, setEntryQuery] = React.useState({});
+  const [entryQuery, setEntryQuery] = React.useState({});
   const [showModalEntryChat, setShowModalEntryChat] = React.useState(false);
   const [showModalDelete, setShowModalDelete] = React.useState(false);
 
@@ -48,7 +48,7 @@ const EntryQueryPage = (props) => {
   const onDelete = async () => {
     props.dispatch(showBackdrop(true));
     props
-      .dispatch(deleteEntryQuery(entryQuery1 && entryQuery1.id))
+      .dispatch(deleteEntryQuery(entryQuery && entryQuery.id))
       .then(res => {
         setEntryQuery({});
         setShowModalDelete(false);
@@ -78,7 +78,7 @@ const EntryQueryPage = (props) => {
     <Grid container style={{ height: '100vh' }}>
       <Grid item xs={12} style={{ height: '13vh' }}>
         <EQMainHeader
-          entryQuery={entryQuery1}
+          entryQuery={entryQuery}
           onGetData={onGetData}
           onOpenModal={onOpenModal}
           onOpenModalDelete={onOpenModalDelete}
@@ -91,7 +91,7 @@ const EntryQueryPage = (props) => {
       </Grid>
       <Grid item xs={12} style={{ height: '74vh' }}>
         <EQMainFooter 
-        entryQuery={entryQuery1}
+        entryQuery={entryQuery}
         />
       </Grid>
 
