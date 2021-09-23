@@ -7,14 +7,13 @@ import { Button, Card, CardActions, CardActionArea, CardMedia, CardContent } fro
 const ModalUploadImage = props => {
     const { open, handleClose, uploadImage, msg, onChangeMessage, sendMessageWithImage } = props;
 
-    return (
-        <Modal open={open} handleClose={handleClose} size="md">
+    return (      
+        <Modal open={open} handleClose={handleClose} size="md" transitionModal={true} >
             <ModalHeader text="Vista Previa" />
                 <ModalBody>         
                   <Card>                
                       <CardActionArea>
                         <CardMedia
-                            className="image-upload"
                             style={{height:"700px", width:"700px"}}
                             image={uploadImage}
                         />                   

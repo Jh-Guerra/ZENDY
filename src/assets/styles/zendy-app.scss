@@ -754,11 +754,17 @@ html, body {
 
 /* ============================ IMAGE UPLOAD CHAT  ========================================*/
 
-.image-upload {
+.modal-upload {
+    display: flex;
+    justify-content:center;
+    align-items: center;
+    transition: all 0.3s ease;
+    transform:initial;
+    transform-origin: bottom;
     animation-name: showIn;
-    animation-duration: 0.4s;
+    animation-duration: 0.2s;
     animation-iteration-count: 1;
-    animation-direction: normal;
+    animation-direction:initial;
     animation-timing-function: cubic-bezier(
       0.88,
       0.19,
