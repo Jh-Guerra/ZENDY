@@ -23,8 +23,8 @@ const ModalEntryQuery = props => {
     id: '',
     reason: '',
     description: '',
-    image1: '',
-    file1: '',
+    image: '',
+    file: '',
     module:'',
   });
   const [title, setTitle] = React.useState("Ingresar Consulta");
@@ -48,8 +48,8 @@ const ModalEntryQuery = props => {
                 id: "",
                 reason: '',
                 description: '',
-                image1: '',
-                file1: '',
+                image: '',
+                file: '',
                 module:'',
             });
             setTitle("Ingresar Consulta");
@@ -78,12 +78,12 @@ const ModalEntryQuery = props => {
     props.dispatch(showBackdrop(true));
     if(entryQuery.id){
              // Editar
-             const imageInput = document.querySelector('#image1') ;
-              const fileInput = document.querySelector('#file1') ;
+             const imageInput = document.querySelector('#image') ;
+              const fileInput = document.querySelector('#file') ;
   
               const formData = new FormData();
-              formData.append('image1', imageInput.files[0] || '');
-              formData.append('file1', fileInput.files[0] || '');
+              formData.append('image', imageInput.files[0] || '');
+              formData.append('file', fileInput.files[0] || '');
               formData.append("reason", entryQuery.reason)
               formData.append('description', entryQuery.description)
               formData.append('module', entryQuery.module)
@@ -101,12 +101,12 @@ const ModalEntryQuery = props => {
                  });   
 
     } else{
-              const imageInput = document.querySelector('#image1') ;
-              const fileInput = document.querySelector('#file1') ;
+              const imageInput = document.querySelector('#image') ;
+              const fileInput = document.querySelector('#file') ;
   
               const formData = new FormData();
-              formData.append('image1', imageInput.files[0] || '');
-              formData.append('file1', fileInput.files[0] || '');
+              formData.append('image', imageInput.files[0] || '');
+              formData.append('file', fileInput.files[0] || '');
               formData.append("reason", entryQuery.reason)
               formData.append('description', entryQuery.description)
               formData.append('module', entryQuery.module)
@@ -136,21 +136,9 @@ const ModalEntryQuery = props => {
     }
  }
 
-
- function processImage1(event){
-  if(event && event.target.files && event.target.files.length > 0){
-      const imageFile = event.target.files[0];
-      const imageUrl = URL.createObjectURL(imageFile);
-      setFileUrl1(imageUrl)
-  }else{
-      setFileUrl1(null)
-  }
-}
-
 const onEdit = () => {
     setEditMode(true);
     setTitle("Editar Consulta");
-    //setIcon(<EditIcon />);
 }
 
   return (
@@ -209,7 +197,7 @@ const onEdit = () => {
                         <Grid item xs={12} style={{ padding: "0px 5px" }}>
                           <Button variant="contained" component="label" style={{ maxWidth: "100%", width: "100%"}} disabled={!editMode}>
                             <GetAppIcon style={{ marginRight: '10px' }} />
-                            <input id="file1" type="file" />
+                            <input id="file" type="file" />
                           </Button>
                         </Grid>
                       </Grid>
@@ -225,7 +213,7 @@ const onEdit = () => {
                         <Grid item xs={12} style={{ padding: "0px 5px" }}>
                           <Button variant="contained" component="label" style={{ maxWidth: "100%", width: "100%" }} disabled={!editMode}>
                             <GetAppIcon style={{ marginRight: '10px' }} />
-                            <input id="image1" accept="image/*" type="file" onChange={processImage} />
+                            <input id="image" accept="image/*" type="file" onChange={processImage} />
                           </Button>
                         </Grid>
                       </Grid>
@@ -233,8 +221,8 @@ const onEdit = () => {
                   }
                   <Grid container item xs={12} justify="center">
                     <Avatar
-                      style={{ height: 140, width: 140, display: fileUrl || (entryQuery && entryQuery.id && entryQuery.image1) ? "flex" : "none" }}
-                      src={fileUrl ? fileUrl : (data.image1 ? (config.api + data.image1) : defaultCompany)}
+                      style={{ height: 140, width: 140, display: fileUrl || (entryQuery && entryQuery.id && entryQuery.image) ? "flex" : "none" }}
+                      src={fileUrl ? fileUrl : (data.image ? (config.api + data.image) : defaultCompany)}
                     />
                   </Grid>
                 </Grid>
