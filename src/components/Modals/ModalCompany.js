@@ -18,8 +18,8 @@ import HomeIcon from '@material-ui/icons/Home';
 import { showBackdrop } from 'services/actions/CustomAction';
 import defaultCompany from 'assets/images/defaultCompany.png';
 import config from 'config/Config';
-import DescriptionIcon from '@material-ui/icons/Description';
 import GetAppIcon from '@material-ui/icons/GetApp';
+import AccountBalanceIcon from '@material-ui/icons/AccountBalance';
 
 const ModalCompany = (props) => {
     
@@ -29,6 +29,7 @@ const ModalCompany = (props) => {
         id: "",
         name: "",
         address: "",
+        ruc: "",
         adminName: "",
         email: "",
         phone: "",
@@ -58,6 +59,7 @@ const ModalCompany = (props) => {
                     id: "",
                     name: "",
                     address: "",
+                    ruc: "",
                     adminName: "",
                     email: "",
                     phone: "",
@@ -110,6 +112,7 @@ const ModalCompany = (props) => {
             formData.append('address', company.address);
             formData.append('email', company.email);
             formData.append('adminName', company.adminName);
+            formData.append('ruc', company.ruc);
             formData.append('phone', company.phone);
             formData.append('maxBytes', company.maxBytes);
             formData.append('description', company.description);
@@ -132,6 +135,7 @@ const ModalCompany = (props) => {
             formData.append('address', company.address);
             formData.append('email', company.email);
             formData.append('adminName', company.adminName);
+            formData.append('ruc', company.ruc);
             formData.append('phone', company.phone);
             formData.append('maxBytes', company.maxBytes);
             formData.append('description', company.description);
@@ -241,6 +245,18 @@ const ModalCompany = (props) => {
                                             value={values.maxBytes}
                                             error={ errors.maxBytes && touched.maxBytes ? true : false }
                                             icon={<PhoneIcon />}
+                                            disabled={!editMode}
+                                        />
+                                    </Grid>
+                                    <Grid item xs={12}>
+                                        <CustomInput
+                                            id="ruc"
+                                            label={<p>RUC</p>}
+                                            inputType="inputText"
+                                            onChange={handleChange}
+                                            value={values.ruc}
+                                            error={ errors.ruc && touched.ruc ? true : false }
+                                            icon={<AccountBalanceIcon />}
                                             disabled={!editMode}
                                         />
                                     </Grid>
