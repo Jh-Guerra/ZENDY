@@ -13,7 +13,9 @@ import ModalDelete from 'components/Modals/ModalDelete';
 
 const EQMainHeader = props => {
 
-  const { entryQuery={},  onDelete } = props;
+  const { entryQuery={},  onDelete , session } = props;
+
+  const user = session && session.user && session.user.id|| "";
 
   const history = useHistory();
   const [showChatDetail, setShowChatDetail] = useState(false);
@@ -74,7 +76,7 @@ const EQMainHeader = props => {
               }}
             />
             {
-              entryQuery && entryQuery.status == "Pendiente" && (
+              (entryQuery && entryQuery.status == "Pendiente") && (entryQuery && entryQuery.createdBy == user) && (
                 <div>
                   <Tooltip title="Editar Consulta">
                     <IconButton onClick={() => { onOpenModal && onOpenModal(); }} className="chat-header-button"><EditIcon style={{ fontSize: 35, color: "white" }} /></IconButton>

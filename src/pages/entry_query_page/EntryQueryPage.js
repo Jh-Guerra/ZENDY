@@ -7,6 +7,7 @@ import EQMainHeader from './Childrens/EQMainHeader';
 import EQMainBody from './Childrens/EQMainBody';
 import EQMainFooter from './Childrens/EQMainFooter';
 import { listQueries } from 'services/actions/EntryQueryAction';
+import { getSessionInfo } from "utils/common";
 
 const EntryQueryPage = (props) => {
   const history = useHistory();
@@ -14,6 +15,8 @@ const EntryQueryPage = (props) => {
   const [entryQuery, setEntryQuery] = React.useState({});
   const [showModalEntryChat, setShowModalEntryChat] = React.useState(false);
   const [showModalDelete, setShowModalDelete] = React.useState(false);
+
+  const session = getSessionInfo();
 
 
   React.useEffect(() => {
@@ -84,6 +87,7 @@ const EntryQueryPage = (props) => {
           onOpenModalDelete={onOpenModalDelete}
           onDelete={onDelete}
           view="entryQueries"
+          session={session}
         />
       </Grid>
       <Grid item xs={12} style={{ height: '13vh' }}>
@@ -92,6 +96,7 @@ const EntryQueryPage = (props) => {
       <Grid item xs={12} style={{ height: '74vh' }}>
         <EQMainFooter 
         entryQuery={entryQuery}
+        session={session}
         />
       </Grid>
 
