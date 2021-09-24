@@ -4,7 +4,7 @@ import Dialog from '@material-ui/core/Dialog';
 
 const Modal = (props) => {
 
-    const { open, handleClose, size="", children, style } = props;
+    const { open, handleClose, size="", children, style, transitionModal=false, } = props;
 
     return (
         <Dialog 
@@ -13,6 +13,7 @@ const Modal = (props) => {
             color="primary" 
             open={open}
             size={size}
+            className={transitionModal && "modal-upload"}
         >
             {children}
         </Dialog>
