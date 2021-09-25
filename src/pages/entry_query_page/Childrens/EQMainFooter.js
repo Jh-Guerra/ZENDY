@@ -13,6 +13,7 @@ import { infoColor } from 'assets/styles/zendy-css';
 import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
 import ChatIcon from '@material-ui/icons/Chat';
 import CustomModal from 'components/Modals/common/CustomModal';
+import { checkPermission } from "utils/common";
 
 const EQMainFooter = props => {
   const { entryQuery={}, session } = props;
@@ -86,7 +87,7 @@ const EQMainFooter = props => {
 
       <div className="entry-query-footer">
         {
-          entryQuery && entryQuery.status == "Pendiente" && (entryQuery && entryQuery.createdBy == user) && (
+          entryQuery && entryQuery.status == "Pendiente" && (checkPermission(session, "acceptEntryQuery") || checkPermission(session, "recommendUserEntryQuery") ) && (
             <div>
               <CustomButton
                 onClick={openRecommendUser}
