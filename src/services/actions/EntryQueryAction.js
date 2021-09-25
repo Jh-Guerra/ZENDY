@@ -20,6 +20,10 @@ export const listEntryQueries = (term) => async dispatch => {
 
 export const listPendingQueries = (term) => async dispatch => {
     const res = await service.listPendingQueries(term);
+    dispatch({
+        type: ENTRY_QUERY,
+        payload: res && res.data || []
+    })
     return res && res.data || [];
 }
 
@@ -29,19 +33,20 @@ export const deleteEntryQuery = (id) => async dispatch => {
 }
 
 export const listQueries = (term) => async dispatch => {
-    try{
-        const res = await service.listQueries(term);
-        dispatch({
-            type: ENTRY_QUERY,
-            payload: res.data
-        })
-        return res.data;
-    }catch(e){
-        //dispatch(showSnackBar('ERROR', e.response.data.message))
-    }
+    const res = await service.listQueries(term);
+    dispatch({
+        type: ENTRY_QUERY,
+        payload: res && res.data || []
+    })
+    return res.data;
 }
 
 export const updateEntryQuery = (id, data) => async dispatch => {
     const res = await service.updateEntryQuery(id, data);
+    return res && res.data || [];
+}
+
+export const acceptEntryQuery = (id) => async dispatch => {
+    const res = await service.acceptEntryQuery(id);
     return res && res.data || [];
 }

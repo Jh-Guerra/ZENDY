@@ -6,7 +6,7 @@ import SearchIcon from '@material-ui/icons/Search'
 import { listClientChats } from 'services/actions/ChatAction';
 import { useHistory } from 'react-router-dom';
 import { showBackdrop } from 'services/actions/CustomAction';
-import { listPendingQueries, listQueries } from 'services/actions/EntryQueryAction';
+import { listQueries } from 'services/actions/EntryQueryAction';
 import TabOptions from './TabOptions';
 import CustomModal from 'components/Modals/common/CustomModal';
 import { getSessionInfo } from "utils/common";
@@ -21,15 +21,11 @@ const styles = theme => ({
 });
 
 const EntryChat = props => {
-  const { classes = {}, session, entryQueryRedux } = props;
+  const { entryQueryRedux=[] } = props;
   const history = useHistory();
 
-  const [entryQueries, setEntryQueries] = React.useState([]);
   const [searchTimeout, setSearchTimeout] = React.useState(null);
   const [showModalEntryChat, setShowModalEntryChat] = React.useState(false);
-
-  const role = session && session.role || {};
-
 
   React.useEffect(() => {
     onList("");
@@ -37,15 +33,9 @@ const EntryChat = props => {
 
   const onList = (term) => {
     props.dispatch(showBackdrop(true));
-    if(role.name == 'UserEmpresa'){
-      props.dispatch(listQueries(term)).then(res => {
-        props.dispatch(showBackdrop(false));
-      }).catch(err => props.dispatch(showBackdrop(false)));;
-    } else {
-      props.dispatch(listPendingQueries(term)).then(res => {
-        props.dispatch(showBackdrop(false));
-      }).catch(err => props.dispatch(showBackdrop(false)));;
-    }
+    props.dispatch(listQueries(term)).then(res => {
+      props.dispatch(showBackdrop(false));
+    }).catch(err => props.dispatch(showBackdrop(false)));;
   };
 
   const onSearch = term => {
@@ -68,6 +58,8 @@ const EntryChat = props => {
   const onOpenModal = () => {
     setShowModalEntryChat(true);
   }
+
+  const entryQueries = entryQueryRedux && entryQueryRedux.entryQueries || [];
 
   return (
     <div style={{height: "79vh"}}>
@@ -105,7 +97,7 @@ const EntryChat = props => {
           />
         </Grid>
         <Grid item xs={12}>
-          {entryQueryRedux.entryQueries && entryQueryRedux.entryQueries.map((query, i) => {
+          {entryQueries.map((query, i) => {
             return (
                <ItemQueryRow
                  key={i}

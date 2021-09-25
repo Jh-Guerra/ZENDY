@@ -15,11 +15,11 @@ const styles = theme => ({
 });
 
 const AdminEntryChat = props => {
-  const { classes = {}, session } = props;
+  const { entryQueryRedux=[] } = props;
   const history = useHistory();
 
-  const [entryQueries, setEntryQueries] = React.useState([]);
   const [searchTimeout, setSearchTimeout] = React.useState(null);
+  const [showModalEntryChat, setShowModalEntryChat] = React.useState(false);
 
   React.useEffect(() => {
     onList("");
@@ -28,7 +28,6 @@ const AdminEntryChat = props => {
   const onList = (term) => {
     props.dispatch(showBackdrop(true));
     props.dispatch(listPendingQueries(term)).then(res => {
-      setEntryQueries(res || []);
       props.dispatch(showBackdrop(false));
     }).catch(err => props.dispatch(showBackdrop(false)));;
   };
@@ -47,6 +46,8 @@ const AdminEntryChat = props => {
       history.push("/consultas/" + entryQuery.id);
     }
   }
+
+  const entryQueries = entryQueryRedux && entryQueryRedux.entryQueries || [];
 
   return (
     <div style={{height: "79vh"}}>

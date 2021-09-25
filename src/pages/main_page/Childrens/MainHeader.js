@@ -18,18 +18,9 @@ const MainHeader = props => {
   const { chat={} } = props;
 
   const history = useHistory();
-  const [showAcceptChat, setShowAcceptChat] = useState(false);
   const [showRecommendUser, setShowRecommendUser] = useState(false)
   const [showChatDetail, setShowChatDetail] = useState(false);
   const [showAddToConversation, setShowAddToConversation] = useState(false);
-
-  const handleAcceptChat = () => {
-      setShowAcceptChat(true);
-  }
-
-  const handleClose = () => {
-      setShowAcceptChat(false);
-  }
 
   const handleRecommendUser = () => {
     setShowRecommendUser(true);
@@ -119,11 +110,6 @@ const MainHeader = props => {
         customModal="ModalRecommendUser"
         open={showRecommendUser} 
         handleClose={() => { setShowRecommendUser(false); }}
-      />
-      <CustomModal 
-        customModal="ModalAcceptChat"
-        open={showAcceptChat} 
-        handleClose={handleClose}
       />
       <CustomModal 
         customModal="ModalChatDetail"

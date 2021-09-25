@@ -2,11 +2,10 @@ import React, { Component } from 'react';
 import { Grid } from "@material-ui/core";
 import { showBackdrop, showSnackBar } from 'services/actions/CustomAction';
 import { useHistory } from 'react-router-dom';
-import { findEntryQuery, deleteEntryQuery } from 'services/actions/EntryQueryAction';
+import { findEntryQuery, deleteEntryQuery, acceptEntryQuery, listPendingQueries, listQueries } from 'services/actions/EntryQueryAction';
 import EQMainHeader from './Childrens/EQMainHeader';
 import EQMainBody from './Childrens/EQMainBody';
 import EQMainFooter from './Childrens/EQMainFooter';
-import { listQueries } from 'services/actions/EntryQueryAction';
 import { getSessionInfo } from "utils/common";
 
 const EntryQueryPage = (props) => {
@@ -70,12 +69,19 @@ const EntryQueryPage = (props) => {
   const onList = (term) => {
     props.dispatch(showBackdrop(true));
       props.dispatch(listQueries(term)).then(res => {
-        setEntryQuery(res || []);
         props.dispatch(showBackdrop(false));
-      }).catch(err => props.dispatch(showBackdrop(false)));;
+      }).catch(err => props.dispatch(showBackdrop(false)));
   };
 
-
+  const onAcceptEntryQuery = () => {
+    props.dispatch(showBackdrop(true));
+    props.dispatch(acceptEntryQuery(entryQuery.id)).then(res => {
+      const chat = res && res.chat;
+      history.push(`/chat/${chat.type}/${chat.id}`);
+      props.dispatch(listPendingQueries(""));
+      props.dispatch(showBackdrop(false));
+    }).catch(err => { props.dispatch(showBackdrop(false)); props.dispatch(showSnackBar("error", err.response.data.error)); });
+  }
 
   return (
     <Grid container style={{ height: '100vh' }}>
@@ -95,8 +101,9 @@ const EntryQueryPage = (props) => {
       </Grid>
       <Grid item xs={12} style={{ height: '74vh' }}>
         <EQMainFooter 
-        entryQuery={entryQuery}
-        session={session}
+          entryQuery={entryQuery}
+          session={session}
+          onAcceptEntryQuery={onAcceptEntryQuery}
         />
       </Grid>
 

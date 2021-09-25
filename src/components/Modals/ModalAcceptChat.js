@@ -21,7 +21,7 @@ const useStyles = makeStyles(theme => ({
 const ModalAcceptChat = (props) => {
 
     const classes = useStyles();
-    const { open, handleClose } = props;
+    const { open, handleClose, onConfirm } = props;
 
     return (
         <Modal 
@@ -38,7 +38,7 @@ const ModalAcceptChat = (props) => {
                 <Grid container>
                     <Grid item xs={12}>
                         <Box textAlign="center">
-                            <Typography gutterBottom className={classes.typography}>¿Está seguro que desea aceptar este chat?</Typography>
+                            <Typography gutterBottom className={classes.typography}>¿Está seguro que desea aceptar esta consulta?</Typography>
                         </Box>
                     </Grid>
                 </Grid>
@@ -46,7 +46,7 @@ const ModalAcceptChat = (props) => {
 
             <ModalFooter
                 confirmText={"Aceptar"}
-                onConfirm={null}
+                onConfirm={onConfirm}
                 cancelText={"Cancelar"}
                 onCancel={handleClose}
             />

@@ -192,28 +192,27 @@ const onEdit = () => {
                     editMode && (
                       <Grid item xs={12} container>
                         <Grid item xs={12}>
-                          <p style={{ color: 'rgba(0, 0, 0, 0.54)', marginBottom: '5px' }}> Archivo </p>
-                        </Grid>
-                        <Grid item xs={12} style={{ padding: "0px 5px" }}>
-                          <Button variant="contained" component="label" style={{ maxWidth: "100%", width: "100%"}} disabled={!editMode}>
-                            <GetAppIcon style={{ marginRight: '10px' }} />
-                            <input id="file" type="file" />
-                          </Button>
-                        </Grid>
-                      </Grid>
-                    )
-                  }
-
-                  {
-                    editMode && (
-                      <Grid item xs={12} container>
-                        <Grid item xs={12}>
                           <p style={{ color: 'rgba(0, 0, 0, 0.54)', marginBottom: '5px' }}> Imágen </p>
                         </Grid>
                         <Grid item xs={12} style={{ padding: "0px 5px" }}>
                           <Button variant="contained" component="label" style={{ maxWidth: "100%", width: "100%" }} disabled={!editMode}>
                             <GetAppIcon style={{ marginRight: '10px' }} />
                             <input id="image" accept="image/*" type="file" onChange={processImage} />
+                          </Button>
+                        </Grid>
+                      </Grid>
+                    )
+                  }
+                  {
+                    editMode && (
+                      <Grid item xs={12} container>
+                        <Grid item xs={12}>
+                          <p style={{ color: 'rgba(0, 0, 0, 0.54)', marginBottom: '5px' }}> Archivo </p>
+                        </Grid>
+                        <Grid item xs={12} style={{ padding: "0px 5px" }}>
+                          <Button variant="contained" component="label" style={{ maxWidth: "100%", width: "100%"}} disabled={!editMode}>
+                            <GetAppIcon style={{ marginRight: '10px' }} />
+                            <input id="file" type="file" />
                           </Button>
                         </Grid>
                       </Grid>

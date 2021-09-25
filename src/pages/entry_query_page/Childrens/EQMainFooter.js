@@ -13,6 +13,7 @@ import { infoColor } from 'assets/styles/zendy-css';
 import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
 import ChatIcon from '@material-ui/icons/Chat';
 import CustomModal from 'components/Modals/common/CustomModal';
+import { checkPermission } from 'utils/common';
 
 const EQMainFooter = props => {
   const { entryQuery={}, session } = props;
@@ -42,8 +43,6 @@ const EQMainFooter = props => {
 
   const [chat, setChat] = React.useState([]);
   const [msg, setMsg] = React.useState('');
-  const [showEmoji, setShowEmoji] = React.useState();
-  const [cursorPosition, setCursorPosition] = React.useState();
 
   React.useEffect(() => {
     setChat([...chatItems]);
@@ -66,6 +65,12 @@ const EQMainFooter = props => {
     });
   }, [msg]);
 
+
+  const onAcceptEntryQuery = () => {
+    setShowAcceptChat(false);
+    props.onAcceptEntryQuery && props.onAcceptEntryQuery();
+  }
+
   return (
     <div>
       <div className="main-chat-content">
@@ -86,25 +91,27 @@ const EQMainFooter = props => {
 
       <div className="entry-query-footer">
         {
-          entryQuery && entryQuery.status == "Pendiente" && (entryQuery && entryQuery.createdBy == user) && (
-            <div>
-              <CustomButton
-                onClick={openRecommendUser}
-                variant="contained"
-                customColor={infoColor}
-                startIcon={<PeopleAltIcon />}
-              >
-                Recomendar Usuario
-              </CustomButton>
-              <CustomButton
-                onClick={openAcceptChat}
-                variant="contained"
-                customColor={infoColor}
-                startIcon={<ChatIcon />}
-              >
-                Aceptar consulta e Iniciar Chat
-              </CustomButton>
-            </div>
+          checkPermission(session, "acceptEntryQuery") && (
+            <CustomButton
+              onClick={openRecommendUser}
+              variant="contained"
+              customColor={infoColor}
+              startIcon={<PeopleAltIcon />}
+            >
+              Recomendar Usuario
+            </CustomButton>
+          )
+        }
+        {
+          checkPermission(session, "recommendUserEntryQuery") && (
+            <CustomButton
+              onClick={openAcceptChat}
+              variant="contained"
+              customColor={infoColor}
+              startIcon={<ChatIcon />}
+            >
+              Aceptar consulta e Iniciar Chat
+            </CustomButton>
           )
         }
       </div>
@@ -113,6 +120,8 @@ const EQMainFooter = props => {
         customModal="ModalAcceptChat"
         open={showAcceptChat}
         handleClose={() => { setShowAcceptChat(false) }}
+        onConfirm={onAcceptEntryQuery}
+
       />
       <CustomModal
         customModal="ModalRecommendUser"
