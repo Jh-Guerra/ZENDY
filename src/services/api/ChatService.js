@@ -25,6 +25,18 @@ class ChatService {
             }
     )}
 
+    async listNotActiveChats(term, status) {
+        return await axios.get(
+            config.apiVersion + `chats/not-active-list?term=${term}`,
+            { 
+                headers: {
+                    ...config.headers, 
+                    Authorization: `token ${JSON.parse(localStorage.getItem('session')).token || ''}` 
+                },
+                params: { status }
+            }
+    )}
+
 
 //  CHAT - CLIENT ...................................................................................
 

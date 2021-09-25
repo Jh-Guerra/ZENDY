@@ -14,6 +14,11 @@ export const listActiveChats = (term, status) => async dispatch => {
     return res && res.data || [];
 }
 
+export const listNotActiveChats = (term, status) => async dispatch => {
+    const res = await chatService.listNotActiveChats(term, status);
+    return res && res.data || [];
+}
+
 // CHAT - CLIENT ..................................................
 export const createClientChat = (users) => async dispatch => {
     const res = await chatService.createClientChat(users);
