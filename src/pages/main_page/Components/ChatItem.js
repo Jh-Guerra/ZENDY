@@ -21,12 +21,12 @@ const ChatItem = props => {
     setShowResendMessage(true);
 }
  
-  const { user, msg, image, imageUpload } = props;
+  const { isMyMessage, msg, image, imageUpload, user } = props;
   
   return (
     <div
       style={{ animationDelay: `0.8s` }}
-      className={`chat-item ${user ? user : ""}`}
+      className={`chat-item ${isMyMessage ? "me" : "other"}`}
     >
       <Fade in={open} >
       <Tooltip title="Reenviar">
@@ -37,7 +37,7 @@ const ChatItem = props => {
       </Fade>
       <div className="chat-item-content"  onClick={handleClickOpen} onChange={handleClickOpen}>
         <div className="chat-meta">
-          <span>{user}</span>
+          <span>{isMyMessage ? "Yo" : user}</span>
           <span>12:05 PM</span>
         </div>
         <div className="chat-msg">{msg}</div>

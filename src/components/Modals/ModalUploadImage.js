@@ -5,7 +5,7 @@ import ModalHeader from './common/ModalHeader'
 import { Button, Card, CardActions, CardActionArea, CardMedia, CardContent } from "@material-ui/core";
 
 const ModalUploadImage = props => {
-    const { open, handleClose, uploadImage, msg, onChangeMessage, sendMessageWithImage } = props;
+    const { open, handleClose, uploadImage, msg, onChangeMessage, sendMessage } = props;
 
     return (      
         <Modal open={open} handleClose={handleClose} size="md" transitionModal={true} >
@@ -33,7 +33,7 @@ const ModalUploadImage = props => {
                         <Button size="small" variant="contained" color="primary" style={{marginLeft:"5px"}} onClick={handleClose}>
                             Cancelar
                         </Button>  
-                        <Button size="small" variant="contained" color="primary" style={{marginLeft:"580px"}} onClick={sendMessageWithImage}>
+                        <Button size="small" variant="contained" color="primary" style={{marginLeft:"580px"}} onClick={sendMessage}>
                             Enviar
                         </Button>
                       </CardActions>              

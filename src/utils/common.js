@@ -7,6 +7,13 @@ import avatarOthers from 'assets/images/avatarOthers.png';
 import LogoZendy from 'assets/images/Zendy-logo.jpg';
 import config from 'config/Config';
 
+import unknowFileZendy from 'assets/images/unknowFileZendy.png';
+import excelZendy from 'assets/images/excelZendy.png';
+import wordZendy from 'assets/images/wordZendy.png';
+import powerpointZendy from 'assets/images/powerpointZendy.png';
+import pdfZendy from 'assets/images/pdfZendy.png';
+import blocZendy from 'assets/images/blocZendy.jpg';
+
 export const saveUser = (value) => {
   if (window && window.localStorage) {
     return window.localStorage.saveObject("user", value);
@@ -141,3 +148,32 @@ export const statusItems = [
   "Cancelado",
   "Completado"
 ];
+
+export const getFileImage = (extension) => {
+  console.log("extension", extension)
+  switch(extension){
+    case "text/csv":
+    case "application/vnd.oasis.opendocument.spreadsheet":
+    case "application/vnd.ms-excel":
+    case "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet":
+      return excelZendy;
+    case "application/msword":
+    case "application/vnd.openxmlformats-officedocument.wordprocessingml.document":
+      return wordZendy;
+    case "application/vnd.oasis.opendocument.text":
+      return blocZendy;
+    case "application/pdf":
+      return pdfZendy;
+    case "application/vnd.ms-powerpoint":
+      return powerpointZendy;
+    default:
+      return unknowFileZendy;
+  }
+}
+
+export const isImageFile = (extension) => {
+  if(extension == "image/png" || extension == "image/jpeg" || extension == ""){
+    return true;
+  }
+  return false;
+}

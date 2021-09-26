@@ -8,112 +8,66 @@ import ImageIcon from '@material-ui/icons/Image';
 import DescriptionIcon from '@material-ui/icons/Description';
 import ChatItem from "../Components/ChatItem";
 import EmojiPicker from "emoji-picker-react";
-// import ScrollToBottom from "react-scroll-to-bottom";
 import ModalUploadImage from "components/Modals/ModalUploadImage";
+import { createMessage, listMessage } from "services/actions/MessageAction";
+import { showBackdrop } from "services/actions/CustomAction";
+import { useHistory, withRouter } from "react-router-dom";
+import InputBase from '@material-ui/core/InputBase';
+import config from "../../../config/Config";
+import ModalUploadFile from "components/Modals/ModalUploadFile";
 
 const MainFooter = props => {
-  const messagesEndRef = useRef(null);
   const inputRef = createRef();
 
-  const chatItems = [
-    {
-      key: 1,
-      image:
-        "https://pbs.twimg.com/profile_images/1116431270697766912/-NfnQHvh_400x400.jpg",
-      type: "",
-      msg: "Hi Homero, How are you?",
-      uploadImage: null,
-    },
-    {
-      key: 2,
-      image:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTA78Na63ws7B7EAWYgTr9BxhX_Z8oLa1nvOA&usqp=CAU",
-      type: "other",
-      msg: "I am fine.",
-      uploadImage: null,
-    },
-    {
-      key: 3,
-      image:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTA78Na63ws7B7EAWYgTr9BxhX_Z8oLa1nvOA&usqp=CAU",
-      type: "other",
-      msg: "What about you?",
-      uploadImage: null,
-    },
-  ];
+  const {user={}, chat={}, message={}} = props;
 
-  const [chat, setChat] = React.useState([]);
   const [msg, setMsg] = React.useState("");
+  const [resend, setResend] = React.useState(false);
   const [showEmoji, setShowEmoji] = React.useState();
   const [cursorPosition, setCursorPosition] = React.useState();
   const [showPreviewImage, setShowPreviewImage] = React.useState(false);
-  const [uploadImage, setUploadImage] = React.useState();
-
-
-  /* const scrollToBottom = () => {
-    // using scrollIntoView
-    messagesEndRef.current.scrollIntoView({
-      behavior: 'smooth'
-    })
-  } */
-
-  React.useEffect(() => {
-    setChat([...chatItems]);
-    //scrollToBottom();
-  }, []);
+  const [uploadImage, setUploadImage] = React.useState(null);
+  const [showPreviewFile, setShowPreviewFile] = React.useState(false);
+  const [uploadFile, setUploadFile] = React.useState(null);
+  const [fileExtension, setFileExtension] = React.useState(null);
 
   React.useEffect(() => {
     inputRef.current.selectionEnd = cursorPosition;
   }, [cursorPosition]);
 
-  const sendMessageWithEnter = () => {
-    window.addEventListener("keydown", (event) => {
-      if (event.key === 'Enter' && msg !== "") { 
-          chatItems.push({
-            key: 1,
-            image:
-            "https://pbs.twimg.com/profile_images/1116431270697766912/-NfnQHvh_400x400.jpg",
-            type: "",
-            msg: msg,   
-          });
-          setChat([...chatItems]);
-          setMsg("");
-          setShowEmoji(null);   
-      }
-    });  
-  }
+  const sendMessage = (type) => {   
 
-  const sendMessage = () => {   
-    if (msg !== "") {  
-      chatItems.push({
-        key: 1,
-        image:
-        "https://pbs.twimg.com/profile_images/1116431270697766912/-NfnQHvh_400x400.jpg",
-        type: "",
-        msg: msg,   
-      });
-      setChat([...chatItems]);
+    if(type == "text" && !msg){
+      return;
+    }
+
+    if(type == "image" && !uploadImage){
+      return;
+    }
+
+    if(type == "file" && !uploadFile){
+      return;
+    }
+
+    const imageInput = document.querySelector('#upload-image');
+    const fileInput = document.querySelector('#upload-file');
+
+    const formData = new FormData();
+    formData.append("idChat", chat.id);
+    formData.append("message", msg);
+    formData.append("resend", resend);
+    formData.append('image', imageInput.files[0] || null);
+    formData.append('file', fileInput.files[0] || null);
+
+    props.dispatch(createMessage(formData)).then((res) => {
       setMsg("");
       setShowEmoji(null);
-      inputRef.current.focus();
-    }  
-  }
-
-  const sendMessageWithImage = () => {   
-    if (uploadImage !== null) {     
-      chatItems.push({
-        key: 1,
-        image:
-        "https://pbs.twimg.com/profile_images/1116431270697766912/-NfnQHvh_400x400.jpg",
-        type: "",
-        msg: msg,
-        uploadImage: uploadImage,   
-      });
-      setChat([...chatItems]);
-      setMsg("");
       setShowPreviewImage(false);
-      inputRef.current.focus();  
-    }
+      setShowPreviewFile(false);
+      props.onListMessages(chat.id);
+    }).catch(error => {
+        console.error('error', error);
+    });
   }
 
   const pickEmoji = (e, {emoji}) => {
@@ -135,9 +89,13 @@ const MainFooter = props => {
     setMsg(e.target.value);
   };
 
-  const closeModalUploadImage = () => {
+  const closeModalUpload = () => {
     setShowPreviewImage(false);
+    setShowPreviewFile(false);
     setMsg("");
+    setUploadImage(null);
+    setUploadFile(null);
+    setFileExtension(null);
   }
 
   function processImage(event){
@@ -150,27 +108,21 @@ const MainFooter = props => {
         setUploadImage(null)
     }
   }
- 
-  return (   
-      <div>
 
-        <div className="main-chat-content" style={{overflow:'auto'}} ref={messagesEndRef}>
-        
-        {chat.map((itm, index) => {
-              return (
-                <ChatItem
-                  key={index}
-                  animationDelay={index + 2}
-                  user={itm.type ? itm.type : "me"}
-                  msg={itm.msg}
-                  image={itm.image}
-                  imageUpload={itm.uploadImage}
-                />
-              );
-            })}
-        
-        </div>    
+  function processFile(event){
+    if(event && event.target.files && event.target.files.length > 0){
+        const file = event.target.files[0];
+        const fileUrl = URL.createObjectURL(file);
+        setUploadFile(fileUrl)
+        setShowPreviewFile(true);
+        setFileExtension(file.type);
+    }else{
+        setUploadFile(null)
+    }
+  }
 
+  return (
+      <>
         <div className="chat-footer">
           <IconButton className="chat-input-button" onClick={handleShowEmojis}> 
             <EmojiEmotionsIcon className="chat-input-icon"  />
@@ -187,37 +139,49 @@ const MainFooter = props => {
                 <ImageIcon style={{fontSize:"53px", color: "white", paddingBottom:"27px"}} />     
               </IconButton>
             </label>
-                     
-          <IconButton className="chat-input-button"> 
-            <DescriptionIcon className="chat-input-icon" />
-          </IconButton>
+
+          <input style={{display:'none'}} id="upload-file" type="file" onChange={processFile}/>
+            <label htmlFor="upload-file">      
+              <IconButton className="chat-input-button" component="span"> 
+                <DescriptionIcon style={{fontSize:"53px", color: "white", paddingBottom:"27px"}} />
+              </IconButton>
+            </label>
           
-          <input
+          <InputBase
+            style={{ flex: 1, width: '80%' }}
             type="text"
             placeholder="Escribe un mensaje aquí."
             onChange={onStateChange}
             value={msg}
             ref={inputRef}
-            onKeyDown={sendMessageWithEnter}     
+            onKeyPress={event => { event.key === 'Enter' && sendMessage("text") }}
           />
           <IconButton className="chat-input-button">
-            <SendIcon className="chat-icon-send" onClick={sendMessage}/>
+            <SendIcon className="chat-icon-send" onClick={() => { sendMessage("text") }} />
           </IconButton>
          
         </div>
 
         <ModalUploadImage
             open={showPreviewImage}
-            handleClose={closeModalUploadImage}
+            handleClose={closeModalUpload}
             uploadImage={uploadImage}
             msg={msg}
             onChangeMessage={onStateChange}
-            sendMessageWithImage={sendMessageWithImage}
-        >
-        </ModalUploadImage>
-
-      </div>         
+            sendMessage={() => { sendMessage("image") }}
+        />
+        
+        <ModalUploadFile
+            open={showPreviewFile}
+            handleClose={closeModalUpload}
+            uploadImage={uploadFile}
+            fileExtension={fileExtension}
+            msg={msg}
+            onChangeMessage={onStateChange}
+            sendMessage={() => { sendMessage("file") }}
+        />
+      </>     
   );
 }
 
-export default MainFooter;
+export default withRouter(MainFooter);

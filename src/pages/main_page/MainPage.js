@@ -6,13 +6,19 @@ import MainBody from "pages/main_page/Childrens/MainBody";
 import MainFooter from "pages/main_page/Childrens/MainFooter";
 import { showBackdrop, showSnackBar } from 'services/actions/CustomAction';
 import { findChat, finalizeChat, listActiveChats } from 'services/actions/ChatAction';
-import { useHistory } from 'react-router-dom';
+import { useHistory, withRouter } from 'react-router-dom';
+import { connect } from "react-redux";
+import { createMessage, listMessages } from 'services/actions/MessageAction';
+import { getSessionInfo } from 'utils/common';
 
 const MainPage = (props) => {
-
   const history = useHistory();
+  const session = getSessionInfo() || {};
+  const user = session.user || {};
 
   const [chat, setChat] = React.useState({});
+  const [message, setMessage] = React.useState({});
+  const [messages, setMessages] = React.useState([]);
 
   React.useEffect(() => {
     if(props.location.pathname){
@@ -20,12 +26,12 @@ const MainPage = (props) => {
       const chatId = pathArray && pathArray[3];
       if(chatId){
         onGetChatData(chatId);
+        onListMessages(chatId);
       }else{
-        history.push("/");
+        history.push("/inicio");
       }
     }
   }, [props.location.pathname]);
-
 
   const onGetChatData = (chatId) => {
     props.dispatch(showBackdrop(true));
@@ -45,6 +51,12 @@ const MainPage = (props) => {
     }).catch(err => props.dispatch(showBackdrop(false)));
   }
 
+  const onListMessages = (chatId) => {
+    props.dispatch(listMessages(chatId)).then(res => {
+      setMessages(res || []);
+    }).catch(err => props.dispatch(showBackdrop(false)));
+  }
+
   return (
     <Grid container style={{height:'100vh'}}>
       <Grid item xs={12} style={{height:'13vh'}}>
@@ -52,16 +64,28 @@ const MainPage = (props) => {
           chat={chat}
           onGetChatData={onGetChatData}
           onEndChat={onEndChat}
+          {...props}
+        />
+      </Grid>
+      <Grid item xs={12} style={{height:'74vh'}}>
+        <MainBody
+          {...props}
+          messages={messages}
+          chat={chat}
+          user={user}
         />
       </Grid>
       <Grid item xs={12} style={{height:'13vh'}}>
-        <MainBody/>
-      </Grid>
-      <Grid item xs={12} style={{height:'74vh'}}>
-        <MainFooter/>
+        <MainFooter
+          {...props}
+          chat={chat}
+          message={message}
+          onListMessages={onListMessages}
+        />
       </Grid>
     </Grid>
   );
 }
 
-export default MainPage;
+const mapStateToProps = (state) => ({ ...state })
+export default connect(mapStateToProps)(withRouter(MainPage));
