@@ -76,7 +76,7 @@ const EQMainHeader = props => {
               }}
             />
             {
-              (entryQuery && entryQuery.status == "Pendiente") && (entryQuery && entryQuery.createdBy == user) && (
+              ((entryQuery && entryQuery.status == "Pendiente") && (entryQuery && entryQuery.createdBy == user) && (entryQuery && entryQuery.isFrequentQuery == 0) ) && (
                 <div>
                   <Tooltip title="Editar Consulta">
                     <IconButton onClick={() => { onOpenModal && onOpenModal(); }} className="chat-header-button"><EditIcon style={{ fontSize: 35, color: "white" }} /></IconButton>

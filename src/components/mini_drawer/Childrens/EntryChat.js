@@ -27,6 +27,7 @@ const EntryChat = props => {
   const [entryQueries, setEntryQueries] = React.useState([]);
   const [searchTimeout, setSearchTimeout] = React.useState(null);
   const [showModalEntryChat, setShowModalEntryChat] = React.useState(false);
+  const [showModalEntryChatF, setShowModalEntryChatF] = React.useState(false);
 
   const role = session && session.role || {};
 
@@ -68,6 +69,9 @@ const EntryChat = props => {
   const onOpenModal = () => {
     setShowModalEntryChat(true);
   }
+  const onOpenModalF = () => {
+    setShowModalEntryChatF(true);
+  }
 
   return (
     <div style={{height: "79vh"}}>
@@ -76,6 +80,7 @@ const EntryChat = props => {
           <TabOptions
             onSaveForm={onSaveForm}
             onOpenModal={onOpenModal}
+            onOpenModalF={onOpenModalF}
             view="entryQueries"
           />
         </Grid>
@@ -122,6 +127,16 @@ const EntryChat = props => {
         handleClose={() => { setShowModalEntryChat(false) }}
         onSaveForm={() => {
           setShowModalEntryChat(false);
+         // handleClose();
+          onSaveForm();
+      }}
+      />
+         <CustomModal
+        customModal={'ModalEntryQueryFrequent'}
+        open={showModalEntryChatF}
+        handleClose={() => { setShowModalEntryChatF(false) }}
+        onSaveForm={() => {
+          setShowModalEntryChatF(false);
          // handleClose();
           onSaveForm();
       }}
