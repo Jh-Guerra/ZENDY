@@ -10,7 +10,7 @@ import CustomModal from "components/Modals/common/CustomModal";
 import { useHistory, withRouter } from "react-router-dom";
 import config from "config/Config";
 import { getImageProfile, getSessionInfo } from "utils/common";
-import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
+import SpeakerNotesOffIcon from '@material-ui/icons/SpeakerNotesOff';
 
 const MainHeader = props => {
   const session = getSessionInfo();
@@ -18,13 +18,9 @@ const MainHeader = props => {
   const { chat={}, onGetChatData } = props;
 
   const history = useHistory();
-  const [showRecommendUser, setShowRecommendUser] = useState(false)
+  const [showModalEndChat,setShowModalEndChat] = React.useState(false);
   const [showChatDetail, setShowChatDetail] = useState(false);
   const [showAddToConversation, setShowAddToConversation] = useState(false);
-
-  const handleRecommendUser = () => {
-    setShowRecommendUser(true);
-  }
 
   const handleChatDetail = () => {
     setShowChatDetail(true);
@@ -32,6 +28,10 @@ const MainHeader = props => {
 
   const handleAddToConversation = () => {
     setShowAddToConversation(true);
+  }
+
+  const handleEndChat = () => {
+    setShowModalEndChat(true);
   }
 
   var image;
@@ -61,6 +61,11 @@ const MainHeader = props => {
       isAdmin = (participant.type == "Admin")
     }
   })
+
+  const onEndChat = (data) => {
+    setShowModalEndChat(false);
+    props.onEndChat && props.onEndChat(data);
+  }
 
   return (
     <Grid container className="chat-header">    
@@ -115,19 +120,22 @@ const MainHeader = props => {
               }}
             />
             {
-              isAdmin &&
-              <Tooltip title="Agregar a la conversación">
-                <IconButton onClick={handleAddToConversation} className="chat-header-button"><PersonAddIcon style={{ fontSize: 35 }} /></IconButton>
-              </Tooltip>
+              isAdmin && (
+                <Tooltip title="Agregar a la conversación">
+                  <IconButton onClick={handleAddToConversation} className="chat-header-button"><PersonAddIcon style={{ fontSize: 35 }} /></IconButton>
+                </Tooltip>
+              )
+            }
+            {
+              isAdmin && (chat.type == "Cliente" || chat.type == "Consulta") && (
+                <Tooltip title="Finalizar chat">
+                  <IconButton onClick={handleEndChat} className="chat-header-button"><SpeakerNotesOffIcon style={{ fontSize: 35 }} /></IconButton>
+                </Tooltip>
+              )
             }
           </Grid>              
         </Grid>
       </Grid>
-      <CustomModal 
-        customModal="ModalRecommendUser"
-        open={showRecommendUser} 
-        handleClose={() => { setShowRecommendUser(false); }}
-      />
       <CustomModal 
         customModal="ModalChatDetail"
         open={showChatDetail} 
@@ -142,6 +150,13 @@ const MainHeader = props => {
         chat={chat}
         onGetChatData={onGetChatData}
       />
+      <CustomModal
+        customModal="ModalEndChat"
+        open={showModalEndChat}
+        handleClose={() => {setShowModalEndChat(false)}}
+        onEndChat={onEndChat}
+      >
+      </CustomModal>
     </Grid>
   );
 

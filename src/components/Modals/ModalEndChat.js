@@ -6,7 +6,9 @@ import Modal from './common/Modal'
 import { TextField } from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
 import ModalFooter from './common/ModalFooter';
-import DeleteIcon from '@material-ui/icons/Delete';
+import SpeakerNotesOffIcon from '@material-ui/icons/SpeakerNotesOff';
+import { statusItems } from 'utils/common';
+import CustomInput from 'components/CustomInput';
 
 const useStyles = makeStyles(theme => ({
     typography: {
@@ -25,19 +27,36 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
-const ModalEndChat = ({ open, handleClose }) => {
+const ModalEndChat = (props) => {
 
     const classes = useStyles();
-    const MenuItems = ["Opcion 1","Opcion 2","Opcion 3","Opcion 4"]
+    const { open, handleClose } = props;
+
+    const [finalizeStatus, setFinalizeStatus] = React.useState("Completado");
+    const [finalizeDescription, setFinalizeDescription] = React.useState("");
+
+    React.useEffect(() => {
+        if(open){
+            setFinalizeStatus("Completado");
+            setFinalizeDescription("");
+        }
+    }, [open]);
+
+    const onEndChat = () => {
+        props.onEndChat && props.onEndChat({
+            finalizeStatus: finalizeStatus,
+            finalizeDescription: finalizeDescription
+        })
+    }
 
     return (
         <Modal
             open={open}
             handleClose={handleClose}
-            size="xs">
+            size="sm">
                 
             <ModalHeader
-                icon={<DeleteIcon />}
+                icon={<SpeakerNotesOffIcon />}
                 text="Finalizar chat"
                 size="md"
             />
@@ -45,41 +64,40 @@ const ModalEndChat = ({ open, handleClose }) => {
                 <Grid container>
                     <Grid item xs={12}>
                         <Box textAlign="center">
-                            <Typography variant="h5" gutterBottom className={classes.typography}>¿Está seguro de finalizar el chat con "Homero Simpons"?</Typography>
+                            <Typography variant="h5" gutterBottom className={classes.typography}>¿Está seguro de finalizar el chat?</Typography>
                         </Box>
                     </Grid>
                     <Grid item xs={12}>
                         <Grid container direction="row" className={classes.margin} >
-
                             <Grid item xs={3}>
                                 <Typography variant="h6" gutterBottom >Estado:</Typography>
                             </Grid>
-                            <Grid item xs={6}>
+                            <Grid item xs={9}>
                                 <Select
                                     className={classes.select}
+                                    onChange={event => { setFinalizeStatus(event.target.value) }}
+                                    value={finalizeStatus}
                                 >
-                                {
-                                    MenuItems.map((item, index) => (
-                                        <MenuItem key={index} value={item}>{item}</MenuItem>
-                                    ))
-                                }
+                                    {
+                                        statusItems.map((status, i) => (
+                                            <MenuItem key={i} value={status}>{status}</MenuItem>
+                                        ))
+                                    }
                                 </Select>
                             </Grid>
-
                         </Grid>
                     </Grid>
-                    <Grid item xs={12} className={classes.margin}>
+                    <Grid item xs={12} container className={classes.margin}>
                         <Grid item xs={12}>
                             <Typography variant="h6" gutterBottom >Razón y/o motivo:</Typography>
                         </Grid>
                         <Grid item xs={12}>
-                            <TextField
-                                placeholder="Ingrese una descripción ..."
-                                multiline
-                                className={classes.textarea}
-                                rows={6}
-                                rowsMax={6}
-                                variant="outlined"
+                            <CustomInput
+                                id="description"
+                                inputType="textArea"
+                                placeholder="Ingrese una descripción"
+                                onChange={event => { setFinalizeDescription(event.target.value) }}
+                                value={finalizeDescription}
                             />
                         </Grid>
                     </Grid>
@@ -87,7 +105,7 @@ const ModalEndChat = ({ open, handleClose }) => {
             </ModalBody>
             <ModalFooter 
                 confirmText={"Aceptar"}
-                onConfirm={null}
+                onConfirm={onEndChat}
                 cancelText={"Cancelar"}
                 onCancel={handleClose}
             />

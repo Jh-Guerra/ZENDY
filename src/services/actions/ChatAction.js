@@ -68,7 +68,7 @@ export const deleteChat = (id) => async dispatch => {
     return res && res.data || [];
 }
 
-export const finalizeChat = (idChat) => async dispatch => {
-    const res = await chatService.finalizeChat(idChat);
+export const finalizeChat = (idChat, data) => async dispatch => {
+    const res = await chatService.finalizeChat(idChat, data);
     return res && res.data || [];
 }

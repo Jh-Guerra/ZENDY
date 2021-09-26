@@ -121,10 +121,10 @@ class ChatService {
             } }
     )}
      
-    async finalizeChat(idChat) {
+    async finalizeChat(idChat, data) {
         return await axios.post(
             config.apiVersion + `chats/finalize/` + idChat,
-            {},
+            data,
             { headers: {    
                 ...config.headers, 
                 Authorization: `token ${JSON.parse(localStorage.getItem('session')).token || ''}` 

@@ -37,15 +37,11 @@ const ModalGroupChatDetail = props => {
   const session = getSessionInfo();
   const user = session && session.user;
   const classes = useStyles();
+  
   const { open, handleClose, chat, onGetChatData } = props;
   const chatLifetime = Math.round((new Date().getTime() - new Date(chat.startDate).getTime()) / (1000 * 60 * 60 * 24))
 
-
-  const [openModalEndChat,setOpenModalEndChat] = React.useState(false);
   const [showAddToConversation,setShowAddToConversation] = React.useState(false);
-  const handleModalEndChat = () => {
-    setOpenModalEndChat(true);
-  } 
 
   const ShowAddToConversation = () => {
     setShowAddToConversation(true);
@@ -87,14 +83,18 @@ const ModalGroupChatDetail = props => {
               </Box>
             </Grid>
             <Box height="15px" />
-            <Grid container item direction="row" justify="space-between" alignItems="flex-start" width="100%">
-              <Box className={classes.detailsBox}>
-                <EventBusyIcon style={{ margin: '0px 5px' }} /> Fecha de finalización{' '}
-              </Box>
-              <Box>
-                {chat.endDate ? chat.endDate : "Activo"}
-              </Box>
-            </Grid>
+            {
+              chat.status == "Finalizado" && (
+                <Grid container item direction="row" justify="space-between" alignItems="flex-start" width="100%">
+                  <Box className={classes.detailsBox}>
+                    <EventBusyIcon style={{ margin: '0px 5px' }} /> Fecha de finalización{' '}
+                  </Box>
+                  <Box>
+                    {chat.endDate ? chat.endDate : "Activo"}
+                  </Box>
+                </Grid>
+              )
+            }
           </Grid>
 
           <Grid container spacing={3}>
@@ -106,26 +106,23 @@ const ModalGroupChatDetail = props => {
                     chat.participants && chat.participants.map((participant, i) => {
                       var user = participant.user || {};
                       return (
-                        <>
-                          <ListItem key={i}>
-                            <ListItemAvatar>
-                              <Avatar alt="" src={user.avatar ? (config.api + user.avatar) : "ruta-por-defecto-del-front"} />
-                            </ListItemAvatar>
-                            <ListItemText
-                              primary={`${user.firstName} ${user.lastName}`}
-                              secondary={`${participant.type}`}
-                            />
+                        <ListItem key={i} style={{borderBottom: "1px solid #CBD3D3"}}>
+                          <ListItemAvatar>
+                            <Avatar alt="" src={user.avatar ? (config.api + user.avatar) : "ruta-por-defecto-del-front"} />
+                          </ListItemAvatar>
+                          <ListItemText
+                            primary={`${user.firstName} ${user.lastName}`}
+                            secondary={`${participant.type}`}
+                          />
+                          {
+                            isAdmin && 
+                            <ListItemSecondaryAction>
                             {
-                              isAdmin && 
-                              <ListItemSecondaryAction>
-                              {
-                                participant.type == "Participante" ? <Button variant="contained" color="primary" onClick={() => {RemoveParticipant(user.id,chat.id)}}>Quitar</Button> : null
-                              }
-                            </ListItemSecondaryAction>
-                            }                           
-                          </ListItem>
-                          <Divider variant="inset" />
-                        </>
+                              participant.type == "Participante" ? <Button variant="contained" color="primary" onClick={() => {RemoveParticipant(user.id,chat.id)}}>Quitar</Button> : null
+                            }
+                          </ListItemSecondaryAction>
+                          }                           
+                        </ListItem>
                       );
                     })
                   }
@@ -143,25 +140,11 @@ const ModalGroupChatDetail = props => {
                   <Divider variant="inset" />
                 </List>
               </Grid>
-              {
-                 isAdmin && 
-                 <Grid item md={12}>
-                    <Button variant="contained" color="primary" startIcon={<TimerOutlinedIcon />} style={{ height: '50px', width: '100%' }} onClick={handleModalEndChat}>
-                        Finalizar chat
-                    </Button>
-                 </Grid>
-              }
-              
             </Grid>
           </Grid>
         </Grid>
       </ModalBody>
     </Modal>
-    <CustomModal
-      CustomModal="ModalEndChat"
-      open={openModalEndChat}
-      handleClose={() => {setOpenModalEndChat(false)}}>
-    </CustomModal>
     <CustomModal 
         customModal="ModalAddToConversation"
         open={showAddToConversation}

@@ -136,3 +136,8 @@ export const modulesQuery = [
   { id: "Recursos Humanos", name: "Recursos Humanos"},
   { id: "Tesorería", name: "Tesorería"},
 ];
+
+export const statusItems = [
+  "Cancelado",
+  "Completado"
+];

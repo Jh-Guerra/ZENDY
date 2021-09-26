@@ -54,6 +54,8 @@ const CurrentChat = props => {
     onListActiveChats('');
   }
 
+  const chats = chatRx && chatRx.currentChats || [];
+
   return (
     <div style={{ height: "79vh" }}>
       <Grid container>
@@ -94,7 +96,7 @@ const CurrentChat = props => {
                   <p className="chat-not-found">No se encontró ningún chat</p>
                 </div>
               ) : (
-                chatRx.currentChats && chatRx.currentChats.map((chat, i) => {
+                chats && chats.map((chat, i) => {
                   return (
                     <ItemAvatarRow
                       key={i}
