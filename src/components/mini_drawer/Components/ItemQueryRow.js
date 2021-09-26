@@ -8,7 +8,7 @@ const ItemQueryRow = (props) => {
 
   const { query={} } = props;
 
-  const image =  '';
+  const image =  query.avatar;
   const description = query.description || "";
   const reason = query.reason || 0;
 
@@ -20,7 +20,7 @@ const ItemQueryRow = (props) => {
     <div className="mini-drawer-content" onClick={() => { onClickAction(query) }} style={{cursor: "pointer"}}>
       <div className="mini-drawer-user">
         <ItemAvatar
-          image={image ? config.api+image : getImageProfile("Company")}
+          image={image ? config.api+image : getImageProfile(query.sex)}
           isChatCompany
         />
         <div style={{width:"80%"}}>
