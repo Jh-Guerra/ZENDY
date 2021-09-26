@@ -27,7 +27,7 @@ const ModalEntryQueryFrequent = props => {
          reason: res && res.reason,
          description: res && res.description,
          module: res && res.module,
-         idfrequentQuery: res && res.id
+         idFrequentQuery: res && res.id
        }
        setData(dataForm) 
      })
@@ -40,7 +40,7 @@ const ModalEntryQueryFrequent = props => {
     image1: '',
     file1: '',
     module:'',
-    idfrequentQuery: 1,
+    idFrequentQuery: 1,
     isFrequentQuery: true,
   });
 
@@ -67,7 +67,7 @@ const ModalEntryQueryFrequent = props => {
                 reason: res && res.reason,
                 description: res && res.description,
                 module: res && res.module,
-                idfrequentQuery: res && res.id
+                idFrequentQuery: res && res.id
               }
               setData(dataForm) 
             })
@@ -108,7 +108,7 @@ const ModalEntryQueryFrequent = props => {
               formData.append("reason", entryQuery.reason)
               formData.append('description', entryQuery.description)
               formData.append('module', entryQuery.module)
-              formData.append('idfrequentQuery', entryQuery.idfrequentQuery)
+              formData.append('idFrequentQuery', entryQuery.idFrequentQuery)
               formData.append('isFrequentQuery', true)
   
               props.dispatch(createEntryQuery(formData)).then(res => {
@@ -158,9 +158,9 @@ const onEdit = () => {
                         setFieldValue("idfrequentQuery", event.target.value)
                         changeOptions(event.target.value)
                       }}
-                      value={values.idfrequentQuery}
-                      error={errors.idfrequentQuery && touched.idfrequentQuery ? true : false}
-                      helperText={errors.idfrequentQuery && touched.idfrequentQuery && errors.idfrequentQuery}
+                      value={values.idFrequentQuery}
+                      error={errors.idFrequentQuery && touched.idFrequentQuery ? true : false}
+                      helperText={errors.idFrequentQuery && touched.idFrequentQuery && errors.idFrequentQuery}
                       options={frequentQueries}
                     />
                    </Grid>
