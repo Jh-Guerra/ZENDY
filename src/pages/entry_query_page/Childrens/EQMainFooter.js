@@ -24,9 +24,22 @@ const EQMainFooter = props => {
   const chatItems = [
     {
       key: 1,
-      image: 'https://pbs.twimg.com/profile_images/1116431270697766912/-NfnQHvh_400x400.jpg',
-      type: 'other',
-      msg: 'Hi Homero, How are you?',
+      image: entryQuery && entryQuery.user && entryQuery.user.avatar,
+      type: 'Yo',
+      msg: 'Razón:'+ ' ' +  entryQuery.reason,
+    },
+    {
+      key: 2,
+      image: entryQuery && entryQuery.user && entryQuery.user.avatar,
+      type: 'Yo',
+      msg: 'Descripción:'+ ' ' + entryQuery.description,
+    },
+    {
+      key: 3,
+      image: entryQuery && entryQuery.user && entryQuery.user.avatar,
+      type: 'Yo',
+      msg: "Imagen",
+      photo: entryQuery.image,
     },
   ];
 
@@ -45,8 +58,8 @@ const EQMainFooter = props => {
   const [msg, setMsg] = React.useState('');
 
   React.useEffect(() => {
-    setChat([...chatItems]);
-  }, []);
+ setChat([...chatItems]);
+  }, [entryQuery.id]);
 
   React.useEffect(() => {
     window.addEventListener('keydown', event => {
@@ -87,6 +100,7 @@ const EQMainFooter = props => {
               user={itm.type ? itm.type : 'me'}
               msg={itm.msg}
               image={itm.image}
+              photo = {itm.photo}
             />
           );
         })}

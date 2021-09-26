@@ -4,7 +4,7 @@ import ReplyIcon from '@material-ui/icons/Reply';
 import Fade from '@material-ui/core/Fade';
 import Tooltip from '@material-ui/core/Tooltip';
 import CustomModal from "components/Modals/common/CustomModal";
-import { config } from "react-transition-group";
+import config from "../../../config/Config";
 import { getImageProfile } from "utils/common";
 
 const ChatItem = props => {
@@ -20,10 +20,9 @@ const ChatItem = props => {
     setShowResendMessage(true);
   }
  
-  const { user, msg, image } = props;
+  const { user, msg, image , photo } = props;
 
   var defaultImageType = user && user.sex || "O";
-  
   return (
     <div
       style={{ animationDelay: `0.8s` }}
@@ -42,6 +41,12 @@ const ChatItem = props => {
           <span>12:05 PM</span>
         </div>
         <div className="chat-msg">{msg}</div>
+        <div>
+          <img
+            style={{ height: 140, width: 140, display: (photo) ? "flex" : "none" }}
+            src={(photo ? (config.api + photo) : "")}
+          />
+        </div>
       </div>
       <div className="avatar-header">
         <div className="avatar-img">
