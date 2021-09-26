@@ -17,7 +17,7 @@ import defaultCompany from 'assets/images/defaultCompany.png';
 import config from 'config/Config';
 
 const ModalEntryQuery = props => {
-  const { open, handleClose, onSaveForm, entryQuery } = props;
+  const { open, handleClose, onSaveForm, entryQuery , setEntryQuery} = props;
 
   const [data, setData] = React.useState({
     id: '',
@@ -95,7 +95,7 @@ const ModalEntryQuery = props => {
                   props.dispatch(showBackdrop(false));
                   props.dispatch(listQueries(''))
                  onSaveForm && onSaveForm();
-                     //window.location.replace('')
+                 setEntryQuery(res.entryQuery)
                  }).catch(error => {
                      props.dispatch(showBackdrop(false));
                  });   

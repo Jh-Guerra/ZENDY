@@ -88,6 +88,7 @@ const EntryQueryPage = (props) => {
       <Grid item xs={12} style={{ height: '13vh' }}>
         <EQMainHeader
           entryQuery={entryQuery}
+          setEntryQuery = {setEntryQuery}
           onGetData={onGetData}
           onOpenModal={onOpenModal}
           onOpenModalDelete={onOpenModalDelete}
