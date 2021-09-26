@@ -22,6 +22,9 @@ import { showBackdrop, showSnackBar } from 'services/actions/CustomAction';
 import config from 'config/Config';
 import { pColor } from 'assets/styles/zendy-css';
 import { getImageProfile , getSessionInfo} from "utils/common";
+import { createParticipant } from 'services/actions/ParticipantAction';
+import moment from 'moment';
+import { listActiveChats } from 'services/actions/ChatAction';
 
 const useStyles = makeStyles(theme => ({
   buttonIcon: {
@@ -49,7 +52,7 @@ const useStyles = makeStyles(theme => ({
 
 const ModalAddToConversation = (props) => {
 
-  const { open, handleClose } = props;
+  const { open, handleClose, chat, onGetChatData } = props;
   const classes = useStyles();
 
   const [users, setUsers] = React.useState([]);
@@ -58,6 +61,8 @@ const ModalAddToConversation = (props) => {
   const [term, setTerm] = React.useState('');
   const session = getSessionInfo();
   const userAc = session && session.user || {};
+
+  const ParticipantsIds = chat.participants && chat.participants.map(participants => participants.user.id) || [];
 
   React.useEffect(() => {
     if(open){
@@ -113,6 +118,33 @@ const ModalAddToConversation = (props) => {
     });
     setUsersSC(updatedUsers);
   }
+
+  const addParticipants = () => {
+    const participants = [];
+    const selectedERPUsers = users.filter(user => user.checked) || [];
+    const selectedCompanyUsers = usersSC.filter(user => user.checked) || [];
+    const selectedUsers = selectedERPUsers.concat(selectedCompanyUsers);
+    selectedUsers.map(user => {
+      const participant = {
+        idUser: user.id,
+        idChat: chat.id,
+        type: "Participante",
+        erp: user.roleName != "UserEmpresa" ? 1 : 0,
+        entryDate: moment().format("YYYY-MM-DD"),
+        outputDate: "",
+        status: "active",
+        active: 1,
+        deleted: 0,
+        created_at: moment().format("YYYY-MM-DD hh:mm:ss"),
+        updated_at: moment().format("YYYY-MM-DD hh:mm:ss")
+      }
+      participants.push(participant);
+    })
+    props.dispatch(createParticipant(chat.id, participants))
+    handleClose(false);
+    onGetChatData(chat.id);
+    props.dispatch(listActiveChats(term, "Vigente"));
+  }
   
   return (
     <Modal 
@@ -154,20 +186,25 @@ const ModalAddToConversation = (props) => {
                 users.map((user, i) => {
                   if (!user.checked) user.checked = false;
                   return (
-                    <ListItem key={i} button divider onClick={() => { onSelectUser(user) }}>
+                    <ListItem key={i} button divider onClick={() => { onSelectUser(user) }} disabled={ParticipantsIds.includes(user.id)}>
                       <ListItemAvatar>
                         <Avatar alt="" src={user.avatar ? (config.api + user.avatar) : getImageProfile(user.sex)} />
                       </ListItemAvatar>
                       <ListItemText
                         primary={`${user.firstName} ${user.lastName}`}
+                        secondary={ParticipantsIds.includes(user.id) ? `Ya participa en el grupo` : null}
                       />
                       <ListItemSecondaryAction>
-                        <Checkbox
-                          checked={user.checked || false}
-                          onChange={() => { onSelectUser(user) }}
-                          icon={<RadioButtonUncheckedIcon />}
-                          checkedIcon={<RadioButtonCheckedIcon style={{ color: pColor }} />}
-                        />
+                        {
+                          !ParticipantsIds.includes(user.id) &&
+                          <Checkbox
+                            checked={user.checked || false}
+                            onChange={() => { onSelectUser(user) }}
+                            icon={<RadioButtonUncheckedIcon />}
+                            checkedIcon={<RadioButtonCheckedIcon style={{ color: pColor }} />}
+                          />
+                        }
+                        
                       </ListItemSecondaryAction>
                     </ListItem>
                   )
@@ -193,20 +230,24 @@ const ModalAddToConversation = (props) => {
                 usersSC.map((user, i) => {
                   if (!user.checked) user.checked = false;
                   return (
-                    <ListItem key={i} button divider onClick={() => { onSelectUserSameCompany(user) }}>
+                    <ListItem key={i} button divider onClick={() => { onSelectUserSameCompany(user) }} disabled={ParticipantsIds.includes(user.id)}>
                       <ListItemAvatar>
                         <Avatar alt="" src={user.avatar ? (config.api + user.avatar) : getImageProfile(user.sex)} />
                       </ListItemAvatar>
                       <ListItemText
                         primary={`${user.firstName} ${user.lastName}`}
+                        secondary={ParticipantsIds.includes(user.id) && `Ya participa en el grupo`}
                       />
                       <ListItemSecondaryAction>
-                        <Checkbox
-                          checked={user.checked || false}
-                          onChange={() => { onSelectUserSameCompany(user) }}
-                          icon={<RadioButtonUncheckedIcon />}
-                          checkedIcon={<RadioButtonCheckedIcon style={{ color: pColor }} />}
-                        />
+                        {
+                           !ParticipantsIds.includes(user.id) &&
+                           <Checkbox
+                              checked={user.checked || false}
+                              onChange={() => { onSelectUserSameCompany(user) }}
+                              icon={<RadioButtonUncheckedIcon />}
+                              checkedIcon={<RadioButtonCheckedIcon style={{ color: pColor }} />}
+                           />
+                        }
                       </ListItemSecondaryAction>
                     </ListItem>
                   )
@@ -227,7 +268,7 @@ const ModalAddToConversation = (props) => {
     </ModalBody>
     <ModalFooter 
       confirmText={"Añadir"}
-      onConfirm={() => {}}
+      onConfirm={() => { addParticipants() }}
     />
     </Modal>
   )

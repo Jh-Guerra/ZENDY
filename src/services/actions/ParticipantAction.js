@@ -2,8 +2,8 @@ import ParticipantService from 'services/api/ParticipantService';
 
 const participantService = new ParticipantService()
 
-export const createParticipant = (data) => async dispatch => {
-    const res = await participantService.createParticipant(data);
+export const createParticipant = (idChat, data) => async dispatch => {
+    const res = await participantService.createParticipant(idChat, data);
     return res && res.data || [];
 }
 
@@ -22,7 +22,7 @@ export const listParticipant = (idChat) => async dispatch => {
     return res && res.data || [];
 }
 
-export const deleteParticipant = (idUser,idChat) => async dispatch => {
-    const res = await participantService.deleteParticipant(idUser,idChat);
+export const deleteParticipant = (data) => async dispatch => {
+    const res = await participantService.deleteParticipant(data);
     return res && res.data || [];
 }

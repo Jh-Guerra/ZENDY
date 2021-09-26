@@ -1,6 +1,7 @@
 import { combineReducers } from 'redux'
 import AuthReducer from './AuthReducer'
 import CommonReducer from './CommonReducer'
+import ChatReducer from './ChatReducer';
 import CustomReducer from './CustomReducer';
 import EntryQueryReducer from './EntryQueryReducer';
 import RecommendationReducer from './RecommendationReducer';
@@ -11,7 +12,8 @@ const rootReducer = combineReducers({
   common: CommonReducer,
   custom: CustomReducer,
   entryQueryRx: EntryQueryReducer,
-  recommendationRx: RecommendationReducer
+  recommendationRx: RecommendationReducer,
+  chatRx: ChatReducer
 })
 
 export default (state, action) =>

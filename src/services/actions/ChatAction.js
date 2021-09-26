@@ -1,5 +1,6 @@
 import ChatService from "services/api/ChatService";
 import { showBackdrop } from "./CustomAction";
+import { CURRENT_CHAT } from "services/redux/common/Types"
 
 
 const chatService = new ChatService()
@@ -11,6 +12,10 @@ export const createChat = (data) => async dispatch => {
 
 export const listActiveChats = (term, status) => async dispatch => {
     const res = await chatService.listActiveChats(term, status);
+    dispatch({
+        type: CURRENT_CHAT,
+        payload: res.data
+    })
     return res && res.data || [];
 }
 
