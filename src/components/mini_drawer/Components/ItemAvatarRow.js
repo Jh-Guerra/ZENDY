@@ -1,6 +1,6 @@
 import React, { Component, createRef } from "react";
 import config from 'config/Config';
-
+import { Grid, TextField, Tooltip, Typography } from "@material-ui/core";
 import ItemAvatar from "./ItemAvatar";
 import { getImageProfile, getSessionInfo } from 'utils/common';
 
@@ -44,7 +44,7 @@ const ItemAvatarRow = (props) => {
         />
         <div style={{ width: "80%" }}>
           <div className="chat-mini-details">
-            <span style={{ fontSize: "18px" }}>{name}</span>
+          <Typography noWrap style={{ fontSize:"17px", wordWrap: "break-word" }}>{name}</Typography>
             <span className="chat-mini-time">{hour}</span>
           </div>
           <div className="chat-mini-details">

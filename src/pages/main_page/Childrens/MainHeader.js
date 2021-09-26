@@ -65,7 +65,7 @@ const MainHeader = props => {
   return (
     <Grid container className="chat-header">    
       <Grid container className="chat-header-content">
-        <Grid item xs={6} onClick={handleChatDetail} style={{cursor:"pointer"}}>       
+        <Grid item xs={8} onClick={handleChatDetail} style={{cursor:"pointer"}}>       
           <Grid container style={{height:"100%", padding:"0px 10px"}}>           
             <Grid item xs={2} style={{display:"flex"}}>             
               <div className="chat-header-avatar">
@@ -76,9 +76,9 @@ const MainHeader = props => {
                 />
               </div>
             </Grid>                      
-            <Grid item xs={8} className="chat-header-name">                                                        
+            <Grid item xs={10} className="chat-header-name">                                                        
               <div>
-                <Typography style={{fontSize:"20px", color:"white"}}>{name}</Typography>
+                <Typography noWrap variant="h5">{name}</Typography>
               </div>
               {
               chat && chat.user && chat.user.idCompany && (   
@@ -90,7 +90,7 @@ const MainHeader = props => {
 
                 {
                   (isOnline == "active") ?
-              (<Typography style={{fontSize:"12px", color:"white"}}>
+              (<Typography style={{fontSize:"18px", color:"white", marginLeft:"30px"}}>
                  <span className="online-icon"/>En linea</Typography> )
                  :      
                 ( <Typography style={{fontSize:"12px", color:"white"}}>
@@ -100,10 +100,10 @@ const MainHeader = props => {
           </Grid>
         </Grid>
         
-        <Grid item xs={6}>
+        <Grid item xs={4}>
           <Grid container className="chat-header-buttons">
             <TextField className="search_wrap" 
-              style={{paddingLeft: '20px', paddingRight:'20px'}}
+              style={{padding: '0px 0px 0px 8px',}}
               type="text"
               placeholder="Buscar..."
               InputProps={{
