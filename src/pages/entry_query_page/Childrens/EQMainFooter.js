@@ -71,6 +71,11 @@ const EQMainFooter = props => {
     props.onAcceptEntryQuery && props.onAcceptEntryQuery();
   }
 
+  const onRecommendUser = (selectedUserIds) => {
+    setShowRecommendUser(false);
+    props.onRecommendUser && props.onRecommendUser(selectedUserIds);
+  }
+
   return (
     <div>
       <div className="main-chat-content">
@@ -121,14 +126,16 @@ const EQMainFooter = props => {
         open={showAcceptChat}
         handleClose={() => { setShowAcceptChat(false) }}
         onConfirm={onAcceptEntryQuery}
-
       />
+
       <CustomModal
         customModal="ModalRecommendUser"
         open={showRecommendUser}
         handleClose={() => {
           setShowRecommendUser(false);
         }}
+        entryQuery={entryQuery}
+        onConfirm={onRecommendUser}
       />
     </div>
   );

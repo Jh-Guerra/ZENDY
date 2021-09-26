@@ -46,7 +46,12 @@ export const updateEntryQuery = (id, data) => async dispatch => {
     return res && res.data || [];
 }
 
-export const acceptEntryQuery = (id) => async dispatch => {
-    const res = await service.acceptEntryQuery(id);
+export const acceptEntryQuery = (id, byRecommend) => async dispatch => {
+    const res = await service.acceptEntryQuery(id, byRecommend);
+    return res && res.data || [];
+}
+
+export const recommendUser = (userIds, idEntryQuery) => async dispatch => {
+    const res = await service.recommendUser(userIds, idEntryQuery);
     return res && res.data || [];
 }

@@ -15,11 +15,10 @@ const styles = theme => ({
 });
 
 const AdminEntryChat = props => {
-  const { entryQueryRedux=[] } = props;
+  const { entryQueryRx=[] } = props;
   const history = useHistory();
 
   const [searchTimeout, setSearchTimeout] = React.useState(null);
-  const [showModalEntryChat, setShowModalEntryChat] = React.useState(false);
 
   React.useEffect(() => {
     onList("");
@@ -47,7 +46,7 @@ const AdminEntryChat = props => {
     }
   }
 
-  const entryQueries = entryQueryRedux && entryQueryRedux.entryQueries || [];
+  const entryQueries = entryQueryRx && entryQueryRx.entryQueries || [];
 
   return (
     <div style={{height: "79vh"}}>

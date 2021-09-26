@@ -17,7 +17,7 @@ const MainPage = (props) => {
   React.useEffect(() => {
     if(props.location.pathname){
       const pathArray = props.location.pathname.split("/");
-      const chatId = pathArray && pathArray[pathArray.length-1];
+      const chatId = pathArray && pathArray[3];
       if(chatId){
         onGetChatData(chatId);
       }else{

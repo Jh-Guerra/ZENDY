@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Grid } from "@material-ui/core";
 import { showBackdrop, showSnackBar } from 'services/actions/CustomAction';
 import { useHistory } from 'react-router-dom';
-import { findEntryQuery, deleteEntryQuery, acceptEntryQuery, listPendingQueries, listQueries } from 'services/actions/EntryQueryAction';
+import { findEntryQuery, deleteEntryQuery, acceptEntryQuery, listPendingQueries, listQueries, recommendUser } from 'services/actions/EntryQueryAction';
 import EQMainHeader from './Childrens/EQMainHeader';
 import EQMainBody from './Childrens/EQMainBody';
 import EQMainFooter from './Childrens/EQMainFooter';
@@ -12,6 +12,7 @@ const EntryQueryPage = (props) => {
   const history = useHistory();
 
   const [entryQuery, setEntryQuery] = React.useState({});
+  const [byRecommend, setByRecommend] = React.useState(false);
   const [showModalEntryChat, setShowModalEntryChat] = React.useState(false);
   const [showModalDelete, setShowModalDelete] = React.useState(false);
 
@@ -21,7 +22,8 @@ const EntryQueryPage = (props) => {
   React.useEffect(() => {
     if(props.location.pathname){
       const pathArray = props.location.pathname.split("/");
-      const entryQueryId = pathArray && pathArray[pathArray.length-1];
+      const entryQueryId = pathArray && pathArray[2];
+      setByRecommend(pathArray && pathArray[3] && pathArray[3] == "recomendacion" || false);
       if(entryQueryId){
         onGetData(entryQueryId);
       }else{
@@ -75,10 +77,19 @@ const EntryQueryPage = (props) => {
 
   const onAcceptEntryQuery = () => {
     props.dispatch(showBackdrop(true));
-    props.dispatch(acceptEntryQuery(entryQuery.id)).then(res => {
+    props.dispatch(acceptEntryQuery(entryQuery.id, byRecommend)).then(res => {
       const chat = res && res.chat;
       history.push(`/chat/${chat.type}/${chat.id}`);
       props.dispatch(listPendingQueries(""));
+      props.dispatch(showBackdrop(false));
+    }).catch(err => { props.dispatch(showBackdrop(false)); props.dispatch(showSnackBar("error", err.response.data.error)); });
+  }
+
+  const onRecommendUser = (selectedUserIds) => {
+    props.dispatch(showBackdrop(true));
+    props.dispatch(recommendUser(selectedUserIds, entryQuery.id)).then(res => {
+      const message = res && res.success || "Recomendaciones enviadas";
+      props.dispatch(showSnackBar("success", message));
       props.dispatch(showBackdrop(false));
     }).catch(err => { props.dispatch(showBackdrop(false)); props.dispatch(showSnackBar("error", err.response.data.error)); });
   }
@@ -104,6 +115,7 @@ const EntryQueryPage = (props) => {
           entryQuery={entryQuery}
           session={session}
           onAcceptEntryQuery={onAcceptEntryQuery}
+          onRecommendUser={onRecommendUser}
         />
       </Grid>
 

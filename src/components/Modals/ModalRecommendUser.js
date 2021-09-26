@@ -22,6 +22,7 @@ import { showBackdrop, showSnackBar } from 'services/actions/CustomAction';
 import config from 'config/Config';
 import { pColor } from 'assets/styles/zendy-css';
 import { getImageProfile } from "utils/common";
+import { listRecommendationsByEntryQuery } from 'services/actions/RecommendationAction';
 
 const useStyles = makeStyles(theme => ({
     buttonIcon: {
@@ -49,7 +50,7 @@ const useStyles = makeStyles(theme => ({
 
 const ModalRecommendUser = (props) => {
 
-  const { open, handleClose } = props;
+  const { open, handleClose, entryQuery={} } = props;
 
   const classes = useStyles();
 
@@ -66,10 +67,15 @@ const ModalRecommendUser = (props) => {
 
   const onListAvailableUsers = (term) => {
     props.dispatch(showBackdrop(true));
-    props.dispatch(listAvailableUsers(["Admin", "UserHD"], term)).then(res => {
-      setUsers(res || []);
-      props.dispatch(showBackdrop(false));
-    }).catch(err => props.dispatch(showBackdrop(false)));;
+    props.dispatch(listRecommendationsByEntryQuery(entryQuery.id)).then(userRecommendations => {
+      props.dispatch(listAvailableUsers(["Admin", "UserHD"], term)).then(res => {
+        const users = res.map(user => {
+          return {...user, recommend: userRecommendations.includes(user.id)}
+        });
+        setUsers(users || []);
+        props.dispatch(showBackdrop(false));
+      }).catch(err => props.dispatch(showBackdrop(false)));
+    }).catch(err => props.dispatch(showBackdrop(false)));
   }
 
   const onSearch = (term) => {
@@ -90,6 +96,12 @@ const ModalRecommendUser = (props) => {
       }
     });
     setUsers(updatedUsers);
+  }
+
+  const onRecommendUser = () => {
+    const selectedUsers = users.filter(user => user.checked);
+    const selectedUserIds = selectedUsers.map(user => user.id);
+    props.onConfirm && props.onConfirm(selectedUserIds);
   }
     
   return (
@@ -132,21 +144,26 @@ const ModalRecommendUser = (props) => {
                 users.map((user, i) => {
                   if (!user.checked) user.checked = false;
                   return (
-                    <ListItem key={i} button divider onClick={() => { onSelectUser(user) }}>
+                    <ListItem key={i} button divider onClick={() => { onSelectUser(user) }} disabled={user.recommend}>
                       <ListItemAvatar>
                         <Avatar alt="" src={user.avatar ? (config.api + user.avatar) : getImageProfile(user.sex)} />
                       </ListItemAvatar>
                       <ListItemText
                         primary={`${user.firstName} ${user.lastName}`}
+                        secondary={user.recommend ? "Ya fue recomendado" : null}
                       />
-                      <ListItemSecondaryAction>
-                        <Checkbox
-                          checked={user.checked || false}
-                          onChange={() => { onSelectUser(user) }}
-                          icon={<RadioButtonUncheckedIcon />}
-                          checkedIcon={<RadioButtonCheckedIcon style={{ color: pColor }} />}
-                        />
-                      </ListItemSecondaryAction>
+                      {
+                        !user.recommend && (
+                          <ListItemSecondaryAction>
+                            <Checkbox
+                              checked={user.checked || false}
+                              onChange={() => { onSelectUser(user) }}
+                              icon={<RadioButtonUncheckedIcon />}
+                              checkedIcon={<RadioButtonCheckedIcon style={{ color: pColor }} />}
+                            />
+                          </ListItemSecondaryAction>
+                        )
+                      }
                     </ListItem>
                   )
                 })
@@ -167,7 +184,7 @@ const ModalRecommendUser = (props) => {
 
       <ModalFooter 
         confirmText={"Recomendar"}
-        onConfirm={null}
+        onConfirm={onRecommendUser}
       />
     </Modal>
   )

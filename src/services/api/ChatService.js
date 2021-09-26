@@ -130,7 +130,6 @@ class ChatService {
                 Authorization: `token ${JSON.parse(localStorage.getItem('session')).token || ''}` 
             } }
     )}
-   
 }
 
 export default ChatService;

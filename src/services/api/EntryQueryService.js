@@ -33,8 +33,12 @@ class EntryQueryService {
         return await axios.post( getCustomUrl(apiPrefix, `/update/${id}`), data, defaultHeaders());
     }
 
-    async acceptEntryQuery(id) {
-        return await axios.post( getCustomUrl(apiPrefix, `/accept/${id}`), {}, defaultHeaders());
+    async acceptEntryQuery(id, byRecommend) {
+        return await axios.post( getCustomUrl(apiPrefix, `/accept/${id}`), { byRecommend }, defaultHeaders());
+    }
+
+    async recommendUser(userIds, idEntryQuery) {
+        return await axios.post( getCustomUrl(apiPrefix, `/${idEntryQuery}/recommend`), userIds, defaultHeaders());
     }
 
 }

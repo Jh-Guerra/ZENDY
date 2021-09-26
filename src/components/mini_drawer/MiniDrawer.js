@@ -3,7 +3,7 @@ import { useHistory, withRouter } from "react-router-dom";
 import { AppBar, Box, Drawer, Grid, makeStyles, Tab, Tabs, Tooltip, Typography} from '@material-ui/core';
 import AvatarHeader from './Childrens/AvatarHeader';
 import PropTypes from 'prop-types';
-import { CurrentChatIcon, PendingChatIcon, CompaniesIcon, ErrorsIcon, MoreIcon } from "assets/styles/svg-icons";
+import { CurrentChatIcon, PendingChatIcon, CompaniesIcon, ErrorsIcon, MoreIcon, RecommendLikeIcon } from "assets/styles/svg-icons";
 import CurrentChat from './Childrens/CurrentChat';
 import ModalMoreActions from 'components/Modals/ModalMoreActions';
 import HistoryChat from 'components/mini_drawer/Childrens/HistoryChat';
@@ -17,19 +17,7 @@ import { checkPermission, getSessionInfo } from 'utils/common';
 import { updateStatus } from 'services/actions/UserAction';
 import AdminEntryChat from './Childrens/AdminEntryChat';
 import { connect } from "react-redux";
-
-const useStyles = makeStyles((theme) => ({
-  root: {
-    width: 380,
-    height: "100%",
-    minWidth: 380
-  },
-  tab: {
-    minWidth: 50,
-    width: 50,
-    // height: "100%"
-  }
-}));
+import AdminMyRecommendationsSection from './Childrens/AdminMyRecommendationsSection';
 
 const TabPanel = (props) => {
   const { children, value, index, ...other } = props;
@@ -90,13 +78,6 @@ const MiniDrawer = (props) => {
     setShowModalMoreActions(false);
     history.push(`/${route}`);
   }
-  
-  // TabPanel.propTypes = {
-  //   children: PropTypes.node,
-  //   index: PropTypes.any.isRequired,
-  //   value: PropTypes.any.isRequired,
-  //   classes: PropTypes.object
-  // };
 
   return (
     <>
@@ -125,8 +106,11 @@ const MiniDrawer = (props) => {
                   <Tooltip style={{display: checkPermission(session, "adminEntryQuery") ? "inline-flex" : "none" }} title="Consultas Entrantes">
                     <Tab className="mini-drawer-tab" icon={<PendingChatIcon />} />
                   </Tooltip>
-                  <Tooltip style={{display: checkPermission(session, "showTabCompany") ? "inline-flex" : "none" }} title="Empresas">
+                  {/* <Tooltip style={{display: checkPermission(session, "showTabCompany") ? "inline-flex" : "none" }} title="Empresas">
                     <Tab className="mini-drawer-tab" icon={<CompaniesIcon />} />
+                  </Tooltip> */}
+                  <Tooltip style={{display: checkPermission(session, "showMyRecommendations") ? "inline-flex" : "none" }} title="Mis Recomendaciones">
+                    <Tab className="mini-drawer-tab" icon={<RecommendLikeIcon />} />
                   </Tooltip>
                   <Tooltip title="Errores Reportados">
                     <Tab className="mini-drawer-tab" icon={<ErrorsIcon />} />
@@ -151,10 +135,13 @@ const MiniDrawer = (props) => {
             <TabPanel value={tab} index={2} >
               <AdminEntryChat {...props} session={session}/>
             </TabPanel>
-            <TabPanel value={tab} index={3} >
+            {/* <TabPanel value={tab} index={3} >
               <CompanySection
                 {...props}
                 goToView={goToView} />
+            </TabPanel> */}
+            <TabPanel value={tab} index={3} >
+              <AdminMyRecommendationsSection {...props} session={session} />
             </TabPanel>
             <TabPanel value={tab} index={4} >
               <ReportedErrorSection
