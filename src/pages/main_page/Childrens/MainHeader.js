@@ -38,6 +38,8 @@ const MainHeader = props => {
   var name = chat.name || '';
   var defaultImageType;
   var isOnline;
+  var company = chat && chat.companyUser && chat.companyUser.name || '';
+  var ruc = chat && chat.companyUser && chat.companyUser.ruc || '';
 
 
   if(chat.scope == "Grupal"){
@@ -76,14 +78,22 @@ const MainHeader = props => {
             </Grid>                      
             <Grid item xs={8} className="chat-header-name">                                                        
               <div>
-                <Typography style={{fontSize:"25px", color:"white"}}>{name}</Typography>
+                <Typography style={{fontSize:"20px", color:"white"}}>{name}</Typography>
               </div>
+              {
+              chat && chat.user && chat.user.idCompany && (   
+              <div>
+                <Typography style={{fontSize:"15px", color:"white"}}>{company} - {ruc}</Typography>
+              </div>
+              )
+            }
+
                 {
                   (isOnline == "active") ?
-              (<Typography style={{fontSize:"20px", color:"white", marginLeft:"30px"}}>
+              (<Typography style={{fontSize:"12px", color:"white"}}>
                  <span className="online-icon"/>En linea</Typography> )
                  :      
-                ( <Typography style={{fontSize:"20px", color:"white", marginLeft:"30px"}}>
+                ( <Typography style={{fontSize:"12px", color:"white"}}>
                  <span className="offline-icon"/>Fuera de línea</Typography> )          
                 }
             </Grid>               
@@ -104,16 +114,12 @@ const MainHeader = props => {
                 ),disableUnderline: true
               }}
             />
-            <Tooltip title="Recomendar Usuario">
-              <IconButton onClick={handleRecommendUser} className="chat-header-button"><PeopleAltIcon style={{ fontSize: 35 }} /></IconButton>
-            </Tooltip>
             {
               isAdmin &&
               <Tooltip title="Agregar a la conversación">
                 <IconButton onClick={handleAddToConversation} className="chat-header-button"><PersonAddIcon style={{ fontSize: 35 }} /></IconButton>
               </Tooltip>
             }
-            
           </Grid>              
         </Grid>
       </Grid>
