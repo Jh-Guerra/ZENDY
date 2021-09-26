@@ -76,11 +76,15 @@ const EQMainHeader = props => {
               }}
             />
             {
-              ((entryQuery && entryQuery.status == "Pendiente") && (entryQuery && entryQuery.createdBy == user) && (entryQuery && entryQuery.isFrequentQuery == 0) ) && (
+              ((entryQuery && entryQuery.status == "Pendiente") && (entryQuery && entryQuery.createdBy == user) ) && (
                 <div>
-                  <Tooltip title="Editar Consulta">
-                    <IconButton onClick={() => { onOpenModal && onOpenModal(); }} className="chat-header-button"><EditIcon style={{ fontSize: 35, color: "white" }} /></IconButton>
-                  </Tooltip>
+                  {
+                    entryQuery && entryQuery.isFrequentQuery == 0 && (
+                      <Tooltip title="Editar Consulta">
+                        <IconButton onClick={() => { onOpenModal && onOpenModal(); }} className="chat-header-button"><EditIcon style={{ fontSize: 35, color: "white" }} /></IconButton>
+                      </Tooltip>
+                    )
+                  }
                   <Tooltip title="Eliminar Consulta">
                     <IconButton onClick={() => { onOpenModalDelete && onOpenModalDelete() }} className="chat-header-button"><DeleteIcon style={{ fontSize: 35, color: "white" }} /></IconButton>
                   </Tooltip>
