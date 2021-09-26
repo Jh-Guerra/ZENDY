@@ -11,6 +11,7 @@ import { successButtonColor } from 'assets/styles/zendy-css';
 import CustomButton from "components/CustomButton";
 import CustomModal from "components/Modals/common/CustomModal";
 import { useHistory } from 'react-router-dom';
+import { checkPermission, getSessionInfo } from 'utils/common';
 
 const useStyles = makeStyles(theme => ({
     button: {
@@ -22,6 +23,9 @@ const ModalNewChat = (props) => {
 
     const history = useHistory();
     const classes = useStyles();
+    const session = getSessionInfo();
+
+    
     const { open, handleClose, onSaveForm } = props;
     const [showNewInternalChat, setShowNewInternalChat] = useState(false);
     const [showNewCompanyChat, setShowNewCompanyChat] = React.useState(false);
@@ -82,18 +86,22 @@ const ModalNewChat = (props) => {
                                 Con Usuarios De Alguna Empresa
                             </CustomButton>
                         </Grid>
-                        <Grid item xs={12}>
-                            <CustomButton 
-                                variant="contained"
-                                fullWidth
-                                className={classes.button}
-                                startIcon={<PersonIcon />}
-                                customColor={successButtonColor}
-                                onClick={handleNewTerminalChat}
-                            >
-                                Interno
-                            </CustomButton>
-                        </Grid>
+                        {
+                            checkPermission(session, "showInternalChat") && (
+                                <Grid item xs={12}>
+                                    <CustomButton 
+                                        variant="contained"
+                                        fullWidth
+                                        className={classes.button}
+                                        startIcon={<PersonIcon />}
+                                        customColor={successButtonColor}
+                                        onClick={handleNewTerminalChat}
+                                    >
+                                        Interno
+                                    </CustomButton>
+                                </Grid>
+                            )
+                        }
                     </Grid>
                 </ModalBody>
             </Modal>

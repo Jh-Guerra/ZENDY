@@ -219,6 +219,7 @@ const LoginPage = props => {
                 autoFocus
                 onChange={onChangeEmail}
                 value={email}
+                onKeyPress={event => { event.key === 'Enter' && handleLogin(event) }}
               />
               <span style={{color: "red"}}>{errors["email"]}</span>
               <CssTextField
@@ -241,6 +242,7 @@ const LoginPage = props => {
                 autoComplete="current-password"
                 value={password}
                 onChange={onChangePassword}
+                onKeyPress={event => { event.key === 'Enter' && handleLogin(event) }}
               />
                <span style={{color: "red"}}>{errors["password"]}</span>
               <Button

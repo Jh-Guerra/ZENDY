@@ -45,12 +45,6 @@ const CompanySection = (props) => {
     return (
         <div style={{height: "79vh"}}>
             <Grid container style={{height: "100%"}}>
-                <Grid item xs={12}>
-                <NewChatCall 
-                    isChatCompany
-                    onSaveForm={onSaveForm} 
-                />
-                </Grid>
                 <Grid item xs={12} container>
                 <Grid item xs={12}>
                     <div className="chatlist__heading">

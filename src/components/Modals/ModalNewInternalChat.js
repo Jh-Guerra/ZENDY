@@ -81,8 +81,6 @@ const ModalNewInternalChat = (props) => {
     updatedUsers.map(u => {
       if(u.id == user.id){
         u.checked = u.checked ? false : true;
-      }else{
-        u.checked = false;
       }
     });
 
