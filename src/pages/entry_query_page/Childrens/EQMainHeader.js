@@ -13,7 +13,7 @@ import ModalDelete from 'components/Modals/ModalDelete';
 
 const EQMainHeader = props => {
 
-  const { entryQuery={},  onDelete , session } = props;
+  const { entryQuery={},  onDelete , session , setEntryQuery} = props;
 
   const user = session && session.user && session.user.id|| "";
 
@@ -94,6 +94,7 @@ const EQMainHeader = props => {
         customModal={'ModalEntryQuery'}
         open={showModalEntryChat}
         entryQuery={entryQuery}
+        setEntryQuery = {setEntryQuery}
         handleClose={() => { setShowModalEntryChat(false) }}
         onSaveForm={() => {
           setShowModalEntryChat(false);
