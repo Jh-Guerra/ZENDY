@@ -5,10 +5,12 @@ class MessageService {
 
     async createMessage(data) {
         return await axios.post(
-            config.apiVersion + `message/create`, 
+            config.apiVersion + `messages/register`, 
             data,
             { 
-                headers: config.headers 
+                headers: {
+                    ...config.headers,
+                    Authorization: `token ${JSON.parse(localStorage.getItem('session')).token || ''}` }
             }
     )}
 
@@ -26,7 +28,7 @@ class MessageService {
 
     async listMessage(idChat) {
         return await axios.get(
-            config.apiVersion + `messages/list` +idChat,
+            config.apiVersion + `messages/list/${idChat}`,
             { 
                 headers: config.headers
             }

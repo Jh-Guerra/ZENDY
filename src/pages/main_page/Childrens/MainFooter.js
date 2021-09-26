@@ -10,45 +10,26 @@ import ChatItem from "../Components/ChatItem";
 import EmojiPicker from "emoji-picker-react";
 // import ScrollToBottom from "react-scroll-to-bottom";
 import ModalUploadImage from "components/Modals/ModalUploadImage";
+import { createMessage, listMessage } from "services/actions/MessageAction";
+import { showBackdrop } from "services/actions/CustomAction";
+import { useHistory, withRouter } from "react-router-dom";
+import InputBase from '@material-ui/core/InputBase';
+import config from "../../../config/Config";
 
 const MainFooter = props => {
-  const messagesEndRef = useRef(null);
+  console.log("props",props);
+  //const messagesEndRef = useRef(null);
   const inputRef = createRef();
 
-  const chatItems = [
-    {
-      key: 1,
-      image:
-        "https://pbs.twimg.com/profile_images/1116431270697766912/-NfnQHvh_400x400.jpg",
-      type: "",
-      msg: "Hi Homero, How are you?",
-      uploadImage: null,
-    },
-    {
-      key: 2,
-      image:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTA78Na63ws7B7EAWYgTr9BxhX_Z8oLa1nvOA&usqp=CAU",
-      type: "other",
-      msg: "I am fine.",
-      uploadImage: null,
-    },
-    {
-      key: 3,
-      image:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTA78Na63ws7B7EAWYgTr9BxhX_Z8oLa1nvOA&usqp=CAU",
-      type: "other",
-      msg: "What about you?",
-      uploadImage: null,
-    },
-  ];
+  const {user={}, chat={}, messages=[], message={}} = props;
 
-  const [chat, setChat] = React.useState([]);
   const [msg, setMsg] = React.useState("");
+  const [resend, setResend] = React.useState(false);
   const [showEmoji, setShowEmoji] = React.useState();
   const [cursorPosition, setCursorPosition] = React.useState();
   const [showPreviewImage, setShowPreviewImage] = React.useState(false);
-  const [uploadImage, setUploadImage] = React.useState();
-
+  const [uploadImage, setUploadImage] = React.useState(null);
+  const [uploadFile, setUploadFile] = React.useState(null);
 
   /* const scrollToBottom = () => {
     // using scrollIntoView
@@ -58,61 +39,97 @@ const MainFooter = props => {
   } */
 
   React.useEffect(() => {
-    setChat([...chatItems]);
-    //scrollToBottom();
-  }, []);
+    props.onListMessages(chat.id);
+  }, [chat.id]);
 
   React.useEffect(() => {
     inputRef.current.selectionEnd = cursorPosition;
   }, [cursorPosition]);
 
-  const sendMessageWithEnter = () => {
-    window.addEventListener("keydown", (event) => {
+  React.useEffect(() => {
+    //saveMessage();
+  }, []);
+
+  const sendMessageWithEnter = (event) => {
+   
       if (event.key === 'Enter' && msg !== "") { 
-          chatItems.push({
-            key: 1,
-            image:
-            "https://pbs.twimg.com/profile_images/1116431270697766912/-NfnQHvh_400x400.jpg",
-            type: "",
-            msg: msg,   
-          });
-          setChat([...chatItems]);
-          setMsg("");
-          setShowEmoji(null);   
+        console.log("chat",chat);
+
+        const contentMessage = {
+          idChat: chat.id,
+          message: msg,
+          resend: resend,
+          image: null,
+          file: null,
+        };
+        
+        setMsg("");
+        setShowEmoji(null); 
+        
+        props.dispatch(createMessage(contentMessage)).then((res) => {
+          console.log("res",res);
+          props.onListMessages(contentMessage.idChat);
+        }).catch(error => {
+            console.error('error', error);
+          });   
       }
-    });  
+     
   }
 
   const sendMessage = () => {   
-    if (msg !== "") {  
-      chatItems.push({
-        key: 1,
-        image:
-        "https://pbs.twimg.com/profile_images/1116431270697766912/-NfnQHvh_400x400.jpg",
-        type: "",
-        msg: msg,   
-      });
-      setChat([...chatItems]);
+    if (msg !== "") { 
+
+      const contentMessage = {
+        idChat: chat.id,
+        message: msg,
+        resend: resend,
+        image: null,
+        file: null,
+      };
+      
       setMsg("");
-      setShowEmoji(null);
-      inputRef.current.focus();
-    }  
+      setShowEmoji(null); 
+      
+      props.dispatch(createMessage(contentMessage)).then((res) => {
+        console.log("res",res);
+        props.onListMessages(contentMessage.idChat);
+      }).catch(error => {
+          console.error('error', error);
+        });      
+    }
   }
 
   const sendMessageWithImage = () => {   
-    if (uploadImage !== null) {     
-      chatItems.push({
-        key: 1,
-        image:
-        "https://pbs.twimg.com/profile_images/1116431270697766912/-NfnQHvh_400x400.jpg",
-        type: "",
-        msg: msg,
-        uploadImage: uploadImage,   
-      });
-      setChat([...chatItems]);
+    if (uploadImage !== "" || msg !== "") { 
+
+      const contentMessage = {
+        idChat: chat.id,
+        message: msg,
+        resend: resend,
+        image: uploadImage,
+        file: uploadFile,
+      };
+
+      const imageInput = document.querySelector('#upload-image');
+      const fileInput = document.querySelector('#file');
+
+      const formData = new FormData();
+      formData.append("idChat", contentMessage.idChat);
+      formData.append("message", contentMessage.message);
+      formData.append("resend", contentMessage.resend);
+      formData.append('image', imageInput.files[0] || '');
+      formData.append('file', fileInput.files[0] || '');
+      
       setMsg("");
-      setShowPreviewImage(false);
-      inputRef.current.focus();  
+      setShowEmoji(null);
+      setShowPreviewImage(false); 
+      
+      props.dispatch(createMessage(formData)).then((res) => {
+        console.log("res",res);
+        props.onListMessages(contentMessage.idChat);
+      }).catch(error => {
+          console.error('error', error);
+        });      
     }
   }
 
@@ -138,6 +155,8 @@ const MainFooter = props => {
   const closeModalUploadImage = () => {
     setShowPreviewImage(false);
     setMsg("");
+    setUploadImage(null);
+    setUploadFile(null);
   }
 
   function processImage(event){
@@ -150,25 +169,34 @@ const MainFooter = props => {
         setUploadImage(null)
     }
   }
- 
+
+  function processFile(event){
+    if(event && event.target.files && event.target.files.length > 0){
+        const file = event.target.files[0];
+        const fileUrl = URL.createObjectURL(file);
+        setUploadFile(fileUrl)
+        setShowPreviewImage(true);
+    }else{
+        setUploadFile(null)
+    }
+  }
+
   return (   
       <div>
 
-        <div className="main-chat-content" style={{overflow:'auto'}} ref={messagesEndRef}>
-        
-        {chat.map((itm, index) => {
-              return (
-                <ChatItem
-                  key={index}
-                  animationDelay={index + 2}
-                  user={itm.type ? itm.type : "me"}
-                  msg={itm.msg}
-                  image={itm.image}
-                  imageUpload={itm.uploadImage}
-                />
-              );
-            })}
-        
+        <div className="main-chat-content" style={{overflow:'auto'}} /* ref={messagesEndRef} */>
+              {messages.map((message, index) => {
+                return (
+                  <ChatItem
+                  user={chat.user.firstName}       
+                  msg={message.message}    
+                  resend={message.resend}   
+                  imageUpload={uploadImage ? uploadImage : (message.image ? (config.api+message.image) : "")}
+                  file={uploadFile ? uploadFile : (message.file ? (config.api+message.file) : "")}
+                  />
+                )
+              })}
+                 
         </div>    
 
         <div className="chat-footer">
@@ -187,21 +215,25 @@ const MainFooter = props => {
                 <ImageIcon style={{fontSize:"53px", color: "white", paddingBottom:"27px"}} />     
               </IconButton>
             </label>
-                     
-          <IconButton className="chat-input-button"> 
-            <DescriptionIcon className="chat-input-icon" />
-          </IconButton>
+
+          <input style={{display:'none'}} id="file" type="file" onChange={processFile}/>
+            <label htmlFor="file">      
+              <IconButton className="chat-input-button" component="span"> 
+                <DescriptionIcon style={{fontSize:"53px", color: "white", paddingBottom:"27px"}} />
+              </IconButton>
+            </label>
           
-          <input
+          <InputBase
+            style={{ flex: 1, width: '80%' }}
             type="text"
             placeholder="Escribe un mensaje aquí."
             onChange={onStateChange}
             value={msg}
             ref={inputRef}
-            onKeyDown={sendMessageWithEnter}     
+            onKeyPress={sendMessageWithEnter}     
           />
           <IconButton className="chat-input-button">
-            <SendIcon className="chat-icon-send" onClick={sendMessage}/>
+            <SendIcon className="chat-icon-send" onClick={sendMessage} />
           </IconButton>
          
         </div>
@@ -220,4 +252,4 @@ const MainFooter = props => {
   );
 }
 
-export default MainFooter;
+export default withRouter(MainFooter);
