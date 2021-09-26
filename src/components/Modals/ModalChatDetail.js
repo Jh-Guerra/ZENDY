@@ -92,6 +92,7 @@ const ModalChatDetail = props => {
   var name;
   var defaultImageType;
   var companyNamechat = chat.company && chat.company.name;
+  var isOnline;
 
   if(chat.participants && chat.participants.length > 2){
     image = chat.company && chat.company.avatar || "";
@@ -99,9 +100,10 @@ const ModalChatDetail = props => {
     name = chat.name || '';
   }else{
     chat.participants && chat.participants.map(participant => {
-      if(participant.id != user.id){
-        image = participant.avatar || "";
-        defaultImageType = participant.sex || "O";
+      if(participant.user.id != user.id){
+        image = participant.user.avatar || "";
+        defaultImageType = participant.user.sex || "O";
+        isOnline = (participant.user.isOnline) ? "active" : '';
       }
     })    
     name = chat.name || "";
@@ -128,7 +130,14 @@ const ModalChatDetail = props => {
             <Typography style={{ fontSize: '23px', color: 'white' }} align="center">
               {companyNamechat}
             </Typography>
-            <Typography style={{ fontSize: '20px', color: 'white' }}>en línea</Typography>
+            {
+                  (isOnline == "active") ?
+              (<Typography style={{fontSize:"20px", color:"white", marginLeft:"30px"}}>
+                 <span className="online-icon"/>En linea</Typography> )
+                 :      
+                ( <Typography style={{fontSize:"20px", color:"white", marginLeft:"30px"}}>
+                 <span className="offline-icon"/>Fuera de línea</Typography> )          
+            }
             <Divider  className={classes.divider} variant="middle" />
             <Button variant="contained" startIcon={<InfoIcon />} style={{ height: '50px', width: '300px' }} onClick={handleGroupChat}>
               Detalles de chat
