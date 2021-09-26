@@ -10,6 +10,7 @@ import ChatItem from "../Components/ChatItem";
 import EmojiPicker from "emoji-picker-react";
 // import ScrollToBottom from "react-scroll-to-bottom";
 import ModalUploadImage from "components/Modals/ModalUploadImage";
+import { Grid, GridList } from "@material-ui/core";
 
 const MainFooter = props => {
   const messagesEndRef = useRef(null);
@@ -169,42 +170,50 @@ const MainFooter = props => {
               );
             })}
         
-        </div>    
-
-        <div className="chat-footer">
-          <IconButton className="chat-input-button" onClick={handleShowEmojis}> 
-            <EmojiEmotionsIcon className="chat-input-icon"  />
-            {showEmoji && (
-                <div className="emojiPicker-wrapper">
-                  <EmojiPicker onEmojiClick={pickEmoji} />              
-                </div>
-            )}
-          </IconButton>
-
-          <input accept="image/*" style={{display:'none'}} id="upload-image" type="file" onChange={processImage}/>
-            <label htmlFor="upload-image">
-              <IconButton className="chat-input-button" component="span">
-                <ImageIcon style={{fontSize:"53px", color: "white", paddingBottom:"27px"}} />     
-              </IconButton>
-            </label>
-                     
-          <IconButton className="chat-input-button"> 
-            <DescriptionIcon className="chat-input-icon" />
-          </IconButton>
-          
-          <input
-            type="text"
-            placeholder="Escribe un mensaje aquí."
-            onChange={onStateChange}
-            value={msg}
-            ref={inputRef}
-            onKeyDown={sendMessageWithEnter}     
-          />
-          <IconButton className="chat-input-button">
-            <SendIcon className="chat-icon-send" onClick={sendMessage}/>
-          </IconButton>
-         
         </div>
+
+          <div className="chat-footer">
+            <Grid container item xs={6} sm={3}>
+              <IconButton className="chat-input-button" onClick={handleShowEmojis}> 
+                <EmojiEmotionsIcon className="chat-input-icon"  />
+                {showEmoji && (
+                    <div className="emojiPicker-wrapper">
+                      <EmojiPicker onEmojiClick={pickEmoji} />              
+                    </div>
+                )}
+              </IconButton>
+
+              <input accept="image/*" style={{display:'none'}} id="upload-image" type="file" onChange={processImage}/>
+                <label htmlFor="upload-image">
+                  <IconButton className="chat-input-button" component="span">
+                    <ImageIcon style={{fontSize:"64px", color: "white", paddingBottom:"27px"}} />     
+                  </IconButton>
+                </label>
+                        
+              <IconButton className="chat-input-button"> 
+                <DescriptionIcon className="chat-input-icon" />
+              </IconButton>
+            
+            </Grid>
+            
+            
+            <input
+                type="text"
+                style={{paddingLeft: '20px'}}
+                placeholder="Escribe un mensaje aquí..."
+                onChange={onStateChange}
+                value={msg}
+                ref={inputRef}
+                onKeyDown={sendMessageWithEnter}     
+              />
+              <IconButton className="chat-input-button">
+                <SendIcon className="chat-icon-send" onClick={sendMessage}/>
+              </IconButton>
+
+            
+          </div>
+
+        
 
         <ModalUploadImage
             open={showPreviewImage}
