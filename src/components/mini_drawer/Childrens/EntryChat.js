@@ -56,10 +56,10 @@ const EntryChat = props => {
     onList('');
   }
 
-  const onOpenModal = () => {
+  const onOpenModalEntryChat = () => {
     setShowModalEntryChat(true);
   }
-  const onOpenModalF = () => {
+  const onOpenModalEntryChatF = () => {
     setShowModalEntryChatF(true);
   }
 
@@ -71,8 +71,8 @@ const EntryChat = props => {
         <Grid item xs={12}>
           <TabOptions
             onSaveForm={onSaveForm}
-            onOpenModal={onOpenModal}
-            onOpenModalF={onOpenModalF}
+            onOpenModal={onOpenModalEntryChat}
+            onOpenModal2={onOpenModalEntryChatF}
             view="entryQueries"
           />
         </Grid>
