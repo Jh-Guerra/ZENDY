@@ -3,9 +3,9 @@ import config from "../../config/Config";
 
 class ParticipantService {
     
-    async createParticipant(data) {
+    async createParticipant(idChat, data) {
         return await axios.post(
-            config.apiVersion + `registerParticipant`, 
+            config.apiVersion + `participants/register/` + idChat, 
             data,
             { 
                 headers: config.headers 
@@ -14,7 +14,7 @@ class ParticipantService {
 
     async updateParticipant(idChat, data) {
         return await axios.post(
-            config.apiVersion + `Participant/update/` + idChat, 
+            config.apiVersion + `participants/update/` + idChat, 
             data,
             { 
                 headers: config.headers 
@@ -23,7 +23,7 @@ class ParticipantService {
 
     async findParticipant(idUser) {
         return await axios.get(
-            config.apiVersion + `Participant/find/` + idUser,
+            config.apiVersion + `participants/find/` + idUser,
             { 
                 headers: config.headers
             }
@@ -31,21 +31,18 @@ class ParticipantService {
 
     async listParticipant(idChat) {
         return await axios.get(
-            config.apiVersion + `Participant/list` + idChat,
+            config.apiVersion + `participants/list` + idChat,
             { 
                 headers: config.headers
             }
     )}
 
-    async deleteParticipant(idUser,idChat) {
-        return await axios.delete(
-            config.apiVersion + `Participant/delete/`,
+    async deleteParticipant(data) {
+        return await axios.post(
+            config.apiVersion + `participants/delete/`,
+            data,
             { 
-                headers: {...config.headers},
-                params: {
-                    idUser: idUser,
-                    idChat: idChat
-                }
+                headers: {...config.headers}
             }
     )}
    

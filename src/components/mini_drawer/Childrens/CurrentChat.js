@@ -17,7 +17,7 @@ const styles = theme => ({
 });
 
 const CurrentChat = props => {
-  const { classes = {} } = props;
+  const { classes = {}, chatRx } = props;
   const history = useHistory();
 
   const [allChats, setAllChats] = React.useState([]);
@@ -94,7 +94,7 @@ const CurrentChat = props => {
                   <p className="chat-not-found">No se encontró ningún chat</p>
                 </div>
               ) : (
-                allChats.map((chat, i) => {
+                chatRx.currentChats && chatRx.currentChats.map((chat, i) => {
                   return (
                     <ItemAvatarRow
                       key={i}

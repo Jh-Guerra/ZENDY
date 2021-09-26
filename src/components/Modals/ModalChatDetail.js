@@ -31,7 +31,7 @@ const ModalChatDetail = props => {
   const user = session && session.user;
   const classes = useStyles();
 
-  const { onClose, chat } = props;
+  const { onClose, chat, onGetChatData } = props;
 
   const [openGroupChat, setOpenGroupChat] = React.useState(false);
 
@@ -155,6 +155,7 @@ const ModalChatDetail = props => {
         open={openGroupChat} 
         handleClose={() => { setOpenGroupChat(false); }}
         chat={chat}
+        onGetChatData={onGetChatData}
       />
     </>
   );

@@ -40,6 +40,7 @@ const MainPage = (props) => {
       <Grid item xs={12} style={{height:'13vh'}}>
         <MainHeader
           chat={chat}
+          onGetChatData={onGetChatData}
         />
       </Grid>
       <Grid item xs={12} style={{height:'13vh'}}>

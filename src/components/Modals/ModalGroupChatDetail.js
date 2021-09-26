@@ -17,6 +17,9 @@ import ModalHeader from './common/ModalHeader';
 import TimerOutlinedIcon from '@material-ui/icons/TimerOutlined';
 import CustomModal from './common/CustomModal';
 import config from 'config/Config';
+import { getSessionInfo } from 'utils/common';
+import { deleteParticipant } from 'services/actions/ParticipantAction';
+import { listActiveChats } from 'services/actions/ChatAction';
 
 const useStyles = makeStyles(theme => ({
   large: {
@@ -31,15 +34,38 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const ModalGroupChatDetail = props => {
+  const session = getSessionInfo();
+  const user = session && session.user;
   const classes = useStyles();
-  const { open, handleClose, chat } = props;
+  const { open, handleClose, chat, onGetChatData } = props;
   const chatLifetime = Math.round((new Date().getTime() - new Date(chat.startDate).getTime()) / (1000 * 60 * 60 * 24))
 
 
-const [openModalEndChat,setOpenModalEndChat] = React.useState(false);
-const handleModalEndChat = () => {
-  setOpenModalEndChat(true);
-} 
+  const [openModalEndChat,setOpenModalEndChat] = React.useState(false);
+  const [showAddToConversation,setShowAddToConversation] = React.useState(false);
+  const handleModalEndChat = () => {
+    setOpenModalEndChat(true);
+  } 
+
+  const ShowAddToConversation = () => {
+    setShowAddToConversation(true);
+  }
+  
+  const RemoveParticipant = (idUser,idChat) => {
+    props.dispatch(deleteParticipant({idUser,idChat})).then(res => {
+      if(res){
+        onGetChatData(chat.id);
+        props.dispatch(listActiveChats("", "Vigente"));
+      }
+    })
+  }
+
+  var isAdmin;
+  chat.participants && chat.participants.filter(participant => {
+    if(participant.idUser == user.id){
+      isAdmin = (participant.type == "Admin")
+    }
+  })
 
   return (
     <>
@@ -89,11 +115,14 @@ const handleModalEndChat = () => {
                               primary={`${user.firstName} ${user.lastName}`}
                               secondary={`${participant.type}`}
                             />
-                            <ListItemSecondaryAction>
+                            {
+                              isAdmin && 
+                              <ListItemSecondaryAction>
                               {
-                                participant.type == "Participante" ? <Button variant="contained" color="primary">Quitar</Button> : null
+                                participant.type == "Participante" ? <Button variant="contained" color="primary" onClick={() => {RemoveParticipant(user.id,chat.id)}}>Quitar</Button> : null
                               }
                             </ListItemSecondaryAction>
+                            }                           
                           </ListItem>
                           <Divider variant="inset" />
                         </>
@@ -102,20 +131,27 @@ const handleModalEndChat = () => {
                   }
                 </List>
                 <List>
-                  <ListItem>
-                    <IconButton onClick={{}}>
-                      <AddCircleOutlineIcon />
-                    </IconButton>
-                    <ListItemText primary="Agregar más personas" />
-                  </ListItem>
+                  {
+                      isAdmin && 
+                      <Grid item md={12}>
+                        <Button variant="contained" color="primary" startIcon={<AddCircleOutlineIcon />} style={{ height: '50px', width: '100%' }} onClick={ShowAddToConversation}>
+                          Agregar más personas
+                        </Button>
+                      </Grid>
+                  }
+                  
                   <Divider variant="inset" />
                 </List>
               </Grid>
-              <Grid item md={12}>
-                <Button variant="contained" color="primary" startIcon={<TimerOutlinedIcon />} style={{ height: '50px', width: '100%' }} onClick={handleModalEndChat}>
-                    Finalizar chat
-                </Button>
-              </Grid>
+              {
+                 isAdmin && 
+                 <Grid item md={12}>
+                    <Button variant="contained" color="primary" startIcon={<TimerOutlinedIcon />} style={{ height: '50px', width: '100%' }} onClick={handleModalEndChat}>
+                        Finalizar chat
+                    </Button>
+                 </Grid>
+              }
+              
             </Grid>
           </Grid>
         </Grid>
@@ -125,8 +161,14 @@ const handleModalEndChat = () => {
       CustomModal="ModalEndChat"
       open={openModalEndChat}
       handleClose={() => {setOpenModalEndChat(false)}}>
-
     </CustomModal>
+    <CustomModal 
+        customModal="ModalAddToConversation"
+        open={showAddToConversation}
+        handleClose={() => {setShowAddToConversation(false)}}
+        chat={chat}
+        onGetChatData={onGetChatData}>
+     </CustomModal>
     </>
   );
 };

@@ -1,6 +1,7 @@
 import { combineReducers } from 'redux'
 import AuthReducer from './AuthReducer'
 import CommonReducer from './CommonReducer'
+import ChatReducer from './ChatReducer';
 import CustomReducer from './CustomReducer';
 import EntryQueryReducer from './EntryQueryReducer';
 
@@ -9,7 +10,8 @@ const rootReducer = combineReducers({
   session: AuthReducer,
   common: CommonReducer,
   custom: CustomReducer,
-  entryQueryRedux: EntryQueryReducer
+  entryQueryRedux: EntryQueryReducer,
+  chatRx: ChatReducer
 })
 
 export default (state, action) =>

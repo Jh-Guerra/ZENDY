@@ -15,7 +15,7 @@ import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
 const MainHeader = props => {
   const session = getSessionInfo();
   const user = session && session.user;
-  const { chat={} } = props;
+  const { chat={}, onGetChatData } = props;
 
   const history = useHistory();
   const [showRecommendUser, setShowRecommendUser] = useState(false)
@@ -52,6 +52,13 @@ const MainHeader = props => {
       }
     })    
   }
+
+  var isAdmin;
+  chat.participants && chat.participants.filter(participant => {
+    if(participant.idUser == user.id){
+      isAdmin = (participant.type == "Admin")
+    }
+  })
 
   return (
     <Grid container className="chat-header">    
@@ -100,9 +107,13 @@ const MainHeader = props => {
             <Tooltip title="Recomendar Usuario">
               <IconButton onClick={handleRecommendUser} className="chat-header-button"><PeopleAltIcon style={{ fontSize: 35 }} /></IconButton>
             </Tooltip>
-            <Tooltip title="Agregar a la conversación">
-              <IconButton onClick={handleAddToConversation} className="chat-header-button"><PersonAddIcon style={{ fontSize: 35 }} /></IconButton>
-            </Tooltip>
+            {
+              isAdmin &&
+              <Tooltip title="Agregar a la conversación">
+                <IconButton onClick={handleAddToConversation} className="chat-header-button"><PersonAddIcon style={{ fontSize: 35 }} /></IconButton>
+              </Tooltip>
+            }
+            
           </Grid>              
         </Grid>
       </Grid>
@@ -116,11 +127,14 @@ const MainHeader = props => {
         open={showChatDetail} 
         onClose={()=> { setShowChatDetail(false) }}
         chat={chat}
+        onGetChatData={onGetChatData}
       />
       <CustomModal 
         customModal="ModalAddToConversation"
         open={showAddToConversation}
         handleClose={() => { setShowAddToConversation (false); }}
+        chat={chat}
+        onGetChatData={onGetChatData}
       />
     </Grid>
   );

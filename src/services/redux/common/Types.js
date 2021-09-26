@@ -18,3 +18,6 @@ export const HIDE_BACKDROP = 'HIDE_BACKDROP';
 
 //ENTRY QUERY
 export const ENTRY_QUERY = 'ENTRY_QUERY';
+
+//CURRENT CHAT
+export const CURRENT_CHAT = 'CURRENT_CHAT';
