@@ -38,6 +38,7 @@ const EQMainHeader = props => {
   var image = entryQuery.user && entryQuery.user.avatar || "";
   var defaultImageType =entryQuery.user && entryQuery.user.sex || "O";
   var name = entryQuery.user && (entryQuery.user.firstName + ' ' + entryQuery.user.lastName) || "";
+  var status = entryQuery.status || "";
 
   return (
     <Grid container className="chat-header">    
@@ -56,6 +57,9 @@ const EQMainHeader = props => {
             <Grid item xs={8} className="chat-header-name">                                                        
               <div>
                 <Typography style={{fontSize:"25px", color:"white"}}>{name}</Typography>
+              </div>
+              <div>
+                <Typography style={{fontSize:"15px", color:"white"}}>{status}</Typography>
               </div>
             </Grid>               
           </Grid>
