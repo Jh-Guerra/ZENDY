@@ -9,7 +9,7 @@ import ErrorIcon from '@material-ui/icons/Error';
 
 const TabOptions = (props) => {
 
-  const { onSaveForm, onOpenModal, view } = props;
+  const { onSaveForm, onOpenModal, view, onOpenModalF } = props;
 
   return (
     <>
@@ -32,6 +32,7 @@ const TabOptions = (props) => {
           }
           {
             view=="entryQueries" && (
+              <Grid container spacing={3} style={{ padding: '10px', marginTop: '10px' }}>
               <Grid item xs={6}>
                 <CustomButton
                   fullWidth
@@ -43,6 +44,18 @@ const TabOptions = (props) => {
                   Iniciar Consulta
                 </CustomButton>
               </Grid>
+              <Grid item xs={6}>
+              <CustomButton
+                fullWidth
+                onClick={() => { onOpenModalF && onOpenModalF() }}
+                variant="contained"
+                customColor={successButtonColor}
+                startIcon={<RateReviewIcon />}
+              >
+                Consulta Frecuente
+              </CustomButton>
+            </Grid>
+                </Grid>
             )
           }
           {
