@@ -8,6 +8,7 @@ import ModalNewInternalChat from '../ModalNewInternalChat';
 import ModalNewCompanyChat from '../ModalNewCompanyChat';
 import ModalAcceptChat from '../ModalAcceptChat';
 import ModalRecommendUser from '../ModalRecommendUser';
+import ModalRecommendations from '../ModalRecommendations';
 import ModalChatDetail from '../ModalChatDetail';
 import ModalAddToConversation from '../ModalAddToConversation';
 import ModalResendMessage from '../ModalResendMessage';
@@ -34,6 +35,8 @@ const CustomModal = (props) => {
                 return <ModalAcceptChat {...props}/>
             case "ModalRecommendUser":
                 return <ModalRecommendUser {...props}/>
+            case "ModalRecommendations":
+                return <ModalRecommendations {...props}/>
             case "ModalChatDetail":
                 return <ModalChatDetail {...props}/>
             case "ModalAddToConversation":

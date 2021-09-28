@@ -29,6 +29,10 @@ class RecommendationService {
         return await axios.get( getCustomUrl(apiPrefix, `/list-by-entry-query/` + idEntryQuery), defaultHeaders());
     }
 
+    async listExistingRecommendations(idEntryQuery) {
+        return await axios.get( getCustomUrl(apiPrefix, `/list-existing-recommendations/` + idEntryQuery), defaultHeaders());
+    }
+
     async deleteRecommendation(id) {
         return await axios.delete( getCustomUrl(apiPrefix, `/delete/${id}`), defaultHeaders() )
     }

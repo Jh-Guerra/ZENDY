@@ -37,6 +37,11 @@ export const listRecommendationsByEntryQuery = (idEntryQuery) => async dispatch 
     return res && res.data || [];
 }
 
+export const listExistingRecommendations = (idEntryQuery) => async dispatch => {
+    const res = await service.listExistingRecommendations(idEntryQuery);
+    return res && res.data || [];
+}
+
 export const deleteRecommendation = (id) => async dispatch => {
      const res = await service.deleteRecommendation(id);
      return res && res.data || [];
