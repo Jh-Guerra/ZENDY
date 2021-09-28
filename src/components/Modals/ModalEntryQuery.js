@@ -15,9 +15,11 @@ import {createEntryQuery, updateEntryQuery, listQueries} from 'services/actions/
 import { showBackdrop , showSnackBar} from 'services/actions/CustomAction';
 import defaultCompany from 'assets/images/defaultCompany.png';
 import config from 'config/Config';
+import { useHistory } from 'react-router-dom';
 
 const ModalEntryQuery = props => {
   const { open, handleClose, onSaveForm, entryQuery , setEntryQuery} = props;
+  const history = useHistory();
 
   const [data, setData] = React.useState({
     id: '',
@@ -116,6 +118,7 @@ const ModalEntryQuery = props => {
                    props.dispatch(showBackdrop(false));
               
                   onSaveForm && onSaveForm();
+                  history.push("/consultas/" + res.entryQuery.id);
                 }).catch(error => {
                   props.dispatch(showBackdrop(false));
                   props.dispatch(showSnackBar("error", error.message || ""));
