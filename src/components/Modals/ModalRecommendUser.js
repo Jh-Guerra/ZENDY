@@ -67,20 +67,25 @@ const ModalRecommendUser = (props) => {
 
   const onListAvailableUsers = (term) => {
     props.dispatch(showBackdrop(true));
+    const selectedUsers = users.filter(user => user.checked) || [];
+    const selectedUserIds = selectedUsers.map(user => user.id) || [];
     props.dispatch(listRecommendationsByEntryQuery(entryQuery.id)).then(userRecommendations => {
       props.dispatch(listAvailableUsers(["Admin", "UserHD"], term)).then(res => {
         const users = res.map(user => {
+          if (!selectedUserIds.includes(user.id)) {
+            selectedUsers.push(user)
+          }
           return {...user, recommend: userRecommendations.includes(user.id)}
         });
-        setUsers(users || []);
+        setUsers(selectedUsers);
         props.dispatch(showBackdrop(false));
       }).catch(err => props.dispatch(showBackdrop(false)));
     }).catch(err => props.dispatch(showBackdrop(false)));
   }
 
   const onSearch = (term) => {
-    clearTimeout(searchTimeout);
     setTerm(term);
+    clearTimeout(searchTimeout);
     setSearchTimeout(
       setTimeout(() => {
         onListAvailableUsers(term);
