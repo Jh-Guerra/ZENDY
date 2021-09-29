@@ -3,9 +3,14 @@ import config from "../../config/Config";
 import { defaultHeaders, getCustomUrl } from 'utils/common';
 
 const apiPrefix = config.apiVersion + "notifications";
+
 class NotificationService {    
-    async createNotification(data) {
-        return await axios.post( getCustomUrl(apiPrefix, `/register`), data, defaultHeaders() );
+    async createCompanyNotification(data) {
+        return await axios.post( getCustomUrl(apiPrefix, `/register-company`), data, defaultHeaders() );
+    }
+
+    async createCompaniesNotification(data) {
+        return await axios.post( getCustomUrl(apiPrefix, `/register-companies`), data, defaultHeaders() );
     }
 
     async findNotification(id) {

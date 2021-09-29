@@ -95,7 +95,6 @@ const ModalEndChat = (props) => {
                             <CustomInput
                                 id="description"
                                 inputType="textArea"
-                                placeholder="Ingrese una descripción"
                                 onChange={event => { setFinalizeDescription(event.target.value) }}
                                 value={finalizeDescription}
                             />

@@ -16,7 +16,7 @@ const AdminNotificationSection = (props) => {
   
     const [notifications, setNotifications] = React.useState([]);
     const [searchTimeout, setSearchTimeout] = React.useState(null);
-    const [showModalNotification, setShowModalNotification] = React.useState(false);
+    const [showNotificationOptions, setShowNotificationOptions] = React.useState(false);
   
     React.useEffect(() => {
       onList("");
@@ -45,13 +45,13 @@ const AdminNotificationSection = (props) => {
         }
     }
 
-    const openModalNotification = () => {
-        setShowModalNotification(true);
+    const openNotificationOptions = () => {
+      setShowNotificationOptions(true);
     }
 
     const onSaveForm = () => {
-        onList('');
-      }
+      onList('');
+    }
 
     return (
         <div style={{height: "79vh"}}>
@@ -59,7 +59,7 @@ const AdminNotificationSection = (props) => {
             <Grid item xs={12}>
                 <TabOptions
                     onSaveForm={onSaveForm}
-                    onOpenModal={openModalNotification}
+                    onOpenModal={openNotificationOptions}
                     view="adminNotifications"
                 />
             </Grid>
@@ -102,12 +102,12 @@ const AdminNotificationSection = (props) => {
             </Grid>
           </Grid>
           <CustomModal
-            customModal={'ModalNotification'}
-            open={showModalNotification}
-            handleClose={() => { setShowModalNotification(false) }}
+            customModal={'ModalNotificationOptions'}
+            open={showNotificationOptions}
+            handleClose={() => { setShowNotificationOptions(false) }}
             onSaveForm={() => {
-                setShowModalNotification(false);
-                onSaveForm();
+              setShowNotificationOptions(false);
+              onSaveForm();
           }}
           />
         </div>

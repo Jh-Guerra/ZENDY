@@ -31,7 +31,6 @@ const ModalEntryQuery = props => {
   //const [icon, setIcon] = React.useState(<BusinessIcon />);
   const [editMode, setEditMode] = React.useState(false);
   const [fileUrl, setFileUrl] = React.useState(null);
-  const [fileUrl1, setFileUrl1] = React.useState(null);
 
   React.useEffect(() => {
     if(open){
@@ -57,7 +56,6 @@ const ModalEntryQuery = props => {
             setEditMode(true);
         }
         setFileUrl(null)
-        setFileUrl1(null)
     }
 }, [open]);
 

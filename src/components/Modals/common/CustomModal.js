@@ -12,10 +12,12 @@ import ModalChatDetail from '../ModalChatDetail';
 import ModalAddToConversation from '../ModalAddToConversation';
 import ModalResendMessage from '../ModalResendMessage';
 import ModalEntryQuery from '../ModalEntryQuery';
-import ModalNotification from '../ModalNotification';
 import ModalReportedErrors from '../ModalReportedErrors';
 import ModalEndChat from '../ModalEndChat';
 import ModalEntryQueryFrequent from '../ModalEntryQueryFrequent';
+import ModalNotificationOptions from '../ModalNotificationOptions';
+import ModalNewCompanyNotification from '../ModalNewCompanyNotification';
+import ModalNewCompaniesNotification from '../ModalNewCompaniesNotification';
 
 const CustomModal = (props) => {
     const getCustomModal = (customModal) => {
@@ -42,14 +44,18 @@ const CustomModal = (props) => {
                 return <ModalResendMessage {...props}/>
             case "ModalEntryQuery":
                 return <ModalEntryQuery {...props}/>
-            case "ModalNotification":
-                return <ModalNotification {...props}/>
             case "ModalReportedErrors":
                 return <ModalReportedErrors {...props}/>
             case "ModalEndChat":
                 return <ModalEndChat {...props}/>
             case "ModalEntryQueryFrequent":
                 return <ModalEntryQueryFrequent {...props}/>
+            case "ModalNotificationOptions":
+                return <ModalNotificationOptions {...props}/>
+            case "ModalNewCompanyNotification":
+                return <ModalNewCompanyNotification {...props}/>
+            case "ModalNewCompaniesNotification":
+                return <ModalNewCompaniesNotification {...props}/>
             default:
                 return null;
         }

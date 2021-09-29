@@ -169,7 +169,7 @@ const ModalNewInternalChat = (props) => {
                 users.length === 0 && (
                   <ListItem divider   style={{ padding: '12px 55px 12px 55px' }}>
                       <ListItemText
-                        primary={`USUARIO NO ENCONTRADO `}
+                        primary={`No hay usuarios registrados `}
                       />
                   </ListItem>        
                 )

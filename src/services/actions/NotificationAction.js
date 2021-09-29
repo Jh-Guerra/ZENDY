@@ -2,8 +2,13 @@ import NotificationService from "services/api/NotificationService";
 
 const service = new NotificationService();
 
-export const createNotification = (data) => async dispatch => {
-    const res = await service.createNotification(data);
+export const createCompanyNotification = (data) => async dispatch => {
+    const res = await service.createCompanyNotification(data);
+    return res && res.data;
+}
+
+export const createCompaniesNotification = (data) => async dispatch => {
+    const res = await service.createCompaniesNotification(data);
     return res && res.data;
 }
 

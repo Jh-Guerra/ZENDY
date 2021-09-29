@@ -9,7 +9,7 @@ class HistoryChat extends Component {
         return (
             <div style={{height: "79vh"}}>
                 <NewChatCall />
-                {/* <ChatListBar txt='Historial De Chats' itemxx={<CheckHistory/>}/> */}
+                asdasda
             </div>
         )
     }
