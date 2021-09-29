@@ -23,6 +23,7 @@ import config from 'config/Config';
 import { pColor } from 'assets/styles/zendy-css';
 import { getImageProfile } from "utils/common";
 import { listRecommendationsByEntryQuery } from 'services/actions/RecommendationAction';
+import { recommendUser } from 'services/actions/EntryQueryAction';
 
 const useStyles = makeStyles(theme => ({
     buttonIcon: {
@@ -101,7 +102,14 @@ const ModalRecommendUser = (props) => {
   const onRecommendUser = () => {
     const selectedUsers = users.filter(user => user.checked);
     const selectedUserIds = selectedUsers.map(user => user.id);
-    props.onConfirm && props.onConfirm(selectedUserIds);
+    props.dispatch(showBackdrop(true));
+    props.dispatch(recommendUser(selectedUserIds, entryQuery.id)).then(res => {
+      const message = res && res.success || "Recomendaciones enviadas";
+      props.dispatch(showSnackBar("success", message));
+      props.handleClose();
+      props.onListExistingRecommendations();
+      props.dispatch(showBackdrop(false));
+    }).catch(err => { props.dispatch(showBackdrop(false)); props.dispatch(showSnackBar("error", err.response.data.error)); });
   }
     
   return (
