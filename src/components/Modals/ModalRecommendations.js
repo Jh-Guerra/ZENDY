@@ -51,21 +51,20 @@ const ModalRecommendations = (props) => {
         <Modal 
           open={open} 
           handleClose={handleClose}
-          size="md"
+          size="lg"
+          //style={{maxWidth:"800px"}}
         >
         <ModalHeader
           icon={<PersonAddIcon />}
-          text="Listado de Recomendaciones"
-          
+          text="Listado de Recomendaciones"        
         />
 
         <ModalBody>
-            <List style={{ padding: "0px", maxHeight: "550px", overflow: "auto", textAlign: "center", paddingBottom:"10px" }}> 
+            <List style={{ paddingTop: "10px", maxHeight: "550px", overflow: "auto", textAlign: "right", paddingBottom:"30px" }}> 
                 <Button variant="contained" color="primary" startIcon={<AddCircleOutlineIcon />} onClick={openRecommendUser}>
                     Recomendar otro usuario
                 </Button>
-                         
-                <Divider />
+                <br />                  
             </List>
 
             <Table responsive striped>
@@ -115,6 +114,7 @@ const ModalRecommendations = (props) => {
             }}
             entryQuery={entryQuery}
             onConfirm={onRecommendUser}
+            onListExistingRecommendations={onListExistingRecommendations}
         />
       </div>
     )
