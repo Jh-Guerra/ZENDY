@@ -46,6 +46,11 @@ const ModalGroupChatDetail = props => {
   const ShowAddToConversation = () => {
     setShowAddToConversation(true);
   }
+
+  const [openModalEndChat,setOpenModalEndChat] = React.useState(false);
+  const HandleModalEndChat = () => {
+    setOpenModalEndChat(true);
+  } 
   
   const RemoveParticipant = (idUser,idChat) => {
     props.dispatch(deleteParticipant({idUser,idChat})).then(res => {
@@ -87,14 +92,16 @@ const ModalGroupChatDetail = props => {
               chat.status == "Finalizado" && (
                 <Grid container item direction="row" justify="space-between" alignItems="flex-start" width="100%">
                   <Box className={classes.detailsBox}>
-                    <EventBusyIcon style={{ margin: '0px 5px' }} /> Fecha de finalización{' '}
-                  </Box>
-                  <Box>
-                    {chat.endDate ? chat.endDate : "Activo"}
+                    <EventBusyIcon style={{ margin: '0px 5px' }} /> Fecha de finalización [{chat.endDate}]
                   </Box>
                 </Grid>
               )
             }
+            <Grid container item direction="row" justify="flex-end" alignItems="flex-start" width="100%">
+              <Box>
+                {chat.endDate ? chat.endDate : "Activo"}
+              </Box>
+            </Grid>
           </Grid>
 
           <Grid container spacing={3}>
@@ -139,6 +146,18 @@ const ModalGroupChatDetail = props => {
                   
                   <Divider variant="inset" />
                 </List>
+                <List>
+                  {
+                      chat.status == "Vigente" && (
+                        <Grid item md={12}>
+                          <Button variant="contained" color="secondary" startIcon={<TimerOutlinedIcon />} style={{ height: '50px', width: '100%' }} onClick={HandleModalEndChat}>
+                              Finalizar chat
+                          </Button>
+                        </Grid>
+                      )     
+                  }
+                  <Divider variant="inset" />
+                </List>
               </Grid>
             </Grid>
           </Grid>
@@ -152,6 +171,13 @@ const ModalGroupChatDetail = props => {
         chat={chat}
         onGetChatData={onGetChatData}>
      </CustomModal>
+     <CustomModal
+      CustomModal="ModalEndChat"
+      open={openModalEndChat}
+      handleClose={() => {setOpenModalEndChat(true)}}
+      onGetChatData={onGetChatData}
+      chat={chat}>
+    </CustomModal>
     </>
   );
 };
