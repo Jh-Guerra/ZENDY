@@ -32,8 +32,8 @@ export const deleteEntryQuery = (id) => async dispatch => {
      return res && res.data || [];
 }
 
-export const listQueries = (term) => async dispatch => {
-    const res = await service.listQueries(term);
+export const listQueries = (term, status) => async dispatch => {
+    const res = await service.listQueries(term, status);
     dispatch({
         type: ENTRY_QUERY,
         payload: res && res.data || []
