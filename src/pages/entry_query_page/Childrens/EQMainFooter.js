@@ -43,11 +43,11 @@ const EQMainFooter = props => {
     },
   ];
 
-  const [showRecommendUser, setShowRecommendUser] = React.useState(false);
+  const [showRecommendations, setShowRecommendations] = React.useState(false);
   const [showAcceptChat, setShowAcceptChat] = React.useState(false);
 
-  const openRecommendUser = () => {
-    setShowRecommendUser(true);
+  const openRecommendations = () => {
+    setShowRecommendations(true);
   };
 
   const openAcceptChat = () => {
@@ -85,7 +85,7 @@ const EQMainFooter = props => {
   }
 
   const onRecommendUser = (selectedUserIds) => {
-    setShowRecommendUser(false);
+    setShowRecommendations(false);
     props.onRecommendUser && props.onRecommendUser(selectedUserIds);
   }
 
@@ -112,12 +112,12 @@ const EQMainFooter = props => {
         {
           checkPermission(session, "acceptEntryQuery") && (
             <CustomButton
-              onClick={openRecommendUser}
+              onClick={openRecommendations}
               variant="contained"
               customColor={infoColor}
               startIcon={<PeopleAltIcon />}
             >
-              Recomendar Usuario
+              Recomendaciones
             </CustomButton>
           )
         }
@@ -143,10 +143,10 @@ const EQMainFooter = props => {
       />
 
       <CustomModal
-        customModal="ModalRecommendUser"
-        open={showRecommendUser}
+        customModal="ModalRecommendations"
+        open={showRecommendations}
         handleClose={() => {
-          setShowRecommendUser(false);
+          setShowRecommendations(false);
         }}
         entryQuery={entryQuery}
         onConfirm={onRecommendUser}
