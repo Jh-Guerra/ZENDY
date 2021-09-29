@@ -1,4 +1,4 @@
-import { Avatar, Grid, makeStyles, Typography, Divider, Button, GridListTile } from '@material-ui/core';
+import { Avatar, Grid, makeStyles, Typography, Divider, Button, GridListTile, TextField } from '@material-ui/core';
 import React from 'react';
 import ModalBody from './common/ModalBody';
 import Modal from './common/Modal';
@@ -19,7 +19,7 @@ import CustomModal from './common/CustomModal';
 import config from 'config/Config';
 import { getSessionInfo } from 'utils/common';
 import { deleteParticipant } from 'services/actions/ParticipantAction';
-import { listActiveChats } from 'services/actions/ChatAction';
+import { listActiveChats, nameChatAction } from 'services/actions/ChatAction';
 
 const useStyles = makeStyles(theme => ({
   large: {
@@ -42,6 +42,7 @@ const ModalGroupChatDetail = props => {
   const chatLifetime = Math.round((new Date().getTime() - new Date(chat.startDate).getTime()) / (1000 * 60 * 60 * 24))
 
   const [showAddToConversation,setShowAddToConversation] = React.useState(false);
+  const [nameChat, setNameChat] = React.useState("")
 
   const ShowAddToConversation = () => {
     setShowAddToConversation(true);
@@ -56,12 +57,32 @@ const ModalGroupChatDetail = props => {
     })
   }
 
+  const handleChange = (event) => {
+    setNameChat(event.target.value);
+  } 
+
+  const addName = (data) => {
+    props.dispatch(nameChatAction(chat.id,data)).then(res => {
+      if(res){
+        onGetChatData(chat.id);
+        props.dispatch(listActiveChats("", "Vigente"));
+      }
+    })
+  }
+
   var isAdmin;
   chat.participants && chat.participants.filter(participant => {
     if(participant.idUser == user.id){
       isAdmin = (participant.type == "Admin")
     }
   })
+
+  React.useEffect(() => {
+    if(open){
+      const nameChatExist = chat && chat.name ? chat.name : "";
+      setNameChat(nameChatExist)
+    }
+  }, [open]);
 
   return (
     <>
@@ -74,6 +95,21 @@ const ModalGroupChatDetail = props => {
       <ModalBody>
         <Grid container spacing={3}>
           <Grid container item xs={12} direction="column" alignItems="center" justify="center" spacing={3}>
+            <Grid container item direction="row" justify="space-between" alignItems="flex-start" width="100%">
+                {
+                  isAdmin && (
+                    <>
+                      <TextField
+                        id="name"
+                        label={<p>Nombre del Grupo</p>}
+                        value={nameChat}
+                        onChange={handleChange}
+                      />
+                      <Button variant="contained" color="primary" onClick={() => { addName(nameChat) }}>Cambiar nombre al chat</Button>
+                    </>
+                  )
+                }
+            </Grid>
             <Grid container item direction="row" justify="space-between" alignItems="flex-start" width="100%">
               <Box className={classes.detailsBox}>
                 <TimerIcon style={{ margin: '0px 5px' }} /> Tiempo de Vida del Chat{' '}

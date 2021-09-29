@@ -130,6 +130,16 @@ class ChatService {
                 Authorization: `token ${JSON.parse(localStorage.getItem('session')).token || ''}` 
             } }
     )}
+
+    async nameChat(idChat, data) {
+        return await axios.post(
+            config.apiVersion + `chats/name/` + idChat,
+            {name: data},
+            { headers: {    
+                ...config.headers, 
+                Authorization: `token ${JSON.parse(localStorage.getItem('session')).token || ''}` 
+            } }
+    )}
 }
 
 export default ChatService;
