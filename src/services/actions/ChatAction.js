@@ -72,3 +72,8 @@ export const finalizeChat = (idChat, data) => async dispatch => {
     const res = await chatService.finalizeChat(idChat, data);
     return res && res.data || [];
 }
+
+export const nameChatAction = (idChat, data) => async dispatch => {
+    const res = await chatService.nameChat(idChat, data);
+    return res && res.data || [];
+}
