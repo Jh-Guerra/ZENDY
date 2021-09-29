@@ -74,23 +74,37 @@ const ModalAddToConversation = (props) => {
 
   const onListAvailableUsers = (term) => {
     props.dispatch(showBackdrop(true));
+    const selectedUsers = users.filter(user => user.checked) || [];
+    const selectedUserIds = selectedUsers.map(user => user.id) || [];
     props.dispatch(listAvailableUsers(["Admin", "UserHD"], term)).then(res => {
-      setUsers(res || []);
+      res && res.map(user => {
+        if (!selectedUserIds.includes(user.id)) {
+          selectedUsers.push(user)
+        }}
+      )
+      setUsers(selectedUsers);
       props.dispatch(showBackdrop(false));
     }).catch(err => props.dispatch(showBackdrop(false)));;
   }
 
   const onListAvailableUsersSameCompany = (term) => {
     props.dispatch(showBackdrop(true));
+    const selectedUsers = usersSC.filter(user => user.checked) || [];
+    const selectedUserIds = selectedUsers.map(user => user.id) || [];
     props.dispatch(listAvailableUsersSameCompany(["UserEmpresa"], term)).then(res => {
-      setUsersSC(res || []);
+      res && res.map(user => {
+        if (!selectedUserIds.includes(user.id)) {
+          selectedUsers.push(user)
+        }}
+      )
+      setUsersSC(selectedUsers);
       props.dispatch(showBackdrop(false));
     }).catch(err => props.dispatch(showBackdrop(false)));;
   }
 
   const onSearch = (term) => {
-    clearTimeout(searchTimeout);
     setTerm(term);
+    clearTimeout(searchTimeout);
     setSearchTimeout(
       setTimeout(() => {
         onListAvailableUsers(term);
