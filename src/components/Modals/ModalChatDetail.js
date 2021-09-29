@@ -131,12 +131,22 @@ const ModalChatDetail = props => {
               {companyNamechat}
             </Typography>
             {
+              chat && chat.scope == 'Personal' && (  
                   (isOnline == "active") ?
-              (<Typography style={{fontSize:"20px", color:"white", marginLeft:"30px"}}>
-                 <span className="online-icon"/>En linea</Typography> )
+              (
+                <div className="chat-header" style={{display:"flex", alignItems:"center", height:"25px", minWidth:"",marginLeft:"125px"}}>
+                <Typography style={{fontSize:"20px", color:"white", marginLeft:"30px"}}>
+                 <span className="online-icon"/>En linea</Typography> 
+                 </div>
+                 )
                  :      
-                ( <Typography style={{fontSize:"20px", color:"white", marginLeft:"30px"}}>
-                 <span className="offline-icon"/>Fuera de línea</Typography> )          
+                ( 
+                  <div className="chat-header" style={{display:"flex", alignItems:"center", height:"25px", minWidth:"",marginLeft:"100px"}}>
+                    <Typography style={{fontSize:"20px", color:"white", marginLeft:"30px"}}>
+                   <span className="offline-icon"/>Fuera de línea</Typography> 
+                    </div>
+                   )
+              )          
             }
             <Divider  className={classes.divider} variant="middle" />
             <Button variant="contained" startIcon={<InfoIcon />} style={{ height: '50px', width: '300px' }} onClick={handleGroupChat}>

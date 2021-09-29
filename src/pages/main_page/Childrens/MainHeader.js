@@ -92,15 +92,17 @@ const MainHeader = props => {
               </div>
               )
             }
-
-                {
+            
+              {
+                chat && chat.scope == 'Personal' && (
                   (isOnline == "active") ?
-              (<Typography style={{fontSize:"18px", color:"white", marginLeft:"30px"}}>
-                 <span className="online-icon"/>En linea</Typography> )
-                 :      
-                ( <Typography style={{fontSize:"12px", color:"white"}}>
-                 <span className="offline-icon"/>Fuera de línea</Typography> )          
-                }
+                    (<Typography style={{ fontSize: "18px", color: "white", marginLeft: "30px" }}>
+                      <span className="online-icon" />En linea</Typography>)
+                    :
+                    (<Typography style={{ fontSize: "12px", color: "white" }}>
+                      <span className="offline-icon" />Fuera de línea</Typography>)
+                )
+              }
             </Grid>               
           </Grid>
         </Grid>
