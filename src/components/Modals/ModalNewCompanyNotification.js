@@ -11,7 +11,7 @@ import CustomInput from 'components/CustomInput';
 import { listCompanies } from 'services/actions/CompanyAction';
 import { showBackdrop, showSnackBar } from 'services/actions/CustomAction';
 import { listUsersByCompany } from 'services/actions/UserAction';
-import { createCompanyNotification } from 'services/actions/NotificationAction';
+import { createCompanyNotification, updateNotification } from 'services/actions/NotificationAction';
 import { getImageProfile, trimObject } from 'utils/common';
 import RadioButtonCheckedIcon from '@material-ui/icons/RadioButtonChecked';
 import RadioButtonUncheckedIcon from '@material-ui/icons/RadioButtonUnchecked';
@@ -35,7 +35,7 @@ const useStyles = makeStyles(theme => ({
 const ModalNewCompanyNotification = (props) => {
     
     const classes = useStyles();
-    const { open, handleClose, onSaveForm } = props;
+    const { open, handleClose, onSaveForm, notification={} } = props;
 
     const [companies, setCompanies] = React.useState([]);
     const [companyId, setCompanyId] = React.useState("");
@@ -48,7 +48,7 @@ const ModalNewCompanyNotification = (props) => {
     const [imageUrl, setImageUrl] = React.useState(null);
 
     const [data, setData] = React.useState({
-        id: "",
+        id: null,
         reason: "",
         description: "",
         allUsersCompany: false,
@@ -62,18 +62,26 @@ const ModalNewCompanyNotification = (props) => {
 
     React.useEffect(() => {
         if(open){
-            onListCompanies();
+            if(notification && notification.id){
+                setData({...notification});
+                setCompanyId(notification.companiesNotified[0]);
+                onListUsersByCompany(notification.companiesNotified[0], "");
+                onListCompanies(true);
+            }else{
+                onListCompanies(false);
+            }
+            
             setImageUrl(null);
         }
     }, [open]);
 
 
-    const onListCompanies = () => {
+    const onListCompanies = (isEdit) => {
         props.dispatch(showBackdrop(true));
         props.dispatch(listCompanies()).then(res => {
             setCompanies(res || []);
-            if(res && res[0]){
-                setCompanyId(res[0].id || "");
+            if(res && res[0] && !isEdit){
+                setCompanyId(res[0].id || null);
                 setData({...data, companiesNotified: [...data.companiesNotified, res[0].id]});
                 onListUsersByCompany(res[0].id, "");
             }
@@ -118,6 +126,7 @@ const ModalNewCompanyNotification = (props) => {
         const fileInput = document.querySelector('#file') ;
 
         const formData = new FormData();
+        if(notification.id) formData.append('id', notification.id);
         formData.append('image', imageInput.files[0] || '');
         formData.append('file', fileInput.files[0] || '');
         formData.append("allUsersCompany", notification.allUsersCompany)
@@ -137,6 +146,11 @@ const ModalNewCompanyNotification = (props) => {
 
         if(notification.id){
             // Update
+            props.dispatch(updateNotification(notification.id, formData)).then(res => {
+                props.dispatch(showSnackBar('success', 'Notificación actualizada'));
+                props.dispatch(showBackdrop(false));
+                onSaveForm && onSaveForm(res.notification);
+            }).catch(error => { props.dispatch(showBackdrop(false)); props.dispatch(showSnackBar("error", error.message || "")); });
         } else{
             props.dispatch(createCompanyNotification(formData)).then(res => {
                 props.dispatch(showSnackBar('success', 'Notificación enviada'));
@@ -154,7 +168,7 @@ const ModalNewCompanyNotification = (props) => {
         >
             <ModalHeader 
                 icon={<NotificationsIcon />}
-                text="Nueva Notificación para 1 empresa"
+                text={notification.id ? "Actualizar Notificación" : "Nueva Notificación para 1 empresa" }
             />
 
             <ModalBody>
@@ -176,7 +190,7 @@ const ModalNewCompanyNotification = (props) => {
                                         }}
                                         value={companyId}
                                         options={companies}
-                                        disabled={!editMode}
+                                        disabled={!editMode || notification.id}
                                     />
                                 </Grid>
                                 <Grid item xs={12}>
@@ -194,7 +208,7 @@ const ModalNewCompanyNotification = (props) => {
                                                 
                                             }}
                                             checkedIcon={<CheckBoxIcon style={{ color: pColor }} />}
-                                            disabled={users.length==0}
+                                            disabled={users.length==0 || notification.id}
                                         />
                                     </Grid>
                                 </Grid>
@@ -218,7 +232,7 @@ const ModalNewCompanyNotification = (props) => {
                                             }
 
                                             return (
-                                                <ListItem key={i} button divider onClick={() => { onSelectUser(user.id) }}>
+                                                <ListItem key={i} button divider onClick={() => { onSelectUser(user.id) }} disabled={notification.id}>
                                                     <ListItemAvatar>
                                                         <Avatar alt="" src={user.avatar ? (config.api+user.avatar) : getImageProfile(defaultImageType)} />
                                                     </ListItemAvatar>
@@ -231,6 +245,7 @@ const ModalNewCompanyNotification = (props) => {
                                                             onChange={() => {onSelectUser(user.id)}}
                                                             icon={<RadioButtonUncheckedIcon />}
                                                             checkedIcon={<RadioButtonCheckedIcon style={{ color: pColor }} />}
+                                                            disabled={notification.id}
                                                         />
                                                     </ListItemSecondaryAction>
                                                     </ListItem>

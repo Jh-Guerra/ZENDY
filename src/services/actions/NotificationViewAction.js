@@ -1,18 +1,23 @@
-import NotificationViewService from 'services/api/class NotificationViewService';
+import NotificationViewService from "services/api/NotificationViewService";
 
-const notificationViewService = new NotificationViewService()
+const service = new NotificationViewService();
 
-export const createNotificationView = (data) => async dispatch => {
-    const res = await notificationViewService.createNotificationView(data);
+export const createNotificationViewed = (data) => async dispatch => {
+    const res = await service.createNotificationViewed(data);
+    return res && res.data;
+}
+
+export const findNotificationViewed = (id) => async dispatch => {
+    const res = await service.findNotificationViewed(id);
+    return res && res.data;
+}
+
+export const listNotificationViewed = (notificationId) => async dispatch => {
+    const res = await service.listNotificationViewed(notificationId);
     return res && res.data || [];
 }
 
-export const updateNotificationView = (idUsuario, idNotification) => async dispatch => {
-    const res = await notificationViewService.updateNotificationView(idUsuario, idNotification);
-    return res && res.data || [];
-}
-
-export const listNotificationView = (idNotification) => async dispatch => {
-    const res = await notificationViewService.listNotificationView(idNotification);
-    return res && res.data || [];
+export const deleteNotificationViewed = (id) => async dispatch => {
+    const res = await service.deleteNotificationViewed(id);
+    return res && res.data;
 }

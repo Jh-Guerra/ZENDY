@@ -11,7 +11,7 @@ import CustomInput from 'components/CustomInput';
 import { listWithUsersCount } from 'services/actions/CompanyAction';
 import { showBackdrop, showSnackBar } from 'services/actions/CustomAction';
 import { listUsersByCompany } from 'services/actions/UserAction';
-import { createCompaniesNotification } from 'services/actions/NotificationAction';
+import { createCompaniesNotification, updateNotification } from 'services/actions/NotificationAction';
 import { getImageProfile, trimObject } from 'utils/common';
 import RadioButtonCheckedIcon from '@material-ui/icons/RadioButtonChecked';
 import RadioButtonUncheckedIcon from '@material-ui/icons/RadioButtonUnchecked';
@@ -35,7 +35,7 @@ const useStyles = makeStyles(theme => ({
 const ModalNewCompaniesNotification = (props) => {
     
     const classes = useStyles();
-    const { open, handleClose, onSaveForm } = props;
+    const { open, handleClose, onSaveForm, notification={} } = props;
 
     const [companies, setCompanies] = React.useState([]);
     const [editMode, setEditMode] = React.useState(true);
@@ -56,6 +56,10 @@ const ModalNewCompaniesNotification = (props) => {
 
     React.useEffect(() => {
         if(open){
+            if(notification && notification.id){
+                setData({...notification});
+            }
+
             onListCompanies();
             setImageUrl(null);
         }
@@ -98,6 +102,7 @@ const ModalNewCompaniesNotification = (props) => {
         const fileInput = document.querySelector('#file') ;
 
         const formData = new FormData();
+        if(notification.id) formData.append('id', notification.id);
         formData.append('image', imageInput.files[0] || '');
         formData.append('file', fileInput.files[0] || '');
         formData.append("allUsersCompany", true)
@@ -112,6 +117,11 @@ const ModalNewCompaniesNotification = (props) => {
 
         if(notification.id){
             // Update
+            props.dispatch(updateNotification(notification.id, formData)).then(res => {
+                props.dispatch(showSnackBar('success', 'Notificación actualizada'));
+                props.dispatch(showBackdrop(false));
+                onSaveForm && onSaveForm(res.notification);
+            }).catch(error => { props.dispatch(showBackdrop(false)); props.dispatch(showSnackBar("error", error.message || "")); });
         } else{
             props.dispatch(createCompaniesNotification(formData)).then(res => {
                 props.dispatch(showSnackBar('success', 'Notificación enviada'));
@@ -129,7 +139,7 @@ const ModalNewCompaniesNotification = (props) => {
         >
             <ModalHeader 
                 icon={<NotificationsIcon />}
-                text="Nueva Notificación para muchas empresas"
+                text={notification.id ? "Actualizar Notificación" : "Nueva Notificación para muchas empresas"}
             />
 
             <ModalBody>
@@ -158,7 +168,7 @@ const ModalNewCompaniesNotification = (props) => {
                                             }
 
                                             return (
-                                                <ListItem key={i} button divider onClick={() => { onSelectCompany(company.id) }}>
+                                                <ListItem key={i} button divider onClick={() => { onSelectCompany(company.id) }} disabled={notification.id}>
                                                     <ListItemAvatar>
                                                         <Avatar alt="" src={company.avatar ? (config.api+company.avatar) : getImageProfile("Company")} />
                                                     </ListItemAvatar>
@@ -172,6 +182,7 @@ const ModalNewCompaniesNotification = (props) => {
                                                             onChange={() => {onSelectCompany(company.id)}}
                                                             icon={<RadioButtonUncheckedIcon />}
                                                             checkedIcon={<RadioButtonCheckedIcon style={{ color: pColor }} />}
+                                                            disabled={notification.id}
                                                         />
                                                     </ListItemSecondaryAction>
                                                     </ListItem>

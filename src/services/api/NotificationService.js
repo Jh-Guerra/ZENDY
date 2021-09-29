@@ -13,6 +13,10 @@ class NotificationService {
         return await axios.post( getCustomUrl(apiPrefix, `/register-companies`), data, defaultHeaders() );
     }
 
+    async updateNotification(id, data) {
+        return await axios.post( getCustomUrl(apiPrefix, `/update/` + id), data, defaultHeaders() );
+    }
+
     async findNotification(id) {
         return await axios.get( getCustomUrl(apiPrefix, `/find/${id}`), defaultHeaders() );
     }

@@ -4,12 +4,12 @@ import { Input, InputAdornment, Paper, Grid, IconButton, InputBase } from '@mate
 import SearchIcon from '@material-ui/icons/Search'
 import { useHistory } from 'react-router-dom';
 import { showBackdrop } from 'services/actions/CustomAction';
-import { listAdminNotifications } from 'services/actions/NotificationAction';
+import { listNotifications } from 'services/actions/NotificationAction';
 import TabOptions from './TabOptions';
 import CustomModal from 'components/Modals/common/CustomModal';
 import ItemNotificationRow from '../Components/ItemNotificationRow';
 
-const AdminNotificationSection = (props) => {
+const NotificationSection = (props) => {
 
     const { classes = {}, session, notificationRx } = props;
     const history = useHistory();
@@ -23,7 +23,7 @@ const AdminNotificationSection = (props) => {
 
     const onList = (term) => {
         props.dispatch(showBackdrop(true));
-        props.dispatch(listAdminNotifications(term)).then(res => {
+        props.dispatch(listNotifications(term)).then(res => {
             props.dispatch(showBackdrop(false));
         }).catch(err => props.dispatch(showBackdrop(false)));;
     };
@@ -66,7 +66,7 @@ const AdminNotificationSection = (props) => {
             <Grid item xs={12}>
               <div className="chatlist__heading">
                 <span className="divider-line"></span>
-                <p className="divider-content"> Mis Notificaciones </p>
+                <p className="divider-content"> Notificaciones </p>
                 <span className="divider-line"></span>
               </div>
               <br />
@@ -81,7 +81,7 @@ const AdminNotificationSection = (props) => {
                 onChange={event => onSearch(event.target.value)}
                 disableUnderline
                 startAdornment= {
-                <InputAdornment position="start">
+                  <InputAdornment position="start">
                     <IconButton type="button" aria-label="search">
                       <SearchIcon />
                     </IconButton>
@@ -115,4 +115,4 @@ const AdminNotificationSection = (props) => {
 
 }
 
-export default AdminNotificationSection;
+export default NotificationSection;

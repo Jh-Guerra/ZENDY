@@ -13,6 +13,7 @@ import PageNotFound from 'pages/PageNotFound';
 import EmpresaPage from 'pages/empresa_page/EmpresaPage';
 import { checkPermission, getSessionInfo } from 'utils/common';
 import EntryQueryPage from 'pages/entry_query_page/EntryQueryPage';
+import NotificationsPage from 'pages/notifications_page/NotificationsPage';
 
 const Routes = (props) => {
   const session = getSessionInfo();
@@ -42,6 +43,8 @@ const Routes = (props) => {
 
           <PrivateRoute exact path="/consultas/:entryQueryId" {...props} component={EntryQueryPage} />
           <PrivateRoute exact path="/consultas/:entryQueryId/recomendacion" {...props} component={EntryQueryPage} />
+
+          <PrivateRoute exact path="/notificaciones/:notificationId" {...props} component={NotificationsPage} />
 
           <Route path="/no-encontrado" component={PageNotFound}/>
           <Redirect from="*" to="/no-encontrado" />

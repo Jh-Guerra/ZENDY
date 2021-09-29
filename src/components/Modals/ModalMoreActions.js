@@ -52,21 +52,41 @@ const ModalMoreActions = (props) => {
                             Chats - Historial
                         </CustomButton>
                     </Grid>
-                    <Grid item xs={12}>
-                        <CustomButton 
-                            variant="contained"
-                            fullWidth
-                            className={classes.button}
-                            startIcon={<SmsFailedIcon />}
-                            customColor={successButtonColor}
-                            onClick={() => {
-                                handleClose();
-                                handleChangeTab(null, 7);
-                            }}
-                        >
-                            Notificaciones
-                        </CustomButton>
-                    </Grid>
+                    {
+                        checkPermission(session, "createNotifications") ? (
+                            <Grid item xs={12}>
+                                <CustomButton 
+                                    variant="contained"
+                                    fullWidth
+                                    className={classes.button}
+                                    startIcon={<SmsFailedIcon />}
+                                    customColor={successButtonColor}
+                                    onClick={() => {
+                                        handleClose();
+                                        handleChangeTab(null, 7);
+                                    }}
+                                >
+                                    Notificaciones
+                                </CustomButton>
+                            </Grid>
+                        ) : (
+                            <Grid item xs={12}>
+                                <CustomButton 
+                                    variant="contained"
+                                    fullWidth
+                                    className={classes.button}
+                                    startIcon={<SmsFailedIcon />}
+                                    customColor={successButtonColor}
+                                    onClick={() => {
+                                        handleClose();
+                                        handleChangeTab(null, 8);
+                                    }}
+                                >
+                                    Notificaciones
+                                </CustomButton>
+                            </Grid>
+                        )
+                    }
                     {
                         checkPermission(session, "showTabReports") && (
                             <Grid item xs={12}>
@@ -78,7 +98,7 @@ const ModalMoreActions = (props) => {
                                     customColor={successButtonColor}
                                     onClick={() => {
                                         handleClose();
-                                        handleChangeTab(null, 8);
+                                        handleChangeTab(null, 9);
                                     }}
                                 >
                                     Reportes

@@ -1,4 +1,5 @@
 import NotificationService from "services/api/NotificationService";
+import { NOTIFICATIONS } from "services/redux/common/Types";
 
 const service = new NotificationService();
 
@@ -12,6 +13,11 @@ export const createCompaniesNotification = (data) => async dispatch => {
     return res && res.data;
 }
 
+export const updateNotification = (id, data) => async dispatch => {
+    const res = await service.updateNotification(id, data);
+    return res && res.data;
+}
+
 export const findNotification = (id) => async dispatch => {
     const res = await service.findNotification(id);
     return res && res.data;
@@ -19,11 +25,19 @@ export const findNotification = (id) => async dispatch => {
 
 export const listAdminNotifications = (term) => async dispatch => {
     const res = await service.listAdminNotifications(term);
+    dispatch({
+        type: NOTIFICATIONS,
+        payload: res && res.data || []
+    })
     return res && res.data || [];
 }
 
 export const listNotifications = (term) => async dispatch => {
     const res = await service.listNotifications(term);
+    dispatch({
+        type: NOTIFICATIONS,
+        payload: res && res.data || []
+    })
     return res && res.data || [];
 }
 

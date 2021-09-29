@@ -18,6 +18,7 @@ import { updateStatus } from 'services/actions/UserAction';
 import AdminEntryChat from './Childrens/AdminEntryChat';
 import { connect } from "react-redux";
 import AdminMyRecommendationsSection from './Childrens/AdminMyRecommendationsSection';
+import NotificationSection from './Childrens/NotificationSection';
 
 const TabPanel = (props) => {
   const { children, value, index, ...other } = props;
@@ -121,6 +122,7 @@ const MiniDrawer = (props) => {
                   <Tab style={{display: "none"}} className="mini-drawer-tab" icon={<MoreIcon />} />
                   <Tab style={{display: "none"}} className="mini-drawer-tab" icon={<MoreIcon />} />
                   <Tab style={{display: "none"}} className="mini-drawer-tab" icon={<MoreIcon />} />
+                  <Tab style={{display: "none"}} className="mini-drawer-tab" icon={<MoreIcon />} />
                 </Tabs>
               </AppBar>
             </div>
@@ -158,6 +160,9 @@ const MiniDrawer = (props) => {
               <AdminNotificationSection {...props} session={session}/>
             </TabPanel>
             <TabPanel value={tab} index={8} >
+              <NotificationSection {...props} session={session}/>
+            </TabPanel>
+            <TabPanel value={tab} index={9} >
               <ReportList/>
             </TabPanel>
           </div> 

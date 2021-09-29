@@ -5,6 +5,7 @@ import ChatReducer from './ChatReducer';
 import CustomReducer from './CustomReducer';
 import EntryQueryReducer from './EntryQueryReducer';
 import RecommendationReducer from './RecommendationReducer';
+import NotificationReducer from './NotificationReducer';
 
 //We have to combine all reducers
 const rootReducer = combineReducers({
@@ -13,7 +14,8 @@ const rootReducer = combineReducers({
   custom: CustomReducer,
   entryQueryRx: EntryQueryReducer,
   recommendationRx: RecommendationReducer,
-  chatRx: ChatReducer
+  chatRx: ChatReducer,
+  notificationRx: NotificationReducer
 })
 
 export default (state, action) =>
