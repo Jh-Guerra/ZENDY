@@ -78,6 +78,8 @@ const EntryQueryPage = (props) => {
   const onAcceptEntryQuery = () => {
     props.dispatch(showBackdrop(true));
     props.dispatch(acceptEntryQuery(entryQuery.id, byRecommend)).then(res => {
+      const message = res && res.success || "Consulta aceptada"
+      props.dispatch(showSnackBar("success", message));
       const chat = res && res.chat;
       history.push(`/chat/${chat.type}/${chat.id}`);
       props.dispatch(listPendingQueries(""));
