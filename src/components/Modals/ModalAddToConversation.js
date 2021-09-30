@@ -156,6 +156,8 @@ const ModalAddToConversation = (props) => {
     })
     props.dispatch(createParticipant(chat.id, participants))
     handleClose(false);
+    setUsers([])
+    setUsersSC([])
     onGetChatData(chat.id);
     props.dispatch(listActiveChats(term, "Vigente"));
   }
