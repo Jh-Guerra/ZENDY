@@ -60,7 +60,10 @@ const NotificationsPage = (props) => {
     props.dispatch(findNotification(notificationId)).then(res => {
       setNotification(res.notification|| {});
       props.dispatch(showBackdrop(false));
-    }).catch(err => props.dispatch(showBackdrop(false)));
+    }).catch(err => {
+      history.push("/no-encontrado"); 
+      props.dispatch(showBackdrop(false));
+    });
 
     props.dispatch(listNotificationViewed(notificationId)).then(res => {
       setNotificationsViewed(res || []);

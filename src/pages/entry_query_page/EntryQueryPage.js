@@ -38,7 +38,10 @@ const EntryQueryPage = (props) => {
     props.dispatch(findEntryQuery(entryQueryId)).then(res => {
       setEntryQuery(res.entryQuery|| {});
       props.dispatch(showBackdrop(false));
-    }).catch(err => props.dispatch(showBackdrop(false)));
+    }).catch(err => {
+      history.push("/no-encontrado"); 
+      props.dispatch(showBackdrop(false))
+    });
   };
 
   const onOpenModal = () => {
