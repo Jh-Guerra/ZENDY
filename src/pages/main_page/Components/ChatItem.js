@@ -42,7 +42,9 @@ const ChatItem = props => {
         </div>
         <div className="chat-msg">{msg}</div>
         <br />
+        <a href={imageUpload} target="_blank"> 
         <img style={{height:120, width:120, display:imageUpload ? "flex" : "none"}} src={imageUpload} />
+        </a>
       </div>
       <ChatAvatar isOnline="active" image={image} />
       <CustomModal
