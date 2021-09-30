@@ -9,6 +9,10 @@ class NotificationViewedService {
         return await axios.post( getCustomUrl(apiPrefix, `/register`), data, defaultHeaders() );
     }
 
+    async registerViewed(notificationId) {
+        return await axios.post( getCustomUrl(apiPrefix, `/register-view/` + notificationId), {}, defaultHeaders() );
+    }
+
     async findNotificationViewed(userId, notificationId) {
         return await axios.get( getCustomUrl(apiPrefix, `/find/${userId}/${notificationId}`), defaultHeaders() );
     }

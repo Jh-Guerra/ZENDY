@@ -8,7 +8,7 @@ import ModalDelete from 'components/Modals/ModalDelete';
 import { showBackdrop, showSnackBar } from 'services/actions/CustomAction';
 import { useHistory } from 'react-router';
 import { deleteNotification, findNotification, updateNotification } from 'services/actions/NotificationAction';
-import { listNotificationViewed } from 'services/actions/NotificationViewAction';
+import { listNotificationViewed, registerViewed } from 'services/actions/NotificationViewAction';
 import CustomModal from 'components/Modals/common/CustomModal';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
@@ -44,7 +44,7 @@ const NotificationsPage = (props) => {
       setIsViewed(isViewByUser);
 
       if(isViewByUser){
-        
+        onSaveViewed(notificationId);
       }
 
       if(notificationId){
@@ -67,6 +67,16 @@ const NotificationsPage = (props) => {
       props.dispatch(showBackdrop(false));
     }).catch(err => props.dispatch(showBackdrop(false)));
   };
+
+  const onSaveViewed = (notificationId) => {
+    props.dispatch(registerViewed(notificationId)).then(res => {
+      setNotificationsViewed(res || []);
+      props.dispatch(showBackdrop(false));
+    }).catch(err => {
+      history.push("/inicio");
+      props.dispatch(showBackdrop(false))
+    });
+  }
 
   const onOpenEditNotification = () => {
     if(notification.companiesNotified.length > 1){
@@ -129,15 +139,31 @@ const NotificationsPage = (props) => {
           </Grid>
         )
       }
-      <Grid item xs={12} style={{padding: "0px 20px"}}>
-        <Typography variant="h6"> Notificaciones entregadas </Typography>
-        <CustomTable 
-          columns={columns}
-          rows={notificationsViewed || []}
-          onRowClick={() => {}}
-          loading={loading}
-        />
-      </Grid>
+      {
+        checkPermission(session, "createNotifications") && (
+          <Grid item xs={12} style={{padding: "0px 20px"}}>
+            <Typography variant="h6"> Notificaciones entregadas </Typography>
+            <br />
+            <CustomTable 
+              columns={columns}
+              rows={notificationsViewed || []}
+              onRowClick={() => {}}
+              loading={loading}
+            />
+          </Grid>
+        )
+      }
+      {
+        isViewed && (
+          <Grid item xs={12} style={{padding: "0px 20px"}}>
+            <Typography variant="h6"> Notificaciones entregadas </Typography>
+            <br />
+            { notification.reason }
+            <br />
+            { notification.description }
+          </Grid>
+        )
+      }
       <ModalDelete
         open={showModalDelete}
         title="Eliminar Notificación"

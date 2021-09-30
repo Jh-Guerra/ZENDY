@@ -8,6 +8,11 @@ export const createNotificationViewed = (data) => async dispatch => {
     return res && res.data;
 }
 
+export const registerViewed = (notificationId) => async dispatch => {
+    const res = await service.registerViewed(notificationId);
+    return res && res.data;
+}
+
 export const findNotificationViewed = (id) => async dispatch => {
     const res = await service.findNotificationViewed(id);
     return res && res.data;

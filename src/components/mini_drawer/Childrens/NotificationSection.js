@@ -4,8 +4,6 @@ import { Input, InputAdornment, Paper, Grid, IconButton, InputBase } from '@mate
 import SearchIcon from '@material-ui/icons/Search'
 import { useHistory } from 'react-router-dom';
 import { showBackdrop } from 'services/actions/CustomAction';
-import { listNotifications } from 'services/actions/NotificationAction';
-import TabOptions from './TabOptions';
 import CustomModal from 'components/Modals/common/CustomModal';
 import ItemNotificationRow from '../Components/ItemNotificationRow';
 import { listNotificationViewedByUser } from 'services/actions/NotificationViewAction';
