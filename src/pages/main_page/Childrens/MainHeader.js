@@ -21,6 +21,8 @@ const MainHeader = props => {
   const [showModalEndChat,setShowModalEndChat] = React.useState(false);
   const [showChatDetail, setShowChatDetail] = useState(false);
   const [showAddToConversation, setShowAddToConversation] = useState(false);
+  const [searchTimeout, setSearchTimeout] = React.useState(null);
+  const [term, setTerm] = React.useState('');
 
   const handleChatDetail = () => {
     setShowChatDetail(true);
@@ -65,6 +67,16 @@ const MainHeader = props => {
   const onEndChat = (data) => {
     setShowModalEndChat(false);
     props.onEndChat && props.onEndChat(data);
+  }
+
+  const onSearch = (term) => {
+    setTerm(term);
+    clearTimeout(searchTimeout);
+    setSearchTimeout(
+      setTimeout(() => {
+        props.onListMessages && props.onListMessages(chat.id, term);
+      }, 1000)
+    )
   }
 
   return (
@@ -113,6 +125,7 @@ const MainHeader = props => {
               style={{padding: '0px 0px 0px 8px',}}
               type="text"
               placeholder="Buscar..."
+              onChange={(event) => onSearch(event.target.value)}
               InputProps={{
                 startAdornment: (
                   <InputAdornment position="start">

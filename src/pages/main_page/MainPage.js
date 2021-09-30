@@ -26,7 +26,7 @@ const MainPage = (props) => {
       const chatId = pathArray && pathArray[3];
       if(chatId){
         onGetChatData(chatId);
-        onListMessages(chatId);
+        onListMessages(chatId, "");
       }else{
         history.push("/inicio");
       }
@@ -51,8 +51,8 @@ const MainPage = (props) => {
     }).catch(err => props.dispatch(showBackdrop(false)));
   }
 
-  const onListMessages = (chatId) => {
-    props.dispatch(listMessages(chatId)).then(res => {
+  const onListMessages = (chatId, term) => {
+    props.dispatch(listMessages(chatId, term)).then(res => {
       setMessages(res || []);
     }).catch(err => props.dispatch(showBackdrop(false)));
   }
@@ -64,6 +64,7 @@ const MainPage = (props) => {
           chat={chat}
           onGetChatData={onGetChatData}
           onEndChat={onEndChat}
+          onListMessages={onListMessages}
           {...props}
         />
       </Grid>

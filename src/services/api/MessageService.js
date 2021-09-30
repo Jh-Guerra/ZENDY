@@ -13,8 +13,8 @@ class EntryQueryService {
         return await axios.get( getCustomUrl(apiPrefix, `/find/${id}`), defaultHeaders() );
     }
 
-    async listMessages(idChat) {
-        return await axios.get( getCustomUrl(apiPrefix, `/list/${idChat}`), defaultHeaders());
+    async listMessages(idChat, term) {
+        return await axios.get( getCustomUrl(apiPrefix, `/list/${idChat}?term=${term}`), defaultHeaders());
     }
 
     async deleteMessage(id) {

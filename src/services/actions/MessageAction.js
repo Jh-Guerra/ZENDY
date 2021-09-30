@@ -13,8 +13,8 @@ export const findMessage = (idChat, idUser) => async dispatch => {
     return res && res.data || [];
 }
 
-export const listMessages = (idChat) => async dispatch => {
-    const res = await messageService.listMessages(idChat);
+export const listMessages = (idChat, term) => async dispatch => {
+    const res = await messageService.listMessages(idChat, term);
     return res && res.data || [];
 }
 

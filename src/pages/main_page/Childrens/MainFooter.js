@@ -64,7 +64,7 @@ const MainFooter = props => {
       setShowEmoji(null);
       setShowPreviewImage(false);
       setShowPreviewFile(false);
-      props.onListMessages(chat.id);
+      props.onListMessages(chat.id, "");
     }).catch(error => {
         console.error('error', error);
     });
