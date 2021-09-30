@@ -18,6 +18,7 @@ import { updateStatus } from 'services/actions/UserAction';
 import AdminEntryChat from './Childrens/AdminEntryChat';
 import { connect } from "react-redux";
 import AdminMyRecommendationsSection from './Childrens/AdminMyRecommendationsSection';
+import AdminErrorSection from './Childrens/AdminErrorSection';
 
 const TabPanel = (props) => {
   const { children, value, index, ...other } = props;
@@ -67,7 +68,7 @@ const MiniDrawer = (props) => {
 
   const handleChangeTab = (event, newTab) => {
     props.dispatch(updateLastTab(newTab || 0));
-    if(newTab==5){
+    if(newTab==6){
       setShowModalMoreActions(true);
     }else{
       setTab(newTab);
@@ -112,7 +113,10 @@ const MiniDrawer = (props) => {
                   <Tooltip style={{display: checkPermission(session, "showMyRecommendations") ? "inline-flex" : "none" }} title="Mis Recomendaciones">
                     <Tab className="mini-drawer-tab" icon={<RecommendLikeIcon />} />
                   </Tooltip>
-                  <Tooltip title="Errores Reportados">
+                  <Tooltip style={{display: checkPermission(session, "adminError") ? "none" : "inline-flex"}} title="Errores Reportados">
+                    <Tab className="mini-drawer-tab" icon={<ErrorsIcon />} />
+                  </Tooltip>
+                  <Tooltip style={{display: checkPermission(session, "adminError") ? "inline-flex" : "none" }} title="Admin Errores Reportados">
                     <Tab className="mini-drawer-tab" icon={<ErrorsIcon />} />
                   </Tooltip>
                   <Tooltip title="Más">
@@ -144,17 +148,18 @@ const MiniDrawer = (props) => {
               <AdminMyRecommendationsSection {...props} session={session} />
             </TabPanel>
             <TabPanel value={tab} index={4} >
-              <ReportedErrorSection
-                {...props}
-              />
+              <ReportedErrorSection {...props}/>
             </TabPanel>
-            <TabPanel value={tab} index={6} >
-              <HistoryChat/>
+            <TabPanel value={tab} index={5} >
+              <AdminErrorSection {...props}/>
             </TabPanel>
             <TabPanel value={tab} index={7} >
-              <AdminNotificationSection {...props} session={session}/>
+              <HistoryChat/>
             </TabPanel>
             <TabPanel value={tab} index={8} >
+              <AdminNotificationSection {...props} session={session}/>
+            </TabPanel>
+            <TabPanel value={tab} index={9} >
               <ReportList/>
             </TabPanel>
           </div> 

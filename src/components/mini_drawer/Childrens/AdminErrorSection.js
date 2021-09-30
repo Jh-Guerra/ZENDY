@@ -7,16 +7,16 @@ import { showBackdrop } from 'services/actions/CustomAction';
 import { useHistory } from 'react-router-dom';
 import ItemCompanyRow from '../Components/ItemCompanyRow';
 import ItemErrorRow from '../Components/ItemErrorRow';
+import { listErrors, listErrorsByUser } from 'services/actions/ErrorAction';
+import { getSessionInfo, isClientUser } from 'utils/common';
 import TabOptions from './TabOptions';
 import CustomModal from 'components/Modals/common/CustomModal';
-import { listErrorsByUser } from 'services/actions/ErrorAction';
 
-const ReportedErrorSection = props => {
+const AdminErrorSection = props => {
   const { errorRx } = props;
   const history = useHistory();
 
   const [searchTimeout, setSearchTimeout] = React.useState(null);
-  const [error, setError] = React.useState(null);
   const [showReportedErrorModal, setShowReportedErrorModal] = React.useState(false);
 
   React.useEffect(() => {
@@ -25,11 +25,11 @@ const ReportedErrorSection = props => {
 
   const onList = term => {
     props.dispatch(showBackdrop(true));
-    props.dispatch(listErrorsByUser(term)).then(res => {
-          props.dispatch(showBackdrop(false));
-        })
-        .catch(err => props.dispatch(showBackdrop(false)));
-    };
+    props.dispatch(listErrors(term)).then(res => {
+      props.dispatch(showBackdrop(false));
+    })
+    .catch(err => props.dispatch(showBackdrop(false)));
+  };
 
   const onSearch = term => {
     clearTimeout(searchTimeout);
@@ -55,18 +55,11 @@ const ReportedErrorSection = props => {
   return (
     <div style={{ height: '79vh' }}>
       <Grid container style={{ height: '100%' }}>
-        <Grid item xs={12}>
-          <TabOptions 
-            onSaveForm={onSaveForm} 
-            view="reportedErrors"
-            onOpenModal={openReportedErrorModal}
-          />
-        </Grid>
         <Grid item xs={12} container>
           <Grid item xs={12}>
             <div className="chatlist__heading">
               <span className="divider-line"></span>
-              <p className="divider-content">Mis Errores Reportados</p>
+              <p className="divider-content">Errores Reportados</p>
               <span className="divider-line"></span>
             </div>
             <br />
@@ -108,4 +101,4 @@ const ReportedErrorSection = props => {
   );
 };
 
-export default ReportedErrorSection;
+export default AdminErrorSection;

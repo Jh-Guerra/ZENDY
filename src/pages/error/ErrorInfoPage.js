@@ -5,6 +5,19 @@ import Grid from '@material-ui/core/Grid';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import ChatAvatar from "pages/main_page/Components/ChatAvatar";
 import Box from '@material-ui/core/Box';
+import { confirmError, deleteError, fakeError, findError, listErrors, listErrorsByUser } from 'services/actions/ErrorAction';
+import { showBackdrop, showSnackBar } from 'services/actions/CustomAction';
+import { useHistory } from 'react-router';
+import config from "../../config/Config";
+import defaultImage from 'assets/images/defaultImage.png';
+import { Avatar } from '@material-ui/core';
+import { getImageProfile, getSessionInfo, isClientUser } from 'utils/common';
+import GetAppIcon from '@material-ui/icons/GetApp';
+import CustomModal from 'components/Modals/common/CustomModal';
+import ModalDelete from 'components/Modals/ModalDelete';
+import ModalFakeError from 'components/Modals/ModalFakeError';
+import ModalConfirmError from 'components/Modals/ModalConfirmError';
+
 
 
 const useStyles = makeStyles((theme) => ({
@@ -14,67 +27,170 @@ const useStyles = makeStyles((theme) => ({
   },
   form: {
     width: '80%',
-    height: '100%'  
+    height: '100%'
   },
   reportBtn: {
-    fontSize:'15px',
-    minWidth:'201px',
-    height:'50px',
-    borderRadius:'20px',
-    backgroundColor:'#6D909B',
-    color:'#ffff'
+    fontSize: '15px',
+    width: '200px',
+    height: '50px',
+    borderRadius: '20px',
+    backgroundColor: '#6D909B',
+    color: '#ffff'
   },
-  nameHeader:{
-    fontSize:'30px',
+  nameHeader: {
+    fontSize: '30px',
   },
-  containerReport:{
-    backgroundColor:'rgba(255,255,255,0.8)',
+  containerReport: {
+    backgroundColor: 'rgba(255,255,255,0.8)',
     justifyContent: 'center',
     alignItems: 'center',
-    height:'610px',
-    width:'82%',
-    paddingTop:'40px',
-    minWidth:'82%',
-    minHeight:'610px'
+    height: '610px',
+    width: '82%',
+    paddingTop: '40px',
+    minWidth: '82%',
+    minHeight: '610px'
   },
-  fontError:{
+  fontError: {
     color: '#000000',
-    marginTop:'20px',
+    marginTop: '20px',
     alignItems: 'center',
-    fontSize:'20px',
+    fontSize: '20px',
   },
-  headerName:{
+  fontDescription: {
+    color: '#000000',
+    marginTop: '20px',
+    alignItems: 'center',
+    fontSize: '17px',
+  },
+  headerName: {
     width: '100%',
-    backgroundColor:'#ffff',
-    height:'110px',
-    justifyContent:'center'
+    backgroundColor: '#303e7a',
+    color: 'white',
+    height: '130px',
+    justifyContent: 'center'
   },
-  imageError:{
-    height:'300px',
-    width:'708px',
-    border:'2px solid #ebe7fb'
+  imageError: {
+    height: '300px',
+    width: '708px',
+    border: '2px solid #ebe7fb'
   },
-  containerImage:{
-    marginTop:'80px',
+  containerImage: {
+    marginTop: '80px',
     justifyContent: 'center',
     alignItems: 'center'
   },
-  imageErrorS:{
-    height:'300px',
-    width:'340px',
-    border:'2px solid #ebe7fb'
+  imageErrorS: {
+    height: '300px',
+    width: '340px',
+    border: '2px solid #ebe7fb'
   }
 }));
 
-
 const ErrorInfoPage = props => {
+  const session = getSessionInfo();
   const classes = useStyles();
+  const history = useHistory();
   const [modulo, setModulo] = React.useState('');
-  //const [allChatUsers, setAllChat] = React.useState([]);
+  const [error, setError] = React.useState({});
+  const [showReportedErrorModal, setShowReportedErrorModal] = React.useState(false);
+  const [showModalDelete, setShowModalDelete] = React.useState(false);
+  const [showFakeError, setShowFakeError] = React.useState(false);
+  const [showConfirmError, setShowConfirmError] = React.useState(false);
+  const isClient = isClientUser(session.role);
+  const isTheCreator = ((session.user && session.user.id) == (error.user && error.user.id)) ? true : false
+
+  React.useEffect(() => {
+    if (props.location.pathname) {
+      const pathArray = props.location.pathname.split("/");
+      const errorId = pathArray && pathArray[2];
+      if (errorId) {
+        onGetErrorData(errorId);
+      } else {
+        history.push("/");
+      }
+    }
+  }, [props.location.pathname]);
+
+  const onGetErrorData = (errorId) => {
+    props.dispatch(showBackdrop(true));
+    props.dispatch(findError(errorId)).then(res => {
+      setError(res.error || {});
+      props.dispatch(showBackdrop(false));
+    }).catch(err => props.dispatch(showBackdrop(false)));
+  }
+
+  const onDelete = () => {
+    props.dispatch(showBackdrop(true));
+    props.dispatch(deleteError(error.id)).then(res => {
+      setShowModalDelete(false)
+      setError({})
+      props.dispatch(showSnackBar("success", res && res.success || ""));
+      props.dispatch(showBackdrop(false));
+      if (isClient) {
+        props.dispatch(listErrorsByUser(""));
+      } else {
+        props.dispatch(listErrors(""));
+      }
+      history.push("/inicio");
+    }).catch(error => {
+      props.dispatch(showBackdrop(false));
+    });
+  }
+
+  const onFakeError = () => {
+    props.dispatch(showBackdrop(true));
+    props.dispatch(fakeError(error.id)).then(res => {
+      setShowFakeError(false)
+      setError({})
+      props.dispatch(showSnackBar("success", res && res.success || ""));
+      props.dispatch(showBackdrop(false));
+      if (isClient) {
+        props.dispatch(listErrorsByUser(""));
+      } else {
+        props.dispatch(listErrors(""));
+      }
+      history.push("/inicio");
+    }).catch(error => {
+      props.dispatch(showBackdrop(false));
+    });
+  }
+
+  const onConfirmError = () => {
+    props.dispatch(showBackdrop(true));
+    props.dispatch(confirmError(error.id)).then(res => {
+      setError(res.error)
+      setShowConfirmError(false)
+      props.dispatch(showSnackBar("success", "Error Aceptado"));
+      props.dispatch(showBackdrop(false));
+      if (isClient) {
+        props.dispatch(listErrorsByUser(""));
+      } else {
+        props.dispatch(listErrors(""));
+      }
+    }).catch(error => {
+      props.dispatch(showBackdrop(false));
+    });
+  }
 
   const handleChange = (event) => {
     setModulo(event.target.value);
   };
+
+  const showEditError = () => {
+    setShowReportedErrorModal(true)
+  }
+
+  const showDeletedError = () => {
+    setShowModalDelete(true)
+  }
+
+  const ShowFakeError = () => {
+    setShowFakeError(true)
+  }
+
+  const ShowConfirmError = () => {
+    setShowConfirmError(true)
+  }
 
   return (
     <>
@@ -82,126 +198,145 @@ const ErrorInfoPage = props => {
       <Grid container className={classes.root}>
         <Grid item xs={12} className="report-form">
           <Grid container className={classes.headerName} direction="column" justifyContent='center'
-          alignItems='center' style={{textAlign: "center"}}>
+            alignItems='center' style={{ textAlign: "center" }}>
             <div >
-            <Grid  containter style={{display:"flex"}}  justifyContent='center'
-          alignItems='center'>        
+              <Grid containter style={{ display: "flex" }} justifyContent='center'
+                alignItems='center'>
                 <Grid item xs={6}>
-                    <ChatAvatar
-                      isOnline="active"
-                      image="http://pm1.narvii.com/6243/9ec76120e367892837884808897852a49e5dbc40_00.jpg"
-                      imgClassName="avatar-header"
-                    />
+                  <ChatAvatar
+                    isOnline="active"
+                    image={error.company && error.company.avatar ? config.api + error.company.avatar : getImageProfile("Company")}
+                    imgClassName="avatar-header"
+                  />
                 </Grid>
-                <Grid item xs={6} style={{paddingLeft:'0px'}}>
-                  <span className={classes.nameHeader}>Monsters Inc.</span>
+                <Grid item xs={6} style={{ paddingLeft: '0px' }}>
+                  <span className={classes.nameHeader}>{error.company && error.company.name || ""}</span>
                 </Grid>
-            </Grid>
+              </Grid>
             </div>
-          </Grid> 
+          </Grid>
+          <Grid item xs={12} alignItems='center' alignContent='center' style={{ textAlign: "center", marginTop: '20px' }}>
+            <span className={classes.fontError} style={{ fontWeight: 'bold', fontStyle: 'italic', alignItems: 'flex-end' }} >Estado: </span>
+            {
+              !isClient ?
+              <span className={classes.fontError} style={{ alignItems: 'flex-center', marginTop: '10px' }}>{(error.status == "Pending") ? "Pendiente" : "Aceptado"}</span> :
+              <span className={classes.fontError} style={{ alignItems: 'flex-center', marginTop: '10px' }}>{error.fake ? "El error reportado ha considerado como Fake" : ((error.status == "Pending") ? "Pendiente" : "Aceptado")}</span>
+            }
+            
+          </Grid>
           <Grid container item xs={12}>
-          <Grid item xs={6}
-            container
-            spacing={0}
-            direction="column"
-            alignItems="flex-start"
-            verticalAlign="center"
-            justify="flex-start">
-          <Box 
-            className={classes.containerReport}
-            m={10}
-            justifyContent='center'
-            alignItems='center'
-            style={{textAlign: "center"}}>
-          <Grid 
-          container
-          >
-            <Grid item xs={12} alignItems='center' alignContent='center' style={{textAlign: "center", marginTop:'10px'}}>
-            <span className={classes.fontError} style={{fontWeight:'bold', fontStyle:'italic', textDecorationLine:'underline',alignItems:'center', marginTop:'10px', marginLeft:'30px'}} >INFORMACIÓN DEL REPORTE</span>
+            <Grid item xs={6} container spacing={0} direction="column" alignItems="flex-start" verticalAlign="center" justify="flex-start">
+              <Box style={{ margin: '40px 80px' }}>
+                <Grid item xs={12} alignItems='center' alignContent='center' style={{ textAlign: "center", marginTop: '10px' }}>
+                  <span className={classes.fontError} style={{ fontWeight: 'bold', fontStyle: 'italic', textDecorationLine: 'underline', alignItems: 'center', marginTop: '10px', marginLeft: '30px' }} >INFORMACIÓN DEL REPORTE</span>
+                </Grid>
+
+                <Grid item xs={12} alignItems='flex-start' alignContent='flex-start' style={{ textAlign: "left", marginTop: '15px' }}>
+                  <span className={classes.fontError} style={{ fontWeight: 'bold', fontStyle: 'italic', alignItems: 'flex-end', marginTop: '10px' }} >Nombre de Empresa: </span>
+                  <span className={classes.fontError} style={{ alignItems: 'flex-start', marginTop: '10px' }}>{error.company && error.company.name || ""}</span>
+                </Grid>
+
+                <Grid item xs={12} alignItems='flex-start' alignContent='flex-start' style={{ textAlign: "left", marginTop: '15px' }}>
+                  <span className={classes.fontError} style={{ fontWeight: 'bold', fontStyle: 'italic', alignItems: 'flex-end' }} >Usuario: </span>
+                  <span className={classes.fontError} style={{ alignItems: 'flex-start', marginTop: '10px' }}>{error.company && error.user.firstName + " " + error.user.lastName || ""}</span>
+                </Grid>
+
+                <Grid item xs={12} alignItems='flex-start' alignContent='flex-start' style={{ textAlign: "left", marginTop: '15px' }}>
+                  <span className={classes.fontError} style={{ fontWeight: 'bold', fontStyle: 'italic', alignItems: 'flex-end' }} >Fecha de Reporte: </span>
+                  <span className={classes.fontError} style={{ alignItems: 'flex-start', marginTop: '10px' }}>{error.created_at || ""}</span>
+                </Grid>
+
+                <Grid item xs={12} alignItems='flex-start' alignContent='flex-start' style={{ textAlign: "left", marginTop: '15px' }}>
+                  <span className={classes.fontError} style={{ fontWeight: 'bold', fontStyle: 'italic', alignItems: 'flex-end' }} >Modulo: </span>
+                  <span className={classes.fontError} style={{ alignItems: 'flex-start', marginTop: '10px' }}>{error.module || ""}</span>
+                </Grid>
+
+                <Grid item xs={12} alignItems='flex-start' alignContent='flex-start' style={{ textAlign: "left", marginTop: '15px' }}>
+                  <span className={classes.fontError} style={{ fontWeight: 'bold', fontStyle: 'italic', alignItems: 'flex-end' }} >Asunto: </span>
+                  <span className={classes.fontError} style={{ alignItems: 'flex-start', marginTop: '10px' }}>{error.reason || ""}</span>
+                </Grid>
+
+                <Grid item xs={12} alignItems='flex-start' alignContent='flex-start' style={{ textAlign: "left", marginTop: '15px' }}>
+                  <span className={classes.fontError} style={{ fontWeight: 'bold', fontStyle: 'italic', alignItems: 'flex-end' }} >Descripción: </span>
+                  <span className={classes.fontDescription} style={{ alignItems: 'flex-start', marginTop: '10px' }}>{error.description || ""}</span>
+                </Grid>
+
+                {
+                  error.file &&
+                  <Grid item xs={12} alignItems='flex-start' alignContent='flex-start' style={{ textAlign: "left", marginTop: '15px' }}>
+                    <span className={classes.fontError} style={{ fontWeight: 'bold', fontStyle: 'italic', alignItems: 'flex-end' }} >Archivo Adjunto:</span>
+                    <GetAppIcon style={{ marginLeft: "30px" }} />
+                  </Grid>
+                }
+
+                <Grid container direction="row" style={{ marginTop: '20px' }}>
+                  {
+                    (isClient && isTheCreator) ?
+                      <>
+                        <Grid item xs={6}>
+                          <Button className={classes.reportBtn} onClick={() => { showEditError() }}>Editar</Button>
+                        </Grid>
+                        <Grid item xs={6}>
+                          <Button className={classes.reportBtn} onClick={() => { showDeletedError() }}>Eliminar</Button>
+                        </Grid>
+                      </> :
+                      error.status == "Accepted" ?
+                        <>
+                          <Grid item>
+                            <Button className={classes.reportBtn} onClick={() => { }}>Notificar Error Reportado</Button>
+                          </Grid>
+                        </> :
+                        <>
+                          <Grid item xs={6}>
+                            <Button className={classes.reportBtn} onClick={() => { ShowConfirmError() }}>Confirmar error</Button>
+                          </Grid>
+                          <Grid item xs={6}>
+                            <Button className={classes.reportBtn} onClick={() => { ShowFakeError() }}>Reportar error falso</Button>
+                          </Grid>
+                        </>
+                  }
+                </Grid>
+              </Box>
             </Grid>
 
-            <Grid item xs={5} alignItems='flex-start' alignContent='flex-start' style={{textAlign: "left", marginTop:'25px'}}>
-            <span className={classes.fontError} style={{fontWeight:'bold', fontStyle:'italic', alignItems:'flex-end', marginTop:'10px', marginLeft:'30px'}} >Nombre de Empresa:</span>
-            </Grid>
-            <Grid item xs={7} alignItems='flex-start' alignContent='flex-start' style={{textAlign: "left", marginTop:'25px'}}>
-            <span className={classes.fontError} style={{ alignItems:'flex-start', marginTop:'10px'}}>ERP ZENDY</span>
-            </Grid>
-
-            <Grid item xs={5} alignItems='flex-start' alignContent='flex-start' style={{textAlign: "left", marginTop:'20px'}}>
-            <span className={classes.fontError} style={{fontWeight:'bold', fontStyle:'italic', alignItems:'flex-end', marginLeft:'30px'}} >Usuario:</span>
-            </Grid>
-            <Grid item xs={7} alignItems='flex-start' alignContent='flex-start' style={{textAlign: "left", marginTop:'20px'}}>
-            <span className={classes.fontError} style={{ alignItems:'flex-start', marginTop:'10px'}}>Tim Hover</span>
-            </Grid>
-
-            <Grid item xs={5} alignItems='flex-start' alignContent='flex-start' style={{textAlign: "left", marginTop:'20px'}}>
-            <span className={classes.fontError} style={{fontWeight:'bold', fontStyle:'italic', alignItems:'flex-end', marginLeft:'30px'}} >Fecha de Reporte:</span>
-            </Grid>
-            <Grid item xs={7} alignItems='flex-start' alignContent='flex-start' style={{textAlign: "left", marginTop:'20px'}}>
-            <span className={classes.fontError} style={{ alignItems:'flex-start', marginTop:'10px'}}>30-05-2021</span>
-            </Grid>
-
-            <Grid item xs={5} alignItems='flex-start' alignContent='flex-start' style={{textAlign: "left", marginTop:'20px'}}>
-            <span className={classes.fontError} style={{fontWeight:'bold', fontStyle:'italic', alignItems:'flex-end', marginLeft:'30px'}} >Modulo:</span>
-            </Grid>
-            <Grid item xs={7} alignItems='flex-start' alignContent='flex-start' style={{textAlign: "left", marginTop:'20px'}}>
-            <span className={classes.fontError} style={{ alignItems:'flex-start', marginTop:'10px'}}>Modulo Reporte</span>
-            </Grid>
-
-            <Grid item xs={12} alignItems='flex-start' alignContent='flex-start' style={{textAlign: "left", marginTop:'20px', marginLeft:'30px'}}>
-            <span className={classes.fontError} style={{fontWeight:'bold', fontStyle:'italic', alignItems:'flex-end'}} >Descripción:</span>
-            </Grid>
-            <Grid item xs={12} alignItems='flex-start' alignContent='flex-start' style={{textAlign: "justify", marginTop:'20px',padding:'0px 30px 30px 30px'}}>
-            <span style={{ alignItems:'flex-start', textAlign:'justify', fontSize:'15px',marginRight:'2px'}}>
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
-            </span>
-            </Grid>
-
-
-            <Grid item xs={6} alignItems='center' alignContent='center' style={{textAlign: "center", marginTop:'25px'}}>
-            <Button className={classes.reportBtn}>Confirmar error</Button>
-            </Grid>
-            <Grid item xs={6} alignItems='center' alignContent='center' style={{textAlign: "center", marginTop:'25px'}}>
-              <Button className={classes.reportBtn}>Reportar error falso</Button>
+            <Grid item xs={6} direction="row" alignItems="center" justify="center">
+              <Box
+                m={5}
+                justifyContent='center'
+                alignItems='center'
+                style={{ textAlign: "center" }}>
+                <Avatar
+                  variant="rounded"
+                  style={{ height: "60vh", width: "60vh", }}
+                  src={error.image ? (config.api + error.image) : defaultImage}
+                />
+              </Box>
             </Grid>
           </Grid>
-  
-          <Grid container
-            spacing={0}
-            direction="column"
-            alignItems="center"
-            justify="center">
-
-          </Grid>
-            </Box>
-          </Grid>
-          <Grid item xs={6}>
-            <Grid item xs={12} className={classes.containerImage} justifyContent='center'
-            alignItems='center'
-            style={{textAlign: "center"}}>
-            <img className={classes.imageError} src='https://larepublica.pe/resizer/S5q2wql4s7IJLYelN8PPhM_Mf7o=/1250x735/top/smart/cloudfront-us-east-1.images.arcpublishing.com/gruporepublica/RQYYEDJXARCCBBXC4OD4AGRAUU.png'></img>
-            </Grid>
-
-            <Grid container item xs={12}>
-            <Grid item xs={6} justifyContent='center'
-            alignItems='center'
-            style={{textAlign: "center", marginTop:'10px'}}>
-            <img className={classes.imageErrorS} src='https://www.campusmvp.es/recursos/image.axd?picture=/2018/4T/Top-10-Errores-JS/javascript-error-graph.png'></img>
-            </Grid>
-
-            <Grid item xs={6}  justifyContent='center'
-            alignItems='center' 
-            style={{textAlign: "center", marginTop:'10px'}}>
-            <img className={classes.imageErrorS} src='https://larepublica.pe/resizer/S5q2wql4s7IJLYelN8PPhM_Mf7o=/1250x735/top/smart/cloudfront-us-east-1.images.arcpublishing.com/gruporepublica/RQYYEDJXARCCBBXC4OD4AGRAUU.png'></img>
-            </Grid>
-            </Grid>
-
-          </Grid>
-          <Grid>
-          </Grid>         
-          </Grid>         
         </Grid>
-    </Grid>
+      </Grid>
+      <CustomModal
+        customModal={'ModalReportedErrors'}
+        open={showReportedErrorModal}
+        handleClose={() => setShowReportedErrorModal(false)}
+        error={error}
+      />
+      <ModalConfirmError
+        open={showConfirmError}
+        handleClose={() => setShowConfirmError(false)}
+        onConfirm={onConfirmError}
+      />
+      <ModalFakeError
+        open={showFakeError}
+        handleClose={() => setShowFakeError(false)}
+        onConfirm={onFakeError}
+      />
+      <ModalDelete
+        open={showModalDelete}
+        title="Eliminar Error Reportado"
+        handleClose={() => setShowModalDelete(false)}
+        onDelete={onDelete}
+      />
     </>
   );
 }
