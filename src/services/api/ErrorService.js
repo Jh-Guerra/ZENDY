@@ -13,8 +13,16 @@ class ErrorService {
         return await axios.get( getCustomUrl(apiPrefix, `/find/${id}`), defaultHeaders() );
     }
 
+    async confirmError(id) {
+        return await axios.get( getCustomUrl(apiPrefix, `/confirmError/${id}`), defaultHeaders() );
+    }
+
     async listErrors(term) {
         return await axios.get( getCustomUrl(apiPrefix, `/list?term=${term}`), defaultHeaders());
+    }
+
+    async updateError(id, data) {
+        return await axios.post( getCustomUrl(apiPrefix, `/update/${id}`), data, defaultHeaders());
     }
 
     async listErrorsByUser(term) {
@@ -23,6 +31,10 @@ class ErrorService {
 
     async deleteError(id) {
         return await axios.delete( getCustomUrl(apiPrefix, `/delete/${id}`), defaultHeaders() )
+    }
+
+    async fakeError(id) {
+        return await axios.delete( getCustomUrl(apiPrefix, `/fakeError/${id}`), defaultHeaders() )
     }
 }
 

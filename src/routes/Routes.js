@@ -26,7 +26,7 @@ const Routes = (props) => {
           <Route exact path="/" render={(props) => ( <LoginPage {...props} appTarget={"Dispatch"} routePush={"/blank"} /> )}/>
           <Route exact path="/login" render={(props) => ( <LoginPage {...props} appTarget={"Dispatch"} routePush={"/blank"} /> )}/>
           
-          <PrivateRoute exact path="/error-info" {...props} component={ErrorInfoPage} />
+          <PrivateRoute exact path="/error-info/:errorId" {...props} component={ErrorInfoPage} />
           <PrivateRoute exact path="/report" {...props} component={ReportPage} />
 
           {checkPermission(session, "showUserCrud") && (

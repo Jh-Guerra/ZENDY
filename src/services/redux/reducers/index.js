@@ -7,6 +7,7 @@ import EntryQueryReducer from './EntryQueryReducer';
 import RecommendationReducer from './RecommendationReducer';
 import NotificationReducer from './NotificationReducer';
 import NotificationViewedReducer from './NotificationViewedReducer';
+import ErrorReducer from './ErrorReducer';
 
 //We have to combine all reducers
 const rootReducer = combineReducers({
@@ -17,7 +18,8 @@ const rootReducer = combineReducers({
   recommendationRx: RecommendationReducer,
   chatRx: ChatReducer,
   notificationRx: NotificationReducer,
-  notificationViewedRx: NotificationViewedReducer
+  notificationViewedRx: NotificationViewedReducer,
+  errorRx: ErrorReducer
 })
 
 export default (state, action) =>

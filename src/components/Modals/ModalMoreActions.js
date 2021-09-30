@@ -46,7 +46,7 @@ const ModalMoreActions = (props) => {
                             customColor={successButtonColor}
                             onClick={() => {
                                 handleClose();
-                                handleChangeTab(null, 6);
+                                handleChangeTab(null, 7);
                             }}
                         >
                             Chats - Historial
@@ -63,7 +63,7 @@ const ModalMoreActions = (props) => {
                                     customColor={successButtonColor}
                                     onClick={() => {
                                         handleClose();
-                                        handleChangeTab(null, 7);
+                                        handleChangeTab(null, 8);
                                     }}
                                 >
                                     Notificaciones
@@ -79,7 +79,7 @@ const ModalMoreActions = (props) => {
                                     customColor={successButtonColor}
                                     onClick={() => {
                                         handleClose();
-                                        handleChangeTab(null, 8);
+                                        handleChangeTab(null, 9);
                                     }}
                                 >
                                     Notificaciones
@@ -98,7 +98,7 @@ const ModalMoreActions = (props) => {
                                     customColor={successButtonColor}
                                     onClick={() => {
                                         handleClose();
-                                        handleChangeTab(null, 9);
+                                        handleChangeTab(null, 10);
                                     }}
                                 >
                                     Reportes

@@ -30,3 +30,5 @@ export const MY_RECOMMENDATIONS = 'MY_RECOMMENDATIONS';
 
 //CURRENT CHAT
 export const CURRENT_CHAT = 'CURRENT_CHAT';
+//ERROR
+export const ERROR = 'ERROR';

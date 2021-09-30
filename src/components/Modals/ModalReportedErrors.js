@@ -1,4 +1,4 @@
-import { Grid, Typography, Button, MenuItem, Divider } from '@material-ui/core';
+import { Grid, Typography, Button, MenuItem, Divider, TextField, InputAdornment, makeStyles, Avatar } from '@material-ui/core';
 import React from 'react'
 import ModalBody from './common/ModalBody'
 import ModalHeader from './common/ModalHeader'
@@ -9,10 +9,20 @@ import CustomInput from 'components/CustomInput';
 import CreateIcon from '@material-ui/icons/Create';
 import GetAppIcon from '@material-ui/icons/GetApp';
 import { Form, Formik } from 'formik';
-import { trimObject } from 'utils/common';
+import AssignmentIndIcon from '@material-ui/icons/AssignmentInd';
+import PersonAddIcon from '@material-ui/icons/PersonAdd';
+import { getSessionInfo, isClientUser, trimObject } from 'utils/common';
+import { createError, listErrors, listErrorsByUser, updateError } from 'services/actions/ErrorAction';
+import { showBackdrop, showSnackBar } from 'services/actions/CustomAction';
+import defaultAvatar from 'assets/images/defaultAvatarMale.jpg';
+import config from "../../config/Config";
+import EditIcon from '@material-ui/icons/Edit';
 
 const ModalReportedErrors = props => {
-  const { open, handleClose } = props;
+  const session = getSessionInfo();
+  const user = session && session.user;
+  const isClient = isClientUser(session.role);
+  const { open, handleClose, error } = props;
 
   const options = [
     { id: "m1", name: "modulo 1" },
@@ -24,28 +34,121 @@ const ModalReportedErrors = props => {
     id: "",
     idCompany: null,
     module: "m1",
+    reason: "",
     description: "",
-    image1: "",
-    image2: "",
-    file1: "",
-    file2: "",
+    image: "",
+    file: "",
   });
+  const [title, setTitle] = React.useState("Registrar Error");
+  const [icon, setIcon] = React.useState(<LibraryBooksIcon />);
+  const [editMode, setEditMode] = React.useState(false);
+  const [fileUrl, setFileUrl] = React.useState(null);
+
+  React.useEffect(() => {
+    if (open) {
+      if (error && error.id) {
+        setData(error);
+        setTitle("Detalle del Error");
+        setIcon(<LibraryBooksIcon />);
+        setEditMode(false);
+      } else {
+        setData({
+          id: "",
+          idCompany: null,
+          module: "m1",
+          reason: "",
+          description: "",
+          image: "",
+          file: "",
+        });
+        setTitle("Registrar Error");
+        setIcon(<LibraryBooksIcon />);
+        setEditMode(true);
+      }
+      setFileUrl(null)
+    }
+  }, [open]);
+
   const validateForm = reportedError => {
     const errors = {};
     reportedError = trimObject(reportedError);
 
-    if (!reportedError.description) 
+    if (!reportedError.description)
       errors.description = true;
 
     return errors;
   };
 
   const onSubmit = (reportedError, { setSubmitting }) => {
-    console.log("reportedError", reportedError);
+    props.dispatch(showBackdrop(true));
+    if (reportedError.id) {
+      const imageInput = document.querySelector('#image');
+      const fileInput = document.querySelector('#file');
+      const formData = new FormData();
+      formData.append('image', imageInput.files[0] || '');
+      formData.append('file', fileInput.files[0] || '');
+      formData.append('idCompany', user.idCompany)
+      formData.append('createdBy', user.id)
+      formData.append('module', reportedError.module)
+      formData.append('reason', reportedError.reason)
+      formData.append('description', reportedError.description)
+      props.dispatch(updateError(reportedError.id, formData)).then(res => {
+        props.dispatch(showSnackBar('success', 'Error Actualizado correctamente'));
+        if (isClient) {
+          props.dispatch(listErrorsByUser(""));
+        } else {
+          props.dispatch(listErrors(""));
+        }
+        handleClose(false)
+        props.dispatch(showBackdrop(false));
+      }).catch(error => {
+        props.dispatch(showBackdrop(false));
+      });
+    } else {
+      const imageInput = document.querySelector('#image');
+      const fileInput = document.querySelector('#file');
+      const formData = new FormData();
+      formData.append('image', imageInput.files[0] || '');
+      formData.append('file', fileInput.files[0] || '');
+      formData.append('idCompany', user.idCompany)
+      formData.append('createdBy', user.id)
+      formData.append('module', reportedError.module)
+      formData.append('reason', reportedError.reason)
+      formData.append('description', reportedError.description)
+      props.dispatch(createError(formData)).then(res => {
+        props.dispatch(showSnackBar('success', 'Error Registrado correctamente'));
+        if (isClient) {
+          props.dispatch(listErrorsByUser(""));
+        } else {
+          props.dispatch(listErrors(""));
+        }
+
+        handleClose(false)
+        props.dispatch(showBackdrop(false));
+      }).catch(error => {
+        props.dispatch(showBackdrop(false));
+      });
+    }
   };
 
   const changeModule = (value) => {
-    setData({module:value})
+    setData({ module: value })
+  }
+
+  function processImage(event) {
+    if (event && event.target.files && event.target.files.length > 0) {
+      const imageFile = event.target.files[0];
+      const imageUrl = URL.createObjectURL(imageFile);
+      setFileUrl(imageUrl)
+    } else {
+      setFileUrl(null)
+    }
+  }
+
+  const onEdit = () => {
+    setEditMode(true);
+    setTitle("Editar Error");
+    setIcon(<EditIcon />);
   }
 
 
@@ -56,38 +159,46 @@ const ModalReportedErrors = props => {
       size="sm"
     >
       <ModalHeader
-        icon={<LibraryBooksIcon />}
-        text="Reportar Error"
+        icon={icon}
+        text={title}
       />
       <ModalBody>
         <Formik enableReinitialize initialValues={data} validate={values => validateForm(values)} onSubmit={onSubmit}>
-          {({ values,errors, touched, handleChange, handleBlur, handleSubmit, setFieldValue }) => {
+          {({ values, errors, touched, handleChange, handleBlur, handleSubmit, setFieldValue }) => {
             return (
               <Form onSubmit={handleSubmit} >
                 <Grid container spacing={3}>
                   <Grid item xs={12}>
                     <Typography style={{ fontWeight: "bold" }}>Módulo</Typography>
-                      <CustomInput
-                        id="module"
-                        inputType="select"
-                        value={values.module}
-                        options={options}
-                        onChange={(event) => {
-                          setFieldValue("module",event.target.value);
-                        }}
-                        icon={<CreateIcon />}
-                      />
+                    <CustomInput
+                      id="module"
+                      inputType="select"
+                      value={values.module}
+                      options={options}
+                      onChange={(event) => {
+                        setFieldValue("module", event.target.value);
+                      }}
+                      icon={<CreateIcon />}
+                    />
                   </Grid>
                   <Grid item xs={12}>
-                    <Typography style={{ fontWeight: "bold" }}>Descripción *</Typography>
+                    <Typography style={{ fontWeight: "bold" }}>Asunto</Typography>
+                    <CustomInput
+                      id="reason"
+                      inputType="inputText"
+                      onChange={handleChange}
+                      value={values.reason}
+                      error={errors.reason && touched.reason ? true : false}
+                    />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Typography style={{ fontWeight: "bold" }}>Descripción</Typography>
                     <CustomInput
                       id="description"
-                      // label={<p>Descripción *</p>}
                       inputType="textArea"
                       onChange={handleChange}
                       value={values.description}
                       error={errors.description && touched.description ? true : false}
-                      disabled={false}
                     />
                   </Grid>
                   <Grid item xs={12}>
@@ -98,19 +209,14 @@ const ModalReportedErrors = props => {
                       fullWidth
                     >
                       <GetAppIcon style={{ marginRight: "25px" }} />
-                      <input id="icon-Imagen-file" accept="image/*" type="file" />
+                      <input id="image" accept="image/*" type="file" onChange={processImage} />
                     </Button>
-                    {
-                      <Button
-                        variant="contained"
-                        component="label"
-                        fullWidth
-                      >
-                        <GetAppIcon style={{ marginRight: "25px" }} />
-                        <input id="icon-Imagen-file2" accept="image/*" type="file" />
-                      </Button>
-                    }
-
+                    <Divider style={{ marginTop: "20px" }} />
+                    <Avatar
+                      variant="rounded"
+                      style={{ height: 140, width: 140, display: fileUrl || error && (error.id && error.image) ? "flex" : "none" }}
+                      src={fileUrl ? fileUrl : (error && error.image ? (config.api + error.image) : defaultAvatar)}
+                    />
                   </Grid>
                   <Grid item xs={12}>
                     <p style={{ color: "rgba(0, 0, 0, 0.54)", marginBottom: "5px" }}> Archivo </p>
@@ -120,35 +226,27 @@ const ModalReportedErrors = props => {
                       fullWidth
                     >
                       <GetAppIcon style={{ marginRight: "25px" }} />
-                      <input id="icon-Archivo-file" accept="image/*" type="file" />
+                      <input id="file" type="file" />
                     </Button>
-                    {<Button
-                      variant="contained"
-                      component="label"
-                      fullWidth
-                    >
-                      <GetAppIcon style={{ marginRight: "25px" }} />
-                      <input id="icon-Archivo-file2" accept="image/*" type="file" />
-                    </Button>}
                   </Grid>
                 </Grid>
 
-                <Divider style={{marginTop:"20px"}} />
+                <Divider style={{ marginTop: "20px" }} />
                 <ModalFooter
-                  // confirmText={"Enviar"}
-                  // onConfirm={() => { }}
+                  buttonType={"submit"}
+
                   cancelText={"Cancelar"}
                   onCancel={handleClose}
 
-                  buttonType="submit"
-                  confirmText="Enviar 3"
+                  confirmText={editMode ? "Guardar" : "Guardar Cambios"}
+                  onEdit={onEdit}
                 />
               </Form>
             )
           }}
         </Formik>
       </ModalBody>
-      
+
     </Modal>
   )
 }

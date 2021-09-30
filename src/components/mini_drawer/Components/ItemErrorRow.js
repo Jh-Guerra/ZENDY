@@ -30,7 +30,7 @@ const ItemErrorRow = (props) => {
         />
         <div style={{width:"80%"}}>
             <div className="chat-mini-details">
-              <span style={{fontSize:"18px"}}>{name}</span>
+              <span style={{fontSize:"18px"}}>{error.reason}</span>
               <span className="chat-mini-time">{hour}</span>
             </div>                
             <p style={{fontSize:"16px", color:"silver"}}>
