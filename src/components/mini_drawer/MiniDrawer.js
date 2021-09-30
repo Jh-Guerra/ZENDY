@@ -69,6 +69,12 @@ const MiniDrawer = (props) => {
         return setTab(2);
         if (checkPermission(session, "createEntryQuery"))
         return setTab(1);
+      case path.includes("/notificaciones/"):
+         if (checkPermission(session, "createNotifications")) {
+         return setTab(8);
+         } else {
+           return setTab(9);
+         }
     }
   }
 
