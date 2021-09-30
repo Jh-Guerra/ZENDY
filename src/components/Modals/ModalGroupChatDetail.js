@@ -84,6 +84,8 @@ const ModalGroupChatDetail = props => {
     }
   }, [open]);
 
+  var quantityParticipants = chat && chat.participants && chat.participants.length;
+
   return (
     <>
     <Modal open={open} handleClose={handleClose} size="lg">
@@ -97,7 +99,7 @@ const ModalGroupChatDetail = props => {
           <Grid container item xs={12} direction="column" alignItems="center" justify="center" spacing={3}>
             <Grid container item direction="row" justify="space-between" alignItems="flex-start" width="100%">
                 {
-                  isAdmin && (
+                  quantityParticipants > 2 && ( isAdmin && (
                     <>
                       <TextField
                         id="name"
@@ -107,7 +109,7 @@ const ModalGroupChatDetail = props => {
                       />
                       <Button variant="contained" color="primary" onClick={() => { addName(nameChat) }}>Cambiar nombre al chat</Button>
                     </>
-                  )
+                  ) )
                 }
             </Grid>
             <Grid container item direction="row" justify="space-between" alignItems="flex-start" width="100%">
@@ -151,12 +153,13 @@ const ModalGroupChatDetail = props => {
                             secondary={`${participant.type}`}
                           />
                           {
-                            isAdmin && 
+                             quantityParticipants > 2 && (isAdmin && 
                             <ListItemSecondaryAction>
                             {
                               participant.type == "Participante" ? <Button variant="contained" color="primary" onClick={() => {RemoveParticipant(user.id,chat.id)}}>Quitar</Button> : null
                             }
                           </ListItemSecondaryAction>
+                      )
                           }                           
                         </ListItem>
                       );
