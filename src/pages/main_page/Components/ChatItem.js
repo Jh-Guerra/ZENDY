@@ -5,6 +5,8 @@ import ReplyIcon from '@material-ui/icons/Reply';
 import Fade from '@material-ui/core/Fade';
 import Tooltip from '@material-ui/core/Tooltip';
 import CustomModal from "components/Modals/common/CustomModal";
+import { Button, withStyles} from '@material-ui/core';
+import GetAppIcon from '@material-ui/icons/GetApp';
 
 const ChatItem = props => {
 
@@ -46,9 +48,17 @@ const ChatItem = props => {
         <img style={{height:120, width:120, display:imageUpload ? "flex" : "none"}} src={imageUpload} />
 
         <br/>
-        <a href={file} target="_blank"> 
-        <img style={{height:120, width:120, display:file ? "flex" : "none"}} src={file} />
-        </a>
+        {
+          file && (
+            <Button variant="contained"
+              href={file} target="_blank"
+              endIcon={<GetAppIcon />}
+              color="primary"
+            >
+              Descargar
+            </Button>
+          )
+        }
       </div>
       <ChatAvatar isOnline="active" image={image} />
       <CustomModal
