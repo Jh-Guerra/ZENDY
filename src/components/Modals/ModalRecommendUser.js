@@ -78,7 +78,7 @@ const ModalRecommendUser = (props) => {
           }
           return {...user, recommend: userRecommendations.includes(user.id)}
         });
-        setUsers(selectedUsers);
+        setUsers(users || []);
         props.dispatch(showBackdrop(false));
       }).catch(err => props.dispatch(showBackdrop(false)));
     }).catch(err => props.dispatch(showBackdrop(false)));
