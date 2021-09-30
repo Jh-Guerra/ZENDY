@@ -21,7 +21,7 @@ import { listAvailableUsers } from 'services/actions/UserAction';
 import { showBackdrop, showSnackBar } from 'services/actions/CustomAction';
 import config from 'config/Config';
 import { pColor } from 'assets/styles/zendy-css';
-import { getImageProfile } from "utils/common";
+import { getCustomRoleName, getImageProfile } from "utils/common";
 import { listRecommendationsByEntryQuery } from 'services/actions/RecommendationAction';
 import { recommendUser } from 'services/actions/EntryQueryAction';
 
@@ -163,7 +163,7 @@ const ModalRecommendUser = (props) => {
                       </ListItemAvatar>
                       <ListItemText
                         primary={`${user.firstName} ${user.lastName}`}
-                        secondary={user.recommend ? "Ya fue recomendado" : null}
+                        secondary={`${getCustomRoleName(user.roleName)}${user.recommend && ": Ya fue recomendado" || ""}`}
                       />
                       {
                         !user.recommend && (

@@ -53,11 +53,10 @@ const ModalRecommendations = (props) => {
           open={open} 
           handleClose={handleClose}
           size="lg"
-          //style={{maxWidth:"800px"}}
         >
             <ModalHeader
-            icon={<PersonAddIcon />}
-            text="Listado de Recomendaciones"        
+                icon={<PersonAddIcon />}
+                text="Recomendaciones"        
             />
 
             <ModalBody>
@@ -73,7 +72,7 @@ const ModalRecommendations = (props) => {
                         )
                     }
                     <Grid item xs={12}>
-                        <Table responsive striped>
+                        <Table>
                             <TableHead>
                                 <TableRow>
                                     <TableCell style={{color:"black", fontWeight:"bold"}}>Usuario Recomendado</TableCell>
@@ -84,16 +83,16 @@ const ModalRecommendations = (props) => {
                 
                             <TableBody>
                             {recommendations.map((recommendation, i) => {
-                                const date = recommendation.recommendDate && moment().format("YYYY-MM-DD");
+                                const date = recommendation.recommendDate && moment().format("DD/MM/YYYY");
                                     return (         
                                         <TableRow key={recommendation.id}>
                                             <TableCell component="th" scope="row">
                                                 {`${recommendation.user.firstName} ${recommendation.user.lastName}`}
                                             </TableCell>
-                                            <TableCell align="right">
+                                            <TableCell>
                                                 {`${recommendation.by.firstName} ${recommendation.by.lastName}`} 
                                             </TableCell>
-                                            <TableCell align="right">
+                                            <TableCell>
                                                 {date ? date : null}
                                             </TableCell>                
                                         </TableRow>

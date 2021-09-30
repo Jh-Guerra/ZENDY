@@ -177,3 +177,16 @@ export const isImageFile = (extension) => {
   }
   return false;
 }
+
+export const customRolesName = [
+  { name: "Admin", value: "Administrador General" },
+  { name: "UserHD", value: "Mesa de Ayuda" },
+  { name: "AdminEmpresa", value: "Administrador de Empresa"},
+  { name: "UserEmpresa", value: "Usuario"},
+]
+
+export const getCustomRoleName = (oldRolName) => {
+  const customRol = customRolesName.find(rol => rol.name == oldRolName);
+
+  return  customRol ? customRol.value : oldRolName;
+}
