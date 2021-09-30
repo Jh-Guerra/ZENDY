@@ -33,7 +33,7 @@ const MainBody = props => {
             image={message.userAvatar ? (config.api + message.userAvatar) : ""}
             isMyMessage={message.userId == user.id}
             imageUpload={message.image ? (config.api + message.image) : ""}
-            // file={uploadFile ? uploadFile : message.file ? config.api + message.file : ''}
+            file={message.file  ? (config.api + message.file) : ''}
           />
         );
       })}
