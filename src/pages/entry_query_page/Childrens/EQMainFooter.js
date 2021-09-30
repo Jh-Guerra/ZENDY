@@ -109,18 +109,14 @@ const EQMainFooter = props => {
       </div>
 
       <div className="entry-query-footer">
-        {
-          checkPermission(session, "acceptEntryQuery") && (
-            <CustomButton
-              onClick={openRecommendations}
-              variant="contained"
-              customColor={infoColor}
-              startIcon={<PeopleAltIcon />}
-            >
-              Recomendaciones
-            </CustomButton>
-          )
-        }
+        <CustomButton
+          onClick={openRecommendations}
+          variant="contained"
+          customColor={infoColor}
+          startIcon={<PeopleAltIcon />}
+        >
+          Recomendaciones
+        </CustomButton>
         {
           checkPermission(session, "recommendUserEntryQuery") && (
             <CustomButton
@@ -149,6 +145,7 @@ const EQMainFooter = props => {
           setShowRecommendations(false);
         }}
         entryQuery={entryQuery}
+        session={session}
         onConfirm={onRecommendUser}
       />
     </div>

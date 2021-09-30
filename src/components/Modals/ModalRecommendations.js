@@ -11,6 +11,7 @@ import CustomModal from 'components/Modals/common/CustomModal';
 import { listExistingRecommendations } from 'services/actions/RecommendationAction';
 import { showBackdrop, showSnackBar } from 'services/actions/CustomAction';
 import moment from 'moment';
+import { checkPermission } from 'utils/common';
 
 const ModalRecommendations = (props) => {
 
@@ -54,56 +55,65 @@ const ModalRecommendations = (props) => {
           size="lg"
           //style={{maxWidth:"800px"}}
         >
-        <ModalHeader
-          icon={<PersonAddIcon />}
-          text="Listado de Recomendaciones"        
-        />
+            <ModalHeader
+            icon={<PersonAddIcon />}
+            text="Listado de Recomendaciones"        
+            />
 
-        <ModalBody>
-            <List style={{ paddingTop: "10px", maxHeight: "550px", overflow: "auto", textAlign: "right", paddingBottom:"30px" }}> 
-                <Button variant="contained" color="primary" startIcon={<AddCircleOutlineIcon />} onClick={openRecommendUser}>
-                    Recomendar otro usuario
-                </Button>
-                <br />                  
-            </List>
+            <ModalBody>
+                <Grid container> 
+                    {
+                        checkPermission(session, "acceptEntryQuery") && (
+                            <Grid item xs={12} style={{ paddingTop: "10px", maxHeight: "550px", overflow: "auto", textAlign: "right", paddingBottom:"30px" }}> 
+                                <Button variant="contained" color="primary" startIcon={<AddCircleOutlineIcon />} onClick={openRecommendUser}>
+                                    Recomendar otro usuario
+                                </Button>
+                                <br />                  
+                            </Grid>
+                        )
+                    }
+                    <Grid item xs={12}>
+                        <Table responsive striped>
+                            <TableHead>
+                                <TableRow>
+                                    <TableCell style={{color:"black", fontWeight:"bold"}}>Usuario Recomendado</TableCell>
+                                    <TableCell style={{color:"black", fontWeight:"bold"}}>Recomendado por</TableCell>
+                                    <TableCell style={{color:"black", fontWeight:"bold"}}>Fecha de recomendación</TableCell>
+                                </TableRow>
+                            </TableHead>
+                
+                            <TableBody>
+                            {recommendations.map((recommendation, i) => {
+                                const date = recommendation.recommendDate && moment().format("YYYY-MM-DD");
+                                    return (         
+                                        <TableRow key={recommendation.id}>
+                                            <TableCell component="th" scope="row">
+                                                {`${recommendation.user.firstName} ${recommendation.user.lastName}`}
+                                            </TableCell>
+                                            <TableCell align="right">
+                                                {`${recommendation.by.firstName} ${recommendation.by.lastName}`} 
+                                            </TableCell>
+                                            <TableCell align="right">
+                                                {date ? date : null}
+                                            </TableCell>                
+                                        </TableRow>
+                                    );
+                            })}
 
-            <Table responsive striped>
-                <TableHead>
-                    <TableRow>
-                        <TableCell style={{color:"black", fontWeight:"bold"}}>Usuario Recomendado</TableCell>
-                        <TableCell style={{color:"black", fontWeight:"bold"}}>Recomendado por</TableCell>
-                        <TableCell style={{color:"black", fontWeight:"bold"}}>Fecha de recomendación</TableCell>
-                    </TableRow>
-                </TableHead>
-    
-                <TableBody>
-                  {recommendations.map((recommendation, i) => {
-                    const date = recommendation.recommendDate && moment().format("YYYY-MM-DD");
-                        return (         
-                          <TableRow key={recommendation.id}>
-                              <TableCell component="th" scope="row">
-                                  {`${recommendation.user.firstName} ${recommendation.user.lastName}`}
-                              </TableCell>
-                              <TableCell align="right">
-                                  {`${recommendation.by.firstName} ${recommendation.by.lastName}`} 
-                              </TableCell>
-                              <TableCell align="right">
-                                  {date ? date : null}
-                              </TableCell>                
-                          </TableRow>
-                        );
-                  })}
-
-                  {
-                      recommendations && recommendations.length === 0 && (
-                        <tr><td colSpan={12} style={{fontSize:"15px", textAlign:"center", paddingBottom:"20px"}}>NO EXISTEN RECOMENDACIONES</td></tr>
-                      )
-                  }
-                  </TableBody>
-            </Table>
-
-        </ModalBody>
-        
+                            {
+                                recommendations && recommendations.length === 0 && (
+                                    <TableRow>
+                                        <TableCell colSpan={3} component="th" scope="row">
+                                            No existen recomendaciones
+                                        </TableCell>        
+                                    </TableRow>
+                                )
+                            }
+                            </TableBody>
+                        </Table>
+                    </Grid>
+                </Grid>            
+            </ModalBody>
         </Modal>
 
         <CustomModal
