@@ -8,10 +8,11 @@ import { listNotifications } from 'services/actions/NotificationAction';
 import TabOptions from './TabOptions';
 import CustomModal from 'components/Modals/common/CustomModal';
 import ItemNotificationRow from '../Components/ItemNotificationRow';
+import { listNotificationViewedByUser } from 'services/actions/NotificationViewAction';
 
 const NotificationSection = (props) => {
 
-    const { classes = {}, session, notificationRx } = props;
+    const { classes = {}, session, notificationViewedRx } = props;
     const history = useHistory();
   
     const [searchTimeout, setSearchTimeout] = React.useState(null);
@@ -23,7 +24,7 @@ const NotificationSection = (props) => {
 
     const onList = (term) => {
         props.dispatch(showBackdrop(true));
-        props.dispatch(listNotifications(term)).then(res => {
+        props.dispatch(listNotificationViewedByUser(term)).then(res => {
             props.dispatch(showBackdrop(false));
         }).catch(err => props.dispatch(showBackdrop(false)));;
     };
@@ -38,31 +39,20 @@ const NotificationSection = (props) => {
     };
 
     const goTo = (notification) => {
-        if(notification && notification.id){
-            history.push("/notificaciones/" + notification.id);
+        if(notification && notification.notificationId){
+            history.push("/notificaciones/" + notification.notificationId + "/viewed");
         }
-    }
-
-    const openNotificationOptions = () => {
-      setShowNotificationOptions(true);
     }
 
     const onSaveForm = () => {
       onList('');
     }
 
-    const notifications = notificationRx && notificationRx.notifications || [];
+    const notificationsViewed = notificationViewedRx && notificationViewedRx.notificationsViewed || [];
 
     return (
         <div style={{height: "79vh"}}>
           <Grid container>
-            <Grid item xs={12}>
-                <TabOptions
-                    onSaveForm={onSaveForm}
-                    onOpenModal={openNotificationOptions}
-                    view="adminNotifications"
-                />
-            </Grid>
             <Grid item xs={12}>
               <div className="chatlist__heading">
                 <span className="divider-line"></span>
@@ -90,11 +80,11 @@ const NotificationSection = (props) => {
               />
             </Grid>
             <Grid item xs={12}>
-              {notifications.map((notification, i) => {
+              {notificationsViewed.map((notificationViewed, i) => {
                 return (
                    <ItemNotificationRow
                      key={i}
-                     notification={notification}
+                     notification={notificationViewed}
                      goTo={goTo}
                    />
                 );

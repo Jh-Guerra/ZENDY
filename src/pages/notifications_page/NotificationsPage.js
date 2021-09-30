@@ -12,6 +12,7 @@ import { listNotificationViewed } from 'services/actions/NotificationViewAction'
 import CustomModal from 'components/Modals/common/CustomModal';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
+import { checkPermission, getSessionInfo } from 'utils/common';
 
 const columns = [
   { type: 'text', field: 'name', label: 'Nombre', format: (row) => `${row.firstName} ${row.lastName}` },
@@ -23,10 +24,13 @@ const columns = [
 
 const NotificationsPage = (props) => {
   const { } = props;
+
+  const session = getSessionInfo();
   const history = useHistory();
 
   const [ showNewCompanyNotification, setShowNewCompanyNotification ] = React.useState(false);
   const [ showNewCompaniesNotification, setShowNewCompaniesNotification ] = React.useState(false);
+  const [ isViewed, setIsViewed ] = React.useState(false);
   const [ showModalDelete, setShowModalDelete] = React.useState(false);
   const [ notification, setNotification ] = React.useState({});
   const [ notificationsViewed, setNotificationsViewed ] = React.useState([]);
@@ -36,6 +40,12 @@ const NotificationsPage = (props) => {
     if(props.location.pathname){
       const pathArray = props.location.pathname.split("/");
       const notificationId = pathArray && pathArray[2];
+      const isViewByUser = pathArray && pathArray[3] == "viewed" || false;
+      setIsViewed(isViewByUser);
+
+      if(isViewByUser){
+        
+      }
 
       if(notificationId){
         onGetData(notificationId);
@@ -86,7 +96,7 @@ const NotificationsPage = (props) => {
         console.error('error', error);
       });
   };
- 
+
   return (
     <Grid container>
       <Grid item xs={12} className="top-header">
@@ -94,27 +104,31 @@ const NotificationsPage = (props) => {
           {notification.reason}
         </Typography>
       </Grid>
-      <Grid item xs={12} style={{padding: "0px 20px"}}>
-        <p style={{textAlign:'start'}}>
-          <CustomButton
-            variant="contained"
-            startIcon={<EditIcon />}
-            customColor={successButtonColor}
-            onClick={onOpenEditNotification}
-            style={{marginRight: "10px"}}
-          >
-            Editar Notificatión
-          </CustomButton>
-          <CustomButton
-            variant="contained"
-            startIcon={<DeleteIcon />}
-            customColor={dangerColor}
-            onClick={onOpenModalDelete}
-          >
-            Eliminar Notificatión
-          </CustomButton>
-        </p>
-      </Grid>
+      {
+        checkPermission(session, "createNotifications") && (
+          <Grid item xs={12} style={{padding: "0px 20px"}}>
+            <p style={{textAlign:'start'}}>
+              <CustomButton
+                variant="contained"
+                startIcon={<EditIcon />}
+                customColor={successButtonColor}
+                onClick={onOpenEditNotification}
+                style={{marginRight: "10px"}}
+              >
+                Editar Notificatión
+              </CustomButton>
+              <CustomButton
+                variant="contained"
+                startIcon={<DeleteIcon />}
+                customColor={dangerColor}
+                onClick={onOpenModalDelete}
+              >
+                Eliminar Notificatión
+              </CustomButton>
+            </p>
+          </Grid>
+        )
+      }
       <Grid item xs={12} style={{padding: "0px 20px"}}>
         <Typography variant="h6"> Notificaciones entregadas </Typography>
         <CustomTable 

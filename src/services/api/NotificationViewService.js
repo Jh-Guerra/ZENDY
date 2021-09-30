@@ -17,6 +17,10 @@ class NotificationViewedService {
         return await axios.get( getCustomUrl(apiPrefix, `/list/` + notificationId), defaultHeaders());
     }
 
+    async listNotificationViewedByUser() {
+        return await axios.get( getCustomUrl(apiPrefix, `/list-by-user`), defaultHeaders());
+    }
+
     async deleteNotificationViewed(id) {
         return await axios.delete( getCustomUrl(apiPrefix, `/delete/${id}`), defaultHeaders() )
     }

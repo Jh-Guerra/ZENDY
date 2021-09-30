@@ -45,6 +45,7 @@ const Routes = (props) => {
           <PrivateRoute exact path="/consultas/:entryQueryId/recomendacion" {...props} component={EntryQueryPage} />
 
           <PrivateRoute exact path="/notificaciones/:notificationId" {...props} component={NotificationsPage} />
+          <PrivateRoute exact path="/notificaciones/:notificationId/viewed" {...props} component={NotificationsPage} />
 
           <Route path="/no-encontrado" component={PageNotFound}/>
           <Redirect from="*" to="/no-encontrado" />

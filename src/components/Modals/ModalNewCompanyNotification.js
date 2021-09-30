@@ -103,6 +103,9 @@ const ModalNewCompanyNotification = (props) => {
     
         if (!notification.reason) 
           errors.reason = true;
+
+        if (!notification.description) 
+          errors.description = true;
     
         return errors;
     };
@@ -272,7 +275,7 @@ const ModalNewCompanyNotification = (props) => {
                                         onChange={handleChange}
                                         value={values.reason}
                                         error={ errors.reason && touched.reason ? true : false }
-                                        helperText={ errors.reason && touched.reason && errors.email }
+                                        helperText={ errors.reason && touched.reason && errors.reason }
                                         icon={<SubtitlesIcon />}
                                         disabled={!editMode}
                                     />
@@ -283,6 +286,8 @@ const ModalNewCompanyNotification = (props) => {
                                         inputType="textArea"
                                         onChange={handleChange}
                                         value={values.description}
+                                        error={ errors.description && touched.description ? true : false }
+                                        helperText={ errors.description && touched.description && errors.description }
                                     />
                                 </Grid>
                                 <Grid item xs={12} container>

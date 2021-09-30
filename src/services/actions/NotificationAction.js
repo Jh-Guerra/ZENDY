@@ -32,15 +32,6 @@ export const listAdminNotifications = (term) => async dispatch => {
     return res && res.data || [];
 }
 
-export const listNotifications = (term) => async dispatch => {
-    const res = await service.listNotifications(term);
-    dispatch({
-        type: NOTIFICATIONS,
-        payload: res && res.data || []
-    })
-    return res && res.data || [];
-}
-
 export const deleteNotification = (id) => async dispatch => {
     const res = await service.deleteNotification(id);
     return res && res.data;

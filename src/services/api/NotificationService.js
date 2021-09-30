@@ -25,10 +25,6 @@ class NotificationService {
         return await axios.get( getCustomUrl(apiPrefix, `/admin/list?term=${term}`), defaultHeaders());
     }
 
-    async listNotifications(term) {
-        return await axios.get( getCustomUrl(apiPrefix, `/list?term=${term}`), defaultHeaders());
-    }
-
     async deleteNotification(id) {
         return await axios.delete( getCustomUrl(apiPrefix, `/delete/${id}`), defaultHeaders() )
     }
