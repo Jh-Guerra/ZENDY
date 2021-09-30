@@ -63,6 +63,11 @@ const MiniDrawer = (props) => {
     switch (true) {
       case path.includes("/empresas/"):
         return setTab(2);
+      case path.includes("/consultas/"):
+        if (checkPermission(session, "adminEntryQuery"))
+        return setTab(2);
+        if (checkPermission(session, "createEntryQuery"))
+        return setTab(1);
     }
   }
 
