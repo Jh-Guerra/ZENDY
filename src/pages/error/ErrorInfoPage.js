@@ -17,7 +17,7 @@ import CustomModal from 'components/Modals/common/CustomModal';
 import ModalDelete from 'components/Modals/ModalDelete';
 import ModalFakeError from 'components/Modals/ModalFakeError';
 import ModalConfirmError from 'components/Modals/ModalConfirmError';
-
+import moment from 'moment';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -243,12 +243,12 @@ const ErrorInfoPage = props => {
 
                 <Grid item xs={12} alignItems='flex-start' alignContent='flex-start' style={{ textAlign: "left", marginTop: '15px' }}>
                   <span className={classes.fontError} style={{ fontWeight: 'bold', fontStyle: 'italic', alignItems: 'flex-end' }} >Fecha de Reporte: </span>
-                  <span className={classes.fontError} style={{ alignItems: 'flex-start', marginTop: '10px' }}>{error.created_at || ""}</span>
+                  <span className={classes.fontError} style={{ alignItems: 'flex-start', marginTop: '10px' }}>{(error.created_at) && moment().format("DD/MM/YYYY") || ""}</span>
                 </Grid>
 
                 <Grid item xs={12} alignItems='flex-start' alignContent='flex-start' style={{ textAlign: "left", marginTop: '15px' }}>
                   <span className={classes.fontError} style={{ fontWeight: 'bold', fontStyle: 'italic', alignItems: 'flex-end' }} >Modulo: </span>
-                  <span className={classes.fontError} style={{ alignItems: 'flex-start', marginTop: '10px' }}>{error.module || ""}</span>
+                  <span className={classes.fontError} style={{ alignItems: 'flex-start', marginTop: '10px' }}>{error.module && error.module.name || ""}</span>
                 </Grid>
 
                 <Grid item xs={12} alignItems='flex-start' alignContent='flex-start' style={{ textAlign: "left", marginTop: '15px' }}>
@@ -320,6 +320,7 @@ const ErrorInfoPage = props => {
         open={showReportedErrorModal}
         handleClose={() => setShowReportedErrorModal(false)}
         error={error}
+        onGetErrorData = {onGetErrorData}
       />
       <ModalConfirmError
         open={showConfirmError}
