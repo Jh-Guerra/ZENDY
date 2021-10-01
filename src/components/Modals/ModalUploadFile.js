@@ -3,7 +3,6 @@ import Modal from './common/Modal';
 import ModalBody from './common/ModalBody'
 import ModalHeader from './common/ModalHeader'
 import { Button, Card, CardActions, CardActionArea, CardMedia, CardContent } from "@material-ui/core";
-import { config } from 'react-transition-group';
 import { getFileImage, isImageFile } from 'utils/common';
 
 const ModalUploadFile = props => {

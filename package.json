@@ -73,7 +73,9 @@
         "REACT_APP_GA_ID": "UA-82642500-5",
         "REACT_APP_stripePk": "pk_live_i6flGDmKSlgHwOUQuWo4DHEj",
         "REACT_APP_HOST": "http://localhost:3000",
-        "REACT_APP_SOURCEMAP": true
+        "REACT_APP_SOURCEMAP": true,
+        "REACT_APP_PUSHER_APP_KEY": "zendy_key",
+        "REACT_APP_PUSHER_CLUSTER": "mt1"
       }
     }
   },
@@ -92,7 +94,7 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "http://localhost:4000",
+  "proxy": "http://127.0.0.1:8000/",
   "devDependencies": {
     "enzyme": "^3.11.0",
     "enzyme-adapter-react-16": "^1.15.2",

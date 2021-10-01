@@ -150,7 +150,6 @@ export const statusItems = [
 ];
 
 export const getFileImage = (extension) => {
-  console.log("extension", extension)
   switch(extension){
     case "text/csv":
     case "application/vnd.oasis.opendocument.spreadsheet":

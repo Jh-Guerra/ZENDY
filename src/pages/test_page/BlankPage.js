@@ -14,21 +14,7 @@ class BlankPage extends Component {
   }
 
   async componentDidMount() {
-    // this.props.dispatch(listUsersOnline()).then((res)=> {
-    //   console.log('res',res)
-    // })
     
-    window.Echo = new Echo({
-      broadcaster: "pusher",
-      key: 'ZENDY_PUSHER_KEY',
-      wsHost: window.location.hostname,
-      wsPort: 6001,
-      forceTLS: false,
-      disableStats: true
-    })
-    window.Echo.channel('home3').listen('sendMessage', (e) => {
-      console.log("event",e)
-    })
   }
 
   render() {

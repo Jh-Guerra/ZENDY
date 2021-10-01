@@ -27,6 +27,17 @@ const MainPage = (props) => {
       if(chatId){
         onGetChatData(chatId);
         onListMessages(chatId, "");
+
+        window.Echo.private("chats." + chatId).listen('sendMessage', (e) => {
+          // const newMessage = e && e.message;
+          // const newMessages = e && e.messages;
+          // console.log("newMessage", newMessage);
+          // console.log("newMessages", newMessages);
+          // setMessages([
+          //   ...newMessages
+          // ]);
+          onGetChatData(onListMessages(e && e.chatId, ""));
+        })
       }else{
         history.push("/inicio");
       }
