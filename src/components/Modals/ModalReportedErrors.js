@@ -17,12 +17,13 @@ import { showBackdrop, showSnackBar } from 'services/actions/CustomAction';
 import defaultAvatar from 'assets/images/defaultAvatarMale.jpg';
 import config from "../../config/Config";
 import EditIcon from '@material-ui/icons/Edit';
+import { listModules, findModule } from 'services/actions/ModuleAction';
 
 const ModalReportedErrors = props => {
   const session = getSessionInfo();
   const user = session && session.user;
   const isClient = isClientUser(session.role);
-  const { open, handleClose, error } = props;
+  const { open, handleClose, error, onGetErrorData} = props;
 
   const options = [
     { id: "m1", name: "modulo 1" },
@@ -33,7 +34,7 @@ const ModalReportedErrors = props => {
   const [data, setData] = React.useState({
     id: "",
     idCompany: null,
-    module: "m1",
+    idModule: "",
     reason: "",
     description: "",
     image: "",
@@ -43,6 +44,7 @@ const ModalReportedErrors = props => {
   const [icon, setIcon] = React.useState(<LibraryBooksIcon />);
   const [editMode, setEditMode] = React.useState(false);
   const [fileUrl, setFileUrl] = React.useState(null);
+  const [modules, setModules] = React.useState([]);
 
   React.useEffect(() => {
     if (open) {
@@ -55,7 +57,7 @@ const ModalReportedErrors = props => {
         setData({
           id: "",
           idCompany: null,
-          module: "m1",
+          idModule: "",
           reason: "",
           description: "",
           image: "",
@@ -65,6 +67,11 @@ const ModalReportedErrors = props => {
         setIcon(<LibraryBooksIcon />);
         setEditMode(true);
       }
+      props.dispatch(showBackdrop(true));
+      props.dispatch(listModules()).then(response =>{
+        setModules(response)
+          props.dispatch(showBackdrop(false))
+      }).catch(err => props.dispatch(showBackdrop(false)));
       setFileUrl(null)
     }
   }, [open]);
@@ -89,7 +96,7 @@ const ModalReportedErrors = props => {
       formData.append('file', fileInput.files[0] || '');
       formData.append('idCompany', user.idCompany)
       formData.append('createdBy', user.id)
-      formData.append('module', reportedError.module)
+      formData.append('idModule', reportedError.idModule)
       formData.append('reason', reportedError.reason)
       formData.append('description', reportedError.description)
       props.dispatch(updateError(reportedError.id, formData)).then(res => {
@@ -101,6 +108,7 @@ const ModalReportedErrors = props => {
         }
         handleClose(false)
         props.dispatch(showBackdrop(false));
+        onGetErrorData(res.id)
       }).catch(error => {
         props.dispatch(showBackdrop(false));
       });
@@ -112,7 +120,7 @@ const ModalReportedErrors = props => {
       formData.append('file', fileInput.files[0] || '');
       formData.append('idCompany', user.idCompany)
       formData.append('createdBy', user.id)
-      formData.append('module', reportedError.module)
+      formData.append('idModule', reportedError.idModule)
       formData.append('reason', reportedError.reason)
       formData.append('description', reportedError.description)
       props.dispatch(createError(formData)).then(res => {
@@ -171,12 +179,13 @@ const ModalReportedErrors = props => {
                   <Grid item xs={12}>
                     <Typography style={{ fontWeight: "bold" }}>Módulo</Typography>
                     <CustomInput
-                      id="module"
-                      inputType="select"
-                      value={values.module}
-                      options={options}
+                      id="idModule"
+                      inputType="select2"
+                      value={values.idModule}
+                      error={errors.idModule && touched.idModule ? true : false}
+                      options={modules}
                       onChange={(event) => {
-                        setFieldValue("module", event.target.value);
+                        setFieldValue("idModule", event.target.value);
                       }}
                       icon={<CreateIcon />}
                     />
