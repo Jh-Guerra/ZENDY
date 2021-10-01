@@ -1,23 +1,23 @@
 import axios from '../../utils/axios';
 import config from "../../config/Config";
 
-class FrequentQueryService {
+class ModuleService {
     
-    async findFrequentQuery(id) {
+    async findModule(id) {
         return await axios.get(
-            config.apiVersion + `frequentQueries/find/` + id,
+            config.apiVersion + `module/find/` + id,
             { 
                 headers: { ...config.headers, Authorization: `token ${JSON.parse(localStorage.getItem('session')).token || ''}` }
             }
     )}
 
-    async listFrequentQueries() {
+    async listModules() {
         return await axios.get(
-            config.apiVersion + `frequentQueries/list`,
+            config.apiVersion + `module/list`,
             { 
                 headers: { ...config.headers, Authorization: `token ${JSON.parse(localStorage.getItem('session')).token || ''}` }
             }
     )}   
 }
 
-export default FrequentQueryService;
+export default ModuleService;

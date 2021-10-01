@@ -16,6 +16,7 @@ import { showBackdrop , showSnackBar} from 'services/actions/CustomAction';
 import defaultCompany from 'assets/images/defaultCompany.png';
 import config from 'config/Config';
 import { useHistory } from 'react-router-dom';
+import { listModules, findModule } from 'services/actions/ModuleAction';
 
 const ModalEntryQuery = props => {
   const { open, handleClose, onSaveForm, entryQuery , setEntryQuery} = props;
@@ -27,12 +28,14 @@ const ModalEntryQuery = props => {
     description: '',
     image: '',
     file: '',
-    module:'',
+    idModule:'',
   });
   const [title, setTitle] = React.useState("Ingresar Consulta");
   //const [icon, setIcon] = React.useState(<BusinessIcon />);
   const [editMode, setEditMode] = React.useState(false);
   const [fileUrl, setFileUrl] = React.useState(null);
+  const [fileUrl1, setFileUrl1] = React.useState(null);
+  const [modules, setModules] = React.useState([]);
 
   React.useEffect(() => {
     if(open){
@@ -51,12 +54,17 @@ const ModalEntryQuery = props => {
                 description: '',
                 image: '',
                 file: '',
-                module:'',
+                idModule:'',
             });
             setTitle("Ingresar Consulta");
             //setIcon(<BusinessIcon />);
             setEditMode(true);
         }
+        props.dispatch(showBackdrop(true));
+        props.dispatch(listModules()).then(response =>{
+          setModules(response)
+            props.dispatch(showBackdrop(false))
+        }).catch(err => props.dispatch(showBackdrop(false)));
         setFileUrl(null)
     }
 }, [open]);
@@ -86,7 +94,7 @@ const ModalEntryQuery = props => {
               formData.append('file', fileInput.files[0] || '');
               formData.append("reason", entryQuery.reason)
               formData.append('description', entryQuery.description)
-              formData.append('module', entryQuery.module)
+              formData.append('idModule', entryQuery.idModule)
  
  
                  // Editar
@@ -109,7 +117,7 @@ const ModalEntryQuery = props => {
               formData.append('file', fileInput.files[0] || '');
               formData.append("reason", entryQuery.reason)
               formData.append('description', entryQuery.description)
-              formData.append('module', entryQuery.module)
+              formData.append('idModule', entryQuery.idModule)
   
               props.dispatch(createEntryQuery(formData)).then(res => {
                 props.dispatch(showSnackBar('success', 'Consulta registrada'));
@@ -176,16 +184,16 @@ const onEdit = () => {
                   </Grid>
                   <Grid item xs={12}>
                     <CustomInput
-                      id="module"
-                      inputType="select"
+                      id="idModule"
+                      inputType="select2"
                       label="Modulo"
                       onChange={(event) => {
-                        setFieldValue("module", event.target.value)
+                        setFieldValue("idModule", event.target.value)
                       }}
-                      value={values.module}
-                      options={modulesQuery}
-                      error={errors.module && touched.module ? true : false}
-                      helperText={errors.module && touched.module && errors.module}
+                      value={values.idModule}
+                      error={errors.idModule && touched.idModule ? true : false}
+                      helperText={errors.idModule && touched.idModule && errors.idModule}
+                      options={modules}
                       disabled={!editMode}
                     />
                   </Grid>

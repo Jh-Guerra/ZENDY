@@ -16,6 +16,7 @@ import defaultCompany from 'assets/images/defaultCompany.png';
 import config from 'config/Config';
 import { listFrequentQueries, findFrequentQuery } from 'services/actions/FrequentQueryAction';
 import { useHistory } from 'react-router-dom';
+import { listModules, findModule } from 'services/actions/ModuleAction';
 
 const ModalEntryQueryFrequent = props => {
   const { open, handleClose, onSaveForm, entryQuery } = props;
@@ -28,7 +29,7 @@ const ModalEntryQueryFrequent = props => {
          ...data,
          reason: res && res.reason,
          description: res && res.description,
-         module: res && res.module,
+         idModule: res && res.idModule,
          idFrequentQuery: res && res.id
        }
        setData(dataForm) 
@@ -41,7 +42,7 @@ const ModalEntryQueryFrequent = props => {
     description: '',
     image1: '',
     file1: '',
-    module:'',
+    idModule:'',
     idFrequentQuery: 1,
     isFrequentQuery: true,
   });
@@ -50,6 +51,7 @@ const ModalEntryQueryFrequent = props => {
   const [title, setTitle] = React.useState("Ingresar Consulta Frecuente");
   const [editMode, setEditMode] = React.useState(false);
   const [fileUrl, setFileUrl] = React.useState(null);
+  const [modules, setModules] = React.useState([]);
 
   React.useEffect(() => {
     if(open){
@@ -68,7 +70,7 @@ const ModalEntryQueryFrequent = props => {
                 ...data,
                 reason: res && res.reason,
                 description: res && res.description,
-                module: res && res.module,
+                idModule: res && res.idModule,
                 idFrequentQuery: res && res.id
               }
               setData(dataForm) 
@@ -79,6 +81,10 @@ const ModalEntryQueryFrequent = props => {
         props.dispatch(showBackdrop(true));
         props.dispatch(listFrequentQueries()).then(response =>{
             setFrequentQueries(response)
+            props.dispatch(showBackdrop(false))
+        }).catch(err => props.dispatch(showBackdrop(false)));
+        props.dispatch(listModules()).then(response =>{
+          setModules(response)
             props.dispatch(showBackdrop(false))
         }).catch(err => props.dispatch(showBackdrop(false)));
         setFileUrl(null)
@@ -109,7 +115,7 @@ const ModalEntryQueryFrequent = props => {
               formData.append('file1', fileInput.files[0] || '');
               formData.append("reason", entryQuery.reason)
               formData.append('description', entryQuery.description)
-              formData.append('module', entryQuery.module)
+              formData.append('idModule', entryQuery.idModule)
               formData.append('idFrequentQuery', entryQuery.idFrequentQuery)
               formData.append('isFrequentQuery', true)
   
@@ -190,17 +196,17 @@ const onEdit = () => {
                     />
                   </Grid>
                   <Grid item xs={12}>
-                    <CustomInput
-                      id="module"
-                      inputType="select"
+                  <CustomInput
+                      id="idModule"
+                      inputType="select2"
                       label="Modulo"
                       onChange={(event) => {
-                        setFieldValue("module", event.target.value)
+                        setFieldValue("idModule", event.target.value)
                       }}
-                      value={values.module}
-                      options={modulesQuery}
-                      error={errors.module && touched.module ? true : false}
-                      helperText={errors.module && touched.module && errors.module}
+                      value={values.idModule}
+                      error={errors.idModule && touched.idModule ? true : false}
+                      helperText={errors.idModule && touched.idModule && errors.idModule}
+                      options={modules}
                       disabled
                     />
                   </Grid>
