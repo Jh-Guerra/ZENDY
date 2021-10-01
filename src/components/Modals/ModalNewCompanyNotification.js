@@ -20,6 +20,7 @@ import CheckBoxIcon from '@material-ui/icons/CheckBox';
 import config from 'config/Config';
 import SubtitlesIcon from '@material-ui/icons/Subtitles';
 import GetAppIcon from '@material-ui/icons/GetApp';
+import { errorSolved } from 'services/actions/ErrorAction';
 
 const useStyles = makeStyles(theme => ({
     inputText: {
@@ -35,8 +36,7 @@ const useStyles = makeStyles(theme => ({
 const ModalNewCompanyNotification = (props) => {
     
     const classes = useStyles();
-    const { open, handleClose, onSaveForm, notification={} } = props;
-
+    const { open, handleClose, onSaveForm, notification={}, companyIdError=null, ErrorId=null } = props;
     const [companies, setCompanies] = React.useState([]);
     const [companyId, setCompanyId] = React.useState("");
     const [users, setUsers] = React.useState([]);
@@ -68,7 +68,7 @@ const ModalNewCompanyNotification = (props) => {
                 onListUsersByCompany(notification.companiesNotified[0], "");
                 onListCompanies(true);
             }else{
-                onListCompanies(false);
+                companyIdError ? onListCompaniesByCompanyIdError(companyIdError) :  onListCompanies(false);                         
             }
             
             setImageUrl(null);
@@ -84,6 +84,23 @@ const ModalNewCompanyNotification = (props) => {
                 setCompanyId(res[0].id || null);
                 setData({...data, companiesNotified: [...data.companiesNotified, res[0].id]});
                 onListUsersByCompany(res[0].id, "");
+            }
+            props.dispatch(showBackdrop(false));
+        }).catch(err => props.dispatch(showBackdrop(false)));;
+    }
+
+    const onListCompaniesByCompanyIdError = (companyIdError) => {
+        props.dispatch(showBackdrop(true));
+        props.dispatch(listCompanies()).then(res => {
+            setCompanies(res || []);
+            if(res && res[0]){
+                setCompanyId(companyIdError || null);
+                setData({
+                    ...data,
+                    companiesNotified: [...data.companiesNotified, companyIdError],
+                    idError: ErrorId
+                });
+                onListUsersByCompany(companyIdError, "");
             }
             props.dispatch(showBackdrop(false));
         }).catch(err => props.dispatch(showBackdrop(false)));;
@@ -159,8 +176,10 @@ const ModalNewCompanyNotification = (props) => {
                 props.dispatch(showSnackBar('success', 'Notificación enviada'));
                 props.dispatch(showBackdrop(false));
                 onSaveForm && onSaveForm();
+                handleClose(false);
             }).catch(error => { props.dispatch(showBackdrop(false)); props.dispatch(showSnackBar("error", error.message || "")); });
         }
+        notification.solved && props.dispatch(errorSolved(ErrorId))
     }
 
     return (
@@ -191,9 +210,9 @@ const ModalNewCompanyNotification = (props) => {
                                             setFieldValue("allUsersCompany", false);
                                             onListUsersByCompany(event.target.value, "");
                                         }}
-                                        value={companyId}
+                                        value={companyIdError ? companyIdError : companyId}
                                         options={companies}
-                                        disabled={!editMode || notification.id}
+                                        disabled={!editMode || notification.id || companyIdError}
                                     />
                                 </Grid>
                                 <Grid item xs={12}>
@@ -284,12 +303,27 @@ const ModalNewCompanyNotification = (props) => {
                                     <CustomInput
                                         id="description"
                                         inputType="textArea"
+                                        label="Descripcion"
                                         onChange={handleChange}
                                         value={values.description}
                                         error={ errors.description && touched.description ? true : false }
                                         helperText={ errors.description && touched.description && errors.description }
                                     />
                                 </Grid>
+                                {
+                                    companyIdError &&
+                                    <Grid item xs={12}>
+                                        <Grid>
+                                        <Typography>¿El Error Notificado ha sido resuelto?</Typography>
+                                        <Checkbox
+                                            checked={values.solved}
+                                            onChange={() => { setFieldValue("solved", !values.solved);
+                                                              setData({...data,solved:(!values.solved)})}}
+                                            checkedIcon={<CheckBoxIcon style={{ color: pColor }} />}
+                                        />
+                                        </Grid>
+                                    </Grid>
+                                }
                                 <Grid item xs={12} container>
                                     <Grid item xs={12}>
                                         <p style={{ color: 'rgba(0, 0, 0, 0.54)', marginBottom: '5px' }}> Imágen </p>

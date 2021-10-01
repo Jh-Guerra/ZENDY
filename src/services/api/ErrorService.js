@@ -17,6 +17,10 @@ class ErrorService {
         return await axios.get( getCustomUrl(apiPrefix, `/confirmError/${id}`), defaultHeaders() );
     }
 
+    async errorSolved(id) {
+        return await axios.delete( getCustomUrl(apiPrefix, `/errorSolved/${id}`), defaultHeaders() )
+    }
+
     async listErrors(term) {
         return await axios.get( getCustomUrl(apiPrefix, `/list?term=${term}`), defaultHeaders());
     }

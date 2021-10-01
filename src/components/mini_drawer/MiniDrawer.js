@@ -122,7 +122,7 @@ const MiniDrawer = (props) => {
                   <Tooltip style={{display: checkPermission(session, "createError") ? "inline-flex" : "none"}} title="Errores Reportados">
                     <Tab className="mini-drawer-tab" icon={<ErrorsIcon />} />
                   </Tooltip>
-                  <Tooltip style={{display: checkPermission(session, "adminError") ? "inline-flex" : "none" }} title="Admin Errores Reportados">
+                  <Tooltip style={{display: checkPermission(session, "adminError") ? "inline-flex" : "none" }} title="Errores Reportados">
                     <Tab className="mini-drawer-tab" icon={<ErrorsIcon />} />
                   </Tooltip>
                   <Tooltip title="Más">

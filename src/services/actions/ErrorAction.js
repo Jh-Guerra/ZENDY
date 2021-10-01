@@ -19,6 +19,11 @@ export const confirmError = (id) => async dispatch => {
     return res && res.data || [];
 }
 
+export const errorSolved = (id) => async dispatch => {
+    const res = await service.errorSolved(id);
+    return res && res.data || [];
+}
+
 export const updateError = (id, data) => async dispatch => {
     const res = await service.updateError(id, data);
     return res && res.data || [];

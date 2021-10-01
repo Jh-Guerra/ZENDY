@@ -96,6 +96,7 @@ const ErrorInfoPage = props => {
   const [showModalDelete, setShowModalDelete] = React.useState(false);
   const [showFakeError, setShowFakeError] = React.useState(false);
   const [showConfirmError, setShowConfirmError] = React.useState(false);
+  const [showNewCompanyNotification, setShowNewCompanyNotification] = React.useState(false);
   const isClient = isClientUser(session.role);
   const isTheCreator = ((session.user && session.user.id) == (error.user && error.user.id)) ? true : false
 
@@ -192,6 +193,9 @@ const ErrorInfoPage = props => {
     setShowConfirmError(true)
   }
 
+  const ShowNewCompanyNotification = () => {
+    setShowNewCompanyNotification(true)
+  }
   return (
     <>
       <CssBaseline />
@@ -219,10 +223,10 @@ const ErrorInfoPage = props => {
             <span className={classes.fontError} style={{ fontWeight: 'bold', fontStyle: 'italic', alignItems: 'flex-end' }} >Estado: </span>
             {
               !isClient ?
-              <span className={classes.fontError} style={{ alignItems: 'flex-center', marginTop: '10px' }}>{(error.status == "Pending") ? "Pendiente" : "Aceptado"}</span> :
-              <span className={classes.fontError} style={{ alignItems: 'flex-center', marginTop: '10px' }}>{error.fake ? "El error reportado ha considerado como Fake" : ((error.status == "Pending") ? "Pendiente" : "Aceptado")}</span>
+                <span className={classes.fontError} style={{ alignItems: 'flex-center', marginTop: '10px' }}>{(error.status == "Pending") ? "Pendiente" : "Aceptado"}</span> :
+                <span className={classes.fontError} style={{ alignItems: 'flex-center', marginTop: '10px' }}>{error.fake ? "El error reportado ha considerado como Fake" : ((error.status == "Pending") ? "Pendiente" : ((error.status == "Solved") ? "El error notificado ya fue resuelto" : "Aceptado"))}</span>
             }
-            
+
           </Grid>
           <Grid container item xs={12}>
             <Grid item xs={6} container spacing={0} direction="column" alignItems="flex-start" verticalAlign="center" justify="flex-start">
@@ -271,29 +275,34 @@ const ErrorInfoPage = props => {
 
                 <Grid container direction="row" style={{ marginTop: '20px' }}>
                   {
-                    (isClient && isTheCreator) ?
-                      <>
-                        <Grid item xs={6}>
-                          <Button className={classes.reportBtn} onClick={() => { showEditError() }}>Editar</Button>
-                        </Grid>
-                        <Grid item xs={6}>
-                          <Button className={classes.reportBtn} onClick={() => { showDeletedError() }}>Eliminar</Button>
-                        </Grid>
-                      </> :
-                      error.status == "Accepted" ?
-                        <>
-                          <Grid item>
-                            <Button className={classes.reportBtn} onClick={() => { }}>Notificar Error Reportado</Button>
-                          </Grid>
-                        </> :
-                        <>
-                          <Grid item xs={6}>
-                            <Button className={classes.reportBtn} onClick={() => { ShowConfirmError() }}>Confirmar error</Button>
-                          </Grid>
-                          <Grid item xs={6}>
-                            <Button className={classes.reportBtn} onClick={() => { ShowFakeError() }}>Reportar error falso</Button>
-                          </Grid>
-                        </>
+                    (isClient && isTheCreator && (error.status == "Pending") && !error.fake) &&
+                    <>
+                      <Grid item xs={6}>
+                        <Button className={classes.reportBtn} onClick={() => { showEditError() }}>Editar</Button>
+                      </Grid>
+                      <Grid item xs={6}>
+                        <Button className={classes.reportBtn} onClick={() => { showDeletedError() }}>Eliminar</Button>
+                      </Grid>
+                    </>
+                  }
+                  {
+                    (!isClient && error.status == "Accepted" ) &&
+                    <>
+                      <Grid item>
+                        <Button className={classes.reportBtn} onClick={() => { ShowNewCompanyNotification() }}>Notificar Error Reportado</Button>
+                      </Grid>
+                    </>
+                  }
+                  {
+                    (!isClient && (error.status != "Accepted")) &&
+                    <>
+                      <Grid item xs={6}>
+                        <Button className={classes.reportBtn} onClick={() => { ShowConfirmError() }}>Confirmar error</Button>
+                      </Grid>
+                      <Grid item xs={6}>
+                        <Button className={classes.reportBtn} onClick={() => { ShowFakeError() }}>Reportar error falso</Button>
+                      </Grid>
+                    </>
                   }
                 </Grid>
               </Box>
@@ -320,6 +329,13 @@ const ErrorInfoPage = props => {
         open={showReportedErrorModal}
         handleClose={() => setShowReportedErrorModal(false)}
         error={error}
+      />
+      <CustomModal
+        customModal="ModalNewCompanyNotification"
+        open={showNewCompanyNotification}
+        companyIdError={error.idCompany}
+        ErrorId={error.id}
+        handleClose={() => { setShowNewCompanyNotification(false); }}
       />
       <ModalConfirmError
         open={showConfirmError}
