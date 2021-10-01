@@ -4,6 +4,7 @@ import config from 'config/Config';
 import ItemAvatar from "./ItemAvatar";
 import { getImageProfile } from 'utils/common';
 import moment from "moment";
+import { Typography } from "@material-ui/core";
 
 const ItemErrorRow = (props) => {
 
@@ -16,7 +17,7 @@ const ItemErrorRow = (props) => {
   const name = user && (user.firstName + ' ' + user.lastName) || "";
 
   const description = error.description || '...';
-  const hour = error.createdDate && moment(error.createdDate).format("DD/MM/YYYY") || '00:00';
+  const hour = error.updated_at && moment(error.updated_at).format('LT') || '00:00';
 
   const onClickAction = (error) => {
     props.goTo && props.goTo(error);
@@ -30,12 +31,10 @@ const ItemErrorRow = (props) => {
         />
         <div style={{width:"80%"}}>
             <div className="chat-mini-details">
-              <span style={{fontSize:"18px"}}>{error.reason}</span>
+            <Typography noWrap style={{ fontSize:"17px", wordWrap: "break-word" }}>{error.reason}</Typography>
               <span className="chat-mini-time">{hour}</span>
-            </div>                
-            <p style={{fontSize:"16px", color:"silver"}}>
-              {description}
-            </p>
+            </div>
+            <Typography noWrap style={{ fontSize:"16px", wordWrap: "break-word", color:"silver" }}>{description}</Typography>        
         </div>
       </div>
     </div>
