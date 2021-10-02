@@ -26,3 +26,8 @@ export const deleteParticipant = (data) => async dispatch => {
     const res = await participantService.deleteParticipant(data);
     return res && res.data || [];
 }
+
+export const resetPendingMessages = (idChat) => async dispatch => {
+    const res = await participantService.resetPendingMessages(idChat);
+    return res && res.data || [];
+}

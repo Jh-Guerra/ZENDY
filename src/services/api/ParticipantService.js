@@ -45,6 +45,15 @@ class ParticipantService {
                 headers: {...config.headers}
             }
     )}
+
+    async resetPendingMessages(idChat) {
+        return await axios.post(
+            config.apiVersion + `participants/reset-pending-messages/${idChat}`,
+            {},
+            { 
+                headers: {...config.headers}
+            }
+    )}
    
 }
 

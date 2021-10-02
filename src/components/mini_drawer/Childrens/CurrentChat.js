@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import ItemAvatarRow from '../Components/ItemAvatarRow';
+import ItemChatRow from '../Components/ItemChatRow';
 import { withStyles } from '@material-ui/core/styles';
 import { Input, InputAdornment, Paper, Grid, IconButton, InputBase } from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search';
@@ -98,7 +98,7 @@ const CurrentChat = props => {
               ) : (
                 chats && chats.map((chat, i) => {
                   return (
-                    <ItemAvatarRow
+                    <ItemChatRow
                       key={i}
                       chat={chat}
                       goToChat={goToChat}

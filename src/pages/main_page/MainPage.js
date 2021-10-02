@@ -12,6 +12,7 @@ import { createMessage, listMessages } from 'services/actions/MessageAction';
 import { getSessionInfo } from 'utils/common';
 import Echo from "laravel-echo";
 import config from "config/Config";
+import { resetPendingMessages } from 'services/actions/ParticipantAction';
 
 const MainPage = (props) => {
   const history = useHistory();
@@ -47,6 +48,7 @@ const MainPage = (props) => {
       if(chatId){
         onGetChatData(chatId);
         onListMessages(chatId, "");
+        props.dispatch(resetPendingMessages(chatId));
 
         window.Echo.private("chats." + chatId).listen('sendMessage', (e) => {
           // const newMessage = e && e.message;
@@ -56,6 +58,7 @@ const MainPage = (props) => {
           // setMessages([
           //   ...newMessages
           // ]);
+          props.dispatch(resetPendingMessages(e && e.chatId));
           onGetChatData(onListMessages(e && e.chatId, ""));
         })
       }else{
