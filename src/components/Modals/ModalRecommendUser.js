@@ -68,17 +68,20 @@ const ModalRecommendUser = (props) => {
 
   const onListAvailableUsers = (term) => {
     props.dispatch(showBackdrop(true));
-    const selectedUsers = users.filter(user => user.checked) || [];
-    const selectedUserIds = selectedUsers.map(user => user.id) || [];
+    const selectedUserIds = users.map(user => user.id) || [];
+    console.log('selectedUserIds',selectedUserIds)
     props.dispatch(listRecommendationsByEntryQuery(entryQuery.id)).then(userRecommendations => {
       props.dispatch(listAvailableUsers(["Admin", "UserHD"], term)).then(res => {
-        const users = res.map(user => {
-          if (!selectedUserIds.includes(user.id)) {
-            selectedUsers.push(user)
+        const allUsers = res && res.map(user => {
+          user.recommend = userRecommendations.includes(user.id)
+          console.log('user', user)
+          if(selectedUserIds.includes(user.id) && !user.recommend) {
+            user.checked = true
           }
-          return {...user, recommend: userRecommendations.includes(user.id)}
-        });
-        setUsers(users || []);
+          return user;
+        }) || [];
+        
+        setUsers(allUsers);
         props.dispatch(showBackdrop(false));
       }).catch(err => props.dispatch(showBackdrop(false)));
     }).catch(err => props.dispatch(showBackdrop(false)));
@@ -112,6 +115,7 @@ const ModalRecommendUser = (props) => {
       const message = res && res.success || "Recomendaciones enviadas";
       props.dispatch(showSnackBar("success", message));
       props.handleClose();
+      setUsers([])
       props.onListExistingRecommendations();
       props.dispatch(showBackdrop(false));
     }).catch(err => { props.dispatch(showBackdrop(false)); props.dispatch(showSnackBar("error", err.response.data.error)); });
