@@ -7,13 +7,13 @@ import Tooltip from '@material-ui/core/Tooltip';
 import CustomModal from "components/Modals/common/CustomModal";
 import { Button, withStyles} from '@material-ui/core';
 import GetAppIcon from '@material-ui/icons/GetApp';
+import moment from 'moment';
 
 const ChatItem = props => {
 
    const [open, setOpen] = useState(false);
    const [showResendMessage, setShowResendMessage] = useState(false)
 
-    
    const handleClickOpen = () => {
     setOpen((prev) => !prev);
    }
@@ -23,7 +23,10 @@ const ChatItem = props => {
     setShowResendMessage(true);
 }
  
-  const { isMyMessage, msg, image, imageUpload, user, file } = props;
+    const { isMyMessage, msg, image, imageUpload, user, file, hour } = props;
+    
+    const hourChat =  moment(hour).format('LT')|| "00:00";
+    
   
   return (
     <div
@@ -40,7 +43,7 @@ const ChatItem = props => {
       <div className="chat-item-content"  onClick={handleClickOpen} onChange={handleClickOpen}>
         <div className="chat-meta">
           <span>{isMyMessage ? "Yo" : user}</span>
-          <span>12:05 PM</span>
+          <span>{hourChat}</span>
         </div>
         <div className="chat-msg">{msg}</div>
         <br />
