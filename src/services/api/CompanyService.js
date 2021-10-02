@@ -53,6 +53,15 @@ class CompanyService {
                 headers: { ...config.headers, Authorization: `token ${JSON.parse(localStorage.getItem('session')).token || ''}` }
             }
     )}
+
+    async deleteImageCompany(imageLink,id) {
+        return await axios.post(
+            config.apiVersion + `companies/deleteImage`, 
+            {imageLink,id},
+            { 
+                headers: { ...config.headers, Authorization: `token ${JSON.parse(localStorage.getItem('session')).token || ''}` }
+            }
+    )}
    
 }
 

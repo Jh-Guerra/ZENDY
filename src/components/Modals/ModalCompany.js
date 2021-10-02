@@ -11,7 +11,7 @@ import CustomInput from 'components/CustomInput';
 import AlternateEmailIcon from '@material-ui/icons/AlternateEmail';
 import { onlyNumbers, trimObject } from 'utils/common';
 import PhoneIcon from '@material-ui/icons/Phone';
-import { createCompany, updateCompany } from 'services/actions/CompanyAction';
+import { createCompany, deleteImageCompany, findCompany, updateCompany } from 'services/actions/CompanyAction';
 import AssignmentIndIcon from '@material-ui/icons/AssignmentInd';
 import EditIcon from '@material-ui/icons/Edit';
 import HomeIcon from '@material-ui/icons/Home';
@@ -20,6 +20,7 @@ import defaultCompany from 'assets/images/defaultCompany.png';
 import config from 'config/Config';
 import GetAppIcon from '@material-ui/icons/GetApp';
 import AccountBalanceIcon from '@material-ui/icons/AccountBalance';
+import HighlightOffTwoToneIcon from '@material-ui/icons/HighlightOff';
 
 const ModalCompany = (props) => {
     
@@ -117,7 +118,7 @@ const ModalCompany = (props) => {
             formData.append('maxBytes', company.maxBytes);
             formData.append('description', company.description);
             formData.append('currentBytes', company.currentBytes);
-
+            formData.append('oldImage', data.avatar);
 
                 // Editar
                 props.dispatch(updateCompany(data.id, formData)).then(res => {
@@ -165,6 +166,14 @@ const ModalCompany = (props) => {
         setEditMode(true);
         setTitle("Editar Empresa");
         setIcon(<EditIcon />);
+    }
+
+    const deleteImage = (Link,id) => {
+        props.dispatch(deleteImageCompany(Link,id)).then(res => {
+          if(res.company){
+            setFileUrl(null)
+            setData({...data,avatar:null})
+          }});
     }
 
     return (
@@ -304,6 +313,9 @@ const ModalCompany = (props) => {
                                             style={{height:140, width:140, display:fileUrl || (company.id && company.avatar) ? "flex" : "none"}} 
                                             src={fileUrl ? fileUrl : (data.avatar ? (config.api+data.avatar) : defaultCompany)}
                                         />
+                                        {
+                                            editMode && <HighlightOffTwoToneIcon fontSize="medium" style={{color: 'red', display:fileUrl || (company.id && company.avatar) ? "flex" : "none"}} onClick={() => { deleteImage( (data.avatar && (data.avatar).substr(8)),data.id)  }}/>
+                                        }
                                     </Grid>
                                 </Grid>
                                 

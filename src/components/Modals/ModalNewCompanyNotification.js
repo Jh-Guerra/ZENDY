@@ -11,7 +11,7 @@ import CustomInput from 'components/CustomInput';
 import { listCompanies } from 'services/actions/CompanyAction';
 import { showBackdrop, showSnackBar } from 'services/actions/CustomAction';
 import { listUsersByCompany } from 'services/actions/UserAction';
-import { createCompanyNotification, updateNotification } from 'services/actions/NotificationAction';
+import { createCompanyNotification, deleteImageNotification, updateNotification } from 'services/actions/NotificationAction';
 import { getImageProfile, trimObject } from 'utils/common';
 import RadioButtonCheckedIcon from '@material-ui/icons/RadioButtonChecked';
 import RadioButtonUncheckedIcon from '@material-ui/icons/RadioButtonUnchecked';
@@ -21,6 +21,8 @@ import config from 'config/Config';
 import SubtitlesIcon from '@material-ui/icons/Subtitles';
 import GetAppIcon from '@material-ui/icons/GetApp';
 import { errorSolved } from 'services/actions/ErrorAction';
+import HighlightOffTwoToneIcon from '@material-ui/icons/HighlightOff';
+
 
 const useStyles = makeStyles(theme => ({
     inputText: {
@@ -154,6 +156,7 @@ const ModalNewCompanyNotification = (props) => {
         formData.append("solved", notification.solved)
         formData.append("reason", notification.reason)
         formData.append('description', notification.description)
+        formData.append('oldImage', data.image);
         
 
         for (var i = 0; i < notification.companiesNotified.length; i++) {
@@ -180,6 +183,14 @@ const ModalNewCompanyNotification = (props) => {
             }).catch(error => { props.dispatch(showBackdrop(false)); props.dispatch(showSnackBar("error", error.message || "")); });
         }
         notification.solved && props.dispatch(errorSolved(ErrorId))
+    }
+
+    const deleteImage = (Link,id) => {
+        props.dispatch(deleteImageNotification(Link,id)).then(res => {
+          if(res.notification){
+            setImageUrl(null)
+            setData({...data,image:null})
+          }});
     }
 
     return (
@@ -340,6 +351,9 @@ const ModalNewCompanyNotification = (props) => {
                                         style={{ height: 140, width: 140 }}
                                         src={imageUrl ? imageUrl : (config.api + values.image)}
                                     />
+                                    {
+                                        editMode && <HighlightOffTwoToneIcon fontSize="medium" style={{color: 'red', display: (imageUrl || values.image) ? "flex" : "none"}} onClick={() => { deleteImage( ((values.image).substr(8)),data.id)  }}/>
+                                    }
                                 </Grid>
                                 <Grid item xs={12} container>
                                     <Grid item xs={12}>

@@ -12,7 +12,7 @@ import AlternateEmailIcon from '@material-ui/icons/AlternateEmail';
 import LockIcon from '@material-ui/icons/Lock';
 import { onlyNumbers, trimObject, userRoles, sexTypes } from 'utils/common';
 import PhoneIcon from '@material-ui/icons/Phone';
-import { createUser, updateUser,uploadImage} from 'services/actions/UserAction';
+import { createUser, deleteImageUser, updateUser,uploadImage} from 'services/actions/UserAction';
 import AssignmentIndIcon from '@material-ui/icons/AssignmentInd';
 import EditIcon from '@material-ui/icons/Edit';
 import { showBackdrop } from 'services/actions/CustomAction';
@@ -20,6 +20,7 @@ import { listCompanies } from 'services/actions/CompanyAction';
 import defaultAvatar from 'assets/images/defaultAvatarMale.jpg';
 import config from "../../config/Config";
 import GetAppIcon from '@material-ui/icons/GetApp';
+import HighlightOffTwoToneIcon from '@material-ui/icons/HighlightOff';
 
 const ModalUser = (props) => {
     
@@ -129,6 +130,7 @@ const ModalUser = (props) => {
             formData.append('sex', user.sex)
             formData.append('idRole', user.idRole)
             formData.append('idCompany', user.idCompany)
+            formData.append('oldImage', data.avatar);
 
             // Editar
            props.dispatch(updateUser(data.id, formData)).then(res => {
@@ -179,6 +181,14 @@ const ModalUser = (props) => {
         setEditMode(true);
         setTitle("Editar Usuario");
         setIcon(<EditIcon />);
+    }
+
+    const deleteImage = (Link,id) => {
+        props.dispatch(deleteImageUser(Link,id)).then(res => {
+          if(res.user){
+            setFileUrl(null)
+            setData({...data,avatar:null})
+          }});
     }
 
     return (
@@ -348,11 +358,14 @@ const ModalUser = (props) => {
                                             </Grid>
                                         )
                                     }
-                                    <Grid item xs={6} md={4} >
+                                    <Grid container item xs={12} justify = "center" >
                                         <Avatar 
                                             style={{height:140, width:140, display:fileUrl || (user.id && user.avatar) ? "flex" : "none"}} 
                                             src={fileUrl ? fileUrl : (data.avatar ? (config.api+data.avatar) : defaultAvatar)}
                                         />
+                                        {
+                                            editMode && <HighlightOffTwoToneIcon fontSize="medium" style={{color: 'red', display:fileUrl || (user.id && user.avatar) ? "flex" : "none"}} onClick={() => { deleteImage( (data.avatar && (data.avatar).substr(8)),data.id)  }}/>
+                                        }
                                     </Grid>
                                 </Grid>
                                 

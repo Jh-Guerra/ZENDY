@@ -11,15 +11,16 @@ import GetAppIcon from '@material-ui/icons/GetApp';
 import { Form, Formik } from 'formik';
 import { trimObject, modulesQuery } from 'utils/common';
 import TitleIcon from '@material-ui/icons/Title';
-import {createEntryQuery, updateEntryQuery, listQueries} from 'services/actions/EntryQueryAction';
+import {createEntryQuery, updateEntryQuery, listQueries, deleteImageEntryQuery} from 'services/actions/EntryQueryAction';
 import { showBackdrop , showSnackBar} from 'services/actions/CustomAction';
 import defaultCompany from 'assets/images/defaultCompany.png';
 import config from 'config/Config';
 import { useHistory } from 'react-router-dom';
 import { listModules, findModule } from 'services/actions/ModuleAction';
+import HighlightOffTwoToneIcon from '@material-ui/icons/HighlightOff';
 
 const ModalEntryQuery = props => {
-  const { open, handleClose, onSaveForm, entryQuery , setEntryQuery} = props;
+  const { open, handleClose, onSaveForm, entryQuery , setEntryQuery, onGetData} = props;
   const history = useHistory();
 
   const [data, setData] = React.useState({
@@ -95,7 +96,7 @@ const ModalEntryQuery = props => {
               formData.append("reason", entryQuery.reason)
               formData.append('description', entryQuery.description)
               formData.append('idModule', entryQuery.idModule)
- 
+              formData.append('oldImage', data.image);
  
                  // Editar
                  props.dispatch(updateEntryQuery(data.id, formData)).then(res => {
@@ -148,6 +149,15 @@ const ModalEntryQuery = props => {
 const onEdit = () => {
     setEditMode(true);
     setTitle("Editar Consulta");
+}
+
+const deleteImage = (Link,id) => {
+  props.dispatch(deleteImageEntryQuery(Link,id)).then(res => {
+    if(res.entryQuery){
+      setFileUrl(null)
+      setData({...data,image:null})
+      onGetData(data.id)
+    }});
 }
 
   return (
@@ -213,6 +223,18 @@ const onEdit = () => {
                     )
                   }
                   {
+                     editMode && 
+                      <Grid container item xs={12} justify="center">
+                        <Avatar
+                          style={{ height: 140, width: 140, display: fileUrl || (entryQuery && entryQuery.id && entryQuery.image) ? "flex" : "none" }}
+                          src={fileUrl ? fileUrl : (data.image ? (config.api + data.image) : defaultCompany)}
+                        />
+                        {
+                           editMode && <HighlightOffTwoToneIcon fontSize="medium" style={{color: 'red', display:fileUrl || (entryQuery && entryQuery.id && entryQuery.image) ? "flex" : "none"}} onClick={() => { deleteImage( (data.image && (data.image).substr(8)),data.id)  }}/>
+                        }
+                      </Grid>
+                  }
+                  {
                     editMode && (
                       <Grid item xs={12} container>
                         <Grid item xs={12}>
@@ -227,12 +249,6 @@ const onEdit = () => {
                       </Grid>
                     )
                   }
-                  <Grid container item xs={12} justify="center">
-                    <Avatar
-                      style={{ height: 140, width: 140, display: fileUrl || (entryQuery && entryQuery.id && entryQuery.image) ? "flex" : "none" }}
-                      src={fileUrl ? fileUrl : (data.image ? (config.api + data.image) : defaultCompany)}
-                    />
-                  </Grid>
                 </Grid>
 
                 <Divider style={{ marginTop: "20px" }} />

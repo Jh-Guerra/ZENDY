@@ -40,6 +40,10 @@ class ErrorService {
     async fakeError(id) {
         return await axios.delete( getCustomUrl(apiPrefix, `/fakeError/${id}`), defaultHeaders() )
     }
+
+    async deleteImage(imageLink,id) {
+        return await axios.post( getCustomUrl(apiPrefix, `/deleteImage`), {imageLink,id}, defaultHeaders() )
+    }
 }
 
 export default ErrorService;

@@ -23,8 +23,7 @@ const EQMainFooter = props => {
   const messagesEndRef = createRef(null);
 
   const isFrequent = entryQuery && entryQuery.isFrequent;
-
-  const chatItems = [
+  const chatItems = entryQuery.image ? [
     {
       key: 1,
       image: entryQuery && entryQuery.user && entryQuery.user.avatar,
@@ -43,6 +42,20 @@ const EQMainFooter = props => {
       type: 'Yo',
       msg: "Imagen",
       photo: entryQuery.image,
+    },
+  ] : 
+  [
+    {
+      key: 1,
+      image: entryQuery && entryQuery.user && entryQuery.user.avatar,
+      type: 'Yo',
+      msg: 'Razón:'+ ' ' +  entryQuery.reason,
+    },
+    {
+      key: 2,
+      image: entryQuery && entryQuery.user && entryQuery.user.avatar,
+      type: 'Yo',
+      msg: 'Descripción:'+ ' ' + entryQuery.description,
     },
   ];
 
@@ -66,7 +79,7 @@ const openAddFrequentQuery = () => {
 
   React.useEffect(() => {
  setChat([...chatItems]);
-  }, [entryQuery.id]);
+  }, [entryQuery]);
 
   React.useEffect(() => {
     window.addEventListener('keydown', event => {

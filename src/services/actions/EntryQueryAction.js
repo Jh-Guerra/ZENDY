@@ -65,3 +65,7 @@ export const updateFrequent = (id, data) => async dispatch => {
     const res = await service.updateFrequent(id, data);
     return res && res.data || [];
 }
+
+export const deleteImageEntryQuery = (imageLink,id) => async dispatch => {
+    const res = await service.deleteImage(imageLink,id);
+}
