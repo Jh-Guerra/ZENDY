@@ -122,6 +122,7 @@ const EntryQueryPage = (props) => {
           session={session}
           onAcceptEntryQuery={onAcceptEntryQuery}
           onRecommendUser={onRecommendUser}
+          setEntryQuery = {setEntryQuery}
         />
       </Grid>
 
