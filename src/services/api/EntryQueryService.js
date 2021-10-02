@@ -41,6 +41,10 @@ class EntryQueryService {
         return await axios.post( getCustomUrl(apiPrefix, `/${idEntryQuery}/recommend`), userIds, defaultHeaders());
     }
 
+    async deleteImage(imageLink,id) {
+        return await axios.post( getCustomUrl(apiPrefix, `/deleteImage`), {imageLink,id}, defaultHeaders() )
+    }
+
 }
 
 export default EntryQueryService;

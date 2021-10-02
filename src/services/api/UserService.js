@@ -125,6 +125,15 @@ class UserService {
             }
     )}
 
+    async deleteImageUser(imageLink,id) {
+        return await axios.post(
+            config.apiVersion + `users/deleteImage`, 
+            {imageLink,id},
+            { 
+                headers: { ...config.headers, Authorization: `token ${JSON.parse(localStorage.getItem('session')).token || ''}` }
+            }
+    )}
+
 }
 
 export default UserService;

@@ -55,3 +55,8 @@ export const recommendUser = (userIds, idEntryQuery) => async dispatch => {
     const res = await service.recommendUser(userIds, idEntryQuery);
     return res && res.data || [];
 }
+
+export const deleteImageEntryQuery = (imageLink,id) => async dispatch => {
+    const res = await service.deleteImage(imageLink,id);
+    return res && res.data || [];
+}

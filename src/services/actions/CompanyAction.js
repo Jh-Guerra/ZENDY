@@ -31,3 +31,8 @@ export const deleteCompany = (id) => async dispatch => {
     const res = await companyService.deleteCompany(id);
     return res && res.data || [];
 }
+
+export const deleteImageCompany = (imageLink,id) => async dispatch => {
+    const res = await companyService.deleteImageCompany(imageLink,id);
+    return res && res.data || [];
+}

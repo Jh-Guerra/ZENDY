@@ -1,4 +1,4 @@
-import { Grid, Typography, Button, MenuItem, Divider, TextField, InputAdornment, makeStyles, Avatar } from '@material-ui/core';
+import { Grid, Typography, Button, MenuItem, Divider, TextField, InputAdornment, makeStyles, Avatar, IconButton } from '@material-ui/core';
 import React from 'react'
 import ModalBody from './common/ModalBody'
 import ModalHeader from './common/ModalHeader'
@@ -12,12 +12,13 @@ import { Form, Formik } from 'formik';
 import AssignmentIndIcon from '@material-ui/icons/AssignmentInd';
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
 import { getSessionInfo, isClientUser, trimObject } from 'utils/common';
-import { createError, listErrors, listErrorsByUser, updateError } from 'services/actions/ErrorAction';
+import { createError, deleteImage, listErrors, listErrorsByUser, updateError } from 'services/actions/ErrorAction';
 import { showBackdrop, showSnackBar } from 'services/actions/CustomAction';
 import defaultAvatar from 'assets/images/defaultAvatarMale.jpg';
 import config from "../../config/Config";
 import EditIcon from '@material-ui/icons/Edit';
 import { listModules, findModule } from 'services/actions/ModuleAction';
+import HighlightOffTwoToneIcon from '@material-ui/icons/HighlightOff';
 
 const ModalReportedErrors = props => {
   const session = getSessionInfo();
@@ -99,6 +100,7 @@ const ModalReportedErrors = props => {
       formData.append('idModule', reportedError.idModule)
       formData.append('reason', reportedError.reason)
       formData.append('description', reportedError.description)
+      formData.append('oldImage', error.image)
       props.dispatch(updateError(reportedError.id, formData)).then(res => {
         props.dispatch(showSnackBar('success', 'Error Actualizado correctamente'));
         if (isClient) {
@@ -157,6 +159,12 @@ const ModalReportedErrors = props => {
     setEditMode(true);
     setTitle("Editar Error");
     setIcon(<EditIcon />);
+  }
+
+  const deleteImagenes = (Link,id) => {
+    props.dispatch(deleteImage(Link,id)).then(res => {
+      if(res.error)   onGetErrorData(res.error.id)
+    });
   }
 
 
@@ -221,11 +229,15 @@ const ModalReportedErrors = props => {
                       <input id="image" accept="image/*" type="file" onChange={processImage} />
                     </Button>
                     <Divider style={{ marginTop: "20px" }} />
-                    <Avatar
-                      variant="rounded"
-                      style={{ height: 140, width: 140, display: fileUrl || error && (error.id && error.image) ? "flex" : "none" }}
-                      src={fileUrl ? fileUrl : (error && error.image ? (config.api + error.image) : defaultAvatar)}
-                    />
+                    <Grid container item xs={12} justify="center" style={{display: (fileUrl || (error && (error.id && error.image))) ? "flex" : "none"}}>
+                      <Avatar
+                        variant="rounded"
+                        style={{ height: 140, width: 140, display: fileUrl || error && (error.id && error.image) ? "flex" : "none" }}
+                        src={fileUrl ? fileUrl : (error && error.image ? (config.api + error.image) : defaultAvatar)}
+                      />                      
+                      <HighlightOffTwoToneIcon fontSize="medium" style={{color: 'red'}} onClick={() => { deleteImagenes( (error.image && (error.image).substr(8)),error.id)  }} />                      
+                    </Grid>
+                   
                   </Grid>
                   <Grid item xs={12}>
                     <p style={{ color: "rgba(0, 0, 0, 0.54)", marginBottom: "5px" }}> Archivo </p>

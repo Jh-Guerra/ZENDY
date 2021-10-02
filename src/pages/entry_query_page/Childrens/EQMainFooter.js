@@ -21,7 +21,7 @@ const EQMainFooter = props => {
   const user = session && session.user && session.user.id|| "";
   const messagesEndRef = createRef(null);
 
-  const chatItems = [
+  const chatItems = entryQuery.image ? [
     {
       key: 1,
       image: entryQuery && entryQuery.user && entryQuery.user.avatar,
@@ -41,6 +41,20 @@ const EQMainFooter = props => {
       msg: "Imagen",
       photo: entryQuery.image,
     },
+  ] : 
+  [
+    {
+      key: 1,
+      image: entryQuery && entryQuery.user && entryQuery.user.avatar,
+      type: 'Yo',
+      msg: 'Razón:'+ ' ' +  entryQuery.reason,
+    },
+    {
+      key: 2,
+      image: entryQuery && entryQuery.user && entryQuery.user.avatar,
+      type: 'Yo',
+      msg: 'Descripción:'+ ' ' + entryQuery.description,
+    },
   ];
 
   const [showRecommendations, setShowRecommendations] = React.useState(false);
@@ -59,7 +73,7 @@ const EQMainFooter = props => {
 
   React.useEffect(() => {
  setChat([...chatItems]);
-  }, [entryQuery.id]);
+  }, [entryQuery]);
 
   React.useEffect(() => {
     window.addEventListener('keydown', event => {

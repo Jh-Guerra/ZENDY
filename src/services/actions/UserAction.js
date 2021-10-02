@@ -57,4 +57,8 @@ export const listAvailableUsersSameCompany = (type, term) => async dispatch => {
     const res = await userService.listAvailableUsersSameCompany(type, term);
     return res && res.data || [];
 }
+export const deleteImageUser = (imageLink,id) => async dispatch => {
+    const res = await userService.deleteImageUser(imageLink,id);
+    return res && res.data || [];
+}
 
