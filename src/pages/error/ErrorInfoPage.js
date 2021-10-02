@@ -269,7 +269,14 @@ const ErrorInfoPage = props => {
                   error.file &&
                   <Grid item xs={12} alignItems='flex-start' alignContent='flex-start' style={{ textAlign: "left", marginTop: '15px' }}>
                     <span className={classes.fontError} style={{ fontWeight: 'bold', fontStyle: 'italic', alignItems: 'flex-end' }} >Archivo Adjunto:</span>
-                    <GetAppIcon style={{ marginLeft: "30px" }} />
+                    <Button variant="contained"
+                      style={{ marginLeft: "10px" }}
+                      href={(config.api + error.file)} target="_blank"
+                      endIcon={<GetAppIcon />}
+                      color="primary"
+                    >
+                      Descargar
+                    </Button>
                   </Grid>
                 }
 
@@ -314,11 +321,15 @@ const ErrorInfoPage = props => {
                 justifyContent='center'
                 alignItems='center'
                 style={{ textAlign: "center" }}>
-                <Avatar
-                  variant="rounded"
-                  style={{ height: "60vh", width: "60vh", }}
-                  src={error.image ? (config.api + error.image) : defaultImage}
-                />
+                <a href={error.image ? (config.api + error.image) : defaultImage} target="_blank">
+                  <Avatar
+                    variant="rounded"
+                    style={{ height: "60vh", width: "60vh", }}
+                    src={error.image ? (config.api + error.image) : defaultImage}
+                    href={error.image ? (config.api + error.image) : defaultImage}
+                    target="_blank"
+                  />
+                </a>
               </Box>
             </Grid>
           </Grid>
