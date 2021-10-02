@@ -17,6 +17,7 @@ import config from 'config/Config';
 import { listFrequentQueries, findFrequentQuery } from 'services/actions/FrequentQueryAction';
 import { useHistory } from 'react-router-dom';
 import { listModules, findModule } from 'services/actions/ModuleAction';
+import { findEntryQuery, listFrequent } from 'services/actions/EntryQueryAction';
 
 const ModalEntryQueryFrequent = props => {
   const { open, handleClose, onSaveForm, entryQuery } = props;
@@ -24,13 +25,13 @@ const ModalEntryQueryFrequent = props => {
 
   function changeOptions(value) {
 
-     props.dispatch(findFrequentQuery(value)).then( res => {
+     props.dispatch(findEntryQuery(value)).then( res => {
        const dataForm = {
          ...data,
-         reason: res && res.reason,
-         description: res && res.description,
-         idModule: res && res.idModule,
-         idFrequentQuery: res && res.id
+         reason: res && res.entryQuery.reason,
+         description: res && res.entryQuery.description,
+         idModule: res && res.entryQuery.idModule,
+         idFrequentQuery: res && res.entryQuery.id
        }
        setData(dataForm) 
      })
@@ -43,7 +44,7 @@ const ModalEntryQueryFrequent = props => {
     image1: '',
     file1: '',
     idModule:'',
-    idFrequentQuery: 1,
+    idFrequentQuery: 18,
     isFrequentQuery: true,
   });
 
@@ -63,15 +64,15 @@ const ModalEntryQueryFrequent = props => {
             //setIcon(<AssignmentIndIcon />);
             setEditMode(false);
         }else{
-
-            props.dispatch(findFrequentQuery(1)).then( res => {
+          // valor por defecto
+            props.dispatch(findEntryQuery(18)).then( res => {
 
               const dataForm = {
                 ...data,
-                reason: res && res.reason,
-                description: res && res.description,
-                idModule: res && res.idModule,
-                idFrequentQuery: res && res.id
+                reason: res && res.entryQuery.reason,
+                description: res && res.entryQuery.description,
+                idModule: res && res.entryQuery.idModule,
+                idFrequentQuery: res && res.entryQuery.id
               }
               setData(dataForm) 
             })
@@ -79,7 +80,7 @@ const ModalEntryQueryFrequent = props => {
             setEditMode(true);
         }
         props.dispatch(showBackdrop(true));
-        props.dispatch(listFrequentQueries()).then(response =>{
+        props.dispatch(listFrequent()).then(response =>{
             setFrequentQueries(response)
             props.dispatch(showBackdrop(false))
         }).catch(err => props.dispatch(showBackdrop(false)));
@@ -117,7 +118,7 @@ const ModalEntryQueryFrequent = props => {
               formData.append('description', entryQuery.description)
               formData.append('idModule', entryQuery.idModule)
               formData.append('idFrequentQuery', entryQuery.idFrequentQuery)
-              formData.append('isFrequentQuery', true)
+              formData.append('isFrequent', true)
   
               props.dispatch(createEntryQuery(formData)).then(res => {
                 props.dispatch(showSnackBar('success', 'Consulta registrada'));

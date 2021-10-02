@@ -55,3 +55,13 @@ export const recommendUser = (userIds, idEntryQuery) => async dispatch => {
     const res = await service.recommendUser(userIds, idEntryQuery);
     return res && res.data || [];
 }
+
+export const listFrequent = () => async dispatch => {
+    const res = await service.listFrequent();
+    return res && res.data || [];
+}
+
+export const updateFrequent = (id, data) => async dispatch => {
+    const res = await service.updateFrequent(id, data);
+    return res && res.data || [];
+}

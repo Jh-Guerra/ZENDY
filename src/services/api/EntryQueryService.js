@@ -41,6 +41,14 @@ class EntryQueryService {
         return await axios.post( getCustomUrl(apiPrefix, `/${idEntryQuery}/recommend`), userIds, defaultHeaders());
     }
 
+    async listFrequent() {
+        return await axios.get( getCustomUrl(apiPrefix, `/listFrequent`), defaultHeaders());
+    }
+
+    async updateFrequent(id, data) {
+        return await axios.post( getCustomUrl(apiPrefix, `/updateFrequent/${id}`),  {name: data}, defaultHeaders());
+    }
+
 }
 
 export default EntryQueryService;
