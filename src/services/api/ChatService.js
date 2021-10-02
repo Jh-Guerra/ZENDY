@@ -1,145 +1,57 @@
 import axios from '../../utils/axios';
 import config from "../../config/Config";
+import { defaultHeaders, getCustomUrl } from 'utils/common';
+
+const apiPrefix = config.apiVersion + "chats";
+const apiPrefix2 = config.apiVersion + "chats-internal";
+const apiPrefix3 = config.apiVersion + "chats-company";
+const apiPrefix4 = config.apiVersion + "chats-client";
 
 class ChatService {
-    
-    async createChat(data) {
-        return await axios.post(
-            config.apiVersion + `chats/register`, 
-            data,
-            { headers: {
-                ...config.headers, 
-                Authorization: `token ${JSON.parse(localStorage.getItem('session')).token || ''}` 
-            } }
-    )}
 
     async listActiveChats(term, status) {
-        return await axios.get(
-            config.apiVersion + `chats/active-list?term=${term}`,
-            { 
-                headers: {
-                    ...config.headers, 
-                    Authorization: `token ${JSON.parse(localStorage.getItem('session')).token || ''}` 
-                },
-                params: { status }
-            }
-    )}
-
-
-//  CHAT - CLIENT ...................................................................................
+        return await axios.get( getCustomUrl(apiPrefix, `/active-list?term=${term}&status=${status}`), defaultHeaders());
+    }
 
     async createClientChat(data) {
-        return await axios.post(
-            config.apiVersion + `chats-client/register`, 
-            data,
-            { headers: {
-                ...config.headers, 
-                Authorization: `token ${JSON.parse(localStorage.getItem('session')).token || ''}` 
-            } }
-    )}
+        return await axios.post( getCustomUrl(apiPrefix4, `/register`), data, defaultHeaders());
+    }
 
     async listClientChats(term) {
-        return await axios.get(
-            config.apiVersion + `chats-client/list?term=${term}`,
-            { 
-                headers: {
-                    ...config.headers, 
-                    Authorization: `token ${JSON.parse(localStorage.getItem('session')).token || ''}` 
-                }
-            }
-    )}
+        return await axios.get( getCustomUrl(apiPrefix4, `/list?term=${term}`), defaultHeaders());
+    }
 
-//  CHAT - COMPANY ...................................................................................
-    async createCompanyChat(userIds, companyId, allChecked) {
-        return await axios.post(
-            config.apiVersion + `chats-company/register`,
-            {userIds, companyId, allChecked},
-            { headers: {
-                ...config.headers, 
-                Authorization: `token ${JSON.parse(localStorage.getItem('session')).token || ''}` 
-            } }
-    )}
+    async createCompanyChat(users, company, allChecked) {
+        return await axios.post( getCustomUrl(apiPrefix3, `/register`), { users, company, allChecked }, defaultHeaders());
+    }
 
-    // async listClientChats(term) {
-    //     return await axios.get(
-    //         config.apiVersion + `chats-client/list?term=${term}`,
-    //         { 
-    //             headers: {
-    //                 ...config.headers, 
-    //                 Authorization: `token ${JSON.parse(localStorage.getItem('session')).token || ''}` 
-    //             }
-    //         }
-    // )}
-
-//  CHAT - INTERNAL ...................................................................................
     async createInternalChat(data) {
-        return await axios.post(
-            config.apiVersion + `chats-internal/register`, 
-            data,
-            { headers: {
-                ...config.headers, 
-                Authorization: `token ${JSON.parse(localStorage.getItem('session')).token || ''}` 
-            } }
-    )}
-
+        return await axios.post( getCustomUrl(apiPrefix2, `/register`), data, defaultHeaders());
+    }
+        
     async listInternalChats(term) {
-        return await axios.get(
-            config.apiVersion + `chats-internal/list?term=${term}`,
-            { 
-                headers: {
-                    ...config.headers, 
-                    Authorization: `token ${JSON.parse(localStorage.getItem('session')).token || ''}` 
-                }
-            }
-    )}
-
-    async updateChat(id, data) {
-        return await axios.post(
-            config.apiVersion + `chats/update/` + id, 
-            data,
-            { headers: {
-                ...config.headers, 
-                Authorization: `token ${JSON.parse(localStorage.getItem('session')).token || ''}` 
-            } }
-    )}
+        return await axios.get( getCustomUrl(apiPrefix2, `/list?term=${term}`), defaultHeaders());
+    }
 
     async findChat(id) {
-        return await axios.get(
-            config.apiVersion + `chats/find/` + id,
-            { headers: {
-                ...config.headers, 
-                Authorization: `token ${JSON.parse(localStorage.getItem('session')).token || ''}` 
-            } }
-    )}
+        return await axios.get( getCustomUrl(apiPrefix, `/find/${id}`), defaultHeaders());
+    }
 
     async deleteChat(id) {
-        return await axios.delete(
-            config.apiVersion + `chats/delete/` + id,
-            { headers: {
-                ...config.headers, 
-                Authorization: `token ${JSON.parse(localStorage.getItem('session')).token || ''}` 
-            } }
-    )}
-     
+        return await axios.delete( getCustomUrl(apiPrefix, `/delete/${id}`), defaultHeaders());
+    }
+
     async finalizeChat(idChat, data) {
-        return await axios.post(
-            config.apiVersion + `chats/finalize/` + idChat,
-            data,
-            { headers: {    
-                ...config.headers, 
-                Authorization: `token ${JSON.parse(localStorage.getItem('session')).token || ''}` 
-            } }
-    )}
+        return await axios.post( getCustomUrl(apiPrefix, `/finalize/${idChat}`), data, defaultHeaders());
+    }
 
     async nameChat(idChat, data) {
-        return await axios.post(
-            config.apiVersion + `chats/name/` + idChat,
-            {name: data},
-            { headers: {    
-                ...config.headers, 
-                Authorization: `token ${JSON.parse(localStorage.getItem('session')).token || ''}` 
-            } }
-    )}
+        return await axios.post( getCustomUrl(apiPrefix, `/name/${idChat}`), {name: data}, defaultHeaders());
+    }
+
+    async listAvailableUsersByCompany(roles, term) {
+        return await axios.post( getCustomUrl(apiPrefix, `/available-by-company?term=${term || ""}`), { roles: roles}, defaultHeaders());
+    }
 }
 
 export default ChatService;

@@ -27,6 +27,11 @@ export const listAvailableUsers = (type, term) => async dispatch => {
     return res && res.data || [];
 }
 
+export const listAdmins = (term) => async dispatch => {
+    const res = await userService.listAdmins(term);
+    return res && res.data || [];
+}
+
 export const listUsersByCompany = (company, term) => async dispatch => {
     const res = await userService.listUsersByCompany(company, term);
     return res && res.data || [];

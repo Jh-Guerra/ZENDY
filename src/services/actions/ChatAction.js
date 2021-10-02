@@ -1,17 +1,11 @@
-import ChatService from "services/api/ChatService";
 import { showBackdrop } from "./CustomAction";
 import { CURRENT_CHAT } from "services/redux/common/Types"
+import ChatService from "services/api/ChatService";
 
-
-const chatService = new ChatService()
-
-export const createChat = (data) => async dispatch => {
-    const res = await chatService.createChat(data);
-    return res && res.data || [];
-}
+const service = new ChatService();
 
 export const listActiveChats = (term, status) => async dispatch => {
-    const res = await chatService.listActiveChats(term, status);
+    const res = await service.listActiveChats(term, status);
     dispatch({
         type: CURRENT_CHAT,
         payload: res.data
@@ -19,61 +13,52 @@ export const listActiveChats = (term, status) => async dispatch => {
     return res && res.data || [];
 }
 
-// CHAT - CLIENT ..................................................
 export const createClientChat = (users) => async dispatch => {
-    const res = await chatService.createClientChat(users);
+    const res = await service.createClientChat(users);
     return res && res.data || [];
 }
 
 export const listClientChats = (term) => async dispatch => {
-    const res = await chatService.listClientChats(term);
+    const res = await service.listClientChats(term);
     return res && res.data || [];
 }
 
-// CHAT - COMPANY ..................................................
-export const createCompanyChat = (userIds, companyId, allChecked) => async dispatch => {
-    const res = await chatService.createCompanyChat(userIds, companyId, allChecked);
+export const createCompanyChat = (users, company, allChecked) => async dispatch => {
+    const res = await service.createCompanyChat(users, company, allChecked);
     return res && res.data || [];
 }
 
-// export const listClientChats = (term) => async dispatch => {
-//     const res = await chatService.listClientChats(term);
-//     return res && res.data || [];
-// }
-
-// CHAT - INTERNAL ..................................................
 export const createInternalChat = (users) => async dispatch => {
-    const res = await chatService.createInternalChat(users);
+    const res = await service.createInternalChat(users);
     return res && res.data || [];
 }
 
 export const listInternalChats = (term) => async dispatch => {
-    const res = await chatService.listInternalChats(term);
-    return res && res.data || [];
-}
-
-
-export const updateChat = (id, data) => async dispatch => {
-    const res = await chatService.updateChat(id, data);
+    const res = await service.listInternalChats(term);
     return res && res.data || [];
 }
 
 export const findChat = (id) => async dispatch => {
-    const res = await chatService.findChat(id);
+    const res = await service.findChat(id);
     return res && res.data || [];
 }
 
 export const deleteChat = (id) => async dispatch => {
-    const res = await chatService.deleteChat(id);
+    const res = await service.deleteChat(id);
     return res && res.data || [];
 }
 
 export const finalizeChat = (idChat, data) => async dispatch => {
-    const res = await chatService.finalizeChat(idChat, data);
+    const res = await service.finalizeChat(idChat, data);
     return res && res.data || [];
 }
 
 export const nameChatAction = (idChat, data) => async dispatch => {
-    const res = await chatService.nameChat(idChat, data);
+    const res = await service.nameChat(idChat, data);
+    return res && res.data || [];
+}
+
+export const listAvailableUsersByCompany = (roles, term) => async dispatch => {
+    const res = await service.listAvailableUsersByCompany(roles, term);
     return res && res.data || [];
 }

@@ -17,7 +17,7 @@ import InputBase from '@material-ui/core/InputBase';
 import IconButton from '@material-ui/core/IconButton';
 import ModalFooter from './common/ModalFooter';
 import ChatIcon from '@material-ui/icons/Chat';
-import { listAvailableUsers } from 'services/actions/UserAction';
+import { listAdmins } from 'services/actions/UserAction';
 import { showBackdrop, showSnackBar } from 'services/actions/CustomAction';
 import { createInternalChat } from 'services/actions/ChatAction';
 import { pColor } from 'assets/styles/zendy-css';
@@ -25,22 +25,13 @@ import config from 'config/Config';
 import ZendyIcon from 'assets/images/ZendyIcon.jpg';
 
 const useStyles = makeStyles(theme => ({
-  letters:{
-      fontSize:'20px',
-      fontStyle:'oblique',
-      fontWeight:'bold'
-  },
   input: {
       marginLeft: theme.spacing(1),
       flex: 1,
   },
   iconButton: {
       padding: 10,
-  },
-  divider: {
-      height: 28,
-      margin: 4,
-  },
+  }
 }));
 
 const ModalNewInternalChat = (props) => {
@@ -49,20 +40,25 @@ const ModalNewInternalChat = (props) => {
   const classes = useStyles(props);
 
   const [users, setUsers] = React.useState([]);
+  const [selectedUsers, setSelectedUsers] = React.useState([]);
   const [searchTimeout, setSearchTimeout] = React.useState(null);
   const [term, setTerm] = React.useState("");
 
   React.useEffect(() => {
     if(open){
       onListAvailableUsers();
-      setTerm("");
+    }else{
+      setTerm('');
+      setUsers([]);
+      setSelectedUsers([]);
     }
   }, [open]);
 
   const onListAvailableUsers = (term) => {
     props.dispatch(showBackdrop(true));
-    props.dispatch(listAvailableUsers(["Admin", "UserHD"], term)).then(res => {
-      setUsers(res || []);
+    props.dispatch(listAdmins(term)).then(res => {
+      const noSelectedUsers = res && res.filter(user => !selectedUsers.find(u => u.id == user.id));
+      setUsers([...selectedUsers, ...noSelectedUsers]);
       props.dispatch(showBackdrop(false));
     }).catch(err => props.dispatch(showBackdrop(false)));;
   }
@@ -78,26 +74,22 @@ const ModalNewInternalChat = (props) => {
   }
   
   const onSelectUser = (user) => {
-    const updatedUsers = [...users] || [];
-    updatedUsers.map(u => {
-      if(u.id == user.id){
-        u.checked = u.checked ? false : true;
-      }
-    });
-
-    setUsers(updatedUsers);
+    let newSelectedUsers = [...selectedUsers];
+    if(selectedUsers.find(u => u.id == user.id)){
+      newSelectedUsers = newSelectedUsers.filter(u => u.id != user.id);
+    }else{
+      newSelectedUsers.push(user);
+    }
+    setSelectedUsers(newSelectedUsers);
   }
 
   const onConfirm = () => {
-    const selectedRows = users.filter(user => user.checked);
-
-    if(selectedRows.length == 0){
-      props.dispatch(showSnackBar("warning", "Necesita seleccionar al menos un cliente"));
-      return;
+    if (selectedUsers.length == 0) {
+      return props.dispatch(showSnackBar('warning', 'Necesita seleccionar un usuario'));
     }
 
     props.dispatch(showBackdrop(true));
-    props.dispatch(createInternalChat(selectedRows)).then(res => {
+    props.dispatch(createInternalChat(selectedUsers)).then(res => {
       props.goToView && props.goToView(res.chat, handleClose);
       props.dispatch(showBackdrop(false));
       onSaveForm && onSaveForm();
@@ -105,34 +97,25 @@ const ModalNewInternalChat = (props) => {
       props.dispatch(showBackdrop(false));
       props.dispatch(showSnackBar("error", err.response.data ? err.response.data.error : "ERROR")); 
     });
-
   }
     
-
   return (
     <Modal open={open} handleClose={handleClose} size="sm" style={{minHeight: '100%', minWidth: '100%'}}>     
       <ModalHeader icon={<ChatIcon />} text="Chat interno" />     
       <ModalBody>     
         <Grid container spacing={3}>
           <Grid item xs={12}>
-            <Paper component="form" >
-              <Grid container direction="row" >
-              <IconButton style={{ marginLeft: '5px', padding:10 }} type="button" aria-label="search">
-                <SearchIcon />
-              </IconButton>
-              <InputBase
-                className={classes.input}
-                fullWidth={true}
-                style={{flex: 1, width: '80%'}}
-                placeholder="Buscar"
-                onChange={(event) => onSearch(event.target.value)}
-                inputProps={{ 'aria-label': 'Buscar' }}
-                  startAdornment= {
-                    <InputAdornment position="start" tyle={{marginLeft:'5px'}} type="button" className={classes.iconButton} aria-label="search">
-                      <SearchIcon />
-                    </InputAdornment>}
-                value={term}
-              />
+            <Paper component="form">
+              <Grid container direction="row">
+                <IconButton style={{ marginLeft: '5px', padding: 10 }} type="button" aria-label="search">
+                  <SearchIcon />
+                </IconButton>
+                <InputBase
+                  style={{ flex: 1, width: '80%' }}
+                  placeholder="Buscar"
+                  onChange={event => onSearch(event.target.value)}
+                  value={term}
+                />
               </Grid>
             </Paper>
           </Grid>
@@ -140,7 +123,6 @@ const ModalNewInternalChat = (props) => {
             <List style={{padding: "0px", maxHeight: "550px", overflow: "auto"}}>
               {
                 users.map((user, i) => {
-                  if(!user.checked) user.checked = false;
                   return (
                     <ListItem key={i} button divider onClick={() => { onSelectUser(user) }}>
                       <ListItemAvatar>
@@ -156,7 +138,7 @@ const ModalNewInternalChat = (props) => {
                       />
                       <ListItemSecondaryAction>
                         <Checkbox
-                          checked={user.checked || false}
+                          checked={selectedUsers.find(u => u.id == user.id) != null}
                           onChange={() => {onSelectUser(user)}}
                           icon={<RadioButtonUncheckedIcon />}
                           checkedIcon={<RadioButtonCheckedIcon style={{ color: pColor }} />}

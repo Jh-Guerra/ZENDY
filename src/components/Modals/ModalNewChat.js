@@ -50,11 +50,7 @@ const ModalNewChat = (props) => {
      
     return (
         <>
-            <Modal 
-                open={open} 
-                handleClose={handleClose} 
-                size="xs" 
-            >
+            <Modal open={open} handleClose={handleClose} size="xs" width="400px">
                 <ModalHeader 
                     icon={<AddCommentIcon />}
                     text="Buscar Chat"
@@ -62,30 +58,35 @@ const ModalNewChat = (props) => {
 
                 <ModalBody>
                     <Grid container spacing={1}>
-                        <Grid item xs={12}>
-                            <CustomButton 
-                                variant="contained"
-                                fullWidth
-                                className={classes.button}
-                                startIcon={<SupervisedUserCircleIcon />}
-                                color={successButtonColor}
-                                onClick={handleNewCustomerChatOpen}
-                            >
-                                En la Empresa
-                            </CustomButton>
-                        </Grid>
-                        <Grid item xs={12}>
-                            <CustomButton 
-                                variant="contained"
-                                fullWidth
-                                className={classes.button}
-                                startIcon={<BusinessIcon />}
-                                color={successButtonColor}
-                                onClick={handleNewCompanyChat}
-                            >
-                                Con Usuarios De Alguna Empresa
-                            </CustomButton>
-                        </Grid>
+                        {
+                            session && session.user && session.user.idCompany ? (
+                                <Grid item xs={12}>
+                                    <CustomButton 
+                                        variant="contained"
+                                        fullWidth
+                                        className={classes.button}
+                                        startIcon={<SupervisedUserCircleIcon />}
+                                        color={successButtonColor}
+                                        onClick={handleNewCustomerChatOpen}
+                                    >
+                                        En la Empresa
+                                    </CustomButton>
+                                </Grid>
+                            ) : (
+                                <Grid item xs={12}>
+                                    <CustomButton 
+                                        variant="contained"
+                                        fullWidth
+                                        className={classes.button}
+                                        startIcon={<BusinessIcon />}
+                                        color={successButtonColor}
+                                        onClick={handleNewCompanyChat}
+                                    >
+                                        En alguna Empresa
+                                    </CustomButton>
+                                </Grid>
+                            )
+                        }
                         {
                             checkPermission(session, "showInternalChat") && (
                                 <Grid item xs={12}>
@@ -117,23 +118,23 @@ const ModalNewChat = (props) => {
                 }}
             />
             <CustomModal 
-                customModal="ModalNewInternalChat"
-                open={showNewInternalChat}
-                handleClose={() => { setShowNewInternalChat(false); }}
-                goToView={goToView}
-                onSaveForm={() => {
-                    setShowNewInternalChat(false);
-                    handleClose();
-                    onSaveForm && onSaveForm();
-                }}
-            />
-            <CustomModal 
                 customModal="ModalNewCompanyChat"
                 open={showNewCompanyChat} 
                 handleClose={() => { setShowNewCompanyChat(false); }}
                 goToView={goToView}
                 onSaveForm={() => {
                     setShowNewCompanyChat(false);
+                    handleClose();
+                    onSaveForm && onSaveForm();
+                }}
+            />
+            <CustomModal 
+                customModal="ModalNewInternalChat"
+                open={showNewInternalChat}
+                handleClose={() => { setShowNewInternalChat(false); }}
+                goToView={goToView}
+                onSaveForm={() => {
+                    setShowNewInternalChat(false);
                     handleClose();
                     onSaveForm && onSaveForm();
                 }}

@@ -54,9 +54,21 @@ class UserService {
             }
     )}
 
-    async listUsersByCompany(company="", term="") {
+    async listAdmins(term) {
         return await axios.get(
-            config.apiVersion + `users/list-by-company?company=${company}&term=${term}`,
+            config.apiVersion + `users/list-admins`,
+            { 
+                headers: {
+                    ...config.headers, 
+                    Authorization: `token ${JSON.parse(localStorage.getItem('session')).token || ''}` 
+                },
+                params: { term }
+            }
+    )}
+
+    async listUsersByCompany(companyId="", term="") {
+        return await axios.get(
+            config.apiVersion + `users/list-by-company/${companyId}?term=${term}`,
             { headers: {
                 ...config.headers, 
                 Authorization: `token ${JSON.parse(localStorage.getItem('session')).token || ''}` 

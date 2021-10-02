@@ -188,7 +188,7 @@ const ModalCompany = (props) => {
                                         <CustomInput
                                             id="name"
                                             label={<p>Nombre *</p>}
-                                            inputType="inputText"
+                                            type="inputText"
                                             onChange={handleChange}
                                             value={values.name}
                                             error={ errors.name && touched.name ? true : false }
@@ -199,7 +199,7 @@ const ModalCompany = (props) => {
                                     <Grid item xs={12}>
                                         <CustomInput
                                             id="address"
-                                            inputType="inputText"
+                                            type="inputText"
                                             label={<p>Dirección *</p>}
                                             onChange={handleChange}
                                             value={values.address}
@@ -211,7 +211,7 @@ const ModalCompany = (props) => {
                                     <Grid item xs={12}>
                                         <CustomInput
                                             id="email"
-                                            inputType="inputText"
+                                            type="inputText"
                                             label={<p>Correo Electrónico *</p>}
                                             onChange={handleChange}
                                             value={values.email}
@@ -223,7 +223,7 @@ const ModalCompany = (props) => {
                                     <Grid item xs={12} md={6}>
                                         <CustomInput
                                             id="phone"
-                                            inputType="inputText"
+                                            type="inputText"
                                             label={<p>N° Celular *</p>}
                                             onChange={(event) => { 
                                                 setFieldValue("phone", onlyNumbers(Math.max(0, parseInt(event.target.value)).toString().slice(0,15)))
@@ -237,7 +237,7 @@ const ModalCompany = (props) => {
                                     <Grid item xs={12} md={6}>
                                         <CustomInput
                                             id="maxBytes"
-                                            inputType="inputText"
+                                            type="inputText"
                                             label={<p>Mbsmáximos *</p>}
                                             onChange={(event) => { 
                                                 setFieldValue("maxBytes", onlyNumbers(event.target.value))
@@ -252,7 +252,7 @@ const ModalCompany = (props) => {
                                         <CustomInput
                                             id="ruc"
                                             label={<p>RUC</p>}
-                                            inputType="inputText"
+                                            type="inputText"
                                             onChange={handleChange}
                                             value={values.ruc}
                                             error={ errors.ruc && touched.ruc ? true : false }
@@ -264,7 +264,7 @@ const ModalCompany = (props) => {
                                         <CustomInput
                                             id="adminName"
                                             label={<p>Administrador *</p>}
-                                            inputType="inputText"
+                                            type="inputText"
                                             onChange={handleChange}
                                             value={values.adminName}
                                             error={ errors.adminName && touched.adminName ? true : false }
@@ -276,7 +276,7 @@ const ModalCompany = (props) => {
                                         <CustomInput
                                             id="description"
                                             label={<p>Descripción</p>}
-                                            inputType="textArea"
+                                            type="textArea"
                                             onChange={handleChange}
                                             value={values.description}
                                             error={ errors.description && touched.description ? true : false }

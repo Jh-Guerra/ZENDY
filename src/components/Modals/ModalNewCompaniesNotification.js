@@ -207,7 +207,7 @@ const ModalNewCompaniesNotification = (props) => {
                                 <Grid item xs={12}>
                                     <CustomInput
                                         id="reason"
-                                        inputType="inputText"
+                                        type="inputText"
                                         label="Asunto"
                                         onChange={handleChange}
                                         value={values.reason}
@@ -220,7 +220,7 @@ const ModalNewCompaniesNotification = (props) => {
                                 <Grid item xs={12}>
                                     <CustomInput
                                         id="description"
-                                        inputType="textArea"
+                                        type="textArea"
                                         onChange={handleChange}
                                         value={values.description}
                                         error={ errors.description && touched.description ? true : false }

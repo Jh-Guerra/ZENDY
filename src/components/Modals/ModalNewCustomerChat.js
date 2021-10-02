@@ -18,9 +18,8 @@ import IconButton from '@material-ui/core/IconButton';
 import ModalFooter from './common/ModalFooter';
 import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
 import { pColor } from 'assets/styles/zendy-css';
-import { listAvailableUsers } from 'services/actions/UserAction';
 import { showBackdrop, showSnackBar } from 'services/actions/CustomAction';
-import { createClientChat } from 'services/actions/ChatAction';
+import { createClientChat, listAvailableUsersByCompany } from 'services/actions/ChatAction';
 import config from 'config/Config';
 import ZendyIcon from 'assets/images/ZendyIcon.jpg';
 
@@ -28,20 +27,25 @@ const ModalNewCustomerChat = props => {
   const { open, handleClose, onSaveForm } = props;
 
   const [users, setUsers] = React.useState([]);
+  const [selectedUsers, setSelectedUsers] = React.useState([]);
   const [searchTimeout, setSearchTimeout] = React.useState(null);
   const [term, setTerm] = React.useState('');
 
   React.useEffect(() => {
     if (open) {
-      onListAvailableUsers();
+      onListAvailableUsers("");
+    }else{
       setTerm('');
+      setUsers([]);
+      setSelectedUsers([]);
     }
   }, [open]);
 
   const onListAvailableUsers = term => {
     props.dispatch(showBackdrop(true));
-    props.dispatch(listAvailableUsers(['UserEmpresa'], term)).then(res => {
-      setUsers(res || []);
+    props.dispatch(listAvailableUsersByCompany(['UserEmpresa', 'AdminEmpresa', 'UserHD'], term)).then(res => {
+      const noSelectedUsers = res && res.filter(user => !selectedUsers.find(u => u.id == user.id));
+      setUsers([...selectedUsers, ...noSelectedUsers]);
       props.dispatch(showBackdrop(false));
     }).catch(err => props.dispatch(showBackdrop(false)));;
   };
@@ -57,28 +61,22 @@ const ModalNewCustomerChat = props => {
   };
 
   const onSelectUser = user => {
-    const updatedUsers = [...users] || [];
-    updatedUsers.map(u => {
-      if (u.id == user.id) {
-        u.checked = u.checked ? false : true;
-      } else {
-        u.checked = false;
-      }
-    });
-
-    setUsers(updatedUsers);
+    let newSelectedUsers = [...selectedUsers];
+    if(selectedUsers.find(u => u.id == user.id)){
+      newSelectedUsers = newSelectedUsers.filter(u => u.id != user.id);
+    }else{
+      newSelectedUsers.push(user);
+    }
+    setSelectedUsers(newSelectedUsers);
   };
 
   const onConfirm = () => {
-    const selectedRows = users.filter(user => user.checked);
-
-    if (selectedRows.length == 0) {
-      props.dispatch(showSnackBar('warning', 'Necesita seleccionar al menos un cliente'));
-      return;
+    if (selectedUsers.length == 0) {
+      return props.dispatch(showSnackBar('warning', 'Necesita seleccionar un usuario'));
     }
 
     props.dispatch(showBackdrop(true));
-    props.dispatch(createClientChat(selectedRows)).then(res => {
+    props.dispatch(createClientChat(selectedUsers)).then(res => {
       props.goToView && props.goToView(res.chat, handleClose);
       props.dispatch(showBackdrop(false));
       onSaveForm && onSaveForm();
@@ -89,7 +87,7 @@ const ModalNewCustomerChat = props => {
   };
 
   return (
-    <Modal open={open} handleClose={handleClose} size="sm" width="750px" height="500px">
+    <Modal open={open} handleClose={handleClose} size="sm" width="750px" height="460px">
       <ModalHeader icon={<PeopleAltIcon />} text="En la Empresa" />
       <ModalBody>
         <Grid container spacing={3}>
@@ -111,7 +109,6 @@ const ModalNewCustomerChat = props => {
           <Grid item xs={12}>
             <List style={{ padding: '0px', maxHeight: '550px', overflow: 'auto' }}>
               {users.map((user, i) => {
-                if (!user.checked) user.checked = false;
                 return (
                   <ListItem
                     key={i}
@@ -130,7 +127,7 @@ const ModalNewCustomerChat = props => {
                     />
                     <ListItemSecondaryAction>
                       <Checkbox
-                        checked={user.checked || false}
+                        checked={selectedUsers.find(u => u.id == user.id) != null}
                         onChange={() => {
                           onSelectUser(user);
                         }}

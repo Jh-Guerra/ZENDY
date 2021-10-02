@@ -18,7 +18,7 @@ import IconButton from '@material-ui/core/IconButton';
 import BusinessIcon from '@material-ui/icons/Business';
 import ModalFooter from './common/ModalFooter';
 import { listCompanies } from 'services/actions/CompanyAction';
-import { listUsers, listUsersByCompany } from 'services/actions/UserAction';
+import { listUsersByCompany } from 'services/actions/UserAction';
 import { pColor } from 'assets/styles/zendy-css';
 import config from 'config/Config';
 import CheckBoxIcon from '@material-ui/icons/CheckBox';
@@ -61,19 +61,20 @@ const ModalNewCompanyChat = (props) => {
   const { open, handleClose, onSaveForm } = props;
   const [companies, setCompanies] = React.useState([])
   const [users, setUsers] = React.useState([]);
+  const [selectedUsers, setSelectedUsers] = React.useState([]);
   const [searchTimeout, setSearchTimeout] = React.useState(null);
 
   const [companyId, setCompanyId] = React.useState('');
   const [term, setTerm] = React.useState('');
-  const [allChecked, setAllChecked] = React.useState(false);
 
   React.useEffect(() => {
     if(open){
       onListCompanies();      
+    }else{
+      setTerm("");
+      setUsers([]);
+      setSelectedUsers([]);
     }
-    setAllChecked(false);
-    setUsers([]);
-    setTerm("");    
   }, [open]);
 
   const onListCompanies = () => {
@@ -91,21 +92,12 @@ const ModalNewCompanyChat = (props) => {
 
   const onListUsersByCompany = (paramCompanyId, term) => {
     props.dispatch(showBackdrop(true));
-    const selectedUsers = users.filter(user => user.checked) || [];
-    const selectedUserIds = selectedUsers.map(user => user.id) || [];
     props.dispatch(listUsersByCompany(paramCompanyId, term)).then(res => {
-      if(companyId != paramCompanyId){
-        setUsers(res);
-        setAllChecked(false);
+      if(companyId && paramCompanyId != companyId){
+        setUsers([...res]);
       }else{
-        res && res.map(user => {
-          if (!selectedUserIds.includes(user.id)) {
-            selectedUsers.push(user)
-          }}
-        )
-        const validateSelectAll = selectedUsers.filter(user => !user.checked) || [];
-        setAllChecked(validateSelectAll.length==0);
-        setUsers(selectedUsers);
+        const noSelectedUsers = res && res.filter(user => !selectedUsers.find(u => u.id == user.id));
+        setUsers([...selectedUsers, ...noSelectedUsers]);
       }
       props.dispatch(showBackdrop(false));
     }).catch(err => props.dispatch(showBackdrop(false)));;
@@ -115,6 +107,7 @@ const ModalNewCompanyChat = (props) => {
     setCompanyId(companyId);
     setTerm("");
     onListUsersByCompany(companyId, "");
+    setSelectedUsers([]);
   }
 
   const onSearch = (term) => {
@@ -128,40 +121,29 @@ const ModalNewCompanyChat = (props) => {
   }
 
   const onSelectUser = (user) => {
-    const updatedUsers = [...users] || [];
-    updatedUsers.map(u => {
-      if(u.id == user.id){
-        u.checked = u.checked ? false : true;
-      }
-    });
-
-    const unchecked = updatedUsers.find(user => !user.checked);
-
-    setAllChecked(unchecked ? false : true);
-    setUsers(updatedUsers);
+    let newSelectedUsers = [...selectedUsers];
+    if(selectedUsers.find(u => u.id == user.id)){
+      newSelectedUsers = newSelectedUsers.filter(u => u.id != user.id);
+    }else{
+      newSelectedUsers.push(user);
+    }
+    setSelectedUsers(newSelectedUsers);
   }
 
   const selectAllUser = checked => {
-    const allUsers = users.map(user => {
-      return {...user, checked: checked}
-    });
-
-    setAllChecked(checked);
-    setUsers(allUsers);
+    setSelectedUsers(checked ? [...users] : []);
   };
 
   const onConfirm = () => {
-    const selectedRows = users.filter(user => user.checked);
-
-    if(selectedRows.length == 0){
-      props.dispatch(showSnackBar("warning", "Necesita seleccionar al menos un cliente"));
-      return;
+    if (selectedUsers.length == 0) {
+      return props.dispatch(showSnackBar('warning', 'Necesita seleccionar un usuario'));
     }
 
-    const userIds = selectedRows.map(row => row.id);
+    const company = companies.find(c => c.id == companyId);
+    const allUsers = selectedUsers.length == users.length;
 
     props.dispatch(showBackdrop(true));
-    props.dispatch(createCompanyChat(userIds, companyId, allChecked)).then(res => {   
+    props.dispatch(createCompanyChat(selectedUsers, company, allUsers)).then(res => {   
       props.goToView && props.goToView(res.chat, handleClose);
       props.dispatch(showBackdrop(false));
       onSaveForm && onSaveForm();
@@ -174,7 +156,7 @@ const ModalNewCompanyChat = (props) => {
 
   return (
     <Modal open={open} handleClose={handleClose} size="sm">
-      <ModalHeader icon={<BusinessIcon />} text="Chat con usuarios de alguna empresa" />
+      <ModalHeader icon={<BusinessIcon />} text="En alguna Empresa" />
 
       <ModalBody>
         <Grid item xs={12}>
@@ -215,7 +197,7 @@ const ModalNewCompanyChat = (props) => {
             <Grid>
               <Typography>Todos los usuarios</Typography>
               <Checkbox
-                checked={allChecked}
+                checked={users.length > 0 && selectedUsers.length == users.length}
                 onChange={(event) => { selectAllUser(event.target.checked) }}
                 checkedIcon={<CheckBoxIcon style={{ color: pColor }} />}
               />
@@ -228,8 +210,6 @@ const ModalNewCompanyChat = (props) => {
             <List dense style={{ maxHeight: 250, overflow: 'auto' }}>
               {
                 users.map((user, i) => {
-                  if(!user.checked) user.checked = false;
-
                   return (
                     <ListItem key={i} button divider onClick={() => { onSelectUser(user) }}>
                       <ListItemAvatar>
@@ -240,7 +220,7 @@ const ModalNewCompanyChat = (props) => {
                       />
                       <ListItemSecondaryAction>
                         <Checkbox
-                          checked={user.checked || false}
+                          checked={selectedUsers.find(u => u.id == user.id) != null}
                           onChange={() => {onSelectUser(user)}}
                           icon={<RadioButtonUncheckedIcon />}
                           checkedIcon={<RadioButtonCheckedIcon style={{ color: pColor }} />}

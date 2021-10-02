@@ -180,7 +180,7 @@ const ModalReportedErrors = props => {
                     <Typography style={{ fontWeight: "bold" }}>Módulo</Typography>
                     <CustomInput
                       id="idModule"
-                      inputType="select2"
+                      type="select2"
                       value={values.idModule}
                       error={errors.idModule && touched.idModule ? true : false}
                       options={modules}
@@ -194,7 +194,7 @@ const ModalReportedErrors = props => {
                     <Typography style={{ fontWeight: "bold" }}>Asunto</Typography>
                     <CustomInput
                       id="reason"
-                      inputType="inputText"
+                      type="inputText"
                       onChange={handleChange}
                       value={values.reason}
                       error={errors.reason && touched.reason ? true : false}
@@ -204,7 +204,7 @@ const ModalReportedErrors = props => {
                     <Typography style={{ fontWeight: "bold" }}>Descripción</Typography>
                     <CustomInput
                       id="description"
-                      inputType="textArea"
+                      type="textArea"
                       onChange={handleChange}
                       value={values.description}
                       error={errors.description && touched.description ? true : false}

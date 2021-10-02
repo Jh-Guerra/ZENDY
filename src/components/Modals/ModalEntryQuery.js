@@ -163,7 +163,7 @@ const onEdit = () => {
                     <CustomInput
                       id="reason"
                       label={<p>Motivo *</p>}
-                      inputType="inputText"
+                      type="inputText"
                       onChange={handleChange}
                       value={values.reason}
                       error={errors.reason && touched.reason ? true : false}
@@ -175,7 +175,7 @@ const onEdit = () => {
                     <CustomInput
                       id="description"
                       label={<p>Descripción *</p>}
-                      inputType="textArea"
+                      type="textArea"
                       onChange={handleChange}
                       value={values.description}
                       error={errors.description && touched.description ? true : false}
@@ -185,7 +185,7 @@ const onEdit = () => {
                   <Grid item xs={12}>
                     <CustomInput
                       id="idModule"
-                      inputType="select2"
+                      type="select2"
                       label="Modulo"
                       onChange={(event) => {
                         setFieldValue("idModule", event.target.value)
