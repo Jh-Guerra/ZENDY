@@ -40,6 +40,7 @@ const MainBody = props => {
             isMyMessage={message.userId == user.id}
             imageUpload={message.image ? (config.api + message.image) : ""}
             file={message.file  ? (config.api + message.file) : ''}
+            hour={message.created_at}
           />
         );
       })}

@@ -3,6 +3,7 @@ import config from 'config/Config';
 
 import ItemAvatar from "./ItemAvatar";
 import { getImageProfile } from 'utils/common';
+import moment from 'moment';
 
 const ItemQueryRow = (props) => {
 
@@ -11,6 +12,7 @@ const ItemQueryRow = (props) => {
   const image =  query.avatar;
   const description = query.description || "";
   const reason = query.reason || 0;
+  const hour =  moment(query.updated_at).format('LT')|| "00:00";
 
   const onClickAction = (query) => {
     props.goTo && props.goTo(query);
@@ -26,6 +28,7 @@ const ItemQueryRow = (props) => {
         <div style={{width:"80%"}}>
             <div className="chat-mini-details">
               <span style={{fontSize:"18px"}}>{reason}</span>
+              <span className="chat-mini-time">{hour}</span>
             </div>
             <p style={{fontSize:"16px", color:"silver"}}>
               {description}
