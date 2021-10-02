@@ -13,9 +13,6 @@ import { withRouter } from 'react-router-dom';
 import 'date-fns';
 import { getSessionInfo } from 'utils/common';
 import { updateStatus, findUserStatusOn } from 'services/actions/UserAction';
-import { Prompt } from "react-router-dom";
-import Echo from "laravel-echo";
-import config from "config/Config";
 
 window.Pusher = require('pusher-js');
 
@@ -30,22 +27,6 @@ class ZendyAppShell extends Component {
   }
 
   componentDidMount() {
-    window.Echo = new Echo({
-      broadcaster: 'pusher',
-      key: config.pusherAppKey,
-      cluster: config.pusherCluster,
-      encrypted: true,
-      wsHost: window.location.hostname,
-      wsPort: 6001,
-      forceTLS: false,
-      disableStats: false,
-      auth: {
-        headers: {
-            Authorization: 'Bearer ' + `${JSON.parse(localStorage.getItem('session')).token || ''}`
-        },
-    }
-    });
-
     const session = getSessionInfo();
 
     let dt = moment();
@@ -84,10 +65,6 @@ class ZendyAppShell extends Component {
     const isMain = this.useIsMainWindow;
     return (
       <StylesProvider injectFirst>
-        <Prompt
-        when={()=>this.isPrompt()}
-        message={() => 'Are you sure you want to leave this page?'}
-      />
         <div className="App" style={{height:"100%"}}>
           <Helmet>
             <title>Zendy</title>

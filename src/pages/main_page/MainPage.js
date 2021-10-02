@@ -10,6 +10,8 @@ import { useHistory, withRouter } from 'react-router-dom';
 import { connect } from "react-redux";
 import { createMessage, listMessages } from 'services/actions/MessageAction';
 import { getSessionInfo } from 'utils/common';
+import Echo from "laravel-echo";
+import config from "config/Config";
 
 const MainPage = (props) => {
   const history = useHistory();
@@ -19,6 +21,24 @@ const MainPage = (props) => {
   const [chat, setChat] = React.useState({});
   const [message, setMessage] = React.useState({});
   const [messages, setMessages] = React.useState([]);
+
+  React.useEffect(()=> {
+    window.Echo = new Echo({
+      broadcaster: 'pusher',
+      key: config.pusherAppKey,
+      cluster: config.pusherCluster,
+      encrypted: true,
+      wsHost: window.location.hostname,
+      wsPort: 6001,
+      forceTLS: false,
+      disableStats: false,
+      auth: {
+        headers: {
+            Authorization: 'Bearer ' + `${JSON.parse(localStorage.getItem('session')).token || ''}`
+        },
+      }
+    });
+  }, []);
 
   React.useEffect(() => {
     if(props.location.pathname){
