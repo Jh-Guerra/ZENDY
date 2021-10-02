@@ -16,6 +16,12 @@ const MainBody = props => {
   const { messages = [], chat, user } = props;
 
   const [open, setOpen] = React.useState(false);
+  const messagesEndRef = React.useRef(null)
+  const scrollToBottom = () => {
+    messagesEndRef.current.scrollIntoView({ behavior: "smooth" })
+  }
+
+  React.useEffect(scrollToBottom, [messages]);
 
   const handleClose = () => {
     setOpen(false);
@@ -37,6 +43,7 @@ const MainBody = props => {
           />
         );
       })}
+      <div ref={messagesEndRef} />
     </div>
   );
 };
