@@ -106,7 +106,7 @@ class UsersPage extends Component {
             <CustomButton
               variant="contained"
               startIcon={<AddCircleIcon />}
-              customColor={successButtonColor}
+              color={successButtonColor}
               onClick={this.openModalUser}
             >
               Agregar Usuario

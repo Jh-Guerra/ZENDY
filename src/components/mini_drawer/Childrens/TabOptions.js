@@ -22,7 +22,7 @@ const TabOptions = (props) => {
                   fullWidth
                   onClick={() => { onOpenModal && onOpenModal() }}
                   variant="contained"
-                  customColor={successButtonColor}
+                  color={successButtonColor}
                   startIcon={<ErrorIcon />}
                 >
                   Reportar Error
@@ -38,7 +38,7 @@ const TabOptions = (props) => {
                   fullWidth
                   onClick={() => { onOpenModal && onOpenModal() }}
                   variant="contained"
-                  customColor={successButtonColor}
+                  color={successButtonColor}
                   startIcon={<RateReviewIcon />}
                 >
                   Iniciar Consulta
@@ -49,7 +49,7 @@ const TabOptions = (props) => {
                 fullWidth
                 onClick={() => { onOpenModal2 && onOpenModal2() }}
                 variant="contained"
-                customColor={successButtonColor}
+                color={successButtonColor}
                 startIcon={<RateReviewIcon />}
               >
                 Consulta Frecuente
@@ -65,7 +65,7 @@ const TabOptions = (props) => {
                   fullWidth
                   onClick={() => { onOpenModal && onOpenModal() }}
                   variant="contained"
-                  customColor={successButtonColor}
+                  color={successButtonColor}
                   startIcon={<AddAlertIcon />}
                 >
                   Crear Notificación

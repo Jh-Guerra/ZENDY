@@ -33,7 +33,7 @@ class NewChatCall extends Component {
                 fullWidth
                 onClick={() => this.handleClickOpen()}
                 variant="contained"
-                customColor={successButtonColor}
+                color={successButtonColor}
                 startIcon={<RateReviewIcon />}
               >
                 Buscar Chat
@@ -44,7 +44,7 @@ class NewChatCall extends Component {
                 fullWidth
                 disabled
                 variant="contained"
-                customColor={successButtonColor}
+                color={successButtonColor}
                 startIcon={<RateReviewIcon />}
               >
                 Llamadas

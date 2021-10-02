@@ -22,6 +22,7 @@ import { showBackdrop, showSnackBar } from 'services/actions/CustomAction';
 import { createInternalChat } from 'services/actions/ChatAction';
 import { pColor } from 'assets/styles/zendy-css';
 import config from 'config/Config';
+import ZendyIcon from 'assets/images/ZendyIcon.jpg';
 
 const useStyles = makeStyles(theme => ({
   letters:{
@@ -123,9 +124,9 @@ const ModalNewInternalChat = (props) => {
                 className={classes.input}
                 fullWidth={true}
                 style={{flex: 1, width: '80%'}}
-                placeholder="Buscar contactos"
+                placeholder="Buscar"
                 onChange={(event) => onSearch(event.target.value)}
-                inputProps={{ 'aria-label': 'Buscar contactos' }}
+                inputProps={{ 'aria-label': 'Buscar' }}
                   startAdornment= {
                     <InputAdornment position="start" tyle={{marginLeft:'5px'}} type="button" className={classes.iconButton} aria-label="search">
                       <SearchIcon />
@@ -143,7 +144,7 @@ const ModalNewInternalChat = (props) => {
                   return (
                     <ListItem key={i} button divider onClick={() => { onSelectUser(user) }}>
                       <ListItemAvatar>
-                        <Avatar alt="" src={user.avatar ? (config.api+user.avatar) : "ruta-por-defecto-del-front"} />
+                        <Avatar alt="" src={user.avatar ? (config.api+user.avatar) : ZendyIcon} />
                       </ListItemAvatar>
                       <ListItemText
                         primary={`${user.firstName} ${user.lastName}`}

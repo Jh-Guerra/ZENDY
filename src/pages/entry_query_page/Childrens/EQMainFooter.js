@@ -112,7 +112,7 @@ const EQMainFooter = props => {
         <CustomButton
           onClick={openRecommendations}
           variant="contained"
-          customColor={infoColor}
+          color={infoColor}
           startIcon={<PeopleAltIcon />}
         >
           Recomendaciones
@@ -122,7 +122,7 @@ const EQMainFooter = props => {
             <CustomButton
               onClick={openAcceptChat}
               variant="contained"
-              customColor={infoColor}
+              color={infoColor}
               startIcon={<ChatIcon />}
             >
               Aceptar consulta e Iniciar Chat

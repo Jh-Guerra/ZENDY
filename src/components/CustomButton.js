@@ -3,22 +3,28 @@ import React from 'react';
 import { LightenDarkenColor } from 'utils/common';
 
 const CustomButton = props => {
-    const { children, startIcon, customColor="" } = props;
+    const { 
+        children,
+        color=""
+     } = props;
+
+     const buttonParams = {...props};
+     delete buttonParams.color;
 
     const ColorButton = withStyles((theme) => ({
         root: {
-        color: theme.palette.getContrastText(customColor),
-            backgroundColor: customColor,
+        color: theme.palette.getContrastText(color),
+            backgroundColor: color,
             '&:hover': {
-                backgroundColor: LightenDarkenColor(customColor, 25),
+                backgroundColor: LightenDarkenColor(color, 25),
             },
             '&:disabled': {
-                backgroundColor: LightenDarkenColor(customColor, 40),
+                backgroundColor: LightenDarkenColor(color, 40),
             },
         },
     }))(Button);
 
-    return <ColorButton {...props} startIcon={startIcon && startIcon} >
+    return <ColorButton {...buttonParams}>
         {children}
     </ColorButton>;
 }

@@ -111,7 +111,7 @@ class CompaniesPage extends Component {
             <CustomButton
               variant="contained"
               startIcon={<AddCircleIcon />}
-              customColor={successButtonColor}
+              color={successButtonColor}
               onClick={this.openModalCompany}
             >
               Agregar Empresa

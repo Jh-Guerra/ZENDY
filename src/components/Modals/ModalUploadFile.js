@@ -11,7 +11,7 @@ const ModalUploadFile = props => {
   const isImage = isImageFile(fileExtension);
 
   return (      
-      <Modal open={open} handleClose={handleClose} size="md" transitionModal={true} >
+      <Modal open={open} handleClose={handleClose} size="md" transitionModal>
           <ModalHeader text="Vista Previa" />
               <ModalBody>         
                 <Card>                

@@ -68,10 +68,10 @@ const ModalNewChat = (props) => {
                                 fullWidth
                                 className={classes.button}
                                 startIcon={<SupervisedUserCircleIcon />}
-                                customColor={successButtonColor}
+                                color={successButtonColor}
                                 onClick={handleNewCustomerChatOpen}
                             >
-                                Con Usuarios De La Empresa
+                                En la Empresa
                             </CustomButton>
                         </Grid>
                         <Grid item xs={12}>
@@ -80,7 +80,7 @@ const ModalNewChat = (props) => {
                                 fullWidth
                                 className={classes.button}
                                 startIcon={<BusinessIcon />}
-                                customColor={successButtonColor}
+                                color={successButtonColor}
                                 onClick={handleNewCompanyChat}
                             >
                                 Con Usuarios De Alguna Empresa
@@ -94,7 +94,7 @@ const ModalNewChat = (props) => {
                                         fullWidth
                                         className={classes.button}
                                         startIcon={<PersonIcon />}
-                                        customColor={successButtonColor}
+                                        color={successButtonColor}
                                         onClick={handleNewTerminalChat}
                                     >
                                         Interno

@@ -124,7 +124,7 @@ const NotificationsPage = (props) => {
               <CustomButton
                 variant="contained"
                 startIcon={<EditIcon />}
-                customColor={successButtonColor}
+                color={successButtonColor}
                 onClick={onOpenEditNotification}
                 style={{marginRight: "10px"}}
               >
@@ -133,7 +133,7 @@ const NotificationsPage = (props) => {
               <CustomButton
                 variant="contained"
                 startIcon={<DeleteIcon />}
-                customColor={dangerColor}
+                color={dangerColor}
                 onClick={onOpenModalDelete}
               >
                 Eliminar Notificatión

@@ -24,6 +24,7 @@ import config from 'config/Config';
 import CheckBoxIcon from '@material-ui/icons/CheckBox';
 import { showBackdrop, showSnackBar } from 'services/actions/CustomAction';
 import { createCompanyChat } from 'services/actions/ChatAction';
+import ZendyIcon from 'assets/images/ZendyIcon.jpg';
 
 
 const useStyles = makeStyles(theme => ({
@@ -187,7 +188,7 @@ const ModalNewCompanyChat = (props) => {
                   <InputBase
                     value={term}
                     style={{flex: 1, width: '80%'}}
-                    placeholder="Buscar contactos"
+                    placeholder="Buscar"
                     onChange={(event) => onSearch(event.target.value)}
                   />
                 </Grid>
@@ -232,7 +233,7 @@ const ModalNewCompanyChat = (props) => {
                   return (
                     <ListItem key={i} button divider onClick={() => { onSelectUser(user) }}>
                       <ListItemAvatar>
-                        <Avatar alt="" src={user.avatar ? (config.api+user.avatar) : "ruta-por-defecto-del-front"} />
+                        <Avatar alt="" src={user.avatar ? (config.api+user.avatar) : ZendyIcon} />
                       </ListItemAvatar>
                       <ListItemText
                         primary={`${user.firstName} ${user.lastName}`}

@@ -75,7 +75,7 @@ const CurrentChat = props => {
             fullWidth
             className="search_wrap"
             type="text"
-            placeholder="Buscar contactos"
+            placeholder="Buscar"
             onChange={event => onSearch(event.target.value)}
             disableUnderline
             startAdornment={

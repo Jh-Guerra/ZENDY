@@ -21,8 +21,8 @@ import { pColor } from 'assets/styles/zendy-css';
 import { listAvailableUsers } from 'services/actions/UserAction';
 import { showBackdrop, showSnackBar } from 'services/actions/CustomAction';
 import { createClientChat } from 'services/actions/ChatAction';
-import CircularProgress from '@material-ui/core/CircularProgress';
 import config from 'config/Config';
+import ZendyIcon from 'assets/images/ZendyIcon.jpg';
 
 const ModalNewCustomerChat = props => {
   const { open, handleClose, onSaveForm } = props;
@@ -89,8 +89,8 @@ const ModalNewCustomerChat = props => {
   };
 
   return (
-    <Modal open={open} handleClose={handleClose} size="sm" style={{ minHeight: '100%', minWidth: '100%' }}>
-      <ModalHeader icon={<PeopleAltIcon />} text="Chat con usuarios de la empresa" />
+    <Modal open={open} handleClose={handleClose} size="sm" width="750px" height="500px">
+      <ModalHeader icon={<PeopleAltIcon />} text="En la Empresa" />
       <ModalBody>
         <Grid container spacing={3}>
           <Grid item xs={12}>
@@ -101,7 +101,7 @@ const ModalNewCustomerChat = props => {
                 </IconButton>
                 <InputBase
                   style={{ flex: 1, width: '80%' }}
-                  placeholder="Buscar contactos"
+                  placeholder="Buscar"
                   onChange={event => onSearch(event.target.value)}
                   value={term}
                 />
@@ -122,15 +122,11 @@ const ModalNewCustomerChat = props => {
                     }}
                   >
                     <ListItemAvatar>
-                      <Avatar alt="" src={user.avatar ? config.api + user.avatar : 'ruta-por-defecto-del-front'} />
+                      <Avatar alt="" src={user.avatar ? config.api + user.avatar : ZendyIcon} />
                     </ListItemAvatar>
                     <ListItemText
                       primary={`${user.firstName} ${user.lastName}`}
-                      secondary={
-                        <React.Fragment>
-                          <Typography variant="body2">{user.company && user.company.name || ''}</Typography>
-                        </React.Fragment>
-                      }
+                      secondary={<Typography className="list-sub-text">{user.company && user.company.name || ''}</Typography>}
                     />
                     <ListItemSecondaryAction>
                       <Checkbox

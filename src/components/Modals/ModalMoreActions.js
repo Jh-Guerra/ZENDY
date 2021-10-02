@@ -43,7 +43,7 @@ const ModalMoreActions = (props) => {
                             fullWidth
                             className={classes.button}
                             startIcon={<SpeakerNotesIcon />}
-                            customColor={successButtonColor}
+                            color={successButtonColor}
                             onClick={() => {
                                 handleClose();
                                 handleChangeTab(null, 7);
@@ -60,7 +60,7 @@ const ModalMoreActions = (props) => {
                                     fullWidth
                                     className={classes.button}
                                     startIcon={<SmsFailedIcon />}
-                                    customColor={successButtonColor}
+                                    color={successButtonColor}
                                     onClick={() => {
                                         handleClose();
                                         handleChangeTab(null, 8);
@@ -76,7 +76,7 @@ const ModalMoreActions = (props) => {
                                     fullWidth
                                     className={classes.button}
                                     startIcon={<SmsFailedIcon />}
-                                    customColor={successButtonColor}
+                                    color={successButtonColor}
                                     onClick={() => {
                                         handleClose();
                                         handleChangeTab(null, 9);
@@ -95,7 +95,7 @@ const ModalMoreActions = (props) => {
                                     fullWidth
                                     className={classes.button}
                                     startIcon={<AssessmentIcon />}
-                                    customColor={successButtonColor}
+                                    color={successButtonColor}
                                     onClick={() => {
                                         handleClose();
                                         handleChangeTab(null, 10);
@@ -114,7 +114,7 @@ const ModalMoreActions = (props) => {
                                     fullWidth
                                     className={classes.button}
                                     startIcon={<PeopleIcon />}
-                                    customColor={successButtonColor}
+                                    color={successButtonColor}
                                     onClick={() => { props.goToView && props.goToView("usuarios") }}
                                 >
                                     Usuarios
@@ -130,7 +130,7 @@ const ModalMoreActions = (props) => {
                                     fullWidth
                                     className={classes.button}
                                     startIcon={<BusinessIcon />}
-                                    customColor={successButtonColor}
+                                    color={successButtonColor}
                                     onClick={() => { props.goToView && props.goToView("empresas") }}
                                 >
                                     Empresas

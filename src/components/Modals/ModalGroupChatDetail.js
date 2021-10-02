@@ -10,16 +10,15 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
-import IconButton from '@material-ui/core/IconButton';
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
 import ModalHeader from './common/ModalHeader';
-import TimerOutlinedIcon from '@material-ui/icons/TimerOutlined';
 import CustomModal from './common/CustomModal';
 import config from 'config/Config';
 import { getSessionInfo } from 'utils/common';
 import { deleteParticipant } from 'services/actions/ParticipantAction';
 import { listActiveChats, nameChatAction } from 'services/actions/ChatAction';
+import ZendyIcon from 'assets/images/ZendyIcon.jpg';
 
 const useStyles = makeStyles(theme => ({
   large: {
@@ -146,7 +145,7 @@ const ModalGroupChatDetail = props => {
                       return (
                         <ListItem key={i} style={{borderBottom: "1px solid #CBD3D3"}}>
                           <ListItemAvatar>
-                            <Avatar alt="" src={user.avatar ? (config.api + user.avatar) : "ruta-por-defecto-del-front"} />
+                            <Avatar alt="" src={user.avatar ? (config.api + user.avatar) : ZendyIcon} />
                           </ListItemAvatar>
                           <ListItemText
                             primary={`${user.firstName} ${user.lastName}`}

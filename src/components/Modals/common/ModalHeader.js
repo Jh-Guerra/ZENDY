@@ -7,10 +7,8 @@ const ModalHeader = (props) => {
 
   return (
     <DialogTitle className="modal-header" style={{backgroundColor: props.backgroundColor}}>
-      {
-        icon && icon
-      }
-      <Typography variant="h5">{text || ""}</Typography>
+      { icon }
+      <Typography style={{fontSize:"20px"}}>{ text || "" }</Typography>
     </DialogTitle>
   )
 }

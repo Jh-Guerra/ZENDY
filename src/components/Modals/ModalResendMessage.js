@@ -76,8 +76,8 @@ const ModalResendMessage = (props) => {
                 </IconButton>
                 <InputBase
                   className={classes.input}
-                  placeholder="Buscar contactos"
-                  inputProps={{ 'aria-label': 'Buscar contactos' }}
+                  placeholder="Buscar"
+                  inputProps={{ 'aria-label': 'Buscar' }}
                 />
               </Paper>
               <Divider />

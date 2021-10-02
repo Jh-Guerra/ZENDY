@@ -58,7 +58,7 @@ const ModalNotificationOptions = (props) => {
                                 variant="contained"
                                 fullWidth
                                 className={classes.button}
-                                customColor={successButtonColor}
+                                color={successButtonColor}
                                 onClick={handleNewCompanyNotification}
                             >
                                 Para 1 empresa
@@ -69,7 +69,7 @@ const ModalNotificationOptions = (props) => {
                                 variant="contained"
                                 fullWidth
                                 className={classes.button}
-                                customColor={successButtonColor}
+                                color={successButtonColor}
                                 onClick={handleNewCompaniesNotification}
                             >
                                 Para muchas empresas

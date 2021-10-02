@@ -16,6 +16,8 @@ $sColorD: #D14A19;
 $onLine: #38F909;
 $offLine: #ECECEB;
 
+$subTextColor: #929797;
+
 
 // Buttons
 $successButton: #158851;
@@ -793,4 +795,9 @@ html, body {
     );
     animation-fill-mode: both;
     animation-delay: 0.2s;
+}
+
+.list-sub-text{
+    color: $subTextColor;
+    font-size: 12px;
 }

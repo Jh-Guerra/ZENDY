@@ -181,9 +181,9 @@ const ModalAddToConversation = (props) => {
                   className={classes.input}
                   fullWidth={true}
                   style={{ flex: 1, width: '80%' }}
-                  placeholder="Buscar contactos"
+                  placeholder="Buscar"
                   onChange={(event) => onSearch(event.target.value)}
-                  inputProps={{ 'aria-label': 'Buscar contactos' }}
+                  inputProps={{ 'aria-label': 'Buscar' }}
                   startAdornment={
                     <InputAdornment position="start" tyle={{ marginLeft: '5px' }} type="button" className={classes.iconButton} aria-label="search">
                       <SearchIcon />
