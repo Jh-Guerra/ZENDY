@@ -42,8 +42,12 @@ const ModalGroupChatDetail = props => {
 
   const [showAddToConversation,setShowAddToConversation] = React.useState(false);
   const [nameChat, setNameChat] = React.useState("")
+  const [isAdminList, setAdminList] = React.useState(false);
+  const [isAdminCreated, setIsAdminCreated] = React.useState(false);
 
-  const ShowAddToConversation = () => {
+  const ShowAddToConversation = (isAdmin=false) => {
+    setAdminList(isAdmin);
+    setIsAdminCreated(isAdmin);
     setShowAddToConversation(true);
   }
   
@@ -167,11 +171,18 @@ const ModalGroupChatDetail = props => {
                 </List>
                 <List>
                   {
-                      isAdmin && 
-                      <Grid item md={12}>
-                        <Button variant="contained" color="primary" startIcon={<AddCircleOutlineIcon />} style={{ height: '50px', width: '100%' }} onClick={ShowAddToConversation}>
-                          Agregar más personas
-                        </Button>
+                      isAdmin &&
+                      <Grid container spacing={2}> 
+                        <Grid item md={6}>
+                          <Button variant="contained" id="" color="primary" startIcon={<AddCircleOutlineIcon />} style={{ height: '50px', width: '100%' }} onClick={() => {ShowAddToConversation(false)}}>
+                            Agregar participantes
+                          </Button>
+                        </Grid>
+                        <Grid item md={6}>
+                          <Button variant="contained" color="primary" startIcon={<AddCircleOutlineIcon />} style={{ height: '50px', width: '100%' }} onClick={() => {ShowAddToConversation(true)}}>
+                            Agregar Admins
+                          </Button>
+                        </Grid>
                       </Grid>
                   }
                   
@@ -188,7 +199,11 @@ const ModalGroupChatDetail = props => {
         open={showAddToConversation}
         handleClose={() => {setShowAddToConversation(false)}}
         chat={chat}
-        onGetChatData={onGetChatData}>
+        onGetChatData={onGetChatData}
+        isAdminList={isAdminList}
+        isAdminCreated={isAdminCreated}
+      >
+        
      </CustomModal>
     </>
   );
