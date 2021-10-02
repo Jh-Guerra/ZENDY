@@ -52,7 +52,7 @@ const useStyles = makeStyles(theme => ({
 
 const ModalAddToConversation = (props) => {
 
-  const { open, handleClose, chat, onGetChatData } = props;
+  const { open, handleClose, chat, onGetChatData, isAdminList, isAdminCreated } = props;
   const classes = useStyles();
 
   const [users, setUsers] = React.useState([]);
@@ -133,33 +133,59 @@ const ModalAddToConversation = (props) => {
     setUsersSC(updatedUsers);
   }
 
-  const addParticipants = () => {
-    const participants = [];
+  const addParticipants = (isAdmin=false) => {
+    const participants = [];   
     const selectedERPUsers = users.filter(user => user.checked) || [];
     const selectedCompanyUsers = usersSC.filter(user => user.checked) || [];
     const selectedUsers = selectedERPUsers.concat(selectedCompanyUsers);
-    selectedUsers.map(user => {
-      const participant = {
-        idUser: user.id,
-        idChat: chat.id,
-        type: "Participante",
-        erp: user.roleName != "UserEmpresa" ? 1 : 0,
-        entryDate: moment().format("YYYY-MM-DD"),
-        outputDate: "",
-        status: "active",
-        active: 1,
-        deleted: 0,
-        created_at: moment().format("YYYY-MM-DD hh:mm:ss"),
-        updated_at: moment().format("YYYY-MM-DD hh:mm:ss")
-      }
-      participants.push(participant);
-    })
-    props.dispatch(createParticipant(chat.id, participants))
-    handleClose(false);
-    setUsers([])
-    setUsersSC([])
-    onGetChatData(chat.id);
-    props.dispatch(listActiveChats(term, "Vigente"));
+
+    if(isAdmin) {
+      selectedUsers.map(user => {
+        const participant = {
+          idUser: user.id,
+          idChat: chat.id,
+          type: "Admin",
+          erp: user.roleName != "UserEmpresa" ? 1 : 0,
+          entryDate: moment().format("YYYY-MM-DD"),
+          outputDate: "",
+          status: "active",
+          active: 1,
+          deleted: 0,
+          created_at: moment().format("YYYY-MM-DD hh:mm:ss"),
+          updated_at: moment().format("YYYY-MM-DD hh:mm:ss")
+        }
+        participants.push(participant);
+      })
+      props.dispatch(createParticipant(chat.id, participants))
+      handleClose(false);
+      setUsers([])
+      setUsersSC([])
+      onGetChatData(chat.id);
+      props.dispatch(listActiveChats(term, "Vigente"));
+    } else {
+      selectedUsers.map(user => {
+        const participant = {
+          idUser: user.id,
+          idChat: chat.id,
+          type: "Participante",
+          erp: user.roleName != "UserEmpresa" ? 1 : 0,
+          entryDate: moment().format("YYYY-MM-DD"),
+          outputDate: "",
+          status: "active",
+          active: 1,
+          deleted: 0,
+          created_at: moment().format("YYYY-MM-DD hh:mm:ss"),
+          updated_at: moment().format("YYYY-MM-DD hh:mm:ss")
+        }
+        participants.push(participant);
+      })
+      props.dispatch(createParticipant(chat.id, participants))
+      handleClose(false);
+      setUsers([])
+      setUsersSC([])
+      onGetChatData(chat.id);
+      props.dispatch(listActiveChats(term, "Vigente"));
+    }
   }
   
   return (
@@ -194,38 +220,77 @@ const ModalAddToConversation = (props) => {
             </Paper>
             <Divider />
           </Grid>
-          <Grid item xs={12}>
-            <Typography style={{ fontWeight: "bold" }}>ERP Usuarios</Typography>
 
-            <List style={{ padding: "0px", maxHeight: "550px", overflow: "auto" }}>
-              {
-                users.map((user, i) => {
-                  if (!user.checked) user.checked = false;
-                  return (
-                    <ListItem key={i} button divider onClick={() => { onSelectUser(user) }} disabled={ParticipantsIds.includes(user.id)}>
-                      <ListItemAvatar>
-                        <Avatar alt="" src={user.avatar ? (config.api + user.avatar) : getImageProfile(user.sex)} />
-                      </ListItemAvatar>
-                      <ListItemText
-                        primary={`${user.firstName} ${user.lastName}`}
-                        secondary={ParticipantsIds.includes(user.id) ? `Ya participa en el grupo` : null}
-                      />
-                      <ListItemSecondaryAction>
-                        {
-                          !ParticipantsIds.includes(user.id) &&
-                          <Checkbox
-                            checked={user.checked || false}
-                            onChange={() => { onSelectUser(user) }}
-                            icon={<RadioButtonUncheckedIcon />}
-                            checkedIcon={<RadioButtonCheckedIcon style={{ color: pColor }} />}
-                          />
-                        }
-                        
-                      </ListItemSecondaryAction>
-                    </ListItem>
+          {isAdminList ? 
+            <Typography style={{ fontWeight: "bold" }}>ERP Usuarios</Typography> :
+            <Typography style={{ fontWeight: "bold" }}>Usuarios de la Empresa</Typography>
+          }
+             
+          <Grid item xs={12}>                   
+            {isAdminList &&       
+              users.map((user, i) => {    
+                if (!user.checked) user.checked = false;               
+                  return (                    
+                    <List style={{ padding: "0px", maxHeight: "550px", overflow: "auto" }}>
+                      <ListItem key={i} button divider onClick={() => { onSelectUser(user) }} disabled={ParticipantsIds.includes(user.id)}>
+                        <ListItemAvatar>
+                          <Avatar alt="" src={user.avatar ? (config.api + user.avatar) : getImageProfile(user.sex)} />
+                        </ListItemAvatar>
+                        <ListItemText
+                          primary={`${user.firstName} ${user.lastName}`}
+                          secondary={ParticipantsIds.includes(user.id) ? `Ya participa en el grupo` : null}
+                        />
+                        <ListItemSecondaryAction>
+                          {
+                            !ParticipantsIds.includes(user.id) &&
+                            <Checkbox
+                              checked={user.checked || false}
+                              onChange={() => { onSelectUser(user) }}
+                              icon={<RadioButtonUncheckedIcon />}
+                              checkedIcon={<RadioButtonCheckedIcon style={{ color: pColor }} />}
+                            />
+                          }
+                          
+                        </ListItemSecondaryAction>
+                      </ListItem>
+                      </List>                  
                   )
-                })
-              }
+              })         
+            }
+            </Grid>
+
+            <Grid item xs={12}> 
+               {!isAdminList && 
+                  usersSC.map((user, i) => {
+                    if (!user.checked) user.checked = false;
+                    return (        
+                      <List style={{ padding: "0px", maxHeight: "550px", overflow: "auto" }}>
+                      <ListItem key={i} button divider onClick={() => { onSelectUserSameCompany(user) }} disabled={ParticipantsIds.includes(user.id)}>
+                        <ListItemAvatar>
+                          <Avatar alt="" src={user.avatar ? (config.api + user.avatar) : getImageProfile(user.sex)} />
+                        </ListItemAvatar>
+                        <ListItemText
+                          primary={`${user.firstName} ${user.lastName}`}
+                          secondary={ParticipantsIds.includes(user.id) && `Ya participa en el grupo`}
+                        />
+                        <ListItemSecondaryAction>
+                          {
+                             !ParticipantsIds.includes(user.id) &&
+                             <Checkbox
+                                checked={user.checked || false}
+                                onChange={() => { onSelectUserSameCompany(user) }}
+                                icon={<RadioButtonUncheckedIcon />}
+                                checkedIcon={<RadioButtonCheckedIcon style={{ color: pColor }} />}
+                             />
+                          }
+                        </ListItemSecondaryAction>
+                      </ListItem>
+                      </List>
+                    )
+                  })
+                }
+              </Grid>
+                           
               {
                 users.length === 0 && (
                   <ListItem divider style={{ padding: '12px 55px 12px 55px' }}>
@@ -235,40 +300,7 @@ const ModalAddToConversation = (props) => {
                   </ListItem>
                 )
               }
-            </List>
 
-
-            <Divider variant="inset" />
-            <br />
-            <Typography style={{ fontWeight: "bold" }}>Usuarios de la Empresa</Typography>
-            <List style={{ padding: "0px", maxHeight: "550px", overflow: "auto" }}>
-              {
-                usersSC.map((user, i) => {
-                  if (!user.checked) user.checked = false;
-                  return (
-                    <ListItem key={i} button divider onClick={() => { onSelectUserSameCompany(user) }} disabled={ParticipantsIds.includes(user.id)}>
-                      <ListItemAvatar>
-                        <Avatar alt="" src={user.avatar ? (config.api + user.avatar) : getImageProfile(user.sex)} />
-                      </ListItemAvatar>
-                      <ListItemText
-                        primary={`${user.firstName} ${user.lastName}`}
-                        secondary={ParticipantsIds.includes(user.id) && `Ya participa en el grupo`}
-                      />
-                      <ListItemSecondaryAction>
-                        {
-                           !ParticipantsIds.includes(user.id) &&
-                           <Checkbox
-                              checked={user.checked || false}
-                              onChange={() => { onSelectUserSameCompany(user) }}
-                              icon={<RadioButtonUncheckedIcon />}
-                              checkedIcon={<RadioButtonCheckedIcon style={{ color: pColor }} />}
-                           />
-                        }
-                      </ListItemSecondaryAction>
-                    </ListItem>
-                  )
-                })
-              }
               {
                 usersSC.length === 0 && (
                   <ListItem divider style={{ padding: '12px 55px 12px 55px' }}>
@@ -278,15 +310,14 @@ const ModalAddToConversation = (props) => {
                   </ListItem>
                 )
               }
-            </List>
-          </Grid>
-        </Grid>
+            
+        </Grid>     
     </ModalBody>
     <ModalFooter 
       confirmText={"Añadir"}
-      onConfirm={() => { addParticipants() }}
+      onConfirm={() => { addParticipants(isAdminCreated) }}
     />
-    </Modal>
+    </Modal>   
   )
 }
 
