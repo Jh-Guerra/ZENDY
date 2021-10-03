@@ -10,7 +10,7 @@ import { showBackdrop, showSnackBar } from 'services/actions/CustomAction';
 import { useHistory } from 'react-router';
 import config from "../../config/Config";
 import defaultImage from 'assets/images/defaultImage.png';
-import { Avatar } from '@material-ui/core';
+import { Avatar, IconButton, List, ListItem, ListItemAvatar, ListItemIcon, ListItemText } from '@material-ui/core';
 import { getImageProfile, getSessionInfo, isClientUser } from 'utils/common';
 import GetAppIcon from '@material-ui/icons/GetApp';
 import CustomModal from 'components/Modals/common/CustomModal';
@@ -18,6 +18,7 @@ import ModalDelete from 'components/Modals/ModalDelete';
 import ModalFakeError from 'components/Modals/ModalFakeError';
 import ModalConfirmError from 'components/Modals/ModalConfirmError';
 import moment from 'moment';
+import VisibilitySharpIcon from '@material-ui/icons/VisibilitySharp';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -196,13 +197,13 @@ const ErrorInfoPage = props => {
   const ShowNewCompanyNotification = () => {
     setShowNewCompanyNotification(true)
   }
+
   return (
     <>
       <CssBaseline />
       <Grid container className={classes.root}>
         <Grid item xs={12} className="report-form">
-          <Grid container className={classes.headerName} direction="column" justifyContent='center'
-            alignItems='center' style={{ textAlign: "center" }}>
+          <Grid container className={classes.headerName} direction="column" justifyContent='center' alignItems='center' style={{ textAlign: "center" }}>
             <div >
               <Grid containter style={{ display: "flex" }} justifyContent='center'
                 alignItems='center'>
@@ -219,18 +220,18 @@ const ErrorInfoPage = props => {
               </Grid>
             </div>
           </Grid>
-          <Grid item xs={12} alignItems='center' alignContent='center' style={{ textAlign: "center", marginTop: '20px' }}>
+          <Grid item xs={12} alignItems='center' alignContent='center' style={{ textAlign: "right", marginTop: '20px' }}>
             <span className={classes.fontError} style={{ fontWeight: 'bold', fontStyle: 'italic', alignItems: 'flex-end' }} >Estado: </span>
             {
               !isClient ?
-                <span className={classes.fontError} style={{ alignItems: 'flex-center', marginTop: '10px' }}>{(error.status == "Pending") ? "Pendiente" : "Aceptado"}</span> :
-                <span className={classes.fontError} style={{ alignItems: 'flex-center', marginTop: '10px' }}>{error.fake ? "El error reportado ha considerado como Fake" : ((error.status == "Pending") ? "Pendiente" : ((error.status == "Solved") ? "El error notificado ya fue resuelto" : "Aceptado"))}</span>
+                <span className={classes.fontError} style={{ alignItems: 'flex-center', marginRight: "8vh" }}>{(error.status == "Pending") ? "Pendiente" : "Aceptado"}</span> :
+                <span className={classes.fontError} style={{ alignItems: 'flex-center', marginRight: "8vh" }}>{error.fake ? "El error reportado ha considerado como Fake" : ((error.status == "Pending") ? "Pendiente" : ((error.status == "Solved") ? "El error notificado ya fue resuelto" : "Aceptado"))}</span>
             }
 
           </Grid>
           <Grid container item xs={12}>
             <Grid item xs={6} container spacing={0} direction="column" alignItems="flex-start" verticalAlign="center" justify="flex-start">
-              <Box style={{ margin: '40px 80px' }}>
+              <Box style={{ margin: '2vh 8vh' }}>
                 <Grid item xs={12} alignItems='center' alignContent='center' style={{ textAlign: "center", marginTop: '10px' }}>
                   <span className={classes.fontError} style={{ fontWeight: 'bold', fontStyle: 'italic', textDecorationLine: 'underline', alignItems: 'center', marginTop: '10px', marginLeft: '30px' }} >INFORMACIÓN DEL REPORTE</span>
                 </Grid>
@@ -247,7 +248,7 @@ const ErrorInfoPage = props => {
 
                 <Grid item xs={12} alignItems='flex-start' alignContent='flex-start' style={{ textAlign: "left", marginTop: '15px' }}>
                   <span className={classes.fontError} style={{ fontWeight: 'bold', fontStyle: 'italic', alignItems: 'flex-end' }} >Fecha de Reporte: </span>
-                  <span className={classes.fontError} style={{ alignItems: 'flex-start', marginTop: '10px' }}>{(error.created_at) && moment().format("DD/MM/YYYY") || ""}</span>
+                  <span className={classes.fontError} style={{ alignItems: 'flex-start', marginTop: '10px' }}>{(error.created_at) && moment(error.created_at).format("DD/MM/YYYY") || ""}</span>
                 </Grid>
 
                 <Grid item xs={12} alignItems='flex-start' alignContent='flex-start' style={{ textAlign: "left", marginTop: '15px' }}>
@@ -293,7 +294,7 @@ const ErrorInfoPage = props => {
                     </>
                   }
                   {
-                    (!isClient && error.status == "Accepted" ) &&
+                    (!isClient && error.status == "Accepted") &&
                     <>
                       <Grid item>
                         <Button className={classes.reportBtn} onClick={() => { ShowNewCompanyNotification() }}>Notificar Error Reportado</Button>
@@ -315,16 +316,16 @@ const ErrorInfoPage = props => {
               </Box>
             </Grid>
 
-            <Grid item xs={6} direction="row" alignItems="center" justify="center">
+            <Grid item xs={6}>
               <Box
-                m={5}
+                display='flex'
                 justifyContent='center'
                 alignItems='center'
-                style={{ textAlign: "center" }}>
+                style={{ height: "100%", width: "100%", }}>
                 <a href={error.image ? (config.api + error.image) : defaultImage} target="_blank">
                   <Avatar
                     variant="rounded"
-                    style={{ height: "60vh", width: "60vh", }}
+                    style={{ height: "70%", width: "70%", }}
                     src={error.image ? (config.api + error.image) : defaultImage}
                     href={error.image ? (config.api + error.image) : defaultImage}
                     target="_blank"
@@ -333,6 +334,29 @@ const ErrorInfoPage = props => {
               </Box>
             </Grid>
           </Grid>
+          {
+            (error.Notifications && error.Notifications.length > 0) ?
+              <Grid item xs={12}>
+                <Box display='flex' style={{ height: "100%", width: "100%", textAlign: "left" }}>
+                  <span className={classes.fontError} style={{ fontWeight: 'bold', fontStyle: 'italic', marginLeft: "8vh" }} >{error.Notifications && error.Notifications.length == 1 ? "Notificación: " : "Notificaciones: "}</span>
+                  <ListItemIcon>
+                    {error.Notifications && error.Notifications.map((notification) => {
+                      return <ListItem>
+                        <ListItemAvatar>
+                          <Avatar>
+                            <VisibilitySharpIcon fontSize='large' style={{ color: 'White' }} onClick={() => { history.push("/notificaciones/" + notification.id) }} />
+                          </Avatar>
+                        </ListItemAvatar>
+                        <ListItemText
+                          primary={notification.reason}
+                          secondary={'N° ' + notification.id}
+                        />
+                      </ListItem>
+                    })}
+                  </ListItemIcon>
+                </Box>
+              </Grid> : null
+          }
         </Grid>
       </Grid>
       <CustomModal
@@ -340,7 +364,7 @@ const ErrorInfoPage = props => {
         open={showReportedErrorModal}
         handleClose={() => setShowReportedErrorModal(false)}
         error={error}
-        onGetErrorData = {onGetErrorData}
+        onGetErrorData={onGetErrorData}
       />
       <CustomModal
         customModal="ModalNewCompanyNotification"
