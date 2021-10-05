@@ -15,7 +15,7 @@ import { createCompany, deleteImageCompany, findCompany, updateCompany } from 's
 import AssignmentIndIcon from '@material-ui/icons/AssignmentInd';
 import EditIcon from '@material-ui/icons/Edit';
 import HomeIcon from '@material-ui/icons/Home';
-import { showBackdrop } from 'services/actions/CustomAction';
+import { showBackdrop, showSnackBar } from 'services/actions/CustomAction';
 import defaultCompany from 'assets/images/defaultCompany.png';
 import config from 'config/Config';
 import GetAppIcon from '@material-ui/icons/GetApp';
@@ -106,7 +106,7 @@ const ModalCompany = (props) => {
         props.dispatch(showBackdrop(true));
         if(company.id){
             // Editar
-            const fileInput = document.querySelector('#icon-button-file') ;
+            const fileInput = document.querySelector('#image') ;
             const formData = new FormData();
             formData.append('image', fileInput.files[0]);
             formData.append('name', company.name);
@@ -129,7 +129,7 @@ const ModalCompany = (props) => {
                 });                
         }else{
             // Agregar
-            const fileInput = document.querySelector('#icon-button-file') ;
+            const fileInput = document.querySelector('#image') ;
             const formData = new FormData();
             formData.append('image', fileInput.files[0]);
             formData.append('name', company.name);
@@ -168,13 +168,22 @@ const ModalCompany = (props) => {
         setIcon(<EditIcon />);
     }
 
-    const deleteImage = (Link,id) => {
-        props.dispatch(deleteImageCompany(Link,id)).then(res => {
-          if(res.company){
-            setFileUrl(null)
-            setData({...data,avatar:null})
-          }});
-    }
+    const deleteImage = (Link, id, values) => {
+        if(id && values.avatar){
+          props.dispatch(deleteImageCompany(Link,id)).then(res => {
+            if(res.company){
+              setFileUrl(null);
+              setData({...values, avatar: ""});
+              document.getElementById('image').value = "";
+              props.dispatch(showSnackBar('warning', 'Imagen eliminada'));
+            }
+          });
+        }else{
+          setFileUrl(null);
+          setData({...values, avatar:null});
+          document.getElementById('image').value = "";
+        }
+      }
 
     return (
         <Modal 
@@ -303,7 +312,7 @@ const ModalCompany = (props) => {
                                                     disabled={!editMode}
                                                 >
                                                     <GetAppIcon style={{marginRight: "12px"}} />
-                                                    <input id="icon-button-file" accept="image/*" type="file" onChange={processImage} />
+                                                    <input id="image" accept="image/*" type="file" onChange={processImage} />
                                                 </Button>
                                             </Grid>
                                         )
@@ -314,7 +323,7 @@ const ModalCompany = (props) => {
                                             src={fileUrl ? fileUrl : (data.avatar ? (config.api+data.avatar) : defaultCompany)}
                                         />
                                         {
-                                            editMode && <HighlightOffTwoToneIcon style={{color: 'red', display:fileUrl || (company.id && company.avatar) ? "flex" : "none"}} onClick={() => { deleteImage( (data.avatar && (data.avatar).substr(8)),data.id)  }}/>
+                                            editMode && (company && company.avatar) && <HighlightOffTwoToneIcon style={{color: 'red', display:fileUrl || (company.id && company.avatar) ? "flex" : "none"}} onClick={() => { deleteImage( (data.avatar && (data.avatar).substr(8)), data.id, values)  }}/>
                                         }
                                     </Grid>
                                 </Grid>

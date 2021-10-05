@@ -137,13 +137,22 @@ const ModalNewCompaniesNotification = (props) => {
         }
     }
 
-    const deleteImage = (Link,id) => {
-        props.dispatch(deleteImageNotification(Link,id)).then(res => {
-          if(res.notification){
-            setImageUrl(null)
-            setData({...data,image:null})
-          }});
-    }
+    const deleteImage = (Link, id, values) => {
+        if(id && values.image){
+          props.dispatch(deleteImageNotification(Link,id)).then(res => {
+            if(res.notification){
+              setImageUrl(null);
+              setData({...values, image: ""});
+              document.getElementById('image').value = "";
+              props.dispatch(showSnackBar('warning', 'Imagen eliminada'));
+            }
+          });
+        }else{
+          setImageUrl(null);
+          setData({...values, image:null});
+          document.getElementById('image').value = "";
+        }
+      }
 
     return (
         <Modal 
@@ -255,7 +264,7 @@ const ModalNewCompaniesNotification = (props) => {
                                         src={imageUrl ? imageUrl : (config.api + values.image)}
                                     />
                                     {
-                                        editMode && <HighlightOffTwoToneIcon style={{color: 'red', display: (imageUrl || values.image) ? "flex" : "none"}} onClick={() => { deleteImage( ((values.image).substr(8)),data.id)  }}/>
+                                        editMode && values.image && <HighlightOffTwoToneIcon style={{color: 'red', display: (imageUrl || values.image) ? "flex" : "none"}} onClick={() => { deleteImage( ((values.image).substr(8)), data.id, values)  }}/>
                                     }
                                 </Grid>
                                 <Grid item xs={12} container>
