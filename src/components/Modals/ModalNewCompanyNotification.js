@@ -352,7 +352,7 @@ const ModalNewCompanyNotification = (props) => {
                                         src={imageUrl ? imageUrl : (config.api + values.image)}
                                     />
                                     {
-                                        editMode && <HighlightOffTwoToneIcon fontSize="medium" style={{color: 'red', display: (imageUrl || values.image) ? "flex" : "none"}} onClick={() => { deleteImage( ((values.image).substr(8)),data.id)  }}/>
+                                        editMode && <HighlightOffTwoToneIcon style={{color: 'red', display: (imageUrl || values.image) ? "flex" : "none"}} onClick={() => { deleteImage( ((values.image).substr(8)),data.id)  }}/>
                                     }
                                 </Grid>
                                 <Grid item xs={12} container>

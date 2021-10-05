@@ -235,7 +235,7 @@ const ModalReportedErrors = props => {
                         style={{ height: 140, width: 140, display: fileUrl || error && (error.id && error.image) ? "flex" : "none" }}
                         src={fileUrl ? fileUrl : (error && error.image ? (config.api + error.image) : defaultAvatar)}
                       />                      
-                      <HighlightOffTwoToneIcon fontSize="medium" style={{color: 'red'}} onClick={() => { deleteImagenes( (error.image && (error.image).substr(8)),error.id)  }} />                      
+                      <HighlightOffTwoToneIcon style={{color: 'red'}} onClick={() => { deleteImagenes( (error.image && (error.image).substr(8)),error.id)  }} />                      
                     </Grid>
                    
                   </Grid>

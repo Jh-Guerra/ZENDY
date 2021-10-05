@@ -31,42 +31,38 @@ const ModalEntryQuery = props => {
     file: '',
     idModule:'',
   });
-  const [title, setTitle] = React.useState("Ingresar Consulta");
-  //const [icon, setIcon] = React.useState(<BusinessIcon />);
+  const [title, setTitle] = React.useState("Registrar Consulta");
   const [editMode, setEditMode] = React.useState(false);
   const [fileUrl, setFileUrl] = React.useState(null);
-  const [fileUrl1, setFileUrl1] = React.useState(null);
   const [modules, setModules] = React.useState([]);
 
   React.useEffect(() => {
+    setFileUrl(null);
     if(open){
+      props.dispatch(showBackdrop(true));
+      props.dispatch(listModules()).then(res =>{
+        const moduleList = res || [];
+
         if(entryQuery && entryQuery.id){
-        
-            // Ver el detalle de una consulta
-            setData(entryQuery);
-            setTitle("Detalle de la Consulta");
-            //setIcon(<AssignmentIndIcon />);
-            setEditMode(false);
+          setData(entryQuery);
+          setTitle("Detalle de la Consulta");
+          setEditMode(false);
         }else{
-            // Crear una nueva consulta
             setData({
                 id: "",
                 reason: '',
                 description: '',
                 image: '',
                 file: '',
-                idModule:'',
+                idModule: moduleList[0] && moduleList[0].id
             });
-            setTitle("Ingresar Consulta");
-            //setIcon(<BusinessIcon />);
+            setTitle("Registrar Consulta");
             setEditMode(true);
         }
-        props.dispatch(showBackdrop(true));
-        props.dispatch(listModules()).then(response =>{
-          setModules(response)
-            props.dispatch(showBackdrop(false))
-        }).catch(err => props.dispatch(showBackdrop(false)));
-        setFileUrl(null)
+
+        setModules(moduleList)
+        props.dispatch(showBackdrop(false))
+      }).catch(err => props.dispatch(showBackdrop(false)));
     }
 }, [open]);
 
@@ -129,7 +125,6 @@ const ModalEntryQuery = props => {
                 }).catch(error => {
                   props.dispatch(showBackdrop(false));
                   props.dispatch(showSnackBar("error", error.message || ""));
-                  //console.error('error', error);
                 });
     }
             
@@ -137,7 +132,6 @@ const ModalEntryQuery = props => {
 
   function processImage(event){
     if(event && event.target.files && event.target.files.length > 0){
-      
         const imageFile = event.target.files[0];
         const imageUrl = URL.createObjectURL(imageFile);
         setFileUrl(imageUrl)
@@ -151,14 +145,23 @@ const onEdit = () => {
     setTitle("Editar Consulta");
 }
 
-const deleteImage = (Link,id) => {
-  props.dispatch(deleteImageEntryQuery(Link,id)).then(res => {
-    if(res.entryQuery){
-      setFileUrl(null)
-      setData({...data,image:null})
-      onGetData(data.id)
-    }});
+const deleteImage = (Link, id, values) => {
+  if(id && values.image){
+    props.dispatch(deleteImageEntryQuery(Link,id)).then(res => {
+      if(res.entryQuery){
+        setFileUrl(null);
+        setData({...values, image: ""});
+        document.getElementById('image').value = "";
+        props.dispatch(showSnackBar('warning', 'Imagen eliminada'));
+      }
+    });
+  }else{
+    setFileUrl(null);
+    setData({...values, image:null});
+    document.getElementById('image').value = "";
+  }
 }
+
 
   return (
     <Modal open={open} handleClose={handleClose} size="sm">
@@ -223,14 +226,14 @@ const deleteImage = (Link,id) => {
                     )
                   }
                   {
-                     editMode && 
+                     editMode && (fileUrl || values.image) && 
                       <Grid container item xs={12} justify="center">
                         <Avatar
                           style={{ height: 140, width: 140, display: fileUrl || (entryQuery && entryQuery.id && entryQuery.image) ? "flex" : "none" }}
                           src={fileUrl ? fileUrl : (data.image ? (config.api + data.image) : defaultCompany)}
                         />
                         {
-                           editMode && <HighlightOffTwoToneIcon fontSize="medium" style={{color: 'red', display:fileUrl || (entryQuery && entryQuery.id && entryQuery.image) ? "flex" : "none"}} onClick={() => { deleteImage( (data.image && (data.image).substr(8)),data.id)  }}/>
+                           editMode && <HighlightOffTwoToneIcon style={{color: 'red', display:fileUrl || (entryQuery && entryQuery.id && entryQuery.image) ? "flex" : "none"}} onClick={() => { deleteImage( (data.image && (data.image).substr(8)), data.id, values)  }}/>
                         }
                       </Grid>
                   }
@@ -257,7 +260,7 @@ const deleteImage = (Link,id) => {
                   cancelText={editMode && "Cancelar"}
                   onCancel={handleClose}
 
-                  confirmText={editMode && "Guardar"}
+                  confirmText={editMode && "Registrar"}
 
                   cancelText={!editMode && "Cancelar"}
 
