@@ -26,12 +26,6 @@ const ModalReportedErrors = props => {
   const isClient = isClientUser(session.role);
   const { open, handleClose, error, onGetErrorData} = props;
 
-  const options = [
-    { id: "m1", name: "modulo 1" },
-    { id: "m2", name: "modulo 2" },
-    { id: "m3", name: "modulo 3" },
-  ];
-
   const [data, setData] = React.useState({
     id: "",
     idCompany: null,
@@ -81,11 +75,17 @@ const ModalReportedErrors = props => {
     const errors = {};
     reportedError = trimObject(reportedError);
 
+    if (!reportedError.idModule) 
+        errors.idModule = 'Seleccione un Modulo';
+
+    if (!reportedError.reason) 
+        errors.reason = 'Asunto es requerido';
+
     if (!reportedError.description)
-      errors.description = true;
+        errors.description = 'Descripción es requerido'
 
     return errors;
-  };
+};
 
   const onSubmit = (reportedError, { setSubmitting }) => {
     props.dispatch(showBackdrop(true));
@@ -179,7 +179,7 @@ const ModalReportedErrors = props => {
         text={title}
       />
       <ModalBody>
-        <Formik enableReinitialize initialValues={data} validate={values => validateForm(values)} onSubmit={onSubmit}>
+        <Formik enableReinitialize initialValues={data} validate={values => validateForm(values)} onSubmit={onSubmit}  encType="multipart/form-data">
           {({ values, errors, touched, handleChange, handleBlur, handleSubmit, setFieldValue }) => {
             return (
               <Form onSubmit={handleSubmit} >
@@ -191,6 +191,7 @@ const ModalReportedErrors = props => {
                       custom="select2"
                       value={values.idModule}
                       error={errors.idModule && touched.idModule ? true : false}
+                      helperText={ errors.idModule && touched.idModule && errors.idModule }
                       options={modules}
                       onChange={(event) => {
                         setFieldValue("idModule", event.target.value);
@@ -206,6 +207,7 @@ const ModalReportedErrors = props => {
                       onChange={handleChange}
                       value={values.reason}
                       error={errors.reason && touched.reason ? true : false}
+                      helperText={ errors.reason && touched.reason && errors.reason }
                     />
                   </Grid>
                   <Grid item xs={12}>
@@ -216,6 +218,7 @@ const ModalReportedErrors = props => {
                       onChange={handleChange}
                       value={values.description}
                       error={errors.description && touched.description ? true : false}
+                      helperText={ errors.description && touched.description && errors.description }
                     />
                   </Grid>
                   <Grid item xs={12}>
