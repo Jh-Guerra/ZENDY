@@ -61,13 +61,13 @@ const ItemChatRow = (props) => {
                 message ? ( prefixMessage + " " + message ) : " "
               }
             </p>
-            {
-              chat.participation && chat.participation.pendingMessages && (
+            {/* {
+              chat.participation && chat.participation.pendingMessages && chat.participation.pendingMessages != 0 && (
                 <p style={{ fontSize: "14px" }} className="border-number">
                   {chat.participation.pendingMessages}
                 </p>
               )
-            }
+            } */}
           </div>
         </div>
       </div>

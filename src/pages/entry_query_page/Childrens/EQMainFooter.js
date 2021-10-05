@@ -17,51 +17,15 @@ import { checkPermission } from 'utils/common';
 import RateReviewIcon from '@material-ui/icons/RateReview';
 
 const EQMainFooter = props => {
-  const { entryQuery={}, session, setEntryQuery } = props;
+  const { entryQuery = {}, session, setEntryQuery } = props;
 
-  const user = session && session.user && session.user.id|| "";
-  const messagesEndRef = createRef(null);
+  const user = (session && session.user && session.user.id) || '';
 
   const isFrequent = entryQuery && entryQuery.isFrequent;
-  const chatItems = entryQuery.image ? [
-    {
-      key: 1,
-      image: entryQuery && entryQuery.user && entryQuery.user.avatar,
-      type: 'Yo',
-      msg: 'Razón:'+ ' ' +  entryQuery.reason,
-    },
-    {
-      key: 2,
-      image: entryQuery && entryQuery.user && entryQuery.user.avatar,
-      type: 'Yo',
-      msg: 'Descripción:'+ ' ' + entryQuery.description,
-    },
-    {
-      key: 3,
-      image: entryQuery && entryQuery.user && entryQuery.user.avatar,
-      type: 'Yo',
-      msg: "Imagen",
-      photo: entryQuery.image,
-    },
-  ] : 
-  [
-    {
-      key: 1,
-      image: entryQuery && entryQuery.user && entryQuery.user.avatar,
-      type: 'Yo',
-      msg: 'Razón:'+ ' ' +  entryQuery.reason,
-    },
-    {
-      key: 2,
-      image: entryQuery && entryQuery.user && entryQuery.user.avatar,
-      type: 'Yo',
-      msg: 'Descripción:'+ ' ' + entryQuery.description,
-    },
-  ];
 
   const [showRecommendations, setShowRecommendations] = React.useState(false);
   const [showAcceptChat, setShowAcceptChat] = React.useState(false);
-  const [showAddFrequentQuery, setShowAddFrequentQuery] = React.useState(false)
+  const [showAddFrequentQuery, setShowAddFrequentQuery] = React.useState(false);
 
   const openRecommendations = () => {
     setShowRecommendations(true);
@@ -69,104 +33,51 @@ const EQMainFooter = props => {
 
   const openAcceptChat = () => {
     setShowAcceptChat(true);
-}
-const openAddFrequentQuery = () => {
-  setShowAddFrequentQuery(true);
-}
-
-  const [chat, setChat] = React.useState([]);
-  const [msg, setMsg] = React.useState('');
-
-  React.useEffect(() => {
- setChat([...chatItems]);
-  }, [entryQuery]);
-
-  React.useEffect(() => {
-    window.addEventListener('keydown', event => {
-      if (event.key === 'Enter') {
-        if (msg != '') {
-          chatItems.push({
-            key: 1,
-            image: 'https://pbs.twimg.com/profile_images/1116431270697766912/-NfnQHvh_400x400.jpg',
-            type: '',
-            msg: msg,
-          });
-          setChat([...chatItems]);
-          setMsg('');
-        }
-      }
-    });
-  }, [msg]);
-
+  };
+  
+  const openAddFrequentQuery = () => {
+    setShowAddFrequentQuery(true);
+  };
 
   const onAcceptEntryQuery = () => {
     setShowAcceptChat(false);
     props.onAcceptEntryQuery && props.onAcceptEntryQuery();
-  }
+  };
 
-  const onRecommendUser = (selectedUserIds) => {
+  const onRecommendUser = selectedUserIds => {
     setShowRecommendations(false);
     props.onRecommendUser && props.onRecommendUser(selectedUserIds);
-  }
+  };
 
   return (
-    <div>
-      <div className="main-chat-content">
-        {chat.map((itm, index) => {
-          return (
-            <ChatItem
-              key={index}
-              animationDelay={index + 2}
-              user={itm.type ? itm.type : 'me'}
-              msg={itm.msg}
-              image={itm.image}
-              photo = {itm.photo}
-            />
-          );
-        })}
-
-        <div ref={messagesEndRef} />
-      </div>
-
+    <>
       <div className="entry-query-footer">
-        <CustomButton
-          onClick={openRecommendations}
-          variant="contained"
-          color={infoColor}
-          startIcon={<PeopleAltIcon />}
-        >
+        <CustomButton onClick={openRecommendations} variant="contained" color={infoColor} startIcon={<PeopleAltIcon />}>
           Recomendaciones
         </CustomButton>
-        {
-          checkPermission(session, "recommendUserEntryQuery")  &&(
-            <CustomButton
-              onClick={openAcceptChat}
-              variant="contained"
-              color={infoColor}
-              startIcon={<ChatIcon />}
-            >
-              Aceptar consulta e Iniciar Chat
-            </CustomButton>
-          )
-        }
-        {
-          checkPermission(session, "createFrequentQuery") && ( isFrequent == 0) && (
-            <CustomButton
-              onClick={openAddFrequentQuery}
-              variant="contained"
-              color={infoColor}
-              startIcon={<RateReviewIcon />}
-            >
-              Añadir a consulta frecuente
-            </CustomButton>
-          )
-        }
+        {checkPermission(session, 'recommendUserEntryQuery') && (
+          <CustomButton onClick={openAcceptChat} variant="contained" color={infoColor} startIcon={<ChatIcon />}>
+            Aceptar consulta e Iniciar Chat
+          </CustomButton>
+        )}
+        {checkPermission(session, 'createFrequentQuery') && isFrequent == 0 && (
+          <CustomButton
+            onClick={openAddFrequentQuery}
+            variant="contained"
+            color={infoColor}
+            startIcon={<RateReviewIcon />}
+          >
+            Añadir a consulta frecuente
+          </CustomButton>
+        )}
       </div>
-      
+
       <CustomModal
         customModal="ModalAcceptChat"
         open={showAcceptChat}
-        handleClose={() => { setShowAcceptChat(false) }}
+        handleClose={() => {
+          setShowAcceptChat(false);
+        }}
         onConfirm={onAcceptEntryQuery}
       />
 
@@ -184,12 +95,14 @@ const openAddFrequentQuery = () => {
       <CustomModal
         customModal="ModalAddFrequentQuery"
         open={showAddFrequentQuery}
-        handleClose={() => { setShowAddFrequentQuery(false) }}
+        handleClose={() => {
+          setShowAddFrequentQuery(false);
+        }}
         onConfirm={onAcceptEntryQuery}
         entryQuery={entryQuery}
-        setEntryQuery = {setEntryQuery}
+        setEntryQuery={setEntryQuery}
       />
-    </div>
+    </>
   );
 };
 

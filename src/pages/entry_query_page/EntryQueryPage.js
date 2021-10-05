@@ -113,10 +113,13 @@ const EntryQueryPage = (props) => {
           session={session}
         />
       </Grid>
-      <Grid item xs={12} style={{ height: '13vh' }}>
-        <EQMainBody />
-      </Grid>
       <Grid item xs={12} style={{ height: '74vh' }}>
+        <EQMainBody 
+          entryQuery={entryQuery}
+          session={session}
+        />
+      </Grid>
+      <Grid item xs={12} style={{ height: '13vh' }}>
         <EQMainFooter 
           entryQuery={entryQuery}
           session={session}

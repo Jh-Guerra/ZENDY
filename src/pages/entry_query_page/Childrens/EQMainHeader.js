@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import IconButton from '@material-ui/core/IconButton';
 import { Grid, TextField, Typography, Button, Tooltip } from "@material-ui/core";
-import SearchIcon from '@material-ui/icons/Search';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import CustomModal from "components/Modals/common/CustomModal";
 import { useHistory, withRouter } from "react-router-dom";
@@ -18,14 +17,9 @@ const EQMainHeader = props => {
   const user = session && session.user && session.user.id|| "";
 
   const history = useHistory();
-  const [showChatDetail, setShowChatDetail] = useState(false);
 
   const [showModalEntryChat, setShowModalEntryChat] = React.useState(false);
   const [showModalDelete, setShowModalDelete] = React.useState(false);
-
-  const openChatDetail = () => {
-    setShowChatDetail(true);
-  }
 
   const onOpenModal = () => {
     setShowModalEntryChat(true);
@@ -43,7 +37,7 @@ const EQMainHeader = props => {
   return (
     <Grid container className="chat-header">    
       <Grid container className="chat-header-content">
-        <Grid item xs={6} onClick={openChatDetail} style={{cursor:"pointer"}}>       
+        <Grid item xs={6}>       
           <Grid container style={{height:"100%", padding:"0px 10px"}}>           
             <Grid item xs={2} style={{display:"flex"}}>             
               <div className="chat-header-avatar">
@@ -67,18 +61,6 @@ const EQMainHeader = props => {
         
         <Grid item xs={6}>
           <Grid container className="chat-header-buttons">
-            <TextField className="search_wrap" 
-              style={{paddingLeft: '20px'}}
-              type="text"
-              placeholder="Buscar..."
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <SearchIcon />
-                  </InputAdornment>
-                ),disableUnderline: true
-              }}
-            />
             {
               ((entryQuery && entryQuery.status == "Pendiente") && (entryQuery && entryQuery.createdBy == user) ) && (
                 <div>

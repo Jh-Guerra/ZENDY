@@ -65,7 +65,7 @@ const MiniDrawer = (props) => {
       case path.includes("/empresas/"):
         return setTab(2);
       case path.includes("/consultas/"):
-        if (checkPermission(session, "adminEntryQuery"))
+        if (checkPermission(session, "acceptEntryQuery"))
         return setTab(2);
         if (checkPermission(session, "createEntryQuery"))
         return setTab(1);
@@ -116,7 +116,7 @@ const MiniDrawer = (props) => {
                   <Tooltip style={{display: checkPermission(session, "createEntryQuery") ? "inline-flex" : "none" }} title="Consultas">
                     <Tab className="mini-drawer-tab" icon={<PendingChatIcon />} />
                   </Tooltip>
-                  <Tooltip style={{display: checkPermission(session, "adminEntryQuery") ? "inline-flex" : "none" }} title="Consultas Entrantes">
+                  <Tooltip style={{display: checkPermission(session, "acceptEntryQuery") ? "inline-flex" : "none" }} title="Consultas Entrantes">
                     <Tab className="mini-drawer-tab" icon={<PendingChatIcon />} />
                   </Tooltip>
                   {/* <Tooltip style={{display: checkPermission(session, "showTabCompany") ? "inline-flex" : "none" }} title="Empresas">
