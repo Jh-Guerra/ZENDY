@@ -173,7 +173,7 @@ const deleteImage = (Link,id) => {
                     <CustomInput
                       id="reason"
                       label={<p>Motivo *</p>}
-                      type="inputText"
+                      custom="inputText"
                       onChange={handleChange}
                       value={values.reason}
                       error={errors.reason && touched.reason ? true : false}
@@ -185,7 +185,7 @@ const deleteImage = (Link,id) => {
                     <CustomInput
                       id="description"
                       label={<p>Descripción *</p>}
-                      type="textArea"
+                      custom="textArea"
                       onChange={handleChange}
                       value={values.description}
                       error={errors.description && touched.description ? true : false}
@@ -195,7 +195,7 @@ const deleteImage = (Link,id) => {
                   <Grid item xs={12}>
                     <CustomInput
                       id="idModule"
-                      type="select2"
+                      custom="select2"
                       label="Modulo"
                       onChange={(event) => {
                         setFieldValue("idModule", event.target.value)

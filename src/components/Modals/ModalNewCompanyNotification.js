@@ -213,7 +213,7 @@ const ModalNewCompanyNotification = (props) => {
                                 <Grid item xs={12}>
                                     <CustomInput
                                         id="companyId"
-                                        type="select"
+                                        custom="select"
                                         label="Empresa"
                                         onChange={(event) => {
                                             setCompanyId(event.target.value);
@@ -300,7 +300,7 @@ const ModalNewCompanyNotification = (props) => {
                                 <Grid item xs={12}>
                                     <CustomInput
                                         id="reason"
-                                        type="inputText"
+                                        custom="inputText"
                                         label="Asunto"
                                         onChange={handleChange}
                                         value={values.reason}
@@ -313,7 +313,7 @@ const ModalNewCompanyNotification = (props) => {
                                 <Grid item xs={12}>
                                     <CustomInput
                                         id="description"
-                                        type="textArea"
+                                        custom="textArea"
                                         label="Descripcion"
                                         onChange={handleChange}
                                         value={values.description}

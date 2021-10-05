@@ -30,15 +30,15 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const CustomInput = props => {
-    const { type="inputText", options=[] } = props;
+    const { custom="inputText", options=[] } = props;
 
     const classes = useStyles();
 
     const getCustomInput = () => {
-        switch(type){
+        switch(custom){
             case "inputText":
                 return <TextField
-                            className={classes[type]}
+                            className={classes[custom]}
                             InputProps={{
                                 startAdornment: props.icon && ( <InputAdornment position="start"> { props.icon } </InputAdornment> ),
                             }}
@@ -47,7 +47,7 @@ const CustomInput = props => {
                         />
             case "textArea":
               return <TextField
-                          className={classes[type]}
+                          className={classes[custom]}
                           multiline
                           rows={4}
                           InputProps={{
@@ -61,7 +61,7 @@ const CustomInput = props => {
                 return <MuiPickersUtilsProvider utils={DateFnsUtils}>
                             <Grid container justify="space-around">
                                 <KeyboardDatePicker
-                                    className={classes[type]}
+                                    className={classes[custom]}
                                     disableToolbar
                                     variant="inline"
                                     format="dd/MM/yyyy"
@@ -74,7 +74,7 @@ const CustomInput = props => {
                             </Grid>
                         </MuiPickersUtilsProvider>
             case "select":
-                return <FormControl error={props.error} className={classes[type]}>
+                return <FormControl error={props.error} className={classes[custom]}>
                             <InputLabel>{props.label || ""}</InputLabel>
                             <Select
                                 value={props.value}
@@ -90,7 +90,7 @@ const CustomInput = props => {
                             <FormHelperText>{props.helperText}</FormHelperText>
                         </FormControl>
             case "select2":
-                return <FormControl error={props.error} className={classes[type]}>
+                return <FormControl error={props.error} className={classes[custom]}>
                             <InputLabel>{props.label || ""}</InputLabel>
                             <Select
                                 value={props.value}

@@ -94,7 +94,7 @@ const ModalEndChat = (props) => {
                         <Grid item xs={12}>
                             <CustomInput
                                 id="description"
-                                type="textArea"
+                                custom="textArea"
                                 onChange={event => { setFinalizeDescription(event.target.value) }}
                                 value={finalizeDescription}
                             />

@@ -212,7 +212,7 @@ const ModalUser = (props) => {
                                         <CustomInput
                                             id="firstName"
                                             label="Nombre"
-                                            type="inputText"
+                                            custom="inputText"
                                             onChange={handleChange}
                                             value={values.firstName}
                                             error={ errors.firstName && touched.firstName ? true : false }
@@ -224,7 +224,7 @@ const ModalUser = (props) => {
                                     <Grid item xs={12}>
                                         <CustomInput
                                             id="lastName"
-                                            type="inputText"
+                                            custom="inputText"
                                             label="Apellido"
                                             onChange={handleChange}
                                             value={values.lastName}
@@ -237,7 +237,7 @@ const ModalUser = (props) => {
                                     <Grid item xs={12}>
                                         <CustomInput
                                             id="email"
-                                            type="inputText"
+                                            custom="inputText"
                                             label="Correo Electrónico"
                                             onChange={handleChange}
                                             value={values.email}
@@ -252,8 +252,8 @@ const ModalUser = (props) => {
                                             <Grid item xs={12}>
                                                 <CustomInput
                                                     id="password"
-                                                    type="inputText"
                                                     label="Contraseña"
+                                                    custom="inputText"
                                                     type="password"
                                                     onChange={handleChange}
                                                     value={values.password}
@@ -268,7 +268,7 @@ const ModalUser = (props) => {
                                     <Grid item xs={12} md={6}>
                                         <CustomInput
                                             id="sex"
-                                            type="select"
+                                            custom="select"
                                             label="Sexo"
                                             onChange={(event) => {
                                                 setFieldValue("sex", event.target.value);
@@ -283,7 +283,7 @@ const ModalUser = (props) => {
                                     <Grid item xs={12} md={6}>
                                         <CustomInput
                                             id="dob"
-                                            type="inputDate"
+                                            custom="inputDate"
                                             label="Fecha de Nacimiento"
                                             onChange={(date) => {
                                                 setFieldValue("dob", date);
@@ -295,7 +295,7 @@ const ModalUser = (props) => {
                                     <Grid item xs={12} md={6}>
                                         <CustomInput
                                             id="phone"
-                                            type="inputText"
+                                            custom="inputText"
                                             maxlength="16"
                                             label="N° Celular"
                                             onChange={(event) => { 
@@ -311,7 +311,7 @@ const ModalUser = (props) => {
                                     <Grid item xs={12}>
                                        <CustomInput 
                                             id="idRole"
-                                            type="select"
+                                            custom="select"
                                             label="Tipo de Usuario"
                                             onChange={(event) => {
                                                 setFieldValue("idRole", event.target.value)
@@ -328,7 +328,7 @@ const ModalUser = (props) => {
                                             <Grid item xs={12}>
                                                 <CustomInput
                                                     id="idCompany"
-                                                    type="select2"
+                                                    custom="select2"
                                                     label="Empresa"
                                                     onChange={(event) => {
                                                         setFieldValue("idCompany", event.target.value)
