@@ -14,6 +14,7 @@ import EmpresaPage from 'pages/empresa_page/EmpresaPage';
 import { checkPermission, getSessionInfo } from 'utils/common';
 import EntryQueryPage from 'pages/entry_query_page/EntryQueryPage';
 import NotificationsPage from 'pages/notifications_page/NotificationsPage';
+import ChatHistoryPage from 'pages/chat_history_page/ChatHistoryPage';
 
 const Routes = (props) => {
   const session = getSessionInfo();
@@ -40,6 +41,7 @@ const Routes = (props) => {
           <PrivateRoute exact path='/empresas/:companyId' {...props} component={EmpresaPage}/>
 
           <PrivateRoute exact path="/chat/:type/:chatId" {...props} component={MainPage} />
+          <PrivateRoute exact path="/chat-historial/:type/:chatId" {...props} component={ChatHistoryPage} />
 
           <PrivateRoute exact path="/consultas/:entryQueryId" {...props} component={EntryQueryPage} />
           <PrivateRoute exact path="/consultas/:entryQueryId/recomendacion" {...props} component={EntryQueryPage} />

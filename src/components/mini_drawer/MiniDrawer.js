@@ -170,7 +170,7 @@ const MiniDrawer = (props) => {
               <EntryChat {...props} session={session}/>
             </TabPanel> */}
             <TabPanel value={tab} index={7} >
-              <HistoryChat/>
+              <HistoryChat {...props} session={session}/>
             </TabPanel>
             <TabPanel value={tab} index={8} >
               <AdminNotificationSection {...props} session={session}/>
