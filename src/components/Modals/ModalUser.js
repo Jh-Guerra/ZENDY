@@ -21,10 +21,14 @@ import defaultAvatar from 'assets/images/defaultAvatarMale.jpg';
 import config from "../../config/Config";
 import GetAppIcon from '@material-ui/icons/GetApp';
 import HighlightOffTwoToneIcon from '@material-ui/icons/HighlightOff';
+import { getImageProfile, getSessionInfo } from "utils/common";
 
 const ModalUser = (props) => {
     
     const { open, handleClose, user } = props;
+    const session = getSessionInfo();
+    const role = session && session.role && session.role.name || {};
+    const companyId = session && session.user && session.user.idCompany || {};
 
     const [data, setData] = React.useState({
         id: "",
@@ -106,8 +110,10 @@ const ModalUser = (props) => {
         if (!user.phone)
             errors.phone = 'N° celular requerido'
 
-        if (!['1', '2'].includes(user.idRole+"") && !user.idCompany)
-            errors.idCompany = 'Empresa requerida'
+        if(role != 'AdminEmpresa') {
+            if (!['1', '2'].includes(user.idRole+"") && !user.idCompany)
+                errors.idCompany = 'Empresa requerida'
+        }
 
         return errors;
     };
@@ -155,7 +161,12 @@ const ModalUser = (props) => {
             formData.append('phone', user.phone)
             formData.append('sex', user.sex)
             formData.append('idRole', user.idRole)
-            formData.append('idCompany', user.idCompany)
+            if(role == 'AdminEmpresa') { 
+                formData.append('idCompany', companyId)
+            }
+            else {
+                formData.append('idCompany', user.idCompany)
+            }
             
             props.dispatch(createUser(formData)).then(res => {
                 props.dispatch(showBackdrop(false));
@@ -324,7 +335,7 @@ const ModalUser = (props) => {
                                        />
                                     </Grid>
                                     {
-                                        !['1', '2'].includes(values.idRole+"") && (
+                                        !['1', '2'].includes(values.idRole+"") && role == 'Admin' && (
                                             <Grid item xs={12}>
                                                 <CustomInput
                                                     id="idCompany"

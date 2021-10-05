@@ -23,6 +23,8 @@ const ModalMoreActions = (props) => {
     
     const classes = useStyles();
     const { open, handleClose, handleChangeTab, session } = props;
+
+    const role = session && session.role && session.role.name || {};
      
     return (
         <Modal 
@@ -107,7 +109,7 @@ const ModalMoreActions = (props) => {
                         )
                      }
                     {
-                        checkPermission(session, "showUserCrud") && (
+                        checkPermission(session, "showUserCrud") && (role == 'Admin' ) && (
                             <Grid item xs={12}>
                                 <CustomButton 
                                     variant="contained"
@@ -116,6 +118,22 @@ const ModalMoreActions = (props) => {
                                     startIcon={<PeopleIcon />}
                                     color={successButtonColor}
                                     onClick={() => { props.goToView && props.goToView("usuarios") }}
+                                >
+                                    Usuarios
+                                </CustomButton>
+                            </Grid>
+                        )
+                     }
+                         {
+                        checkPermission(session, "showCompanyUsersCrud") && (role == 'AdminEmpresa' ) && (
+                            <Grid item xs={12}>
+                                <CustomButton 
+                                    variant="contained"
+                                    fullWidth
+                                    className={classes.button}
+                                    startIcon={<PeopleIcon />}
+                                    color={successButtonColor}
+                                    onClick={() => { props.goToView && props.goToView("usuarios-empresa") }}
                                 >
                                     Usuarios
                                 </CustomButton>

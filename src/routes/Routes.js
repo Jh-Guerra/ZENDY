@@ -15,6 +15,7 @@ import { checkPermission, getSessionInfo } from 'utils/common';
 import EntryQueryPage from 'pages/entry_query_page/EntryQueryPage';
 import NotificationsPage from 'pages/notifications_page/NotificationsPage';
 import ChatHistoryPage from 'pages/chat_history_page/ChatHistoryPage';
+import CompanyUsersPage from 'pages/users_page/CompanyUsersPage';
 
 const Routes = (props) => {
   const session = getSessionInfo();
@@ -32,6 +33,9 @@ const Routes = (props) => {
 
           {checkPermission(session, "showUserCrud") && (
             <PrivateRoute exact path="/usuarios" {...props} component={UsersPage} />
+          )}
+           {checkPermission(session, "showCompanyUsersCrud") && (
+            <PrivateRoute exact path="/usuarios-empresa" {...props} component={CompanyUsersPage} />
           )}
           {checkPermission(session, "showCompanyCrud") && (
             <PrivateRoute exact path="/empresas" {...props} component={CompaniesPage} />
