@@ -6,7 +6,7 @@ import { getImageProfile } from "utils/common";
 
 const EQMainBody = props => {
 
-  const { entryQuery = {}, session, setEntryQuery } = props;
+  const { entryQuery = {}, session } = props;
   const user = session && session.user || {};
 
   const [entryQueryItems, setEntryQueryItems] = React.useState([]);
@@ -17,7 +17,6 @@ const EQMainBody = props => {
 
   const getDefaultMessages = () => {
     const items = [];
-    console.log("entryQuery", entryQuery)
     if(entryQuery.reason){
         items.push({
           msg: entryQuery.reason,
@@ -54,8 +53,6 @@ const EQMainBody = props => {
 
     return items;
   }
-
-  console.log("entryQueryItems", entryQueryItems)
 
   return (
     <div className="main-chat-content">
