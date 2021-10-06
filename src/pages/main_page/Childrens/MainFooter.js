@@ -64,10 +64,16 @@ const MainFooter = props => {
       setShowEmoji(null);
       setShowPreviewImage(false);
       setShowPreviewFile(false);
-      
+      setUploadImage(null);
+      setUploadFile(null);
+      document.getElementById('upload-image').value = "";
+      document.getElementById('upload-file').value = "";
       props.onListMessages(chat.id, "");
     }).catch(error => {
-        console.error('error', error);
+      setUploadImage(null);
+      setUploadFile(null);
+      document.getElementById('upload-image').value = "";
+      document.getElementById('upload-file').value = "";
     });
   }
 
