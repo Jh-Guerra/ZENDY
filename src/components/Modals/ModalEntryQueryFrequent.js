@@ -23,20 +23,6 @@ const ModalEntryQueryFrequent = props => {
   const { open, handleClose, onSaveForm, entryQuery } = props;
   const history = useHistory();
 
-  function changeOptions(value) {
-
-     props.dispatch(findEntryQuery(value)).then( res => {
-       const dataForm = {
-         ...data,
-         reason: res && res.entryQuery.reason,
-         description: res && res.entryQuery.description,
-         idModule: res && res.entryQuery.idModule,
-         idFrequentQuery: res && res.entryQuery.id
-       }
-       setData(dataForm) 
-     })
-  }
-
   const [data, setData] = React.useState({
     id: '',
     reason: '',
@@ -47,12 +33,6 @@ const ModalEntryQueryFrequent = props => {
     idFrequentQuery: 18,
     isFrequentQuery: true,
   });
-
-  const [frequentQueries, setFrequentQueries] = React.useState([]);
-  const [title, setTitle] = React.useState("Ingresar Consulta Frecuente");
-  const [editMode, setEditMode] = React.useState(false);
-  const [fileUrl, setFileUrl] = React.useState(null);
-  const [modules, setModules] = React.useState([]);
 
   React.useEffect(() => {
     if(open){
@@ -76,7 +56,7 @@ const ModalEntryQueryFrequent = props => {
               }
               setData(dataForm) 
             })
-            setTitle("Ingresar Consulta Frecuente");
+            setTitle("Iniciar Consulta Frecuente");
             setEditMode(true);
         }
         props.dispatch(showBackdrop(true));
@@ -90,7 +70,26 @@ const ModalEntryQueryFrequent = props => {
         }).catch(err => props.dispatch(showBackdrop(false)));
         setFileUrl(null)
     }
-}, [open]);
+  }, [open]);
+
+  const changeOptions = (value) => {
+    props.dispatch(findEntryQuery(value)).then( res => {
+      const dataForm = {
+        ...data,
+        reason: res && res.entryQuery.reason,
+        description: res && res.entryQuery.description,
+        idModule: res && res.entryQuery.idModule,
+        idFrequentQuery: res && res.entryQuery.id
+      }
+      setData(dataForm) 
+    })
+ }
+
+  const [frequentQueries, setFrequentQueries] = React.useState([]);
+  const [title, setTitle] = React.useState("Iniciar Consulta Frecuente");
+  const [editMode, setEditMode] = React.useState(false);
+  const [fileUrl, setFileUrl] = React.useState(null);
+  const [modules, setModules] = React.useState([]);
 
   const validateForm = entryQuery => {
     const errors = {};
@@ -131,7 +130,7 @@ const ModalEntryQueryFrequent = props => {
                 });          
   };
 
-  function processImage(event){
+  const processImage = (event) => {
     if(event && event.target.files && event.target.files.length > 0){
       
         const imageFile = event.target.files[0];

@@ -31,7 +31,7 @@ const ModalEntryQuery = props => {
     file: '',
     idModule:'',
   });
-  const [title, setTitle] = React.useState("Registrar Consulta");
+  const [title, setTitle] = React.useState("Iniciar Consulta");
   const [editMode, setEditMode] = React.useState(false);
   const [fileUrl, setFileUrl] = React.useState(null);
   const [modules, setModules] = React.useState([]);
@@ -56,7 +56,7 @@ const ModalEntryQuery = props => {
                 file: '',
                 idModule: moduleList[0] && moduleList[0].id
             });
-            setTitle("Registrar Consulta");
+            setTitle("Iniciar Consulta");
             setEditMode(true);
         }
 

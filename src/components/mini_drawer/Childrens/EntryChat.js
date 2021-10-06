@@ -165,7 +165,7 @@ const EntryChat = props => {
           onSaveForm();
       }}
       />
-         <CustomModal
+      <CustomModal
         customModal={'ModalEntryQueryFrequent'}
         open={showModalEntryChatF}
         handleClose={() => { setShowModalEntryChatF(false) }}
