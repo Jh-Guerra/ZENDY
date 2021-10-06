@@ -233,7 +233,7 @@ const deleteImage = (Link, id, values) => {
                           src={fileUrl ? fileUrl : (data.image ? (config.api + data.image) : defaultCompany)}
                         />
                         {
-                           editMode && <HighlightOffTwoToneIcon style={{color: 'red', display:fileUrl || (entryQuery && entryQuery.id && entryQuery.image) ? "flex" : "none"}} onClick={() => { deleteImage( (data.image && (data.image).substr(8)), data.id, values)  }}/>
+                           editMode && (entryQuery && entryQuery.image) && <HighlightOffTwoToneIcon style={{color: 'red', display:fileUrl || (entryQuery && entryQuery.id && entryQuery.image) ? "flex" : "none"}} onClick={() => { deleteImage( (data.image && (data.image).substr(8)), data.id, values)  }}/>
                         }
                       </Grid>
                   }

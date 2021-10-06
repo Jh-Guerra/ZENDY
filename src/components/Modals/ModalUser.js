@@ -15,7 +15,7 @@ import PhoneIcon from '@material-ui/icons/Phone';
 import { createUser, deleteImageUser, updateUser,uploadImage} from 'services/actions/UserAction';
 import AssignmentIndIcon from '@material-ui/icons/AssignmentInd';
 import EditIcon from '@material-ui/icons/Edit';
-import { showBackdrop } from 'services/actions/CustomAction';
+import { showBackdrop, showSnackBar } from 'services/actions/CustomAction';
 import { listCompanies } from 'services/actions/CompanyAction';
 import defaultAvatar from 'assets/images/defaultAvatarMale.jpg';
 import config from "../../config/Config";
@@ -122,7 +122,7 @@ const ModalUser = (props) => {
         props.dispatch(showBackdrop(true));
         if(user.id){
             // Editar
-            const fileInput = document.querySelector('#icon-button-file') ;
+            const fileInput = document.querySelector('#image') ;
             const formData = new FormData();
             formData.append('image', fileInput.files[0]);
             formData.append('image', fileInput.files[0]);
@@ -149,7 +149,7 @@ const ModalUser = (props) => {
            });
         }else{
             // Agregar
-            const fileInput = document.querySelector('#icon-button-file') ;
+            const fileInput = document.querySelector('#image') ;
             const formData = new FormData();
             formData.append('image', fileInput.files[0]);
             //for de objetos averiguar
@@ -194,13 +194,22 @@ const ModalUser = (props) => {
         setIcon(<EditIcon />);
     }
 
-    const deleteImage = (Link,id) => {
-        props.dispatch(deleteImageUser(Link,id)).then(res => {
-          if(res.user){
-            setFileUrl(null)
-            setData({...data,avatar:null})
-          }});
-    }
+    const deleteImage = (Link, id, values) => {
+        if(id && values.avatar){
+          props.dispatch(deleteImageUser(Link,id)).then(res => {
+            if(res.user){
+              setFileUrl(null);
+              setData({...values, avatar: ""});
+              document.getElementById('image').value = "";
+              props.dispatch(showSnackBar('warning', 'Imagen eliminada'));
+            }
+          });
+        }else{
+          setFileUrl(null);
+          setData({...values, avatar:null});
+          document.getElementById('image').value = "";
+        }
+      }
 
     return (
         <Modal 
@@ -364,7 +373,7 @@ const ModalUser = (props) => {
                                                     disabled={!editMode}
                                                 >
                                                     <GetAppIcon style={{marginRight: "12px"}} />
-                                                    <input id="icon-button-file" accept="image/*" type="file" onChange={processImage} />
+                                                    <input id="image" accept="image/*" type="file" onChange={processImage} />
                                                 </Button>
                                             </Grid>
                                         )
@@ -375,7 +384,7 @@ const ModalUser = (props) => {
                                             src={fileUrl ? fileUrl : (data.avatar ? (config.api+data.avatar) : defaultAvatar)}
                                         />
                                         {
-                                            editMode && <HighlightOffTwoToneIcon style={{color: 'red', display:fileUrl || (user.id && user.avatar) ? "flex" : "none"}} onClick={() => { deleteImage( (data.avatar && (data.avatar).substr(8)),data.id)  }}/>
+                                            editMode && (user.id && user.avatar) && <HighlightOffTwoToneIcon style={{color: 'red', display:fileUrl || (user.id && user.avatar) ? "flex" : "none"}} onClick={() => { deleteImage( (data.avatar && (data.avatar).substr(8)), data.id, values)  }}/>
                                         }
                                     </Grid>
                                 </Grid>
