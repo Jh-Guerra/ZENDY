@@ -67,3 +67,7 @@ export const deleteImageUser = (imageLink,id) => async dispatch => {
     return res && res.data || [];
 }
 
+export const listUsersSameCompany = (term) => async dispatch => {
+    const res = await userService.listUsersSameCompany(term);
+    return res && res.data || [];
+}
