@@ -17,25 +17,16 @@ import InputBase from '@material-ui/core/InputBase';
 import IconButton from '@material-ui/core/IconButton';
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
 import ModalFooter from './common/ModalFooter';
-import { listAvailableUsers, listAvailableUsersSameCompany } from 'services/actions/UserAction';
+import { listAdmins, listAvailableUsers, listAvailableUsersSameCompany } from 'services/actions/UserAction';
 import { showBackdrop, showSnackBar } from 'services/actions/CustomAction';
 import config from 'config/Config';
 import { pColor } from 'assets/styles/zendy-css';
-import { getImageProfile , getSessionInfo} from "utils/common";
+import { getCustomRoleName, getImageProfile , getSessionInfo} from "utils/common";
 import { createParticipant } from 'services/actions/ParticipantAction';
 import moment from 'moment';
 import { listActiveChats } from 'services/actions/ChatAction';
 
 const useStyles = makeStyles(theme => ({
-  buttonIcon: {
-      width: '30px',
-      marginRight: '10px'
-  },
-  letters:{
-      fontSize:'20px',
-      fontStyle:'oblique',
-      fontWeight:'bold'
-  },
   input: {
       marginLeft: theme.spacing(1),
       flex: 1,
@@ -43,63 +34,47 @@ const useStyles = makeStyles(theme => ({
   },
   iconButton: {
       padding: 10,
-  },
-  divider: {
-      height: 28,
-      margin: 4,
-  },
+  }
 }));
 
 const ModalAddToConversation = (props) => {
 
-  const { open, handleClose, chat, onGetChatData, isAdminList, isAdminCreated } = props;
+  const { open, handleClose, chat, onGetChatData, isAdminList=false, isAdminCreated } = props;
   const classes = useStyles();
 
   const [users, setUsers] = React.useState([]);
-  const [usersSC, setUsersSC] = React.useState([]);
+  const [selectedUsers, setSelectedUsers] = React.useState([]);
   const [searchTimeout, setSearchTimeout] = React.useState(null);
   const [term, setTerm] = React.useState('');
   const session = getSessionInfo();
-  const userAc = session && session.user || {};
-
-  const ParticipantsIds = chat.participants && chat.participants.map(participants => participants.user.id) || [];
 
   React.useEffect(() => {
     if(open){
-      onListAvailableUsers();
-      onListAvailableUsersSameCompany();
-      setTerm("");
+      if(isAdminList){
+        onListAdmins("");
+      }else{
+        onListAvailableUsers("");
+      }
     }
+    setTerm("");
   }, [open]);
 
   const onListAvailableUsers = (term) => {
     props.dispatch(showBackdrop(true));
-    const selectedUsers = users.filter(user => user.checked) || [];
-    const selectedUserIds = selectedUsers.map(user => user.id) || [];
-    props.dispatch(listAvailableUsers(["Admin", "UserHD"], term)).then(res => {
-      res && res.map(user => {
-        if (!selectedUserIds.includes(user.id)) {
-          selectedUsers.push(user)
-        }}
-      )
-      setUsers(selectedUsers);
+    props.dispatch(listAvailableUsers(["AdminEmpresa", "UserHD"], term)).then(res => {
+      const noSelectedUsers = res && res.filter(user => !selectedUsers.find(u => u.id == user.id));
+      setUsers([...selectedUsers, ...noSelectedUsers]);
       props.dispatch(showBackdrop(false));
-    }).catch(err => props.dispatch(showBackdrop(false)));;
+    }).catch(err => props.dispatch(showBackdrop(false)));
   }
 
-  const onListAvailableUsersSameCompany = (term) => {
+  const onListAdmins = (term) => {
     props.dispatch(showBackdrop(true));
-    const selectedUsers = usersSC.filter(user => user.checked) || [];
-    const selectedUserIds = selectedUsers.map(user => user.id) || [];
-    props.dispatch(listAvailableUsersSameCompany(["UserEmpresa"], term)).then(res => {
-      res && res.map(user => {
-        if (!selectedUserIds.includes(user.id)) {
-          selectedUsers.push(user)
-        }}
-      )
-      setUsersSC(selectedUsers);
+    props.dispatch(listAdmins(term)).then(res => {
+      const noSelectedUsers = res && res.filter(user => !selectedUsers.find(u => u.id == user.id));
+      setUsers([...selectedUsers, ...noSelectedUsers]);
       props.dispatch(showBackdrop(false));
-    }).catch(err => props.dispatch(showBackdrop(false)));;
+    }).catch(err => props.dispatch(showBackdrop(false)));
   }
 
   const onSearch = (term) => {
@@ -107,93 +82,60 @@ const ModalAddToConversation = (props) => {
     clearTimeout(searchTimeout);
     setSearchTimeout(
       setTimeout(() => {
-        onListAvailableUsers(term);
-        onListAvailableUsersSameCompany(term);
+        if(isAdminList){
+          onListAdmins(term);
+        }else{
+          onListAvailableUsers(term);
+        }
       }, 1000)
     )
   }
 
   const onSelectUser = (user) => {
-    const updatedUsers = [...users] || [];
-    updatedUsers.map(u => {
-      if(u.id == user.id){
-        u.checked = u.checked ? false : true;
-      }
-    });
-    setUsers(updatedUsers);
-  }
-
-  const onSelectUserSameCompany = (user) => {
-    const updatedUsers = [...usersSC] || [];
-    updatedUsers.map(u => {
-      if(u.id == user.id){
-        u.checked = u.checked ? false : true;
-      }
-    });
-    setUsersSC(updatedUsers);
+    let newSelectedUsers = [...selectedUsers];
+    if(selectedUsers.find(u => u.id == user.id)){
+      newSelectedUsers = newSelectedUsers.filter(u => u.id != user.id);
+    }else{
+      newSelectedUsers.push(user);
+    }
+    setSelectedUsers(newSelectedUsers);
   }
 
   const addParticipants = (isAdmin=false) => {
-    const participants = [];   
-    const selectedERPUsers = users.filter(user => user.checked) || [];
-    const selectedCompanyUsers = usersSC.filter(user => user.checked) || [];
-    const selectedUsers = selectedERPUsers.concat(selectedCompanyUsers);
+    const participants = [];
 
-    if(isAdmin) {
-      selectedUsers.map(user => {
-        const participant = {
-          idUser: user.id,
-          idChat: chat.id,
-          type: "Admin",
-          erp: user.roleName != "UserEmpresa" ? 1 : 0,
-          entryDate: moment().format("YYYY-MM-DD"),
-          outputDate: "",
-          status: "active",
-          active: 1,
-          deleted: 0,
-          created_at: moment().format("YYYY-MM-DD hh:mm:ss"),
-          updated_at: moment().format("YYYY-MM-DD hh:mm:ss")
-        }
-        participants.push(participant);
-      })
-      props.dispatch(createParticipant(chat.id, participants))
-      handleClose(false);
-      setUsers([])
-      setUsersSC([])
-      onGetChatData(chat.id);
-      props.dispatch(listActiveChats(term, "Vigente"));
-    } else {
-      selectedUsers.map(user => {
-        const participant = {
-          idUser: user.id,
-          idChat: chat.id,
-          type: "Participante",
-          erp: user.roleName != "UserEmpresa" ? 1 : 0,
-          entryDate: moment().format("YYYY-MM-DD"),
-          outputDate: "",
-          status: "active",
-          active: 1,
-          deleted: 0,
-          created_at: moment().format("YYYY-MM-DD hh:mm:ss"),
-          updated_at: moment().format("YYYY-MM-DD hh:mm:ss")
-        }
-        participants.push(participant);
-      })
-      props.dispatch(createParticipant(chat.id, participants))
-      handleClose(false);
-      setUsers([])
-      setUsersSC([])
-      onGetChatData(chat.id);
-      props.dispatch(listActiveChats(term, "Vigente"));
+    if (selectedUsers.length == 0) {
+      return props.dispatch(showSnackBar('warning', 'Necesita seleccionar un usuario'));
     }
+
+    selectedUsers.map(user => {
+      const participant = {
+        idUser: user.id,
+        idChat: chat.id,
+        type: isAdmin ? "Admin" :" Participante",
+        erp: isAdmin ? 1 : 0,
+        entryDate: moment().format("YYYY-MM-DD"),
+        outputDate: null,
+        status: "Activo",
+        active: 1,
+        deleted: 0,
+        created_at: moment().format("YYYY-MM-DD hh:mm:ss"),
+        updated_at: moment().format("YYYY-MM-DD hh:mm:ss")
+      }
+      participants.push(participant);
+    });
+
+    props.dispatch(createParticipant(chat.id, participants))
+    handleClose(false);
+    setUsers([])
+    onGetChatData && onGetChatData(chat.id);
+    props.dispatch(listActiveChats(term, "Vigente"));
   }
   
+  const participantsIds = chat.participants && chat.participants.map(participants => participants.user.id) || [];
+
   return (
-    <Modal 
-      open={open} 
-      handleClose={handleClose}
-      size="sm"
-    >
+    <Modal open={open} handleClose={handleClose} size="sm">
     <ModalHeader
       icon={<PersonAddIcon />}
       text="Agregar a la conversación"   
@@ -220,97 +162,49 @@ const ModalAddToConversation = (props) => {
             </Paper>
             <Divider />
           </Grid>
-
-          {isAdminList ? 
-            <Typography style={{ fontWeight: "bold" }}>ERP Usuarios</Typography> :
-            <Typography style={{ fontWeight: "bold" }}>Usuarios de la Empresa</Typography>
-          }
              
           <Grid item xs={12}>                   
-            {isAdminList &&       
-              users.map((user, i) => {    
-                if (!user.checked) user.checked = false;               
+            {
+              users.map((user, i) => {           
                   return (                    
-                    <List style={{ padding: "0px", maxHeight: "550px", overflow: "auto" }}>
-                      <ListItem key={i} button divider onClick={() => { onSelectUser(user) }} disabled={ParticipantsIds.includes(user.id)}>
+                    <List key={i} style={{ padding: "0px", maxHeight: "550px", overflow: "auto" }}>
+                      <ListItem key={i} button divider onClick={() => { onSelectUser(user) }} disabled={participantsIds.includes(user.id)}>
                         <ListItemAvatar>
                           <Avatar alt="" src={user.avatar ? (config.api + user.avatar) : getImageProfile(user.sex)} />
                         </ListItemAvatar>
                         <ListItemText
                           primary={`${user.firstName} ${user.lastName}`}
-                          secondary={ParticipantsIds.includes(user.id) ? `Ya participa en el grupo` : null}
+                          secondary={`${getCustomRoleName(user.roleName)} ${participantsIds.includes(user.id) ? `: Ya participa en el grupo` : ""}`}
                         />
                         <ListItemSecondaryAction>
                           {
-                            !ParticipantsIds.includes(user.id) &&
-                            <Checkbox
-                              checked={user.checked || false}
-                              onChange={() => { onSelectUser(user) }}
-                              icon={<RadioButtonUncheckedIcon />}
-                              checkedIcon={<RadioButtonCheckedIcon style={{ color: pColor }} />}
-                            />
+                            !participantsIds.includes(user.id) && (
+                              <Checkbox
+                                checked={selectedUsers.find(u => u.id == user.id) != null}
+                                onChange={() => { onSelectUser(user) }}
+                                icon={<RadioButtonUncheckedIcon />}
+                                checkedIcon={<RadioButtonCheckedIcon style={{ color: pColor }} />}
+                              />
+                            )
                           }
                           
                         </ListItemSecondaryAction>
                       </ListItem>
-                      </List>                  
+                    </List>                  
                   )
-              })         
+              })
             }
-            </Grid>
-
-            <Grid item xs={12}> 
-               {!isAdminList && 
-                  usersSC.map((user, i) => {
-                    if (!user.checked) user.checked = false;
-                    return (        
-                      <List style={{ padding: "0px", maxHeight: "550px", overflow: "auto" }}>
-                      <ListItem key={i} button divider onClick={() => { onSelectUserSameCompany(user) }} disabled={ParticipantsIds.includes(user.id)}>
-                        <ListItemAvatar>
-                          <Avatar alt="" src={user.avatar ? (config.api + user.avatar) : getImageProfile(user.sex)} />
-                        </ListItemAvatar>
-                        <ListItemText
-                          primary={`${user.firstName} ${user.lastName}`}
-                          secondary={ParticipantsIds.includes(user.id) && `Ya participa en el grupo`}
-                        />
-                        <ListItemSecondaryAction>
-                          {
-                             !ParticipantsIds.includes(user.id) &&
-                             <Checkbox
-                                checked={user.checked || false}
-                                onChange={() => { onSelectUserSameCompany(user) }}
-                                icon={<RadioButtonUncheckedIcon />}
-                                checkedIcon={<RadioButtonCheckedIcon style={{ color: pColor }} />}
-                             />
-                          }
-                        </ListItemSecondaryAction>
-                      </ListItem>
-                      </List>
-                    )
-                  })
-                }
-              </Grid>
                            
-              {
-                users.length === 0 && (
-                  <ListItem divider style={{ padding: '12px 55px 12px 55px' }}>
-                    <ListItemText
-                      primary={`No hay usuarios registrados `}
-                    />
-                  </ListItem>
-                )
-              }
-
-              {
-                usersSC.length === 0 && (
-                  <ListItem divider style={{ padding: '12px 55px 12px 55px' }}>
-                    <ListItemText
-                      primary={`No hay usuarios registrados `}
-                    />
-                  </ListItem>
-                )
-              }
-            
+            {
+              users.length === 0 && (
+                <ListItem divider style={{ padding: '12px 55px 12px 55px' }}>
+                  <ListItemText
+                    primary={`No hay usuarios registrados `}
+                  />
+                </ListItem>
+              )
+            }
+          </Grid>
         </Grid>     
     </ModalBody>
     <ModalFooter 

@@ -7,14 +7,14 @@ import AddCircleIcon from '@material-ui/icons/AddCircle';
 import { successButtonColor } from 'assets/styles/zendy-css';
 import ModalUser from 'components/Modals/ModalUser';
 import moment from 'moment';
-import { getUserTypeName } from 'utils/common';
+import { getCustomRoleName, getUserTypeName } from 'utils/common';
 import ModalDelete from 'components/Modals/ModalDelete';
 import { showBackdrop, showSnackBar } from 'services/actions/CustomAction';
 import { getImageProfile, getSessionInfo } from "utils/common";
 
 const columns = [
   { type: 'text', field: 'name', label: 'Nombre', format: (row) => `${row.firstName} ${row.lastName}` },
-  { type: 'text', field: 'roleName', label: 'Rol' },
+  { type: 'text', field: 'roleName', label: 'Rol', format: (row) => getCustomRoleName(row.roleName) },
   { type: 'text', field: 'email', label: 'Correo' },
   { type: 'text', field: 'phone', label: 'N° Celular' },
   { type: 'text', field: 'dob', label: 'Fecha de Nacimiento', align: 'center', format: (row) => moment(row.dob || "").format("DD/MM/YYYY") },
@@ -57,7 +57,6 @@ class CompanyUsersPage extends Component {
 
   onListUsers = () => {
     const session = getSessionInfo();
-    const role = session && session.role && session.role.name || {};
     this.props.dispatch(showBackdrop(true));
     this.setState({loading: true});
       this.props.dispatch(listUsersSameCompany()).then(res => {

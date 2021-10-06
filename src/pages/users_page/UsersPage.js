@@ -7,13 +7,13 @@ import AddCircleIcon from '@material-ui/icons/AddCircle';
 import { successButtonColor } from 'assets/styles/zendy-css';
 import ModalUser from 'components/Modals/ModalUser';
 import moment from 'moment';
-import { getUserTypeName } from 'utils/common';
+import { getCustomRoleName, getUserTypeName } from 'utils/common';
 import ModalDelete from 'components/Modals/ModalDelete';
 import { showBackdrop, showSnackBar } from 'services/actions/CustomAction';
 
 const columns = [
   { type: 'text', field: 'name', label: 'Nombre', format: (row) => `${row.firstName} ${row.lastName}` },
-  { type: 'text', field: 'roleName', label: 'Rol' },
+  { type: 'text', field: 'roleName', label: 'Rol', format: (row) => getCustomRoleName(row.roleName)},
   { type: 'text', field: 'companyName', label: 'Empresa', format: (row) => `${row.company && row.company.name || ""}` },
   { type: 'text', field: 'email', label: 'Correo' },
   { type: 'text', field: 'phone', label: 'N° Celular' },

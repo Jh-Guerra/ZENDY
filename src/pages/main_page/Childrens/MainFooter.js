@@ -157,8 +157,8 @@ const MainFooter = props => {
             ref={inputRef}
             onKeyPress={event => { event.key === 'Enter' && sendMessage("text") }}
           />
-          <IconButton className="chat-input-button">
-            <SendIcon className="chat-icon-send" onClick={() => { sendMessage("text") }} />
+          <IconButton className="chat-input-button" onClick={() => { sendMessage("text") }}>
+            <SendIcon className="chat-icon-send" />
           </IconButton>
          
         </div>

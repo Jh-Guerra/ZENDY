@@ -40,8 +40,8 @@ const MainHeader = props => {
   var name = chat.name || '';
   var defaultImageType;
   var isOnline;
-  var company = chat && chat.companyUser && chat.companyUser.name || '';
-  var ruc = chat && chat.companyUser && chat.companyUser.ruc || '';
+  var companyName = chat && chat.company && chat.company.name || '';
+  var ruc = chat && chat.company && chat.company.ruc || '';
 
 
   if(chat.scope == "Grupal"){
@@ -98,11 +98,11 @@ const MainHeader = props => {
                 <Typography noWrap variant="h5">{name}</Typography>
               </div>
               {
-              chat && chat.user && chat.user.idCompany && (   
-              <div>
-                <Typography style={{fontSize:"15px", color:"white"}}>{company} - {ruc}</Typography>
-              </div>
-              )
+                companyName && (
+                  <div>
+                    <Typography style={{fontSize:"15px", color:"white"}}>{companyName} { ruc && `- ${ruc}`}</Typography>
+                  </div>
+                )
             }
             
               {

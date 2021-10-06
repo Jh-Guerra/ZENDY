@@ -62,7 +62,7 @@ const ModalRecommendations = (props) => {
             <ModalBody>
                 <Grid container> 
                     {
-                        checkPermission(session, "acceptEntryQuery") && (
+                        checkPermission(session, "recommendUserEntryQuery") && (
                             <Grid item xs={12} style={{ paddingTop: "10px", maxHeight: "550px", overflow: "auto", textAlign: "right", paddingBottom:"30px" }}> 
                                 <Button variant="contained" color="primary" startIcon={<AddCircleOutlineIcon />} onClick={openRecommendUser}>
                                     Recomendar otro usuario

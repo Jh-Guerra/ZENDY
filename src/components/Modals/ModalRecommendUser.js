@@ -14,7 +14,6 @@ import RadioButtonCheckedIcon from '@material-ui/icons/RadioButtonChecked';
 import RadioButtonUncheckedIcon from '@material-ui/icons/RadioButtonUnchecked';
 import Paper from '@material-ui/core/Paper';
 import InputBase from '@material-ui/core/InputBase';
-import IconButton from '@material-ui/core/IconButton';
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
 import ModalFooter from './common/ModalFooter';
 import { listAvailableUsers } from 'services/actions/UserAction';
@@ -26,27 +25,14 @@ import { listRecommendationsByEntryQuery } from 'services/actions/Recommendation
 import { recommendUser } from 'services/actions/EntryQueryAction';
 
 const useStyles = makeStyles(theme => ({
-    buttonIcon: {
-        width: '30px',
-        marginRight: '10px'
-    },
-    letters:{
-        fontSize:'20px',
-        fontStyle:'oblique',
-        fontWeight:'bold'
-    },
-    input: {
-        marginLeft: theme.spacing(1),
-        flex: 1,
-        width: '80%'
-    },
-    iconButton: {
-        padding: 10,
-    },
-    divider: {
-        height: 28,
-        margin: 4,
-    },
+  input: {
+    marginLeft: theme.spacing(1),
+    flex: 1,
+    width: '80%'
+  },
+  iconButton: {
+    padding: 10,
+  }
 }));
 
 const ModalRecommendUser = (props) => {
@@ -56,32 +42,34 @@ const ModalRecommendUser = (props) => {
   const classes = useStyles();
 
   const [users, setUsers] = React.useState([]);
+  const [selectedUsers, setSelectedUsers] = React.useState([]);
   const [searchTimeout, setSearchTimeout] = React.useState(null);
   const [term, setTerm] = React.useState('');
 
   React.useEffect(() => {
     if(open){
       onListAvailableUsers();
-      setTerm("");
+    }else{
+      setUsers([]);
+      setSelectedUsers([]);
     }
+    setTerm("");
   }, [open]);
 
   const onListAvailableUsers = (term) => {
     props.dispatch(showBackdrop(true));
     const selectedUserIds = users.map(user => user.id) || [];
-    console.log('selectedUserIds',selectedUserIds)
     props.dispatch(listRecommendationsByEntryQuery(entryQuery.id)).then(userRecommendations => {
-      props.dispatch(listAvailableUsers(["Admin", "UserHD"], term)).then(res => {
-        const allUsers = res && res.map(user => {
-          user.recommend = userRecommendations.includes(user.id)
-          console.log('user', user)
-          if(selectedUserIds.includes(user.id) && !user.recommend) {
-            user.checked = true
+      props.dispatch(listAvailableUsers(["UserHD"], term)).then(res => {
+        const noSelectedUsers = res && res.filter(user => !selectedUsers.find(u => u.id == user.id));
+        const allUsers = [...selectedUsers, ...noSelectedUsers];
+        const usersWithRecommends = allUsers.map(user => {
+          return {
+            ...user,
+            recommend: userRecommendations.includes(user.id)
           }
-          return user;
-        }) || [];
-        
-        setUsers(allUsers);
+        });
+        setUsers(usersWithRecommends);
         props.dispatch(showBackdrop(false));
       }).catch(err => props.dispatch(showBackdrop(false)));
     }).catch(err => props.dispatch(showBackdrop(false)));
@@ -98,17 +86,20 @@ const ModalRecommendUser = (props) => {
   }
 
   const onSelectUser = (user) => {
-    const updatedUsers = [...users] || [];
-    updatedUsers.map(u => {
-      if(u.id == user.id){
-        u.checked = u.checked ? false : true;
-      }
-    });
-    setUsers(updatedUsers);
+    let newSelectedUsers = [...selectedUsers];
+    if(selectedUsers.find(u => u.id == user.id)){
+      newSelectedUsers = newSelectedUsers.filter(u => u.id != user.id);
+    }else{
+      newSelectedUsers.push(user);
+    }
+    setSelectedUsers(newSelectedUsers);
   }
 
   const onRecommendUser = () => {
-    const selectedUsers = users.filter(user => user.checked);
+    if (selectedUsers.length == 0) {
+      return props.dispatch(showSnackBar('warning', 'Necesita seleccionar un usuario'));
+    }
+
     const selectedUserIds = selectedUsers.map(user => user.id);
     props.dispatch(showBackdrop(true));
     props.dispatch(recommendUser(selectedUserIds, entryQuery.id)).then(res => {
@@ -122,11 +113,7 @@ const ModalRecommendUser = (props) => {
   }
     
   return (
-    <Modal 
-      open={open} 
-      handleClose={handleClose}
-      size="sm"
-    >
+    <Modal open={open} handleClose={handleClose} size="sm">
         <ModalHeader
           icon={<PersonAddIcon />}
           text="Recomendar Usuario"
@@ -159,7 +146,6 @@ const ModalRecommendUser = (props) => {
             <List style={{ padding: "0px", maxHeight: "550px", overflow: "auto" }}>
               {
                 users.map((user, i) => {
-                  if (!user.checked) user.checked = false;
                   return (
                     <ListItem key={i} button divider onClick={() => { onSelectUser(user) }} disabled={user.recommend}>
                       <ListItemAvatar>
@@ -173,7 +159,7 @@ const ModalRecommendUser = (props) => {
                         !user.recommend && (
                           <ListItemSecondaryAction>
                             <Checkbox
-                              checked={user.checked || false}
+                              checked={selectedUsers.find(u => u.id == user.id) != null}
                               onChange={() => { onSelectUser(user) }}
                               icon={<RadioButtonUncheckedIcon />}
                               checkedIcon={<RadioButtonCheckedIcon style={{ color: pColor }} />}

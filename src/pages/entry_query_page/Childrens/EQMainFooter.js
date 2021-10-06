@@ -55,7 +55,7 @@ const EQMainFooter = props => {
         <CustomButton onClick={openRecommendations} variant="contained" color={infoColor} startIcon={<PeopleAltIcon />}>
           Recomendaciones
         </CustomButton>
-        {checkPermission(session, 'recommendUserEntryQuery') && (
+        {checkPermission(session, 'acceptEntryQuery') && (
           <CustomButton onClick={openAcceptChat} variant="contained" color={infoColor} startIcon={<ChatIcon />}>
             Aceptar consulta e Iniciar Chat
           </CustomButton>

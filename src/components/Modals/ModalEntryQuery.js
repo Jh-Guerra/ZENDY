@@ -226,16 +226,16 @@ const deleteImage = (Link, id, values) => {
                     )
                   }
                   {
-                     editMode && (fileUrl || values.image) && 
-                      <Grid container item xs={12} justify="center">
-                        <Avatar
-                          style={{ height: 140, width: 140, display: fileUrl || (entryQuery && entryQuery.id && entryQuery.image) ? "flex" : "none" }}
-                          src={fileUrl ? fileUrl : (data.image ? (config.api + data.image) : defaultCompany)}
-                        />
-                        {
-                           editMode && (entryQuery && entryQuery.image) && <HighlightOffTwoToneIcon style={{color: 'red', display:fileUrl || (entryQuery && entryQuery.id && entryQuery.image) ? "flex" : "none"}} onClick={() => { deleteImage( (data.image && (data.image).substr(8)), data.id, values)  }}/>
-                        }
-                      </Grid>
+                    (fileUrl || values.image) && 
+                    <Grid container item xs={12} justify="center">
+                      <Avatar
+                        style={{ height: 140, width: 140, display: fileUrl || (entryQuery && entryQuery.id && entryQuery.image) ? "flex" : "none" }}
+                        src={fileUrl ? fileUrl : (data.image ? (config.api + data.image) : defaultCompany)}
+                      />
+                      {
+                          editMode && (entryQuery && entryQuery.image) && <HighlightOffTwoToneIcon style={{color: 'red', display:fileUrl || (entryQuery && entryQuery.id && entryQuery.image) ? "flex" : "none"}} onClick={() => { deleteImage( (data.image && (data.image).substr(8)), data.id, values)  }}/>
+                      }
+                    </Grid>
                   }
                   {
                     editMode && (
@@ -260,7 +260,7 @@ const deleteImage = (Link, id, values) => {
                   cancelText={editMode && "Cancelar"}
                   onCancel={handleClose}
 
-                  confirmText={editMode && "Registrar"}
+                  confirmText={editMode && "Guardar"}
 
                   cancelText={!editMode && "Cancelar"}
 

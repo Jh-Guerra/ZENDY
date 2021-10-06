@@ -12,11 +12,11 @@ import { listNotificationViewed, registerViewed } from 'services/actions/Notific
 import CustomModal from 'components/Modals/common/CustomModal';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
-import { checkPermission, getSessionInfo } from 'utils/common';
+import { checkPermission, getCustomRoleName, getSessionInfo } from 'utils/common';
 
 const columns = [
   { type: 'text', field: 'name', label: 'Nombre', format: (row) => `${row.firstName} ${row.lastName}` },
-  { type: 'text', field: 'roleName', label: 'Rol' },
+  { type: 'text', field: 'roleName', label: 'Rol', format: (row) => getCustomRoleName(row.roleName)},
   { type: 'text', field: 'companyName', label: 'Empresa', format: (row) => `${row.company && row.company.name || ""}` },
   { type: 'text', field: 'email', label: 'Correo' },
   { type: 'text', field: 'viewed_at', label: 'Visto', align: 'center', format: (row) => moment(row.viewed_at || "").format("DD/MM/YYYY, h:mm") },
