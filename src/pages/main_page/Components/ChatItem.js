@@ -33,14 +33,7 @@ const ChatItem = props => {
       style={{ animationDelay: `0.8s` }}
       className={`chat-item ${isMyMessage ? "me" : "other"}`}
     >
-      <Fade in={open} >
-      <Tooltip title="Reenviar">
-          <IconButton onClick={handleResendMessage} className="chat-input-button"> 
-            <ReplyIcon className="chat-input-icon" />
-         </IconButton>
-      </Tooltip>
-      </Fade>
-      <div className="chat-item-content"  onClick={handleClickOpen} onChange={handleClickOpen}>
+      <div className="chat-item-content">
         <div className="chat-meta">
           <span>{isMyMessage ? "Yo" : user}</span>
           <span>{hourChat}</span>
