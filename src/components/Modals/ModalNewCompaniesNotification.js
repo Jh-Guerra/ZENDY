@@ -11,7 +11,7 @@ import CustomInput from 'components/CustomInput';
 import { listWithUsersCount } from 'services/actions/CompanyAction';
 import { showBackdrop, showSnackBar } from 'services/actions/CustomAction';
 import { listUsersByCompany } from 'services/actions/UserAction';
-import { createCompaniesNotification, deleteImageNotification, updateNotification } from 'services/actions/NotificationAction';
+import { createCompaniesNotification, deleteImageNotification, updateNotification, listAdminNotifications } from 'services/actions/NotificationAction';
 import { getImageProfile, trimObject } from 'utils/common';
 import RadioButtonCheckedIcon from '@material-ui/icons/RadioButtonChecked';
 import RadioButtonUncheckedIcon from '@material-ui/icons/RadioButtonUnchecked';
@@ -21,7 +21,7 @@ import config from 'config/Config';
 import SubtitlesIcon from '@material-ui/icons/Subtitles';
 import GetAppIcon from '@material-ui/icons/GetApp';
 import HighlightOffTwoToneIcon from '@material-ui/icons/HighlightOff';
-
+import { useHistory } from 'react-router-dom';
 
 const useStyles = makeStyles(theme => ({
     inputText: {
@@ -38,6 +38,7 @@ const ModalNewCompaniesNotification = (props) => {
     
     const classes = useStyles();
     const { open, handleClose, onSaveForm, notification={} } = props;
+    const history = useHistory();
 
     const [companies, setCompanies] = React.useState([]);
     const [editMode, setEditMode] = React.useState(true);
@@ -67,14 +68,21 @@ const ModalNewCompaniesNotification = (props) => {
         }
     }, [open]);
 
+    const onListUpdatedNotifications = (term) => {
+        props.dispatch(showBackdrop(true));
+        props.dispatch(listAdminNotifications(term)).then(res => {
+            props.dispatch(showBackdrop(false));
+        }).catch(err => props.dispatch(showBackdrop(false)));
+    };
 
     const onListCompanies = () => {
         props.dispatch(showBackdrop(true));
         props.dispatch(listWithUsersCount("")).then(res => {
             setCompanies(res || []);
             props.dispatch(showBackdrop(false));
-        }).catch(err => props.dispatch(showBackdrop(false)));;
+        }).catch(err => props.dispatch(showBackdrop(false)));
     }
+    
     const validateForm = notification => {
         const errors = {};
         notification = trimObject(notification);
@@ -127,12 +135,14 @@ const ModalNewCompaniesNotification = (props) => {
                 props.dispatch(showSnackBar('success', 'Notificación actualizada'));
                 props.dispatch(showBackdrop(false));
                 onSaveForm && onSaveForm(res.notification);
+                onListUpdatedNotifications('');
             }).catch(error => { props.dispatch(showBackdrop(false)); props.dispatch(showSnackBar("error", error.message || "")); });
         } else{
             props.dispatch(createCompaniesNotification(formData)).then(res => {
                 props.dispatch(showSnackBar('success', 'Notificación enviada'));
                 props.dispatch(showBackdrop(false));
                 onSaveForm && onSaveForm();
+                history.push("/notificaciones/" + res.notification.id);
             }).catch(error => { props.dispatch(showBackdrop(false)); props.dispatch(showSnackBar("error", error.message || "")); });
         }
     }

@@ -18,6 +18,11 @@ export const updateNotification = (id, data) => async dispatch => {
     return res && res.data;
 }
 
+export const updateListUsersNotified = (id, data) => async dispatch => {
+    const res = await service.updateListUsersNotified(id, data);
+    return res && res.data;
+}
+
 export const findNotification = (id) => async dispatch => {
     const res = await service.findNotification(id);
     return res && res.data;

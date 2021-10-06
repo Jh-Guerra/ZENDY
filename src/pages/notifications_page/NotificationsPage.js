@@ -9,17 +9,19 @@ import { showBackdrop, showSnackBar } from 'services/actions/CustomAction';
 import { useHistory } from 'react-router';
 import { deleteNotification, findNotification, updateNotification } from 'services/actions/NotificationAction';
 import { listNotificationViewed, registerViewed } from 'services/actions/NotificationViewAction';
+import { listByUserNotification } from 'services/actions/NotificationViewAction';
 import CustomModal from 'components/Modals/common/CustomModal';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
+import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 import { checkPermission, getCustomRoleName, getSessionInfo } from 'utils/common';
 
 const columns = [
   { type: 'text', field: 'name', label: 'Nombre', format: (row) => `${row.firstName} ${row.lastName}` },
-  { type: 'text', field: 'roleName', label: 'Rol', format: (row) => getCustomRoleName(row.roleName)},
-  { type: 'text', field: 'companyName', label: 'Empresa', format: (row) => `${row.company && row.company.name || ""}` },
+  { type: 'text', field: 'rol', label: 'Rol' },
+  { type: 'text', field: 'companyName', label: 'Empresa' },
   { type: 'text', field: 'email', label: 'Correo' },
-  { type: 'text', field: 'viewed_at', label: 'Visto', align: 'center', format: (row) => moment(row.viewed_at || "").format("DD/MM/YYYY, h:mm") },
+  { type: 'text', field: 'viewedDate', label: 'Visto', align: 'center', format: (row) => row.viewedDate ? moment(row.viewedDate).format("DD/MM/YYYY") : "--/--/----" },
 ];
 
 const NotificationsPage = (props) => {
@@ -30,6 +32,7 @@ const NotificationsPage = (props) => {
 
   const [ showNewCompanyNotification, setShowNewCompanyNotification ] = React.useState(false);
   const [ showNewCompaniesNotification, setShowNewCompaniesNotification ] = React.useState(false);
+  const [ showNotificationTo, setShowNotificationTo] = React.useState(false);
   const [ isViewed, setIsViewed ] = React.useState(false);
   const [ showModalDelete, setShowModalDelete] = React.useState(false);
   const [ notification, setNotification ] = React.useState({});
@@ -49,6 +52,7 @@ const NotificationsPage = (props) => {
 
       if(notificationId){
         onGetData(notificationId);
+        onListNotifications(notificationId);
       }else{
         history.push("/");
       }
@@ -56,18 +60,28 @@ const NotificationsPage = (props) => {
   }, [props.location.pathname]);
 
   const onGetData = (notificationId) => {
-    props.dispatch(showBackdrop(true));
+    props.dispatch(showBackdrop(true));  
+    props.dispatch(listNotificationViewed(notificationId)).then(res => {
+      setNotificationsViewed(res || []);
+      props.dispatch(showBackdrop(false));
+    }).catch(err => props.dispatch(showBackdrop(false)));
+
     props.dispatch(findNotification(notificationId)).then(res => {
-      setNotification(res.notification|| {});
+      setNotification(res.notification|| {}); 
       props.dispatch(showBackdrop(false));
     }).catch(err => {
       history.push("/no-encontrado"); 
       props.dispatch(showBackdrop(false));
     });
+  };
 
-    props.dispatch(listNotificationViewed(notificationId)).then(res => {
-      setNotificationsViewed(res || []);
-      props.dispatch(showBackdrop(false));
+  const onListNotifications = (notificationId) => {
+    props.dispatch(showBackdrop(true));
+    setLoading(true);
+    props.dispatch(listByUserNotification(notificationId)).then(res => {
+        setNotificationsViewed(res || []);
+        setLoading(false);
+        props.dispatch(showBackdrop(false));
     }).catch(err => props.dispatch(showBackdrop(false)));
   };
 
@@ -110,6 +124,10 @@ const NotificationsPage = (props) => {
       });
   };
 
+  const openNotificationTo = () => {
+    setShowNotificationTo(true);
+  };  
+
   return (
     <Grid container>
       <Grid item xs={12} className="top-header">
@@ -128,7 +146,7 @@ const NotificationsPage = (props) => {
                 onClick={onOpenEditNotification}
                 style={{marginRight: "10px"}}
               >
-                Editar Notificatión
+                Editar Notificación
               </CustomButton>
               <CustomButton
                 variant="contained"
@@ -136,7 +154,7 @@ const NotificationsPage = (props) => {
                 color={dangerColor}
                 onClick={onOpenModalDelete}
               >
-                Eliminar Notificatión
+                Eliminar Notificación
               </CustomButton>
             </p>
           </Grid>
@@ -145,7 +163,17 @@ const NotificationsPage = (props) => {
       {
         checkPermission(session, "createNotifications") && (
           <Grid item xs={12} style={{padding: "0px 20px"}}>
-            <Typography variant="h6"> Notificaciones entregadas </Typography>
+            <Typography variant="h6"> Notificaciones entregadas </Typography>           
+            <p style={{textAlign:"right"}}>
+              <CustomButton
+                  variant="contained"
+                  startIcon={<AddCircleOutlineIcon />}
+                  color={successButtonColor}
+                  onClick={openNotificationTo}                 
+              >
+                Notificar a
+              </CustomButton>
+            </p>
             <br />
             <CustomTable 
               columns={columns}
@@ -170,7 +198,7 @@ const NotificationsPage = (props) => {
       <ModalDelete
         open={showModalDelete}
         title="Eliminar Notificación"
-        handleClose={() => { this.setState({showModalDelete: false }) }}
+        handleClose={() => { setShowModalDelete(false); }}
         onDelete={onDelete}
       />
       <CustomModal 
@@ -192,6 +220,16 @@ const NotificationsPage = (props) => {
           setShowNewCompanyNotification(false);
           setNotification(updatedNotification || {});
         }}
+      />
+      <CustomModal
+        customModal="ModalNotificationTo"
+        open={showNotificationTo}
+        handleClose={() => {
+          setShowNotificationTo(false);
+        }}
+        notificationsViewed={notificationsViewed}
+        notification={notification}
+        onListNotifications={onListNotifications}
       />
     </Grid>
   );

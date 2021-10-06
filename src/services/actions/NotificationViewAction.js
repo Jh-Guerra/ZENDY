@@ -32,6 +32,11 @@ export const listNotificationViewedByUser = () => async dispatch => {
     return res && res.data || [];
 }
 
+export const listByUserNotification = (notificationId) => async dispatch => {
+    const res = await service.listByUserNotification(notificationId);
+    return res && res.data || [];
+}
+
 export const deleteNotificationViewed = (id) => async dispatch => {
     const res = await service.deleteNotificationViewed(id);
     return res && res.data;
