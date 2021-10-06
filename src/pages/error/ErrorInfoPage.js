@@ -116,9 +116,15 @@ const ErrorInfoPage = props => {
   const onGetErrorData = (errorId) => {
     props.dispatch(showBackdrop(true));
     props.dispatch(findError(errorId)).then(res => {
-      setError(res.error || {});
-      props.dispatch(showBackdrop(false));
-    }).catch(err => props.dispatch(showBackdrop(false)));
+      if(res.error){
+        setError(res.error || {});
+        props.dispatch(showBackdrop(false));
+      }  
+    }).catch(err => {
+       history.push("/");
+       props.dispatch(showBackdrop(false));
+       props.dispatch(showSnackBar("error", err.response.data ? err.response.data.error : "ERROR")); 
+    });
   }
 
   const onDelete = () => {
