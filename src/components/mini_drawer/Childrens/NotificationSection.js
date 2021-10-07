@@ -39,6 +39,8 @@ const NotificationSection = (props) => {
     const goTo = (notification) => {
         if(notification && notification.notificationId){
             history.push("/notificaciones/" + notification.notificationId + "/viewed");
+        } else {
+          history.push("/no-encontrado");
         }
     }
 
