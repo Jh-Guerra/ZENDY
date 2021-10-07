@@ -18,11 +18,6 @@ export const createClientChat = (users) => async dispatch => {
     return res && res.data || [];
 }
 
-export const listClientChats = (term) => async dispatch => {
-    const res = await service.listClientChats(term);
-    return res && res.data || [];
-}
-
 export const createCompanyChat = (users, company, allChecked) => async dispatch => {
     const res = await service.createCompanyChat(users, company, allChecked);
     return res && res.data || [];
@@ -30,11 +25,6 @@ export const createCompanyChat = (users, company, allChecked) => async dispatch 
 
 export const createInternalChat = (users) => async dispatch => {
     const res = await service.createInternalChat(users);
-    return res && res.data || [];
-}
-
-export const listInternalChats = (term) => async dispatch => {
-    const res = await service.listInternalChats(term);
     return res && res.data || [];
 }
 

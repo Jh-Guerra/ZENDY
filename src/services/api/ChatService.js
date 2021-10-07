@@ -17,20 +17,12 @@ class ChatService {
         return await axios.post( getCustomUrl(apiPrefix4, `/register`), data, defaultHeaders());
     }
 
-    async listClientChats(term) {
-        return await axios.get( getCustomUrl(apiPrefix4, `/list?term=${term}`), defaultHeaders());
-    }
-
     async createCompanyChat(users, company, allChecked) {
         return await axios.post( getCustomUrl(apiPrefix3, `/register`), { users, company, allChecked }, defaultHeaders());
     }
 
     async createInternalChat(data) {
         return await axios.post( getCustomUrl(apiPrefix2, `/register`), data, defaultHeaders());
-    }
-        
-    async listInternalChats(term) {
-        return await axios.get( getCustomUrl(apiPrefix2, `/list?term=${term}`), defaultHeaders());
     }
 
     async findChat(id) {
