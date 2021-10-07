@@ -20,7 +20,6 @@ const MainPage = (props) => {
   const user = session.user || {};
 
   const [chat, setChat] = React.useState({});
-  const [message, setMessage] = React.useState({});
   const [messages, setMessages] = React.useState([]);
 
   React.useEffect(()=> {
@@ -51,15 +50,22 @@ const MainPage = (props) => {
         props.dispatch(resetPendingMessages(chatId));
 
         window.Echo.private("chats." + chatId).listen('sendMessage', (e) => {
-          // const newMessage = e && e.message;
-          // const newMessages = e && e.messages;
-          // console.log("newMessage", newMessage);
-          // console.log("newMessages", newMessages);
-          // setMessages([
-          //   ...newMessages
-          // ]);
-          props.dispatch(resetPendingMessages(e && e.chatId));
-          onGetChatData(onListMessages(e && e.chatId, ""));
+          const newMessage = e && e.message;
+          const newUser = e && e.user || {};
+          const oldUser = localStorage.getItem("session") ? JSON.parse(localStorage.getItem("session")).user : {};
+          const currentMessages = localStorage.getItem("messages") ? JSON.parse(localStorage.getItem("messages")) : [];
+          if(newUser.id != oldUser.id){
+            newMessage.userFirstName = newUser.firstName;
+            newMessage.userLastName = newUser.lastName;
+            newMessage.userSex = newUser.sex;
+            newMessage.userAvatar = newUser.avatar;
+            newMessage.userId = newUser.id;
+
+            const newMessages = [...currentMessages, newMessage] || [];
+            localStorage.setItem("messages", JSON.stringify(newMessages));
+            setMessages(newMessages);
+            props.dispatch(resetPendingMessages(e && e.chatId));
+          }
         })
       }else{
         history.push("/inicio");
@@ -88,6 +94,7 @@ const MainPage = (props) => {
   const onListMessages = (chatId, term) => {
     props.dispatch(listMessages(chatId, term)).then(res => {
       setMessages(res || []);
+      localStorage.setItem("messages", JSON.stringify(res || []))
     }).catch(err => props.dispatch(showBackdrop(false)));
   }
 
@@ -114,7 +121,6 @@ const MainPage = (props) => {
         <MainFooter
           {...props}
           chat={chat}
-          message={message}
           onListMessages={onListMessages}
         />
       </Grid>

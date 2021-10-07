@@ -6,20 +6,17 @@ import IconButton from '@material-ui/core/IconButton';
 import EmojiEmotionsIcon from '@material-ui/icons/EmojiEmotions';
 import ImageIcon from '@material-ui/icons/Image';
 import DescriptionIcon from '@material-ui/icons/Description';
-import ChatItem from "../Components/ChatItem";
 import EmojiPicker from "emoji-picker-react";
 import ModalUploadImage from "components/Modals/ModalUploadImage";
-import { createMessage, listMessage } from "services/actions/MessageAction";
-import { showBackdrop } from "services/actions/CustomAction";
-import { useHistory, withRouter } from "react-router-dom";
+import { createMessage } from "services/actions/MessageAction";
+import { withRouter } from "react-router-dom";
 import InputBase from '@material-ui/core/InputBase';
-import config from "../../../config/Config";
 import ModalUploadFile from "components/Modals/ModalUploadFile";
 
 const MainFooter = props => {
   const inputRef = createRef();
 
-  const {user={}, chat={}, message={}} = props;
+  const {user={}, chat={}} = props;
 
   const [msg, setMsg] = React.useState("");
   const [resend, setResend] = React.useState(false);
@@ -103,6 +100,8 @@ const MainFooter = props => {
     setUploadImage(null);
     setUploadFile(null);
     setFileExtension(null);
+    document.getElementById('upload-image').value = "";
+    document.getElementById('upload-file').value = "";
   }
 
   function processImage(event){
@@ -169,24 +168,31 @@ const MainFooter = props => {
          
         </div>
 
-        <ModalUploadImage
-            open={showPreviewImage}
-            handleClose={closeModalUpload}
-            uploadImage={uploadImage}
-            msg={msg}
-            onChangeMessage={onStateChange}
-            sendMessage={() => { sendMessage("image") }}
-        />
-        
-        <ModalUploadFile
-            open={showPreviewFile}
-            handleClose={closeModalUpload}
-            uploadImage={uploadFile}
-            fileExtension={fileExtension}
-            msg={msg}
-            onChangeMessage={onStateChange}
-            sendMessage={() => { sendMessage("file") }}
-        />
+        {
+          showPreviewImage && (
+            <ModalUploadImage
+              open={showPreviewImage}
+              handleClose={closeModalUpload}
+              uploadImage={uploadImage}
+              msg={msg}
+              onChangeMessage={onStateChange}
+              sendMessage={() => { sendMessage("image") }}
+            />
+          )
+        }
+        {
+          showPreviewFile && (
+            <ModalUploadFile
+              open={showPreviewFile}
+              handleClose={closeModalUpload}
+              uploadImage={uploadFile}
+              fileExtension={fileExtension}
+              msg={msg}
+              onChangeMessage={onStateChange}
+              sendMessage={() => { sendMessage("file") }}
+            />
+          )
+        }
       </>     
   );
 }

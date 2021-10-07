@@ -13,10 +13,14 @@ const ModalUploadImage = props => {
                 <ModalBody>         
                   <Card>                
                       <CardActionArea>
-                        <CardMedia
-                            style={{height:"700px", width:"700px"}}
-                            image={uploadImage}
-                        />                   
+                        {
+                          uploadImage && (
+                            <CardMedia
+                              style={{height:"700px", width:"700px"}}
+                              image={uploadImage}
+                            />
+                          )
+                        }
                       </CardActionArea>
 
                       <CardContent>
