@@ -11,7 +11,7 @@ import CustomInput from 'components/CustomInput';
 import { listCompanies } from 'services/actions/CompanyAction';
 import { showBackdrop, showSnackBar } from 'services/actions/CustomAction';
 import { listUsersByCompany } from 'services/actions/UserAction';
-import { createCompanyNotification, deleteImageNotification, updateNotification } from 'services/actions/NotificationAction';
+import { createCompanyNotification, deleteImageNotification, updateNotification, listAdminNotifications } from 'services/actions/NotificationAction';
 import { getImageProfile, trimObject } from 'utils/common';
 import RadioButtonCheckedIcon from '@material-ui/icons/RadioButtonChecked';
 import RadioButtonUncheckedIcon from '@material-ui/icons/RadioButtonUnchecked';
@@ -22,7 +22,7 @@ import SubtitlesIcon from '@material-ui/icons/Subtitles';
 import GetAppIcon from '@material-ui/icons/GetApp';
 import { errorSolved } from 'services/actions/ErrorAction';
 import HighlightOffTwoToneIcon from '@material-ui/icons/HighlightOff';
-
+import { useHistory } from 'react-router-dom';
 
 const useStyles = makeStyles(theme => ({
     inputText: {
@@ -39,6 +39,7 @@ const ModalNewCompanyNotification = (props) => {
     
     const classes = useStyles();
     const { open, handleClose, onSaveForm, notification={}, companyIdError=null, ErrorId=null } = props;
+    const history = useHistory();
     const [companies, setCompanies] = React.useState([]);
     const [companyId, setCompanyId] = React.useState("");
     const [users, setUsers] = React.useState([]);
@@ -77,6 +78,12 @@ const ModalNewCompanyNotification = (props) => {
         }
     }, [open]);
 
+    const onListUpdatedNotifications = (term) => {
+        props.dispatch(showBackdrop(true));
+        props.dispatch(listAdminNotifications(term)).then(res => {
+            props.dispatch(showBackdrop(false));
+        }).catch(err => props.dispatch(showBackdrop(false)));;
+    };
 
     const onListCompanies = (isEdit) => {
         props.dispatch(showBackdrop(true));
@@ -173,12 +180,14 @@ const ModalNewCompanyNotification = (props) => {
                 props.dispatch(showSnackBar('success', 'Notificación actualizada'));
                 props.dispatch(showBackdrop(false));
                 onSaveForm && onSaveForm(res.notification);
+                onListUpdatedNotifications('');
             }).catch(error => { props.dispatch(showBackdrop(false)); props.dispatch(showSnackBar("error", error.message || "")); });
         } else{
             props.dispatch(createCompanyNotification(formData)).then(res => {
                 props.dispatch(showSnackBar('success', 'Notificación enviada'));
                 props.dispatch(showBackdrop(false));
                 onSaveForm && onSaveForm();
+                history.push("/notificaciones/" + res.notification.id);
                 handleClose(false);
             }).catch(error => { props.dispatch(showBackdrop(false)); props.dispatch(showSnackBar("error", error.message || "")); });
         }

@@ -17,6 +17,10 @@ class NotificationService {
         return await axios.post( getCustomUrl(apiPrefix, `/update/` + id), data, defaultHeaders() );
     }
 
+    async updateListUsersNotified(id, data) {
+        return await axios.post( getCustomUrl(apiPrefix, `/update-users-notified/` + id), data, defaultHeaders() );
+    }
+
     async findNotification(id) {
         return await axios.get( getCustomUrl(apiPrefix, `/find/${id}`), defaultHeaders() );
     }
