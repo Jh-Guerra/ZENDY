@@ -19,7 +19,7 @@ const ItemNotificationRow = (props) => {
     <div className="mini-drawer-content" onClick={() => { onClickAction(notification) }} style={{cursor: "pointer"}}>
       <div className="mini-drawer-user">
         <ItemAvatar
-          image={getImageProfile("Company")}
+          image={getImageProfile()}
           isChatCompany
         />
         <div style={{width:"80%"}}>
