@@ -3,7 +3,6 @@ import ItemQueryRow from '../Components/ItemQueryRow';
 import { withStyles } from '@material-ui/core/styles';
 import { Input, InputAdornment, Paper, Grid, IconButton, InputBase, FormControlLabel } from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search'
-import { listClientChats } from 'services/actions/ChatAction';
 import { useHistory } from 'react-router-dom';
 import { showBackdrop } from 'services/actions/CustomAction';
 import { listQueries } from 'services/actions/EntryQueryAction';
