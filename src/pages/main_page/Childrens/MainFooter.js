@@ -12,6 +12,8 @@ import { createMessage } from "services/actions/MessageAction";
 import { withRouter } from "react-router-dom";
 import InputBase from '@material-ui/core/InputBase';
 import ModalUploadFile from "components/Modals/ModalUploadFile";
+import { Box } from "@material-ui/core";
+import HighlightOffTwoToneIcon from '@material-ui/icons/HighlightOff';
 
 const MainFooter = props => {
   const inputRef = createRef();
@@ -77,9 +79,10 @@ const MainFooter = props => {
   const pickEmoji = (e, {emoji}) => {
     const ref = inputRef.current;
     ref.focus();
+
     const start = msg.substring(0, ref.selectionStart);
-    const end = msg.substring(ref.selectionStart);
-    const message = start + emoji + end;
+    
+    const message = msg + emoji;
     setMsg(message);
     setCursorPosition(start.length + emoji.length);
   };
@@ -130,14 +133,22 @@ const MainFooter = props => {
   return (
       <>
         <div className="chat-footer">
-          <IconButton className="chat-input-button" onClick={handleShowEmojis}> 
-            <EmojiEmotionsIcon className="chat-input-icon"  />
+          <Box>
+            { showEmoji &&
+              <IconButton className="chat-input-button" onClick={handleShowEmojis}> 
+                <HighlightOffTwoToneIcon className="chat-input-icon" />
+              </IconButton>
+            }
+            <IconButton className="chat-input-button" onClick={handleShowEmojis}> 
+              <EmojiEmotionsIcon className="chat-input-icon"  />
+            </IconButton>
+
             {showEmoji && (
                 <div className="emojiPicker-wrapper">
                   <EmojiPicker onEmojiClick={pickEmoji} />              
                 </div>
             )}
-          </IconButton>
+          </Box>
 
           <input accept="image/*" style={{display:'none'}} id="upload-image" type="file" onChange={processImage}/>
             <label htmlFor="upload-image">
