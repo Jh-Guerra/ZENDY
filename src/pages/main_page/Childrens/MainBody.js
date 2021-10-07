@@ -8,6 +8,12 @@ import { getImageProfile } from 'utils/common';
 
 const MainBody = props => {
   const { messages = [], chat, user } = props;
+  const messagesEndRef = React.useRef(null)
+  const scrollToBottom = () => {
+    messagesEndRef.current.scrollIntoView({ behavior: "smooth" })
+  }
+
+  React.useEffect(scrollToBottom, [messages]);
 
   return (
     <div className="main-chat-content" >
@@ -28,6 +34,7 @@ const MainBody = props => {
           />
         );
       })}
+      <div ref={messagesEndRef} />
     </div>
   );
 };
