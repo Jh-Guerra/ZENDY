@@ -1,4 +1,4 @@
-import { Checkbox, Divider, Grid, Typography, FormControl, InputLabel, Input, InputAdornment } from '@material-ui/core';
+import { Checkbox, Divider, Grid, Typography, FormControl, InputLabel, Input, InputAdornment, Box } from '@material-ui/core';
 import React from 'react';
 import ModalBody from './common/ModalBody';
 import ModalHeader from './common/ModalHeader';
@@ -34,7 +34,7 @@ const ModalNewCustomerChat = props => {
   React.useEffect(() => {
     if (open) {
       onListAvailableUsers("");
-    }else{
+    } else {
       setTerm('');
       setUsers([]);
       setSelectedUsers([]);
@@ -62,9 +62,9 @@ const ModalNewCustomerChat = props => {
 
   const onSelectUser = user => {
     let newSelectedUsers = [...selectedUsers];
-    if(selectedUsers.find(u => u.id == user.id)){
+    if (selectedUsers.find(u => u.id == user.id)) {
       newSelectedUsers = newSelectedUsers.filter(u => u.id != user.id);
-    }else{
+    } else {
       newSelectedUsers.push(user);
     }
     setSelectedUsers(newSelectedUsers);
@@ -82,12 +82,12 @@ const ModalNewCustomerChat = props => {
       onSaveForm && onSaveForm();
     }).catch(err => {
       props.dispatch(showBackdrop(false));
-      props.dispatch(showSnackBar("error", err.response.data ? err.response.data.error : "ERROR")); 
+      props.dispatch(showSnackBar("error", err.response.data ? err.response.data.error : "ERROR"));
     });
   };
 
   return (
-    <Modal open={open} handleClose={handleClose} size="sm" width="750px" height="460px">
+    <Modal open={open} handleClose={handleClose} size="sm" width="700px">
       <ModalHeader icon={<PeopleAltIcon />} text="En la Empresa" />
       <ModalBody>
         <Grid container spacing={3}>
@@ -106,49 +106,52 @@ const ModalNewCustomerChat = props => {
               </Grid>
             </Paper>
           </Grid>
-          <Grid item xs={12}>
-            <List style={{ padding: '0px', maxHeight: '550px', overflow: 'auto' }}>
-              {users.map((user, i) => {
-                return (
-                  <ListItem
-                    key={i}
-                    button
-                    divider
-                    onClick={() => {
-                      onSelectUser(user);
-                    }}
-                  >
-                    <ListItemAvatar>
-                      <Avatar alt="" src={user.avatar ? config.api + user.avatar : ZendyIcon} />
-                    </ListItemAvatar>
-                    <ListItemText
-                      primary={`${user.firstName} ${user.lastName}`}
-                      secondary={<Typography className="list-sub-text">{user.company && user.company.name || ''}</Typography>}
-                    />
-                    <ListItemSecondaryAction>
-                      <Checkbox
-                        checked={selectedUsers.find(u => u.id == user.id) != null}
-                        onChange={() => {
-                          onSelectUser(user);
-                        }}
-                        icon={<RadioButtonUncheckedIcon />}
-                        checkedIcon={<RadioButtonCheckedIcon style={{ color: pColor }} />}
+          <Box  style={{ padding: '0px', overflow: 'auto', width:"100%",  maxHeight:"350px"}}>
+            <Grid item xs={12} >
+              <List>
+                {users.map((user, i) => {
+                  return (
+                    <ListItem
+                      key={i}
+                      button
+                      divider
+                      onClick={() => {
+                        onSelectUser(user);
+                      }}
+                    >
+                      <ListItemAvatar>
+                        <Avatar alt="" src={user.avatar ? config.api + user.avatar : ZendyIcon} />
+                      </ListItemAvatar>
+                      <ListItemText
+                        primary={`${user.firstName} ${user.lastName}`}
+                        secondary={<Typography className="list-sub-text">{user.company && user.company.name || ''}</Typography>}
                       />
-                    </ListItemSecondaryAction>
-                  </ListItem>
-                );
-              })}
-              {
-                users.length === 0 && (
-                  <ListItem divider   style={{ padding: '12px 55px 12px 55px' }}>
+                      <ListItemSecondaryAction>
+                        <Checkbox
+                          checked={selectedUsers.find(u => u.id == user.id) != null}
+                          onChange={() => {
+                            onSelectUser(user);
+                          }}
+                          icon={<RadioButtonUncheckedIcon />}
+                          checkedIcon={<RadioButtonCheckedIcon style={{ color: pColor }} />}
+                        />
+                      </ListItemSecondaryAction>
+                    </ListItem>
+                  );
+                })}
+                {
+                  users.length === 0 && (
+                    <ListItem divider style={{ padding: '12px 55px 12px 55px' }}>
                       <ListItemText
                         primary={`No hay usuarios registrados `}
                       />
-                  </ListItem>        
-                )
-              }
-            </List>
-          </Grid>
+                    </ListItem>
+                  )
+                }
+              </List>
+            </Grid>
+          </Box>
+
         </Grid>
       </ModalBody>
       <ModalFooter confirmText={'Buscar Chat'} onConfirm={onConfirm} />
