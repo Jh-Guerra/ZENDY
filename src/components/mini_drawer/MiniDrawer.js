@@ -74,6 +74,9 @@ const MiniDrawer = (props) => {
           return setTab(8);
         }
         return setTab(9);
+      case path.includes("/chat/"):
+        if (checkPermission(session, "acceptEntryQuery"))
+          return setTab(0);
     }
   }
 
