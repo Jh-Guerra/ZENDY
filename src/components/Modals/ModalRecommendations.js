@@ -11,15 +11,16 @@ import CustomModal from 'components/Modals/common/CustomModal';
 import { listExistingRecommendations } from 'services/actions/RecommendationAction';
 import { showBackdrop, showSnackBar } from 'services/actions/CustomAction';
 import moment from 'moment';
-import { checkPermission } from 'utils/common';
+import { checkPermission, getSessionInfo } from 'utils/common';
 
 const ModalRecommendations = (props) => {
 
-    const { open, handleClose, entryQuery={}, session } = props;
+    const { open, handleClose, entryQuery={} } = props;
 
     const [showRecommendUser, setShowRecommendUser] = React.useState(false);
     const [users, setUsers] = React.useState([]);
     const [recommendations, setRecommendations] = React.useState([]);
+    const session = getSessionInfo();
 
     React.useEffect(() => {
         if(open){
@@ -46,7 +47,7 @@ const ModalRecommendations = (props) => {
         props.onConfirm && props.onConfirm(selectedUserIds);
         setShowRecommendUser(false);
     }
-
+    
     return (
       <div>
         <Modal 
