@@ -19,6 +19,7 @@ import ModalFakeError from 'components/Modals/ModalFakeError';
 import ModalConfirmError from 'components/Modals/ModalConfirmError';
 import moment from 'moment';
 import VisibilitySharpIcon from '@material-ui/icons/VisibilitySharp';
+import { pColor,successButtonColor } from 'assets/styles/zendy-css';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -35,14 +36,14 @@ const useStyles = makeStyles((theme) => ({
     width: '200px',
     height: '50px',
     borderRadius: '20px',
-    backgroundColor: '#6D909B',
+    backgroundColor: successButtonColor,
     color: '#ffff'
   },
   nameHeader: {
     fontSize: '30px',
   },
   containerReport: {
-    backgroundColor: 'rgba(255,255,255,0.8)',
+    backgroundColor: pColor,
     justifyContent: 'center',
     alignItems: 'center',
     height: '610px',
@@ -65,7 +66,7 @@ const useStyles = makeStyles((theme) => ({
   },
   headerName: {
     width: '100%',
-    backgroundColor: '#303e7a',
+    backgroundColor: pColor,
     color: 'white',
     height: '130px',
     justifyContent: 'center'

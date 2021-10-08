@@ -103,7 +103,7 @@ const MiniDrawer = (props) => {
         <Grid container style={{ height: "87vh", width: '450px'}}>
           <Grid item xs={12} style={{height:'8vh', minHeight:'70px'}}>
             <div className="mini-drawer-sections">
-              <AppBar position="static" className="mini-drawer-options" style={{ backgroundColor: "transparent" }}>
+              <AppBar position="static" className="mini-drawer-options">
                 <Tabs
                   value={tab}
                   onChange={handleChangeTab}
@@ -144,7 +144,7 @@ const MiniDrawer = (props) => {
               </AppBar>
             </div>
           </Grid>
-          <div className="mini-drawer-tabs" style={{height:'79vh'}}>
+          <div className="mini-drawer-tabs">
             <TabPanel value={tab} index={0} >
               <CurrentChat {...props}/>
             </TabPanel>
@@ -200,5 +200,3 @@ const MiniDrawer = (props) => {
 
 const mapStateToProps = (state) => ({ ...state })
 export default connect(mapStateToProps)(withRouter(MiniDrawer));
-
-//export default withRouter(MiniDrawer);

@@ -10,12 +10,10 @@ export default class ItemAvatar extends Component {
 
     return (
       <div className="item-avatar-content">
-        <div className="item-avatar" >
+        <div className="item-avatar">
           <img src={this.props.image} />
-          {
-            !this.props.isChatCompany ? <span className={`item-is-online ${this.props.isOnline ? this.props.isOnline : ""}`}></span> : null
-          }
         </div>
+        <span className={`is-online ${this.props.isOnline}`}></span>
       </div>
     );
   }
