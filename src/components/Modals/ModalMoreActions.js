@@ -55,7 +55,7 @@ const ModalMoreActions = (props) => {
                         </CustomButton>
                     </Grid>
                     {
-                        checkPermission(session, "createNotifications") ? (
+                        checkPermission(session, "createAdminNotifications") ? (
                             <Grid item xs={12}>
                                 <CustomButton 
                                     variant="contained"

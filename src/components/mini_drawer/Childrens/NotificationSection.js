@@ -6,15 +6,18 @@ import { useHistory } from 'react-router-dom';
 import { showBackdrop } from 'services/actions/CustomAction';
 import CustomModal from 'components/Modals/common/CustomModal';
 import ItemNotificationRow from '../Components/ItemNotificationRow';
-import { listNotificationViewedByUser } from 'services/actions/NotificationViewAction';
+import { listNotificationsByCompany, listNotificationsByUser } from 'services/actions/NotificationAction';
+import { checkPermission } from 'utils/common';
+import TabOptions from './TabOptions';
 
 const NotificationSection = (props) => {
 
-    const { classes = {}, session, notificationViewedRx } = props;
+    const { classes = {}, session, notificationRx } = props;
+    const user = session && session.user || {};
     const history = useHistory();
   
     const [searchTimeout, setSearchTimeout] = React.useState(null);
-    const [showNotificationOptions, setShowNotificationOptions] = React.useState(false);
+    const [showNewCompanyNotification, setShowNewCompanyNotification] = React.useState(false);
   
     React.useEffect(() => {
       onList("");
@@ -22,9 +25,16 @@ const NotificationSection = (props) => {
 
     const onList = (term) => {
         props.dispatch(showBackdrop(true));
-        props.dispatch(listNotificationViewedByUser(term)).then(res => {
+
+        if(checkPermission(session, "createNotifications")){
+          props.dispatch(listNotificationsByCompany(term)).then(res => {
             props.dispatch(showBackdrop(false));
-        }).catch(err => props.dispatch(showBackdrop(false)));;
+          }).catch(err => props.dispatch(showBackdrop(false)));
+        }else{
+          props.dispatch(listNotificationsByUser(term)).then(res => {
+            props.dispatch(showBackdrop(false));
+          }).catch(err => props.dispatch(showBackdrop(false)));
+        }
     };
 
     const onSearch = term => {
@@ -37,22 +47,33 @@ const NotificationSection = (props) => {
     };
 
     const goTo = (notification) => {
-        if(notification && notification.notificationId){
-            history.push("/notificaciones/" + notification.notificationId + "/viewed");
+        if(notification && notification.id){
+            history.push("/notificaciones/" + notification.id + "/viewed");
         } else {
           history.push("/no-encontrado");
         }
+    }
+
+    const openNewCompanyNotification = () => {
+      setShowNewCompanyNotification(true);
     }
 
     const onSaveForm = () => {
       onList('');
     }
 
-    const notificationsViewed = notificationViewedRx && notificationViewedRx.notificationsViewed || [];
+    const notifications = notificationRx && notificationRx.notifications || [];
 
     return (
         <div style={{height: "79vh"}}>
           <Grid container>
+            <Grid item xs={12}>
+              <TabOptions
+                onSaveForm={onSaveForm}
+                onOpenModal={openNewCompanyNotification}
+                view="adminNotifications"
+              />
+            </Grid>
             <Grid item xs={12}>
               <div className="chatlist__heading">
                 <span className="divider-line"></span>
@@ -80,7 +101,7 @@ const NotificationSection = (props) => {
               />
             </Grid>
             <Grid item xs={12}>
-              {notificationsViewed.map((notificationViewed, i) => {
+              {notifications.map((notificationViewed, i) => {
                 return (
                    <ItemNotificationRow
                      key={i}
@@ -91,15 +112,17 @@ const NotificationSection = (props) => {
               })}
             </Grid>
           </Grid>
-          <CustomModal
-            customModal={'ModalNotificationOptions'}
-            open={showNotificationOptions}
-            handleClose={() => { setShowNotificationOptions(false) }}
-            onSaveForm={() => {
-              setShowNotificationOptions(false);
-              onSaveForm();
-          }}
-          />
+          <CustomModal 
+              customModal="ModalNewCompanyNotification"
+              open={showNewCompanyNotification} 
+              handleClose={() => { setShowNewCompanyNotification(false); }}
+              onSaveForm={() => {
+                  setShowNewCompanyNotification(false);
+                  onSaveForm();
+              }}
+              headerText="Nueva notificación"
+              idCompany={user.idCompany}
+            />
         </div>
     );
 

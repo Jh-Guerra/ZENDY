@@ -66,7 +66,7 @@ const AdminNotificationSection = (props) => {
             <Grid item xs={12}>
               <div className="chatlist__heading">
                 <span className="divider-line"></span>
-                <p className="divider-content"> Mis Notificaciones </p>
+                <p className="divider-content"> Notificaciones </p>
                 <span className="divider-line"></span>
               </div>
               <br />

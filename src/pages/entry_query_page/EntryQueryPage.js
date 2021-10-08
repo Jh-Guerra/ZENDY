@@ -67,7 +67,7 @@ const EntryQueryPage = (props) => {
 
       }).catch(error => {
         props.dispatch(showBackdrop(false));
-        console.error('error', error);
+        console.log('error', error);
       });
   };
 

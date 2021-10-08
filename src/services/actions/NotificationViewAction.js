@@ -23,20 +23,6 @@ export const listNotificationViewed = (notificationId) => async dispatch => {
     return res && res.data || [];
 }
 
-export const listNotificationViewedByUser = () => async dispatch => {
-    const res = await service.listNotificationViewedByUser();
-    dispatch({
-        type: NOTIFICATIONS_VIEWED,
-        payload: res && res.data || []
-    })
-    return res && res.data || [];
-}
-
-export const listByUserNotification = (notificationId) => async dispatch => {
-    const res = await service.listByUserNotification(notificationId);
-    return res && res.data || [];
-}
-
 export const deleteNotificationViewed = (id) => async dispatch => {
     const res = await service.deleteNotificationViewed(id);
     return res && res.data;

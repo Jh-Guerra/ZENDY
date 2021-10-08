@@ -21,6 +21,7 @@ const ModalNotificationOptions = (props) => {
     const history = useHistory();
     const classes = useStyles();
     const session = getSessionInfo();
+    const user = session && session.user || {};
     
     const { open, handleClose, onSaveForm } = props;
     const [showNewCompanyNotification, setShowNewCompanyNotification] = React.useState(false);

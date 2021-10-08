@@ -70,11 +70,10 @@ const MiniDrawer = (props) => {
         if (checkPermission(session, "createEntryQuery"))
         return setTab(1);
       case path.includes("/notificaciones/"):
-         if (checkPermission(session, "createNotifications")) {
-         return setTab(8);
-         } else {
-           return setTab(9);
-         }
+        if (checkPermission(session, "createAdminNotifications")) {
+          return setTab(8);
+        }
+        return setTab(9);
     }
   }
 
@@ -122,7 +121,7 @@ const MiniDrawer = (props) => {
                   {/* <Tooltip style={{display: checkPermission(session, "showTabCompany") ? "inline-flex" : "none" }} title="Empresas">
                     <Tab className="mini-drawer-tab" icon={<CompaniesIcon />} />
                   </Tooltip> */}
-                  <Tooltip style={{display: checkPermission(session, "showMyRecommendations") ? "inline-flex" : "none" }} title="Mis Recomendaciones">
+                  <Tooltip style={{display: checkPermission(session, "showMyRecommendations") ? "inline-flex" : "none" }} title="Recomendaciones">
                     <Tab className="mini-drawer-tab" icon={<RecommendLikeIcon />} />
                   </Tooltip>
                   <Tooltip style={{display: checkPermission(session, "createError") ? "inline-flex" : "none"}} title="Errores Reportados">

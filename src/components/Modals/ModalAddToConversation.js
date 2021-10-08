@@ -55,6 +55,9 @@ const ModalAddToConversation = (props) => {
       }else{
         onListAvailableUsers("");
       }
+    }else{
+      setUsers([]);
+      setSelectedUsers([]);
     }
     setTerm("");
   }, [open]);

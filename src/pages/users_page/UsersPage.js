@@ -87,7 +87,7 @@ class UsersPage extends Component {
       this.onListUsers();
     }).catch(error => {
       this.props.dispatch(showBackdrop(false));
-      console.error('error', error);
+      console.error('log', error);
     });
   }
  

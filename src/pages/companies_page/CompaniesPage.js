@@ -92,7 +92,7 @@ class CompaniesPage extends Component {
         this.onListCompanies();
       }).catch(error => {
         this.props.dispatch(showBackdrop(false));
-        console.error('error', error);
+        console.log('error', error);
       });
   };
 

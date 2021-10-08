@@ -10,7 +10,6 @@ import { Form, Formik } from 'formik';
 import CustomInput from 'components/CustomInput';
 import { listWithUsersCount } from 'services/actions/CompanyAction';
 import { showBackdrop, showSnackBar } from 'services/actions/CustomAction';
-import { listUsersByCompany } from 'services/actions/UserAction';
 import { createCompaniesNotification, deleteImageNotification, updateNotification, listAdminNotifications } from 'services/actions/NotificationAction';
 import { getImageProfile, trimObject } from 'utils/common';
 import RadioButtonCheckedIcon from '@material-ui/icons/RadioButtonChecked';
@@ -201,7 +200,7 @@ const ModalNewCompaniesNotification = (props) => {
                                             }
 
                                             return (
-                                                <ListItem key={i} button divider onClick={() => { onSelectCompany(company.id) }} disabled={notification.id}>
+                                                <ListItem key={i} button divider onClick={() => { onSelectCompany(company.id) }} disabled={!!notification.id}>
                                                     <ListItemAvatar>
                                                         <Avatar alt="" src={company.avatar ? (config.api+company.avatar) : getImageProfile("Company")} />
                                                     </ListItemAvatar>
@@ -215,7 +214,7 @@ const ModalNewCompaniesNotification = (props) => {
                                                             onChange={() => {onSelectCompany(company.id)}}
                                                             icon={<RadioButtonUncheckedIcon />}
                                                             checkedIcon={<RadioButtonCheckedIcon style={{ color: pColor }} />}
-                                                            disabled={notification.id}
+                                                            disabled={!!notification.id}
                                                         />
                                                     </ListItemSecondaryAction>
                                                     </ListItem>

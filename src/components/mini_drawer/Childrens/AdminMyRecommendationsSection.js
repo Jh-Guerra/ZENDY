@@ -40,7 +40,7 @@ const AdminMyRecommendationsSection = (props) => {
                 <Grid item xs={12}>
                     <div className="chatlist__heading">
                     <span className="divider-line"></span>
-                    <p className="divider-content">Mis Recomendaciones</p>
+                    <p className="divider-content">Recomendaciones</p>
                     <span className="divider-line"></span>
                     </div>
                     <br />

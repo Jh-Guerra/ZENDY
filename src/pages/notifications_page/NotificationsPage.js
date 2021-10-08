@@ -9,7 +9,6 @@ import { showBackdrop, showSnackBar } from 'services/actions/CustomAction';
 import { useHistory } from 'react-router';
 import { deleteNotification, findNotification, updateNotification } from 'services/actions/NotificationAction';
 import { listNotificationViewed, registerViewed } from 'services/actions/NotificationViewAction';
-import { listByUserNotification } from 'services/actions/NotificationViewAction';
 import CustomModal from 'components/Modals/common/CustomModal';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
@@ -18,10 +17,10 @@ import { checkPermission, getCustomRoleName, getSessionInfo } from 'utils/common
 
 const columns = [
   { type: 'text', field: 'name', label: 'Nombre', format: (row) => `${row.firstName} ${row.lastName}` },
-  { type: 'text', field: 'rol', label: 'Rol' },
+  { type: 'text', field: 'rol', label: 'Rol', format: (row) => getCustomRoleName(row.rol) },
   { type: 'text', field: 'companyName', label: 'Empresa' },
   { type: 'text', field: 'email', label: 'Correo' },
-  { type: 'text', field: 'viewedDate', label: 'Visto', align: 'center', format: (row) => row.viewedDate ? moment(row.viewedDate).format("DD/MM/YYYY") : "--/--/----" },
+  { type: 'text', field: 'viewedDate', label: 'Visto', align: 'center', format: (row) => row.viewedDate ? moment(row.viewedDate).format("DD/MM/YYYY") : "" },
 ];
 
 const NotificationsPage = (props) => {
@@ -52,7 +51,6 @@ const NotificationsPage = (props) => {
 
       if(notificationId){
         onGetData(notificationId);
-        onListNotifications(notificationId);
       }else{
         history.push("/");
       }
@@ -60,12 +58,7 @@ const NotificationsPage = (props) => {
   }, [props.location.pathname]);
 
   const onGetData = (notificationId) => {
-    props.dispatch(showBackdrop(true));  
-    props.dispatch(listNotificationViewed(notificationId)).then(res => {
-      setNotificationsViewed(res || []);
-      props.dispatch(showBackdrop(false));
-    }).catch(err => props.dispatch(showBackdrop(false)));
-
+    props.dispatch(showBackdrop(true));
     props.dispatch(findNotification(notificationId)).then(res => {
       setNotification(res.notification|| {}); 
       props.dispatch(showBackdrop(false));
@@ -73,21 +66,21 @@ const NotificationsPage = (props) => {
       history.push("/no-encontrado"); 
       props.dispatch(showBackdrop(false));
     });
+
+    onListNotificationViews(notificationId);
   };
 
-  const onListNotifications = (notificationId) => {
-    props.dispatch(showBackdrop(true));
-    setLoading(true);
-    props.dispatch(listByUserNotification(notificationId)).then(res => {
-        setNotificationsViewed(res || []);
-        setLoading(false);
-        props.dispatch(showBackdrop(false));
+  const onListNotificationViews = (notificationId) => {
+    props.dispatch(showBackdrop(true));  
+    props.dispatch(listNotificationViewed(notificationId)).then(res => {
+      setNotificationsViewed(res || []);
+      props.dispatch(showBackdrop(false));
     }).catch(err => props.dispatch(showBackdrop(false)));
   };
 
   const onSaveViewed = (notificationId) => {
     props.dispatch(registerViewed(notificationId)).then(res => {
-      setNotificationsViewed(res || []);
+      onListNotificationViews(notificationId);
       props.dispatch(showBackdrop(false));
     }).catch(err => {
       history.push("/inicio");
@@ -120,7 +113,7 @@ const NotificationsPage = (props) => {
 
       }).catch(error => {
         props.dispatch(showBackdrop(false));
-        console.error('error', error);
+        console.log('error', error);
       });
   };
 
@@ -136,7 +129,7 @@ const NotificationsPage = (props) => {
         </Typography>
       </Grid>
       {
-        checkPermission(session, "createNotifications") && (
+        ((notification.idCompany && checkPermission(session, "createNotifications")) || checkPermission(session, "createAdminNotifications")) && (
           <Grid item xs={12} style={{padding: "0px 20px"}}>
             <p style={{textAlign:'start'}}>
               <CustomButton
@@ -161,9 +154,8 @@ const NotificationsPage = (props) => {
         )
       }
       {
-        checkPermission(session, "createNotifications") && (
+        ((notification.idCompany && checkPermission(session, "createNotifications")) || checkPermission(session, "createAdminNotifications")) && (
           <Grid item xs={12} style={{padding: "0px 20px"}}>
-            <Typography variant="h6"> Notificaciones entregadas </Typography>           
             <p style={{textAlign:"right"}}>
               <CustomButton
                   variant="contained"
@@ -181,17 +173,6 @@ const NotificationsPage = (props) => {
               onRowClick={() => {}}
               loading={loading}
             />
-          </Grid>
-        )
-      }
-      {
-        isViewed && (
-          <Grid item xs={12} style={{padding: "0px 20px"}}>
-            <Typography variant="h6"> Notificaciones entregadas </Typography>
-            <br />
-            { notification.reason }
-            <br />
-            { notification.description }
           </Grid>
         )
       }
@@ -229,7 +210,8 @@ const NotificationsPage = (props) => {
         }}
         notificationsViewed={notificationsViewed}
         notification={notification}
-        onListNotifications={onListNotifications}
+        onListNotificationViews={onListNotificationViews}
+        session={session}
       />
     </Grid>
   );

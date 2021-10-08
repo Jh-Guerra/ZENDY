@@ -10,7 +10,6 @@ import UsersPage from 'pages/users_page/UsersPage';
 import CompaniesPage from 'pages/companies_page/CompaniesPage';
 import BlankPage from 'pages/test_page/BlankPage';
 import PageNotFound from 'pages/PageNotFound';
-import EmpresaPage from 'pages/empresa_page/EmpresaPage';
 import { checkPermission, getSessionInfo } from 'utils/common';
 import EntryQueryPage from 'pages/entry_query_page/EntryQueryPage';
 import NotificationsPage from 'pages/notifications_page/NotificationsPage';
@@ -42,7 +41,6 @@ const Routes = (props) => {
           )}
 
           <PrivateRoute exact path="/inicio" {...props} component={BlankPage} />
-          <PrivateRoute exact path='/empresas/:companyId' {...props} component={EmpresaPage}/>
 
           <PrivateRoute exact path="/chat/:type/:chatId" {...props} component={MainPage} />
           <PrivateRoute exact path="/chat-historial/:type/:chatId" {...props} component={ChatHistoryPage} />
