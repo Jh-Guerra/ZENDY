@@ -64,13 +64,13 @@ body {
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: #6c84ff;
-  border-radius: 10px;
+  background: #3e3f41;
+  border-radius: 50px;
 }
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-  background: #3b5bfe;
+  background: #3e3f41;
 }
 
 /*===================== CHAT HEADER ===============*/

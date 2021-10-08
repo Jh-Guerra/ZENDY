@@ -49,7 +49,7 @@ const ChatItem = props => {
             <Button variant="contained"
               href={file} target="_blank"
               endIcon={<GetAppIcon />}
-              color="primary"
+              style={{background:"none", color:"white"}}
             >
               Descargar
             </Button>

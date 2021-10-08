@@ -1,26 +1,21 @@
 // Letters
-$pLetter: 'PT Serif';
+$pLetter: 'Roboto';
 $letterMinSize: 16px;
 
 // Colors
-// $pColor: #2F103D;
-$pColor: #303e7a;
+$pColor: #344971;
 $sColor: #F39651;
+$tColor: #F39651;
 
-$pColorL: #6a97a1;
-$pColorD: #1E0A27;
-
-$sColorL: #E68B6A;
-$sColorD: #D14A19;
+$pColorhover: #13557c;
 
 $onLine: #38F909;
 $offLine: #ECECEB;
 
 $subTextColor: #929797;
 
-
 // Buttons
-$successButton: #158851;
+$successButton: #0d3d26;
 
 
 .bg-primary{
@@ -33,7 +28,6 @@ $successButton: #158851;
 
 html, body {
     height: 100%;
-    // overflow-x: hidden;
 }
 
 /* ===========================        INPUTS              =============================================*/
@@ -86,7 +80,7 @@ html, body {
         }
         
         .chat-header-button:hover {   
-            color: $sColorL;
+            color: $pColor;
         }
     }
 
@@ -298,7 +292,7 @@ html, body {
 }
 
 .chat-item-content {
-    background-color: #4462ff;
+    background-color: $pColor;
     color: #fff;
     padding: 15px;
     border-radius: 10px 10px 0 10px;
@@ -358,11 +352,11 @@ html, body {
 
 
 .mini-drawer-content {
+    background-color: $pColor;
     border-bottom: 1px solid #ebe7fb;
     width: 100%;
     padding: 2px 0px;
     cursor: pointer;
-    // height: 10%;
 }
 
 .mini-drawer-options {
@@ -371,7 +365,7 @@ html, body {
 
 .mini-drawer-options .MuiTabs-flexContainer {
     height: 100%;
-    background-color: #6e81d6;
+    background-color: $pColor;
 }
 
 .mini-drawer-chatlist {
@@ -380,7 +374,7 @@ html, body {
 }
 
 .chatlist__heading {
-    color: white;
+    //color: white;
     width: 100%;
     align-items: center;
     -webkit-box-orient: horizontal;
@@ -424,17 +418,18 @@ html, body {
 }
 
 .mini-drawer-sections {
+    background-color: $pColor;
     display: flex;
     height: 100%;
     width: 100%;
 
     button {
-        background-color: #151f47;
         border: none;
         cursor: pointer;
     }
 
     button:hover{
+        background-color: $pColorhover;
         path{
             fill: white;
         } 
@@ -442,7 +437,6 @@ html, body {
 }
 
 .mini-drawer-tabs {
-    // height: 100%;
     width: 100%;
     background-color: $pColor;
 }
@@ -490,8 +484,8 @@ html, body {
 }
 
 .item-avatar-content {
-    width: 60px;
-    height: 60px;  
+    width: 65px;
+    height: 65px;  
     margin-right: 10px;
     position: relative;
 }
@@ -521,12 +515,8 @@ html, body {
 }
   
 
-.mini-drawer-content, .mini-drawer-chatlist, .mini-drawer-buttons, .mini-drawer-sections {
+.mini-drawer-chatlist, .mini-drawer-buttons, .blank-container {
     background-color: $pColor;
-}
-
-.blank-container {
-    background-color: $pColorL;
 }
 
 .notfound-page {
@@ -678,7 +668,6 @@ html, body {
 }
 
 .modal-body {
-    // background-color: $pColor;
     display: flex;
     flex-direction: column;
     ::placeholder {
@@ -729,7 +718,7 @@ html, body {
 .top-header{
     height: 13vh;
     min-height: 90px;
-    background-color: #303e7a;
+    background-color: $pColor;
     color: #e6e5ea;
     box-shadow: 0px 10px 5px grey;
     display: flex;

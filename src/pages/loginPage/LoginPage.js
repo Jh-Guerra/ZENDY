@@ -11,13 +11,10 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import LogoZendy from 'assets/images/Zendy-logo.jpg';
 import VpnKeyIcon from '@material-ui/icons/VpnKey';
 import { pColor, sColorL } from 'assets/styles/zendy-css';
-import { useHistory } from 'react-router';
 import  {loginUser}  from 'services/actions/LoginAction';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import CustomSnackbar from 'components/CustomSnackbar';
 import { showBackdrop, showSnackBar } from 'services/actions/CustomAction';
-import config from 'config/Config';
 import { getSessionInfo } from 'utils/common';
 
 
