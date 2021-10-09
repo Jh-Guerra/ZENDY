@@ -13,13 +13,33 @@ import CompanySection from './Childrens/CompanySection';
 import ReportedErrorSection from './Childrens/ReportedErrorSection';
 import EntryChat from './Childrens/EntryChat';
 import { updateLastRoute, updateLastTab } from 'services/actions/CommonAction';
-import { checkPermission, getSessionInfo } from 'utils/common';
+import { checkPermission, getSessionInfo, checkSections } from 'utils/common';
 import { updateStatus } from 'services/actions/UserAction';
 import AdminEntryChat from './Childrens/AdminEntryChat';
 import { connect } from "react-redux";
 import AdminMyRecommendationsSection from './Childrens/AdminMyRecommendationsSection';
 import NotificationSection from './Childrens/NotificationSection';
 import AdminErrorSection from './Childrens/AdminErrorSection';
+import SpeakerNotesIcon from '@material-ui/icons/SpeakerNotes';
+import SmsFailedIcon from '@material-ui/icons/SmsFailed';
+import AssessmentIcon from '@material-ui/icons/Assessment';
+import PeopleIcon from '@material-ui/icons/People';
+
+const secciones = [
+  { title:"Chats Vigentes", icon:"chatVigente", section:"CurrentChat" },
+  { title:"Consultas", icon:"consultas", section:"EntryChat"},
+  { title:"Consultas Entrantes", icon:"consultasEntrantes", section:"AdminEntryChat"},
+  { title:"Mis Recomendaciones", icon:"recomendaciones", section:"AdminMyRecommendationsSection"},
+  { title:"", icon:"", section:""},
+  { title:"Errores Reportados", icon:"erroresReportados", section:"ReportedErrorSection"},
+  { title:"Errores Reportados admin", icon:"erroresAdmin", section:"AdminErrorSection"},
+  { title:"Historial de chat", icon:"historyChat", section:"HistoryChat"},
+  { title:"Notificaciones admin", icon:"notificacionesAdmin", section:"AdminNotificationSection"},
+  { title:"Notificaciones", icon:"notificaciones", section:"NotificationSection"},
+  { title:"Reportes", icon:"report", section:"ReportList"},
+]
+
+const moreActionSection = { title:"Más Opciones", icon:"MoreIcon", section:"MoreActions"};
 
 const TabPanel = (props) => {
   const { children, value, index, ...other } = props;
@@ -45,14 +65,32 @@ const MiniDrawer = (props) => {
   const history = useHistory();
   const session = getSessionInfo();
 
+  const role = session && session.role;
+
 
   const [tab, setTab] = React.useState(0);
   const [showModalMoreActions, setShowModalMoreActions] = React.useState(false);
+  const [mainSections, setMainSections] = React.useState([]);
+  const [secondSections, setSecondSections] = React.useState([]);
+
 
   React.useEffect(() => {
     props.dispatch(updateLastRoute(history.location.pathname));
     updateTabByView(history.location.pathname);
   }, [history.location.pathname]);
+
+  React.useEffect(() => {
+    if(secciones.length > 5){
+      var newMainSections = secciones.filter((section, i) => i < 4); 
+      newMainSections.push(moreActionSection);
+      var newSecondSections = secciones.filter((section, i) => i >= 4); 
+      setMainSections(newMainSections)
+      setSecondSections(newSecondSections)
+    } else {
+      setMainSections(secciones)
+      setSecondSections([])
+    }
+  }, []);
 
   const logOut = () => {
     props.dispatch(updateStatus(session.user.id, '0' ))
@@ -87,9 +125,65 @@ const MiniDrawer = (props) => {
     }
   }
 
+  const getPageSection = (panel) => {
+    switch (panel) {
+      case "CurrentChat":
+        return <CurrentChat {...props}/>
+    case "EntryChat":
+        return <EntryChat {...props}/>
+    case "AdminEntryChat":
+        return <AdminEntryChat {...props}/>
+    case "AdminMyRecommendationsSection":
+        return <AdminMyRecommendationsSection {...props}/>
+    case "ReportedErrorSection":
+        return <ReportedErrorSection {...props}/>
+    case "AdminErrorSection":
+        return <AdminErrorSection {...props}/>
+    case "HistoryChat":
+        return <HistoryChat {...props}/>
+    case "AdminNotificationSection":
+        return <AdminNotificationSection {...props}/>
+    case "NotificationSection":
+        return <NotificationSection {...props}/>
+    case "ReportList":
+        return <ReportList {...props}/>
+    default:
+        return null;
+    }
+  }
+
+  const getIcon = (panel) => {
+    switch (panel) {
+      case "chatVigente":
+        return <CurrentChatIcon/>
+    case "consultas":
+        return <PendingChatIcon/>
+    case "consultasEntrantes":
+        return <PendingChatIcon/>
+    case "recomendaciones":
+        return <RecommendLikeIcon/>
+    case "erroresReportados":
+        return <ErrorsIcon/>
+    case "erroresAdmin":
+        return <ErrorsIcon/>
+    case "historyChat":
+        return <SpeakerNotesIcon/>
+    case "notificacionesAdmin":
+        return <SmsFailedIcon/>
+    case "notificaciones":
+        return <SmsFailedIcon/>
+    case "report":
+        return <AssessmentIcon/>
+    case "MoreIcon":
+        return <MoreIcon/>
+    default:
+        return null;
+    }
+  }
+
   const handleChangeTab = (event, newTab) => {
     props.dispatch(updateLastTab(newTab || 0));
-    if(newTab==6){
+    if(newTab==4 && mainSections.length != secciones.length){
       setShowModalMoreActions(true);
     }else{
       setTab(newTab);
@@ -119,77 +213,53 @@ const MiniDrawer = (props) => {
                   indicatorColor="primary"
                   style={{height:"100%"}}
                 >
-                  <Tooltip title="Chats Vigentes">
-                    <Tab className="mini-drawer-tab" icon={<CurrentChatIcon />} />
-                  </Tooltip>
-                  <Tooltip style={{display: checkPermission(session, "createEntryQuery") ? "inline-flex" : "none" }} title="Consultas">
-                    <Tab className="mini-drawer-tab" icon={<PendingChatIcon />} />
-                  </Tooltip>
-                  <Tooltip style={{display: checkPermission(session, "acceptEntryQuery") ? "inline-flex" : "none" }} title="Consultas Entrantes">
-                    <Tab className="mini-drawer-tab" icon={<PendingChatIcon />} />
-                  </Tooltip>
-                  {/* <Tooltip style={{display: checkPermission(session, "showTabCompany") ? "inline-flex" : "none" }} title="Empresas">
-                    <Tab className="mini-drawer-tab" icon={<CompaniesIcon />} />
-                  </Tooltip> */}
-                  <Tooltip style={{display: checkPermission(session, "showMyRecommendations") ? "inline-flex" : "none" }} title="Recomendaciones">
-                    <Tab className="mini-drawer-tab" icon={<RecommendLikeIcon />} />
-                  </Tooltip>
-                  <Tooltip style={{display: checkPermission(session, "createError") ? "inline-flex" : "none"}} title="Errores Reportados">
-                    <Tab className="mini-drawer-tab" icon={<ErrorsIcon />} />
-                  </Tooltip>
-                  <Tooltip style={{display: checkPermission(session, "adminError") ? "inline-flex" : "none" }} title="Errores Reportados">
-                    <Tab className="mini-drawer-tab" icon={<ErrorsIcon />} />
-                  </Tooltip>
-                  <Tooltip title="Más">
-                    <Tab className="mini-drawer-tab" icon={<MoreIcon />} />
-                  </Tooltip>
-                  <Tab style={{display: "none"}} className="mini-drawer-tab" icon={<MoreIcon />} />
-                  <Tab style={{display: "none"}} className="mini-drawer-tab" icon={<MoreIcon />} />
-                  <Tab style={{display: "none"}} className="mini-drawer-tab" icon={<MoreIcon />} />
-                  <Tab style={{display: "none"}} className="mini-drawer-tab" icon={<MoreIcon />} />
+                  {
+                    (
+                      
+                      mainSections && mainSections.map((section,index)=>{
+                        return (
+                    <Tooltip key={index} title={section.title}>
+                      <Tab className="mini-drawer-tab" icon={getIcon(section.icon)}/>
+                    </Tooltip>
+                       );
+                      })
+                    )
+                  }
+                  {
+                    (
+                      
+                      secondSections && secondSections.map((section,index)=>{
+                        return (
+                    <Tooltip key={index+4} title={section.title}>
+                      <Tab className="mini-drawer-tab" icon={getIcon(section.icon)} style={{display:"none"}}/>
+                    </Tooltip>
+                       );
+                      })
+                    )
+                  }
                 </Tabs>
               </AppBar>
             </div>
           </Grid>
-          <div className="mini-drawer-tabs">
-            <TabPanel value={tab} index={0} >
-              <CurrentChat {...props}/>
-            </TabPanel>
-            <TabPanel value={tab} index={1} >
-              <EntryChat {...props} session={session}/>
-            </TabPanel>
-            <TabPanel value={tab} index={2} >
-              <AdminEntryChat {...props} session={session}/>
-            </TabPanel>
-            {/* <TabPanel value={tab} index={3} >
-              <CompanySection
-                {...props}
-                goToView={goToView} />
-            </TabPanel> */}
-            <TabPanel value={tab} index={3} >
-              <AdminMyRecommendationsSection {...props} session={session} />
-            </TabPanel>
-            <TabPanel value={tab} index={4} >
-              <ReportedErrorSection {...props}/>
-            </TabPanel>
-            <TabPanel value={tab} index={5} >
-              <AdminErrorSection {...props}/>
-            </TabPanel>
-            {/* <TabPanel value={tab} index={1} >
-              <EntryChat {...props} session={session}/>
-            </TabPanel> */}
-            <TabPanel value={tab} index={7} >
-              <HistoryChat {...props} session={session}/>
-            </TabPanel>
-            <TabPanel value={tab} index={8} >
-              <AdminNotificationSection {...props} session={session}/>
-            </TabPanel>
-            <TabPanel value={tab} index={9} >
-              <NotificationSection {...props} session={session}/>
-            </TabPanel>
-            <TabPanel value={tab} index={10} >
-              <ReportList/>
-            </TabPanel>
+          <div className="mini-drawer-tabs" style={{height:'79vh'}}>
+            {
+              mainSections && mainSections.map((section,index)=>{
+                return (
+                  <TabPanel key={index} value={tab} index={index} >
+                    { getPageSection(section.section) }
+                </TabPanel>
+                );
+              })
+            }
+                {
+              secondSections && secondSections.map((section,index)=>{
+                return (
+                  <TabPanel key={index} value={tab} index={index + 4}>
+                    { getPageSection(section.section) }
+                </TabPanel>
+                );
+              })
+            }
           </div> 
         </Grid>
       </Drawer>
@@ -199,6 +269,8 @@ const MiniDrawer = (props) => {
         goToView={goToView}
         handleChangeTab={handleChangeTab}
         session={session}
+        secondSections={secondSections}
+        getIcon = {getIcon}
       />
 
     </>
