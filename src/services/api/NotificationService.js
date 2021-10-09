@@ -44,7 +44,9 @@ class NotificationService {
     async deleteImage(imageLink,id) {
         return await axios.post( getCustomUrl(apiPrefix, `/deleteImage`), {imageLink,id}, defaultHeaders() )
     }
-
+    async updateListCompaniesNotified(id, data) {
+        return await axios.post( getCustomUrl(apiPrefix, `/update-companies-notified/` + id), data, defaultHeaders() );
+    }
 }
 
 export default NotificationService;

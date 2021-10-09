@@ -52,6 +52,7 @@ const NotificationsPage = (props) => {
   const [ showNewCompanyNotification, setShowNewCompanyNotification ] = React.useState(false);
   const [ showNewCompaniesNotification, setShowNewCompaniesNotification ] = React.useState(false);
   const [ showNotificationTo, setShowNotificationTo] = React.useState(false);
+  const [ showNotificationCompanyTo, setShowNotificationCompanyTo] = React.useState(false);
   const [ isViewed, setIsViewed ] = React.useState(false);
   const [ showModalDelete, setShowModalDelete] = React.useState(false);
   const [ notification, setNotification ] = React.useState({});
@@ -141,7 +142,7 @@ const NotificationsPage = (props) => {
     if(notification.companiesNotified.length == 1){
       setShowNotificationTo(true);
     }else{
-      // Poner otro modal aqui
+      setShowNotificationCompanyTo(true);
     }
   };  
 
@@ -278,6 +279,17 @@ const NotificationsPage = (props) => {
         open={showNotificationTo}
         handleClose={() => {
           setShowNotificationTo(false);
+        }}
+        notificationsViewed={notificationsViewed}
+        notification={notification}
+        onListNotificationViews={onListNotificationViews}
+        session={session}
+      />
+      <CustomModal
+        customModal="ModalNotificationCompanyTo"
+        open={showNotificationCompanyTo}
+        handleClose={() => {
+          setShowNotificationCompanyTo(false);
         }}
         notificationsViewed={notificationsViewed}
         notification={notification}

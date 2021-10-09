@@ -155,6 +155,15 @@ class UserService {
             } }
     )}
 
+    async listCompanyNotify(term="") {
+        return await axios.get(
+            config.apiVersion + `users/list-company-notify?term=${term}`,
+            { headers: {
+                ...config.headers, 
+                Authorization: `token ${JSON.parse(localStorage.getItem('session')).token || ''}` 
+            } }
+    )}
+
 }
 
 export default UserService;

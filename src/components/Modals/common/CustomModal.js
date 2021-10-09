@@ -21,6 +21,7 @@ import ModalNewCompanyNotification from '../ModalNewCompanyNotification';
 import ModalNewCompaniesNotification from '../ModalNewCompaniesNotification';
 import ModalAddFrequentQuery from '../ModalAddFrequentQuery';
 import ModalNotificationTo from '../ModalNotificationTo';
+import ModalNotificationCompanyTo from '../ModalNotificationCompanyTo';
 
 const CustomModal = (props) => {
     const getCustomModal = (customModal) => {
@@ -65,6 +66,8 @@ const CustomModal = (props) => {
                 return <ModalAddFrequentQuery {...props}/>
             case "ModalNotificationTo":
                 return <ModalNotificationTo {...props}/>
+            case "ModalNotificationCompanyTo":
+                return <ModalNotificationCompanyTo {...props}/>
             default:
                 return null;
         }
