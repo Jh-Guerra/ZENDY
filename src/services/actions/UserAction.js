@@ -71,3 +71,8 @@ export const listUsersSameCompany = (term) => async dispatch => {
     const res = await userService.listUsersSameCompany(term);
     return res && res.data || [];
 }
+
+export const listCompanyNotify = (term) => async dispatch => {
+    const res = await userService.listCompanyNotify(term);
+    return res && res.data || [];
+}
