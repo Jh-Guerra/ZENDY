@@ -64,11 +64,6 @@ const MiniDrawer = (props) => {
     switch (true) {
       case path.includes("/empresas/"):
         return setTab(2);
-      case path.includes("/consultas/"):
-        if (checkPermission(session, "acceptEntryQuery"))
-        return setTab(2);
-        if (checkPermission(session, "createEntryQuery"))
-        return setTab(1);
       case path.includes("/notificaciones/"):
         if (checkPermission(session, "createAdminNotifications")) {
           return setTab(8);
@@ -77,6 +72,18 @@ const MiniDrawer = (props) => {
       case path.includes("/chat/"):
         if (checkPermission(session, "acceptEntryQuery"))
           return setTab(0);
+         if (checkPermission(session, "createNotifications")) {
+         return setTab(8);
+         } else {
+           return setTab(9);
+         }
+      case path.includes("/consultas/"):
+        if (path.includes("/recomendacion"))
+        return setTab(3);
+        if (checkPermission(session, "acceptEntryQuery"))
+        return setTab(2);
+        if (checkPermission(session, "createEntryQuery"))
+        return setTab(1);         
     }
   }
 
