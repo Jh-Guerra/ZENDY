@@ -64,6 +64,8 @@ const ModalNewCompaniesNotification = (props) => {
 
             onListCompanies();
             setImageUrl(null);
+        }else{
+            setCompanies([]);
         }
     }, [open]);
 

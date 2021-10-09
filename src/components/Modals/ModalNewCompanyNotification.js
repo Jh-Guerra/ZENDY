@@ -73,6 +73,8 @@ const ModalNewCompanyNotification = (props) => {
             }else{
                 idCompany ? onListCompaniesByCompany(idCompany) :  onListCompanies(false);
             }
+        }else{
+            setUsers([]);
         }
         setImageUrl(null);
     }, [open]);

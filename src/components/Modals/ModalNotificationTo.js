@@ -16,7 +16,7 @@ import Paper from '@material-ui/core/Paper';
 import InputBase from '@material-ui/core/InputBase';
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
 import ModalFooter from './common/ModalFooter';
-import { listAdmins, listAvailableUsers, listAvailableUsersSameCompany } from 'services/actions/UserAction';
+import { listUsersByCompany} from 'services/actions/UserAction';
 import { showBackdrop, showSnackBar } from 'services/actions/CustomAction';
 import config from 'config/Config';
 import { pColor } from 'assets/styles/zendy-css';
@@ -54,13 +54,7 @@ const ModalNotificationTo = (props) => {
 
   React.useEffect(() => {
     if(open){
-      if(checkPermission(session, "createAdminNotifications")){
-        onListAdmins("");
-      }else if (checkPermission(session, "createNotifications")) {
-        onListAvailableUsers("");
-      }else {
-        history.push("/inicio");
-      }
+      onListUsersByCompany(notification.companiesNotified[0], "");
     }else{
       setUsers([]);
       setSelectedUsers([]);
@@ -68,34 +62,21 @@ const ModalNotificationTo = (props) => {
     setTerm("");
   }, [open]);
 
-  const onListAvailableUsers = (term) => {
+  const onListUsersByCompany = (paramCompanyId, term) => {
     props.dispatch(showBackdrop(true));
-    props.dispatch(listAvailableUsers(["AdminEmpresa", "UserHD", "UserEmpresa"], term)).then(res => {
+    props.dispatch(listUsersByCompany(paramCompanyId, term)).then(res => {
       const noSelectedUsers = res && res.filter(user => !selectedUsers.find(u => u.id == user.id));
       setUsers([...selectedUsers, ...noSelectedUsers]);
       props.dispatch(showBackdrop(false));
     }).catch(err => props.dispatch(showBackdrop(false)));;
-  }
-
-  const onListAdmins = (term) => {
-    props.dispatch(showBackdrop(true));
-    props.dispatch(listAdmins(term)).then(res => {
-      const noSelectedUsers = res && res.filter(user => !selectedUsers.find(u => u.id == user.id));
-      setUsers([...selectedUsers, ...noSelectedUsers]);
-      props.dispatch(showBackdrop(false));
-    }).catch(err => props.dispatch(showBackdrop(false)));
-  }
+}
 
   const onSearch = (term) => {
     setTerm(term);
     clearTimeout(searchTimeout);
     setSearchTimeout(
       setTimeout(() => {
-        if(checkPermission(session, "createAdminNotifications")){
-          onListAdmins(term);
-        }else if(checkPermission(session, "createNotifications")){
-          onListAvailableUsers(term);
-        }
+        onListUsersByCompany(notification.companiesNotified[0], term);
       }, 1000)
     )
   }
@@ -160,8 +141,6 @@ const ModalNotificationTo = (props) => {
                 <Divider />
               </Grid>
               <Grid item xs={12}>
-                <Typography style={{ fontWeight: "bold" }}>Usuarios de la Empresa</Typography>
-                <br />
                 <List style={{ padding: "0px", maxHeight: "550px", overflow: "auto" }}>
                   {
                     users.map((user, i) => {

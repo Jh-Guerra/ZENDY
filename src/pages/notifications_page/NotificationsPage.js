@@ -118,7 +118,11 @@ const NotificationsPage = (props) => {
   };
 
   const openNotificationTo = () => {
-    setShowNotificationTo(true);
+    if(notification.companiesNotified.length == 1){
+      setShowNotificationTo(true);
+    }else{
+      // Poner otro modal aqui
+    }
   };  
 
   return (
