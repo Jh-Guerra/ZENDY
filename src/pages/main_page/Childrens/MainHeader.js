@@ -15,7 +15,7 @@ import SpeakerNotesOffIcon from '@material-ui/icons/SpeakerNotesOff';
 const MainHeader = props => {
   const session = getSessionInfo();
   const user = session && session.user;
-  const { chat={}, onGetChatData } = props;
+  const { chat={}, onGetChatData, messages } = props;
 
   const history = useHistory();
   const [showModalEndChat,setShowModalEndChat] = React.useState(false);
@@ -157,6 +157,7 @@ const MainHeader = props => {
         onClose={()=> { setShowChatDetail(false) }}
         chat={chat}
         onGetChatData={onGetChatData}
+        messages={messages}
       />
       <CustomModal 
         customModal="ModalAddToConversation"

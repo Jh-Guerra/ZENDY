@@ -29,6 +29,10 @@ class ChatService {
         return await axios.get( getCustomUrl(apiPrefix, `/find/${id}`), defaultHeaders());
     }
 
+    async findImages(id) {
+        return await axios.get( getCustomUrl(apiPrefix, `/findImages/${id}`), defaultHeaders());
+    }
+
     async deleteChat(id) {
         return await axios.delete( getCustomUrl(apiPrefix, `/delete/${id}`), defaultHeaders());
     }

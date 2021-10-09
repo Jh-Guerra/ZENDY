@@ -33,6 +33,11 @@ export const findChat = (id) => async dispatch => {
     return res && res.data || [];
 }
 
+export const findImages = (id) => async dispatch => {
+    const res = await service.findImages(id);
+    return res && res.data || [];
+}
+
 export const deleteChat = (id) => async dispatch => {
     const res = await service.deleteChat(id);
     return res && res.data || [];
