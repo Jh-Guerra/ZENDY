@@ -36,11 +36,13 @@ const ModalChatDetail = props => {
   const [images,setImages] = React.useState([]);
   const [openGroupChat, setOpenGroupChat] = React.useState(false);
   React.useEffect(()=> {
-    props.dispatch(findImages(chat.id)).then(res => {
-      setImages(res.images);
-      props.dispatch(showBackdrop(false));
-    }).catch(err => props.dispatch(showBackdrop(false)));
-  }, [messages]);
+    if(chat && chat.id){
+      props.dispatch(findImages(chat.id)).then(res => {
+        setImages(res.images);
+        props.dispatch(showBackdrop(false));
+      }).catch(err => props.dispatch(showBackdrop(false)));
+    }
+  }, [chat && chat.id, messages]);
 
   const onCloseModal = () => {
     onClose();
@@ -120,20 +122,23 @@ const ModalChatDetail = props => {
               Detalles de chat
             </Button>
           </Grid>
-          <Grid item xs={12}>
-            {/* <Divider  className={classes.divider} variant="middle" /> */}
-            <Typography style={{ fontSize: '20px', color: 'white', paddingLeft: '5px'}} align="left">
-                Galería de imagenes
-            </Typography>
-            <Divider  className={classes.divider} variant="middle" />
-            <GridList className={classes.gridList} cols={2.5}>
-              {images.map((img, i) => (
-                <GridListTile key={i} style={{ width: '48%', cursor: 'pointer' }}>
-                    <img onClick={() => {openImage(config.api+img)}}  src={config.api+img} />
-                </GridListTile>
-              ))}
-            </GridList>
-          </Grid>
+          {
+            images && images.length>0 && (
+              <Grid item xs={12}>
+                <Typography style={{ fontSize: '20px', color: 'white', paddingLeft: '5px'}} align="left">
+                  Galería de imagenes
+                </Typography>
+                <Divider  className={classes.divider} variant="middle" />
+                <GridList className={classes.gridList} cols={2.5}>
+                  {images.map((img, i) => (
+                    <GridListTile key={i} style={{ width: '48%', cursor: 'pointer' }}>
+                      <img onClick={() => {openImage(config.api+img)}}  src={config.api+img} />
+                    </GridListTile>
+                  ))}
+                </GridList>
+              </Grid>
+            )
+          }
         </Grid>
       </LateralModal>
       <CustomModal 
