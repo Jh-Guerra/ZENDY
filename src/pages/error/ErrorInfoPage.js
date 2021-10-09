@@ -214,16 +214,6 @@ const ErrorInfoPage = props => {
             <div >
               <Grid containter style={{ display: "flex" }} justifyContent='center'
                 alignItems='center'>
-                <Grid item xs={6}>
-                  <ChatAvatar
-                    isOnline="active"
-                    image={error.company && error.company.avatar ? config.api + error.company.avatar : getImageProfile("Company")}
-                    imgClassName="avatar-header"
-                  />
-                </Grid>
-                <Grid item xs={6} style={{ paddingLeft: '0px' }}>
-                  <span className={classes.nameHeader}>{error.company && error.company.name || ""}</span>
-                </Grid>
               </Grid>
             </div>
           </Grid>
