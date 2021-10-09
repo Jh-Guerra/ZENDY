@@ -45,7 +45,7 @@ const ModalEntryQuery = props => {
 
         if(entryQuery && entryQuery.id){
           setData(entryQuery);
-          setTitle("Detalle de la Consulta");
+          setTitle("Detalle de la Consulta 22");
           setEditMode(false);
         }else{
             setData({
@@ -233,7 +233,7 @@ const deleteImage = (Link, id, values) => {
                         src={fileUrl ? fileUrl : (data.image ? (config.api + data.image) : defaultCompany)}
                       />
                       {
-                          editMode && (entryQuery && entryQuery.image) && <HighlightOffTwoToneIcon style={{color: 'red', display:fileUrl || (entryQuery && entryQuery.id && entryQuery.image) ? "flex" : "none"}} onClick={() => { deleteImage( (data.image && (data.image).substr(8)), data.id, values)  }}/>
+                          editMode && values.image && <HighlightOffTwoToneIcon style={{color: 'red', display:fileUrl || (entryQuery && entryQuery.id && entryQuery.image) ? "flex" : "none"}} onClick={() => { deleteImage( (data.image && (data.image).substr(8)), data.id, values) }}/>
                       }
                     </Grid>
                   }

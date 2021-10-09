@@ -323,7 +323,7 @@ const ModalCompany = (props) => {
                                             src={fileUrl ? fileUrl : (data.avatar ? (config.api+data.avatar) : defaultCompany)}
                                         />
                                         {
-                                            editMode && (company && company.avatar) && <HighlightOffTwoToneIcon style={{color: 'red', display:fileUrl || (company.id && company.avatar) ? "flex" : "none"}} onClick={() => { deleteImage( (data.avatar && (data.avatar).substr(8)), data.id, values)  }}/>
+                                            editMode && values.avatar && <HighlightOffTwoToneIcon style={{color: 'red', display:fileUrl || (company.id && company.avatar) ? "flex" : "none"}} onClick={() => { deleteImage( (data.avatar && (data.avatar).substr(8)), data.id, values)  }}/>
                                         }
                                     </Grid>
                                 </Grid>
