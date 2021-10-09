@@ -13,7 +13,7 @@ import CompanySection from './Childrens/CompanySection';
 import ReportedErrorSection from './Childrens/ReportedErrorSection';
 import EntryChat from './Childrens/EntryChat';
 import { updateLastRoute, updateLastTab } from 'services/actions/CommonAction';
-import { checkPermission, getSessionInfo, checkSections } from 'utils/common';
+import { checkPermission, getSessionInfo, checkSections, getRoleSections } from 'utils/common';
 import { updateStatus } from 'services/actions/UserAction';
 import AdminEntryChat from './Childrens/AdminEntryChat';
 import { connect } from "react-redux";
@@ -25,21 +25,7 @@ import SmsFailedIcon from '@material-ui/icons/SmsFailed';
 import AssessmentIcon from '@material-ui/icons/Assessment';
 import PeopleIcon from '@material-ui/icons/People';
 
-const secciones = [
-  { title:"Chats Vigentes", icon:"chatVigente", section:"CurrentChat" },
-  { title:"Consultas", icon:"consultas", section:"EntryChat"},
-  { title:"Consultas Entrantes", icon:"consultasEntrantes", section:"AdminEntryChat"},
-  { title:"Mis Recomendaciones", icon:"recomendaciones", section:"AdminMyRecommendationsSection"},
-  { title:"", icon:"", section:""},
-  { title:"Errores Reportados", icon:"erroresReportados", section:"ReportedErrorSection"},
-  { title:"Errores Reportados admin", icon:"erroresAdmin", section:"AdminErrorSection"},
-  { title:"Historial de chat", icon:"historyChat", section:"HistoryChat"},
-  { title:"Notificaciones admin", icon:"notificacionesAdmin", section:"AdminNotificationSection"},
-  { title:"Notificaciones", icon:"notificaciones", section:"NotificationSection"},
-  { title:"Reportes", icon:"report", section:"ReportList"},
-]
-
-const moreActionSection = { title:"Más Opciones", icon:"MoreIcon", section:"MoreActions"};
+const moreActionSection = { name:"moreActions", title:"Más Opciones", order:5, active: true};
 
 const TabPanel = (props) => {
   const { children, value, index, ...other } = props;
@@ -65,11 +51,13 @@ const MiniDrawer = (props) => {
   const history = useHistory();
   const session = getSessionInfo();
 
-  const role = session && session.role;
-
-
   const [tab, setTab] = React.useState(0);
   const [showModalMoreActions, setShowModalMoreActions] = React.useState(false);
+  const [allSections, setAllSections] = React.useState([]);
+  const [usersTab, setUsersTab] = React.useState(-1);
+  const [usersNameTab, setUsersNameTab] = React.useState("");
+  const [companiesTab, setCompaniesTab] = React.useState(-1);
+  const [moreActionsTab, setMoreActionsTab] = React.useState(-1);
   const [mainSections, setMainSections] = React.useState([]);
   const [secondSections, setSecondSections] = React.useState([]);
 
@@ -80,16 +68,39 @@ const MiniDrawer = (props) => {
   }, [history.location.pathname]);
 
   React.useEffect(() => {
-    if(secciones.length > 5){
-      var newMainSections = secciones.filter((section, i) => i < 4); 
+    const currentSections = getRoleSections() || [];
+    if(currentSections.length > 5){
+      var newMainSections = currentSections.filter((section, i) => i < 4); 
       newMainSections.push(moreActionSection);
-      var newSecondSections = secciones.filter((section, i) => i >= 4); 
+      var newSecondSections = currentSections.filter((section, i) => i >= 4); 
       setMainSections(newMainSections)
       setSecondSections(newSecondSections)
     } else {
-      setMainSections(secciones)
+      setMainSections(currentSections)
       setSecondSections([])
     }
+
+    var usersTab = -1;
+    var usersNameTab = "";
+    var companiesTab = -1;
+    var moreActionsTab = (currentSections && currentSections.length > 5) ? 4 : -1;
+    currentSections && currentSections.length > 0 && currentSections.map((section, index) => {
+      if(section.name == "adminUsers" || section.name == "companyUsers"){
+        usersTab = index;
+        usersNameTab = section.name;
+      }
+
+      if(section.name == "companies"){
+        companiesTab = index;
+      }
+    })
+  
+    setUsersTab((usersTab > 4 && moreActionsTab > 0) ? usersTab + 1 : usersTab);
+    setUsersNameTab(usersNameTab);
+    setCompaniesTab((companiesTab > 4 && moreActionsTab > 0) ? companiesTab + 1 : companiesTab);
+    setMoreActionsTab(moreActionsTab);
+
+    setAllSections(currentSections);
   }, []);
 
   const logOut = () => {
@@ -99,92 +110,102 @@ const MiniDrawer = (props) => {
   }
 
   const updateTabByView = (path) => {
-    switch (true) {
-      case path.includes("/empresas/"):
-        return setTab(2);
-      case path.includes("/notificaciones/"):
-        if (checkPermission(session, "createAdminNotifications")) {
-          return setTab(8);
-        }
-        return setTab(9);
-      case path.includes("/chats/"):
-        if (checkPermission(session, "acceptEntryQuery"))
-          return setTab(0);
-         if (checkPermission(session, "createNotifications")) {
-         return setTab(8);
-         } else {
-           return setTab(9);
-         }
-      case path.includes("/consultas/"):
-        if (path.includes("/recomendacion"))
-        return setTab(3);
-        if (checkPermission(session, "acceptEntryQuery"))
-        return setTab(2);
-        if (checkPermission(session, "createEntryQuery"))
-        return setTab(1);         
-    }
+    // switch (true) {
+    //   case path.includes("/empresas/"):
+    //     return setTab(2);
+    //   case path.includes("/notificaciones/"):
+    //     if (checkPermission(session, "createAdminNotifications")) {
+    //       return setTab(8);
+    //     }
+    //     return setTab(9);
+    //   case path.includes("/chats/"):
+    //     if (checkPermission(session, "acceptEntryQuery"))
+    //       return setTab(0);
+    //      if (checkPermission(session, "createNotifications")) {
+    //      return setTab(8);
+    //      } else {
+    //        return setTab(9);
+    //      }
+    //   case path.includes("/consultas/"):
+    //     if (path.includes("/recomendacion"))
+    //     return setTab(3);
+    //     if (checkPermission(session, "acceptEntryQuery"))
+    //     return setTab(2);
+    //     if (checkPermission(session, "createEntryQuery"))
+    //     return setTab(1);         
+    // }
   }
 
-  const getPageSection = (panel) => {
-    switch (panel) {
-      case "CurrentChat":
+  const getPageSection = (sectionName) => {
+    switch (sectionName) {
+      case "vigentChats":
         return <CurrentChat {...props}/>
-    case "EntryChat":
-        return <EntryChat {...props}/>
-    case "AdminEntryChat":
-        return <AdminEntryChat {...props}/>
-    case "AdminMyRecommendationsSection":
-        return <AdminMyRecommendationsSection {...props}/>
-    case "ReportedErrorSection":
-        return <ReportedErrorSection {...props}/>
-    case "AdminErrorSection":
-        return <AdminErrorSection {...props}/>
-    case "HistoryChat":
-        return <HistoryChat {...props}/>
-    case "AdminNotificationSection":
-        return <AdminNotificationSection {...props}/>
-    case "NotificationSection":
-        return <NotificationSection {...props}/>
-    case "ReportList":
-        return <ReportList {...props}/>
-    default:
-        return null;
-    }
+      case "myEntryQueries":
+          return <EntryChat {...props}/>
+      case "companyEntryQueries":
+          return <AdminEntryChat {...props}/>
+      case "recommendations":
+          return <AdminMyRecommendationsSection {...props}/>
+      case "adminNotifications":
+          return <AdminNotificationSection {...props}/>
+      case "myNotifications":
+          return <NotificationSection {...props}/>
+      case "adminReportedErrors":
+          return <AdminErrorSection {...props}/>
+      case "myReportedErrors":
+          return <ReportedErrorSection {...props}/>
+      case "historyChats":
+          return <HistoryChat {...props}/>
+      // case "ReportList":
+      //     return <ReportList {...props}/>
+      default:
+          return null;
+      }
   }
 
-  const getIcon = (panel) => {
-    switch (panel) {
-      case "chatVigente":
+  const getIcon = (sectionName) => {
+    switch (sectionName) {
+      case "vigentChats":
         return <CurrentChatIcon/>
-    case "consultas":
+      case "adminEntryQueries":
+      case "companyEntryQueries":
+      case "myEntryQueries":
         return <PendingChatIcon/>
-    case "consultasEntrantes":
-        return <PendingChatIcon/>
-    case "recomendaciones":
+      case "recommendations":
         return <RecommendLikeIcon/>
-    case "erroresReportados":
+      case "adminNotifications":
+      case "companyNotifications":
+      case "myNotifications":
+        return <SmsFailedIcon/>
+      case "adminReportedErrors":
+      case "companyReportedErrors":
+      case "myReportedErrors":
         return <ErrorsIcon/>
-    case "erroresAdmin":
-        return <ErrorsIcon/>
-    case "historyChat":
+      case "historyChats":
         return <SpeakerNotesIcon/>
-    case "notificacionesAdmin":
-        return <SmsFailedIcon/>
-    case "notificaciones":
-        return <SmsFailedIcon/>
-    case "report":
+      case "companyReports":
+      case "adminReports":
         return <AssessmentIcon/>
-    case "MoreIcon":
-        return <MoreIcon/>
-    default:
-        return null;
-    }
+      case "adminUsers":
+      case "companyUsers":
+        return <PeopleIcon />
+      case "companies":
+        return <CompaniesIcon />
+      case "moreActions":
+        return <MoreIcon />
+      default:
+          return null;
+      }
   }
 
   const handleChangeTab = (event, newTab) => {
     props.dispatch(updateLastTab(newTab || 0));
-    if(newTab==4 && mainSections.length != secciones.length){
+    if(newTab == moreActionsTab){
       setShowModalMoreActions(true);
+    }else if(newTab == usersTab){
+      usersNameTab == "adminUsers" ? goToView("usuarios") : goToView("usuarios-empresa");
+    }else if (newTab == companiesTab){
+      goToView("empresas");
     }else{
       setTab(newTab);
     }
@@ -214,28 +235,22 @@ const MiniDrawer = (props) => {
                   style={{height:"100%"}}
                 >
                   {
-                    (
-                      
-                      mainSections && mainSections.map((section,index)=>{
-                        return (
-                    <Tooltip key={index} title={section.title}>
-                      <Tab className="mini-drawer-tab" icon={getIcon(section.icon)}/>
-                    </Tooltip>
-                       );
-                      })
-                    )
+                    mainSections && mainSections.map((section,index)=>{
+                      return (
+                        <Tooltip key={index} title={section.title}>
+                          <Tab className="mini-drawer-tab" icon={getIcon(section.name)}/>
+                        </Tooltip>
+                      );
+                    })
                   }
                   {
-                    (
-                      
-                      secondSections && secondSections.map((section,index)=>{
-                        return (
-                    <Tooltip key={index+4} title={section.title}>
-                      <Tab className="mini-drawer-tab" icon={getIcon(section.icon)} style={{display:"none"}}/>
-                    </Tooltip>
-                       );
-                      })
-                    )
+                    secondSections && secondSections.map((section,index)=>{
+                      return (
+                        <Tooltip key={index + 5} title={section.title}>
+                          <Tab className="mini-drawer-tab" icon={getIcon(section.name)} style={{display:"none"}}/>
+                        </Tooltip>
+                      );
+                    })
                   }
                 </Tabs>
               </AppBar>
@@ -243,20 +258,20 @@ const MiniDrawer = (props) => {
           </Grid>
           <div className="mini-drawer-tabs" style={{height:'79vh'}}>
             {
-              mainSections && mainSections.map((section,index)=>{
+              mainSections && mainSections.map((section, index)=>{
                 return (
                   <TabPanel key={index} value={tab} index={index} >
-                    { getPageSection(section.section) }
-                </TabPanel>
+                    { getPageSection(section.name) }
+                  </TabPanel>
                 );
               })
             }
-                {
-              secondSections && secondSections.map((section,index)=>{
+            {
+              secondSections && secondSections.map((section, index)=>{
                 return (
-                  <TabPanel key={index} value={tab} index={index + 4}>
-                    { getPageSection(section.section) }
-                </TabPanel>
+                  <TabPanel key={index} value={tab} index={index + 5}>
+                    { getPageSection(section.name) }
+                  </TabPanel>
                 );
               })
             }
@@ -270,7 +285,7 @@ const MiniDrawer = (props) => {
         handleChangeTab={handleChangeTab}
         session={session}
         secondSections={secondSections}
-        getIcon = {getIcon}
+        getIcon={getIcon}
       />
 
     </>

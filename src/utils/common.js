@@ -189,3 +189,11 @@ export const getCustomRoleName = (oldRolName) => {
 
   return  customRol ? customRol.value : oldRolName;
 }
+
+export const getRoleSections = () => {
+  const session = getSessionInfo();
+  const role = session && session.role || {};
+  const sections = role.sections || [];
+
+  return sections;
+}

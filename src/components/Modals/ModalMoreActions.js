@@ -42,27 +42,27 @@ const ModalMoreActions = (props) => {
                     <Grid item xs={12}>
 
                     {
-                    secondSections && secondSections.map((section,index)=>{
-                      return (
-                        <CustomButton 
-                            key={index}
-                            variant="contained"
-                            fullWidth
-                            className={classes.button}
-                            startIcon={getIcon(section.icon)}
-                            color={successButtonColor}
-                            style={{display: !section.icon ? "none" : "inline-flex"}}
-                            onClick={() => {
-                                handleClose();
-                                handleChangeTab(null, index + 4);
-                            }}
-                        >
-                            {section.title}
-                        </CustomButton>
-                     );
-                    })
-                  }
-                                           {
+                        secondSections && secondSections.map((section, index)=>{
+                            return (
+                                <CustomButton 
+                                    key={index}
+                                    variant="contained"
+                                    fullWidth
+                                    className={classes.button}
+                                    startIcon={getIcon(section.name)}
+                                    color={successButtonColor}
+                                    style={{display: !section.name ? "none" : "inline-flex"}}
+                                    onClick={() => {
+                                        handleClose();
+                                        handleChangeTab(null, index + 5);
+                                    }}
+                                >
+                                    {section.title}
+                                </CustomButton>
+                            );
+                        })
+                    }
+                                           {/* {
                         checkPermission(session, "showCompanyUsersCrud") && (role == 'AdminEmpresa' ) && (
                             <Grid item xs={12}>
                                 <CustomButton 
@@ -93,7 +93,7 @@ const ModalMoreActions = (props) => {
                                 </CustomButton>
                             </Grid>
                         )
-                     }
+                     } */}
                     </Grid>
                   
                 </Grid>
