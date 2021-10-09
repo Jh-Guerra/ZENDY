@@ -8,7 +8,7 @@ import { showBackdrop, showSnackBar } from 'services/actions/CustomAction';
 import { findChat, finalizeChat, listActiveChats } from 'services/actions/ChatAction';
 import { useHistory, withRouter } from 'react-router-dom';
 import { connect } from "react-redux";
-import { createMessage, listMessages } from 'services/actions/MessageAction';
+import { listMessages } from 'services/actions/MessageAction';
 import { getSessionInfo } from 'utils/common';
 import Echo from "laravel-echo";
 import config from "config/Config";
@@ -52,7 +52,6 @@ const MainPage = (props) => {
         window.Echo.private("chats." + chatId).listen('sendMessage', (e) => {
           const newMessage = e && e.message;
           const newUser = e && e.user || {};
-          const oldUser = localStorage.getItem("session") ? JSON.parse(localStorage.getItem("session")).user : {};
           const currentMessages = localStorage.getItem("messages") ? JSON.parse(localStorage.getItem("messages")) : [];
           newMessage.userFirstName = newUser.firstName;
           newMessage.userLastName = newUser.lastName;
@@ -63,6 +62,7 @@ const MainPage = (props) => {
           const newMessages = [...currentMessages, newMessage] || [];
           localStorage.setItem("messages", JSON.stringify(newMessages));
           setMessages(newMessages);
+          props.dispatch(listActiveChats("", "Vigente"));
           props.dispatch(resetPendingMessages(e && e.chatId)).catch(err => history.push("/inicio"));
         })
       }else{

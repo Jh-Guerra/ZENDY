@@ -8,7 +8,7 @@ import { showBackdrop, showSnackBar } from 'services/actions/CustomAction';
 import { findChat, finalizeChat, listActiveChats } from 'services/actions/ChatAction';
 import { useHistory, withRouter } from 'react-router-dom';
 import { connect } from "react-redux";
-import { createMessage, listMessages } from 'services/actions/MessageAction';
+import { listMessages } from 'services/actions/MessageAction';
 import { getSessionInfo } from 'utils/common';
 import Echo from "laravel-echo";
 import config from "config/Config";

@@ -13,7 +13,7 @@ const EQMainBody = props => {
 
   React.useEffect(() => {
     setEntryQueryItems(getDefaultMessages());
-  }, [entryQuery && entryQuery.id]);
+  }, [entryQuery && (entryQuery.id || entryQuery.reason || entryQuery.description || entryQuery.image || entryQuery.file)]);
 
   const getDefaultMessages = () => {
     const items = [];

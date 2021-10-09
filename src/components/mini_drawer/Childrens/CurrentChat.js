@@ -20,19 +20,17 @@ const CurrentChat = props => {
   const { classes = {}, chatRx } = props;
   const history = useHistory();
 
-  const [allChats, setAllChats] = React.useState([]);
+  const [term, setTerm] = React.useState("");
   const [searchTimeout, setSearchTimeout] = React.useState(null);
-
-  const isEmpty = allChats.length === 0;
 
   React.useEffect(() => {
     onListActiveChats('');
+    setTerm("");
   }, []);
 
   const onListActiveChats = term => {
     props.dispatch(showBackdrop(true));
     props.dispatch(listActiveChats(term, "Vigente")).then(res => {
-      setAllChats(res || []);
       props.dispatch(showBackdrop(false));
     }).catch(err => props.dispatch(showBackdrop(false)));
   };
@@ -47,6 +45,7 @@ const CurrentChat = props => {
   };
 
   const goToChat = (chat) => {
+    setTerm("");
     history.push(`/chats/${chat.id}`);
   }
 
@@ -78,6 +77,7 @@ const CurrentChat = props => {
             placeholder="Buscar"
             onChange={event => onSearch(event.target.value)}
             disableUnderline
+            value={term}
             startAdornment={
               <InputAdornment position="start">
                 <IconButton type="button" aria-label="search">
@@ -91,7 +91,7 @@ const CurrentChat = props => {
           {/* <div className="chat-list-items"> */}
           <div>
             {
-              isEmpty ? (
+              (!chats || chats.lenght == 0) ? (
                 <div className="container-not-found">
                   <p className="chat-not-found">No se encontró ningún chat</p>
                 </div>

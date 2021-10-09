@@ -34,7 +34,7 @@ const ItemChatHistoryRow = (props) => {
   }
 
   const message = chat.lastMessage && chat.lastMessage.message || '';
-  const hour = (chat.lastMessage && chat.lastMessage.createdDate) ? (OneDayAgo(chat.lastMessage.createdDate) ? moment().format("DD/MM/YYYY") : moment().format("hh:mm")) : " ";
+  const hour = (chat.lastMessage && chat.lastMessage.createdDate) ? (OneDayAgo(chat.lastMessage.createdDate) ? moment().format("DD/MM/YYYY") : moment().format('LT')) : " ";
 
   const lastMessageUser = chat.lastMessageUser || {};
   const prefixMessage = lastMessageUser.id == user.id ? "Tú :" : (chat.scope == "Grupal" ? (lastMessageUser.firstName + " " + lastMessageUser.lastName) : "");

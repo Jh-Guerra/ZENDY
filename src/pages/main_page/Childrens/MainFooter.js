@@ -14,6 +14,7 @@ import InputBase from '@material-ui/core/InputBase';
 import ModalUploadFile from "components/Modals/ModalUploadFile";
 import { Box } from "@material-ui/core";
 import HighlightOffTwoToneIcon from '@material-ui/icons/HighlightOff';
+import { listActiveChats } from "services/actions/ChatAction";
 
 const MainFooter = props => {
   const inputRef = createRef();
@@ -65,6 +66,7 @@ const MainFooter = props => {
       setShowPreviewFile(false);
       setUploadImage(null);
       setUploadFile(null);
+      props.dispatch(listActiveChats("", "Vigente"));
       document.getElementById('upload-image').value = "";
       document.getElementById('upload-file').value = "";
     }).catch(error => {

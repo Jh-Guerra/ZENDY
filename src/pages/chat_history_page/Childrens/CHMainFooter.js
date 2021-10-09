@@ -8,7 +8,7 @@ import ImageIcon from '@material-ui/icons/Image';
 import DescriptionIcon from '@material-ui/icons/Description';
 import EmojiPicker from "emoji-picker-react";
 import ModalUploadImage from "components/Modals/ModalUploadImage";
-import { createMessage, listMessage } from "services/actions/MessageAction";
+import { listMessage } from "services/actions/MessageAction";
 import { showBackdrop } from "services/actions/CustomAction";
 import { useHistory, withRouter } from "react-router-dom";
 import InputBase from '@material-ui/core/InputBase';

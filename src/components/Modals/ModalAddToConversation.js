@@ -122,8 +122,8 @@ const ModalAddToConversation = (props) => {
         status: "Activo",
         active: 1,
         deleted: 0,
-        created_at: moment().format("YYYY-MM-DD hh:mm:ss"),
-        updated_at: moment().format("YYYY-MM-DD hh:mm:ss")
+        created_at: moment().format("YYYY-MM-DD"),
+        updated_at: moment().format("YYYY-MM-DD")
       }
       participants.push(participant);
     });
