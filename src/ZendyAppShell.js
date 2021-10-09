@@ -13,6 +13,7 @@ import { withRouter } from 'react-router-dom';
 import 'date-fns';
 import { getSessionInfo } from 'utils/common';
 import { updateStatus, findUserStatusOn } from 'services/actions/UserAction';
+import { onHideSnackBar } from 'services/actions/CustomAction';
 
 window.Pusher = require('pusher-js');
 
@@ -78,7 +79,7 @@ class ZendyAppShell extends Component {
                 open={snackbar.show || false}
                 message={snackbar.message || ""}
                 alertType={snackbar.alertType || "info"}
-                onClose={(event, reason) => {
+                onClose={(event, reason) => {this.props.dispatch(onHideSnackBar())
                 }}
                 duration={5000}
               />
