@@ -67,7 +67,6 @@ const MainFooter = props => {
       setUploadFile(null);
       document.getElementById('upload-image').value = "";
       document.getElementById('upload-file').value = "";
-      props.onListMessages(chat.id, "");
     }).catch(error => {
       setUploadImage(null);
       setUploadFile(null);

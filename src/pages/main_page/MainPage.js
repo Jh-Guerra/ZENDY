@@ -54,18 +54,16 @@ const MainPage = (props) => {
           const newUser = e && e.user || {};
           const oldUser = localStorage.getItem("session") ? JSON.parse(localStorage.getItem("session")).user : {};
           const currentMessages = localStorage.getItem("messages") ? JSON.parse(localStorage.getItem("messages")) : [];
-          if(newUser.id != oldUser.id){
-            newMessage.userFirstName = newUser.firstName;
-            newMessage.userLastName = newUser.lastName;
-            newMessage.userSex = newUser.sex;
-            newMessage.userAvatar = newUser.avatar;
-            newMessage.userId = newUser.id;
+          newMessage.userFirstName = newUser.firstName;
+          newMessage.userLastName = newUser.lastName;
+          newMessage.userSex = newUser.sex;
+          newMessage.userAvatar = newUser.avatar;
+          newMessage.userId = newUser.id;
 
-            const newMessages = [...currentMessages, newMessage] || [];
-            localStorage.setItem("messages", JSON.stringify(newMessages));
-            setMessages(newMessages);
-            props.dispatch(resetPendingMessages(e && e.chatId)).catch(err => history.push("/inicio"));
-          }
+          const newMessages = [...currentMessages, newMessage] || [];
+          localStorage.setItem("messages", JSON.stringify(newMessages));
+          setMessages(newMessages);
+          props.dispatch(resetPendingMessages(e && e.chatId)).catch(err => history.push("/inicio"));
         })
       }else{
         history.push("/inicio");
