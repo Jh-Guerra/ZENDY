@@ -22,7 +22,7 @@ const useStyles = makeStyles(theme => ({
 const ModalMoreActions = (props) => {
     
     const classes = useStyles();
-    const { open, handleClose, handleChangeTab, session } = props;
+    const { open, handleClose, handleChangeTab, session, secondSections, getIcon } = props;
 
     const role = session && session.role && session.role.name || {};
      
@@ -40,91 +40,29 @@ const ModalMoreActions = (props) => {
             <ModalBody>
                 <Grid container spacing={1}>
                     <Grid item xs={12}>
+
+                    {
+                    secondSections && secondSections.map((section,index)=>{
+                      return (
+           
                         <CustomButton 
                             variant="contained"
                             fullWidth
                             className={classes.button}
-                            startIcon={<SpeakerNotesIcon />}
+                            startIcon={getIcon(section.icon)}
                             color={successButtonColor}
+                            style={{display: !section.icon ? "none" : "inline-flex"}}
                             onClick={() => {
                                 handleClose();
-                                handleChangeTab(null, 7);
+                                handleChangeTab(null, index + 4);
                             }}
                         >
-                            Chats - Historial
+                            {section.title}
                         </CustomButton>
-                    </Grid>
-                    {
-                        checkPermission(session, "createNotifications") ? (
-                            <Grid item xs={12}>
-                                <CustomButton 
-                                    variant="contained"
-                                    fullWidth
-                                    className={classes.button}
-                                    startIcon={<SmsFailedIcon />}
-                                    color={successButtonColor}
-                                    onClick={() => {
-                                        handleClose();
-                                        handleChangeTab(null, 8);
-                                    }}
-                                >
-                                    Notificaciones
-                                </CustomButton>
-                            </Grid>
-                        ) : (
-                            <Grid item xs={12}>
-                                <CustomButton 
-                                    variant="contained"
-                                    fullWidth
-                                    className={classes.button}
-                                    startIcon={<SmsFailedIcon />}
-                                    color={successButtonColor}
-                                    onClick={() => {
-                                        handleClose();
-                                        handleChangeTab(null, 9);
-                                    }}
-                                >
-                                    Notificaciones
-                                </CustomButton>
-                            </Grid>
-                        )
-                    }
-                    {
-                        checkPermission(session, "showTabReports") && (
-                            <Grid item xs={12}>
-                                <CustomButton 
-                                    variant="contained"
-                                    fullWidth
-                                    className={classes.button}
-                                    startIcon={<AssessmentIcon />}
-                                    color={successButtonColor}
-                                    onClick={() => {
-                                        handleClose();
-                                        handleChangeTab(null, 10);
-                                    }}
-                                >
-                                    Reportes
-                                </CustomButton>
-                            </Grid>
-                        )
-                     }
-                    {
-                        checkPermission(session, "showUserCrud") && (role == 'Admin' ) && (
-                            <Grid item xs={12}>
-                                <CustomButton 
-                                    variant="contained"
-                                    fullWidth
-                                    className={classes.button}
-                                    startIcon={<PeopleIcon />}
-                                    color={successButtonColor}
-                                    onClick={() => { props.goToView && props.goToView("usuarios") }}
-                                >
-                                    Usuarios
-                                </CustomButton>
-                            </Grid>
-                        )
-                     }
-                         {
+                     );
+                    })
+                  }
+                                           {
                         checkPermission(session, "showCompanyUsersCrud") && (role == 'AdminEmpresa' ) && (
                             <Grid item xs={12}>
                                 <CustomButton 
@@ -156,6 +94,8 @@ const ModalMoreActions = (props) => {
                             </Grid>
                         )
                      }
+                    </Grid>
+                  
                 </Grid>
             </ModalBody>
         </Modal>
