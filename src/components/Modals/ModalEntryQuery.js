@@ -176,6 +176,21 @@ const ModalEntryQuery = props => {
                 <Grid container spacing={3}>
                   <Grid item xs={12}>
                     <CustomInput
+                      id="idModule"
+                      custom="select2"
+                      label="Modulo"
+                      onChange={event => {
+                        setFieldValue('idModule', event.target.value);
+                      }}
+                      value={values.idModule}
+                      error={errors.idModule && touched.idModule ? true : false}
+                      helperText={errors.idModule && touched.idModule && errors.idModule}
+                      options={modules}
+                      disabled={!editMode}
+                    />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <CustomInput
                       id="reason"
                       label={<p>Motivo *</p>}
                       custom="inputText"
@@ -194,21 +209,6 @@ const ModalEntryQuery = props => {
                       onChange={handleChange}
                       value={values.description}
                       error={errors.description && touched.description ? true : false}
-                      disabled={!editMode}
-                    />
-                  </Grid>
-                  <Grid item xs={12}>
-                    <CustomInput
-                      id="idModule"
-                      custom="select2"
-                      label="Modulo"
-                      onChange={event => {
-                        setFieldValue('idModule', event.target.value);
-                      }}
-                      value={values.idModule}
-                      error={errors.idModule && touched.idModule ? true : false}
-                      helperText={errors.idModule && touched.idModule && errors.idModule}
-                      options={modules}
                       disabled={!editMode}
                     />
                   </Grid>

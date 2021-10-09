@@ -19,8 +19,6 @@ import RateReviewIcon from '@material-ui/icons/RateReview';
 const EQMainFooter = props => {
   const { entryQuery = {}, session, setEntryQuery } = props;
 
-  const user = (session && session.user && session.user.id) || '';
-
   const isFrequent = entryQuery && entryQuery.isFrequent;
 
   const [showRecommendations, setShowRecommendations] = React.useState(false);
@@ -52,22 +50,24 @@ const EQMainFooter = props => {
   return (
     <>
       <div className="entry-query-footer">
-        <CustomButton onClick={openRecommendations} variant="contained" color={infoColor} startIcon={<PeopleAltIcon />}>
-          Recomendaciones
-        </CustomButton>
         {checkPermission(session, 'acceptEntryQuery') && (
+          <CustomButton onClick={openRecommendations} variant="contained" color={infoColor} startIcon={<PeopleAltIcon />}>
+            Recomendaciones
+          </CustomButton>
+        )}
+        {entryQuery.id && checkPermission(session, 'acceptEntryQuery') && (
           <CustomButton onClick={openAcceptChat} variant="contained" color={infoColor} startIcon={<ChatIcon />}>
             Aceptar consulta e Iniciar Chat
           </CustomButton>
         )}
-        {checkPermission(session, 'createFrequentQuery') && isFrequent == 0 && (
+        {entryQuery.id && checkPermission(session, 'createFrequentQuery') && !isFrequent && (
           <CustomButton
             onClick={openAddFrequentQuery}
             variant="contained"
             color={infoColor}
             startIcon={<RateReviewIcon />}
           >
-            Añadir a consulta frecuente
+            Guardar como Consulta Frecuente
           </CustomButton>
         )}
       </div>
@@ -98,7 +98,6 @@ const EQMainFooter = props => {
         handleClose={() => {
           setShowAddFrequentQuery(false);
         }}
-        onConfirm={onAcceptEntryQuery}
         entryQuery={entryQuery}
         setEntryQuery={setEntryQuery}
       />

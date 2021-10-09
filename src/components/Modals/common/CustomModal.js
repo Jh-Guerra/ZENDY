@@ -15,7 +15,7 @@ import ModalResendMessage from '../ModalResendMessage';
 import ModalEntryQuery from '../ModalEntryQuery';
 import ModalReportedErrors from '../ModalReportedErrors';
 import ModalEndChat from '../ModalEndChat';
-import ModalEntryQueryFrequent from '../ModalEntryQueryFrequent';
+import ModalFrequentQuery from '../ModalFrequentQuery';
 import ModalNotificationOptions from '../ModalNotificationOptions';
 import ModalNewCompanyNotification from '../ModalNewCompanyNotification';
 import ModalNewCompaniesNotification from '../ModalNewCompaniesNotification';
@@ -54,8 +54,8 @@ const CustomModal = (props) => {
                 return <ModalReportedErrors {...props}/>
             case "ModalEndChat":
                 return <ModalEndChat {...props}/>
-            case "ModalEntryQueryFrequent":
-                return <ModalEntryQueryFrequent {...props}/>
+            case "ModalFrequentQuery":
+                return <ModalFrequentQuery {...props}/>
             case "ModalNotificationOptions":
                 return <ModalNotificationOptions {...props}/>
             case "ModalNewCompanyNotification":

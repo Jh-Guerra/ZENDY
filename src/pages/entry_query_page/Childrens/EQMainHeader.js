@@ -84,7 +84,7 @@ const EQMainHeader = props => {
         customModal={'ModalEntryQuery'}
         open={showModalEntryChat}
         entryQuery={entryQuery}
-        setEntryQuery = {setEntryQuery}
+        setEntryQuery={setEntryQuery}
         handleClose={() => { setShowModalEntryChat(false) }}
         onSaveForm={() => { setShowModalEntryChat(false) }}
         onGetData={onGetData}

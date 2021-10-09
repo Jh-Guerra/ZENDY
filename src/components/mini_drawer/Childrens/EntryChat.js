@@ -138,7 +138,7 @@ const EntryChat = props => {
                 }}
               />
             }
-            label="Aceptado"
+            label="Aceptados"
             style={{ color: 'white', marginLeft: '10px' }}
           />
         </Grid>
@@ -165,7 +165,7 @@ const EntryChat = props => {
       }}
       />
       <CustomModal
-        customModal={'ModalEntryQueryFrequent'}
+        customModal={'ModalFrequentQuery'}
         open={showModalEntryChatF}
         handleClose={() => { setShowModalEntryChatF(false) }}
         onSaveForm={() => {

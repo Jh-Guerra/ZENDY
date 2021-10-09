@@ -22,21 +22,21 @@ const useStyles = makeStyles(theme => ({
 const ModalAddFrequentQuery = (props) => {
 
     const classes = useStyles();
-    const { open, handleClose, onConfirm, entryQuery, setEntryQuery } = props;
+    const { open, handleClose, entryQuery, setEntryQuery } = props;
     const [name, setName] = React.useState("")
 
     const handleChange = (event) => {
         setName(event.target.value);
-      } 
+    } 
 
-      const addName = (data) => {
+    const addName = (data) => {
         props.dispatch(updateFrequent(entryQuery.id,data)).then(res => {
-          if(res){
-            handleClose()
-            setEntryQuery(res.entryQuery)
-          }
+            if(res){
+                handleClose()
+                setEntryQuery(res.entryQuery)
+            }
         })
-      }
+    }
 
     return (
         <Modal 
