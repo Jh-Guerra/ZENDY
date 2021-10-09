@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import { Grid, Typography } from "@material-ui/core";
+import { Grid, Typography, Box, Button, Avatar } from "@material-ui/core";
 import CustomTable from 'components/CustomTable';
 import CustomButton from 'components/CustomButton';
-import { dangerColor, successButtonColor } from 'assets/styles/zendy-css';
+import { dangerColor, successButtonColor, pColor } from 'assets/styles/zendy-css';
 import moment from 'moment';
 import ModalDelete from 'components/Modals/ModalDelete';
 import { showBackdrop, showSnackBar } from 'services/actions/CustomAction';
@@ -14,6 +14,10 @@ import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 import { checkPermission, getCustomRoleName, getSessionInfo } from 'utils/common';
+import { makeStyles, withStyles } from '@material-ui/core/styles';
+import GetAppIcon from '@material-ui/icons/GetApp';
+import config from "../../config/Config";
+import defaultImage from 'assets/images/defaultImage.png';
 
 const columns = [
   { type: 'text', field: 'name', label: 'Nombre', format: (row) => `${row.firstName} ${row.lastName}` },
@@ -23,11 +27,27 @@ const columns = [
   { type: 'text', field: 'viewedDate', label: 'Visto', align: 'center', format: (row) => row.viewedDate ? moment(row.viewedDate).format("DD/MM/YYYY") : "" },
 ];
 
+const useStyles = makeStyles((theme) => ({
+  fontNotification: {
+    color: '#000000',
+    marginTop: '20px',
+    alignItems: 'center',
+    fontSize: '20px',
+  },
+  fontReason: {
+    color: '#000000',
+    marginTop: '20px',
+    alignItems: 'center',
+    fontSize: '35px',
+  },
+}));
+
 const NotificationsPage = (props) => {
   const { } = props;
 
   const session = getSessionInfo();
   const history = useHistory();
+  const classes = useStyles();
 
   const [ showNewCompanyNotification, setShowNewCompanyNotification ] = React.useState(false);
   const [ showNewCompaniesNotification, setShowNewCompaniesNotification ] = React.useState(false);
@@ -127,11 +147,8 @@ const NotificationsPage = (props) => {
 
   return (
     <Grid container>
-      <Grid item xs={12} className="top-header">
-        <Typography variant="h4" component="h4" gutterBottom style={{textAlign:'center'}}>
-          {notification.reason}
-        </Typography>
-      </Grid>
+      <Grid item xs={12} className="top-header"></Grid>
+  
       {
         ((notification.idCompany && checkPermission(session, "createNotifications")) || checkPermission(session, "createAdminNotifications")) && (
           <Grid item xs={12} style={{padding: "0px 20px"}}>
@@ -157,9 +174,59 @@ const NotificationsPage = (props) => {
           </Grid>
         )
       }
+
+      <Grid container item xs={12}>
+          <Grid item xs={6} container spacing={0} direction="column" alignItems="flex-start" verticalAlign="center" justify="flex-start">
+                <Box style={{ margin: '5vh 3vh' }}>
+                  <Grid item xs={12} alignItems='flex-start' alignContent='flex-start' style={{ textAlign: "left", marginTop: '15px' }}>
+                    <span className={classes.fontReason} style={{ fontWeight: 'bold', fontStyle: 'italic', alignItems: 'flex-end', marginTop: '10px' }}>Asunto: </span>
+                    <span className={classes.fontReason} style={{ alignItems: 'flex-start', marginTop: '10px' }}>{notification.reason || ""}</span>
+                  </Grid>
+
+                  <Grid item xs={12} alignItems='flex-start' alignContent='flex-start' style={{ textAlign: "left", marginTop: '30px' }}>
+                    <span className={classes.fontNotification} style={{ fontWeight: 'bold', fontStyle: 'italic', alignItems: 'flex-end' }}>Descripción: </span>
+                    <span className={classes.fontNotification} style={{ alignItems: 'flex-start', marginTop: '10px' }}>{
+                      "Es un hecho establecido hace demasiado tiempo que un lector se distraerá con el contenido del texto de un sitio mientras que mira su diseño. El punto de usar Lorem Ipsum es que tiene una distribución más o menos normal de las letras, al contrario de usar textos como por ejemplo Contenido aquí, contenido aquí. Estos textos hacen parecerlo un español que se puede leer. Muchos paquetes de autoedición y editores de páginas web usan el Lorem Ipsum como su texto por defecto, y al hacer una búsqueda de Lorem Ipsum va a dar por resultado muchos sitios web que usan este texto si se encuentran en estado de desarrollo. Muchas versiones han evolucionado a través de los años, algunas veces por accidente, otras veces a propósito (por ejemplo insertándole humor y cosas por el estilo).".length > 200 ? "Es un hecho establecido hace demasiado tiempo que un lector se distraerá con el contenido del texto de un sitio mientras que mira su diseño. El punto de usar Lorem Ipsum es que tiene una distribución más o menos normal de las letras, al contrario de usar textos como por ejemplo Contenido aquí, contenido aquí. Estos textos hacen parecerlo un español que se puede leer. Muchos paquetes de autoedición y editores de páginas web usan el Lorem Ipsum como su texto por defecto, y al hacer una búsqueda de Lorem Ipsum va a dar por resultado muchos sitios web que usan este texto si se encuentran en estado de desarrollo. Muchas versiones han evolucionado a través de los años, algunas veces por accidente, otras veces a propósito (por ejemplo insertándole humor y cosas por el estilo).".substring(0,197) + "..." : "Es un hecho establecido hace demasiado tiempo que un lector se distraerá con el contenido del texto de un sitio mientras que mira su diseño. El punto de usar Lorem Ipsum es que tiene una distribución más o menos normal de las letras, al contrario de usar textos como por ejemplo Contenido aquí, contenido aquí. Estos textos hacen parecerlo un español que se puede leer. Muchos paquetes de autoedición y editores de páginas web usan el Lorem Ipsum como su texto por defecto, y al hacer una búsqueda de Lorem Ipsum va a dar por resultado muchos sitios web que usan este texto si se encuentran en estado de desarrollo. Muchas versiones han evolucionado a través de los años, algunas veces por accidente, otras veces a propósito (por ejemplo insertándole humor y cosas por el estilo)."
+                    }</span>
+                  </Grid>
+                  {
+                    notification.file &&
+                    <Grid item xs={12} alignItems='flex-start' alignContent='flex-start' style={{ textAlign: "left", marginTop: '15px' }}>
+                      <span className={classes.fontNotification} style={{ fontWeight: 'bold', fontStyle: 'italic', alignItems: 'flex-end' }}>Archivo Adjunto:</span>
+                      <p style={{textAlign:"flex-start"}}>
+                        <Button variant="contained"
+                          href={(config.api + notification.file)} target="_blank"
+                          endIcon={<GetAppIcon />}
+                          color="primary"
+                        >
+                          Descargar
+                        </Button>
+                      </p>
+                    </Grid>
+                  }
+                </Box>
+          </Grid>
+          <Grid item xs={6}>
+                <p style={{textAlign:"flex-end"}}>
+                <Box>
+                  <a href={notification.image ? (config.api + notification.image) : defaultImage} target="_blank">
+                    <Avatar
+                      variant="rounded"
+                      style={{ height: "60%", width: "60%", justifyContent:'flex-end', alignItems:'flex-end', marginLeft:"37%", marginTop:"10%" }}
+                      src={notification.image ? (config.api + notification.image) : defaultImage}
+                      href={notification.image ? (config.api + notification.image) : defaultImage}
+                      target="_blank"
+                    />
+                  </a>
+                </Box>
+                </p>
+          </Grid>
+      </Grid>
+
       {
         ((notification.idCompany && checkPermission(session, "createNotifications")) || checkPermission(session, "createAdminNotifications")) && (
           <Grid item xs={12} style={{padding: "0px 20px"}}>
+            
             <p style={{textAlign:"right"}}>
               <CustomButton
                   variant="contained"

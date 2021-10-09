@@ -96,12 +96,13 @@ class UsersPage extends Component {
 
     return (
       <Grid container>
-        <Grid item xs={12} className="top-header">
-          <Typography variant="h4" component="h4" gutterBottom style={{textAlign:'center'}}>
+        <Grid item xs={12} className="top-header"></Grid>
+        
+        <Grid item xs={12} style={{padding: "0px 20px"}}>
+          <br />
+          <Typography variant="h4" component="h4" gutterBottom style={{textAlign:'flex-start'}}>
             Usuarios
           </Typography>
-        </Grid>
-        <Grid item xs={12} style={{padding: "0px 20px"}}>
           <p style={{textAlign:'end'}}>
             <CustomButton
               variant="contained"
