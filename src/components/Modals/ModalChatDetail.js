@@ -9,10 +9,11 @@ import GridListTile from '@material-ui/core/GridListTile';
 import CustomModal from "components/Modals/common/CustomModal";
 import config from 'config/Config';
 import { getImageProfile, getSessionInfo } from 'utils/common';
+import { findImages } from 'services/actions/ChatAction';
+import { showBackdrop } from 'services/actions/CustomAction';
 
 const useStyles = makeStyles(theme => ({
   gridList: {
-    // flexWrap: 'nowrap',
     justifyContent: 'space-around',
     padding: '5px'
   },
@@ -31,57 +32,19 @@ const ModalChatDetail = props => {
   const user = session && session.user;
   const classes = useStyles();
 
-  const { onClose, chat, onGetChatData } = props;
-
+  const { onClose, chat, onGetChatData, messages } = props;
+  const [images,setImages] = React.useState([]);
   const [openGroupChat, setOpenGroupChat] = React.useState(false);
+  React.useEffect(()=> {
+    props.dispatch(findImages(chat.id)).then(res => {
+      setImages(res.images);
+      props.dispatch(showBackdrop(false));
+    }).catch(err => props.dispatch(showBackdrop(false)));
+  }, [messages]);
 
   const onCloseModal = () => {
     onClose();
   };
-
-  const dataImg = [
-    {
-      img: 'https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(73).jpg',
-      cols: 1,
-      title: 'image',
-    },
-    {
-      img: 'https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(72).jpg',
-      cols: 2,
-      title: 'image',
-    },
-    {
-      img: 'https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(71).jpg',
-      cols: 1,
-      title: 'image',
-    },
-    {
-      img: 'https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(74).jpg',
-      cols: 2,
-      title: 'image',
-    },
-    {
-      img: 'https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(75).jpg',
-      cols: 2,
-      title: 'image',
-    },
-
-    {
-      img: 'https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(78).jpg',
-      cols: 1,
-      title: 'image',
-    },
-    {
-      img: 'https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(77).jpg',
-      cols: 2,
-      title: 'image',
-    },
-    {
-      img: 'https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(79).jpg',
-      cols: 1,
-      title: 'image',
-    },
-  ];
 
   const handleGroupChat = () => {
     setOpenGroupChat(true);
@@ -109,6 +72,10 @@ const ModalChatDetail = props => {
     name = chat.name || "";
   }
 
+  const openImage = (imagePath) => {
+    window.open(imagePath,"_blank")
+  }
+  
   return (
     <>
       <LateralModal openDetail={props.open} onClose={onCloseModal}>
@@ -160,9 +127,9 @@ const ModalChatDetail = props => {
             </Typography>
             <Divider  className={classes.divider} variant="middle" />
             <GridList className={classes.gridList} cols={2.5}>
-              {dataImg.map((tile, i) => (
+              {images.map((img, i) => (
                 <GridListTile key={i} style={{ width: '48%', cursor: 'pointer' }}>
-                  <img src={tile.img} />
+                    <img onClick={() => {openImage(config.api+img)}}  src={config.api+img} />
                 </GridListTile>
               ))}
             </GridList>
