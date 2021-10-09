@@ -37,7 +37,6 @@ const ModalNotificationOptions = (props) => {
 
     const goToView = (chat,handleClose) => {
         handleClose(false);
-        // history.push(`/chat/${chat.type}/${chat.id}`);
       }
      
     return (

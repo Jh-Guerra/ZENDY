@@ -48,7 +48,7 @@ const HistoryChat = props => {
       props.dispatch(listFinalizeChats(term, "Finalizado",from, to)).then(res => {
         setAllChats(res || []);
         props.dispatch(showBackdrop(false));
-      }).catch(err => props.dispatch(showBackdrop(false)));
+      }).catch(err => history.push("/inicio"), props.dispatch(showBackdrop(false)));
     };
   
     const onSearch = term => {
@@ -61,7 +61,7 @@ const HistoryChat = props => {
     };
   
     const goToChat = (chat) => {
-      history.push(`/chat-historial/${chat.type}/${chat.id}`);
+      history.push(`/chat-historial/${chat.id}`);
     }
   
     const onSaveForm = () => {

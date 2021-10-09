@@ -43,11 +43,11 @@ const MainPage = (props) => {
   React.useEffect(() => {
     if(props.location.pathname){
       const pathArray = props.location.pathname.split("/");
-      const chatId = pathArray && pathArray[3];
+      const chatId = pathArray && pathArray[2];
       if(chatId){
         onGetChatData(chatId);
         onListMessages(chatId, "");
-        props.dispatch(resetPendingMessages(chatId));
+        props.dispatch(resetPendingMessages(chatId)).catch(err => history.push("/inicio"));
 
         window.Echo.private("chats." + chatId).listen('sendMessage', (e) => {
           const newMessage = e && e.message;
@@ -64,7 +64,7 @@ const MainPage = (props) => {
             const newMessages = [...currentMessages, newMessage] || [];
             localStorage.setItem("messages", JSON.stringify(newMessages));
             setMessages(newMessages);
-            props.dispatch(resetPendingMessages(e && e.chatId));
+            props.dispatch(resetPendingMessages(e && e.chatId)).catch(err => history.push("/inicio"));
           }
         })
       }else{

@@ -39,7 +39,7 @@ const EntryQueryPage = (props) => {
       setEntryQuery(res.entryQuery|| {});
       props.dispatch(showBackdrop(false));
     }).catch(err => {
-      history.push("/no-encontrado"); 
+      history.push("/inicio"); 
       props.dispatch(showBackdrop(false))
     });
   };
@@ -84,7 +84,7 @@ const EntryQueryPage = (props) => {
       const message = res && res.success || "Consulta aceptada"
       props.dispatch(showSnackBar("success", message));
       const chat = res && res.chat;
-      history.push(`/chat/${chat.type}/${chat.id}`);
+      history.push(`/chats/${chat.id}`);
       props.dispatch(listPendingQueries(""));
       props.dispatch(showBackdrop(false));
     }).catch(err => { props.dispatch(showBackdrop(false)); props.dispatch(showSnackBar("error", err.response.data.error)); });
