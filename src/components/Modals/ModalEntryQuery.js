@@ -45,7 +45,7 @@ const ModalEntryQuery = props => {
 
         if(entryQuery && entryQuery.id){
           setData(entryQuery);
-          setTitle("Detalle de la Consulta 22");
+          setTitle("Detalle de la Consulta");
           setEditMode(false);
         }else{
             setData({
