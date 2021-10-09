@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core/styles';
-import { Input, InputAdornment, Paper, Grid, IconButton, InputBase } from '@material-ui/core';
+import { Input, InputAdornment, Paper, Grid, IconButton, InputBase, FormControlLabel } from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search'
 import { useHistory } from 'react-router-dom';
 import { showBackdrop } from 'services/actions/CustomAction';
@@ -9,6 +9,8 @@ import ItemNotificationRow from '../Components/ItemNotificationRow';
 import { listNotificationsByCompany, listNotificationsByUser } from 'services/actions/NotificationAction';
 import { checkPermission } from 'utils/common';
 import TabOptions from './TabOptions';
+import CustomCheckbox from 'components/CustomCheckbox';
+
 
 const NotificationSection = (props) => {
 
@@ -18,12 +20,13 @@ const NotificationSection = (props) => {
   
     const [searchTimeout, setSearchTimeout] = React.useState(null);
     const [showNewCompanyNotification, setShowNewCompanyNotification] = React.useState(false);
+    const [isPending, setIsPending] =React.useState(false);
   
     React.useEffect(() => {
       onList("");
     }, []);
 
-    const onList = (term) => {
+    const onList = (term, status) => {
         props.dispatch(showBackdrop(true));
 
         if(checkPermission(session, "createNotifications")){
@@ -31,7 +34,7 @@ const NotificationSection = (props) => {
             props.dispatch(showBackdrop(false));
           }).catch(err => props.dispatch(showBackdrop(false)));
         }else{
-          props.dispatch(listNotificationsByUser(term)).then(res => {
+          props.dispatch(listNotificationsByUser(term, status)).then(res => {
             props.dispatch(showBackdrop(false));
           }).catch(err => props.dispatch(showBackdrop(false)));
         }
@@ -60,6 +63,12 @@ const NotificationSection = (props) => {
 
     const onSaveForm = () => {
       onList('');
+    }
+
+    const onChangeCheck = (value) => {
+
+        setIsPending(!isPending)
+        onList('', value ? 'Visto': 'Pendiente')
     }
 
     const notifications = notificationRx && notificationRx.notifications || [];
@@ -100,6 +109,20 @@ const NotificationSection = (props) => {
                 }
               />
             </Grid>
+            <Grid item xs={12} style={{ padding: '0px 10px' }}>
+          <FormControlLabel
+            control={
+              <CustomCheckbox
+                checked={isPending}
+                value={'Pendiente'}
+                onChange={(e) => onChangeCheck(e.target.checked)
+                }
+              />
+            }
+            label="Vistos"
+            style={{ color: 'white', marginLeft: '10px' }}
+          />
+          </Grid>
             <Grid item xs={12}>
               {notifications.map((notificationViewed, i) => {
                 return (

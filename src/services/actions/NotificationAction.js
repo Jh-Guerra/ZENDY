@@ -46,8 +46,8 @@ export const listNotificationsByCompany = (term) => async dispatch => {
     return res && res.data || [];
 }
 
-export const listNotificationsByUser = (term) => async dispatch => {
-    const res = await service.listNotificationsByUser(term);
+export const listNotificationsByUser = (term, status) => async dispatch => {
+    const res = await service.listNotificationsByUser(term, status);
     dispatch({
         type: NOTIFICATIONS,
         payload: res && res.data || []
