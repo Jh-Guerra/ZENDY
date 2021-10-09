@@ -1,19 +1,16 @@
 import React from 'react';
 import { useHistory, withRouter } from "react-router-dom";
-import { AppBar, Box, Drawer, Grid, makeStyles, Tab, Tabs, Tooltip, Typography} from '@material-ui/core';
+import { AppBar, Drawer, Grid, Tab, Tabs, Tooltip } from '@material-ui/core';
 import AvatarHeader from './Childrens/AvatarHeader';
-import PropTypes from 'prop-types';
-import { CurrentChatIcon, PendingChatIcon, CompaniesIcon, ErrorsIcon, MoreIcon, RecommendLikeIcon } from "assets/styles/svg-icons";
+import { CompaniesIcon, MoreIcon } from "assets/styles/svg-icons";
 import CurrentChat from './Childrens/CurrentChat';
 import ModalMoreActions from 'components/Modals/ModalMoreActions';
 import HistoryChat from 'components/mini_drawer/Childrens/HistoryChat';
 import AdminNotificationSection from './Childrens/AdminNotificationSection';
-import ReportList from './Childrens/ReportList';
-import CompanySection from './Childrens/CompanySection';
 import ReportedErrorSection from './Childrens/ReportedErrorSection';
 import EntryChat from './Childrens/EntryChat';
 import { updateLastRoute, updateLastTab } from 'services/actions/CommonAction';
-import { checkPermission, getSessionInfo, checkSections, getRoleSections } from 'utils/common';
+import { getSessionInfo, getRoleSections } from 'utils/common';
 import { updateStatus } from 'services/actions/UserAction';
 import AdminEntryChat from './Childrens/AdminEntryChat';
 import { connect } from "react-redux";
@@ -24,6 +21,10 @@ import SpeakerNotesIcon from '@material-ui/icons/SpeakerNotes';
 import SmsFailedIcon from '@material-ui/icons/SmsFailed';
 import AssessmentIcon from '@material-ui/icons/Assessment';
 import PeopleIcon from '@material-ui/icons/People';
+import ModeCommentIcon from '@material-ui/icons/ModeComment';
+import ForumIcon from '@material-ui/icons/Forum';
+import NotificationsActiveIcon from '@material-ui/icons/NotificationsActive';
+import TextsmsIcon from '@material-ui/icons/Textsms';
 
 const moreActionSection = { name:"moreActions", title:"Más Opciones", order:5, active: true};
 
@@ -143,21 +144,21 @@ const MiniDrawer = (props) => {
   const getIcon = (sectionName) => {
     switch (sectionName) {
       case "vigentChats":
-        return <CurrentChatIcon/>
+        return <ForumIcon/>
       case "adminEntryQueries":
       case "companyEntryQueries":
       case "myEntryQueries":
-        return <PendingChatIcon/>
+        return <ModeCommentIcon/>
       case "recommendations":
-        return <RecommendLikeIcon/>
+        return <TextsmsIcon/>
       case "adminNotifications":
       case "companyNotifications":
       case "myNotifications":
-        return <SmsFailedIcon/>
+        return <NotificationsActiveIcon/>
       case "adminReportedErrors":
       case "companyReportedErrors":
       case "myReportedErrors":
-        return <ErrorsIcon/>
+        return <SmsFailedIcon/>
       case "historyChats":
         return <SpeakerNotesIcon/>
       case "companyReports":
