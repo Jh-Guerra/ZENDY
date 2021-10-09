@@ -45,7 +45,7 @@ const ModalNewChat = (props) => {
 
     const goToView = (chat,handleClose) => {
         handleClose(false);
-        history.push(`/chat/${chat.type}/${chat.id}`);
+        history.push(`/chats/${chat.id}`);
       }
      
     return (

@@ -22,10 +22,12 @@ import { showBackdrop, showSnackBar } from 'services/actions/CustomAction';
 import { createClientChat, listAvailableUsersByCompany } from 'services/actions/ChatAction';
 import config from 'config/Config';
 import ZendyIcon from 'assets/images/ZendyIcon.jpg';
+import { useHistory } from 'react-router';
 
 const ModalNewCustomerChat = props => {
   const { open, handleClose, onSaveForm } = props;
 
+  const history = useHistory();
   const [users, setUsers] = React.useState([]);
   const [selectedUsers, setSelectedUsers] = React.useState([]);
   const [searchTimeout, setSearchTimeout] = React.useState(null);
@@ -47,7 +49,7 @@ const ModalNewCustomerChat = props => {
       const noSelectedUsers = res && res.filter(user => !selectedUsers.find(u => u.id == user.id));
       setUsers([...selectedUsers, ...noSelectedUsers]);
       props.dispatch(showBackdrop(false));
-    }).catch(err => props.dispatch(showBackdrop(false)));;
+    }).catch(err => history.push("/inicio"), props.dispatch(showBackdrop(false)));;
   };
 
   const onSearch = term => {

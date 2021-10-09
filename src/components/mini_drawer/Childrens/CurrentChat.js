@@ -47,7 +47,7 @@ const CurrentChat = props => {
   };
 
   const goToChat = (chat) => {
-    history.push(`/chat/${chat.type}/${chat.id}`);
+    history.push(`/chats/${chat.id}`);
   }
 
   const onSaveForm = () => {

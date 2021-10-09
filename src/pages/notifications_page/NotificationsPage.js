@@ -63,7 +63,7 @@ const NotificationsPage = (props) => {
       setNotification(res.notification|| {}); 
       props.dispatch(showBackdrop(false));
     }).catch(err => {
-      history.push("/no-encontrado"); 
+      history.push("/inicio"); 
       props.dispatch(showBackdrop(false));
     });
 

@@ -42,8 +42,8 @@ const Routes = (props) => {
 
           <PrivateRoute exact path="/inicio" {...props} component={BlankPage} />
 
-          <PrivateRoute exact path="/chat/:type/:chatId" {...props} component={MainPage} />
-          <PrivateRoute exact path="/chat-historial/:type/:chatId" {...props} component={ChatHistoryPage} />
+          <PrivateRoute exact path="/chats/:chatId" {...props} component={MainPage} />
+          <PrivateRoute exact path="/chat-historial/:chatId" {...props} component={ChatHistoryPage} />
 
           <PrivateRoute exact path="/consultas/:entryQueryId" {...props} component={EntryQueryPage} />
           <PrivateRoute exact path="/consultas/:entryQueryId/recomendacion" {...props} component={EntryQueryPage} />

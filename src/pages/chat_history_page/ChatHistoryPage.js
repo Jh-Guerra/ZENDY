@@ -29,9 +29,10 @@ const ChatHistoryPage = (props) => {
       const pathArray = props.location.pathname.split("/");
       const chatId = pathArray && pathArray[3];
       if(chatId){
+        console.log("res")
         onGetChatData(chatId);
         onListMessages(chatId, "");
-        props.dispatch(resetPendingMessages(chatId));
+        props.dispatch(resetPendingMessages(chatId)).catch(err => history.push("/inicio"));
       }else{
         history.push("/inicio");
       }
