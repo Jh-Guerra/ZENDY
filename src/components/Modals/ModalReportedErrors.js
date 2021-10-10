@@ -134,7 +134,9 @@ const ModalReportedErrors = props => {
         } else {
           props.dispatch(listErrors(""));
         }
-        history.push("/error-info/" + res.errorZendy.id);
+        if(res.errorZendy){
+          history.push("/error-info/" + res.errorZendy.id);
+        }        
         handleClose(false)
         props.dispatch(showBackdrop(false));
       }).catch(error => {
