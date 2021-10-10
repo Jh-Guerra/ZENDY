@@ -30,6 +30,7 @@ const EntryChat = props => {
   const [showModalEntryChatF, setShowModalEntryChatF] = React.useState(false);
   const [isPending, setIsPending] =React.useState(true);
   const [isAccepted, setIsAccepted] = React.useState(false);
+  const [search, setSearch] = React.useState("");
 
   React.useEffect(() => {
     onList("");
@@ -43,10 +44,11 @@ const EntryChat = props => {
   };
 
   const onSearch = term => {
+    setSearch(term)
     clearTimeout(searchTimeout);
     setSearchTimeout(
       setTimeout(() => {
-        onList(term);
+        onList(term, isAccepted && "Aceptado" );
       }, 1000)
     );
   };
@@ -74,6 +76,7 @@ const EntryChat = props => {
       setIsPending(false)
       setIsAccepted(true)
     }
+    setSearch("")
     onList("",value);
   }
   const entryQueries = entryQueryRx && entryQueryRx.entryQueries || [];
@@ -102,6 +105,7 @@ const EntryChat = props => {
             fullWidth
             className="search_wrap"
             type="text"
+            value={search}
             placeholder="Buscar consulta"
             onChange={event => onSearch(event.target.value)}
             disableUnderline
