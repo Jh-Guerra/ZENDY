@@ -19,6 +19,7 @@ import config from "../../config/Config";
 import EditIcon from '@material-ui/icons/Edit';
 import { listModules, findModule } from 'services/actions/ModuleAction';
 import HighlightOffTwoToneIcon from '@material-ui/icons/HighlightOff';
+import { useHistory } from 'react-router';
 
 const ModalReportedErrors = props => {
   const session = getSessionInfo();
@@ -35,6 +36,7 @@ const ModalReportedErrors = props => {
     image: "",
     file: "",
   });
+  const history = useHistory();
   const [title, setTitle] = React.useState("Reportar Error");
   const [icon, setIcon] = React.useState(<LibraryBooksIcon />);
   const [editMode, setEditMode] = React.useState(false);
@@ -132,7 +134,7 @@ const ModalReportedErrors = props => {
         } else {
           props.dispatch(listErrors(""));
         }
-
+        history.push("/error-info/" + res.errorZendy.id);
         handleClose(false)
         props.dispatch(showBackdrop(false));
       }).catch(error => {
