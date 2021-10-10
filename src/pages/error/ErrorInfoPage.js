@@ -20,6 +20,7 @@ import ModalConfirmError from 'components/Modals/ModalConfirmError';
 import moment from 'moment';
 import VisibilitySharpIcon from '@material-ui/icons/VisibilitySharp';
 import { pColor,successButtonColor } from 'assets/styles/zendy-css';
+import CustomTable from 'components/CustomTable';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -55,6 +56,12 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
+const columns = [
+  { type: 'text', field: 'reason', label: 'Asunto' },
+  { type: 'text', field: 'description', label: 'Descripcion', format: (row) => row.description && row.description.length > 70 ? row.description.substring(0,67) + "..." : row.description },
+  { type: 'text', field: 'created_at', label: 'Fecha de Envio', format: (row) => moment(row.created_at || "").format("DD/MM/YYYY")},
+];
+
 const ErrorInfoPage = props => {
   const session = getSessionInfo();
   const classes = useStyles();
@@ -80,6 +87,10 @@ const ErrorInfoPage = props => {
       }
     }
   }, [props.location.pathname]);
+
+  const showDetails = row => {
+    row.id && history.push("/notificaciones/"+row.id);
+  };
 
   const onGetErrorData = (errorId) => {
     props.dispatch(showBackdrop(true));
@@ -297,29 +308,14 @@ const ErrorInfoPage = props => {
                 {
                   (error.Notifications && error.Notifications.length > 0) ?
                     <Grid item xs={12}>
-                      <Box display='flex' style={{ height: "100%", width: "100%", textAlign: "left" }}>
-                        <span className={classes.fontError} style={{ fontWeight: 'bold', fontStyle: 'italic', marginLeft: "8vh" }} >{error.Notifications && error.Notifications.length == 1 ? "Notificación: " : "Notificaciones: "}</span>
-                        <ListItemIcon>
-                          {error.Notifications && error.Notifications.map((notification, i) => {
-                            return <ListItem key={i}>
-                              <ListItemAvatar>
-                                <Avatar>
-                                  <VisibilitySharpIcon fontSize='large' style={{ color: 'White' }} onClick={() => { history.push("/notificaciones/" + notification.id) }} />
-                                </Avatar>
-                              </ListItemAvatar>
-                              <ListItemText
-                                primary={notification.reason}
-                                secondary={'N° ' + notification.id}
-                              />
-                            </ListItem>
-                          })}
-                        </ListItemIcon>
+                      <Box display='flex' flexDirection='column' style={{ height: "100%", width: "100%", textAlign: "left",  padding: '0vh 9vh' }}>
+                        <span className={classes.fontError} style={{ fontWeight: 'bold', fontStyle: 'italic', textAlign: 'center' }} >{error.Notifications && error.Notifications.length == 1 ? "Notificación" : "Notificaciones"}</span>
+                        <CustomTable columns={columns} rows={error.Notifications} onRowClick={showDetails}/>
                       </Box>
                     </Grid> : null
                 }
               </>
-            )
-          }
+            )          }
         </Grid>
       </Grid>
       <CustomModal
