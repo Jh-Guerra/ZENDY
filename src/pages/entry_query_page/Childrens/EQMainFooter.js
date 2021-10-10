@@ -100,6 +100,7 @@ const EQMainFooter = props => {
         }}
         entryQuery={entryQuery}
         setEntryQuery={setEntryQuery}
+        onAcceptEntryQuery={onAcceptEntryQuery}
       />
     </>
   );

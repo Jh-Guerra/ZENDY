@@ -53,6 +53,11 @@ class EntryQueryService {
         return await axios.post( getCustomUrl(apiPrefix, `/deleteImage`), {imageLink,id}, defaultHeaders() )
     }
 
+    async createFrequentQuery(data) {
+        return await axios.post( getCustomUrl(apiPrefix, `/register-frequent`), data, defaultHeaders() );
+    }
+
+
 }
 
 export default EntryQueryService;

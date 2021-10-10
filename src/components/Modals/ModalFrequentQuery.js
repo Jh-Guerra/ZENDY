@@ -16,7 +16,7 @@ import defaultCompany from 'assets/images/defaultCompany.png';
 import config from 'config/Config';
 import { useHistory } from 'react-router-dom';
 import { listModules, findModule } from 'services/actions/ModuleAction';
-import { findEntryQuery, listFrequent } from 'services/actions/EntryQueryAction';
+import { findEntryQuery, listFrequent,deleteImageEntryQuery,createFrequentQuery } from 'services/actions/EntryQueryAction';
 
 const ModalFrequentQuery = props => {
   const { open, handleClose, onSaveForm, entryQuery } = props;
@@ -59,7 +59,9 @@ const ModalFrequentQuery = props => {
               reason: firstFrequentQuery.reason,
               description: firstFrequentQuery.description,
               idModule: firstFrequentQuery.idModule || "",
-              idFrequentQuery: firstFrequentQuery.id
+              idFrequentQuery: firstFrequentQuery.id,
+              image: firstFrequentQuery.image || "",
+              file:firstFrequentQuery.file || "",
             }
             setData(dataForm)
             setTitle("Iniciar Consulta Frecuente");
@@ -79,7 +81,9 @@ const ModalFrequentQuery = props => {
         reason: res && res.entryQuery.reason,
         description: res && res.entryQuery.description,
         idModule: res && res.entryQuery.idModule || "",
-        idFrequentQuery: res && res.entryQuery.id
+        idFrequentQuery: res && res.entryQuery.id,
+        image: res && res.entryQuery.image,
+        file: res && res.entryQuery.file,
       }
       setData(dataForm) 
     })
@@ -105,8 +109,10 @@ const ModalFrequentQuery = props => {
     formData.append("reason", entryQuery.reason)
     formData.append('description', entryQuery.description)
     formData.append('idModule', entryQuery.idModule)
+    formData.append('image', entryQuery.image || "")
+    formData.append('file', entryQuery.file || "")
 
-    props.dispatch(createEntryQuery(formData)).then(res => {
+    props.dispatch(createFrequentQuery(formData)).then(res => {
       props.dispatch(showSnackBar('success', 'Consulta registrada'));
           props.dispatch(showBackdrop(false));
         onSaveForm && onSaveForm();
@@ -120,6 +126,10 @@ const ModalFrequentQuery = props => {
   const onEdit = () => {
     setEditMode(true);
     setTitle("Editar Consulta Frecuente");
+  }
+
+  const openImage = (imagePath) => {
+    window.open(imagePath,"_blank")
   }
 
   const frequentQueriesMap = frequentQueries && frequentQueries.map(fq => { return {name: fq.name, id: fq.id} }) || [];
@@ -186,12 +196,37 @@ const ModalFrequentQuery = props => {
                   </Grid>
 
                   {
-                    entryQuery && entryQuery.image && (
+                    values && values.image && (
+                      <Grid item xs={12} container>
+                      <Grid item xs={12}>
+                      <p style={{ color: 'rgba(0, 0, 0, 0.54)', marginBottom: '5px' }}> Imagen </p>
+                    </Grid>
                       <Grid container item xs={12} justify="center">
                         <Avatar
-                          style={{ height: 140, width: 140, display: (entryQuery && entryQuery.image) ? "flex" : "none" }}
-                          src={data.image ? (config.api + data.image) : defaultCompany}
+                        onClick={() => {openImage(values.image ? (config.api + values.image) : defaultCompany)}}
+                          style={{ height: 140, width: 140, display: (values && values.image) ? "flex" : "none" }}
+                          src={values.image ? (config.api + values.image) : defaultCompany}
                         />
+                      </Grid>
+                      </Grid>
+                    )
+                  }
+
+                  {
+                    values && values.file && (
+                      <Grid item xs={12} container>
+                        <Grid item xs={12}>
+                          <p style={{ color: 'rgba(0, 0, 0, 0.54)', marginBottom: '5px' }}> Descargar </p>
+                        </Grid>
+                        <Grid container item xs={12} justify="center">
+                          <Button variant="contained"
+                            href={(config.api + values.file)} target="_blank"
+                            endIcon={<GetAppIcon />}
+                            color="primary"
+                          >
+                            Descargar
+                          </Button>
+                        </Grid>
                       </Grid>
                     )
                   }

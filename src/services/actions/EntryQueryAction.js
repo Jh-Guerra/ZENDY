@@ -70,3 +70,8 @@ export const deleteImageEntryQuery = (imageLink,id) => async dispatch => {
     const res = await service.deleteImage(imageLink,id);
     return res && res.data || {};
 }
+
+export const createFrequentQuery = (data) => async dispatch => {
+    const res = await service.createFrequentQuery(data);
+    return res && res.data;
+}
