@@ -241,7 +241,7 @@ const ErrorInfoPage = props => {
 
                       <Grid container direction="row" style={{ marginTop: '20px' }}>
                         {
-                          (isClient && isTheCreator && (error.status == "Pendiente") && !error.fake) && (
+                          (isClient && isTheCreator && error.status == "Pendiente" && !error.fake) && (
                             <>
                               <Grid item xs={6}>
                                 <Button className={classes.reportBtn} onClick={() => { showEditError() }}>Editar</Button>
