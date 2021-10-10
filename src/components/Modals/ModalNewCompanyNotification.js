@@ -38,7 +38,7 @@ const useStyles = makeStyles(theme => ({
 const ModalNewCompanyNotification = (props) => {
     
     const classes = useStyles();
-    const { open, handleClose, onSaveForm, notification={}, idError, headerText, idCompany } = props;
+    const { open, handleClose, onSaveForm, notification={}, idError, headerText, idCompany,  onGetErrorData } = props;
     const history = useHistory();
     const [companies, setCompanies] = React.useState([]);
     const [companyId, setCompanyId] = React.useState("");
@@ -188,7 +188,12 @@ const ModalNewCompanyNotification = (props) => {
                 props.dispatch(showSnackBar('success', 'Notificación enviada'));
                 props.dispatch(showBackdrop(false));
                 onSaveForm && onSaveForm();
-                history.push("/notificaciones/" + res.notification.id);
+                if(notification.solved){
+                    history.push("/notificaciones/" + res.notification.id);
+                }else{                   
+                    idCompany ? onListByCompany(idCompany) :  onListCompanies(false);
+                    onGetErrorData && onGetErrorData(notification.idError);
+                }               
                 handleClose(false);
             }).catch(error => { props.dispatch(showBackdrop(false)); props.dispatch(showSnackBar("error", error.message || "")); });
         }
