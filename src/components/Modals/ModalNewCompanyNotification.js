@@ -12,7 +12,7 @@ import { listCompanies } from 'services/actions/CompanyAction';
 import { showBackdrop, showSnackBar } from 'services/actions/CustomAction';
 import { listUsersByCompany } from 'services/actions/UserAction';
 import { createCompanyNotification, deleteImageNotification, updateNotification, listAdminNotifications } from 'services/actions/NotificationAction';
-import { getImageProfile, trimObject } from 'utils/common';
+import { getImageProfile, trimObject,getCustomRoleName } from 'utils/common';
 import RadioButtonCheckedIcon from '@material-ui/icons/RadioButtonChecked';
 import RadioButtonUncheckedIcon from '@material-ui/icons/RadioButtonUnchecked';
 import { pColor } from 'assets/styles/zendy-css';
@@ -293,6 +293,7 @@ const ModalNewCompanyNotification = (props) => {
                                                     </ListItemAvatar>
                                                     <ListItemText
                                                         primary={`${user.firstName} ${user.lastName}`}
+                                                        secondary={`${getCustomRoleName(user.roleName)}`}
                                                     />
                                                     <ListItemSecondaryAction>
                                                         <Checkbox
