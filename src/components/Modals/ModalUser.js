@@ -236,7 +236,6 @@ const ModalUser = (props) => {
                                             onChange={handleChange}
                                             value={values.firstName}
                                             error={ errors.firstName && touched.firstName ? true : false }
-                                            helperText={ errors.firstName && touched.firstName && errors.firstName }
                                             icon={<AccountCircle />}
                                             disabled={!editMode}
                                         />
@@ -249,7 +248,6 @@ const ModalUser = (props) => {
                                             onChange={handleChange}
                                             value={values.lastName}
                                             error={ errors.lastName && touched.lastName ? true : false }
-                                            helperText={ errors.lastName && touched.lastName && errors.lastName }
                                             icon={<AccountCircle />}
                                             disabled={!editMode}
                                         />
@@ -262,7 +260,6 @@ const ModalUser = (props) => {
                                             onChange={handleChange}
                                             value={values.email}
                                             error={ errors.email && touched.email ? true : false }
-                                            helperText={ errors.email && touched.email && errors.email }
                                             icon={<AlternateEmailIcon />}
                                             disabled={!editMode}
                                         />
@@ -278,7 +275,6 @@ const ModalUser = (props) => {
                                                     onChange={handleChange}
                                                     value={values.password}
                                                     error={ errors.password && touched.password ? true : false }
-                                                    helperText={ errors.password && touched.password && errors.password }
                                                     icon={<LockIcon />}
                                                     disabled={!editMode}
                                                 />
@@ -296,7 +292,6 @@ const ModalUser = (props) => {
                                             value={values.sex}
                                             options={sexTypes}
                                             error={ errors.sex && touched.sex ? true : false }
-                                            helperText={ errors.sex && touched.sex && errors.sex }
                                             disabled={!editMode}
                                         />
                                     </Grid>
@@ -323,7 +318,6 @@ const ModalUser = (props) => {
                                             }}
                                             value={values.phone}
                                             error={ errors.phone && touched.phone ? true : false }
-                                            helperText={ errors.phone && touched.phone && errors.phone }
                                             icon={<PhoneIcon />}
                                             disabled={!editMode}
                                         />
@@ -339,7 +333,6 @@ const ModalUser = (props) => {
                                             value={values.idRole}
                                             options={userRoles}
                                             error={ errors.idRole && touched.idRole ? true : false }
-                                            helperText={ errors.idRole && touched.idRole && errors.idRole }
                                             disabled={!editMode}
                                        />
                                     </Grid>
@@ -355,7 +348,6 @@ const ModalUser = (props) => {
                                                     }}
                                                     value={values.idCompany}
                                                     error={ errors.idCompany && touched.idCompany ? true : false }
-                                                    helperText={ errors.idCompany && touched.idCompany && errors.idCompany }
                                                     options={companies}
                                                     disabled={!editMode}
                                                 />

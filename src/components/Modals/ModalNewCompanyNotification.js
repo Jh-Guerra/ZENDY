@@ -223,7 +223,7 @@ const ModalNewCompanyNotification = (props) => {
         >
             <ModalHeader 
                 icon={<NotificationsIcon />}
-                text={notification.id ? "Actualizar Notificación" : ( headerText ? headerText : "Nueva Notificación para 1 empresa") }
+                text={notification.id ? "Actualizar Notificación" : ( headerText ? headerText : "Nueva notificación para 1 empresa") }
             />
 
             <ModalBody>
@@ -327,7 +327,6 @@ const ModalNewCompanyNotification = (props) => {
                                         onChange={handleChange}
                                         value={values.reason}
                                         error={ errors.reason && touched.reason ? true : false }
-                                        helperText={ errors.reason && touched.reason && errors.reason }
                                         icon={<SubtitlesIcon />}
                                         disabled={!editMode}
                                     />
@@ -340,14 +339,13 @@ const ModalNewCompanyNotification = (props) => {
                                         onChange={handleChange}
                                         value={values.description}
                                         error={ errors.description && touched.description ? true : false }
-                                        helperText={ errors.description && touched.description && errors.description }
                                     />
                                 </Grid>
                                 {
                                     idError && (
                                         <Grid item xs={12}>
                                             <Grid>
-                                            <Typography>¿El Error Notificado ha sido resuelto?</Typography>
+                                            <Typography>¿Ha sido resuelto?</Typography>
                                             <Checkbox
                                                 checked={!!values.solved}
                                                 onChange={() => { setFieldValue("solved", !values.solved);

@@ -184,7 +184,6 @@ const ModalEntryQuery = props => {
                       }}
                       value={values.idModule}
                       error={errors.idModule && touched.idModule ? true : false}
-                      helperText={errors.idModule && touched.idModule && errors.idModule}
                       options={modules}
                       disabled={!editMode}
                     />

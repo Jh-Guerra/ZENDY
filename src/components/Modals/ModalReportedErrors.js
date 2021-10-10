@@ -203,7 +203,6 @@ const ModalReportedErrors = props => {
                       custom="select2"
                       value={values.idModule}
                       error={errors.idModule && touched.idModule ? true : false}
-                      helperText={ errors.idModule && touched.idModule && errors.idModule }
                       options={modules}
                       onChange={(event) => {
                         setFieldValue("idModule", event.target.value);
@@ -219,7 +218,6 @@ const ModalReportedErrors = props => {
                       onChange={handleChange}
                       value={values.reason}
                       error={errors.reason && touched.reason ? true : false}
-                      helperText={ errors.reason && touched.reason && errors.reason }
                     />
                   </Grid>
                   <Grid item xs={12}>
@@ -230,7 +228,6 @@ const ModalReportedErrors = props => {
                       onChange={handleChange}
                       value={values.description}
                       error={errors.description && touched.description ? true : false}
-                      helperText={ errors.description && touched.description && errors.description }
                     />
                   </Grid>
                   <Grid item xs={12}>

@@ -173,7 +173,7 @@ const ModalNewCompaniesNotification = (props) => {
         >
             <ModalHeader 
                 icon={<NotificationsIcon />}
-                text={notification.id ? "Actualizar Notificación" : "Nueva Notificación para muchas empresas"}
+                text={notification.id ? "Actualizar Notificación" : "Nueva notificación para muchas empresas"}
             />
 
             <ModalBody>
@@ -243,7 +243,6 @@ const ModalNewCompaniesNotification = (props) => {
                                         onChange={handleChange}
                                         value={values.reason}
                                         error={ errors.reason && touched.reason ? true : false }
-                                        helperText={ errors.reason && touched.reason && errors.reason }
                                         icon={<SubtitlesIcon />}
                                         disabled={!editMode}
                                     />
@@ -255,7 +254,6 @@ const ModalNewCompaniesNotification = (props) => {
                                         onChange={handleChange}
                                         value={values.description}
                                         error={ errors.description && touched.description ? true : false }
-                                        helperText={ errors.description && touched.description && errors.description }
                                     />
                                 </Grid>
                                 <Grid item xs={12} container>

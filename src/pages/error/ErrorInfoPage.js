@@ -300,8 +300,8 @@ const ErrorInfoPage = props => {
                       <Box display='flex' style={{ height: "100%", width: "100%", textAlign: "left" }}>
                         <span className={classes.fontError} style={{ fontWeight: 'bold', fontStyle: 'italic', marginLeft: "8vh" }} >{error.Notifications && error.Notifications.length == 1 ? "Notificación: " : "Notificaciones: "}</span>
                         <ListItemIcon>
-                          {error.Notifications && error.Notifications.map((notification) => {
-                            return <ListItem>
+                          {error.Notifications && error.Notifications.map((notification, i) => {
+                            return <ListItem key={i}>
                               <ListItemAvatar>
                                 <Avatar>
                                   <VisibilitySharpIcon fontSize='large' style={{ color: 'White' }} onClick={() => { history.push("/notificaciones/" + notification.id) }} />
