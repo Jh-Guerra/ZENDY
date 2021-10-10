@@ -23,13 +23,8 @@ import { pColor,successButtonColor } from 'assets/styles/zendy-css';
 
 
 const useStyles = makeStyles((theme) => ({
-
   root: {
     height: '100vh',
-  },
-  form: {
-    width: '80%',
-    height: '100%'
   },
   reportBtn: {
     fontSize: '15px',
@@ -38,19 +33,6 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: '20px',
     backgroundColor: successButtonColor,
     color: '#ffff'
-  },
-  nameHeader: {
-    fontSize: '30px',
-  },
-  containerReport: {
-    backgroundColor: pColor,
-    justifyContent: 'center',
-    alignItems: 'center',
-    height: '610px',
-    width: '82%',
-    paddingTop: '40px',
-    minWidth: '82%',
-    minHeight: '610px'
   },
   fontError: {
     color: '#000000',
@@ -70,21 +52,6 @@ const useStyles = makeStyles((theme) => ({
     color: 'white',
     height: '130px',
     justifyContent: 'center'
-  },
-  imageError: {
-    height: '300px',
-    width: '708px',
-    border: '2px solid #ebe7fb'
-  },
-  containerImage: {
-    marginTop: '80px',
-    justifyContent: 'center',
-    alignItems: 'center'
-  },
-  imageErrorS: {
-    height: '300px',
-    width: '340px',
-    border: '2px solid #ebe7fb'
   }
 }));
 
@@ -207,152 +174,151 @@ const ErrorInfoPage = props => {
 
   return (
     <>
-      <CssBaseline />
+      {/* <CssBaseline /> */}
       <Grid container className={classes.root}>
         <Grid item xs={12} className="report-form">
-          <Grid container className={classes.headerName} direction="column" justifyContent='center' alignItems='center' style={{ textAlign: "center" }}>
-            <div >
-              <Grid containter style={{ display: "flex" }} justifyContent='center'
-                alignItems='center'>
-              </Grid>
-            </div>
-          </Grid>
-          <Grid item xs={12} alignItems='center' alignContent='center' style={{ textAlign: "right", marginTop: '20px' }}>
-            <span className={classes.fontError} style={{ fontWeight: 'bold', fontStyle: 'italic', alignItems: 'flex-end' }} >Estado: </span>
-            {
-              !isClient ?
-                <span className={classes.fontError} style={{ alignItems: 'flex-center', marginRight: "8vh" }}>{(error.status == "Pending") ? "Pendiente" : "Aceptado"}</span> :
-                <span className={classes.fontError} style={{ alignItems: 'flex-center', marginRight: "8vh" }}>{error.fake ? "El error reportado ha considerado como Fake" : ((error.status == "Pending") ? "Pendiente" : ((error.status == "Solved") ? "El error notificado ya fue resuelto" : "Aceptado"))}</span>
-            }
-
-          </Grid>
-          <Grid container item xs={12}>
-            <Grid item xs={6} container spacing={0} direction="column" alignItems="flex-start" verticalAlign="center" justify="flex-start">
-              <Box style={{ margin: '2vh 8vh' }}>
-                <Grid item xs={12} alignItems='center' alignContent='center' style={{ textAlign: "center", marginTop: '10px' }}>
-                  <span className={classes.fontError} style={{ fontWeight: 'bold', fontStyle: 'italic', textDecorationLine: 'underline', alignItems: 'center', marginTop: '10px', marginLeft: '30px' }} >INFORMACIÓN DEL REPORTE</span>
-                </Grid>
-
-                <Grid item xs={12} alignItems='flex-start' alignContent='flex-start' style={{ textAlign: "left", marginTop: '15px' }}>
-                  <span className={classes.fontError} style={{ fontWeight: 'bold', fontStyle: 'italic', alignItems: 'flex-end', marginTop: '10px' }} >Nombre de Empresa: </span>
-                  <span className={classes.fontError} style={{ alignItems: 'flex-start', marginTop: '10px' }}>{error.company && error.company.name || ""}</span>
-                </Grid>
-
-                <Grid item xs={12} alignItems='flex-start' alignContent='flex-start' style={{ textAlign: "left", marginTop: '15px' }}>
-                  <span className={classes.fontError} style={{ fontWeight: 'bold', fontStyle: 'italic', alignItems: 'flex-end' }} >Usuario: </span>
-                  <span className={classes.fontError} style={{ alignItems: 'flex-start', marginTop: '10px' }}>{error.company && error.user.firstName + " " + error.user.lastName || ""}</span>
-                </Grid>
-
-                <Grid item xs={12} alignItems='flex-start' alignContent='flex-start' style={{ textAlign: "left", marginTop: '15px' }}>
-                  <span className={classes.fontError} style={{ fontWeight: 'bold', fontStyle: 'italic', alignItems: 'flex-end' }} >Fecha de Reporte: </span>
-                  <span className={classes.fontError} style={{ alignItems: 'flex-start', marginTop: '10px' }}>{(error.created_at) && moment(error.created_at).format("DD/MM/YYYY") || ""}</span>
-                </Grid>
-
-                <Grid item xs={12} alignItems='flex-start' alignContent='flex-start' style={{ textAlign: "left", marginTop: '15px' }}>
-                  <span className={classes.fontError} style={{ fontWeight: 'bold', fontStyle: 'italic', alignItems: 'flex-end' }} >Modulo: </span>
-                  <span className={classes.fontError} style={{ alignItems: 'flex-start', marginTop: '10px' }}>{error.module && error.module.name || ""}</span>
-                </Grid>
-
-                <Grid item xs={12} alignItems='flex-start' alignContent='flex-start' style={{ textAlign: "left", marginTop: '15px' }}>
-                  <span className={classes.fontError} style={{ fontWeight: 'bold', fontStyle: 'italic', alignItems: 'flex-end' }} >Asunto: </span>
-                  <span className={classes.fontError} style={{ alignItems: 'flex-start', marginTop: '10px' }}>{error.reason || ""}</span>
-                </Grid>
-
-                <Grid item xs={12} alignItems='flex-start' alignContent='flex-start' style={{ textAlign: "left", marginTop: '15px' }}>
-                  <span className={classes.fontError} style={{ fontWeight: 'bold', fontStyle: 'italic', alignItems: 'flex-end' }} >Descripción: </span>
-                  <span className={classes.fontDescription} style={{ alignItems: 'flex-start', marginTop: '10px' }}>{error.description || ""}</span>
-                </Grid>
-
-                {
-                  error.file &&
-                  <Grid item xs={12} alignItems='flex-start' alignContent='flex-start' style={{ textAlign: "left", marginTop: '15px' }}>
-                    <span className={classes.fontError} style={{ fontWeight: 'bold', fontStyle: 'italic', alignItems: 'flex-end' }} >Archivo Adjunto:</span>
-                    <Button variant="contained"
-                      style={{ marginLeft: "10px" }}
-                      href={(config.api + error.file)} target="_blank"
-                      endIcon={<GetAppIcon />}
-                      color="primary"
-                    >
-                      Descargar
-                    </Button>
-                  </Grid>
-                }
-
-                <Grid container direction="row" style={{ marginTop: '20px' }}>
-                  {
-                    (isClient && isTheCreator && (error.status == "Pending") && !error.fake) &&
-                    <>
-                      <Grid item xs={6}>
-                        <Button className={classes.reportBtn} onClick={() => { showEditError() }}>Editar</Button>
-                      </Grid>
-                      <Grid item xs={6}>
-                        <Button className={classes.reportBtn} onClick={() => { showDeletedError() }}>Eliminar</Button>
-                      </Grid>
-                    </>
-                  }
-                  {
-                    (!isClient && error.status == "Accepted") &&
-                    <>
-                      <Grid item>
-                        <Button className={classes.reportBtn} onClick={() => { ShowNewCompanyNotification() }}>Notificar Error Reportado</Button>
-                      </Grid>
-                    </>
-                  }
-                  {
-                    (!isClient && (error.status != "Accepted")) &&
-                    <>
-                      <Grid item xs={6}>
-                        <Button className={classes.reportBtn} onClick={() => { ShowConfirmError() }}>Confirmar error</Button>
-                      </Grid>
-                      <Grid item xs={6}>
-                        <Button className={classes.reportBtn} onClick={() => { ShowFakeError() }}>Reportar error falso</Button>
-                      </Grid>
-                    </>
-                  }
-                </Grid>
-              </Box>
-            </Grid>
-
-            <Grid item xs={6}>
-              <Box
-                display='flex'
-                justifyContent='center'
-                alignItems='center'
-                style={{ height: "100%", width: "100%", }}>
-                <a href={error.image ? (config.api + error.image) : defaultImage} target="_blank">
-                  <Avatar
-                    variant="rounded"
-                    style={{ height: "70%", width: "70%", }}
-                    src={error.image ? (config.api + error.image) : defaultImage}
-                    href={error.image ? (config.api + error.image) : defaultImage}
-                    target="_blank"
-                  />
-                </a>
-              </Box>
-            </Grid>
-          </Grid>
+          <Grid item xs={12} className="top-header"></Grid>
           {
-            (error.Notifications && error.Notifications.length > 0) ?
-              <Grid item xs={12}>
-                <Box display='flex' style={{ height: "100%", width: "100%", textAlign: "left" }}>
-                  <span className={classes.fontError} style={{ fontWeight: 'bold', fontStyle: 'italic', marginLeft: "8vh" }} >{error.Notifications && error.Notifications.length == 1 ? "Notificación: " : "Notificaciones: "}</span>
-                  <ListItemIcon>
-                    {error.Notifications && error.Notifications.map((notification) => {
-                      return <ListItem>
-                        <ListItemAvatar>
-                          <Avatar>
-                            <VisibilitySharpIcon fontSize='large' style={{ color: 'White' }} onClick={() => { history.push("/notificaciones/" + notification.id) }} />
-                          </Avatar>
-                        </ListItemAvatar>
-                        <ListItemText
-                          primary={notification.reason}
-                          secondary={'N° ' + notification.id}
+            error && error.id && (
+              <>
+                <Grid item xs={12} style={{ textAlign: "right", marginTop: '20px' }}>
+                  <span className={classes.fontError} style={{ fontWeight: 'bold', fontStyle: 'italic', alignItems: 'flex-end' }} >Estado: </span>
+                  {
+                    !isClient ?
+                      <span className={classes.fontError} style={{ alignItems: 'flex-center', marginRight: "8vh" }}>{(error.status == "Pendiente") ? "Pendiente" : "Aceptado"}</span> :
+                      <span className={classes.fontError} style={{ alignItems: 'flex-center', marginRight: "8vh" }}>{error.fake ? "El error reportado ha considerado como falso" : ((error.status == "Pendiente") ? "Pendiente" : ((error.status == "Resuelto") ? "El error notificado ya fue resuelto" : "Aceptado"))}</span>
+                  }
+
+                </Grid>
+                <Grid container item xs={12}>
+                  <Grid item xs={6} container spacing={0} direction="column" alignItems="flex-start" justify="flex-start">
+                    <Box style={{ margin: '2vh 8vh' }}>
+                      <Grid item xs={12} style={{ textAlign: "left", marginTop: '15px' }}>
+                        <span className={classes.fontError} style={{ fontWeight: 'bold', fontStyle: 'italic', alignItems: 'flex-end', marginTop: '10px' }} >Nombre de Empresa: </span>
+                        <span className={classes.fontError} style={{ alignItems: 'flex-start', marginTop: '10px' }}>{error.company && error.company.name || ""}</span>
+                      </Grid>
+
+                      <Grid item xs={12} style={{ textAlign: "left", marginTop: '15px' }}>
+                        <span className={classes.fontError} style={{ fontWeight: 'bold', fontStyle: 'italic', alignItems: 'flex-end' }} >Usuario: </span>
+                        <span className={classes.fontError} style={{ alignItems: 'flex-start', marginTop: '10px' }}>{error.company && error.user.firstName + " " + error.user.lastName || ""}</span>
+                      </Grid>
+
+                      <Grid item xs={12} style={{ textAlign: "left", marginTop: '15px' }}>
+                        <span className={classes.fontError} style={{ fontWeight: 'bold', fontStyle: 'italic', alignItems: 'flex-end' }} >Fecha de Reporte: </span>
+                        <span className={classes.fontError} style={{ alignItems: 'flex-start', marginTop: '10px' }}>{(error.created_at) && moment(error.created_at).format("DD/MM/YYYY") || ""}</span>
+                      </Grid>
+
+                      <Grid item xs={12} style={{ textAlign: "left", marginTop: '15px' }}>
+                        <span className={classes.fontError} style={{ fontWeight: 'bold', fontStyle: 'italic', alignItems: 'flex-end' }} >Modulo: </span>
+                        <span className={classes.fontError} style={{ alignItems: 'flex-start', marginTop: '10px' }}>{error.module && error.module.name || ""}</span>
+                      </Grid>
+
+                      <Grid item xs={12} style={{ textAlign: "left", marginTop: '15px' }}>
+                        <span className={classes.fontError} style={{ fontWeight: 'bold', fontStyle: 'italic', alignItems: 'flex-end' }} >Asunto: </span>
+                        <span className={classes.fontError} style={{ alignItems: 'flex-start', marginTop: '10px' }}>{error.reason || ""}</span>
+                      </Grid>
+
+                      <Grid item xs={12} style={{ textAlign: "left", marginTop: '15px' }}>
+                        <span className={classes.fontError} style={{ fontWeight: 'bold', fontStyle: 'italic', alignItems: 'flex-end' }} >Descripción: </span>
+                        <span className={classes.fontDescription} style={{ alignItems: 'flex-start', marginTop: '10px' }}>{error.description || ""}</span>
+                      </Grid>
+
+                      {
+                        error.file && (
+                          <Grid item xs={12} style={{ textAlign: "left", marginTop: '15px' }}>
+                            <span className={classes.fontError} style={{ fontWeight: 'bold', fontStyle: 'italic', alignItems: 'flex-end' }} >Archivo Adjunto:</span>
+                            <Button variant="contained"
+                              style={{ marginLeft: "10px" }}
+                              href={(config.api + error.file)} target="_blank"
+                              endIcon={<GetAppIcon />}
+                              color="primary"
+                            >
+                              Descargar
+                            </Button>
+                          </Grid>
+                        )
+                      }
+
+                      <Grid container direction="row" style={{ marginTop: '20px' }}>
+                        {
+                          (isClient && isTheCreator && (error.status == "Pendiente") && !error.fake) && (
+                            <>
+                              <Grid item xs={6}>
+                                <Button className={classes.reportBtn} onClick={() => { showEditError() }}>Editar</Button>
+                              </Grid>
+                              <Grid item xs={6}>
+                                <Button className={classes.reportBtn} onClick={() => { showDeletedError() }}>Eliminar</Button>
+                              </Grid>
+                            </>
+                          )
+                          
+                        }
+                        {
+                          (!isClient && error.received) && (
+                            <Grid item>
+                              <Button className={classes.reportBtn} onClick={() => { ShowNewCompanyNotification() }}>Notificar Error Reportado</Button>
+                            </Grid>
+                          )
+                        }
+                        {
+                          (!isClient && !error.received) && (
+                            <>
+                              <Grid item xs={6}>
+                                <Button className={classes.reportBtn} onClick={() => { ShowConfirmError() }}>Confirmar error</Button>
+                              </Grid>
+                              <Grid item xs={6}>
+                                <Button className={classes.reportBtn} onClick={() => { ShowFakeError() }}>Reportar error falso</Button>
+                              </Grid>
+                            </>
+                          )
+                        }
+                      </Grid>
+                    </Box>
+                  </Grid>
+
+                  <Grid item xs={6}>
+                    <Box
+                      display='flex'
+                      justifyContent='center'
+                      alignItems='center'
+                      style={{ height: "100%", width: "100%", }}>
+                      <a href={error.image ? (config.api + error.image) : defaultImage} target="_blank">
+                        <Avatar
+                          variant="rounded"
+                          style={{ height: "70%", width: "70%", }}
+                          src={error.image ? (config.api + error.image) : defaultImage}
+                          href={error.image ? (config.api + error.image) : defaultImage}
+                          target="_blank"
                         />
-                      </ListItem>
-                    })}
-                  </ListItemIcon>
-                </Box>
-              </Grid> : null
+                      </a>
+                    </Box>
+                  </Grid>
+                </Grid>
+                {
+                  (error.Notifications && error.Notifications.length > 0) ?
+                    <Grid item xs={12}>
+                      <Box display='flex' style={{ height: "100%", width: "100%", textAlign: "left" }}>
+                        <span className={classes.fontError} style={{ fontWeight: 'bold', fontStyle: 'italic', marginLeft: "8vh" }} >{error.Notifications && error.Notifications.length == 1 ? "Notificación: " : "Notificaciones: "}</span>
+                        <ListItemIcon>
+                          {error.Notifications && error.Notifications.map((notification) => {
+                            return <ListItem>
+                              <ListItemAvatar>
+                                <Avatar>
+                                  <VisibilitySharpIcon fontSize='large' style={{ color: 'White' }} onClick={() => { history.push("/notificaciones/" + notification.id) }} />
+                                </Avatar>
+                              </ListItemAvatar>
+                              <ListItemText
+                                primary={notification.reason}
+                                secondary={'N° ' + notification.id}
+                              />
+                            </ListItem>
+                          })}
+                        </ListItemIcon>
+                      </Box>
+                    </Grid> : null
+                }
+              </>
+            )
           }
         </Grid>
       </Grid>

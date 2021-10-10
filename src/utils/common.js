@@ -102,7 +102,7 @@ export const getSessionInfo = () => {
 }
 
 export const isClientUser = (role) => {
-  return role ? ![1, 2].includes(role.id) : true;
+  return role ? ![1].includes(role.id) : true;
 } 
 
 export const checkPermission = (session, permission) => {

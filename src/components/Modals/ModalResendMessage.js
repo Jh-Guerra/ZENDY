@@ -85,7 +85,7 @@ const ModalResendMessage = (props) => {
             <Grid item xs={12}>
               <List dense>
                 <b> Empresa N°1</b>
-                {[0, 1, 2].map((value) => {
+                {[1].map((value) => {
                   const labelId = `checkbox-list-secondary-label-${value}`;
                   return (
                   <ListItem key={value} button divider>

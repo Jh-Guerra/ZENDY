@@ -35,7 +35,7 @@ const ModalReportedErrors = props => {
     image: "",
     file: "",
   });
-  const [title, setTitle] = React.useState("Registrar Error");
+  const [title, setTitle] = React.useState("Reportar Error");
   const [icon, setIcon] = React.useState(<LibraryBooksIcon />);
   const [editMode, setEditMode] = React.useState(false);
   const [fileUrl, setFileUrl] = React.useState(null);
@@ -43,32 +43,32 @@ const ModalReportedErrors = props => {
 
   React.useEffect(() => {
     if (open) {
-      if (error && error.id) {
-        setData(error);
-        setTitle("Detalle del Error");
-        setIcon(<LibraryBooksIcon />);
-        setEditMode(false);
-      } else {
-        setData({
-          id: "",
-          idCompany: null,
-          idModule: "",
-          reason: "",
-          description: "",
-          image: "",
-          file: "",
-        });
-        setTitle("Registrar Error");
-        setIcon(<LibraryBooksIcon />);
-        setEditMode(true);
-      }
       props.dispatch(showBackdrop(true));
-      props.dispatch(listModules()).then(response =>{
-        setModules(response)
-          props.dispatch(showBackdrop(false))
+      props.dispatch(listModules()).then(res =>{
+        setModules(res || [])
+        if (error && error.id) {
+          setData(error);
+          setTitle("Detalle del Error");
+          setIcon(<LibraryBooksIcon />);
+          setEditMode(false);
+        } else {
+          setData({
+            id: "",
+            idCompany: null,
+            idModule: res && res[0].id || "",
+            reason: "",
+            description: "",
+            image: "",
+            file: "",
+          });
+          setTitle("Reportar Error");
+          setIcon(<LibraryBooksIcon />);
+          setEditMode(true);
+        }
+        props.dispatch(showBackdrop(false))
       }).catch(err => props.dispatch(showBackdrop(false)));
-      setFileUrl(null)
     }
+    setFileUrl(null)
   }, [open]);
 
   const validateForm = reportedError => {
@@ -102,7 +102,7 @@ const ModalReportedErrors = props => {
       formData.append('description', reportedError.description)
       formData.append('oldImage', error.image)
       props.dispatch(updateError(reportedError.id, formData)).then(res => {
-        props.dispatch(showSnackBar('success', 'Error Actualizado correctamente'));
+        props.dispatch(showSnackBar('success', 'Error actualizado correctamente'));
         if (isClient) {
           props.dispatch(listErrorsByUser(""));
         } else {
