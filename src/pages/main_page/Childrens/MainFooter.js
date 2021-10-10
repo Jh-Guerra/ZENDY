@@ -15,11 +15,13 @@ import ModalUploadFile from "components/Modals/ModalUploadFile";
 import { Box } from "@material-ui/core";
 import HighlightOffTwoToneIcon from '@material-ui/icons/HighlightOff';
 import { listActiveChats } from "services/actions/ChatAction";
+import { Grid } from '@material-ui/core';
+import { ButtonColor } from "assets/styles/zendy-css";
 
 const MainFooter = props => {
   const inputRef = createRef();
 
-  const {user={}, chat={}} = props;
+  const { user = {}, chat = {} } = props;
 
   const [msg, setMsg] = React.useState("");
   const [resend, setResend] = React.useState(false);
@@ -35,17 +37,17 @@ const MainFooter = props => {
     inputRef.current.selectionEnd = cursorPosition;
   }, [cursorPosition]);
 
-  const sendMessage = (type) => {   
+  const sendMessage = (type) => {
 
-    if(type == "text" && !msg){
+    if (type == "text" && !msg) {
       return;
     }
 
-    if(type == "image" && !uploadImage){
+    if (type == "image" && !uploadImage) {
       return;
     }
 
-    if(type == "file" && !uploadFile){
+    if (type == "file" && !uploadFile) {
       return;
     }
 
@@ -77,12 +79,12 @@ const MainFooter = props => {
     });
   }
 
-  const pickEmoji = (e, {emoji}) => {
+  const pickEmoji = (e, { emoji }) => {
     const ref = inputRef.current;
     ref.focus();
 
     const start = msg.substring(0, ref.selectionStart);
-    
+
     const message = msg + emoji;
     setMsg(message);
     setCursorPosition(start.length + emoji.length);
@@ -108,65 +110,68 @@ const MainFooter = props => {
     document.getElementById('upload-file').value = "";
   }
 
-  function processImage(event){
-    if(event && event.target.files && event.target.files.length > 0){
-        const imageFile = event.target.files[0];
-        const imageUrl = URL.createObjectURL(imageFile);
-        setUploadImage(imageUrl)
-        setShowPreviewImage(true);
-    }else{
-        setUploadImage(null)
+  function processImage(event) {
+    if (event && event.target.files && event.target.files.length > 0) {
+      const imageFile = event.target.files[0];
+      const imageUrl = URL.createObjectURL(imageFile);
+      setUploadImage(imageUrl)
+      setShowPreviewImage(true);
+    } else {
+      setUploadImage(null)
     }
   }
 
-  function processFile(event){
-    if(event && event.target.files && event.target.files.length > 0){
-        const file = event.target.files[0];
-        const fileUrl = URL.createObjectURL(file);
-        setUploadFile(fileUrl)
-        setShowPreviewFile(true);
-        setFileExtension(file.type);
-    }else{
-        setUploadFile(null)
+  function processFile(event) {
+    if (event && event.target.files && event.target.files.length > 0) {
+      const file = event.target.files[0];
+      const fileUrl = URL.createObjectURL(file);
+      setUploadFile(fileUrl)
+      setShowPreviewFile(true);
+      setFileExtension(file.type);
+    } else {
+      setUploadFile(null)
     }
   }
 
   return (
-      <>
-        <div className="chat-footer">
+    <>
+      <Grid className="chat-footer" container alignItems="center" justify="center">
+        <Grid container xs={3} alignItems="center" justify="center">
           <Box>
-            { showEmoji &&
-              <IconButton className="chat-input-button" onClick={handleShowEmojis}> 
-                <HighlightOffTwoToneIcon className="chat-input-icon" />
+            {showEmoji &&
+              <IconButton onClick={handleShowEmojis}>
+                <HighlightOffTwoToneIcon style={{ fontSize: "4vh", color: ButtonColor }} />
               </IconButton>
             }
-            <IconButton className="chat-input-button" onClick={handleShowEmojis}> 
-              <EmojiEmotionsIcon className="chat-input-icon"  />
+            <IconButton onClick={handleShowEmojis}>
+              <EmojiEmotionsIcon style={{ fontSize: "4vh", color: ButtonColor }} />
             </IconButton>
 
             {showEmoji && (
-                <div className="emojiPicker-wrapper">
-                  <EmojiPicker onEmojiClick={pickEmoji} />              
-                </div>
+              <div className="emojiPicker-wrapper">
+                <EmojiPicker onEmojiClick={pickEmoji} />
+              </div>
             )}
           </Box>
 
-          <input accept="image/*" style={{display:'none'}} id="upload-image" type="file" onChange={processImage}/>
-            <label htmlFor="upload-image">
-              <IconButton className="chat-input-button" component="span">
-                <ImageIcon style={{fontSize:"53px", color: "white", paddingBottom:"27px"}} />     
-              </IconButton>
-            </label>
+          <input accept="image/*" style={{ display: 'none' }} id="upload-image" type="file" onChange={processImage} />
+          <label htmlFor="upload-image">
+            <IconButton component="span">
+              <ImageIcon style={{ fontSize: "4vh", color: ButtonColor }} />
+            </IconButton>
+          </label>
 
-          <input style={{display:'none'}} id="upload-file" type="file" onChange={processFile}/>
-            <label htmlFor="upload-file">      
-              <IconButton className="chat-input-button" component="span"> 
-                <DescriptionIcon style={{fontSize:"53px", color: "white", paddingBottom:"27px"}} />
-              </IconButton>
-            </label>
-          
+          <input style={{ display: 'none' }} id="upload-file" type="file" onChange={processFile} />
+          <label htmlFor="upload-file">
+            <IconButton component="span">
+              <DescriptionIcon style={{ fontSize: "4vh", color: ButtonColor }} />
+            </IconButton>
+          </label>
+        </Grid>
+
+        <Grid item xs={8}>
           <InputBase
-            style={{ flex: 1, width: '80%' }}
+            style={{ width: '100%' }}
             type="text"
             placeholder="Escribe un mensaje aquí."
             onChange={onStateChange}
@@ -174,38 +179,41 @@ const MainFooter = props => {
             ref={inputRef}
             onKeyPress={event => { event.key === 'Enter' && sendMessage("text") }}
           />
-          <IconButton className="chat-input-button" onClick={() => { sendMessage("text") }}>
-            <SendIcon className="chat-icon-send" />
-          </IconButton>
-         
-        </div>
+        </Grid>
 
-        {
-          showPreviewImage && (
-            <ModalUploadImage
-              open={showPreviewImage}
-              handleClose={closeModalUpload}
-              uploadImage={uploadImage}
-              msg={msg}
-              onChangeMessage={onStateChange}
-              sendMessage={() => { sendMessage("image") }}
-            />
-          )
-        }
-        {
-          showPreviewFile && (
-            <ModalUploadFile
-              open={showPreviewFile}
-              handleClose={closeModalUpload}
-              uploadImage={uploadFile}
-              fileExtension={fileExtension}
-              msg={msg}
-              onChangeMessage={onStateChange}
-              sendMessage={() => { sendMessage("file") }}
-            />
-          )
-        }
-      </>     
+        <Grid item xs={1} alignItems="center" justify="center">
+          <IconButton style={{ marginLeft: "4vh" }} onClick={() => { sendMessage("text") }}>
+            <SendIcon style={{ fontSize: "4vh", color: ButtonColor }} />
+          </IconButton>
+        </Grid>
+      </Grid>
+
+      {
+        showPreviewImage && (
+          <ModalUploadImage
+            open={showPreviewImage}
+            handleClose={closeModalUpload}
+            uploadImage={uploadImage}
+            msg={msg}
+            onChangeMessage={onStateChange}
+            sendMessage={() => { sendMessage("image") }}
+          />
+        )
+      }
+      {
+        showPreviewFile && (
+          <ModalUploadFile
+            open={showPreviewFile}
+            handleClose={closeModalUpload}
+            uploadImage={uploadFile}
+            fileExtension={fileExtension}
+            msg={msg}
+            onChangeMessage={onStateChange}
+            sendMessage={() => { sendMessage("file") }}
+          />
+        )
+      }
+    </>
   );
 }
 

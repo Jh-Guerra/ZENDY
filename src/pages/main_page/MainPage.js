@@ -108,7 +108,7 @@ const MainPage = (props) => {
           {...props}
         />
       </Grid>
-      <Grid item xs={12} style={{height:'74vh'}}>
+      <Grid item xs={12} style={{height:'77vh'}}>
         <MainBody
           {...props}
           messages={messages}
@@ -116,7 +116,7 @@ const MainPage = (props) => {
           user={user}
         />
       </Grid>
-      <Grid item xs={12} style={{height:'13vh'}}>
+      <Grid item xs={12} style={{height:'10vh'}}>
         <MainFooter
           {...props}
           chat={chat}
