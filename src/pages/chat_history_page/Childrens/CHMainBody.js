@@ -2,6 +2,7 @@ import React, { createRef } from 'react';
 import 'assets/styles/zendy-app.css';
 import ChatItem from 'pages/main_page/Components/ChatItem';
 import config from "config/Config";
+import { getImageProfile } from 'utils/common'; 
 
 
 const CHMainBody = props => {
@@ -28,7 +29,7 @@ const CHMainBody = props => {
             user={message.userFirstName + " " + message.userLastName}
             msg={message.message}
             resend={message.resend}
-            image={message.userAvatar ? (config.api + message.userAvatar) : ""}
+            image={message.userAvatar ? (config.api + message.userAvatar) : getImageProfile(message.userSex)}
             isMyMessage={message.userId == user.id}
             imageUpload={message.image ? (config.api + message.image) : ""}
             file={message.file  ? (config.api + message.file) : ''}

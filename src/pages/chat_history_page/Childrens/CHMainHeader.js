@@ -22,6 +22,7 @@ const CHMainHeader = props => {
   var isOnline;
   var company = chat && chat.companyUser && chat.companyUser.name || '';
   var ruc = chat && chat.companyUser && chat.companyUser.ruc || '';
+  var status = chat && chat.status || '';
 
 
   if(chat.scope == "Grupal"){
@@ -77,6 +78,7 @@ const CHMainHeader = props => {
                 chat && chat.user && chat.user.idCompany && (   
                   <div>
                     <Typography style={{fontSize:"15px", color:"white"}}>{company} - {ruc}</Typography>
+                    <Typography style={{fontSize:"13px", color:"white"}}>Estado: {status}</Typography>
                   </div>
                 )
               }
