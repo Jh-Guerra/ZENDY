@@ -144,14 +144,21 @@ const NotificationsPage = (props) => {
     }else{
       setShowNotificationCompanyTo(true);
     }
-  };  
+  };
+
+  const openImage = () => {
+    if(notification.image){
+      const imagePath = config.api + notification.image;
+      window.open(imagePath, "_blank")
+    }
+  }
 
   return (
     <Grid container>
       <Grid item xs={12} className="top-header"></Grid>
   
       {
-        ((notification.idCompany && checkPermission(session, "createCompanyNotifications")) || checkPermission(session, "createAdminNotifications")) && (
+        notification.id && ((notification.idCompany && (notification.idCompany == session.user.idCompany) && checkPermission(session, "createCompanyNotifications")) || (!notification.idCompany && checkPermission(session, "createAdminNotifications"))) && (
           <Grid item xs={12} style={{padding: "0px 20px"}}>
             <p style={{textAlign:'start'}}>
               <CustomButton
@@ -177,14 +184,14 @@ const NotificationsPage = (props) => {
       }
 
       <Grid container item xs={12}>
-          <Grid item xs={6} container spacing={0} direction="column" alignItems="flex-start" verticalAlign="center" justify="flex-start">
+          <Grid item xs={6} container spacing={0} direction="column" alignItems="flex-start" justify="flex-start">
                 <Box style={{ margin: '5vh 3vh' }}>
-                  <Grid item xs={12} alignItems='flex-start' alignContent='flex-start' style={{ textAlign: "left", marginTop: '15px' }}>
+                  <Grid item xs={12} style={{ textAlign: "left", marginTop: '15px' }}>
                     <span className={classes.fontReason} style={{ fontWeight: 'bold', fontStyle: 'italic', alignItems: 'flex-end', marginTop: '10px' }}>Asunto: </span>
                     <span className={classes.fontReason} style={{ alignItems: 'flex-start', marginTop: '10px' }}>{notification.reason || ""}</span>
                   </Grid>
 
-                  <Grid item xs={12} alignItems='flex-start' alignContent='flex-start' style={{ textAlign: "left", marginTop: '30px' }}>
+                  <Grid item xs={12} style={{ textAlign: "left", marginTop: '30px' }}>
                     <span className={classes.fontNotification} style={{ fontWeight: 'bold', fontStyle: 'italic', alignItems: 'flex-end' }}>Descripción: </span>
                     <span className={classes.fontNotification} style={{ alignItems: 'flex-start', marginTop: '10px' }}>{
                       "Es un hecho establecido hace demasiado tiempo que un lector se distraerá con el contenido del texto de un sitio mientras que mira su diseño. El punto de usar Lorem Ipsum es que tiene una distribución más o menos normal de las letras, al contrario de usar textos como por ejemplo Contenido aquí, contenido aquí. Estos textos hacen parecerlo un español que se puede leer. Muchos paquetes de autoedición y editores de páginas web usan el Lorem Ipsum como su texto por defecto, y al hacer una búsqueda de Lorem Ipsum va a dar por resultado muchos sitios web que usan este texto si se encuentran en estado de desarrollo. Muchas versiones han evolucionado a través de los años, algunas veces por accidente, otras veces a propósito (por ejemplo insertándole humor y cosas por el estilo).".length > 200 ? "Es un hecho establecido hace demasiado tiempo que un lector se distraerá con el contenido del texto de un sitio mientras que mira su diseño. El punto de usar Lorem Ipsum es que tiene una distribución más o menos normal de las letras, al contrario de usar textos como por ejemplo Contenido aquí, contenido aquí. Estos textos hacen parecerlo un español que se puede leer. Muchos paquetes de autoedición y editores de páginas web usan el Lorem Ipsum como su texto por defecto, y al hacer una búsqueda de Lorem Ipsum va a dar por resultado muchos sitios web que usan este texto si se encuentran en estado de desarrollo. Muchas versiones han evolucionado a través de los años, algunas veces por accidente, otras veces a propósito (por ejemplo insertándole humor y cosas por el estilo).".substring(0,197) + "..." : "Es un hecho establecido hace demasiado tiempo que un lector se distraerá con el contenido del texto de un sitio mientras que mira su diseño. El punto de usar Lorem Ipsum es que tiene una distribución más o menos normal de las letras, al contrario de usar textos como por ejemplo Contenido aquí, contenido aquí. Estos textos hacen parecerlo un español que se puede leer. Muchos paquetes de autoedición y editores de páginas web usan el Lorem Ipsum como su texto por defecto, y al hacer una búsqueda de Lorem Ipsum va a dar por resultado muchos sitios web que usan este texto si se encuentran en estado de desarrollo. Muchas versiones han evolucionado a través de los años, algunas veces por accidente, otras veces a propósito (por ejemplo insertándole humor y cosas por el estilo)."
@@ -192,7 +199,7 @@ const NotificationsPage = (props) => {
                   </Grid>
                   {
                     notification.file &&
-                    <Grid item xs={12} alignItems='flex-start' alignContent='flex-start' style={{ textAlign: "left", marginTop: '15px' }}>
+                    <Grid item xs={12} style={{ textAlign: "left", marginTop: '15px' }}>
                       <span className={classes.fontNotification} style={{ fontWeight: 'bold', fontStyle: 'italic', alignItems: 'flex-end' }}>Archivo Adjunto:</span>
                       <p style={{textAlign:"flex-start"}}>
                         <Button variant="contained"
@@ -208,24 +215,19 @@ const NotificationsPage = (props) => {
                 </Box>
           </Grid>
           <Grid item xs={6}>
-                <p style={{textAlign:"flex-end"}}>
-                <Box>
-                  <a href={notification.image ? (config.api + notification.image) : defaultImage} target="_blank">
-                    <Avatar
-                      variant="rounded"
-                      style={{ height: "60%", width: "60%", justifyContent:'flex-end', alignItems:'flex-end', marginLeft:"37%", marginTop:"10%" }}
-                      src={notification.image ? (config.api + notification.image) : defaultImage}
-                      href={notification.image ? (config.api + notification.image) : defaultImage}
-                      target="_blank"
-                    />
-                  </a>
-                </Box>
-                </p>
+            <Box>
+              <Avatar
+                variant="rounded"
+                style={{ height: "60%", width: "60%", justifyContent:'flex-end', alignItems:'flex-end', marginLeft:"37%", marginTop:"10%", cursor: notification.image ? "pointer" : "default" }}
+                src={notification.image ? (config.api + notification.image) : defaultImage}
+                onClick={openImage}
+              />
+            </Box>
           </Grid>
       </Grid>
 
       {
-        ((notification.idCompany && checkPermission(session, "createCompanyNotifications")) || checkPermission(session, "createAdminNotifications")) && (
+        notification.id && ((notification.idCompany && (notification.idCompany == session.user.idCompany) && checkPermission(session, "createCompanyNotifications")) || (!notification.idCompany && checkPermission(session, "createAdminNotifications"))) && (
           <Grid item xs={12} style={{padding: "0px 20px"}}>
             
             <p style={{textAlign:"right"}}>

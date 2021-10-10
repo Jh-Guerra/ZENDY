@@ -126,6 +126,7 @@ const MiniDrawer = (props) => {
           return <AdminMyRecommendationsSection {...props}/>
       case "adminNotifications":
           return <AdminNotificationSection {...props}/>
+      case "companyNotifications":
       case "myNotifications":
           return <NotificationSection {...props}/>
       case "adminReportedErrors":

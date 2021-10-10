@@ -6,7 +6,7 @@ export default class Avatar extends Component {
   }
   render() {
     return (
-      <div className="avatar">
+      <div className="avatar" onClick={this.props.onClick}>
         <div className="avatar-img">
           <img src={this.props.image} alt="#" />
         </div>
