@@ -17,7 +17,17 @@ const ItemErrorRow = (props) => {
   const name = user && (user.firstName + ' ' + user.lastName) || "";
 
   const description = error.description || '...';
-  const hour = error.updated_at && moment(error.updated_at).format('LT') || '00:00';
+
+  const OneDayAgo= (date) => {
+    const today = Math.round(new Date().getTime() / 1000);
+    const rest = today - date;
+    const oneDayAgo = (rest / 60 / 60 / 24).toFixed(2);
+    return oneDayAgo >= 1;
+  }
+
+ const dateTimeStamp = ( Date.parse(error.created_at));
+ const dateTSseg = Math.round(dateTimeStamp / 1000)
+ const hour = (error && error.created_at) ? (OneDayAgo((dateTSseg)) ? moment((dateTSseg)*1000).format("DD/MM/YYYY") : moment((dateTSseg)*1000).format('LT')) : " ";
 
   const onClickAction = (error) => {
     props.goTo && props.goTo(error);
