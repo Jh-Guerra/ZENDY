@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 import { withStyles } from '@material-ui/core/styles';
-import { Input, InputAdornment, Paper, Grid, IconButton, InputBase } from '@material-ui/core';
+import { Input, InputAdornment, Paper, Grid, IconButton, InputBase,TextField } from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search';
 import ItemAvatarNotifyRow from '../Components/ItemAvatarNotifyRow';
 import { listFinalizeChats } from 'services/actions/ChatAction';
@@ -11,6 +11,7 @@ import { showBackdrop } from 'services/actions/CustomAction';
 import ItemChatHistoryRow from '../Components/ItemChatHistoryRow';
 import CustomInput from 'components/CustomInput';
 import { milliseconds } from 'date-fns';
+import { showSnackBar } from 'services/actions/CustomAction';
  
 const styles = theme => ({
     search: {
@@ -69,11 +70,19 @@ const HistoryChat = props => {
     }
     const handleChange = (date) => {
       setFromDate(date);
-      onListTerminateChats('', date, toDate)
+      if(date > toDate){
+        props.dispatch(showSnackBar('error', 'La Desde debe ser menor a la del Hasta'));
+      } else {
+        onListTerminateChats('', date, toDate)
+      }
     } 
     const handleChange1 = (date) => {
       setToDate(date);
-      onListTerminateChats('', fromDate, date)
+      if(fromDate < toDate){
+        props.dispatch(showSnackBar('error', 'El Hasta debe ser mayor a la del Desde'));
+      } else {
+        onListTerminateChats('', fromDate, date)
+      }
     } 
   
     const chats = allChats && allChats.currentChats || [];
@@ -102,6 +111,9 @@ const HistoryChat = props => {
                 onChange={(date) => { handleChange(date) }}
                 style={{ color: 'white' }}
                 value={fromDate}
+                inputProps={{ readOnly: true }}
+                disableFuture
+                autoOk={true}
               />
             </Grid>
             <Grid item xs={6}>
@@ -111,6 +123,9 @@ const HistoryChat = props => {
                 label="Hasta"
                 onChange={(date) => { handleChange1(date) }}
                 value={toDate}
+                inputProps={{ readOnly: true }}
+                disableFuture
+                autoOk={true}
               />
             </Grid>
           </Grid>
