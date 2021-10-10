@@ -12,7 +12,16 @@ const ItemQueryRow = (props) => {
   const image =  query.avatar;
   const description = query.description || "";
   const reason = query.reason || 0;
-  const hour =  moment(query.updated_at).format('LT')|| "00:00";
+
+  
+  const OneDayAgo= (date) => {
+    const today = Math.round(new Date().getTime() / 1000);
+    const rest = today - date;
+    const oneDayAgo = (rest / 60 / 60 / 24).toFixed(2);
+    return oneDayAgo >= 1;
+  }
+
+  const hour = (query && query.startDate) ? (OneDayAgo(query.startDate) ? moment(query.startDate*1000).format("DD/MM/YYYY") : moment(query.startDate*1000).format('LT')) : " ";
 
   const onClickAction = (query) => {
     props.goTo && props.goTo(query);

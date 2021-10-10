@@ -23,6 +23,7 @@ import { pColor } from 'assets/styles/zendy-css';
 import { checkPermission, getCustomRoleName, getImageProfile} from "utils/common";
 import { updateListCompaniesNotified } from 'services/actions/NotificationAction';
 import { useHistory } from 'react-router';
+import defaultCompany from 'assets/images/defaultCompany.png';
 
 const useStyles = makeStyles(theme => ({
     input: {
@@ -147,7 +148,7 @@ const ModalNotificationCompanyTo = (props) => {
                       return (
                          <ListItem key={i} button divider onClick={() => { onSelectCompany(company) }} disabled={companiesNotifiedIds.includes(company.id)}>
                           <ListItemAvatar>
-                            <Avatar alt="" src={company.avatar ? (config.api + company.avatar) : getImageProfile(company.sex)} />
+                            <Avatar alt="" src={company.avatar ? (config.api + company.avatar) : getImageProfile(defaultCompany)} />
                           </ListItemAvatar>
                           <ListItemText
                             primary={`${company.name}`}
