@@ -1,18 +1,14 @@
 import React, { Component } from 'react';
-import BasePage from 'components/BasePage';
 import { Grid } from "@material-ui/core";
 import CHMainHeader from "pages/chat_history_page/Childrens/CHMainHeader";
 import CHMainBody from "pages/chat_history_page/Childrens/CHMainBody";
 import CHMainFooter from "pages/chat_history_page/Childrens/CHMainFooter";
-import { showBackdrop, showSnackBar } from 'services/actions/CustomAction';
-import { findChat, finalizeChat, listActiveChats } from 'services/actions/ChatAction';
+import { showBackdrop } from 'services/actions/CustomAction';
+import { findChat } from 'services/actions/ChatAction';
 import { useHistory, withRouter } from 'react-router-dom';
 import { connect } from "react-redux";
 import { listMessages } from 'services/actions/MessageAction';
 import { getSessionInfo } from 'utils/common';
-import Echo from "laravel-echo";
-import config from "config/Config";
-import { resetPendingMessages } from 'services/actions/ParticipantAction';
 
 const ChatHistoryPage = (props) => {
   const history = useHistory();
@@ -27,12 +23,10 @@ const ChatHistoryPage = (props) => {
   React.useEffect(() => {
     if(props.location.pathname){
       const pathArray = props.location.pathname.split("/");
-      const chatId = pathArray && pathArray[3];
+      const chatId = pathArray && pathArray[2];
       if(chatId){
-        console.log("res")
         onGetChatData(chatId);
         onListMessages(chatId, "");
-        props.dispatch(resetPendingMessages(chatId)).catch(err => history.push("/inicio"));
       }else{
         history.push("/inicio");
       }
@@ -52,17 +46,12 @@ const ChatHistoryPage = (props) => {
       setMessages(res || []);
     }).catch(err => props.dispatch(showBackdrop(false)));
   }
-  const onEndChat = () =>{
-
-  }
 
   return (
     <Grid container style={{height:'100vh'}}>
       <Grid item xs={12} style={{height:'13vh'}}>
         <CHMainHeader
           chat={chat}
-          onGetChatData={onGetChatData}
-          onEndChat={onEndChat}
           onListMessages={onListMessages}
           {...props}
         />
@@ -80,7 +69,6 @@ const ChatHistoryPage = (props) => {
           {...props}
           chat={chat}
           message={message}
-          onListMessages={onListMessages}
         />
       </Grid>
     </Grid>

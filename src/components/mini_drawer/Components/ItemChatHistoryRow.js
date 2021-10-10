@@ -61,13 +61,13 @@ const ItemChatHistoryRow = (props) => {
                 message ? ( prefixMessage + " " + message ) : " "
               }
             </p>
-            {
+            {/* {
               chat.participation && chat.participation.pendingMessages && (
                 <p style={{ fontSize: "14px" }} className="border-number">
                   {chat.participation.pendingMessages}
                 </p>
               )
-            }
+            } */}
           </div>
         </div>
       </div>

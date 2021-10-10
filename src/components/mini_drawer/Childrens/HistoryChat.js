@@ -3,14 +3,12 @@ import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import { Input, InputAdornment, Paper, Grid, IconButton, InputBase } from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search';
-import ItemAvatarNotifyRow from '../Components/ItemAvatarNotifyRow';
 import { listFinalizeChats } from 'services/actions/ChatAction';
 import NewChatCall from './NewChatCall';
 import { useHistory } from 'react-router-dom';
 import { showBackdrop } from 'services/actions/CustomAction';
 import ItemChatHistoryRow from '../Components/ItemChatHistoryRow';
 import CustomInput from 'components/CustomInput';
-import { milliseconds } from 'date-fns';
  
 const styles = theme => ({
     search: {
@@ -45,7 +43,7 @@ const HistoryChat = props => {
       }
       const from = Math.floor(new Date(fromD).getTime()/ 1000);
       const to = Math.floor(new Date(toD).getTime()/ 1000)
-      props.dispatch(listFinalizeChats(term, "Finalizado",from, to)).then(res => {
+      props.dispatch(listFinalizeChats(term, from, to)).then(res => {
         setAllChats(res || []);
         props.dispatch(showBackdrop(false));
       }).catch(err => history.push("/inicio"), props.dispatch(showBackdrop(false)));
@@ -82,17 +80,13 @@ const HistoryChat = props => {
       <div style={{ height: "79vh" }}>
         <Grid container>
           <Grid item xs={12}>
-            <NewChatCall onSaveForm={onSaveForm} />
-          </Grid>
-          <Grid item xs={12}>
             <div className="chatlist__heading">
               <span className="divider-line"></span>
               <p className="divider-content">Historial de Chats </p>
               <span className="divider-line"></span>
             </div>
-            <br />
           </Grid>
-          <Grid container spacing={3} style={{ padding: '10px', marginTop: '10px', color: 'white', fontcolor: 'white' }}>
+          <Grid container spacing={3} style={{ padding: '10px', color: 'white', fontcolor: 'white' }}>
 
             <Grid item xs={6} style={{ color: 'white', fontcolor: 'white', forcedColorAdjust: 'white' }}>
               <CustomInput
@@ -132,7 +126,6 @@ const HistoryChat = props => {
             />
           </Grid>
           <Grid item xs={12}>
-            {/* <div className="chat-list-items"> */}
             <div>
               {
                 isEmpty ? (

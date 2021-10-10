@@ -136,7 +136,7 @@ const MainFooter = props => {
   return (
     <>
       <Grid className="chat-footer" container alignItems="center" justify="center">
-        <Grid container xs={3} alignItems="center" justify="center">
+        <Grid container item xs={3} alignItems="center" justify="center">
           <Box>
             {showEmoji &&
               <IconButton onClick={handleShowEmojis}>
@@ -181,7 +181,7 @@ const MainFooter = props => {
           />
         </Grid>
 
-        <Grid item xs={1} alignItems="center" justify="center">
+        <Grid item xs={1}>
           <IconButton style={{ marginLeft: "4vh" }} onClick={() => { sendMessage("text") }}>
             <SendIcon style={{ fontSize: "4vh", color: ButtonColor }} />
           </IconButton>

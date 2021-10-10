@@ -1,29 +1,20 @@
 import React, { useState } from "react";
 import ChatAvatar from "pages/main_page/Components/ChatAvatar";
-import IconButton from '@material-ui/core/IconButton';
-import PersonAddIcon from '@material-ui/icons/PersonAdd';
 import { Grid, TextField, Tooltip, Typography } from "@material-ui/core";
-import MoreVertIcon from '@material-ui/icons/MoreVert';
 import SearchIcon from '@material-ui/icons/Search';
 import InputAdornment from '@material-ui/core/InputAdornment';
-import CustomModal from "components/Modals/common/CustomModal";
 import { useHistory, withRouter } from "react-router-dom";
 import config from "config/Config";
 import { getImageProfile, getSessionInfo } from "utils/common";
-import SpeakerNotesOffIcon from '@material-ui/icons/SpeakerNotesOff';
 
 const CHMainHeader = props => {
   const session = getSessionInfo();
   const user = session && session.user;
-  const { chat={}, onGetChatData } = props;
+  const { chat={} } = props;
 
   const history = useHistory();
   const [searchTimeout, setSearchTimeout] = React.useState(null);
   const [term, setTerm] = React.useState('');
-
-  const handleChatDetail = () => {
-    //setShowChatDetail(true);
-  }
 
   var image;
   var name = chat.name || '';
@@ -68,12 +59,11 @@ const CHMainHeader = props => {
   return (
     <Grid container className="chat-header">    
       <Grid container className="chat-header-content">
-        <Grid item xs={8} onClick={handleChatDetail} style={{cursor:"pointer"}}>       
+        <Grid item xs={8}>       
           <Grid container style={{height:"100%", padding:"0px 10px"}}>           
             <Grid item xs={2} style={{display:"flex"}}>             
               <div className="chat-header-avatar">
                 <ChatAvatar
-                  isOnline="active"
                   image={image ? config.api+image : getImageProfile(defaultImageType)}
                   imgClassName="avatar-header"
                 />
@@ -84,12 +74,12 @@ const CHMainHeader = props => {
                 <Typography noWrap variant="h5">{name}</Typography>
               </div>
               {
-              chat && chat.user && chat.user.idCompany && (   
-              <div>
-                <Typography style={{fontSize:"15px", color:"white"}}>{company} - {ruc}</Typography>
-              </div>
-              )
-            }
+                chat && chat.user && chat.user.idCompany && (   
+                  <div>
+                    <Typography style={{fontSize:"15px", color:"white"}}>{company} - {ruc}</Typography>
+                  </div>
+                )
+              }
             
             </Grid>               
           </Grid>

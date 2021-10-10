@@ -57,7 +57,7 @@ const MainHeader = props => {
     })    
   }
 
-  var isAdmin;
+  var isAdmin = false;
   chat.participants && chat.participants.filter(participant => {
     if(participant.idUser == user.id){
       isAdmin = (participant.type == "Admin")
@@ -142,7 +142,7 @@ const MainHeader = props => {
               )
             }
             {
-              isAdmin && (chat.type == "Cliente" || chat.type == "Consulta") && (
+              isAdmin && (
                 <Tooltip title="Finalizar chat">
                   <IconButton onClick={handleEndChat} className="chat-header-button"><SpeakerNotesOffIcon style={{ fontSize: 35 }} /></IconButton>
                 </Tooltip>
