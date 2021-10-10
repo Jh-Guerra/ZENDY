@@ -220,7 +220,9 @@ const ErrorInfoPage = props => {
 
                       <Grid item xs={12} style={{ textAlign: "left", marginTop: '15px' }}>
                         <span className={classes.fontError} style={{ fontWeight: 'bold', fontStyle: 'italic', alignItems: 'flex-end' }} >Descripción: </span>
-                        <span className={classes.fontDescription} style={{ alignItems: 'flex-start', marginTop: '10px' }}>{error.description || ""}</span>
+                        <span className={classes.fontDescription} style={{ alignItems: 'flex-start', marginTop: '10px' }}>{
+                          error.description && error.description.length > 200 ? error.description.substring(0,197) + "..." : error.description
+                        }</span>
                       </Grid>
 
                       {
