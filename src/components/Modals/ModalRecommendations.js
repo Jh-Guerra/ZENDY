@@ -84,7 +84,7 @@ const ModalRecommendations = (props) => {
                 
                             <TableBody>
                             {recommendations.map((recommendation, i) => {
-                                const date = recommendation.recommendDate && moment().format("DD/MM/YYYY");
+                                const date = Math.floor(new Date(recommendation.recommendDate).getTime()* 1000) && moment(Math.floor(new Date(recommendation.recommendDate).getTime()* 1000)).format("DD/MM/YYYY");
                                     return (         
                                         <TableRow key={recommendation.id}>
                                             <TableCell component="th" scope="row">
