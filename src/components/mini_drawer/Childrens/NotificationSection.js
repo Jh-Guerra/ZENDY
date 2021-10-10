@@ -7,14 +7,15 @@ import { showBackdrop } from 'services/actions/CustomAction';
 import CustomModal from 'components/Modals/common/CustomModal';
 import ItemNotificationRow from '../Components/ItemNotificationRow';
 import { listNotificationsByCompany, listNotificationsByUser } from 'services/actions/NotificationAction';
-import { checkPermission } from 'utils/common';
+import { checkPermission, getSessionInfo } from 'utils/common';
 import TabOptions from './TabOptions';
 import CustomCheckbox from 'components/CustomCheckbox';
 
 
 const NotificationSection = (props) => {
 
-    const { classes = {}, session, notificationRx } = props;
+    const { classes = {}, notificationRx } = props;
+    const session = getSessionInfo();
     const user = session && session.user || {};
     const history = useHistory();
   

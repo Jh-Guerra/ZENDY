@@ -31,14 +31,14 @@ const ModalConfirmError = (props) => {
         >
             <ModalHeader 
                 icon={<ChatIcon />}
-                text="Confirmar Error reportado"
+                text="Confirmar Error Reportado"
             />
 
             <ModalBody>
                 <Grid container>
                     <Grid item xs={12}>
                         <Box textAlign="center">
-                            <Typography gutterBottom className={classes.typography}>¿Esta seguro de confirmar este error reportado?</Typography>
+                            <Typography gutterBottom className={classes.typography}>¿Esta seguro de aceptar la validez de este error?</Typography>
                         </Box>
                     </Grid>
                 </Grid>

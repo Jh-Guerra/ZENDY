@@ -71,7 +71,7 @@ const ModalNewCompanyNotification = (props) => {
                 onListUsersByCompany(notification.companiesNotified[0], "");
                 onListCompanies(true);
             }else{
-                idCompany ? onListCompaniesByCompany(idCompany) :  onListCompanies(false);
+                idCompany ? onListByCompany(idCompany) :  onListCompanies(false);
             }
         }else{
             setUsers([]);
@@ -99,7 +99,7 @@ const ModalNewCompanyNotification = (props) => {
         }).catch(err => props.dispatch(showBackdrop(false)));;
     }
 
-    const onListCompaniesByCompany = (idCompany) => {
+    const onListByCompany = (idCompany) => {
         props.dispatch(showBackdrop(true));
         props.dispatch(listCompanies()).then(res => {
             setCompanies(res || []);
