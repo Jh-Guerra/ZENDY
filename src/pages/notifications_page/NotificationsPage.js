@@ -151,7 +151,7 @@ const NotificationsPage = (props) => {
       <Grid item xs={12} className="top-header"></Grid>
   
       {
-        ((notification.idCompany && checkPermission(session, "createNotifications")) || checkPermission(session, "createAdminNotifications")) && (
+        ((notification.idCompany && checkPermission(session, "createCompanyNotifications")) || checkPermission(session, "createAdminNotifications")) && (
           <Grid item xs={12} style={{padding: "0px 20px"}}>
             <p style={{textAlign:'start'}}>
               <CustomButton
@@ -225,7 +225,7 @@ const NotificationsPage = (props) => {
       </Grid>
 
       {
-        ((notification.idCompany && checkPermission(session, "createNotifications")) || checkPermission(session, "createAdminNotifications")) && (
+        ((notification.idCompany && checkPermission(session, "createCompanyNotifications")) || checkPermission(session, "createAdminNotifications")) && (
           <Grid item xs={12} style={{padding: "0px 20px"}}>
             
             <p style={{textAlign:"right"}}>

@@ -18,6 +18,7 @@ const NotificationSection = (props) => {
     const user = session && session.user || {};
     const history = useHistory();
   
+    const [isAdmin, setIsAdmin] = React.useState(false);
     const [searchTimeout, setSearchTimeout] = React.useState(null);
     const [showNewCompanyNotification, setShowNewCompanyNotification] = React.useState(false);
     const [isPending, setIsPending] =React.useState(false);
@@ -28,8 +29,8 @@ const NotificationSection = (props) => {
 
     const onList = (term, status) => {
         props.dispatch(showBackdrop(true));
-
-        if(checkPermission(session, "createNotifications")){
+        if(checkPermission(session, "createCompanyNotifications")){
+          setIsAdmin(true);
           props.dispatch(listNotificationsByCompany(term)).then(res => {
             props.dispatch(showBackdrop(false));
           }).catch(err => props.dispatch(showBackdrop(false)));
@@ -76,13 +77,17 @@ const NotificationSection = (props) => {
     return (
         <div style={{height: "79vh"}}>
           <Grid container>
-            <Grid item xs={12}>
-              <TabOptions
-                onSaveForm={onSaveForm}
-                onOpenModal={openNewCompanyNotification}
-                view="adminNotifications"
-              />
-            </Grid>
+            {
+              checkPermission(session, "createCompanyNotifications") && (
+                <Grid item xs={12}>
+                  <TabOptions
+                    onSaveForm={onSaveForm}
+                    onOpenModal={openNewCompanyNotification}
+                    view="adminNotifications"
+                  />
+                </Grid>
+              )
+            }
             <Grid item xs={12}>
               <div className="chatlist__heading">
                 <span className="divider-line"></span>
@@ -110,19 +115,23 @@ const NotificationSection = (props) => {
               />
             </Grid>
             <Grid item xs={12} style={{ padding: '0px 10px' }}>
-          <FormControlLabel
-            control={
-              <CustomCheckbox
-                checked={isPending}
-                value={'Pendiente'}
-                onChange={(e) => onChangeCheck(e.target.checked)
-                }
-              />
-            }
-            label="Vistos"
-            style={{ color: 'white', marginLeft: '10px' }}
-          />
-          </Grid>
+              {
+                !isAdmin && (
+                  <FormControlLabel
+                    control={
+                      <CustomCheckbox
+                        checked={isPending}
+                        value={'Pendiente'}
+                        onChange={(e) => onChangeCheck(e.target.checked)
+                        }
+                      />
+                    }
+                    label="Vistos"
+                    style={{ color: 'white', marginLeft: '10px' }}
+                  />
+                )
+              }
+            </Grid>
             <Grid item xs={12}>
               {notifications.map((notificationViewed, i) => {
                 return (
