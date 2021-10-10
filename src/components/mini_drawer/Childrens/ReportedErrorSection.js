@@ -69,9 +69,8 @@ const ReportedErrorSection = props => {
               <p className="divider-content">Mis Errores Reportados</p>
               <span className="divider-line"></span>
             </div>
-            <br />
           </Grid>
-          <Grid item xs={12} style={{ padding: '10px' }}>
+          <Grid item xs={12} style={{ padding: '0px 10px' }}>
             <Input
               fullWidth
               className="search_wrap"
@@ -88,13 +87,10 @@ const ReportedErrorSection = props => {
               }
             />
           </Grid>
-          <br />
-          <Grid item xs={12} style={{ minHeight: '550px' }}>
-            <div className="chat-list-items">
+          <Grid item xs={12}>
               {errorRx.error && errorRx.error.map((error, i) => {
                 return <ItemErrorRow key={i} error={error} goTo={goTo} />;
               })}
-            </div>
           </Grid>
         </Grid>
       </Grid>
