@@ -384,7 +384,7 @@ const ModalUser = (props) => {
                                             src={fileUrl ? fileUrl : (data.avatar ? (config.api+data.avatar) : defaultAvatar)}
                                         />
                                         {
-                                            editMode && (user.id && user.avatar) && <HighlightOffTwoToneIcon style={{color: 'red', display:fileUrl || (user.id && user.avatar) ? "flex" : "none"}} onClick={() => { deleteImage( (data.avatar && (data.avatar).substr(8)), data.id, values)  }}/>
+                                            editMode && values.avatar && <HighlightOffTwoToneIcon style={{color: 'red', display:fileUrl || (user.id && user.avatar) ? "flex" : "none"}} onClick={() => { deleteImage( (data.avatar && (data.avatar).substr(8)), data.id, values)  }}/>
                                         }
                                     </Grid>
                                 </Grid>

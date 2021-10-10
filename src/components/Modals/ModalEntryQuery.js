@@ -240,7 +240,7 @@ const ModalEntryQuery = props => {
                         }}
                         src={fileUrl ? fileUrl : data.image ? config.api + data.image : defaultCompany}
                       />
-                      {editMode && entryQuery && entryQuery.image && (
+                      {editMode && values.image && (
                         <HighlightOffTwoToneIcon
                           style={{
                             color: 'red',

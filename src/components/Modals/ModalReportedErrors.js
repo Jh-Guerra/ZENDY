@@ -251,7 +251,7 @@ const ModalReportedErrors = props => {
                         src={fileUrl ? fileUrl : (error && error.image ? (config.api + error.image) : defaultAvatar)}
                       />
                       {
-                        !editMode && (error && error.image) && <HighlightOffTwoToneIcon style={{color: 'red'}} onClick={() => { deleteImagenes( (error.image && (error.image).substr(8)),error.id, values)  }} /> 
+                        !editMode && values.image && <HighlightOffTwoToneIcon style={{color: 'red'}} onClick={() => { deleteImagenes( (error.image && (error.image).substr(8)),error.id, values)  }} /> 
                       }                                         
                     </Grid>
                    
