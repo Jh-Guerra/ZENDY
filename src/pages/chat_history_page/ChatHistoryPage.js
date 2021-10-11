@@ -53,6 +53,8 @@ const ChatHistoryPage = (props) => {
         <CHMainHeader
           chat={chat}
           onListMessages={onListMessages}
+          onGetChatData={onGetChatData}
+          messages={messages}
           {...props}
         />
       </Grid>

@@ -19,6 +19,10 @@ import { getSessionInfo } from 'utils/common';
 import { deleteParticipant } from 'services/actions/ParticipantAction';
 import { listActiveChats, nameChatAction } from 'services/actions/ChatAction';
 import ZendyIcon from 'assets/images/ZendyIcon.jpg';
+import moment from 'moment';
+import CalendarTodayIcon from '@material-ui/icons/CalendarToday';
+import DescriptionIcon from '@material-ui/icons/Description';
+import CommentIcon from '@material-ui/icons/Comment';
 
 const useStyles = makeStyles(theme => ({
   large: {
@@ -39,7 +43,7 @@ const ModalGroupChatDetail = props => {
   const isUserAdmin = role.name == "Admin";
   const classes = useStyles();
   
-  const { open, handleClose, chat, onGetChatData } = props;
+  const { open, handleClose, chat, onGetChatData, chatFinalize } = props;
   const chatLifetime = Math.round((new Date().getTime() - new Date(chat.startDate).getTime()) / (1000 * 60 * 60 * 24))
 
   const [showAddToConversation,setShowAddToConversation] = React.useState(false);
@@ -86,7 +90,10 @@ const ModalGroupChatDetail = props => {
   }, [open]);
 
   var quantityParticipants = chat && chat.participants && chat.participants.length;
+  const dateFinalize = Math.floor(new Date(chat.finalizeDate).getTime()* 1000) && moment(Math.floor(new Date(chat.finalizeDate).getTime()* 1000)).format("DD/MM/YYYY");
 
+
+  console.log('chat',chat)
   return (
     <>
     <Modal open={open} handleClose={handleClose} size="lg">
@@ -120,25 +127,51 @@ const ModalGroupChatDetail = props => {
             <Grid container item xs={12} justify="space-between" alignItems="flex-start">
               <Grid item xs={7}>
                 <Box className={classes.detailsBox}>
-                  <TimerIcon style={{ margin: '0px 5px' }} /> Tiempo de Vida del Chat{' '}
+                  <CalendarTodayIcon style={{ margin: '0px 5px' }} /> Fecha de Inicio
+                </Box>
+              </Grid>
+              <Grid item xs={5} style={{padding: "5px", textAlign: "center"}}>
+                {moment(chat.created_at).format("DD/MM/YYYY")}
+              </Grid>
+            </Grid>
+            <Box height="15px" />
+            <Grid container item xs={12} justify="space-between" alignItems="flex-start">
+              <Grid item xs={7}>
+                <Box className={classes.detailsBox}>
+                  <TimerIcon style={{ margin: '0px 5px' }} /> Tiempo de Vida del Chat
                 </Box>
               </Grid>
               <Grid item xs={5} style={{padding: "5px", textAlign: "center"}}>
                 {chatLifetime > 1 ? (chatLifetime + (chatLifetime == 1 ? " dia " : " dias")) : "Creado hoy"}
               </Grid>
-
             </Grid>
-            <Box height="15px" />
             {
               chat.status == "Finalizado" && (
-                <Grid container item xs={12} justify="space-between" alignItems="flex-start">
-                  <Box className={classes.detailsBox}>
-                    <EventBusyIcon style={{ margin: '0px 5px' }} /> Fecha de finalización{' '}
-                  </Box>
-                  <Box>
-                    {chat.endDate ? chat.endDate : "Activo"}
-                  </Box>
-                </Grid>
+                <>
+                  <Box height="15px" />
+                  <Grid container item xs={12} justify="space-between" alignItems="flex-start">
+                    <Grid item xs={7}>
+                      <Box className={classes.detailsBox}>
+                        <CommentIcon style={{ margin: '0px 5px' }} /> Estado
+                      </Box>
+                    </Grid>
+                    <Grid item xs={5} style={{padding: "5px", textAlign: "center"}}>
+                      {chat.finalizeStatus}
+                    </Grid>
+                  </Grid>
+                  <Box height="15px" />
+                  <Grid container item xs={12} justify="space-between" alignItems="flex-start">
+                    <Grid item xs={7}>
+                      <Box className={classes.detailsBox}>
+                        <EventBusyIcon style={{ margin: '0px 5px' }} /> Fecha de finalización{' '}
+                      </Box>
+                    </Grid>
+                    <Grid item xs={5} style={{padding: "5px", textAlign: "center"}}>
+                      {dateFinalize ? dateFinalize : "Activo"}
+                    </Grid>
+                  </Grid>
+                  <Box height="15px" />
+                </>
               )
             }
           </Grid>
@@ -176,7 +209,7 @@ const ModalGroupChatDetail = props => {
                 </List>
                 <List>
                   {
-                      isAdmin && (
+                      isAdmin && !chatFinalize && (
                         <Grid container> 
                           <Grid item xs={12}>
                             <Button variant="contained" id="" color="primary" startIcon={<AddCircleOutlineIcon />} style={{ height: '50px', width: '100%' }} onClick={openAddToConversation}>

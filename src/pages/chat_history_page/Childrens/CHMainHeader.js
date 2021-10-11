@@ -6,15 +6,18 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 import { useHistory, withRouter } from "react-router-dom";
 import config from "config/Config";
 import { getImageProfile, getSessionInfo } from "utils/common";
+import CustomModal from "components/Modals/common/CustomModal";
 
 const CHMainHeader = props => {
   const session = getSessionInfo();
   const user = session && session.user;
-  const { chat={} } = props;
+  const { chat={},onGetChatData, messages } = props;
 
   const history = useHistory();
   const [searchTimeout, setSearchTimeout] = React.useState(null);
   const [term, setTerm] = React.useState('');
+  const [showChatDetail, setShowChatDetail] = useState(false);
+  const chatFinalize =true ;
 
   var image;
   var name = chat.name || '';
@@ -23,7 +26,7 @@ const CHMainHeader = props => {
   var company = chat && chat.companyUser && chat.companyUser.name || '';
   var ruc = chat && chat.companyUser && chat.companyUser.ruc || '';
   var status = chat && chat.status || '';
-
+console.log('companu', company)
 
   if(chat.scope == "Grupal"){
     image = chat.company && chat.company.avatar || "";
@@ -57,10 +60,14 @@ const CHMainHeader = props => {
     )
   }
 
+  const handleChatDetail = () => {
+    setShowChatDetail(true);
+  }
+
   return (
     <Grid container className="chat-header">    
       <Grid container className="chat-header-content">
-        <Grid item xs={8}>       
+        <Grid item xs={8} onClick={handleChatDetail} style={{cursor:"pointer"}}>       
           <Grid container style={{height:"100%", padding:"0px 10px"}}>           
             <Grid item xs={2} style={{display:"flex"}}>             
               <div className="chat-header-avatar">
@@ -75,7 +82,7 @@ const CHMainHeader = props => {
                 <Typography noWrap variant="h5">{name}</Typography>
               </div>
               {
-                chat && chat.user && chat.user.idCompany && (   
+                chat && chat.companyUser && (   
                   <div>
                     <Typography style={{fontSize:"15px", color:"white"}}>{company} - {ruc}</Typography>
                     <Typography style={{fontSize:"13px", color:"white"}}>Estado: {status}</Typography>
@@ -105,6 +112,15 @@ const CHMainHeader = props => {
           </Grid>              
         </Grid>
       </Grid>
+      <CustomModal 
+      customModal="ModalChatDetail"
+      open={showChatDetail} 
+      onClose={()=> { setShowChatDetail(false) }}
+      chat={chat}
+      onGetChatData={onGetChatData}
+      messages={messages}
+      chatFinalize={chatFinalize}
+    />
     </Grid>
   );
 
