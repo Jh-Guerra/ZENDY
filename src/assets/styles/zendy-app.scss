@@ -1,10 +1,12 @@
 // Letters
 $pLetter: 'Roboto';
 $letterMinSize: 16px;
+$pLetterColor: White;
+// $sLetterColor: ;
 
 // Colors
-$pColor: #344971;
-$sColor: #F39651;
+$pColor: #e69f54;
+$sColor: #A555D6;
 $tColor: #F39651;
 
 $pColorhover: #13557c;
@@ -15,6 +17,7 @@ $offLine: #ECECEB;
 $subTextColor: #929797;
 
 // Buttons
+$pButtonLetter: white;
 $successButton: #0d3d26;
 
 
@@ -24,32 +27,65 @@ $successButton: #0d3d26;
 
 * {
     font-family: $pLetter !important;
+    color: #5D5D5D;
 }
 
 html, body {
     height: 100%;
 }
 
-/* ===========================        INPUTS              =============================================*/
+.custom-icon {
+    fill: $pColor;
+}
 
+.custom-button {
+    color: $pButtonLetter;
+    background-color: $pColor;
 
+    * {
+        color: $pButtonLetter;
+    }
+}
 
-/* ===========================        LOGIN              =============================================*/
+.custom-letter {
 
-.login-form{
+}
+
+.mini-drawer-header {
+    background-color: $pColor;
+    border-bottom: 1px solid #ebe7fb;
+    width: 100%;
+    padding: 5px 10px 5px 15px;
+    height: 13vh;
+    min-height: 110px;
+    display: flex;
+    flex-direction: row;
     
+    p {
+        font-size: large;
+        margin: 7px 10px;
+        font-size: 25px;
+    }
+
+    .avatar {
+        height: 70px;
+        width: 70px;
+        margin: 10px;
+    }
+
+    button {
+        margin: 0px 10px;
+        align-content: center;
+        color: white;
+        border-color: white;
+        padding: 2px 15px;
+        border: 0;
+        background-color: #d66565;
+    }
 }
 
 .login-logo{
     background-color: $pColor;
-}
-
-.login-input > *{
-    color: black;
-}
-
-.login-icon{
-    color: $pColor;
 }
 
 /* ===========================        CHAT              =============================================*/
@@ -316,7 +352,6 @@ html, body {
     flex-shrink: 0;
 }
 
-
 .mini-drawer-content {
     background-color: $pColor;
     border-bottom: 1px solid #ebe7fb;
@@ -435,9 +470,9 @@ html, body {
         align-content: center;
         color: white;
         border-color: white;
-        background-color: #d66565;
         padding: 2px 15px;
         border: 0;
+        background-color: #d66565;
     }
 }
 
@@ -505,11 +540,6 @@ html, body {
 .notfound-page p {
     color: white;
     font-size: xxx-large;
-}
-
-// color button cerrar sección
-.mini-drawer-user button {
-    background-color: #d66565;
 }
 
 .chat-mini-details {

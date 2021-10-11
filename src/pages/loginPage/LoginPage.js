@@ -10,7 +10,7 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import LogoZendy from 'assets/images/Zendy-logo.jpg';
 import VpnKeyIcon from '@material-ui/icons/VpnKey';
-import { pColor, sColorL } from 'assets/styles/zendy-css';
+import { pColor, sColor } from 'assets/styles/zendy-css';
 import  {loginUser}  from 'services/actions/LoginAction';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
@@ -45,7 +45,7 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: 'column',
     alignItems: 'center',
     margin: theme.spacing(19, 13.1),
-    border: sColorL + ' 15px solid',
+    // border: sColor + ' 5px solid',
   },
   paper: {
     margin: theme.spacing(18, 4),
@@ -70,9 +70,7 @@ const useStyles = makeStyles((theme) => ({
     height:'50px',
     borderRadius:'10px',
     fontWeight:'900',
-    fontSize:'1.2rem',
-    backgroundColor: pColor,
-    color: "white"
+    fontSize:'1.2rem'
   },
 }));
 
@@ -189,7 +187,7 @@ const LoginPage = props => {
         <Grid container alignItems="center" justify="center" item xs={4} className="login-logo">
           <img src={LogoZendy} className={classes.image}/>
         </Grid>
-        <Grid item xs={8} className={`login-form`} component={Paper}>
+        <Grid item xs={8} component={Paper}>
           <Grid item xs={12} />
           <div className={classes.paper}>
             <Typography variant="h4" className={classes.loginTitle}>
@@ -197,7 +195,7 @@ const LoginPage = props => {
             </Typography>
             <form className={classes.form}>
               <CssTextField
-                className={`login-input ${classes.loginInput}`}
+                className={classes.loginInput}
                 variant="outlined"
                 margin="normal"
                 required
@@ -205,8 +203,8 @@ const LoginPage = props => {
                 id="email"
                 InputProps={{
                   startAdornment: (
-                    <InputAdornment position="start" className="login-icon">
-                      <AccountCircle />
+                    <InputAdornment position="start">
+                      <AccountCircle className="custom-icon"/>
                     </InputAdornment>
                   ),
                 }}
@@ -220,7 +218,7 @@ const LoginPage = props => {
               />
               <span style={{color: "red"}}>{errors["email"]}</span>
               <CssTextField
-                className={`login-input ${classes.loginInput}`}
+                className={classes.loginInput}
                 variant="outlined"
                 margin="normal"
                 required
@@ -231,8 +229,8 @@ const LoginPage = props => {
                 id="password"
                 InputProps={{
                   startAdornment: (
-                    <InputAdornment position="start" className="login-icon">
-                      <VpnKeyIcon />
+                    <InputAdornment position="start">
+                      <VpnKeyIcon className="custom-icon"/>
                     </InputAdornment>
                   ),
                 }}
@@ -246,7 +244,7 @@ const LoginPage = props => {
                 type="button"
                 variant="contained"
                 color="primary"
-                className={classes.loginBtn}
+                className={classes.loginBtn + " custom-button"}
                 onClick={handleLogin}
               >
                 INICIAR SESION
