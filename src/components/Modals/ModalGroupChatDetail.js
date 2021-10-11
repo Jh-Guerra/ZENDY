@@ -19,6 +19,10 @@ import { getSessionInfo } from 'utils/common';
 import { deleteParticipant } from 'services/actions/ParticipantAction';
 import { listActiveChats, nameChatAction } from 'services/actions/ChatAction';
 import ZendyIcon from 'assets/images/ZendyIcon.jpg';
+import moment from 'moment';
+import CalendarTodayIcon from '@material-ui/icons/CalendarToday';
+import DescriptionIcon from '@material-ui/icons/Description';
+import CommentIcon from '@material-ui/icons/Comment';
 
 const useStyles = makeStyles(theme => ({
   large: {
@@ -37,7 +41,7 @@ const ModalGroupChatDetail = props => {
   const user = session && session.user;
   const classes = useStyles();
   
-  const { open, handleClose, chat, onGetChatData } = props;
+  const { open, handleClose, chat, onGetChatData, chatFinalize } = props;
   const chatLifetime = Math.round((new Date().getTime() - new Date(chat.startDate).getTime()) / (1000 * 60 * 60 * 24))
 
   const [showAddToConversation,setShowAddToConversation] = React.useState(false);
@@ -88,7 +92,10 @@ const ModalGroupChatDetail = props => {
   }, [open]);
 
   var quantityParticipants = chat && chat.participants && chat.participants.length;
+  const dateFinalize = Math.floor(new Date(chat.finalizeDate).getTime()* 1000) && moment(Math.floor(new Date(chat.finalizeDate).getTime()* 1000)).format("DD/MM/YYYY");
 
+
+  console.log('chat',chat)
   return (
     <>
     <Modal open={open} handleClose={handleClose} size="lg">
@@ -126,14 +133,41 @@ const ModalGroupChatDetail = props => {
             <Box height="15px" />
             {
               chat.status == "Finalizado" && (
+                <>
+                 <Grid container item direction="row" justify="space-between" alignItems="flex-start" width="100%">
+                  <Box className={classes.detailsBox}>
+                    <CalendarTodayIcon style={{ margin: '0px 5px' }} /> Fecha de Inicio{' '}
+                  </Box>
+                  <Box>
+                    {moment(chat.created_at).format("DD/MM/YYYY")}
+                  </Box>
+                </Grid>
                 <Grid container item direction="row" justify="space-between" alignItems="flex-start" width="100%">
                   <Box className={classes.detailsBox}>
                     <EventBusyIcon style={{ margin: '0px 5px' }} /> Fecha de finalización{' '}
                   </Box>
                   <Box>
-                    {chat.endDate ? chat.endDate : "Activo"}
+                    {dateFinalize ? dateFinalize : "Activo"}
+                  </Box>
+                  </Grid>
+                <Grid container item direction="row" justify="space-between" alignItems="flex-start" width="100%">
+                  <Box className={classes.detailsBox}>
+                    <CommentIcon style={{ margin: '0px 5px' }} /> Estado{' '}
+                  </Box>
+                  <Box>
+                    {chat.finalizeStatus}
+                  </Box>
+                  </Grid>
+                <Grid container item direction="row" justify="space-between" alignItems="flex-start" width="100%">
+                  <Box className={classes.detailsBox}>
+                    <DescriptionIcon style={{ margin: '0px 5px' }} /> Descripción{' '}
+                  </Box>
+                  <Box>
+                    {chat.finalizeDescription}
                   </Box>
                 </Grid>
+
+                </>
               )
             }
           </Grid>
@@ -171,7 +205,8 @@ const ModalGroupChatDetail = props => {
                 </List>
                 <List>
                   {
-                      isAdmin &&
+                      isAdmin && !chatFinalize &&(
+                        
                       <Grid container spacing={2}> 
                         <Grid item md={6}>
                           <Button variant="contained" id="" color="primary" startIcon={<AddCircleOutlineIcon />} style={{ height: '50px', width: '100%' }} onClick={() => {ShowAddToConversation(false)}}>
@@ -184,6 +219,8 @@ const ModalGroupChatDetail = props => {
                           </Button>
                         </Grid>
                       </Grid>
+                        
+                      )
                   }
                   
                   <Divider variant="inset" />
