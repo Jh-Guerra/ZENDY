@@ -18,8 +18,8 @@ componentDidMount() {
   }
   render() {
     return (
-        <div className="mini-drawer-content">
-            <div className="mini-drawer-user">
+        <div className="item-row-content">
+            <div className="item-row-user">
                     <ItemAvatarT
                     isOnline={this.props.isOnline}
                     Area={this.props.Area ? this.props.Area : "http://placehold.it/80x80"}/>

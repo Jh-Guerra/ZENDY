@@ -100,7 +100,7 @@ const EntryQueryPage = (props) => {
   }
 
   return (
-    <Grid container style={{ height: '100vh' }}>
+    <Grid container className="all-heigth">
       <Grid item xs={12} style={{ height: '13vh' }}>
         <EQMainHeader
           entryQuery={entryQuery}

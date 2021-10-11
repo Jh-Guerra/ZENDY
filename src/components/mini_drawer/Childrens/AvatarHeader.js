@@ -1,10 +1,10 @@
 import { Button, Typography } from "@material-ui/core";
-import { withStyles } from "@material-ui/core/styles"
 import config from "config/Config";
-import React, { Component, useState, createRef, useEffect } from "react";
+import React, { Component } from "react";
 
 import Avatar from "../Components/Avatar";
 import { getImageProfile, getSessionInfo } from "utils/common";
+import { pLetterColor } from "assets/styles/zendy-css";
 
  class AvatarHeader extends Component {
   constructor(props) {
@@ -28,13 +28,12 @@ import { getImageProfile, getSessionInfo } from "utils/common";
             <Avatar
               isOnline={user.isOnline ? "active" : ""}
               image={user.avatar ? (config.api + (user.avatar) ) : getImageProfile(user.sex)}
-              style={{maxHeight:"10vh", minHeight:'10vh',position:'static'}}
             />
             <div>
               <div>               
-              <Typography style={{fontSize:'19px'}}>{`${user.firstName} ${user.lastName}`}</Typography>               
+                <Typography style={{fontSize:'18px', color: pLetterColor}}>{`${user.firstName} ${user.lastName}`}</Typography>               
               </div>
-              <Button className="close-session-button" variant="outlined" size="small" onClick={() => (this.props.logout())}>Cerrar Sesión</Button>
+              <Button color="secondary" variant="contained" size="small" onClick={() => (this.props.logout())}>Cerrar Sesión</Button>
             </div>
         </div>
     );

@@ -26,8 +26,8 @@ const ItemErrorRow = (props) => {
   }
 
   return (
-    <div className="mini-drawer-content" onClick={() => { onClickAction(error) }}>
-      <div className="mini-drawer-user">
+    <div className="item-row-content" onClick={() => { onClickAction(error) }}>
+      <div className="item-row-user">
         <ItemAvatar
           image={image ? config.api+image : getImageProfile(defaultImageType)}
         />

@@ -17,8 +17,8 @@ const ItemCompanyRow = (props) => {
   }
 
   return (
-    <div className="mini-drawer-content" onClick={() => { onClickAction(company) }} style={{cursor:'pointer'}}>
-      <div className="mini-drawer-user">
+    <div className="item-row-content" onClick={() => { onClickAction(company) }} style={{cursor:'pointer'}}>
+      <div className="item-row-user">
         <ItemAvatar
           image={image ? config.api+image : getImageProfile("Company")}
           isChatCompany

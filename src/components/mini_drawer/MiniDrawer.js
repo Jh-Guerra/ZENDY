@@ -2,7 +2,8 @@ import React from 'react';
 import { useHistory, withRouter } from "react-router-dom";
 import { AppBar, Drawer, Grid, Tab, Tabs, Tooltip } from '@material-ui/core';
 import AvatarHeader from './Childrens/AvatarHeader';
-import { CompaniesIcon, MoreIcon } from "assets/styles/svg-icons";
+import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
+import MoreVertIcon from '@material-ui/icons/MoreVert';
 import CurrentChat from './Childrens/CurrentChat';
 import ModalMoreActions from 'components/Modals/ModalMoreActions';
 import HistoryChat from 'components/mini_drawer/Childrens/HistoryChat';
@@ -172,7 +173,7 @@ const MiniDrawer = (props) => {
       case "companies":
         return <BusinessIcon />
       case "moreActions":
-        return <MoreIcon />
+        return <MoreVertIcon />
       default:
           return null;
       }
@@ -198,11 +199,11 @@ const MiniDrawer = (props) => {
 
   return (
     <>
-      <Drawer variant="permanent" style={{ height: "100vh" }} className="mini-drawer">
+      <Drawer variant="permanent" className="all-heigth mini-drawer">
         <AvatarHeader
           logout={() => { logOut() }}
         />
-        <Grid container  className="mini-drawer" style={{ height: "87vh" }}>
+        <Grid container className="mini-drawer" style={{ height: "87vh" }}>
           <Grid item xs={12} style={{height:'8vh', minHeight:'70px'}}>
             <div className="mini-drawer-sections">
               <AppBar position="static" className="mini-drawer-options">

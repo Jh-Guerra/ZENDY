@@ -24,9 +24,6 @@ import CustomTable from 'components/CustomTable';
 
 
 const useStyles = makeStyles((theme) => ({
-  root: {
-    height: '100vh',
-  },
   reportBtn: {
     fontSize: '15px',
     width: '200px',
@@ -193,7 +190,7 @@ const ErrorInfoPage = props => {
   return (
     <>
       {/* <CssBaseline /> */}
-      <Grid container className={classes.root}>
+      <Grid container className="all-heigth">
         <Grid item xs={12} className="report-form">
           <Grid item xs={12} className="top-header"></Grid>
           {

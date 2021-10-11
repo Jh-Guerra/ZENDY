@@ -26,8 +26,8 @@ import { Input, InputAdornment } from "@material-ui/core";
 
   render() {
     return (
-        <div className="mini-drawer-content" style={{minHeight:"80px", height:"80px", padding:"0px 0px 0px 0px"}}>
-            <div className="mini-drawer-user" >
+        <div className="item-row-content" style={{minHeight:"80px", height:"80px", padding:"0px 0px 0px 0px"}}>
+            <div className="item-row-user" >
               <div style={{width:"80%", height:"80%"}}>
                   <div className=".align-items-center" style={{alignItems:"center", justifyContent:"center", marginTop:"30px"}}>
                   <InputAdornment position="start">

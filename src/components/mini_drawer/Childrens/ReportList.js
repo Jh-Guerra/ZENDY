@@ -38,7 +38,7 @@ class ReportList extends Component {
   render() {
     const { classes } = this.props;
     return (  
-      <div className="mini-drawer-chatlist">  
+      <div>  
       <br />
           <div className="chatlist__heading">
             <span className="divider-line"></span>

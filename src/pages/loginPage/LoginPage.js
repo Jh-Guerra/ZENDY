@@ -31,7 +31,6 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   root: {
-    height: '100vh',
     marginBottom: theme.spacing(1)
   },
   image:{
@@ -183,7 +182,7 @@ const LoginPage = props => {
   return (
     <>
       <CssBaseline />
-      <Grid container className={classes.root}>
+      <Grid container className="all-heigth">
         <Grid container alignItems="center" justify="center" item xs={4} className="login-logo">
           <img src={LogoZendy} className={classes.image}/>
         </Grid>
@@ -191,7 +190,7 @@ const LoginPage = props => {
           <Grid item xs={12} />
           <div className={classes.paper}>
             <Typography variant="h4" className={classes.loginTitle}>
-              LOGIN
+              ZENDY
             </Typography>
             <form className={classes.form}>
               <CssTextField
