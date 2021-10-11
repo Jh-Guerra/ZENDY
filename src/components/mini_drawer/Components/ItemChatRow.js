@@ -43,7 +43,7 @@ const ItemChatRow = (props) => {
   const onClickAction = (chat) => {
     props.goToChat && props.goToChat(chat);
   }
-
+  const bold = chat.participation && chat.participation.pendingMessages && chat.participation.pendingMessages != 0 ;
   var iconStatus;
   return (
     <div className="item-row-content" onClick={() => { onClickAction(chat) }}>
@@ -55,11 +55,11 @@ const ItemChatRow = (props) => {
         />
         <div style={{ width: "80%" }}>
           <div className="chat-mini-details">
-          <Typography style={{ fontSize:textTitulo, wordWrap: "break-word" }}>{name}</Typography>
-            <span className="chat-mini-time">{hour}</span>
+          <Typography style={{ fontSize:textTitulo, wordWrap: "break-word" , fontWeight: bold ? 'bold' : '' }}>{name}</Typography>
+            <span className="chat-mini-time" style={{fontWeight: bold ? 'bold' : '' }}>{hour}</span>
           </div>
-          <div className="chat-mini-details">
-            <p style={{ fontSize:textDescripcion, color: "silver" }}>
+          <div className="chat-mini-details">          
+            <p style={{ fontSize:textDescripcion, color: "white", fontWeight: bold ? 'bold' : '' }}>
               {
                 message ? ( prefixMessage + " " + message ) : " "
               }
