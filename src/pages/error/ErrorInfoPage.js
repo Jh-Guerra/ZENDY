@@ -172,6 +172,13 @@ const ErrorInfoPage = props => {
     setShowNewCompanyNotification(true)
   }
 
+  const openImage = () => {
+    if(error.image){
+      const imagePath = config.api + error.image;
+      window.open(imagePath, "_blank")
+    }
+  }
+
   return (
     <>
       {/* <CssBaseline /> */}
@@ -225,16 +232,18 @@ const ErrorInfoPage = props => {
 
                       {
                         error.file && (
-                          <Grid item xs={12} style={{ textAlign: "left", marginTop: '15px' }}>
+                          <Grid item xs={6} style={{ textAlign: "left", marginTop: '15px' }}>
                             <span className={classes.fontError} style={{ fontWeight: 'bold', fontStyle: 'italic', alignItems: 'flex-end' }} >Archivo Adjunto:</span>
-                            <Button variant="contained"
-                              style={{ marginLeft: "10px" }}
-                              href={(config.api + error.file)} target="_blank"
-                              endIcon={<GetAppIcon />}
-                              color="primary"
-                            >
-                              Descargar
-                            </Button>
+                            <p style={{textAlign:"flex-start"}}>
+                              <Button variant="contained"
+                                style={{ marginLeft: "0px" }}
+                                href={(config.api + error.file)} target="_blank"
+                                endIcon={<GetAppIcon />}
+                                color="primary"
+                              >
+                                Descargar
+                              </Button>
+                            </p>
                           </Grid>
                         )
                       }
@@ -277,20 +286,13 @@ const ErrorInfoPage = props => {
                   </Grid>
 
                   <Grid item xs={6}>
-                    <Box
-                      display='flex'
-                      justifyContent='center'
-                      alignItems='center'
-                      style={{ height: "100%", width: "100%", }}>
-                      <a href={error.image ? (config.api + error.image) : defaultImage} target="_blank">
-                        <Avatar
-                          variant="rounded"
-                          style={{ height: "70%", width: "70%", }}
-                          src={error.image ? (config.api + error.image) : defaultImage}
-                          href={error.image ? (config.api + error.image) : defaultImage}
-                          target="_blank"
-                        />
-                      </a>
+                    <Box>
+                      <Avatar
+                        variant="rounded"
+                        style={{ height: "60%", width: "60%", justifyContent:'flex-end', alignItems:'flex-end', marginLeft:"30%", marginTop:"5%", cursor: error.image ? "pointer" : "default" }}
+                        src={error.image ? (config.api + error.image) : defaultImage}
+                        onClick={openImage}
+                      />
                     </Box>
                   </Grid>
                 </Grid>
