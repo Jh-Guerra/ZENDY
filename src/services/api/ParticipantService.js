@@ -23,7 +23,7 @@ class ParticipantService {
     }
 
     async deleteParticipant(data) {
-        return await axios.delete( getCustomUrl(apiPrefix, `/delete`), data, defaultHeaders());
+        return await axios.post( getCustomUrl(apiPrefix, `/delete`), data, defaultHeaders());
     }
 
     async resetPendingMessages(idChat) {

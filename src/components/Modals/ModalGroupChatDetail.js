@@ -49,7 +49,7 @@ const ModalGroupChatDetail = props => {
     setShowAddToConversation(true);
   }
   
-  const RemoveParticipant = (idUser,idChat) => {
+  const RemoveParticipant = (idUser, idChat) => {
     props.dispatch(deleteParticipant({idUser,idChat})).then(res => {
       if(res){
         onGetChatData(chat.id);
