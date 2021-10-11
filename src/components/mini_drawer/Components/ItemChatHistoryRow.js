@@ -4,6 +4,7 @@ import { Typography } from "@material-ui/core";
 import ItemAvatar from "./ItemAvatar";
 import { getImageProfile, getSessionInfo } from 'utils/common';
 import moment from 'moment';
+import { textDescripcion, textTitulo } from "assets/styles/zendy-css";
 
 const ItemChatHistoryRow = (props) => {
   const session = getSessionInfo();
@@ -19,7 +20,7 @@ const ItemChatHistoryRow = (props) => {
   }
 
 
-  var name = chat.name || "";
+  var name =  chat.name && chat.name.length > 33 ? chat.name.substring(0,30) + "..." : chat.name || "";
   var image;
   var defaultImageType;
   var isOnline = '';
@@ -34,8 +35,7 @@ const ItemChatHistoryRow = (props) => {
     isOnline = receiver.user && receiver.user.isOnline ? "active" : "";
   }
 
-  const message = chat.lastMessage && chat.lastMessage.message || '';
- // const hour = (chat.lastMessage && chat.lastMessage.finalizeDate) ? (OneDayAgo(chat.lastMessage.finalizeDate) ? moment().format("DD/MM/YYYY") : moment().format('LT')) : " ";
+  const message = chat.lastMessage && chat.lastMessage.message  && chat.lastMessage.message.length > 48 ? chat.lastMessage.message.substring(0,45) + "..." :  (chat.lastMessage && chat.lastMessage.message) || "";
   const hour = (chat && chat.finalizeDate) ? (OneDayAgo(chat.finalizeDate) ? moment(chat.finalizeDate*1000).format("DD/MM/YYYY") : moment(chat.finalizeDate*1000).format('LT')) : " ";
   const lastMessageUser = chat.lastMessageUser || {};
   const prefixMessage = lastMessageUser.id == user.id ? "Tú :" : (chat.scope == "Grupal" ? (lastMessageUser.firstName + " " + lastMessageUser.lastName) : "");
@@ -53,22 +53,15 @@ const ItemChatHistoryRow = (props) => {
         />
         <div style={{ width: "80%" }}>
           <div className="chat-mini-details">
-          <Typography noWrap style={{ fontSize:"17px", wordWrap: "break-word" }}>{name}</Typography>
+          <Typography noWrap style={{ fontSize:textTitulo, wordWrap: "break-word" }}>{name}</Typography>
             <span className="chat-mini-time">{hour}</span>
           </div>
           <div className="chat-mini-details">
-            <p style={{ fontSize: "16px", color: "silver" }}>
+            <p style={{ fontSize:textDescripcion, color: "silver" }}>
               {
                 message ? ( prefixMessage + " " + message ) : " "
               }
             </p>
-            {/* {
-              chat.participation && chat.participation.pendingMessages && (
-                <p style={{ fontSize: "14px" }} className="border-number">
-                  {chat.participation.pendingMessages}
-                </p>
-              )
-            } */}
           </div>
         </div>
       </div>

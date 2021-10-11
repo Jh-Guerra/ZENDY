@@ -92,8 +92,6 @@ const ModalGroupChatDetail = props => {
   var quantityParticipants = chat && chat.participants && chat.participants.length;
   const dateFinalize = Math.floor(new Date(chat.finalizeDate).getTime()* 1000) && moment(Math.floor(new Date(chat.finalizeDate).getTime()* 1000)).format("DD/MM/YYYY");
 
-
-  console.log('chat',chat)
   return (
     <>
     <Modal open={open} handleClose={handleClose} size="lg">

@@ -4,14 +4,15 @@ import config from 'config/Config';
 import ItemAvatar from "./ItemAvatar";
 import { getImageProfile } from 'utils/common';
 import moment from 'moment';
+import { textDescripcion, textTitulo } from "assets/styles/zendy-css";
 
 const ItemQueryRow = (props) => {
 
   const { query={} } = props;
 
   const image =  query.avatar;
-  const description = query.description || "";
-  const reason = query.reason || 0;
+  const description = query.description && query.description.length > 48 ? query.description.substring(0,45) + "..." : query.description || "";
+  const reason = query.reason && query.reason.length > 33 ? query.reason.substring(0,30) + "..." : query.reason || "";
 
   
   const OneDayAgo= (date) => {
@@ -36,10 +37,10 @@ const ItemQueryRow = (props) => {
         />
         <div style={{width:"80%"}}>
             <div className="chat-mini-details">
-              <span style={{fontSize:"18px"}}>{reason}</span>
+              <span style={{fontSize:textTitulo}}>{reason}</span>
               <span className="chat-mini-time">{hour}</span>
             </div>
-            <p style={{fontSize:"16px", color:"silver"}}>
+            <p style={{fontSize:textDescripcion, color:"silver"}}>
               {description}
             </p>
         </div>

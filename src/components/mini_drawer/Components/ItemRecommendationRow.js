@@ -3,6 +3,7 @@ import config from 'config/Config';
 
 import ItemAvatar from "./ItemAvatar";
 import { getImageProfile } from 'utils/common';
+import { textDescripcion, textTitulo } from "assets/styles/zendy-css";
 
 const ItemRecommendationRow = (props) => {
   const { recommendation={} } = props;
@@ -23,9 +24,9 @@ const ItemRecommendationRow = (props) => {
         />
         <div style={{width:"80%"}}>
             <div className="chat-mini-details">
-              <span style={{fontSize:"18px"}}>{name}</span>
+              <span style={{fontSize:textTitulo}}>{name}</span>
             </div>
-            <p style={{fontSize:"16px", color:"silver"}}>
+            <p style={{fontSize:textDescripcion, color:"silver"}}>
               {recommendation.queryReason || ""}
             </p>
         </div>

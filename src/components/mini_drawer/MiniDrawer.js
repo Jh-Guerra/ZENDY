@@ -202,7 +202,7 @@ const MiniDrawer = (props) => {
         <AvatarHeader
           logout={() => { logOut() }}
         />
-        <Grid container style={{ height: "87vh", width: '450px'}}>
+        <Grid container  className="mini-drawer" style={{ height: "87vh" }}>
           <Grid item xs={12} style={{height:'8vh', minHeight:'70px'}}>
             <div className="mini-drawer-sections">
               <AppBar position="static" className="mini-drawer-options">

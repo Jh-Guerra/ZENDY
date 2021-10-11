@@ -11,3 +11,7 @@ export const successButtonColor = "#158851";
 
 // Buttons chat
 export const ButtonColor = "white";
+
+// tamaño item chat
+export const textTitulo = "15px";
+export const textDescripcion = "12px";
