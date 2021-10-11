@@ -32,6 +32,7 @@ const MainFooter = props => {
   const [showPreviewFile, setShowPreviewFile] = React.useState(false);
   const [uploadFile, setUploadFile] = React.useState(null);
   const [fileExtension, setFileExtension] = React.useState(null);
+  const [sendingMessage, setSendingMessage] = React.useState(false);
 
   React.useEffect(() => {
     inputRef.current.selectionEnd = cursorPosition;
@@ -51,6 +52,7 @@ const MainFooter = props => {
       return;
     }
 
+    setSendingMessage(true)
     const imageInput = document.querySelector('#upload-image');
     const fileInput = document.querySelector('#upload-file');
 
@@ -60,9 +62,11 @@ const MainFooter = props => {
     formData.append("resend", resend);
     formData.append('image', imageInput.files[0] || null);
     formData.append('file', fileInput.files[0] || null);
-
+    
+    !sendingMessage && (
     props.dispatch(createMessage(formData)).then((res) => {
       setMsg("");
+      setSendingMessage(false)
       setShowEmoji(null);
       setShowPreviewImage(false);
       setShowPreviewFile(false);
@@ -72,11 +76,12 @@ const MainFooter = props => {
       document.getElementById('upload-image').value = "";
       document.getElementById('upload-file').value = "";
     }).catch(error => {
+      setSendingMessage(false)
       setUploadImage(null);
       setUploadFile(null);
       document.getElementById('upload-image').value = "";
       document.getElementById('upload-file').value = "";
-    });
+    }));
   }
 
   const pickEmoji = (e, { emoji }) => {
