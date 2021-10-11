@@ -442,7 +442,7 @@ html, body {
 }
 
 .mini-drawer .MuiPaper-root {
-    overflow-x: hidden;
+    overflow: hidden !important;
 }
 
 .close-session-button:hover {

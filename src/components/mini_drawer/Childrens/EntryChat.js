@@ -147,15 +147,17 @@ const EntryChat = props => {
           />
         </Grid>
         <Grid item xs={12}>
-          {entryQueries.map((query, i) => {
-            return (
-               <ItemQueryRow
-                 key={i}
-                 query={query}
-                 goTo={goTo}
-               />
-            );
-          })}
+          <div style={{height:"34vh", overflowY:"scroll"}}>
+            {entryQueries.map((query, i) => {
+              return (
+                <ItemQueryRow
+                  key={i}
+                  query={query}
+                  goTo={goTo}
+                />
+              );
+            })}
+          </div>
         </Grid>
       </Grid>
       <CustomModal

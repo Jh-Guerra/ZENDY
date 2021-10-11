@@ -88,25 +88,26 @@ const CurrentChat = props => {
           />
         </Grid>
         <Grid item xs={12}>
-          {/* <div className="chat-list-items"> */}
-          <div>
-            {
-              (!chats || chats.lenght == 0) ? (
-                <div className="container-not-found">
-                  <p className="chat-not-found">No se encontró ningún chat</p>
-                </div>
-              ) : (
-                chats && chats.map((chat, i) => {
-                  return (
-                    <ItemChatRow
-                      key={i}
-                      chat={chat}
-                      goToChat={goToChat}
-                    />
-                  );
-                })
-              )
-            }
+          <div className="chat-list-items">
+            <div style={{height: "43vh", overflowY: "scroll"}}>
+              {
+                (!chats || chats.lenght == 0) ? (
+                  <div className="container-not-found">
+                    <p className="chat-not-found">No se encontró ningún chat</p>
+                  </div>
+                ) : (
+                  chats && chats.map((chat, i) => {
+                    return (
+                      <ItemChatRow
+                        key={i}
+                        chat={chat}
+                        goToChat={goToChat}
+                      />
+                    );
+                  })
+                )
+              }
+            </div>
           </div>
         </Grid>
       </Grid>

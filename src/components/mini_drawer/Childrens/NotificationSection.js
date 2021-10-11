@@ -107,7 +107,7 @@ const NotificationSection = (props) => {
                 style={{margin: "0px 0px 20px 0px"}}
                 type="text"
                 value={search}
-                placeholder="Buscar notificación"
+                placeholder="Buscar notificación bbb"
                 onChange={event => onSearch(event.target.value)}
                 disableUnderline
                 startAdornment= {
@@ -138,15 +138,30 @@ const NotificationSection = (props) => {
               }
             </Grid>
             <Grid item xs={12}>
-              {notifications.map((notificationViewed, i) => {
-                return (
-                   <ItemNotificationRow
-                     key={i}
-                     notification={notificationViewed}
-                     goTo={goTo}
-                   />
-                );
-              })}
+              {isAdmin ? 
+                <div style={{height:"40vh", overflowY:"scroll"}}>
+                  {notifications.map((notificationViewed, i) => {
+                    return (
+                      <ItemNotificationRow
+                        key={i}
+                        notification={notificationViewed}
+                        goTo={goTo}
+                      />
+                    );
+                  })}
+                </div> : 
+                <div style={{height:"48vh", overflowY:"scroll"}}>
+                  {notifications.map((notificationViewed, i) => {
+                    return (
+                      <ItemNotificationRow
+                        key={i}
+                        notification={notificationViewed}
+                        goTo={goTo}
+                      />
+                    );
+                  })}
+                </div>
+              }
             </Grid>
           </Grid>
           <CustomModal 

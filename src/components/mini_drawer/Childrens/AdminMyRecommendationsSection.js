@@ -47,15 +47,17 @@ const AdminMyRecommendationsSection = (props) => {
                 </Grid>
                 <br />
                 <Grid item xs={12}>
-                    {recommendations.map((recommendation, i) => {
-                        return (
-                            <ItemRecommendationRow
-                                key={i}
-                                recommendation={recommendation}
-                                goTo={goTo}
-                            />
-                        );
-                    })}
+                    <div style={{height:"62vh", overflowY:"scroll"}}>
+                        {recommendations.map((recommendation, i) => {
+                            return (
+                                <ItemRecommendationRow
+                                    key={i}
+                                    recommendation={recommendation}
+                                    goTo={goTo}
+                                />
+                            );
+                        })}
+                    </div>
                 </Grid>
             </Grid>
         </div>

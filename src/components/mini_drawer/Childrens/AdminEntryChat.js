@@ -78,15 +78,17 @@ const AdminEntryChat = props => {
           />
         </Grid>
         <Grid item xs={12}>
-          {entryQueries.map((query, i) => {
-            return (
-               <ItemQueryRow
-                 key={i}
-                 query={query}
-                 goTo={goTo}
-               />
-            );
-          })}
+          <div style={{height:"53vh", overflowY:"scroll"}}>
+            {entryQueries.map((query, i) => {
+              return (
+                <ItemQueryRow
+                  key={i}
+                  query={query}
+                  goTo={goTo}
+                />
+              );
+            })}
+          </div>
         </Grid>
       </Grid>
     </div>
