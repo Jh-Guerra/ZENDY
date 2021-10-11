@@ -50,7 +50,7 @@ const ItemChatRow = (props) => {
         <ItemAvatar
           isOnline={isOnline}
           image={image ? config.api + image : getImageProfile(defaultImageType)}
-          iconStatus = {true}
+          //iconStatus = {true}
         />
         <div style={{ width: "80%" }}>
           <div className="chat-mini-details">
