@@ -57,7 +57,7 @@ const ItemChatHistoryRow = (props) => {
             <span className="chat-mini-time">{hour}</span>
           </div>
           <div className="chat-mini-details">
-            <p style={{ fontSize:textDescripcion, color: "silver" }}>
+            <p style={{ fontSize:textDescripcion }}>
               {
                 message ? ( prefixMessage + " " + message ) : " "
               }

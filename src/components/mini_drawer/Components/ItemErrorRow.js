@@ -36,7 +36,7 @@ const ItemErrorRow = (props) => {
             <Typography noWrap style={{ fontSize:textTitulo, wordWrap: "break-word" }}>{reason}</Typography>
               <span className="chat-mini-time">{hour}</span>
             </div>
-            <Typography noWrap style={{ fontSize:textDescripcion, wordWrap: "break-word", color:"silver" }}>{description}</Typography>        
+            <Typography noWrap style={{ fontSize:textDescripcion, wordWrap: "break-word" }}>{description}</Typography>        
         </div>
       </div>
     </div>

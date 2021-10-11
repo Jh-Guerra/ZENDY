@@ -36,7 +36,6 @@ const ItemChatRow = (props) => {
 
   const message = chat.lastMessage && chat.lastMessage.message  && chat.lastMessage.message.length > 48 ? chat.lastMessage.message.substring(0,45) + "..." :  (chat.lastMessage && chat.lastMessage.message) || "";
   const hour = (chat.lastMessage && chat.lastMessage.createdDate) ? (OneDayAgo(chat.lastMessage.createdDate) ? moment(chat.lastMessage.createdDate*1000).format("DD/MM/YYYY") : moment(chat.lastMessage.createdDate*1000).format('LT')) : " ";
-
   const lastMessageUser = chat.lastMessageUser || {};
   const prefixMessage = lastMessageUser.id == user.id ? "Tú :" : (chat.scope == "Grupal" ? (lastMessageUser.firstName + " " + lastMessageUser.lastName) : "");
 
@@ -59,7 +58,7 @@ const ItemChatRow = (props) => {
             <span className="chat-mini-time">{hour}</span>
           </div>
           <div className="chat-mini-details">
-            <p style={{ fontSize:textDescripcion, color: "silver" }}>
+            <p style={{ fontSize:textDescripcion }}>
               {
                 message ? ( prefixMessage + " " + message ) : " "
               }

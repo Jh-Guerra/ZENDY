@@ -26,7 +26,7 @@ const ItemRecommendationRow = (props) => {
             <div className="chat-mini-details">
               <span style={{fontSize:textTitulo}}>{name}</span>
             </div>
-            <p style={{fontSize:textDescripcion, color:"silver"}}>
+            <p style={{fontSize:textDescripcion}}>
               {recommendation.queryReason || ""}
             </p>
         </div>
