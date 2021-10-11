@@ -276,23 +276,24 @@ const ErrorInfoPage = props => {
                           
                         }
                         {
-                          (!isClient && error.received) && (
+                          (!isClient && error.received) ? (
                             <Grid item>
                               <Button className={classes.reportBtn} onClick={() => { ShowNewCompanyNotification() }}>Notificar Error Reportado</Button>
                             </Grid>
-                          )
+                          ) : null
                         }
                         {
-                          (!isClient && !error.received) && (
+                          (!isClient && !error.received) ? (
                             <>
                               <Grid item xs={6}>
                                 <Button className={classes.reportBtn} onClick={() => { ShowConfirmError() }}>Confirmar error</Button>
                               </Grid>
+                              <br />
                               <Grid item xs={6}>
                                 <Button className={classes.reportBtn} onClick={() => { ShowFakeError() }}>Reportar error falso</Button>
                               </Grid>
                             </>
-                          )
+                          ) : null
                         }
                       </Grid>
                     </Box>
