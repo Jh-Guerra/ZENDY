@@ -335,6 +335,7 @@ const ErrorInfoPage = props => {
         idCompany={error.idCompany}
         idError={error.id}
         handleClose={() => { setShowNewCompanyNotification(false); }}
+        onGetErrorData={onGetErrorData}
       />
       <ModalConfirmError
         open={showConfirmError}
