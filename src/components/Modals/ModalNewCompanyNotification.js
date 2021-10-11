@@ -160,8 +160,7 @@ const ModalNewCompanyNotification = (props) => {
         formData.append('image', imageInput.files[0] || '');
         formData.append('file', fileInput.files[0] || '');
         formData.append("allUsersCompany", notification.allUsersCompany)
-        formData.append("idError", notification.idError)
-        formData.append("solved", notification.solved)
+        formData.append("idError", idError)
         formData.append("reason", notification.reason)
         formData.append('description', notification.description)
         formData.append('oldImage', data.image);
@@ -349,7 +348,7 @@ const ModalNewCompanyNotification = (props) => {
                                             <Checkbox
                                                 checked={!!values.solved}
                                                 onChange={() => { setFieldValue("solved", !values.solved);
-                                                                setData({...data,solved:(!values.solved)})}}
+                                                                setData({...values,solved:(!values.solved)})}}
                                                 checkedIcon={<CheckBoxIcon style={{ color: pColor }} />}
                                             />
                                             </Grid>

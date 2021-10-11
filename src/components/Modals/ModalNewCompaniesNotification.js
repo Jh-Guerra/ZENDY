@@ -51,7 +51,6 @@ const ModalNewCompaniesNotification = (props) => {
         companiesNotified: [],
         usersNotified: [],
         idError: "",
-        solved: false,
         image: null,
         file: null
     });
@@ -121,7 +120,6 @@ const ModalNewCompaniesNotification = (props) => {
         formData.append('file', fileInput.files[0] || '');
         formData.append("allUsersCompany", true)
         formData.append("idError", notification.idError)
-        formData.append("solved", notification.solved)
         formData.append("reason", notification.reason)
         formData.append('description', notification.description)
         formData.append('oldImage', data.image);
