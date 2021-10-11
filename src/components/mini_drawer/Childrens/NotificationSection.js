@@ -23,6 +23,7 @@ const NotificationSection = (props) => {
     const [searchTimeout, setSearchTimeout] = React.useState(null);
     const [showNewCompanyNotification, setShowNewCompanyNotification] = React.useState(false);
     const [isPending, setIsPending] =React.useState(false);
+    const [search, setSearch] = React.useState("");
   
     React.useEffect(() => {
       onList("");
@@ -43,10 +44,11 @@ const NotificationSection = (props) => {
     };
 
     const onSearch = term => {
+      setSearch(term)
         clearTimeout(searchTimeout);
         setSearchTimeout(
           setTimeout(() => {
-            onList(term);
+            onList(term, isPending && "Visto" );
           }, 1000)
         );
     };
@@ -70,6 +72,7 @@ const NotificationSection = (props) => {
     const onChangeCheck = (value) => {
 
         setIsPending(!isPending)
+        setSearch("")
         onList('', value ? 'Visto': 'Pendiente')
     }
 
@@ -103,6 +106,7 @@ const NotificationSection = (props) => {
                 className="search_wrap"
                 style={{margin: "0px 0px 20px 0px"}}
                 type="text"
+                value={search}
                 placeholder="Buscar notificación"
                 onChange={event => onSearch(event.target.value)}
                 disableUnderline
