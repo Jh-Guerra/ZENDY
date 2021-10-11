@@ -69,7 +69,7 @@ const CurrentChat = props => {
           </div>
           <br />
         </Grid>
-        <Grid item xs={12} style={{ padding: '0px 10px' }}>
+        <Grid item xs={12} style={{ padding: '10px 10px' }}>
           <Input
             fullWidth
             className="search_wrap"
@@ -88,7 +88,6 @@ const CurrentChat = props => {
           />
         </Grid>
         <Grid item xs={12}>
-          {/* <div className="chat-list-items"> */}
           <div>
             {
               (!chats || chats.lenght == 0) ? (

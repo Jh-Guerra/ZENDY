@@ -33,7 +33,7 @@ import { getImageProfile, getSessionInfo } from "utils/common";
     const user = session && session.user || {};
 
     return (
-        <div className="mini-drawer-content" style={{height:"13vh", minHeight:"110px"}}>
+        <div className="mini-drawer-content" style={{height:"13vh", minHeight:"100px"}}>
             <div className="mini-drawer-user">
               <Avatar
                 isOnline={user.isOnline ? "active" : ""}
