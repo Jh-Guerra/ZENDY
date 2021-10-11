@@ -25,6 +25,7 @@ import ModeCommentIcon from '@material-ui/icons/ModeComment';
 import ForumIcon from '@material-ui/icons/Forum';
 import NotificationsActiveIcon from '@material-ui/icons/NotificationsActive';
 import TextsmsIcon from '@material-ui/icons/Textsms';
+import BusinessIcon from '@material-ui/icons/Business';
 
 const moreActionSection = { name:"moreActions", title:"Más Opciones", order:5, active: true};
 
@@ -169,7 +170,7 @@ const MiniDrawer = (props) => {
       case "companyUsers":
         return <PeopleIcon />
       case "companies":
-        return <CompaniesIcon />
+        return <BusinessIcon />
       case "moreActions":
         return <MoreIcon />
       default:
