@@ -42,7 +42,9 @@ import { getImageProfile, getSessionInfo } from "utils/common";
               />
               <div>
                 <div>               
-                <Typography style={{fontSize:'19px'}}>{`${user.firstName} ${user.lastName}`}</Typography>               
+                <Typography style={{fontSize:'19px'}}>{
+                  (`${user.firstName} ${user.lastName}`).length > 35 ? (`${user.firstName} ${user.lastName}`).substring(0,32) + "..." : (`${user.firstName} ${user.lastName}`) 
+                }</Typography>               
                 </div>
                 <Button className="close-session-button" variant="outlined" size="small" onClick={() => (this.props.logout())}>Cerrar Sesión</Button>
               </div>
