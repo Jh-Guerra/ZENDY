@@ -27,7 +27,7 @@ const ItemCompanyRow = (props) => {
             <div className="chat-mini-details">
               <span style={{fontSize:"18px"}}>{name}</span>
             </div>
-            <p style={{fontSize:"16px", color:"silver"}}>
+            <p style={{fontSize:"16px"}}>
               {usersCount} usuarios
             </p>
         </div>

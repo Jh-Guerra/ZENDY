@@ -455,10 +455,11 @@ html, body {
     flex-direction: row;
     color: #fff;
     padding: 5px 10px 5px 10px;
+    align-items: center;
 
     p {
         font-size: large;
-        margin: 7px 10px;
+        margin: 0px 0px;
         font-size: 25px;
     }
 
@@ -482,7 +483,6 @@ html, body {
 .item-avatar-content {
     width: 60px;
     height: 60px;  
-    margin-right: 5px;
     position: relative;
 }
   
@@ -491,9 +491,10 @@ html, body {
     z-index: 1;
     object-fit: cover;
     border-radius: 50%;
-    width: 85%;
-    height: 85%;
-    transform: translate(10%, 10%) 
+    width: 75%;
+    height: 75%;
+    transform: translate(10%, 10%);
+    margin-top: 3.5px;
 }
   
 .item-is-online {
@@ -537,7 +538,6 @@ html, body {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    margin-top: 2px;
     .border-number{
       background: #22B86C;
       border-radius: 0.8em;
@@ -549,7 +549,7 @@ html, body {
 .chat-mini-time {
     font-size: 10px;
     padding-top: 6px;
-    color: silver;
+    color: "whitesmoke";
 }
   
   .search_wrap {

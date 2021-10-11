@@ -40,7 +40,7 @@ const ItemQueryRow = (props) => {
               <span style={{fontSize:textTitulo}}>{reason}</span>
               <span className="chat-mini-time">{hour}</span>
             </div>
-            <p style={{fontSize:textDescripcion, color:"silver"}}>
+            <p style={{fontSize:textDescripcion}}>
               {description}
             </p>
         </div>
