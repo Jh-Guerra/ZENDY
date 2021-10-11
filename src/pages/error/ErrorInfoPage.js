@@ -310,11 +310,11 @@ const ErrorInfoPage = props => {
                   </Grid>
                 </Grid>
                 {
-                  (error.Notifications && error.Notifications.length > 0) ?
+                  (error.notifications && error.notifications.length > 0) ?
                     <Grid item xs={12}>
                       <Box display='flex' flexDirection='column' style={{ height: "100%", width: "100%", textAlign: "left",  padding: '0vh 9vh' }}>
-                        <span className={classes.fontError} style={{ fontWeight: 'bold', fontStyle: 'italic', textAlign: 'center' }} >{error.Notifications && error.Notifications.length == 1 ? "Notificación" : "Notificaciones"}</span>
-                        <CustomTable columns={columns} rows={error.Notifications} onRowClick={showDetails}/>
+                        <span className={classes.fontError} style={{ fontWeight: 'bold' }} >{error.notifications && error.notifications.length == 1 ? "Notificación" : "Notificaciones"}</span>
+                        <CustomTable columns={columns} rows={error.notifications} onRowClick={showDetails}/>
                       </Box>
                     </Grid> : null
                 }
