@@ -63,12 +63,26 @@ const ModalNewCompanyNotification = (props) => {
         file: null
     });
 
+    const [newData, setNewData] = React.useState({
+        id: null,
+        reason: "",
+        description: "",
+        allUsersCompany: false,
+        companiesNotified: [],
+        usersNotified: [],
+        idError: "",
+        solved: false,
+        image: null,
+        file: null
+    });
+
     React.useEffect(() => {
         if(open){
-            if(notification && notification.id){
-                setData({...notification});
-                setCompanyId(notification.companiesNotified[0]);
-                onListUsersByCompany(notification.companiesNotified[0], "");
+            if(newData && newData.id){
+                setData({...data});
+                setNewData({...newData});
+                setCompanyId(newData.companiesNotified[0]);
+                onListUsersByCompany(newData.companiesNotified[0], "");
                 onListCompanies(true);
             }else{
                 idCompany ? onListByCompany(idCompany) :  onListCompanies(false);
@@ -93,6 +107,7 @@ const ModalNewCompanyNotification = (props) => {
             if(res && res[0] && !isEdit){
                 setCompanyId(res[0].id || null);
                 setData({...data, companiesNotified: [...data.companiesNotified, res[0].id]});
+                setNewData({...newData, companiesNotified: [...newData.companiesNotified, res[0].id]});
                 onListUsersByCompany(res[0].id, "");
             }
             props.dispatch(showBackdrop(false));
@@ -108,6 +123,11 @@ const ModalNewCompanyNotification = (props) => {
                 setData({
                     ...data,
                     companiesNotified: [...data.companiesNotified, idCompany],
+                    idError: idError
+                });   
+                setNewData({
+                    ...newData,
+                    companiesNotified: [...newData.companiesNotified, idCompany],
                     idError: idError
                 });
                 onListUsersByCompany(idCompany, "");
@@ -147,8 +167,8 @@ const ModalNewCompanyNotification = (props) => {
         }
     }
 
-    const onSubmit = (notification, { setSubmitting }) => {
-        if(!notification.usersNotified || notification.usersNotified.length == 0)
+    const onSubmit = () => {
+        if(!newData.usersNotified || newData.usersNotified.length == 0)
             return props.dispatch(showSnackBar('warning', 'Necesita seleccionar al menos algún usuario'));
 
         props.dispatch(showBackdrop(true));
@@ -156,27 +176,27 @@ const ModalNewCompanyNotification = (props) => {
         const fileInput = document.querySelector('#file') ;
 
         const formData = new FormData();
-        if(notification.id) formData.append('id', notification.id);
+        if(newData.id) formData.append('id', newData.id);
         formData.append('image', imageInput.files[0] || '');
         formData.append('file', fileInput.files[0] || '');
-        formData.append("allUsersCompany", notification.allUsersCompany)
+        formData.append("allUsersCompany", newData.allUsersCompany)
         formData.append("idError", idError)
-        formData.append("reason", notification.reason)
-        formData.append('description', notification.description)
-        formData.append('oldImage', data.image);
+        formData.append("reason", newData.reason)
+        formData.append('description', newData.description)
+        formData.append('oldImage', newData.image);
         
 
-        for (var i = 0; i < notification.companiesNotified.length; i++) {
-            formData.append('companiesNotified[]', notification.companiesNotified[i]);
+        for (var i = 0; i < newData.companiesNotified.length; i++) {
+            formData.append('companiesNotified[]', newData.companiesNotified[i]);
         }
 
-        for (var i = 0; i < notification.usersNotified.length; i++) {
-            formData.append('usersNotified[]', notification.usersNotified[i]);
+        for (var i = 0; i < newData.usersNotified.length; i++) {
+            formData.append('usersNotified[]', newData.usersNotified[i]);
         }
 
-        if(notification.id){
+        if(newData.id){
             // Update
-            props.dispatch(updateNotification(notification.id, formData)).then(res => {
+            props.dispatch(updateNotification(newData.id, formData)).then(res => {
                 props.dispatch(showSnackBar('success', 'Notificación actualizada'));
                 props.dispatch(showBackdrop(false));
                 onSaveForm && onSaveForm(res.notification);
@@ -187,18 +207,18 @@ const ModalNewCompanyNotification = (props) => {
                 props.dispatch(showSnackBar('success', 'Notificación enviada'));
                 props.dispatch(showBackdrop(false));
                 onSaveForm && onSaveForm();
-                if(notification.solved){
+                if(newData.solved){
                     history.push("/notificaciones/" + res.notification.id);
                 }else{                   
                     idCompany ? onListByCompany(idCompany) :  onListCompanies(false);
-                    onGetErrorData && onGetErrorData(notification.idError);
+                    onGetErrorData && onGetErrorData(newData.idError);
                 }               
                 handleClose(false);
             }).catch(error => { props.dispatch(showBackdrop(false)); props.dispatch(showSnackBar("error", error.message || "")); });
         }
         
         if(idError){
-            notification.solved && props.dispatch(errorSolved(idError))
+            newData.solved && props.dispatch(errorSolved(idError))
         }
     }
 
@@ -208,6 +228,7 @@ const ModalNewCompanyNotification = (props) => {
             if(res.notification){
               setImageUrl(null);
               setData({...values, image: ""});
+              setNewData({...values, image: ""});
               document.getElementById('image').value = "";
               props.dispatch(showSnackBar('warning', 'Imagen eliminada'));
             }
@@ -215,6 +236,7 @@ const ModalNewCompanyNotification = (props) => {
         }else{
           setImageUrl(null);
           setData({...values, image:null});
+          setNewData({...values, image:null});
           document.getElementById('image').value = "";
         }
       }
@@ -227,7 +249,7 @@ const ModalNewCompanyNotification = (props) => {
         >
             <ModalHeader 
                 icon={<NotificationsIcon />}
-                text={notification.id ? "Actualizar Notificación" : ( headerText ? headerText : "Nueva notificación para 1 empresa") }
+                text={newData.id ? "Actualizar Notificación" : ( headerText ? headerText : "Nueva notificación para 1 empresa") }
             />
 
             <ModalBody>
@@ -245,11 +267,16 @@ const ModalNewCompanyNotification = (props) => {
                                             setCompanyId(event.target.value);
                                             setFieldValue("companiesNotified", [event.target.value]);
                                             setFieldValue("allUsersCompany", false);
+                                            setNewData({ 
+                                                ...newData,
+                                                companiesNotified: [event.target.value],
+                                                allUsersCompany: false 
+                                            });
                                             onListUsersByCompany(event.target.value, "");
                                         }}
                                         value={companyId}
                                         options={companies}
-                                        disabled={!editMode || !!notification.id || !!idCompany}
+                                        disabled={!editMode || !!newData.id || !!idCompany}
                                     />
                                 </Grid>
                                 <Grid item xs={12}>
@@ -259,15 +286,27 @@ const ModalNewCompanyNotification = (props) => {
                                             checked={!!values.allUsersCompany}
                                             onChange={(event) => { 
                                                 setFieldValue("allUsersCompany", !values.allUsersCompany);
+                                                setNewData({
+                                                    ...newData,
+                                                    allUsersCompany: !values.allUsersCompany
+                                                });
                                                 if(!values.allUsersCompany){
                                                     setFieldValue("usersNotified", [...users.map(user => user.id) ]);
+                                                    setNewData({
+                                                        ...newData,
+                                                        usersNotified: [...users.map(user => user.id)] 
+                                                    });
                                                 }else{
                                                     setFieldValue("usersNotified", []);
+                                                    setNewData({
+                                                        ...newData,
+                                                        usersNotified: []
+                                                    });
                                                 }
                                                 
                                             }}
                                             checkedIcon={<CheckBoxIcon style={{ color: pColor }} />}
-                                            disabled={users.length==0 || !!notification.id}
+                                            disabled={users.length==0 || !!newData.id}
                                         />
                                     </Grid>
                                 </Grid>
@@ -287,11 +326,19 @@ const ModalNewCompanyNotification = (props) => {
                                                 }
 
                                                 setFieldValue("usersNotified", newUsersNotified);
+                                                setNewData({
+                                                    ...newData,
+                                                    usersNotified: newUsersNotified
+                                                });
                                                 setFieldValue("allUsersCompany", newUsersNotified.length == users.length);
+                                                setNewData({
+                                                    ...newData,
+                                                    allUsersCompany: newUsersNotified.length == users.length
+                                                });
                                             }
 
                                             return (
-                                                <ListItem key={i} button divider onClick={() => { onSelectUser(user.id) }} disabled={!!notification.id}>
+                                                <ListItem key={i} button divider onClick={() => { onSelectUser(user.id) }} disabled={!!newData.id}>
                                                     <ListItemAvatar>
                                                         <Avatar alt="" src={user.avatar ? (config.api+user.avatar) : getImageProfile(defaultImageType)} />
                                                     </ListItemAvatar>
@@ -305,7 +352,7 @@ const ModalNewCompanyNotification = (props) => {
                                                             onChange={() => {onSelectUser(user.id)}}
                                                             icon={<RadioButtonUncheckedIcon />}
                                                             checkedIcon={<RadioButtonCheckedIcon style={{ color: pColor }} />}
-                                                            disabled={!!notification.id}
+                                                            disabled={!!newData.id}
                                                         />
                                                     </ListItemSecondaryAction>
                                                     </ListItem>
@@ -329,7 +376,13 @@ const ModalNewCompanyNotification = (props) => {
                                         id="reason"
                                         custom="inputText"
                                         label="Asunto"
-                                        onChange={handleChange}
+                                        //onChange={handleChange}
+                                        onChange={(event) => {
+                                            setFieldValue("reason", event.target.value)
+                                            setNewData({
+                                            ...newData,
+                                            reason: event.target.value
+                                        })}}
                                         value={values.reason}
                                         error={ errors.reason && touched.reason ? true : false }
                                         icon={<SubtitlesIcon />}
@@ -341,7 +394,13 @@ const ModalNewCompanyNotification = (props) => {
                                         id="description"
                                         custom="textArea"
                                         label="Descripcion"
-                                        onChange={handleChange}
+                                        //onChange={handleChange}
+                                        onChange={(event) => {
+                                            setFieldValue("description", event.target.value)
+                                            setNewData({
+                                            ...newData,
+                                            description: event.target.value
+                                        })}}
                                         value={values.description}
                                         error={ errors.description && touched.description ? true : false }
                                     />
@@ -354,7 +413,13 @@ const ModalNewCompanyNotification = (props) => {
                                             <Checkbox
                                                 checked={!!values.solved}
                                                 onChange={() => { setFieldValue("solved", !values.solved);
-                                                                setData({...values,solved:(!values.solved)})}}
+                                                                    setData({...values,solved:(!values.solved)})
+                                                                    setNewData({
+                                                                        ...newData,
+                                                                        solved: !values.solved
+                                                                    })
+                                                                }}
+                                                                    
                                                 checkedIcon={<CheckBoxIcon style={{ color: pColor }} />}
                                             />
                                             </Grid>
@@ -378,7 +443,7 @@ const ModalNewCompanyNotification = (props) => {
                                         src={imageUrl ? imageUrl : (config.api + values.image)}
                                     />
                                     {
-                                        editMode && values.image && <HighlightOffTwoToneIcon style={{color: 'red', display: (imageUrl || values.image) ? "flex" : "none"}} onClick={() => { deleteImage( ((values.image).substr(8)), data.id, values)  }}/>
+                                        editMode && values.image && <HighlightOffTwoToneIcon style={{color: 'red', display: (imageUrl || values.image) ? "flex" : "none"}} onClick={() => { deleteImage( ((values.image).substr(8)), newData.id, values)  }}/>
                                     }
                                 </Grid>
                                 <Grid item xs={12} container>
@@ -392,21 +457,21 @@ const ModalNewCompanyNotification = (props) => {
                                         </Button>
                                     </Grid>
                                 </Grid>
-                            </Grid>
-
-                            <Divider style={{ marginTop: "20px" }} />
-                            <ModalFooter
-                                buttonType="submit"
-                                confirmText={!!notification.id ? "Guardar" : "Enviar"}
-                                cancelText={"Cancelar"}
-                                onCancel={handleClose}
-                            />
+                            </Grid>                           
                         </Form>
                         );
                     }}
                 </Formik>
                 
             </ModalBody>
+
+            <ModalFooter
+                //buttonType="submit"
+                confirmText={!!data.id ? "Guardar" : "Enviar"}
+                cancelText={"Cancelar"}
+                onCancel={handleClose}
+                onConfirm={onSubmit}
+            />
         </Modal>
     )
 }
