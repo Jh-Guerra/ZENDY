@@ -33,6 +33,7 @@ class NewChatCall extends Component {
                 fullWidth
                 onClick={() => this.handleClickOpen()}
                 variant="contained"
+                color="secondary"
                 startIcon={<RateReviewIcon />}
               >
                 Buscar Chat
@@ -43,6 +44,7 @@ class NewChatCall extends Component {
                 fullWidth
                 onClick={() => this.handleClickOpen()}
                 variant="contained"
+                color="secondary"
                 disabled
                 startIcon={<RateReviewIcon />}
               >

@@ -1,11 +1,12 @@
 import { withStyles, Checkbox } from '@material-ui/core';
+import { sColor } from 'assets/styles/zendy-css';
 import React from 'react';
 
 const CustomCheckboxTag = withStyles({
     root: {
-      color: "#EB8D48",
+      color: sColor,
       '&$checked': {
-        color: "#EB8D48",
+        color: sColor,
       },
     },
     checked: {},

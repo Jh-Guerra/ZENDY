@@ -1,14 +1,21 @@
 import React from 'react';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import { red } from '@material-ui/core/colors';
-import { pColor, sColor } from 'assets/styles/zendy-css';
+import { pColor, pLetterColor, sColor, pColorDark } from 'assets/styles/zendy-css';
 
 const theme = createMuiTheme({
   palette: {
     contrastThreshold: 3,
     tonalOffset: 0.2,
-    primary: {main: pColor},
-    // secondary: {main: sColor},
+    primary: {
+      main: pColor,
+      dark: pColorDark,
+      contrastText: pLetterColor
+    },
+    secondary: {
+      main: sColor,
+      contrastText: pLetterColor
+    },
   },
 });
 

@@ -84,10 +84,12 @@ const ReportedErrorSection = props => {
               }
             />
           </Grid>
-          <Grid item xs={12}>
-              {errorRx.error && errorRx.error.map((error, i) => {
-                return <ItemErrorRow key={i} error={error} goTo={goTo} />;
-              })}
+          <Grid item xs={12} style={{ minHeight: '550px' }}>
+            <div style={{height: "46vh", overflowY: "scroll", marginTop:"15px"}}>
+                {errorRx.error && errorRx.error.map((error, i) => {
+                  return <ItemErrorRow key={i} error={error} goTo={goTo} />;
+                })}
+            </div>
           </Grid>
         </Grid>
       </Grid>

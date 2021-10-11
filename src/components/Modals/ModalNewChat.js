@@ -13,16 +13,9 @@ import CustomModal from "components/Modals/common/CustomModal";
 import { useHistory } from 'react-router-dom';
 import { checkPermission, getSessionInfo } from 'utils/common';
 
-const useStyles = makeStyles(theme => ({
-    button: {
-        margin: theme.spacing(1),
-    },
-}));
-
 const ModalNewChat = (props) => {
 
     const history = useHistory();
-    const classes = useStyles();
     const session = getSessionInfo();
 
     
@@ -61,45 +54,42 @@ const ModalNewChat = (props) => {
                         {
                             session && session.user && session.user.idCompany ? (
                                 <Grid item xs={12}>
-                                    <CustomButton 
-                                        variant="contained"
+                                    <Button
                                         fullWidth
-                                        className={classes.button}
-                                        startIcon={<SupervisedUserCircleIcon />}
-                                        color={successButtonColor}
                                         onClick={handleNewCustomerChatOpen}
+                                        variant="contained"
+                                        color="secondary"
+                                        startIcon={<SupervisedUserCircleIcon />}
                                     >
                                         En la Empresa
-                                    </CustomButton>
+                                    </Button>
                                 </Grid>
                             ) : (
                                 <Grid item xs={12}>
-                                    <CustomButton 
-                                        variant="contained"
+                                    <Button
                                         fullWidth
-                                        className={classes.button}
-                                        startIcon={<BusinessIcon />}
-                                        color={successButtonColor}
                                         onClick={handleNewCompanyChat}
+                                        variant="contained"
+                                        color="secondary"
+                                        startIcon={<BusinessIcon />}
                                     >
                                         En alguna Empresa
-                                    </CustomButton>
+                                    </Button>
                                 </Grid>
                             )
                         }
                         {
                             checkPermission(session, "showInternalChat") && (
                                 <Grid item xs={12}>
-                                    <CustomButton 
-                                        variant="contained"
+                                    <Button
                                         fullWidth
-                                        className={classes.button}
-                                        startIcon={<PersonIcon />}
-                                        color={successButtonColor}
                                         onClick={handleNewTerminalChat}
+                                        variant="contained"
+                                        color="secondary"
+                                        startIcon={<PersonIcon />}
                                     >
                                         Interno
-                                    </CustomButton>
+                                    </Button>
                                 </Grid>
                             )
                         }

@@ -84,9 +84,11 @@ const AdminErrorSection = props => {
           <br />
           <Grid item xs={12} style={{ minHeight: '550px' }}>
             <div className="chat-list-items">
-              {errorRx.error && errorRx.error.map((error, i) => {
-                return <ItemErrorRow key={i} error={error} goTo={goTo} />;
-              })}
+              <div style={{height:"51vh", overflowY:"scroll"}}>
+                {errorRx.error && errorRx.error.map((error, i) => {
+                  return <ItemErrorRow key={i} error={error} goTo={goTo} />;
+                })}
+              </div>
             </div>
           </Grid>
         </Grid>

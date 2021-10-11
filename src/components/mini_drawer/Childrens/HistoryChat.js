@@ -142,7 +142,7 @@ const HistoryChat = props => {
             />
           </Grid>
           <Grid item xs={12}>
-            <div>
+            <div style={{height:"46vh", overflowY:"scroll", marginTop:"20px"}}>
               {
                 isEmpty ? (
                   <div className="container-not-found">

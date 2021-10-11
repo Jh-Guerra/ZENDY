@@ -1,4 +1,4 @@
-import { Grid } from '@material-ui/core';
+import { Button, Grid } from '@material-ui/core';
 import React, { Component } from 'react';
 import RateReviewIcon from '@material-ui/icons/RateReview';
 import CustomButton from 'components/CustomButton';
@@ -14,7 +14,7 @@ const TabOptions = (props) => {
   return (
     <>
       <div style={{ borderTop: '0.8px solid', borderColor: 'white' }}>
-        <Grid container spacing={3} style={{ padding: '10px', marginTop: '10px' }}>
+        <Grid container spacing={3} style={{ padding: '10px' }}>
           {
             view=="reportedErrors" && (
               <Grid item xs={6}>
@@ -33,29 +33,29 @@ const TabOptions = (props) => {
           {
             view=="entryQueries" && (
               <Grid container spacing={3} style={{ padding: '10px', marginTop: '10px' }}>
-              <Grid item xs={6}>
-                <CustomButton
-                  fullWidth
-                  onClick={() => { onOpenModal && onOpenModal() }}
-                  variant="contained"
-                  color={successButtonColor}
-                  startIcon={<RateReviewIcon />}
-                >
-                  Iniciar Consulta
-                </CustomButton>
-              </Grid>
-              <Grid item xs={6}>
-              <CustomButton
-                fullWidth
-                onClick={() => { onOpenModal2 && onOpenModal2() }}
-                variant="contained"
-                color={successButtonColor}
-                startIcon={<RateReviewIcon />}
-              >
-                Consulta Frecuente
-              </CustomButton>
-            </Grid>
+                <Grid item xs={6}>
+                  <Button
+                    fullWidth
+                    onClick={() => { onOpenModal && onOpenModal() }}
+                    variant="contained"
+                    color="secondary"
+                    startIcon={<RateReviewIcon />}
+                  >
+                    Iniciar Consulta
+                  </Button>
                 </Grid>
+                <Grid item xs={6}>
+                  <Button
+                    fullWidth
+                    onClick={() => { onOpenModal2 && onOpenModal2() }}
+                    variant="contained"
+                    color="secondary"
+                    startIcon={<RateReviewIcon />}
+                  >
+                    Consulta Frecuente
+                  </Button>
+                </Grid>
+              </Grid>
             )
           }
           {

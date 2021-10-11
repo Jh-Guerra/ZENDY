@@ -58,11 +58,11 @@ const CurrentChat = props => {
 
   return (
     <div style={{ height: "79vh" }}>
-      <Grid container>
-        <Grid item xs={12}>
+      <Grid container style={{height: "100%"}}>
+        <Grid item xs={12} style={{height: "8vh"}}>
           <NewChatCall onSaveForm={onSaveForm} />
         </Grid>
-        <Grid item xs={12}>
+        <Grid item xs={12} style={{height: "5vh"}}>
           <div className="chatlist__heading">
             <span className="divider-line"></span>
             <p className="divider-content">Chats Vigentes </p>
@@ -70,7 +70,7 @@ const CurrentChat = props => {
           </div>
           <br />
         </Grid>
-        <Grid item xs={12} style={{ padding: '10px 10px' }}>
+        <Grid item xs={12} style={{ padding: '10px 10px', height: "7vh" }}>
           <Input
             fullWidth
             className="search_wrap"
@@ -88,8 +88,8 @@ const CurrentChat = props => {
             }
           />
         </Grid>
-        <Grid item xs={12}>
-          <div>
+        <Grid item xs={12} style={{height: "59vh"}}>
+          <div className="items-section">
             {
               (!chats || chats.lenght == 0) ? (
                 <div className="container-not-found">

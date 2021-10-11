@@ -5,9 +5,9 @@ $pLetterColor: White;
 $pIconColor: White;
 
 // Colors
-$pColor: #DF8C34;
-$pColorH: #BD7426;
-$sColor: #A555D6;
+$pColor: #5C1A93;
+$pColorDark: #411368;
+$sColor: #E0741A;
 $tColor: #F39651;
 
 $onLine: #38F909;
@@ -50,6 +50,11 @@ html, body {
     }
 }
 
+.custom-checkbox-text {
+    color: $pLetterColor;
+    margin-left: 10px;
+}
+
 .login-logo{
     background-color: $pColor;
 }
@@ -61,7 +66,7 @@ html, body {
     flex-shrink: 0;
 
     .MuiPaper-root {
-        overflow-x: hidden;
+        overflow: hidden !important;
     }
 }
 
@@ -95,7 +100,7 @@ html, body {
     width: 100%;
     
     button:hover{
-        background-color: $pColorH;
+        background-color: $pColorDark;
         path{
             fill: $pLetterColor;
         } 
@@ -144,6 +149,12 @@ html, body {
         margin: 0px;
     }
 }
+
+.items-section {
+    overflow: auto;
+    height: 100%;
+}
+
 
 /* ===========================        CHAT              =============================================*/
 /* ============================    CHAT HEADER       ============================================*/
@@ -394,12 +405,6 @@ html, body {
   
 .chat-msg {
     user-select: none;
-}
-
-.chat-list-items {
-    margin-top: 20px;
-    overflow: auto;
-    max-height: calc(100vh - calc(100vh / 2.2));
 }
 
 /* ===========================        MENU LATERAL              =============================================*/
