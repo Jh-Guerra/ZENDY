@@ -1,5 +1,6 @@
 {
   "name": "zendy",
+  "homepage": "https://zendy.cl/",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -50,14 +51,7 @@
   "scripts": {
     "start": "react-scripts start",
     "local": "better-npm-run local",
-    "dev": "better-npm-run dev",
-    "dev2": "better-npm-run dev2",
     "build": "react-scripts build",
-    "build:local": "env-cmd -f .env.local npm run build",
-    "build:development": "better-npm-run build-dev",
-    "build:development2": "better-npm-run build-dev2",
-    "build:stage": "better-npm-run build-stage",
-    "build:preprod": "better-npm-run build-preprod",
     "build:prod": "better-npm-run build-prod",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
@@ -73,6 +67,20 @@
         "REACT_APP_GA_ID": "UA-82642500-5",
         "REACT_APP_stripePk": "pk_live_i6flGDmKSlgHwOUQuWo4DHEj",
         "REACT_APP_HOST": "http://localhost:3000",
+        "REACT_APP_SOURCEMAP": true,
+        "REACT_APP_PUSHER_APP_KEY": "zendy_key",
+        "REACT_APP_PUSHER_CLUSTER": "mt1"
+      }
+    },
+    "build-prod": {
+      "command": "env-cmd -f .env.production npm run build",
+      "env": {
+        "REACT_APP_NODE_ENV": "development",
+        "REACT_APP_DEBUG": true,
+        "REACT_APP_API": "https://www.zendy.cl/api/",
+        "REACT_APP_GA_ID": "UA-82642500-5",
+        "REACT_APP_stripePk": "pk_live_i6flGDmKSlgHwOUQuWo4DHEj",
+        "REACT_APP_HOST": "https://zendy.cl",
         "REACT_APP_SOURCEMAP": true,
         "REACT_APP_PUSHER_APP_KEY": "zendy_key",
         "REACT_APP_PUSHER_CLUSTER": "mt1"

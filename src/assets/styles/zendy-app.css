@@ -107,9 +107,8 @@ body {
 }
 
 /* resposive pagina login  */
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 959px) {
   .login-logo{
-  display: none;
-  
+    display: none;
   }
 }

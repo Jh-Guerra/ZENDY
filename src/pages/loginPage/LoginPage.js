@@ -40,7 +40,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundRepeat: 'no-repeat',
     backgroundSize: '200px',
     borderRadius: '50%',
-    width: '55%',
+    width: '300px',
     height:'33%',
     display: 'flex',
     flexDirection: 'column',
@@ -59,19 +59,14 @@ const useStyles = makeStyles((theme) => ({
   },
   form: {
     width: '80%',
-    marginTop: theme.spacing(8),
+    marginTop: theme.spacing(4),
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center'
   },
   loginBtn: {
-    margin: theme.spacing(6, 0, 2),
-    fontSize:'15px',
-    minWidth:'201px',
-    height:'50px',
-    borderRadius:'10px',
-    fontWeight:'900',
-    fontSize:'1.2rem'
+    marginTop: theme.spacing(4),
+    padding: "20px 60px"
   },
 }));
 
@@ -191,10 +186,10 @@ const LoginPage = props => {
     <>
       <CssBaseline />
       <Grid container className="all-heigth">
-        <Grid container alignItems="center" justify="center" item xs={4} className="login-logo">
+        <Grid container alignItems="center" justify="center" item xs={0} md={4} className="login-logo">
           <img src={LogoZendy} className={classes.image}/>
         </Grid>
-        <Grid item xs={8} component={Paper}>
+        <Grid item xs={12} md={8} component={Paper}>
           <Grid item xs={12} />
           <div className={classes.paper}>
             <Typography variant="h4" className={classes.loginTitle}>
@@ -258,12 +253,12 @@ const LoginPage = props => {
                 onKeyPress={event => { event.key === 'Enter' && handleLogin(event) }}
               />
                <span style={{color: "red"}}>{errors["password"]}</span>
+
               <Button
                 type="button"
                 variant="contained"
                 color="primary"
                 className={classes.loginBtn + " custom-button"}
-                disabled={!password || !email || !(email.lastIndexOf('@') < email.lastIndexOf('.') && email.lastIndexOf('@') > 0 && email.indexOf('@@') == -1 && email.lastIndexOf('.') > 2 && (email.length - email.lastIndexOf('.')) > 2)}
                 onClick={handleLogin}
               >
                 Iniciar Sesión
