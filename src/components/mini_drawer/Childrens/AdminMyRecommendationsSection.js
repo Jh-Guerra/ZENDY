@@ -36,18 +36,18 @@ const AdminMyRecommendationsSection = (props) => {
 
     return (
         <div style={{height: "79vh"}}>
-            <Grid container>
-                <Grid item xs={12}>
+            <Grid container style={{height: "100%"}}>
+                <Grid item xs={12}  style={{height: "5vh"}}>
                     <div className="chatlist__heading">
-                    <span className="divider-line"></span>
-                    <p className="divider-content">Recomendaciones</p>
-                    <span className="divider-line"></span>
+                        <span className="divider-line"></span>
+                        <p className="divider-content">Recomendaciones</p>
+                        <span className="divider-line"></span>
                     </div>
                     <br />
                 </Grid>
                 <br />
-                <Grid item xs={12}>
-                    <div style={{height:"62vh", overflowY:"scroll"}}>
+                <Grid item xs={12} style={{height: "74vh"}}>
+                    <div className="items-section">
                         {recommendations.map((recommendation, i) => {
                             return (
                                 <ItemRecommendationRow

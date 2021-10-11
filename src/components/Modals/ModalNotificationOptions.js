@@ -54,26 +54,24 @@ const ModalNotificationOptions = (props) => {
                 <ModalBody>
                     <Grid container spacing={1}>
                         <Grid item xs={12}>
-                            <CustomButton 
-                                variant="contained"
+                            <Button
                                 fullWidth
-                                className={classes.button}
-                                color={successButtonColor}
                                 onClick={handleNewCompanyNotification}
+                                variant="contained"
+                                color="secondary"
                             >
                                 Para 1 empresa
-                            </CustomButton>
+                            </Button>
                         </Grid>
                         <Grid item xs={12}>
-                            <CustomButton 
-                                variant="contained"
+                            <Button
                                 fullWidth
-                                className={classes.button}
-                                color={successButtonColor}
                                 onClick={handleNewCompaniesNotification}
+                                variant="contained"
+                                color="secondary"
                             >
                                 Para muchas empresas
-                            </CustomButton>
+                            </Button>
                         </Grid>
                     </Grid>
                 </ModalBody>

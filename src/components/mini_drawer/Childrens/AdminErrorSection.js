@@ -55,42 +55,37 @@ const AdminErrorSection = props => {
   return (
     <div style={{ height: '79vh' }}>
       <Grid container style={{ height: '100%' }}>
-        <Grid item xs={12} container>
-          <Grid item xs={12}>
-            <div className="chatlist__heading">
-              <span className="divider-line"></span>
-              <p className="divider-content">Errores Reportados</p>
-              <span className="divider-line"></span>
-            </div>
-            <br />
-          </Grid>
-          <Grid item xs={12} style={{ padding: '10px' }}>
-            <Input
-              fullWidth
-              className="search_wrap"
-              type="text"
-              placeholder="Buscar empresas"
-              onChange={event => onSearch(event.target.value)}
-              disableUnderline
-              startAdornment={
-                <InputAdornment position="start">
-                  <IconButton type="button" aria-label="search">
-                    <SearchIcon />
-                  </IconButton>
-                </InputAdornment>
-              }
-            />
-          </Grid>
+        <Grid item xs={12} style={{height: "5vh"}}>
+          <div className="chatlist__heading">
+            <span className="divider-line"></span>
+            <p className="divider-content">Errores Reportados</p>
+            <span className="divider-line"></span>
+          </div>
           <br />
-          <Grid item xs={12} style={{ minHeight: '550px' }}>
-            <div className="chat-list-items">
-              <div style={{height:"51vh", overflowY:"scroll"}}>
-                {errorRx.error && errorRx.error.map((error, i) => {
-                  return <ItemErrorRow key={i} error={error} goTo={goTo} />;
-                })}
-              </div>
-            </div>
-          </Grid>
+        </Grid>
+        <Grid item xs={12} style={{ padding: '10px 10px', height: "7vh" }}>
+          <Input
+            fullWidth
+            className="search_wrap"
+            type="text"
+            placeholder="Buscar error"
+            onChange={event => onSearch(event.target.value)}
+            disableUnderline
+            startAdornment= {
+              <InputAdornment position="start">
+                <IconButton type="button" aria-label="search">
+                  <SearchIcon />
+                </IconButton>
+              </InputAdornment>
+            }
+          />
+        </Grid>
+        <Grid item xs={12} style={{height: "67vh"}}>
+          <div className="chat-list-items">
+            {errorRx.error && errorRx.error.map((error, i) => {
+              return <ItemErrorRow key={i} error={error} goTo={goTo} />;
+            })}
+          </div>
         </Grid>
       </Grid>
       <CustomModal

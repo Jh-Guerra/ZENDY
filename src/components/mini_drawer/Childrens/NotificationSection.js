@@ -80,19 +80,19 @@ const NotificationSection = (props) => {
 
     return (
         <div style={{height: "79vh"}}>
-          <Grid container>
+          <Grid container style={{height: "100%"}}>
             {
-              checkPermission(session, "createCompanyNotifications") && (
-                <Grid item xs={12}>
+              checkPermission(session, "createCompanyNotifications") ? (
+                <Grid item xs={12} style={{height: "8vh"}}>
                   <TabOptions
                     onSaveForm={onSaveForm}
                     onOpenModal={openNewCompanyNotification}
                     view="adminNotifications"
                   />
                 </Grid>
-              )
+              ) : null
             }
-            <Grid item xs={12}>
+            <Grid item xs={12} style={{height: "7vh"}}>
               <div className="chatlist__heading">
                 <span className="divider-line"></span>
                 <p className="divider-content"> Notificaciones </p>
@@ -100,14 +100,14 @@ const NotificationSection = (props) => {
               </div>
               <br />
             </Grid>
-            <Grid item xs={12} style={{padding: '0px 10px'}}>
+            <Grid item xs={12} style={{ padding: '10px 10px', height: "7vh" }}>
               <Input
                 fullWidth
                 className="search_wrap"
                 style={{margin: "0px 0px 20px 0px"}}
                 type="text"
                 value={search}
-                placeholder="Buscar notificación bbb"
+                placeholder="Buscar notificación"
                 onChange={event => onSearch(event.target.value)}
                 disableUnderline
                 startAdornment= {
@@ -119,7 +119,7 @@ const NotificationSection = (props) => {
                 }
               />
             </Grid>
-            <Grid item xs={12} style={{ padding: '0px 10px' }}>
+            <Grid item xs={12} style={{height: "5vh"}}>
               {
                 !isAdmin && (
                   <FormControlLabel
@@ -132,36 +132,23 @@ const NotificationSection = (props) => {
                       />
                     }
                     label="Vistos"
-                    style={{ color: 'white', marginLeft: '10px' }}
+                    className="custom-checkbox-text"
                   />
                 )
               }
             </Grid>
-            <Grid item xs={12}>
-              {isAdmin ? 
-                <div style={{height:"40vh", overflowY:"scroll"}}>
-                  {notifications.map((notificationViewed, i) => {
-                    return (
-                      <ItemNotificationRow
-                        key={i}
-                        notification={notificationViewed}
-                        goTo={goTo}
-                      />
-                    );
-                  })}
-                </div> : 
-                <div style={{height:"48vh", overflowY:"scroll"}}>
-                  {notifications.map((notificationViewed, i) => {
-                    return (
-                      <ItemNotificationRow
-                        key={i}
-                        notification={notificationViewed}
-                        goTo={goTo}
-                      />
-                    );
-                  })}
-                </div>
-              }
+            <Grid item xs={12} style={{height: checkPermission(session, "createCompanyNotifications") ? "52vh" : "60vh"}}>
+              <div className="items-section">
+                {notifications.map((notificationViewed, i) => {
+                  return (
+                    <ItemNotificationRow
+                      key={i}
+                      notification={notificationViewed}
+                      goTo={goTo}
+                    />
+                  );
+                })}
+              </div>
             </Grid>
           </Grid>
           <CustomModal 

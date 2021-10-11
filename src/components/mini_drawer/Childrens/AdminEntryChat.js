@@ -50,8 +50,8 @@ const AdminEntryChat = props => {
 
   return (
     <div style={{height: "79vh"}}>
-      <Grid container>
-        <Grid item xs={12}>
+      <Grid container style={{height: "100%"}}>
+        <Grid item xs={12} style={{height: "5vh"}}>
           <div className="chatlist__heading">
             <span className="divider-line"></span>
             <p className="divider-content"> Consultas Entrantes </p>
@@ -59,7 +59,7 @@ const AdminEntryChat = props => {
           </div>
           <br />
         </Grid>
-        <Grid item xs={12} style={{padding: '0px 10px'}}>
+        <Grid item xs={12} style={{ padding: '10px 10px', height: "7vh" }}>
           <Input
             fullWidth
             className="search_wrap"
@@ -77,8 +77,8 @@ const AdminEntryChat = props => {
             }
           />
         </Grid>
-        <Grid item xs={12}>
-          <div style={{height:"53vh", overflowY:"scroll"}}>
+        <Grid item xs={12} style={{height: "67vh"}}>
+          <div className="items-section">
             {entryQueries.map((query, i) => {
               return (
                 <ItemQueryRow

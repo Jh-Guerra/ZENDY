@@ -55,6 +55,12 @@ html, body {
     margin-left: 10px;
 }
 
+.primary-sub-letters {
+    * {
+        color: $pLetterColor;
+    }
+}
+
 .login-logo{
     background-color: $pColor;
 }

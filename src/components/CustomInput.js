@@ -30,7 +30,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const CustomInput = props => {
-    const { custom="inputText", options=[] } = props;
+    const { custom="inputText", options=[], primaryLetterColor } = props;
 
     const classes = useStyles();
 
@@ -61,7 +61,7 @@ const CustomInput = props => {
                 return <MuiPickersUtilsProvider utils={DateFnsUtils}>
                             <Grid container justify="space-around">
                                 <KeyboardDatePicker
-                                    className={classes[custom]}
+                                    className={classes[custom] + `${primaryLetterColor ? " primary-sub-letters" : ""}`}
                                     disableToolbar
                                     variant="inline"
                                     format="dd/MM/yyyy"

@@ -186,7 +186,7 @@ const LoginPage = props => {
     <>
       <CssBaseline />
       <Grid container className="all-heigth">
-        <Grid container alignItems="center" justify="center" item xs={0} md={4} className="login-logo">
+        <Grid container alignItems="center" justify="center" item md={4} className="login-logo">
           <img src={LogoZendy} className={classes.image}/>
         </Grid>
         <Grid item xs={12} md={8} component={Paper}>

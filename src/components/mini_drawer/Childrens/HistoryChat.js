@@ -82,33 +82,31 @@ const HistoryChat = props => {
       } else {
         onListTerminateChats('', fromDate, date)
       }
-    } 
-  
-    const chats = allChats && allChats.currentChats || [];
+    }
   
     return (
       <div style={{ height: "79vh" }}>
-        <Grid container>
-          <Grid item xs={12}>
+        <Grid container style={{ height: '100%' }}>
+          <Grid item xs={12} style={{height: "5vh"}}>
             <div className="chatlist__heading">
               <span className="divider-line"></span>
               <p className="divider-content">Historial de Chats </p>
               <span className="divider-line"></span>
             </div>
           </Grid>
-          <Grid container spacing={3} style={{ padding: '10px', color: 'white', fontcolor: 'white' }}>
-
-            <Grid item xs={6} style={{ color: 'white', fontcolor: 'white', forcedColorAdjust: 'white' }}>
+          <Grid item xs={12} style={{height: "8vh"}} container style={{ padding: '10px'}}>
+            <Grid item xs={6}>
               <CustomInput
                 id="date1"
                 custom="inputDate"
                 label="Desde"
+                clasasN
                 onChange={(date) => { handleChange(date) }}
-                style={{ color: 'white' }}
                 value={fromDate}
                 inputProps={{ readOnly: true }}
                 disableFuture
                 autoOk={true}
+                primaryLetterColor
               />
             </Grid>
             <Grid item xs={6}>
@@ -121,10 +119,11 @@ const HistoryChat = props => {
                 inputProps={{ readOnly: true }}
                 disableFuture
                 autoOk={true}
+                primaryLetterColor
               />
             </Grid>
           </Grid>
-          <Grid item xs={12} style={{ padding: '0px 10px' }}>
+          <Grid item xs={12} style={{ padding: '10px 10px', height: "7vh" }}>
             <Input
               fullWidth
               className="search_wrap"
@@ -141,8 +140,8 @@ const HistoryChat = props => {
               }
             />
           </Grid>
-          <Grid item xs={12}>
-            <div style={{height:"46vh", overflowY:"scroll", marginTop:"20px"}}>
+          <Grid item xs={12} style={{height: "57vh"}}>
+            <div className="items-rows">
               {
                 isEmpty ? (
                   <div className="container-not-found">

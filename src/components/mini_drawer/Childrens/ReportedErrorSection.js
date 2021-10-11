@@ -52,46 +52,45 @@ const ReportedErrorSection = props => {
   return (
     <div style={{ height: '79vh' }}>
       <Grid container style={{ height: '100%' }}>
-        <Grid item xs={12}>
+        <Grid item xs={12} style={{height: "8vh"}}>
           <TabOptions 
             onSaveForm={onSaveForm} 
             view="reportedErrors"
             onOpenModal={openReportedErrorModal}
           />
         </Grid>
-        <Grid item xs={12} container>
-          <Grid item xs={12}>
-            <div className="chatlist__heading">
-              <span className="divider-line"></span>
-              <p className="divider-content">Errores Reportados</p>
-              <span className="divider-line"></span>
-            </div>
-          </Grid>
-          <Grid item xs={12} style={{ padding: '0px 10px' }}>
-            <Input
-              fullWidth
-              className="search_wrap"
-              type="text"
-              placeholder="Buscar empresas"
-              onChange={event => onSearch(event.target.value)}
-              disableUnderline
-              startAdornment={
-                <InputAdornment position="start">
-                  <IconButton type="button" aria-label="search">
-                    <SearchIcon />
-                  </IconButton>
-                </InputAdornment>
-              }
-            />
-          </Grid>
-          <Grid item xs={12} style={{ minHeight: '550px' }}>
-            <div style={{height: "46vh", overflowY: "scroll", marginTop:"15px"}}>
-                {errorRx.error && errorRx.error.map((error, i) => {
-                  return <ItemErrorRow key={i} error={error} goTo={goTo} />;
-                })}
-            </div>
-          </Grid>
+        <Grid item xs={12} style={{height: "5vh"}}>
+          <div className="chatlist__heading">
+            <span className="divider-line"></span>
+            <p className="divider-content">Errores Reportados</p>
+            <span className="divider-line"></span>
+          </div>
         </Grid>
+        <Grid item xs={12} style={{ padding: '0px 10px', height: "7vh"}}>
+          <Input
+            fullWidth
+            className="search_wrap"
+            type="text"
+            placeholder="Buscar empresas"
+            onChange={event => onSearch(event.target.value)}
+            disableUnderline
+            startAdornment={
+              <InputAdornment position="start">
+                <IconButton type="button" aria-label="search">
+                  <SearchIcon />
+                </IconButton>
+              </InputAdornment>
+            }
+            />
+        </Grid>
+        <Grid item xs={12} style={{height: "59vh"}}>
+          <div className="chat-list-items">
+              {errorRx.error && errorRx.error.map((error, i) => {
+                return <ItemErrorRow key={i} error={error} goTo={goTo} />;
+              })}
+          </div>
+        </Grid>
+        
       </Grid>
       <CustomModal
           customModal={'ModalReportedErrors'}

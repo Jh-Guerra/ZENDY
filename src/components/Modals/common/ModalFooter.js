@@ -15,14 +15,14 @@ const ModalFooter = (props) => {
       <DialogActions className="modal-footer">
         {
           cancelText && (
-            <Button onClick={onCancel} size="small" color={cancelColor || "secondary"} variant="contained">
+            <Button onClick={onCancel} size="small" color={cancelColor || "default"} variant="contained">
               {cancelText}
             </Button>
           )
         }
         {
           deleteText && (
-            <Button onClick={onDelete} size="small" color="secondary" variant="contained">
+            <Button onClick={onDelete} size="small" color="default" variant="contained">
               {deleteText}
             </Button>
           )

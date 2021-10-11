@@ -18,15 +18,15 @@ const TabOptions = (props) => {
           {
             view=="reportedErrors" && (
               <Grid item xs={6}>
-                <CustomButton
+                <Button
                   fullWidth
                   onClick={() => { onOpenModal && onOpenModal() }}
                   variant="contained"
-                  color={successButtonColor}
+                  color="secondary"
                   startIcon={<ErrorIcon />}
                 >
                   Reportar Error
-                </CustomButton>
+                </Button>
               </Grid>
             )
           }
@@ -61,15 +61,15 @@ const TabOptions = (props) => {
           {
             view=="adminNotifications" && (
               <Grid item xs={6}>
-                <CustomButton
+                <Button
                   fullWidth
                   onClick={() => { onOpenModal && onOpenModal() }}
                   variant="contained"
-                  color={successButtonColor}
+                  color="secondary"
                   startIcon={<AddAlertIcon />}
                 >
                   Crear Notificación
-                </CustomButton>
+                </Button>
               </Grid>
             )
           }
