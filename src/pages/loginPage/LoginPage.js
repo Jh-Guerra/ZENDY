@@ -16,6 +16,8 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { showBackdrop, showSnackBar } from 'services/actions/CustomAction';
 import { getSessionInfo } from 'utils/common';
+import { IconButton } from '@material-ui/core';
+import { Visibility, VisibilityOff } from '@material-ui/icons';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -100,10 +102,10 @@ const LoginPage = props => {
 /* ==========LOGIN================== */
 
   const [email, setEmail] = React.useState("");
+  const [showPassword, setShowPassword] = React.useState(false);
   const [password, setPassword] = React.useState("");
-  const [message, setMessage] = React.useState();
   const [errors, setErrors] = React.useState({});
-  const [isOpenAlert, setIsOpenAlert] = React.useState(false);
+  const [searchTimeout, setSearchTimeout] = React.useState(null);
 
   const session = getSessionInfo();
 
@@ -113,6 +115,12 @@ const LoginPage = props => {
     }else{
       props.history.push("/");
     }
+    clearTimeout(searchTimeout);
+    setSearchTimeout(
+      setTimeout(() => {
+
+      }, 1000)
+    );
   }, []);
 
   const handleValidation =()=>{
@@ -135,11 +143,11 @@ const LoginPage = props => {
        let lastAtPos = email.lastIndexOf('@');
        let lastDotPos = email.lastIndexOf('.');
 
-       if (!(lastAtPos < lastDotPos && lastAtPos > 0 && email.indexOf('@@') == -1 && lastDotPos > 2 && (email.length - lastDotPos) > 2)) {
-          formIsValid = false;
-          errors["email"] = "Email no es valido";
-        }
-   } 
+      if (!(lastAtPos < lastDotPos && lastAtPos > 0 && email.indexOf('@@') == -1 && lastDotPos > 2 && (email.length - lastDotPos) > 2)) {
+        formIsValid = false;
+        errors["email"] = "Email no es valido";
+      }
+    } 
 
    setErrors(errors);
    return formIsValid;
@@ -190,7 +198,7 @@ const LoginPage = props => {
           <Grid item xs={12} />
           <div className={classes.paper}>
             <Typography variant="h4" className={classes.loginTitle}>
-              ZENDY
+              Iniciar Sesión
             </Typography>
             <form className={classes.form}>
               <CssTextField
@@ -200,13 +208,13 @@ const LoginPage = props => {
                 required
                 fullWidth
                 id="email"
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <AccountCircle className="custom-icon"/>
-                    </InputAdornment>
-                  ),
-                }}
+                // InputProps={{
+                //   startAdornment: (
+                //     <InputAdornment position="start">
+                //       <AccountCircle className="custom-icon"/>
+                //     </InputAdornment>
+                //   ),
+                // }}
                 placeholder="Usuario o email"
                 name="email"
                 autoComplete="email"
@@ -224,14 +232,25 @@ const LoginPage = props => {
                 fullWidth
                 name="password"
                 placeholder="Contraseña"
-                type="password"
+                type={showPassword ? "text" : "password"}
                 id="password"
                 InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <VpnKeyIcon className="custom-icon"/>
-                    </InputAdornment>
-                  ),
+                  // startAdornment: (
+                  //   <InputAdornment position="start">
+                  //     <VpnKeyIcon className="custom-icon"/>
+                  //   </InputAdornment>
+                  // ),
+                  endAdornment: (
+                    <InputAdornment position="end">
+                       <IconButton
+                         onClick={() => { setShowPassword(!showPassword) }}
+                         edge="end"
+                         style={{color: pColor}}
+                       >
+                         {showPassword ? <Visibility /> : <VisibilityOff />}
+                       </IconButton>
+                     </InputAdornment>
+                  )
                 }}
                 autoComplete="current-password"
                 value={password}
@@ -244,9 +263,10 @@ const LoginPage = props => {
                 variant="contained"
                 color="primary"
                 className={classes.loginBtn + " custom-button"}
+                disabled={!password || !email || !(email.lastIndexOf('@') < email.lastIndexOf('.') && email.lastIndexOf('@') > 0 && email.indexOf('@@') == -1 && email.lastIndexOf('.') > 2 && (email.length - email.lastIndexOf('.')) > 2)}
                 onClick={handleLogin}
               >
-                INICIAR SESION
+                Iniciar Sesión
               </Button>
             </form>
           </div>    

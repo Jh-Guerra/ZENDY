@@ -1,4 +1,4 @@
-import { Grid } from '@material-ui/core';
+import { Button, Grid } from '@material-ui/core';
 import React, { Component } from 'react';
 import RateReviewIcon from '@material-ui/icons/RateReview';
 import CustomButton from 'components/CustomButton';
@@ -29,26 +29,25 @@ class NewChatCall extends Component {
         <div style={{ borderTop: '0.8px solid', borderColor: 'white' }}>
           <Grid container spacing={3} style={{ padding: '10px', marginTop: '10px' }}>
             <Grid item xs={6}>
-              <CustomButton
+              <Button
                 fullWidth
                 onClick={() => this.handleClickOpen()}
                 variant="contained"
-                color={successButtonColor}
                 startIcon={<RateReviewIcon />}
               >
                 Buscar Chat
-              </CustomButton>
+              </Button>
             </Grid>
             <Grid item xs={6}>
-              <CustomButton
+              <Button
                 fullWidth
-                disabled
+                onClick={() => this.handleClickOpen()}
                 variant="contained"
-                color={successButtonColor}
+                disabled
                 startIcon={<RateReviewIcon />}
               >
                 Llamadas
-              </CustomButton>
+              </Button>
             </Grid>
           </Grid>
           <CustomModal

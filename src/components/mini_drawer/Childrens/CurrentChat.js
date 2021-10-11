@@ -37,6 +37,7 @@ const CurrentChat = props => {
 
   const onSearch = term => {
     clearTimeout(searchTimeout);
+    setTerm(term)
     setSearchTimeout(
       setTimeout(() => {
         onListActiveChats(term);

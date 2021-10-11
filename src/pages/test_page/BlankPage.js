@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import BasePage from 'components/BasePage';
 import ZendyIcon from '../../assets/images/ZendyIcon.jpg'
+import LogoZendy from 'assets/images/Zendy-logo.jpg';
 import Echo from "laravel-echo";
 import { listUsersOnline } from 'services/actions/UserAction';
 window.Pusher = require('pusher-js')
@@ -21,8 +22,8 @@ class BlankPage extends Component {
     return (
       <BasePage privateHeader={null}>
         <div className="blank-container">
-          <img src={ZendyIcon} />
-          <p>Servicio de Mensajeria</p>
+          <img width="100" height="100" alt="zendy" src={LogoZendy} />
+          {/* <p>Servicio de Mensajeria</p> */}
         </div>
       </BasePage>
     );
