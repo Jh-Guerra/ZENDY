@@ -124,7 +124,7 @@ const ModalGroupChatDetail = props => {
                 </Box>
               </Grid>
               <Grid item xs={5} style={{padding: "5px", textAlign: "center"}}>
-                {chatLifetime > 0 ? (chatLifetime + (chatLifetime == 1 ? " dia " : " dias")) : "Creado hoy"}
+                {chatLifetime > 1 ? (chatLifetime + (chatLifetime == 1 ? " dia " : " dias")) : "Creado hoy"}
               </Grid>
 
             </Grid>
