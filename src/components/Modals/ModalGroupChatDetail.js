@@ -120,7 +120,7 @@ const ModalGroupChatDetail = props => {
                 <TimerIcon style={{ margin: '0px 5px' }} /> Tiempo de Vida del Chat{' '}
               </Box>
               <Box>
-                {chatLifetime > 0 ? (chatLifetime + (chatLifetime == 1 ? " dia " : " dias")) : "Creado hoy"}
+                {chatLifetime > 1 ? (chatLifetime + (chatLifetime == 1 ? " dia " : " dias")) : "Creado hoy"}
               </Box>
             </Grid>
             <Box height="15px" />
