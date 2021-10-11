@@ -331,7 +331,7 @@ const ModalUser = (props) => {
                                                 setFieldValue("idRole", event.target.value)
                                             }}
                                             value={values.idRole}
-                                            options={userRoles}
+                                            options={userRoles.filter(u => u.id != "1")}
                                             error={ errors.idRole && touched.idRole ? true : false }
                                             disabled={!editMode}
                                        />
