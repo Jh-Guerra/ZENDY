@@ -1,5 +1,5 @@
 import React, { createRef, useRef } from "react";
-
+import { Grid } from '@material-ui/core';
 import "assets/styles/zendy-app.css";
 import { useHistory, withRouter } from "react-router-dom";
 
@@ -13,9 +13,11 @@ const CHMainFooter = props => {
   }, [cursorPosition]);
 
   return (
-    <div className="chat-footer" ref={inputRef}>
-          
-    </div>  
+    <>
+    <Grid className="chat-footer" container alignItems="center" justify="center" ref={inputRef}>
+  
+      </Grid>
+    </> 
   );
 }
 

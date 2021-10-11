@@ -56,7 +56,7 @@ const ChatHistoryPage = (props) => {
           {...props}
         />
       </Grid>
-      <Grid item xs={12} style={{height:'74vh'}}>
+      <Grid item xs={12} style={{height:'77vh'}}>
         <CHMainBody
           {...props}
           messages={messages}
@@ -64,7 +64,7 @@ const ChatHistoryPage = (props) => {
           user={user}
         />
       </Grid>
-      <Grid item xs={12} style={{height:'13vh'}}>
+      <Grid item xs={12} style={{height:'10vh'}}>
         <CHMainFooter
           {...props}
           chat={chat}
