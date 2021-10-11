@@ -60,7 +60,7 @@ const ModalRecommendUser = (props) => {
     props.dispatch(showBackdrop(true));
     const selectedUserIds = users.map(user => user.id) || [];
     props.dispatch(listRecommendationsByEntryQuery(entryQuery.id)).then(userRecommendations => {
-      props.dispatch(listAvailableUsers(["AdminEmpresa", "UserHD"], term)).then(res => {
+      props.dispatch(listAvailableUsers(["AdminEmpresa", "UserHD"], term, "")).then(res => {
         const noSelectedUsers = res && res.filter(user => !selectedUsers.find(u => u.id == user.id));
         const allUsers = [...selectedUsers, ...noSelectedUsers];
         const usersWithRecommends = allUsers.map(user => {

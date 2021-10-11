@@ -41,7 +41,7 @@ class UserService {
             } }
     )}
 
-    async listAvailableUsers(type, term) {
+    async listAvailableUsers(type, term, idCompany) {
         return await axios.post(
             config.apiVersion + `users/list-available`,
             { roles: type },
@@ -50,7 +50,7 @@ class UserService {
                     ...config.headers, 
                     Authorization: `token ${JSON.parse(localStorage.getItem('session')).token || ''}` 
                 },
-                params: { term }
+                params: { term, idCompany }
             }
     )}
 

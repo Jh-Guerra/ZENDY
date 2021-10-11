@@ -23,9 +23,12 @@ import { createClientChat, listAvailableUsersByCompany } from 'services/actions/
 import config from 'config/Config';
 import ZendyIcon from 'assets/images/ZendyIcon.jpg';
 import { useHistory } from 'react-router';
+import { getCustomRoleName, getSessionInfo } from 'utils/common';
 
 const ModalNewCustomerChat = props => {
   const { open, handleClose, onSaveForm } = props;
+  const session = getSessionInfo();
+  const role = session && session.role || {};
 
   const history = useHistory();
   const [users, setUsers] = React.useState([]);
@@ -45,7 +48,8 @@ const ModalNewCustomerChat = props => {
 
   const onListAvailableUsers = term => {
     props.dispatch(showBackdrop(true));
-    props.dispatch(listAvailableUsersByCompany(['UserEmpresa', 'AdminEmpresa', 'UserHD'], term)).then(res => {
+    const availableUsers = role && role.name == "UserEmpresa" ? ["UserEmpresa"] : ['UserEmpresa', 'AdminEmpresa', 'UserHD'];
+    props.dispatch(listAvailableUsersByCompany(availableUsers, term)).then(res => {
       const noSelectedUsers = res && res.filter(user => !selectedUsers.find(u => u.id == user.id));
       setUsers([...selectedUsers, ...noSelectedUsers]);
       props.dispatch(showBackdrop(false));
@@ -126,7 +130,7 @@ const ModalNewCustomerChat = props => {
                       </ListItemAvatar>
                       <ListItemText
                         primary={`${user.firstName} ${user.lastName}`}
-                        secondary={<Typography className="list-sub-text">{user.company && user.company.name || ''}</Typography>}
+                        secondary={<Typography className="list-sub-text">{user.roleName && getCustomRoleName(user.roleName) || ''}</Typography>}
                       />
                       <ListItemSecondaryAction>
                         <Checkbox

@@ -35,6 +35,8 @@ const useStyles = makeStyles(theme => ({
 const ModalGroupChatDetail = props => {
   const session = getSessionInfo();
   const user = session && session.user;
+  const role = session && session.role || {};
+  const isUserAdmin = role.name == "Admin";
   const classes = useStyles();
   
   const { open, handleClose, chat, onGetChatData } = props;
@@ -42,12 +44,8 @@ const ModalGroupChatDetail = props => {
 
   const [showAddToConversation,setShowAddToConversation] = React.useState(false);
   const [nameChat, setNameChat] = React.useState("")
-  const [isAdminList, setAdminList] = React.useState(false);
-  const [isAdminCreated, setIsAdminCreated] = React.useState(false);
 
-  const ShowAddToConversation = (isAdmin=false) => {
-    setAdminList(isAdmin);
-    setIsAdminCreated(isAdmin);
+  const openAddToConversation = () => {
     setShowAddToConversation(true);
   }
   
@@ -99,34 +97,41 @@ const ModalGroupChatDetail = props => {
 
       <ModalBody>
         <Grid container spacing={3}>
-          <Grid container item xs={12} direction="column" alignItems="center" justify="center" spacing={3}>
-            <Grid container item direction="row" justify="space-between" alignItems="flex-start" width="100%">
-                {
-                  quantityParticipants > 2 && ( isAdmin && (
-                    <>
-                      <TextField
-                        id="name"
-                        label={<p>Nombre del Grupo</p>}
-                        value={nameChat}
-                        onChange={handleChange}
-                      />
-                      <Button variant="contained" color="primary" onClick={() => { addName(nameChat) }}>Cambiar nombre al chat</Button>
-                    </>
-                  ) )
-                }
-            </Grid>
-            <Grid container item direction="row" justify="space-between" alignItems="flex-start" width="100%">
-              <Box className={classes.detailsBox}>
-                <TimerIcon style={{ margin: '0px 5px' }} /> Tiempo de Vida del Chat{' '}
-              </Box>
-              <Box>
+          <Grid item xs={12}>
+            {
+              quantityParticipants > 2 && ( isAdmin && (
+                <Grid container item xs={12} justify="space-between" alignItems="flex-start">
+                  <Grid item xs={7}>
+                    <TextField
+                      id="name"
+                      label={<p>Nombre del Grupo</p>}
+                      value={nameChat}
+                      onChange={handleChange}
+                      fullWidth
+                    />
+                  </Grid>
+                  <Grid item xs={5} style={{padding: "12px"}}>
+                    <Button fullWidth variant="contained" color="primary" onClick={() => { addName(nameChat) }}>Cambiar nombre al chat</Button>
+                  </Grid>
+                </Grid>
+              ) )
+            }
+            <Box height="15px" />
+            <Grid container item xs={12} justify="space-between" alignItems="flex-start">
+              <Grid item xs={7}>
+                <Box className={classes.detailsBox}>
+                  <TimerIcon style={{ margin: '0px 5px' }} /> Tiempo de Vida del Chat{' '}
+                </Box>
+              </Grid>
+              <Grid item xs={5} style={{padding: "5px", textAlign: "center"}}>
                 {chatLifetime > 0 ? (chatLifetime + (chatLifetime == 1 ? " dia " : " dias")) : "Creado hoy"}
-              </Box>
+              </Grid>
+
             </Grid>
             <Box height="15px" />
             {
               chat.status == "Finalizado" && (
-                <Grid container item direction="row" justify="space-between" alignItems="flex-start" width="100%">
+                <Grid container item xs={12} justify="space-between" alignItems="flex-start">
                   <Box className={classes.detailsBox}>
                     <EventBusyIcon style={{ margin: '0px 5px' }} /> Fecha de finalización{' '}
                   </Box>
@@ -138,7 +143,7 @@ const ModalGroupChatDetail = props => {
             }
           </Grid>
 
-          <Grid container spacing={3}>
+          <Grid container>
             <Grid item xs={12}>
               <Box height="15px" />
               <Grid item md={12}>
@@ -156,13 +161,13 @@ const ModalGroupChatDetail = props => {
                             secondary={`${participant.type}`}
                           />
                           {
-                             quantityParticipants > 2 && (isAdmin && 
-                            <ListItemSecondaryAction>
-                            {
-                              participant.type == "Participante" ? <Button variant="contained" color="primary" onClick={() => {RemoveParticipant(user.id,chat.id)}}>Quitar</Button> : null
-                            }
-                          </ListItemSecondaryAction>
-                      )
+                             quantityParticipants > 2 && isAdmin && (
+                              <ListItemSecondaryAction>
+                                {
+                                  participant.type == "Participante" ? <Button variant="contained" color="primary" onClick={() => {RemoveParticipant(user.id,chat.id)}}>Quitar</Button> : null
+                                }
+                              </ListItemSecondaryAction>
+                             )
                           }                           
                         </ListItem>
                       );
@@ -171,19 +176,15 @@ const ModalGroupChatDetail = props => {
                 </List>
                 <List>
                   {
-                      isAdmin &&
-                      <Grid container spacing={2}> 
-                        <Grid item md={6}>
-                          <Button variant="contained" id="" color="primary" startIcon={<AddCircleOutlineIcon />} style={{ height: '50px', width: '100%' }} onClick={() => {ShowAddToConversation(false)}}>
-                            Agregar participantes
-                          </Button>
+                      isAdmin && (
+                        <Grid container> 
+                          <Grid item xs={12}>
+                            <Button variant="contained" id="" color="primary" startIcon={<AddCircleOutlineIcon />} style={{ height: '50px', width: '100%' }} onClick={openAddToConversation}>
+                              Agregar participantes
+                            </Button>
+                          </Grid>
                         </Grid>
-                        <Grid item md={6}>
-                          <Button variant="contained" color="primary" startIcon={<AddCircleOutlineIcon />} style={{ height: '50px', width: '100%' }} onClick={() => {ShowAddToConversation(true)}}>
-                            Agregar Admins
-                          </Button>
-                        </Grid>
-                      </Grid>
+                      )
                   }
                   
                   <Divider variant="inset" />
@@ -197,11 +198,10 @@ const ModalGroupChatDetail = props => {
     <CustomModal 
         customModal="ModalAddToConversation"
         open={showAddToConversation}
-        handleClose={() => {setShowAddToConversation(false)}}
+        handleClose={() => { setShowAddToConversation(false)}}
         chat={chat}
         onGetChatData={onGetChatData}
-        isAdminList={isAdminList}
-        isAdminCreated={isAdminCreated}
+        isAdmin={isUserAdmin}
       >
         
      </CustomModal>

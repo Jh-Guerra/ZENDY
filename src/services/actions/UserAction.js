@@ -22,8 +22,8 @@ export const listUsers = (term) => async dispatch => {
     return res && res.data || [];
 }
 
-export const listAvailableUsers = (type, term) => async dispatch => {
-    const res = await userService.listAvailableUsers(type, term);
+export const listAvailableUsers = (type, term, idCompany) => async dispatch => {
+    const res = await userService.listAvailableUsers(type, term, idCompany);
     return res && res.data || [];
 }
 

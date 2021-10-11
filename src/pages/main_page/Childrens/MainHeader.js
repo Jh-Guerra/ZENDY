@@ -15,6 +15,8 @@ import SpeakerNotesOffIcon from '@material-ui/icons/SpeakerNotesOff';
 const MainHeader = props => {
   const session = getSessionInfo();
   const user = session && session.user;
+  const role = session && session.role || {};
+  const isUserAdmin = role.name == "Admin"
   const { chat={}, onGetChatData, messages } = props;
 
   const history = useHistory();
@@ -165,6 +167,7 @@ const MainHeader = props => {
         handleClose={() => { setShowAddToConversation (false); }}
         chat={chat}
         onGetChatData={onGetChatData}
+        isAdmin={isUserAdmin}
       />
       <CustomModal
         customModal="ModalEndChat"

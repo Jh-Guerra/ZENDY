@@ -1,4 +1,4 @@
-import { Checkbox, Divider, Grid, makeStyles, Typography, InputAdornment} from '@material-ui/core';
+import { Checkbox, Divider, Grid, makeStyles, Typography, InputAdornment, FormControlLabel} from '@material-ui/core';
 import React from 'react'
 import ModalBody from './common/ModalBody'
 import ModalHeader from './common/ModalHeader'
@@ -25,6 +25,7 @@ import { getCustomRoleName, getImageProfile , getSessionInfo} from "utils/common
 import { createParticipant } from 'services/actions/ParticipantAction';
 import moment from 'moment';
 import { listActiveChats } from 'services/actions/ChatAction';
+import CheckBoxIcon from '@material-ui/icons/CheckBox';
 
 const useStyles = makeStyles(theme => ({
   input: {
@@ -39,22 +40,20 @@ const useStyles = makeStyles(theme => ({
 
 const ModalAddToConversation = (props) => {
 
-  const { open, handleClose, chat, onGetChatData, isAdminList=false, isAdminCreated } = props;
+  const { open, handleClose, chat, onGetChatData, isAdmin } = props;
+  const session = getSessionInfo();
+  const role = session && session.role || {};
   const classes = useStyles();
 
   const [users, setUsers] = React.useState([]);
+  const [asAdmin, setAsAdmin] = React.useState(false);
   const [selectedUsers, setSelectedUsers] = React.useState([]);
   const [searchTimeout, setSearchTimeout] = React.useState(null);
   const [term, setTerm] = React.useState('');
-  const session = getSessionInfo();
 
   React.useEffect(() => {
     if(open){
-      if(isAdminList){
-        onListAdmins("");
-      }else{
-        onListAvailableUsers("");
-      }
+      onListAvailableUsers("");
     }else{
       setUsers([]);
       setSelectedUsers([]);
@@ -64,7 +63,13 @@ const ModalAddToConversation = (props) => {
 
   const onListAvailableUsers = (term) => {
     props.dispatch(showBackdrop(true));
-    props.dispatch(listAvailableUsers(["AdminEmpresa", "UserHD"], term)).then(res => {
+    const availableUsers = role && role.name == "UserEmpresa" ? ["UserEmpresa"] : ['UserEmpresa', 'AdminEmpresa', 'UserHD'];
+    var idCompany = "";
+    if(isAdmin){
+      availableUsers.push("Admin");
+      idCompany = chat.idCompany;
+    }
+    props.dispatch(listAvailableUsers(availableUsers, term, idCompany)).then(res => {
       const noSelectedUsers = res && res.filter(user => !selectedUsers.find(u => u.id == user.id));
       setUsers([...selectedUsers, ...noSelectedUsers]);
       props.dispatch(showBackdrop(false));
@@ -85,11 +90,7 @@ const ModalAddToConversation = (props) => {
     clearTimeout(searchTimeout);
     setSearchTimeout(
       setTimeout(() => {
-        if(isAdminList){
-          onListAdmins(term);
-        }else{
-          onListAvailableUsers(term);
-        }
+        onListAvailableUsers(term);
       }, 1000)
     )
   }
@@ -104,7 +105,7 @@ const ModalAddToConversation = (props) => {
     setSelectedUsers(newSelectedUsers);
   }
 
-  const addParticipants = (isAdmin=false) => {
+  const addParticipants = () => {
     const participants = [];
 
     if (selectedUsers.length == 0) {
@@ -115,8 +116,8 @@ const ModalAddToConversation = (props) => {
       const participant = {
         idUser: user.id,
         idChat: chat.id,
-        type: isAdmin ? "Admin" :" Participante",
-        erp: isAdmin ? 1 : 0,
+        type: asAdmin ? "Admin" :" Participante",
+        erp: isAdmin ? true : false,
         entryDate: moment().format("YYYY-MM-DD"),
         outputDate: null,
         status: "Activo",
@@ -165,6 +166,14 @@ const ModalAddToConversation = (props) => {
             </Paper>
             <Divider />
           </Grid>
+          <Grid item xs={12}>
+            <Typography>Como admin</Typography>
+            <Checkbox
+              checked={asAdmin}
+              onChange={(event) => { setAsAdmin(!asAdmin) }}
+              checkedIcon={<CheckBoxIcon style={{ color: pColor }} />}
+            />
+          </Grid>
              
           <Grid item xs={12}>                   
             {
@@ -212,7 +221,7 @@ const ModalAddToConversation = (props) => {
     </ModalBody>
     <ModalFooter 
       confirmText={"Añadir"}
-      onConfirm={() => { addParticipants(isAdminCreated) }}
+      onConfirm={addParticipants}
     />
     </Modal>   
   )
