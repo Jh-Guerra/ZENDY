@@ -102,7 +102,7 @@ const MainHeader = props => {
               {
                 companyName && (
                   <div>
-                    <Typography style={{fontSize:"15px", color:"white"}}>{companyName} { ruc && `- ${ruc}`}</Typography>
+                    <Typography style={{fontSize:"14px", color:"white"}}>{companyName} { ruc && `- ${ruc}`}</Typography>
                   </div>
                 )
             }
@@ -139,14 +139,14 @@ const MainHeader = props => {
             {
               isAdmin && (
                 <Tooltip title="Agregar a la conversación">
-                  <IconButton onClick={handleAddToConversation} className="chat-header-button"><PersonAddIcon style={{ fontSize: 35 }} /></IconButton>
+                  <IconButton onClick={handleAddToConversation} className="chat-header-button"><PersonAddIcon style={{ fontSize: "35px" }} /></IconButton>
                 </Tooltip>
               )
             }
             {
               isAdmin && (
                 <Tooltip title="Finalizar chat">
-                  <IconButton onClick={handleEndChat} className="chat-header-button"><SpeakerNotesOffIcon style={{ fontSize: 35 }} /></IconButton>
+                  <IconButton onClick={handleEndChat} className="chat-header-button"><SpeakerNotesOffIcon style={{ fontSize: "35px" }} /></IconButton>
                 </Tooltip>
               )
             }

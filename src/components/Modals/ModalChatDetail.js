@@ -118,7 +118,13 @@ const ModalChatDetail = props => {
               )          
             } */}
             <Divider  className={classes.divider} variant="middle" />
-            <Button variant="contained" startIcon={<InfoIcon />} style={{ height: '50px', width: '300px' }} onClick={handleGroupChat}>
+            <Button 
+              variant="contained" 
+              startIcon={<InfoIcon />} 
+              style={{ height: '50px', width: '300px' }}
+              color="secondary"
+              onClick={handleGroupChat}
+            >
               Detalles de chat
             </Button>
           </Grid>

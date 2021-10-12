@@ -1,5 +1,5 @@
 export const pColor = "#8538bc";
-export const sColor = "#d96e59";
+export const sColor = "#E16B08";
 export const tColor = "#F39651";
 
 export const pColorDark = "#4113680";
@@ -13,10 +13,6 @@ export const successButtonColor = "#158851";
 
 // Buttons chat
 export const ButtonColor = "white";
-
-// tamaño item chat
-export const itemRowTitle = "17px";
-export const itemRowText = "14px";
 
 
 // Letters

@@ -21,7 +21,6 @@ import SendIcon from '@material-ui/icons/Send';
 
 const useStyles = makeStyles(theme => ({
     letters:{
-        fontSize:'20px',
         fontStyle:'oblique',
         fontWeight:'bold'
     },

@@ -5,7 +5,6 @@ import NewChatCall from './NewChatCall';
 import { listWithUsersCount } from "services/actions/CompanyAction";
 import { showBackdrop } from "services/actions/CustomAction";
 import { useHistory } from "react-router-dom";
-import ItemCompanyRow from "../Components/ItemCompanyRow";
 import { listMyRecommendations } from "services/actions/RecommendationAction";
 import ItemRecommendationRow from "../Components/ItemRecommendationRow";
 

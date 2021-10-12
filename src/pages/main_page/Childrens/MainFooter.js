@@ -141,7 +141,7 @@ const MainFooter = props => {
   return (
     <>
       <Grid className="chat-footer" container alignItems="center" justify="center">
-        <Grid container item xs={3} alignItems="center" justify="center">
+        <Grid container item xs={2} alignItems="center" justify="center">
           <Box>
             {showEmoji &&
               <IconButton onClick={handleShowEmojis}>
@@ -160,21 +160,21 @@ const MainFooter = props => {
           </Box>
 
           <input accept="image/*" style={{ display: 'none' }} id="upload-image" type="file" onChange={processImage} />
-          <label htmlFor="upload-image">
+          <label htmlFor="upload-image" >
             <IconButton component="span">
               <ImageIcon style={{ fontSize: "4vh", color: ButtonColor }} />
             </IconButton>
           </label>
 
           <input style={{ display: 'none' }} id="upload-file" type="file" onChange={processFile} />
-          <label htmlFor="upload-file">
+          <label htmlFor="upload-file" >
             <IconButton component="span">
               <DescriptionIcon style={{ fontSize: "4vh", color: ButtonColor }} />
             </IconButton>
           </label>
         </Grid>
 
-        <Grid item xs={8}>
+        <Grid item xs={9}>
           <InputBase
             style={{ width: '100%' }}
             type="text"

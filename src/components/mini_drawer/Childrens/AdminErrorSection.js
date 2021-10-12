@@ -1,15 +1,10 @@
 import React, { Component } from 'react';
 import { Input, InputAdornment, Grid, IconButton } from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search';
-import NewChatCall from './NewChatCall';
-import { listWithUsersCount } from 'services/actions/CompanyAction';
 import { showBackdrop } from 'services/actions/CustomAction';
 import { useHistory } from 'react-router-dom';
-import ItemCompanyRow from '../Components/ItemCompanyRow';
 import ItemErrorRow from '../Components/ItemErrorRow';
-import { listErrors, listErrorsByUser } from 'services/actions/ErrorAction';
-import { getSessionInfo, isClientUser } from 'utils/common';
-import TabOptions from './TabOptions';
+import { listErrors } from 'services/actions/ErrorAction';
 import CustomModal from 'components/Modals/common/CustomModal';
 
 const AdminErrorSection = props => {

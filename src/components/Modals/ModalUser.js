@@ -142,10 +142,9 @@ const ModalUser = (props) => {
            props.dispatch(updateUser(data.id, formData)).then(res => {
                props.dispatch(showBackdrop(false));
                props.onConfirmCallBack();
-           }).catch(error => {
-               props.dispatch(showBackdrop(false));                    
-                    props.dispatch(showBackdrop(false));                    
-               props.dispatch(showBackdrop(false));                    
+           }).catch(err => {
+                props.dispatch(showSnackBar('error', err.response.data.email ? err.response.data.email : err.response.data.error));
+                props.dispatch(showBackdrop(false));
            });
         }else{
             // Agregar
@@ -171,9 +170,10 @@ const ModalUser = (props) => {
             props.dispatch(createUser(formData)).then(res => {
                 props.dispatch(showBackdrop(false));
                 props.onConfirmCallBack();
-            }).catch(error => {
+            }).catch(err => {
+                props.dispatch(showSnackBar('error', err.response.data.email ? err.response.data.email : err.response.data.error));
                 props.dispatch(showBackdrop(false));
-                console.log('error', error);
+                console.log('error', err);
             });
         }
     }

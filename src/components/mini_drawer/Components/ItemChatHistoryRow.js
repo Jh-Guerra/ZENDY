@@ -4,7 +4,6 @@ import { Typography } from "@material-ui/core";
 import ItemAvatar from "./ItemAvatar";
 import { getImageProfile, getSessionInfo } from 'utils/common';
 import moment from 'moment';
-import { itemRowText, itemRowTitle } from "assets/styles/zendy-css";
 
 const ItemChatHistoryRow = (props) => {
   const session = getSessionInfo();
@@ -52,11 +51,11 @@ const ItemChatHistoryRow = (props) => {
       />
       <div style={{ width: "80%" }}>
         <div className="item-row-section">
-        <Typography noWrap style={{ fontSize:itemRowTitle, wordWrap: "break-word" }}>{name}</Typography>
+          <Typography className="item-row-title">{name}</Typography>
           <span className="item-row-time">{hour}</span>
         </div>
         <div className="item-row-section">
-          <p style={{ fontSize:itemRowText }}>
+          <p className="item-row-description">
             {
               message ? ( prefixMessage + " " + message ) : " "
             }

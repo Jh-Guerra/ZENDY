@@ -84,8 +84,8 @@ console.log('companu', company)
               {
                 chat && chat.companyUser && (   
                   <div>
-                    <Typography style={{fontSize:"15px", color:"white"}}>{company} - {ruc}</Typography>
-                    <Typography style={{fontSize:"13px", color:"white"}}>Estado: {status}</Typography>
+                    <Typography style={{fontSize:"14px", color:"white"}}>{company} - {ruc}</Typography>
+                    {/* <Typography>Estado: {status}</Typography> */}
                   </div>
                 )
               }

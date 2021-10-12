@@ -4,7 +4,6 @@ import { Typography } from "@material-ui/core";
 import ItemAvatar from "./ItemAvatar";
 import { getImageProfile, getSessionInfo } from 'utils/common';
 import moment from 'moment';
-import { itemRowText, itemRowTitle } from "assets/styles/zendy-css";
 
 const ItemChatRow = (props) => {
   const session = getSessionInfo();
@@ -57,7 +56,7 @@ const ItemChatRow = (props) => {
           <span className="item-row-time" style={{fontWeight: bold ? 'bold' : '' }}>{hour}</span>
         </div>
         <div className="item-row-section">
-          <p  className="item-row-description" style={{ fontWeight: bold ? 'bold' : '' }}>
+          <p className="item-row-description" style={{ fontWeight: bold ? 'bold' : '' }}>
             {
               message ? ( prefixMessage + " " + message ) : " "
             }

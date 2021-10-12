@@ -28,26 +28,8 @@ import ZendyIcon from 'assets/images/ZendyIcon.jpg';
 
 
 const useStyles = makeStyles(theme => ({
-  buttonIcon: {
-    width: '30px',
-    marginRight: '10px'
-  },
-  letters: {
-    fontSize: '20px',
-    fontStyle: 'oblique',
-    fontWeight: 'bold'
-  },
-  input: {
-    marginLeft: theme.spacing(1),
-    flex: 1,
-    width: '80%'
-  },
   iconButton: {
     padding: 10,
-  },
-  divider: {
-    height: 28,
-    margin: 4,
   },
   select: {
     width: '100%'

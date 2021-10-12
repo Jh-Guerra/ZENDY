@@ -1,48 +1,37 @@
 import React from 'react';
 import Button from '@material-ui/core/Button';
-import CssBaseline from '@material-ui/core/CssBaseline';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
-import ChatAvatar from "pages/main_page/Components/ChatAvatar";
 import Box from '@material-ui/core/Box';
 import { confirmError, deleteError, fakeError, findError, listErrors, listErrorsByUser } from 'services/actions/ErrorAction';
 import { showBackdrop, showSnackBar } from 'services/actions/CustomAction';
 import { useHistory } from 'react-router';
 import config from "../../config/Config";
 import defaultImage from 'assets/images/defaultImage.png';
-import { Avatar, IconButton, List, ListItem, ListItemAvatar, ListItemIcon, ListItemText } from '@material-ui/core';
-import { getImageProfile, getSessionInfo, isClientUser } from 'utils/common';
+import { Avatar, Typography } from '@material-ui/core';
+import { getSessionInfo, isClientUser } from 'utils/common';
 import GetAppIcon from '@material-ui/icons/GetApp';
 import CustomModal from 'components/Modals/common/CustomModal';
 import ModalDelete from 'components/Modals/ModalDelete';
 import ModalFakeError from 'components/Modals/ModalFakeError';
 import ModalConfirmError from 'components/Modals/ModalConfirmError';
 import moment from 'moment';
-import VisibilitySharpIcon from '@material-ui/icons/VisibilitySharp';
 import { pColor,successButtonColor } from 'assets/styles/zendy-css';
 import CustomTable from 'components/CustomTable';
 
 
 const useStyles = makeStyles((theme) => ({
-  reportBtn: {
-    fontSize: '15px',
-    width: '200px',
-    height: '50px',
-    borderRadius: '20px',
-    backgroundColor: successButtonColor,
-    color: '#ffff'
-  },
   fontError: {
     color: '#000000',
     marginTop: '20px',
     alignItems: 'center',
-    fontSize: '20px',
+    fontSize: '17px',
   },
   fontDescription: {
     color: '#000000',
     marginTop: '20px',
     alignItems: 'center',
-    fontSize: '17px',
+    fontSize: '16px',
   },
   headerName: {
     width: '100%',
@@ -63,7 +52,6 @@ const ErrorInfoPage = props => {
   const session = getSessionInfo();
   const classes = useStyles();
   const history = useHistory();
-  const [modulo, setModulo] = React.useState('');
   const [error, setError] = React.useState({});
   const [showReportedErrorModal, setShowReportedErrorModal] = React.useState(false);
   const [showModalDelete, setShowModalDelete] = React.useState(false);
@@ -156,10 +144,6 @@ const ErrorInfoPage = props => {
     });
   }
 
-  const handleChange = (event) => {
-    setModulo(event.target.value);
-  };
-
   const showEditError = () => {
     setShowReportedErrorModal(true)
   }
@@ -189,15 +173,18 @@ const ErrorInfoPage = props => {
 
   return (
     <>
-      {/* <CssBaseline /> */}
-      <Grid container className="all-heigth">
-        <Grid item xs={12} className="report-form">
-          <Grid item xs={12} className="top-header"></Grid>
+      <Grid container>
+        <Grid item xs={12} className="top-header"></Grid>
+        <Grid item xs={12} style={{padding: "0px 20px"}}>
           {
             error && error.id && (
               <>
-                <Grid item xs={12} style={{ textAlign: "right", marginTop: '20px' }}>
-                  <span className={classes.fontError} style={{ fontWeight: 'bold', alignItems: 'flex-end' }} >Estado: </span>
+                <Grid item xs={12} style={{marginTop: '20px' }}>
+                  <br />
+                  <Typography variant="h3" component="h3" className="page-title">
+                    Error Reportado
+                  </Typography>
+                  <span className={classes.fontError} style={{ alignItems: 'flex-end' }} > <b>Estado:</b> </span>
                   {
                     !isClient ?
                       <span className={classes.fontError} style={{ alignItems: 'flex-center', marginRight: "8vh" }}>{(error.status == "Pendiente") ? "Pendiente" : "Aceptado"}</span> :
@@ -209,32 +196,32 @@ const ErrorInfoPage = props => {
                   <Grid item xs={6} container spacing={0} direction="column" alignItems="flex-start" justify="flex-start">
                     <Box style={{ margin: '2vh 8vh' }}>
                       <Grid item xs={12} style={{ textAlign: "left", marginTop: '15px' }}>
-                        <span className={classes.fontError} style={{ fontWeight: 'bold', alignItems: 'flex-end', marginTop: '10px' }} >Nombre de Empresa: </span>
+                        <span className={classes.fontError} style={{ alignItems: 'flex-end', marginTop: '10px' }} ><b>Nombre de Empresa:</b> </span>
                         <span className={classes.fontError} style={{ alignItems: 'flex-start', marginTop: '10px' }}>{error.company && error.company.name || ""}</span>
                       </Grid>
 
                       <Grid item xs={12} style={{ textAlign: "left", marginTop: '15px' }}>
-                        <span className={classes.fontError} style={{ fontWeight: 'bold', alignItems: 'flex-end' }} >Usuario: </span>
+                        <span className={classes.fontError} style={{ alignItems: 'flex-end' }} ><b>Usuario:</b> </span>
                         <span className={classes.fontError} style={{ alignItems: 'flex-start', marginTop: '10px' }}>{error.company && error.user.firstName + " " + error.user.lastName || ""}</span>
                       </Grid>
 
                       <Grid item xs={12} style={{ textAlign: "left", marginTop: '15px' }}>
-                        <span className={classes.fontError} style={{ fontWeight: 'bold', alignItems: 'flex-end' }} >Fecha de Reporte: </span>
+                        <span className={classes.fontError} style={{ alignItems: 'flex-end' }} ><b>Fecha de Reporte:</b> </span>
                         <span className={classes.fontError} style={{ alignItems: 'flex-start', marginTop: '10px' }}>{(error.created_at) && moment(error.created_at).format("DD/MM/YYYY") || ""}</span>
                       </Grid>
 
                       <Grid item xs={12} style={{ textAlign: "left", marginTop: '15px' }}>
-                        <span className={classes.fontError} style={{ fontWeight: 'bold', alignItems: 'flex-end' }} >Modulo: </span>
+                        <span className={classes.fontError} style={{ alignItems: 'flex-end' }} ><b>Modulo:</b> </span>
                         <span className={classes.fontError} style={{ alignItems: 'flex-start', marginTop: '10px' }}>{error.module && error.module.name || ""}</span>
                       </Grid>
 
                       <Grid item xs={12} style={{ textAlign: "left", marginTop: '15px' }}>
-                        <span className={classes.fontError} style={{ fontWeight: 'bold', alignItems: 'flex-end' }} >Asunto: </span>
+                        <span className={classes.fontError} style={{ alignItems: 'flex-end' }} ><b>Asunto:</b> </span>
                         <span className={classes.fontError} style={{ alignItems: 'flex-start', marginTop: '10px' }}>{error.reason || ""}</span>
                       </Grid>
 
                       <Grid item xs={12} style={{ textAlign: "left", marginTop: '15px' }}>
-                        <span className={classes.fontError} style={{ fontWeight: 'bold', alignItems: 'flex-end' }} >Descripción: </span>
+                        <span className={classes.fontError} style={{ alignItems: 'flex-end' }} ><b>Descripción:</b> </span>
                         <span className={classes.fontDescription} style={{ alignItems: 'flex-start', marginTop: '10px' }}>{
                           error.description && error.description.length > 200 ? error.description.substring(0,197) + "..." : error.description
                         }</span>
@@ -243,13 +230,14 @@ const ErrorInfoPage = props => {
                       {
                         error.file && (
                           <Grid item xs={6} style={{ textAlign: "left", marginTop: '15px' }}>
-                            <span className={classes.fontError} style={{ fontWeight: 'bold', alignItems: 'flex-end' }} >Archivo Adjunto:</span>
+                            <span className={classes.fontError} style={{ alignItems: 'flex-end' }} ><b>Archivo Adjunto:</b></span>
                             <p style={{textAlign:"flex-start"}}>
-                              <Button variant="contained"
+                              <Button
                                 style={{ marginLeft: "0px" }}
                                 href={(config.api + error.file)} target="_blank"
                                 endIcon={<GetAppIcon />}
-                                color="primary"
+                                variant="contained"
+                                color="secondary"
                               >
                                 Descargar
                               </Button>
@@ -258,15 +246,27 @@ const ErrorInfoPage = props => {
                         )
                       }
 
-                      <Grid container direction="row" style={{ marginTop: '20px' }}>
+                      <Grid container direction="row" style={{ marginTop: '40px' }}>
                         {
                           (isClient && isTheCreator && error.status == "Pendiente" && !error.fake) && (
                             <>
                               <Grid item xs={6}>
-                                <Button className={classes.reportBtn} onClick={() => { showEditError() }}>Editar</Button>
+                                <Button 
+                                  onClick={() => { showEditError() }}
+                                  variant="contained"
+                                  color="primary"
+                                >
+                                  Editar
+                                </Button>
                               </Grid>
                               <Grid item xs={6}>
-                                <Button className={classes.reportBtn} onClick={() => { showDeletedError() }}>Eliminar</Button>
+                                <Button 
+                                  onClick={() => { showDeletedError() }}
+                                  variant="contained"
+                                  color="default"
+                                >
+                                  Eliminar
+                                </Button>
                               </Grid>
                             </>
                           )
@@ -275,7 +275,13 @@ const ErrorInfoPage = props => {
                         {
                           (!isClient && error.received) ? (
                             <Grid item>
-                              <Button className={classes.reportBtn} onClick={() => { ShowNewCompanyNotification() }}>Notificar Error Reportado</Button>
+                              <Button
+                                onClick={() => { ShowNewCompanyNotification() }}
+                                variant="contained"
+                                color="primary"
+                              >
+                                Notificar Error Reportado
+                              </Button>
                             </Grid>
                           ) : null
                         }
@@ -283,11 +289,23 @@ const ErrorInfoPage = props => {
                           (!isClient && !error.received) ? (
                             <>
                               <Grid item xs={6}>
-                                <Button className={classes.reportBtn} onClick={() => { ShowConfirmError() }}>Confirmar error</Button>
+                                <Button 
+                                  onClick={() => { ShowConfirmError() }}
+                                  variant="contained"
+                                  color="primary"
+                                >
+                                  Confirmar error
+                                </Button>
                               </Grid>
                               <br />
                               <Grid item xs={6}>
-                                <Button className={classes.reportBtn} onClick={() => { ShowFakeError() }}>Reportar error falso</Button>
+                                <Button 
+                                  onClick={() => { ShowFakeError() }}
+                                  variant="contained"
+                                  color="default"
+                                >
+                                  Reportar error falso
+                                </Button>
                               </Grid>
                             </>
                           ) : null
@@ -317,7 +335,8 @@ const ErrorInfoPage = props => {
                     </Grid> : null
                 }
               </>
-            )          }
+            )
+          }
         </Grid>
       </Grid>
       <CustomModal

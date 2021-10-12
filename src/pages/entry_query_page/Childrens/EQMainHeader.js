@@ -48,12 +48,12 @@ const EQMainHeader = props => {
                 </div>
               </div>
             </Grid>                      
-            <Grid item xs={8} className="chat-header-name">                                                        
+            <Grid item xs={8} className="chat-header-name">
               <div>
-                <Typography style={{fontSize:"25px", color:"white"}}>{name}</Typography>
+                <Typography noWrap variant="h5">{name}</Typography>
               </div>
               <div>
-                <Typography style={{fontSize:"15px", color:"white"}}>{status}</Typography>
+                <Typography style={{fontSize:"14px"}}>{status}</Typography>
               </div>
             </Grid>               
           </Grid>

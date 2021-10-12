@@ -3,7 +3,6 @@ import config from 'config/Config';
 
 import ItemAvatar from "./ItemAvatar";
 import { getImageProfile } from 'utils/common';
-import { itemRowText, itemRowTitle } from "assets/styles/zendy-css";
 
 const ItemRecommendationRow = (props) => {
   const { recommendation={} } = props;
@@ -23,9 +22,9 @@ const ItemRecommendationRow = (props) => {
       />
       <div style={{width:"80%"}}>
           <div className="item-row-section">
-            <span style={{fontSize:itemRowTitle}}>{name}</span>
+            <span className="item-row-title">{name}</span>
           </div>
-          <p style={{fontSize:itemRowText}}>
+          <p className="item-row-description">
             {recommendation.queryReason || ""}
           </p>
       </div>

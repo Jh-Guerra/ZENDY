@@ -5,7 +5,6 @@ import ItemAvatar from "./ItemAvatar";
 import { getImageProfile } from 'utils/common';
 import moment from "moment";
 import { Typography } from "@material-ui/core";
-import { itemRowText, itemRowTitle } from "assets/styles/zendy-css";
 
 const ItemErrorRow = (props) => {
 
@@ -32,10 +31,10 @@ const ItemErrorRow = (props) => {
       />
       <div style={{width:"80%"}}>
           <div className="item-row-section">
-          <Typography noWrap style={{ fontSize:itemRowTitle, wordWrap: "break-word" }}>{reason}</Typography>
+          < Typography className="item-row-title">{reason}</Typography>
             <span className="item-row-time">{hour}</span>
           </div>
-          <Typography noWrap style={{ fontSize:itemRowText, wordWrap: "break-word" }}>{description}</Typography>        
+          <Typography className="item-row-description">{description}</Typography>        
       </div>
     </div>
   );

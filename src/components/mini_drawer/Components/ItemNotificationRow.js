@@ -4,7 +4,6 @@ import moment from 'moment';
 
 import ItemAvatar from "./ItemAvatar";
 import { getImageProfile } from 'utils/common';
-import { itemRowText, itemRowTitle } from "assets/styles/zendy-css";
 
 const ItemNotificationRow = (props) => {
 
@@ -26,10 +25,10 @@ const ItemNotificationRow = (props) => {
       />
       <div style={{width:"80%"}}>
           <div className="item-row-section">
-            <span style={{fontSize:itemRowTitle}}>{reason}</span>
+            <span className="item-row-title">{reason}</span>
             <span className="item-row-time">{hour}</span>
           </div>
-          <p style={{fontSize:itemRowText}}>
+          <p className="item-row-description">
             {description}
           </p>
       </div>

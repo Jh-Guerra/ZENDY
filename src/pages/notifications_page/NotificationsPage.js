@@ -31,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
     color: '#000000',
     marginTop: '20px',
     alignItems: 'center',
-    fontSize: '20px',
+    fontSize: '18px',
   },
   fontReason: {
     color: '#000000',
@@ -155,7 +155,6 @@ const NotificationsPage = (props) => {
   return (
     <Grid container>
       <Grid item xs={12} className="top-header"></Grid>
-  
       {
         notification.id && ((notification.idCompany && (notification.idCompany == session.user.idCompany) && checkPermission(session, "createCompanyNotifications")) || (!notification.idCompany && checkPermission(session, "createAdminNotifications"))) && (
           <Grid item xs={12} style={{padding: "0px 20px"}}>
@@ -182,15 +181,21 @@ const NotificationsPage = (props) => {
         )
       }
 
+      <Grid item xs={12} style={{marginTop: '20px' }}>
+        <Typography variant="h3" component="h3" className="page-title">
+          {notification.reason || ""}
+        </Typography>
+      </Grid>
+
       <Grid container item xs={12}>
           <Grid item xs={6} container spacing={0} direction="column" alignItems="flex-start" justify="flex-start">
                 <Box style={{ margin: '5vh 3vh' }}>
                   <Grid item xs={12} style={{ textAlign: "left", marginTop: '15px' }}>
-                    <span className={classes.fontReason} style={{ fontWeight: 'bold', alignItems: 'flex-end', marginTop: '10px' }}>Asunto: </span>
-                    <span className={classes.fontReason} style={{ alignItems: 'flex-start', marginTop: '10px' }}>{notification.reason || ""}</span>
+                    <span className={classes.fontNotification} style={{ fontWeight: 'bold', alignItems: 'flex-end', marginTop: '10px' }}>Asunto: </span>
+                    <span className={classes.fontNotification} style={{ alignItems: 'flex-start', marginTop: '10px' }}>{notification.reason || ""}</span>
                   </Grid>
 
-                  <Grid item xs={12} style={{ textAlign: "left", marginTop: '30px' }}>
+                  <Grid item xs={12} style={{ textAlign: "left", marginTop: '15px' }}>
                     <span className={classes.fontNotification} style={{ fontWeight: 'bold', alignItems: 'flex-end' }}>Descripción: </span>
                     <span className={classes.fontNotification} style={{ alignItems: 'flex-start', marginTop: '10px' }}>{
                       notification.description && notification.description.length > 200 ? notification.description.substring(0,197) + "..." : notification.description

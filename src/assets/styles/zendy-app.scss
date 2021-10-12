@@ -1,5 +1,5 @@
 // Letters
-$pLetter: 'Roboto';
+$pLetter: 'Roboto', sans-serif;
 $letterMinSize: 16px;
 $pLetterColor: White;
 $dLetterColor: #3b3b3b;
@@ -10,7 +10,7 @@ $dLetterRowColor: #d4d5d7;
 // Colors
 $pColor: #8538bc;
 $pColorDark: #411368;
-$sColor: #d96e59;
+$sColor: #E16B08;
 $tColor: #F39651;
 
 $onLine: #38F909;
@@ -231,6 +231,7 @@ html, body {
     color: $dLetterColor;
     text-align: center;
     margin-bottom: 30px;
+    font-weight: bold;
 }
 
 .table-header-cell {
@@ -744,10 +745,6 @@ html, body {
     display: flex;
     justify-content: center;
     align-items: center;
-}
-
-.report-form{
-    background-color: white;
 }
 
 @media (max-width: 1200px) {

@@ -30,8 +30,8 @@ import { Input, InputAdornment } from "@material-ui/core";
             <div style={{width:"80%", height:"80%"}}>
               <div className=".align-items-center" style={{alignItems:"center", justifyContent:"center", marginTop:"30px"}}>
               <InputAdornment position="start">
-              <InsertDriveFileIcon style={{ fontSize: 40 }}/>
-                <span style={{fontSize:"18px", paddingLeft:"10px"}}>{this.props.name}</span>
+              <InsertDriveFileIcon />
+                <span>{this.props.name}</span>
             </InputAdornment>
               </div>                
           </div>
