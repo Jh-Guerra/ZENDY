@@ -4,7 +4,7 @@ import moment from 'moment';
 
 import ItemAvatar from "./ItemAvatar";
 import { getImageProfile } from 'utils/common';
-import { textDescripcion, textTitulo } from "assets/styles/zendy-css";
+import { itemRowText, itemRowTitle } from "assets/styles/zendy-css";
 
 const ItemNotificationRow = (props) => {
 
@@ -19,21 +19,19 @@ const ItemNotificationRow = (props) => {
   }
 
   return (
-    <div className="item-row-content" onClick={() => { onClickAction(notification) }} style={{cursor: "pointer"}}>
-      <div className="item-row-user">
-        <ItemAvatar
-          image={getImageProfile()}
-          isChatCompany
-        />
-        <div style={{width:"80%"}}>
-            <div className="chat-mini-details">
-              <span style={{fontSize:textTitulo}}>{reason}</span>
-              <span className="chat-mini-time">{hour}</span>
-            </div>
-            <p style={{fontSize:textDescripcion}}>
-              {description}
-            </p>
-        </div>
+    <div className="item-row" onClick={() => { onClickAction(notification) }} style={{cursor: "pointer"}}>
+      <ItemAvatar
+        image={getImageProfile()}
+        isChatCompany
+      />
+      <div style={{width:"80%"}}>
+          <div className="item-row-section">
+            <span style={{fontSize:itemRowTitle}}>{reason}</span>
+            <span className="item-row-time">{hour}</span>
+          </div>
+          <p style={{fontSize:itemRowText}}>
+            {description}
+          </p>
       </div>
     </div>
   );

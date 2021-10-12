@@ -17,20 +17,18 @@ const ItemCompanyRow = (props) => {
   }
 
   return (
-    <div className="item-row-content" onClick={() => { onClickAction(company) }} style={{cursor:'pointer'}}>
-      <div className="item-row-user">
-        <ItemAvatar
-          image={image ? config.api+image : getImageProfile("Company")}
-          isChatCompany
-        />
-        <div style={{width:"80%"}}>
-            <div className="chat-mini-details">
-              <span style={{fontSize:"18px"}}>{name}</span>
-            </div>
-            <p style={{fontSize:"16px"}}>
-              {usersCount} usuarios
-            </p>
-        </div>
+    <div className="item-row" onClick={() => { onClickAction(company) }} style={{cursor:'pointer'}}>
+      <ItemAvatar
+        image={image ? config.api+image : getImageProfile("Company")}
+        isChatCompany
+      />
+      <div style={{width:"80%"}}>
+          <div className="item-row-section">
+            <span style={{fontSize:"18px"}}>{name}</span>
+          </div>
+          <p style={{fontSize:"16px"}}>
+            {usersCount} usuarios
+          </p>
       </div>
     </div>
   );

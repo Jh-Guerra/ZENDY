@@ -313,7 +313,7 @@ const ModalUser = (props) => {
                                         <CustomInput
                                             id="phone"
                                             custom="inputText"
-                                            maxlength="16"
+                                            maxLength="16"
                                             label="N° Celular"
                                             onChange={(event) => { 
                                                  setFieldValue("phone", onlyNumbers(Math.max(0, parseInt(event.target.value)).toString().slice(0,15)))

@@ -4,8 +4,6 @@ import ModalBody from './common/ModalBody'
 import ModalHeader from './common/ModalHeader'
 import Modal from './common/Modal'
 import NotificationsIcon from '@material-ui/icons/Notifications';
-import { successButtonColor } from 'assets/styles/zendy-css';
-import CustomButton from "components/CustomButton";
 import CustomModal from "components/Modals/common/CustomModal";
 import { useHistory } from 'react-router-dom';
 import { checkPermission, getSessionInfo } from 'utils/common';

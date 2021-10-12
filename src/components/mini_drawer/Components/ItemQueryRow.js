@@ -4,7 +4,7 @@ import config from 'config/Config';
 import ItemAvatar from "./ItemAvatar";
 import { getImageProfile } from 'utils/common';
 import moment from 'moment';
-import { textDescripcion, textTitulo } from "assets/styles/zendy-css";
+import { itemRowText, itemRowTitle } from "assets/styles/zendy-css";
 
 const ItemQueryRow = (props) => {
 
@@ -29,21 +29,19 @@ const ItemQueryRow = (props) => {
   }
 
   return (
-    <div className="item-row-content" onClick={() => { onClickAction(query) }} style={{cursor: "pointer"}}>
-      <div className="item-row-user">
-        <ItemAvatar
-          image={image ? config.api+image : getImageProfile(query.sex)}
-          isChatCompany
-        />
-        <div style={{width:"80%"}}>
-            <div className="chat-mini-details">
-              <span style={{fontSize:textTitulo}}>{reason}</span>
-              <span className="chat-mini-time">{hour}</span>
-            </div>
-            <p style={{fontSize:textDescripcion}}>
-              {description}
-            </p>
-        </div>
+    <div className="item-row" onClick={() => { onClickAction(query) }} style={{cursor: "pointer"}}>
+      <ItemAvatar
+        image={image ? config.api+image : getImageProfile(query.sex)}
+        isChatCompany
+      />
+      <div style={{width:"80%"}}>
+          <div className="item-row-section">
+            <span style={{fontSize:itemRowTitle}}>{reason}</span>
+            <span className="item-row-time">{hour}</span>
+          </div>
+          <p style={{fontSize:itemRowText}}>
+            {description}
+          </p>
       </div>
     </div>
   );

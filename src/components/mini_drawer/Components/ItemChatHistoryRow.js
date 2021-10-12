@@ -4,7 +4,7 @@ import { Typography } from "@material-ui/core";
 import ItemAvatar from "./ItemAvatar";
 import { getImageProfile, getSessionInfo } from 'utils/common';
 import moment from 'moment';
-import { textDescripcion, textTitulo } from "assets/styles/zendy-css";
+import { itemRowText, itemRowTitle } from "assets/styles/zendy-css";
 
 const ItemChatHistoryRow = (props) => {
   const session = getSessionInfo();
@@ -45,24 +45,22 @@ const ItemChatHistoryRow = (props) => {
   }
 
   return (
-    <div className="item-row-content" onClick={() => { onClickAction(chat) }}>
-      <div className="item-row-user">
-        <ItemAvatar
-          isOnline={isOnline}
-          image={image ? config.api + image : getImageProfile(defaultImageType)}
-        />
-        <div style={{ width: "80%" }}>
-          <div className="chat-mini-details">
-          <Typography noWrap style={{ fontSize:textTitulo, wordWrap: "break-word" }}>{name}</Typography>
-            <span className="chat-mini-time">{hour}</span>
-          </div>
-          <div className="chat-mini-details">
-            <p style={{ fontSize:textDescripcion }}>
-              {
-                message ? ( prefixMessage + " " + message ) : " "
-              }
-            </p>
-          </div>
+    <div className="item-row" onClick={() => { onClickAction(chat) }}>
+      <ItemAvatar
+        isOnline={isOnline}
+        image={image ? config.api + image : getImageProfile(defaultImageType)}
+      />
+      <div style={{ width: "80%" }}>
+        <div className="item-row-section">
+        <Typography noWrap style={{ fontSize:itemRowTitle, wordWrap: "break-word" }}>{name}</Typography>
+          <span className="item-row-time">{hour}</span>
+        </div>
+        <div className="item-row-section">
+          <p style={{ fontSize:itemRowText }}>
+            {
+              message ? ( prefixMessage + " " + message ) : " "
+            }
+          </p>
         </div>
       </div>
     </div>

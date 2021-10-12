@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Grid, Typography, Box, Button, Avatar } from "@material-ui/core";
 import CustomTable from 'components/CustomTable';
-import CustomButton from 'components/CustomButton';
 import { dangerColor, successButtonColor, pColor } from 'assets/styles/zendy-css';
 import moment from 'moment';
 import ModalDelete from 'components/Modals/ModalDelete';
@@ -161,23 +160,23 @@ const NotificationsPage = (props) => {
         notification.id && ((notification.idCompany && (notification.idCompany == session.user.idCompany) && checkPermission(session, "createCompanyNotifications")) || (!notification.idCompany && checkPermission(session, "createAdminNotifications"))) && (
           <Grid item xs={12} style={{padding: "0px 20px"}}>
             <p style={{textAlign:'start'}}>
-              <CustomButton
-                variant="contained"
-                startIcon={<EditIcon />}
-                color={successButtonColor}
+              <Button
                 onClick={onOpenEditNotification}
+                variant="contained"
+                color="secondary"
+                startIcon={<EditIcon />}
                 style={{marginRight: "10px"}}
               >
                 Editar Notificación
-              </CustomButton>
-              <CustomButton
-                variant="contained"
-                startIcon={<DeleteIcon />}
-                color={dangerColor}
+              </Button>
+              <Button
                 onClick={onOpenModalDelete}
+                variant="contained"
+                color="default"
+                startIcon={<DeleteIcon />}
               >
                 Eliminar Notificación
-              </CustomButton>
+              </Button>
             </p>
           </Grid>
         )
@@ -187,12 +186,12 @@ const NotificationsPage = (props) => {
           <Grid item xs={6} container spacing={0} direction="column" alignItems="flex-start" justify="flex-start">
                 <Box style={{ margin: '5vh 3vh' }}>
                   <Grid item xs={12} style={{ textAlign: "left", marginTop: '15px' }}>
-                    <span className={classes.fontReason} style={{ fontWeight: 'bold', fontStyle: 'italic', alignItems: 'flex-end', marginTop: '10px' }}>Asunto: </span>
+                    <span className={classes.fontReason} style={{ fontWeight: 'bold', alignItems: 'flex-end', marginTop: '10px' }}>Asunto: </span>
                     <span className={classes.fontReason} style={{ alignItems: 'flex-start', marginTop: '10px' }}>{notification.reason || ""}</span>
                   </Grid>
 
                   <Grid item xs={12} style={{ textAlign: "left", marginTop: '30px' }}>
-                    <span className={classes.fontNotification} style={{ fontWeight: 'bold', fontStyle: 'italic', alignItems: 'flex-end' }}>Descripción: </span>
+                    <span className={classes.fontNotification} style={{ fontWeight: 'bold', alignItems: 'flex-end' }}>Descripción: </span>
                     <span className={classes.fontNotification} style={{ alignItems: 'flex-start', marginTop: '10px' }}>{
                       notification.description && notification.description.length > 200 ? notification.description.substring(0,197) + "..." : notification.description
                     }</span>
@@ -200,12 +199,13 @@ const NotificationsPage = (props) => {
                   {
                     notification.file &&
                     <Grid item xs={12} style={{ textAlign: "left", marginTop: '15px' }}>
-                      <span className={classes.fontNotification} style={{ fontWeight: 'bold', fontStyle: 'italic', alignItems: 'flex-end' }}>Archivo Adjunto:</span>
+                      <span className={classes.fontNotification} style={{ fontWeight: 'bold', alignItems: 'flex-end' }}>Archivo Adjunto:</span>
                       <p style={{textAlign:"flex-start"}}>
-                        <Button variant="contained"
+                        <Button 
+                          variant="contained"
                           href={(config.api + notification.file)} target="_blank"
                           endIcon={<GetAppIcon />}
-                          color="primary"
+                          color="secondary"
                         >
                           Descargar
                         </Button>
@@ -231,14 +231,14 @@ const NotificationsPage = (props) => {
           <Grid item xs={12} style={{padding: "0px 20px"}}>
             
             <p style={{textAlign:"right"}}>
-              <CustomButton
-                  variant="contained"
-                  startIcon={<AddCircleOutlineIcon />}
-                  color={successButtonColor}
-                  onClick={openNotificationTo}                 
+              <Button
+                onClick={openNotificationTo}
+                variant="contained"
+                color="secondary"
+                startIcon={<AddCircleOutlineIcon />}
               >
                 Notificar a
-              </CustomButton>
+              </Button>
             </p>
             <br />
             <CustomTable 

@@ -197,7 +197,7 @@ const ErrorInfoPage = props => {
             error && error.id && (
               <>
                 <Grid item xs={12} style={{ textAlign: "right", marginTop: '20px' }}>
-                  <span className={classes.fontError} style={{ fontWeight: 'bold', fontStyle: 'italic', alignItems: 'flex-end' }} >Estado: </span>
+                  <span className={classes.fontError} style={{ fontWeight: 'bold', alignItems: 'flex-end' }} >Estado: </span>
                   {
                     !isClient ?
                       <span className={classes.fontError} style={{ alignItems: 'flex-center', marginRight: "8vh" }}>{(error.status == "Pendiente") ? "Pendiente" : "Aceptado"}</span> :
@@ -209,32 +209,32 @@ const ErrorInfoPage = props => {
                   <Grid item xs={6} container spacing={0} direction="column" alignItems="flex-start" justify="flex-start">
                     <Box style={{ margin: '2vh 8vh' }}>
                       <Grid item xs={12} style={{ textAlign: "left", marginTop: '15px' }}>
-                        <span className={classes.fontError} style={{ fontWeight: 'bold', fontStyle: 'italic', alignItems: 'flex-end', marginTop: '10px' }} >Nombre de Empresa: </span>
+                        <span className={classes.fontError} style={{ fontWeight: 'bold', alignItems: 'flex-end', marginTop: '10px' }} >Nombre de Empresa: </span>
                         <span className={classes.fontError} style={{ alignItems: 'flex-start', marginTop: '10px' }}>{error.company && error.company.name || ""}</span>
                       </Grid>
 
                       <Grid item xs={12} style={{ textAlign: "left", marginTop: '15px' }}>
-                        <span className={classes.fontError} style={{ fontWeight: 'bold', fontStyle: 'italic', alignItems: 'flex-end' }} >Usuario: </span>
+                        <span className={classes.fontError} style={{ fontWeight: 'bold', alignItems: 'flex-end' }} >Usuario: </span>
                         <span className={classes.fontError} style={{ alignItems: 'flex-start', marginTop: '10px' }}>{error.company && error.user.firstName + " " + error.user.lastName || ""}</span>
                       </Grid>
 
                       <Grid item xs={12} style={{ textAlign: "left", marginTop: '15px' }}>
-                        <span className={classes.fontError} style={{ fontWeight: 'bold', fontStyle: 'italic', alignItems: 'flex-end' }} >Fecha de Reporte: </span>
+                        <span className={classes.fontError} style={{ fontWeight: 'bold', alignItems: 'flex-end' }} >Fecha de Reporte: </span>
                         <span className={classes.fontError} style={{ alignItems: 'flex-start', marginTop: '10px' }}>{(error.created_at) && moment(error.created_at).format("DD/MM/YYYY") || ""}</span>
                       </Grid>
 
                       <Grid item xs={12} style={{ textAlign: "left", marginTop: '15px' }}>
-                        <span className={classes.fontError} style={{ fontWeight: 'bold', fontStyle: 'italic', alignItems: 'flex-end' }} >Modulo: </span>
+                        <span className={classes.fontError} style={{ fontWeight: 'bold', alignItems: 'flex-end' }} >Modulo: </span>
                         <span className={classes.fontError} style={{ alignItems: 'flex-start', marginTop: '10px' }}>{error.module && error.module.name || ""}</span>
                       </Grid>
 
                       <Grid item xs={12} style={{ textAlign: "left", marginTop: '15px' }}>
-                        <span className={classes.fontError} style={{ fontWeight: 'bold', fontStyle: 'italic', alignItems: 'flex-end' }} >Asunto: </span>
+                        <span className={classes.fontError} style={{ fontWeight: 'bold', alignItems: 'flex-end' }} >Asunto: </span>
                         <span className={classes.fontError} style={{ alignItems: 'flex-start', marginTop: '10px' }}>{error.reason || ""}</span>
                       </Grid>
 
                       <Grid item xs={12} style={{ textAlign: "left", marginTop: '15px' }}>
-                        <span className={classes.fontError} style={{ fontWeight: 'bold', fontStyle: 'italic', alignItems: 'flex-end' }} >Descripción: </span>
+                        <span className={classes.fontError} style={{ fontWeight: 'bold', alignItems: 'flex-end' }} >Descripción: </span>
                         <span className={classes.fontDescription} style={{ alignItems: 'flex-start', marginTop: '10px' }}>{
                           error.description && error.description.length > 200 ? error.description.substring(0,197) + "..." : error.description
                         }</span>
@@ -243,7 +243,7 @@ const ErrorInfoPage = props => {
                       {
                         error.file && (
                           <Grid item xs={6} style={{ textAlign: "left", marginTop: '15px' }}>
-                            <span className={classes.fontError} style={{ fontWeight: 'bold', fontStyle: 'italic', alignItems: 'flex-end' }} >Archivo Adjunto:</span>
+                            <span className={classes.fontError} style={{ fontWeight: 'bold', alignItems: 'flex-end' }} >Archivo Adjunto:</span>
                             <p style={{textAlign:"flex-start"}}>
                               <Button variant="contained"
                                 style={{ marginLeft: "0px" }}

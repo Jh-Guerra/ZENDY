@@ -9,7 +9,6 @@ const theme = createMuiTheme({
     tonalOffset: 0.2,
     primary: {
       main: pColor,
-      dark: pColorDark,
       contrastText: pLetterColor
     },
     secondary: {

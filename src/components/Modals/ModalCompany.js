@@ -272,7 +272,7 @@ const ModalCompany = (props) => {
                                             label={<p>RUC</p>}
                                             custom="inputText"
                                             onChange={handleChange}
-                                            value={values.ruc}
+                                            value={values.ruc || ""}
                                             error={ errors.ruc && touched.ruc ? true : false }
                                             icon={<AccountBalanceIcon />}
                                             disabled={!editMode}
@@ -296,7 +296,7 @@ const ModalCompany = (props) => {
                                             label={<p>Descripción</p>}
                                             custom="textArea"
                                             onChange={handleChange}
-                                            value={values.description}
+                                            value={values.description || ""}
                                             error={ errors.description && touched.description ? true : false }
                                             disabled={!editMode}
                                         />

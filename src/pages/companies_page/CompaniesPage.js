@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
-import { Grid, Typography } from '@material-ui/core';
+import { Button, Grid, Typography } from '@material-ui/core';
 import CustomTable from 'components/CustomTable';
 import { deleteCompany, findCompany, listCompanies } from 'services/actions/CompanyAction';
-import CustomButton from 'components/CustomButton';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
-import { successButtonColor } from 'assets/styles/zendy-css';
 import ModalCompany from 'components/Modals/ModalCompany';
 import ModalDelete from 'components/Modals/ModalDelete';
 import { showBackdrop, showSnackBar } from 'services/actions/CustomAction';
@@ -105,18 +103,18 @@ class CompaniesPage extends Component {
         
         <Grid item xs={12} style={{ padding: '0px 20px' }}>
           <br />
-          <Typography variant="h4" component="h4" gutterBottom style={{textAlign:'flex-start'}}>
+          <Typography variant="h3" component="h3" className="page-title">
             Empresas
           </Typography>
           <p style={{ textAlign: 'end' }}>
-            <CustomButton
-              variant="contained"
-              startIcon={<AddCircleIcon />}
-              color={successButtonColor}
+            <Button
               onClick={this.openModalCompany}
+              variant="contained"
+              color="secondary"
+              startIcon={<AddCircleIcon />}
             >
               Agregar Empresa
-            </CustomButton>
+            </Button>
           </p>
           <CustomTable columns={columns} rows={companies} onRowClick={this.showDetails} loading={loading} />
         </Grid>

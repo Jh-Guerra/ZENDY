@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
-import { Grid, Typography } from "@material-ui/core";
+import { Button, Grid, Typography } from "@material-ui/core";
 import CustomTable from 'components/CustomTable';
 import { deleteUser, findUser, listUsers, listUsersSameCompany } from 'services/actions/UserAction';
-import CustomButton from 'components/CustomButton';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
-import { successButtonColor } from 'assets/styles/zendy-css';
 import ModalUser from 'components/Modals/ModalUser';
 import moment from 'moment';
 import { getCustomRoleName, getUserTypeName } from 'utils/common';
@@ -101,18 +99,18 @@ class CompanyUsersPage extends Component {
         <Grid item xs={12} className="top-header"></Grid>
         <Grid item xs={12} style={{padding: "0px 20px"}}>
           <br />
-          <Typography variant="h4" component="h4" gutterBottom style={{textAlign:'flex-start'}}>
+          <Typography variant="h3" component="h3" className="page-title">
             Usuarios
           </Typography>
           <p style={{textAlign:'end'}}>
-            <CustomButton
-              variant="contained"
-              startIcon={<AddCircleIcon />}
-              color={successButtonColor}
+            <Button
               onClick={this.openModalUser}
+              variant="contained"
+              color="secondary"
+              startIcon={<AddCircleIcon />}
             >
               Agregar Usuario
-            </CustomButton>
+            </Button>
           </p>
           <CustomTable 
             columns={columns}

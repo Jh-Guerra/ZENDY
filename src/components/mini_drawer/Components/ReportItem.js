@@ -26,18 +26,16 @@ import { Input, InputAdornment } from "@material-ui/core";
 
   render() {
     return (
-        <div className="item-row-content" style={{minHeight:"80px", height:"80px", padding:"0px 0px 0px 0px"}}>
-            <div className="item-row-user" >
-              <div style={{width:"80%", height:"80%"}}>
-                  <div className=".align-items-center" style={{alignItems:"center", justifyContent:"center", marginTop:"30px"}}>
-                  <InputAdornment position="start">
-                  <InsertDriveFileIcon style={{ fontSize: 40 }}/>
-                    <span style={{fontSize:"18px", paddingLeft:"10px"}}>{this.props.name}</span>
-                </InputAdornment>
-                  </div>                
-              </div>
-            </div>
+        <div className="item-row" style={{minHeight:"80px", height:"80px", padding:"0px 0px 0px 0px"}}>
+            <div style={{width:"80%", height:"80%"}}>
+              <div className=".align-items-center" style={{alignItems:"center", justifyContent:"center", marginTop:"30px"}}>
+              <InputAdornment position="start">
+              <InsertDriveFileIcon style={{ fontSize: 40 }}/>
+                <span style={{fontSize:"18px", paddingLeft:"10px"}}>{this.props.name}</span>
+            </InputAdornment>
+              </div>                
           </div>
+        </div>
     );
   }
 }

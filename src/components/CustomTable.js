@@ -8,7 +8,7 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
-import { sColor } from 'assets/styles/zendy-css';
+import { pColor, pLetterColor, sColor } from 'assets/styles/zendy-css';
 
 const useStyles = makeStyles({
     root: {
@@ -37,8 +37,8 @@ const CustomTable = props => {
 
     const StyledTableCell = withStyles((theme) => ({
         head: {
-          backgroundColor: sColor,
-          color: theme.palette.common.white,
+          backgroundColor: pColor,
+          color: pLetterColor,
         },
         body: {
           fontSize: 14,
@@ -54,7 +54,7 @@ const CustomTable = props => {
                   {columns.map((column, i) => (
                     <StyledTableCell
                       key={i}
-                      style={{ fontSize: "12px" }}
+                      className="table-header-cell"
                     >
                       {column.label}
                     </StyledTableCell>
@@ -68,7 +68,7 @@ const CustomTable = props => {
                       <TableRow hover role="checkbox" tabIndex={-1} key={i} onClick={() => { props.onRowClick(row) } } style={{cursor:'pointer'}}>
                         {columns.map((column, i2) => {
                           return (
-                            <TableCell key={i2} align={column.align} style={{fontSize:"11px"}}>
+                            <TableCell key={i2} align={column.align} className="table-header-row">
                               {column.format ? column.format(row) : row[column.field] || ""}
                             </TableCell>
                           );

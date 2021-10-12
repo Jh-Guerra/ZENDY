@@ -5,7 +5,7 @@ import ItemAvatar from "./ItemAvatar";
 import { getImageProfile } from 'utils/common';
 import moment from "moment";
 import { Typography } from "@material-ui/core";
-import { textDescripcion, textTitulo } from "assets/styles/zendy-css";
+import { itemRowText, itemRowTitle } from "assets/styles/zendy-css";
 
 const ItemErrorRow = (props) => {
 
@@ -26,18 +26,16 @@ const ItemErrorRow = (props) => {
   }
 
   return (
-    <div className="item-row-content" onClick={() => { onClickAction(error) }}>
-      <div className="item-row-user">
-        <ItemAvatar
-          image={image ? config.api+image : getImageProfile(defaultImageType)}
-        />
-        <div style={{width:"80%"}}>
-            <div className="chat-mini-details">
-            <Typography noWrap style={{ fontSize:textTitulo, wordWrap: "break-word" }}>{reason}</Typography>
-              <span className="chat-mini-time">{hour}</span>
-            </div>
-            <Typography noWrap style={{ fontSize:textDescripcion, wordWrap: "break-word" }}>{description}</Typography>        
-        </div>
+    <div className="item-row" onClick={() => { onClickAction(error) }}>
+      <ItemAvatar
+        image={image ? config.api+image : getImageProfile(defaultImageType)}
+      />
+      <div style={{width:"80%"}}>
+          <div className="item-row-section">
+          <Typography noWrap style={{ fontSize:itemRowTitle, wordWrap: "break-word" }}>{reason}</Typography>
+            <span className="item-row-time">{hour}</span>
+          </div>
+          <Typography noWrap style={{ fontSize:itemRowText, wordWrap: "break-word" }}>{description}</Typography>        
       </div>
     </div>
   );

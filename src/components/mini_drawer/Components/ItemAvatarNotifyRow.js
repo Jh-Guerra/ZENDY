@@ -18,20 +18,19 @@ componentDidMount() {
   }
   render() {
     return (
-        <div className="item-row-content">
-            <div className="item-row-user">
-                    <ItemAvatarT
-                    isOnline={this.props.isOnline}
-                    Area={this.props.Area ? this.props.Area : "http://placehold.it/80x80"}/>
+        <div className="item-row">
+            <ItemAvatarT
+                isOnline={this.props.isOnline}
+                Area={this.props.Area ? this.props.Area : "http://placehold.it/80x80"}
+            />
             <div style={{width:"80%"}}>
-                <div className="chat-mini-details">
+                <div className="item-row-section">
                     <span style={{fontSize:"18px"}}>{this.props.Title}</span>
-                    <span className="chat-mini-time">{this.props.hour}</span>
+                    <span className="item-row-time">{this.props.hour}</span>
                 </div>                
-                    <p style={{fontSize:"14px", color:"gray"}}>
+                <p style={{fontSize:"14px", color:"gray"}}>
                     {this.props.message}
-                    </p>
-                </div>
+                </p>
             </div>
         </div>
     );

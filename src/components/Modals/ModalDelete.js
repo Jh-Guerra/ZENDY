@@ -50,9 +50,7 @@ const ModalDelete = (props) => {
             <ModalFooter
                 confirmText={"Si"}
                 onConfirm={props.onDelete}
-                confirmColor={"secondary"}
                 cancelText={"No"}
-                cancelColor={"default"}
                 onCancel={handleClose}
             />
 

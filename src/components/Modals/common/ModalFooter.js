@@ -7,7 +7,6 @@ const ModalFooter = (props) => {
     confirmText, cancelText,  editText, deleteText,
     onConfirm,
     onCancel, onEdit, onDelete,
-    cancelColor, confirmColor,
     buttonType="button"
   } = props;
 
@@ -15,28 +14,28 @@ const ModalFooter = (props) => {
       <DialogActions className="modal-footer">
         {
           cancelText && (
-            <Button onClick={onCancel} size="small" color={cancelColor || "default"} variant="contained">
+            <Button onClick={onCancel} size="small" variant="contained" color="default">
               {cancelText}
             </Button>
           )
         }
         {
           deleteText && (
-            <Button onClick={onDelete} size="small" color="default" variant="contained">
+            <Button onClick={onDelete} size="small" variant="contained" color="default">
               {deleteText}
             </Button>
           )
         }
         {
           editText && (
-            <Button type={buttonType} onClick={onEdit} size="small" color="primary" autoFocus variant="contained">
+            <Button type={buttonType} variant="contained" onClick={onEdit} size="small" color="primary" autoFocus>
               {editText}
             </Button>
           )
         }
         {
           confirmText && (
-            <Button type={buttonType} onClick={onConfirm} size="small" color={confirmColor || "primary"} autoFocus variant="contained">
+            <Button type={buttonType} onClick={onConfirm} size="small" color="primary" autoFocus variant="contained">
               {confirmText}
             </Button>
           )

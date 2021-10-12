@@ -98,7 +98,7 @@ const MiniDrawer = (props) => {
       }
     })
   
-    setUsersTab((usersTab > 4 && moreActionsTab > 0) ? usersTab + 1 : usersTab);
+    setUsersTab((usersTab > -1 && moreActionsTab > 0) ? usersTab + 1 : usersTab);
     setUsersNameTab(usersNameTab);
     setCompaniesTab((companiesTab > 4 && moreActionsTab > 0) ? companiesTab + 1 : companiesTab);
     setMoreActionsTab(moreActionsTab);

@@ -2,12 +2,15 @@
 $pLetter: 'Roboto';
 $letterMinSize: 16px;
 $pLetterColor: White;
+$dLetterColor: #3b3b3b;
 $pIconColor: White;
+$dLetterSize: 16px;
+$dLetterRowColor: #d4d5d7;
 
 // Colors
-$pColor: #5C1A93;
+$pColor: #8538bc;
 $pColorDark: #411368;
-$sColor: #E0741A;
+$sColor: #d96e59;
 $tColor: #F39651;
 
 $onLine: #38F909;
@@ -43,7 +46,7 @@ html, body {
 
 .custom-button {
     color: $pButtonLetter;
-    background-color: $pColor;
+    // background-color: $pColor;
 
     * {
         color: $pButtonLetter;
@@ -156,11 +159,89 @@ html, body {
     }
 }
 
+/* ===========================       ROWS              =============================================*/
+.item-row {
+    background-color: $pColor;
+    border-bottom: 1px solid #8d8c8c;
+    width: 100%;
+    padding: 2px 0px;
+    cursor: pointer;
+
+    display: flex;
+    flex-direction: row;
+    color: #fff;
+    padding: 5px 10px 5px 10px;
+    align-items: center;
+
+    p {
+        margin: 0px 0px;
+    }
+
+    .avatar {
+        height: 60px;
+        width: 60px;
+        margin: 10px 5px;
+    }
+
+    button {
+        margin: 0px 10px;
+        align-content: center;
+        color: white;
+        border-color: white;
+        padding: 2px 15px;
+        border: 0;
+        background-color: #d66565;
+    }
+}
+
+.item-row:hover {
+    background-color: $pColorDark;
+}
+
 .items-section {
     overflow: auto;
     height: 100%;
 }
 
+.item-row-section {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.item-row-title {
+    font-size: $dLetterSize + 1;
+    word-wrap: break-word;
+}
+
+.item-row-description {
+    font-size: $dLetterSize - 2;
+    color: $dLetterColor;
+    color: $dLetterRowColor;
+}
+
+.item-row-time {
+    font-size: 10px;
+    padding-top: 6px;
+    color: $dLetterRowColor;
+}
+
+.page-title {
+    color: $dLetterColor;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.table-header-cell {
+    font-size: $dLetterSize + 1px;
+    font-weight: bold;
+    color: $pLetterColor;
+}
+
+.table-header-row {
+    font-size: $dLetterSize;
+}
 
 /* ===========================        CHAT              =============================================*/
 /* ============================    CHAT HEADER       ============================================*/
@@ -413,15 +494,6 @@ html, body {
     user-select: none;
 }
 
-/* ===========================        MENU LATERAL              =============================================*/
-.item-row-content {
-    background-color: $pColor;
-    border-bottom: 1px solid #8d8c8c;
-    width: 100%;
-    padding: 2px 0px;
-    cursor: pointer;
-}
-
 .chatlist__heading {
     width: 100%;
     display: flex;
@@ -459,36 +531,6 @@ html, body {
   color: white;
   opacity: 0.7;
   font-size: 15px;
-}
-
-.item-row-user {
-    display: flex;
-    flex-direction: row;
-    color: #fff;
-    padding: 5px 10px 5px 10px;
-    align-items: center;
-
-    p {
-        font-size: large;
-        margin: 0px 0px;
-        font-size: 25px;
-    }
-
-    .avatar {
-        height: 60px;
-        width: 60px;
-        margin: 10px 5px;
-    }
-
-    button {
-        margin: 0px 10px;
-        align-content: center;
-        color: white;
-        border-color: white;
-        padding: 2px 15px;
-        border: 0;
-        background-color: #d66565;
-    }
 }
 
 .item-avatar-content {
@@ -542,25 +584,6 @@ html, body {
 .notfound-page p {
     color: white;
     font-size: xxx-large;
-}
-
-.chat-mini-details {
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    .border-number{
-      background: #22B86C;
-      border-radius: 0.8em;
-      padding-left: 7px;
-      padding-right: 7px;
-    }
-}
-
-.chat-mini-time {
-    font-size: 10px;
-    padding-top: 6px;
-    color: "whitesmoke";
 }
   
   .search_wrap {
@@ -669,8 +692,8 @@ html, body {
     flex-direction: column;
     ::placeholder {
         font-size: 18px;
-        font-style: italic;
-        color: black;
+        // font-style: italic;
+        // color: black;
         opacity: 1;
     }
 

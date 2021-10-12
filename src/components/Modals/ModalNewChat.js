@@ -7,8 +7,6 @@ import SupervisedUserCircleIcon from '@material-ui/icons/SupervisedUserCircle';
 import BusinessIcon from '@material-ui/icons/Business';
 import PersonIcon from '@material-ui/icons/Person';
 import AddCommentIcon from '@material-ui/icons/AddComment';
-import { successButtonColor } from 'assets/styles/zendy-css';
-import CustomButton from "components/CustomButton";
 import CustomModal from "components/Modals/common/CustomModal";
 import { useHistory } from 'react-router-dom';
 import { checkPermission, getSessionInfo } from 'utils/common';

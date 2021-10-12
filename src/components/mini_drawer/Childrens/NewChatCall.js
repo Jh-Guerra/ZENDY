@@ -1,8 +1,6 @@
 import { Button, Grid } from '@material-ui/core';
 import React, { Component } from 'react';
 import RateReviewIcon from '@material-ui/icons/RateReview';
-import CustomButton from 'components/CustomButton';
-import { successButtonColor } from 'assets/styles/zendy-css';
 import CustomModal from 'components/Modals/common/CustomModal';
 
 class NewChatCall extends Component {
