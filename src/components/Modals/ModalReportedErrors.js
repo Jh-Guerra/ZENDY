@@ -165,7 +165,7 @@ const ModalReportedErrors = props => {
     setIcon(<EditIcon />);
   }
 
-  const deleteImagenes = (Link, id, values) => {
+  const deleteImage = (Link, id, values) => {
     if(id && values.image){
       props.dispatch(deleteImage(Link,id)).then(res => {
         if(res.error){
@@ -174,6 +174,7 @@ const ModalReportedErrors = props => {
           setData({...values, image: ""});
           document.getElementById('image').value = "";
           props.dispatch(showSnackBar('warning', 'Imagen eliminada'));
+          props.setError && props.setError(res.error);
         }
       });
     }else{
@@ -252,7 +253,7 @@ const ModalReportedErrors = props => {
                         src={fileUrl ? fileUrl : (error && error.image ? (config.api + error.image) : defaultAvatar)}
                       />
                       {
-                        !editMode && values.image && <HighlightOffTwoToneIcon style={{color: 'red'}} onClick={() => { deleteImagenes( (error.image && (error.image).substr(8)),error.id, values)  }} /> 
+                        !editMode && values.image && <HighlightOffTwoToneIcon style={{color: 'red'}} onClick={() => { deleteImage( (error.image && (error.image).substr(8)),error.id, values)  }} /> 
                       }                                         
                     </Grid>
                    

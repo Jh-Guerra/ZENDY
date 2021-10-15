@@ -65,6 +65,11 @@ export const deleteImageNotification = (imageLink,id) => async dispatch => {
     return res && res.data || [];
 }
 
+export const deleteFileNotification = (link, id) => async dispatch => {
+    const res = await service.deleteFile(link, id);
+    return res && res.data || [];
+}
+
 export const updateListCompaniesNotified = (id, data) => async dispatch => {
     const res = await service.updateListCompaniesNotified(id, data);
     return res && res.data;

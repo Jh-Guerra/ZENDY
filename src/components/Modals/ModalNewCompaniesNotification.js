@@ -153,6 +153,7 @@ const ModalNewCompaniesNotification = (props) => {
               setImageUrl(null);
               setData({...values, image: ""});
               document.getElementById('image').value = "";
+              props.setNotification && props.setNotification(res.notification);
               props.dispatch(showSnackBar('warning', 'Imagen eliminada'));
             }
           });

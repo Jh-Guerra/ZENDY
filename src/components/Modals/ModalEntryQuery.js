@@ -107,7 +107,7 @@ const ModalEntryQuery = props => {
           props.dispatch(showBackdrop(false));
           props.dispatch(listQueries(''));
           onSaveForm && onSaveForm();
-          setEntryQuery(res.entryQuery);
+          setEntryQuery && setEntryQuery(res.entryQuery);
       }).catch(error => {
         props.dispatch(showBackdrop(false));
       });
@@ -149,6 +149,7 @@ const ModalEntryQuery = props => {
           setFileUrl(null);
           setData({ ...values, image: '' });
           document.getElementById('image').value = '';
+          setEntryQuery && setEntryQuery(res.entryQuery);
           props.dispatch(showSnackBar('warning', 'Imagen eliminada'));
         }
       });

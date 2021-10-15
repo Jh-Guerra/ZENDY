@@ -11,7 +11,7 @@ import CustomInput from 'components/CustomInput';
 import { listCompanies } from 'services/actions/CompanyAction';
 import { showBackdrop, showSnackBar } from 'services/actions/CustomAction';
 import { listUsersByCompany } from 'services/actions/UserAction';
-import { createCompanyNotification, deleteImageNotification, updateNotification, listAdminNotifications } from 'services/actions/NotificationAction';
+import { createCompanyNotification, deleteImageNotification, updateNotification, listAdminNotifications, deleteFileNotification } from 'services/actions/NotificationAction';
 import { getImageProfile, trimObject,getCustomRoleName } from 'utils/common';
 import RadioButtonCheckedIcon from '@material-ui/icons/RadioButtonChecked';
 import RadioButtonUncheckedIcon from '@material-ui/icons/RadioButtonUnchecked';
@@ -23,6 +23,7 @@ import GetAppIcon from '@material-ui/icons/GetApp';
 import { errorSolved } from 'services/actions/ErrorAction';
 import HighlightOffTwoToneIcon from '@material-ui/icons/HighlightOff';
 import { useHistory } from 'react-router-dom';
+import ThemeError from 'components/ThemeSettings/ThemeError';
 
 const useStyles = makeStyles(theme => ({
     inputText: {
@@ -38,7 +39,7 @@ const useStyles = makeStyles(theme => ({
 const ModalNewCompanyNotification = (props) => {
     
     const classes = useStyles();
-    const { open, handleClose, onSaveForm, notification={}, idError, headerText, idCompany,  onGetErrorData } = props;
+    const { open, handleClose, onSaveForm, notification={}, idError, headerText, idCompany,  onGetErrorData, setNotification } = props;
     const history = useHistory();
     const [companies, setCompanies] = React.useState([]);
     const [companyId, setCompanyId] = React.useState("");
@@ -187,7 +188,7 @@ const ModalNewCompanyNotification = (props) => {
                 props.dispatch(showSnackBar('success', 'Notificación enviada'));
                 props.dispatch(showBackdrop(false));
                 onSaveForm && onSaveForm();
-                if(notification.solved){
+                if(notification.solved || !idError){
                     history.push("/notificaciones/" + res.notification.id);
                 }else{                   
                     idCompany ? onListByCompany(idCompany) :  onListCompanies(false);
@@ -210,6 +211,7 @@ const ModalNewCompanyNotification = (props) => {
               setData({...values, image: ""});
               document.getElementById('image').value = "";
               props.dispatch(showSnackBar('warning', 'Imagen eliminada'));
+              props.setNotification && props.setNotification(res.notification);
             }
           });
         }else{
@@ -217,7 +219,17 @@ const ModalNewCompanyNotification = (props) => {
           setData({...values, image:null});
           document.getElementById('image').value = "";
         }
-      }
+    }
+
+    const deleteFile = (link, values) => {
+        props.dispatch(deleteFileNotification(link, notification.id)).then(res => {
+            if(res.notification){
+              setData({...values, file: ""});
+              props.dispatch(showSnackBar('warning', 'Archivo eliminado'));
+              props.setNotification && props.setNotification(res.notification);
+            }
+        });
+    }
 
     return (
         <Modal 
@@ -385,12 +397,39 @@ const ModalNewCompanyNotification = (props) => {
                                     <Grid item xs={12}>
                                         <p style={{ color: 'rgba(0, 0, 0, 0.54)', marginBottom: '5px' }}> Archivo </p>
                                     </Grid>
-                                    <Grid item xs={12} style={{ padding: "0px 5px" }}>
-                                        <Button variant="contained" component="label" style={{ maxWidth: "100%", width: "100%"}} disabled={!editMode}>
-                                            <GetAppIcon style={{ marginRight: '10px' }} />
-                                            <input id="file" type="file" />
-                                        </Button>
-                                    </Grid>
+                                    {
+                                        editMode && values.file ? (
+                                            <Grid item xs={12} style={{ padding: "0px 5px" }}>
+                                                <p style={{textAlign:"flex-start"}}>
+                                                    <Button 
+                                                        variant="contained"
+                                                        href={(config.api + notification.file)} target="_blank"
+                                                        endIcon={<GetAppIcon />}
+                                                        color="secondary"
+                                                    >
+                                                        Descargar
+                                                    </Button>
+                                                    <ThemeError>
+                                                        <Button
+                                                            style={{margin:"0px 5px"}}
+                                                            variant="contained"
+                                                            color="primary"
+                                                            onClick={() => { deleteFile((values.file).substr(8), values) }}
+                                                        >
+                                                            <HighlightOffTwoToneIcon />
+                                                        </Button>
+                                                    </ThemeError>
+                                                </p>
+                                            </Grid>
+                                        ) : (
+                                            <Grid item xs={12} style={{ padding: "0px 5px" }}>
+                                                <Button variant="contained" component="label" style={{ maxWidth: "100%", width: "100%"}} disabled={!editMode}>
+                                                    <GetAppIcon style={{ marginRight: '10px' }} />
+                                                    <input id="file" type="file" />
+                                                </Button>
+                                            </Grid>
+                                        )
+                                    }
                                 </Grid>
                             </Grid>
 

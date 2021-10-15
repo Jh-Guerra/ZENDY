@@ -276,16 +276,16 @@ const ErrorInfoPage = props => {
                         )
                       }
 
-                      <Grid container direction="row" style={{ marginTop: '40px' }}>
+                      <Grid container style={{ marginTop: '40px' }}>
                         {
                           (!isClient && error.received) ? (
-                            <Grid item>
+                            <Grid item xs={6}>
                               <Button
                                 onClick={() => { ShowNewCompanyNotification() }}
                                 variant="contained"
                                 color="primary"
                               >
-                                Notificar Error Reportado
+                                Notificar
                               </Button>
                             </Grid>
                           ) : null
@@ -297,20 +297,21 @@ const ErrorInfoPage = props => {
                                 <Button 
                                   onClick={() => { ShowConfirmError() }}
                                   variant="contained"
-                                  color="primary"
+                                  color="secondary"
                                 >
-                                  Confirmar error
+                                  Confirmar
                                 </Button>
                               </Grid>
-                              <br />
                               <Grid item xs={6}>
-                                <Button 
-                                  onClick={() => { ShowFakeError() }}
-                                  variant="contained"
-                                  color="default"
-                                >
-                                  Reportar error falso
-                                </Button>
+                                <ThemeError>
+                                  <Button 
+                                    onClick={() => { ShowFakeError() }}
+                                    variant="contained"
+                                    color="primary"
+                                  >
+                                    Error Falso
+                                  </Button>
+                                </ThemeError>
                               </Grid>
                             </>
                           ) : null
@@ -319,15 +320,13 @@ const ErrorInfoPage = props => {
                     </Box>
                   </Grid>
 
-                  <Grid item xs={6}>
-                    <Box>
+                  <Grid item xs={6} style={{display:"flex", justifyContent:"end"}}>
                       <Avatar
                         variant="rounded"
-                        style={{ height: "60%", width: "60%", justifyContent:'flex-end', alignItems:'flex-end', marginLeft:"30%", marginTop:"5%", cursor: error.image ? "pointer" : "default" }}
+                        style={{ height: "200px", width: "350px", cursor: error.image ? "pointer" : "default" }}
                         src={error.image ? (config.api + error.image) : defaultImage}
                         onClick={openImage}
                       />
-                    </Box>
                   </Grid>
                 </Grid>
                 {
@@ -350,6 +349,7 @@ const ErrorInfoPage = props => {
         handleClose={() => setShowReportedErrorModal(false)}
         error={error}
         onGetErrorData={onGetErrorData}
+        setError={setError}
       />
       <CustomModal
         customModal="ModalNewCompanyNotification"

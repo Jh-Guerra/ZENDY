@@ -191,7 +191,7 @@ const NotificationsPage = (props) => {
         </Typography>
       </Grid>
 
-      <Grid container item xs={12}>
+      <Grid container item xs={12} style={{padding: "0px 20px"}}>
           <Grid item xs={6} container spacing={0} direction="column" alignItems="flex-start" justify="flex-start">
                 <Box style={{ margin: '5vh 3vh' }}>
                   <Grid item xs={12} style={{ textAlign: "left", marginTop: '15px' }}>
@@ -223,15 +223,13 @@ const NotificationsPage = (props) => {
                   }
                 </Box>
           </Grid>
-          <Grid item xs={6}>
-            <Box>
-              <Avatar
-                variant="rounded"
-                style={{ height: "60%", width: "60%", justifyContent:'flex-end', alignItems:'flex-end', marginLeft:"37%", marginTop:"10%", cursor: notification.image ? "pointer" : "default" }}
-                src={notification.image ? (config.api + notification.image) : defaultImage}
-                onClick={openImage}
-              />
-            </Box>
+          <Grid item xs={6} style={{display:"flex", justifyContent:"end"}}>
+            <Avatar
+              variant="rounded"
+              style={{ height: "200px", width: "350px", cursor: notification.image ? "pointer" : "default" }}
+              src={notification.image ? (config.api + notification.image) : defaultImage}
+              onClick={openImage}
+            />
           </Grid>
       </Grid>
 
@@ -274,6 +272,7 @@ const NotificationsPage = (props) => {
           setShowNewCompaniesNotification(false);
           setNotification(updatedNotification || {});
         }}
+        setNotification={setNotification}
       />
       <CustomModal
         customModal="ModalNewCompanyNotification"
@@ -284,6 +283,7 @@ const NotificationsPage = (props) => {
           setShowNewCompanyNotification(false);
           setNotification(updatedNotification || {});
         }}
+        setNotification={setNotification}
       />
       <CustomModal
         customModal="ModalNotificationTo"
