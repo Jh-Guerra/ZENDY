@@ -12,7 +12,7 @@ import { Form, Formik } from 'formik';
 import AssignmentIndIcon from '@material-ui/icons/AssignmentInd';
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
 import { getSessionInfo, isClientUser, trimObject } from 'utils/common';
-import { createError, deleteImage, listErrors, listErrorsByUser, updateError } from 'services/actions/ErrorAction';
+import { createError, deleteFileError, deleteImageError, listErrors, listErrorsByUser, updateError } from 'services/actions/ErrorAction';
 import { showBackdrop, showSnackBar } from 'services/actions/CustomAction';
 import defaultAvatar from 'assets/images/defaultAvatarMale.jpg';
 import config from "../../config/Config";
@@ -20,6 +20,7 @@ import EditIcon from '@material-ui/icons/Edit';
 import { listModules, findModule } from 'services/actions/ModuleAction';
 import HighlightOffTwoToneIcon from '@material-ui/icons/HighlightOff';
 import { useHistory } from 'react-router';
+import ThemeError from 'components/ThemeSettings/ThemeError';
 
 const ModalReportedErrors = props => {
   const session = getSessionInfo();
@@ -145,10 +146,6 @@ const ModalReportedErrors = props => {
     }
   };
 
-  const changeModule = (value) => {
-    setData({ module: value })
-  }
-
   function processImage(event) {
     if (event && event.target.files && event.target.files.length > 0) {
       const imageFile = event.target.files[0];
@@ -167,7 +164,7 @@ const ModalReportedErrors = props => {
 
   const deleteImage = (Link, id, values) => {
     if(id && values.image){
-      props.dispatch(deleteImage(Link,id)).then(res => {
+      props.dispatch(deleteImageError(Link, id)).then(res => {
         if(res.error){
           onGetErrorData(res.error.id)
           setFileUrl(null);
@@ -184,6 +181,15 @@ const ModalReportedErrors = props => {
     }
   }
 
+  const deleteFile = (link, values) => {
+    props.dispatch(deleteFileError(link, error.id)).then(res => {
+        if(res.error){
+          setData({...values, file: ""});
+          props.dispatch(showSnackBar('warning', 'Archivo eliminado'));
+          props.setError && props.setError({...error, file: null});
+        }
+    });
+  }
 
   return (
     <Modal
@@ -258,16 +264,44 @@ const ModalReportedErrors = props => {
                     </Grid>
                    
                   </Grid>
-                  <Grid item xs={12}>
-                    <p style={{ color: "rgba(0, 0, 0, 0.54)", marginBottom: "5px" }}> Archivo </p>
-                    <Button
-                      variant="contained"
-                      component="label"
-                      fullWidth
-                    >
-                      <GetAppIcon style={{ marginRight: "25px" }} />
-                      <input id="file" type="file" />
-                    </Button>
+                  <Grid item xs={12} container>
+                    <Grid item xs={12}>
+                      <p style={{ color: "rgba(0, 0, 0, 0.54)", marginBottom: "5px" }}> Archivo </p>
+                    </Grid>
+                    
+                    {
+                      !editMode && values.file ? (
+                        <Grid item xs={12} style={{ padding: "0px 5px" }}>
+                          <p style={{textAlign:"flex-start"}}>
+                            <Button 
+                                variant="contained"
+                                href={(config.api + error.file)} target="_blank"
+                                endIcon={<GetAppIcon />}
+                                color="secondary"
+                            >
+                                Descargar
+                            </Button>
+                            <ThemeError>
+                                <Button
+                                    style={{margin:"0px 5px"}}
+                                    variant="contained"
+                                    color="primary"
+                                    onClick={() => { deleteFile((values.file).substr(8), values) }}
+                                >
+                                    <HighlightOffTwoToneIcon />
+                                </Button>
+                            </ThemeError>
+                          </p>
+                        </Grid>
+                      ) : (
+                        <Grid item xs={12} style={{ padding: "0px 5px" }}>
+                          <Button variant="contained" component="label" fullWidth>
+                            <GetAppIcon style={{ marginRight: "25px" }} />
+                            <input id="file" type="file" />
+                          </Button>
+                        </Grid>
+                      )
+                    }
                   </Grid>
                 </Grid>
 

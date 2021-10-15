@@ -10,7 +10,7 @@ import { Form, Formik } from 'formik';
 import CustomInput from 'components/CustomInput';
 import { listWithUsersCount } from 'services/actions/CompanyAction';
 import { showBackdrop, showSnackBar } from 'services/actions/CustomAction';
-import { createCompaniesNotification, deleteImageNotification, updateNotification, listAdminNotifications } from 'services/actions/NotificationAction';
+import { createCompaniesNotification, deleteImageNotification, updateNotification, listAdminNotifications, deleteFileNotification } from 'services/actions/NotificationAction';
 import { getImageProfile, trimObject } from 'utils/common';
 import RadioButtonCheckedIcon from '@material-ui/icons/RadioButtonChecked';
 import RadioButtonUncheckedIcon from '@material-ui/icons/RadioButtonUnchecked';
@@ -21,6 +21,7 @@ import SubtitlesIcon from '@material-ui/icons/Subtitles';
 import GetAppIcon from '@material-ui/icons/GetApp';
 import HighlightOffTwoToneIcon from '@material-ui/icons/HighlightOff';
 import { useHistory } from 'react-router-dom';
+import ThemeError from 'components/ThemeSettings/ThemeError';
 
 const useStyles = makeStyles(theme => ({
     inputText: {
@@ -162,7 +163,17 @@ const ModalNewCompaniesNotification = (props) => {
           setData({...values, image:null});
           document.getElementById('image').value = "";
         }
-      }
+    }
+
+    const deleteFile = (link, values) => {
+        props.dispatch(deleteFileNotification(link, notification.id)).then(res => {
+            if(res.notification){
+              setData({...values, file: ""});
+              props.dispatch(showSnackBar('warning', 'Archivo eliminado'));
+              props.setNotification && props.setNotification(res.notification);
+            }
+        });
+    }
 
     return (
         <Modal 
@@ -279,12 +290,39 @@ const ModalNewCompaniesNotification = (props) => {
                                     <Grid item xs={12}>
                                         <p style={{ color: 'rgba(0, 0, 0, 0.54)', marginBottom: '5px' }}> Archivo </p>
                                     </Grid>
-                                    <Grid item xs={12} style={{ padding: "0px 5px" }}>
-                                        <Button variant="contained" component="label" style={{ maxWidth: "100%", width: "100%"}} disabled={!editMode}>
-                                            <GetAppIcon style={{ marginRight: '10px' }} />
-                                            <input id="file" type="file" />
-                                        </Button>
-                                    </Grid>
+                                    {
+                                        editMode && values.file ? (
+                                            <Grid item xs={12} style={{ padding: "0px 5px" }}>
+                                                <p style={{textAlign:"flex-start"}}>
+                                                    <Button 
+                                                        variant="contained"
+                                                        href={(config.api + notification.file)} target="_blank"
+                                                        endIcon={<GetAppIcon />}
+                                                        color="secondary"
+                                                    >
+                                                        Descargar
+                                                    </Button>
+                                                    <ThemeError>
+                                                        <Button
+                                                            style={{margin:"0px 5px"}}
+                                                            variant="contained"
+                                                            color="primary"
+                                                            onClick={() => { deleteFile((values.file).substr(8), values) }}
+                                                        >
+                                                            <HighlightOffTwoToneIcon />
+                                                        </Button>
+                                                    </ThemeError>
+                                                </p>
+                                            </Grid>
+                                        ) : (
+                                            <Grid item xs={12} style={{ padding: "0px 5px" }}>
+                                                <Button variant="contained" component="label" style={{ maxWidth: "100%", width: "100%"}} disabled={!editMode}>
+                                                    <GetAppIcon style={{ marginRight: '10px' }} />
+                                                    <input id="file" type="file" />
+                                                </Button>
+                                            </Grid>
+                                        )
+                                    }
                                 </Grid>
                             </Grid>
 

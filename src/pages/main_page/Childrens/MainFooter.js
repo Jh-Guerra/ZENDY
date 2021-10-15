@@ -17,6 +17,7 @@ import HighlightOffTwoToneIcon from '@material-ui/icons/HighlightOff';
 import { listActiveChats } from "services/actions/ChatAction";
 import { Grid } from '@material-ui/core';
 import { ButtonColor } from "assets/styles/zendy-css";
+import { showBackdrop } from "services/actions/CustomAction";
 
 const MainFooter = props => {
   const inputRef = createRef();
@@ -38,7 +39,7 @@ const MainFooter = props => {
     inputRef.current.selectionEnd = cursorPosition;
   }, [cursorPosition]);
 
-  const sendMessage = (type) => {
+  const sendMessage = (type, comentary) => {
 
     if (type == "text" && !msg) {
       return;
@@ -58,30 +59,34 @@ const MainFooter = props => {
 
     const formData = new FormData();
     formData.append("idChat", chat.id);
-    formData.append("message", msg);
+    formData.append("message", comentary || msg);
     formData.append("resend", resend);
     formData.append('image', imageInput.files[0] || null);
     formData.append('file', fileInput.files[0] || null);
     
-    !sendingMessage && (
-    props.dispatch(createMessage(formData)).then((res) => {
-      setMsg("");
-      setSendingMessage(false)
-      setShowEmoji(null);
-      setShowPreviewImage(false);
-      setShowPreviewFile(false);
-      setUploadImage(null);
-      setUploadFile(null);
-      props.dispatch(listActiveChats("", "Vigente"));
-      document.getElementById('upload-image').value = "";
-      document.getElementById('upload-file').value = "";
-    }).catch(error => {
-      setSendingMessage(false)
-      setUploadImage(null);
-      setUploadFile(null);
-      document.getElementById('upload-image').value = "";
-      document.getElementById('upload-file').value = "";
-    }));
+    if(!sendingMessage){
+      props.dispatch(showBackdrop(true));
+      props.dispatch(createMessage(formData)).then((res) => {
+        setMsg("");
+        setSendingMessage(false)
+        setShowEmoji(null);
+        setShowPreviewImage(false);
+        setShowPreviewFile(false);
+        setUploadImage(null);
+        setUploadFile(null);
+        props.dispatch(listActiveChats("", "Vigente"));
+        document.getElementById('upload-image').value = "";
+        document.getElementById('upload-file').value = "";
+        props.dispatch(showBackdrop(false));
+      }).catch(error => {
+        setSendingMessage(false)
+        setUploadImage(null);
+        setUploadFile(null);
+        document.getElementById('upload-image').value = "";
+        document.getElementById('upload-file').value = "";
+        props.dispatch(showBackdrop(false));
+      })
+    }
   }
 
   const pickEmoji = (e, { emoji }) => {
@@ -201,7 +206,7 @@ const MainFooter = props => {
             uploadImage={uploadImage}
             msg={msg}
             onChangeMessage={onStateChange}
-            sendMessage={() => { sendMessage("image") }}
+            sendMessage={sendMessage}
           />
         )
       }
@@ -214,7 +219,7 @@ const MainFooter = props => {
             fileExtension={fileExtension}
             msg={msg}
             onChangeMessage={onStateChange}
-            sendMessage={() => { sendMessage("file") }}
+            sendMessage={sendMessage}
           />
         )
       }

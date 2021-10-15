@@ -119,24 +119,24 @@ const NotificationSection = (props) => {
                 }
               />
             </Grid>
-            <Grid item xs={12} style={{height: "5vh"}}>
-              {
-                !isAdmin && (
-                  <FormControlLabel
-                    control={
-                      <CustomCheckbox
-                        checked={isPending}
-                        value={'Pendiente'}
-                        onChange={(e) => onChangeCheck(e.target.checked)
-                        }
-                      />
-                    }
-                    label="Vistos"
-                    className="custom-checkbox-text"
-                  />
-                )
-              }
-            </Grid>
+            {
+              !isAdmin && (
+                <Grid item xs={12} style={{height: "5vh"}}>
+                <FormControlLabel
+                  control={
+                    <CustomCheckbox
+                      checked={isPending}
+                      value={'Pendiente'}
+                      onChange={(e) => onChangeCheck(e.target.checked)
+                      }
+                    />
+                  }
+                  label="Vistos"
+                  className="custom-checkbox-text"
+                />
+                </Grid>
+              )
+            }
             <Grid item xs={12} style={{height: checkPermission(session, "createCompanyNotifications") ? "52vh" : "60vh"}}>
               <div className="items-section">
                 {notifications.map((notificationViewed, i) => {

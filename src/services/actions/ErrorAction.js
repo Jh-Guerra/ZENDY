@@ -57,7 +57,12 @@ export const deleteError = (id) => async dispatch => {
     return res && res.data || [];
 }
 
-export const deleteImage = (imageLink,id) => async dispatch => {
+export const deleteImageError = (imageLink,id) => async dispatch => {
     const res = await service.deleteImage(imageLink,id);
+    return res && res.data || [];
+}
+
+export const deleteFileError = (link, id) => async dispatch => {
+    const res = await service.deleteFile(link, id);
     return res && res.data || [];
 }

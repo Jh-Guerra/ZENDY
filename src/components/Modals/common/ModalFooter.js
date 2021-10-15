@@ -31,14 +31,14 @@ const ModalFooter = (props) => {
         }
         {
           editText && (
-            <Button type={buttonType} variant="contained" onClick={onEdit} size="small" color="primary" autoFocus>
+            <Button type={buttonType} variant="contained" onClick={onEdit} size="small" color="primary">
               {editText}
             </Button>
           )
         }
         {
           confirmText && (
-            <Button type={buttonType} onClick={onConfirm} size="small" color="primary" autoFocus variant="contained">
+            <Button type={buttonType} onClick={onConfirm} size="small" color="primary" variant="contained">
               {confirmText}
             </Button>
           )
