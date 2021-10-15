@@ -164,6 +164,14 @@ class UserService {
             } }
     )}
 
+    async getRoles() {
+        return await axios.get(
+            config.apiVersion + `roles/list`,
+            { headers: {
+                ...config.headers, 
+                Authorization: `token ${JSON.parse(localStorage.getItem('session')).token || ''}` 
+            } }
+    )}
 }
 
 export default UserService;

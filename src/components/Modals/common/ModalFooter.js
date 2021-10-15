@@ -1,5 +1,6 @@
 import { Button, DialogActions } from '@material-ui/core';
-import React from 'react'
+import React from 'react';
+import ThemeError from 'components/ThemeSettings/ThemeError';
 
 const ModalFooter = (props) => {
 
@@ -21,9 +22,11 @@ const ModalFooter = (props) => {
         }
         {
           deleteText && (
-            <Button onClick={onDelete} size="small" variant="contained" color="default">
-              {deleteText}
-            </Button>
+            <ThemeError>
+              <Button onClick={onDelete} size="small" variant="contained" color="primary">
+                {deleteText}
+              </Button>
+            </ThemeError>
           )
         }
         {

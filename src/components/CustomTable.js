@@ -69,7 +69,7 @@ const CustomTable = props => {
                         {columns.map((column, i2) => {
                           return (
                             <TableCell key={i2} align={column.align} className="table-header-row">
-                              {column.format ? column.format(row) : row[column.field] || ""}
+                              {column.format ? (column.format(row) || "-") : (row[column.field] || "-")}
                             </TableCell>
                           );
                         })}

@@ -18,6 +18,9 @@ import ModalConfirmError from 'components/Modals/ModalConfirmError';
 import moment from 'moment';
 import { pColor,successButtonColor } from 'assets/styles/zendy-css';
 import CustomTable from 'components/CustomTable';
+import ThemeError from 'components/ThemeSettings/ThemeError';
+import EditIcon from '@material-ui/icons/Edit';
+import DeleteIcon from '@material-ui/icons/Delete';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -175,6 +178,33 @@ const ErrorInfoPage = props => {
     <>
       <Grid container>
         <Grid item xs={12} className="top-header"></Grid>
+        {
+          (error.id && isClient && isTheCreator && error.status == "Pendiente" && !error.fake) && (
+            <Grid item xs={12} style={{padding: "0px 20px"}}>
+              <p style={{textAlign:'start'}}>
+                <Button
+                  onClick={showEditError}
+                  variant="contained"
+                  color="secondary"
+                  startIcon={<EditIcon />}
+                  style={{marginRight: "10px"}}
+                >
+                  Editar
+                </Button>
+                <ThemeError>
+                  <Button
+                    onClick={showDeletedError}
+                    variant="contained"
+                    color="primary"
+                    startIcon={<DeleteIcon />}
+                  >
+                    Eliminar
+                  </Button>
+                </ThemeError>
+              </p>
+            </Grid>
+          )
+        }
         <Grid item xs={12} style={{padding: "0px 20px"}}>
           {
             error && error.id && (
@@ -247,31 +277,6 @@ const ErrorInfoPage = props => {
                       }
 
                       <Grid container direction="row" style={{ marginTop: '40px' }}>
-                        {
-                          (isClient && isTheCreator && error.status == "Pendiente" && !error.fake) && (
-                            <>
-                              <Grid item xs={6}>
-                                <Button 
-                                  onClick={() => { showEditError() }}
-                                  variant="contained"
-                                  color="primary"
-                                >
-                                  Editar
-                                </Button>
-                              </Grid>
-                              <Grid item xs={6}>
-                                <Button 
-                                  onClick={() => { showDeletedError() }}
-                                  variant="contained"
-                                  color="default"
-                                >
-                                  Eliminar
-                                </Button>
-                              </Grid>
-                            </>
-                          )
-                          
-                        }
                         {
                           (!isClient && error.received) ? (
                             <Grid item>

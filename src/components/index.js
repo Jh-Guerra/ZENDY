@@ -1,7 +1,6 @@
 import CheckListStepper from './CheckListStepper';
 import DataGrid from './DataGrid';
 import DateFormater from './DateFormater';
-//import DynamicSideBar from './DynamicSideBar';
 import ErrorBoundary from './ErrorBoundary';
 import FormSelect from './FormSelect';
 import NoData from './NoData';
@@ -15,7 +14,6 @@ export {
 	CheckListStepper,
 	DataGrid,
 	DateFormater,
-	//DynamicSideBar,
 	ErrorBoundary,
 	FormSelect,
 	NoData,

@@ -5,7 +5,7 @@ import { deleteUser, findUser, listUsers } from 'services/actions/UserAction';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import ModalUser from 'components/Modals/ModalUser';
 import moment from 'moment';
-import { getCustomRoleName, getUserTypeName } from 'utils/common';
+import { getCustomRoleName } from 'utils/common';
 import ModalDelete from 'components/Modals/ModalDelete';
 import { showBackdrop, showSnackBar } from 'services/actions/CustomAction';
 

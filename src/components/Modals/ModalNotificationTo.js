@@ -42,9 +42,6 @@ const ModalNotificationTo = (props) => {
   const classes = useStyles();
   const history = useHistory();
 
-  const user = session && session.user || {};
-  const role = session && session.role && session.role.name || {};
-
   const [users, setUsers] = React.useState([]);
   const [selectedUsers, setSelectedUsers] = React.useState([]);
   const [searchTimeout, setSearchTimeout] = React.useState(null);

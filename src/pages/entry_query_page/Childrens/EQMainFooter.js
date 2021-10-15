@@ -5,7 +5,7 @@ import ChatIcon from '@material-ui/icons/Chat';
 import CustomModal from 'components/Modals/common/CustomModal';
 import { checkPermission } from 'utils/common';
 import RateReviewIcon from '@material-ui/icons/RateReview';
-import { Button } from '@material-ui/core';
+import { Button, Grid } from '@material-ui/core';
 
 const EQMainFooter = props => {
   const { entryQuery = {}, session, setEntryQuery } = props;
@@ -47,6 +47,7 @@ const EQMainFooter = props => {
             variant="contained"
             color="secondary"
             startIcon={<PeopleAltIcon />}
+            style={{margin:"0px 15px"}}
           >
             Recomendaciones
           </Button>
@@ -57,6 +58,7 @@ const EQMainFooter = props => {
             variant="contained"
             color="secondary"
             startIcon={<ChatIcon />}
+            style={{margin:"0px 15px"}}
           >
             Aceptar consulta e Iniciar Chat
           </Button>
@@ -67,6 +69,7 @@ const EQMainFooter = props => {
             variant="contained"
             color="secondary"
             startIcon={<RateReviewIcon />}
+            style={{margin:"0px 15px"}}
           >
             Guardar como Consulta Frecuente
           </Button>

@@ -48,8 +48,8 @@ const ModalDelete = (props) => {
             </ModalBody>
 
             <ModalFooter
-                confirmText={"Si"}
-                onConfirm={props.onDelete}
+                deleteText={"Si"}
+                onDelete={props.onDelete}
                 cancelText={"No"}
                 onCancel={handleClose}
             />

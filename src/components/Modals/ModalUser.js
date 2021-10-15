@@ -10,9 +10,9 @@ import { Form, Formik } from 'formik';
 import CustomInput from 'components/CustomInput';
 import AlternateEmailIcon from '@material-ui/icons/AlternateEmail';
 import LockIcon from '@material-ui/icons/Lock';
-import { onlyNumbers, trimObject, userRoles, sexTypes } from 'utils/common';
+import { onlyNumbers, trimObject, sexTypes, getCustomRoleName } from 'utils/common';
 import PhoneIcon from '@material-ui/icons/Phone';
-import { createUser, deleteImageUser, updateUser,uploadImage} from 'services/actions/UserAction';
+import { createUser, deleteImageUser, getRoles, updateUser,uploadImage} from 'services/actions/UserAction';
 import AssignmentIndIcon from '@material-ui/icons/AssignmentInd';
 import EditIcon from '@material-ui/icons/Edit';
 import { showBackdrop, showSnackBar } from 'services/actions/CustomAction';
@@ -27,8 +27,9 @@ const ModalUser = (props) => {
     
     const { open, handleClose, user } = props;
     const session = getSessionInfo();
-    const role = session && session.role && session.role.name || {};
+    const role = session && session.role || {};
     const companyId = session && session.user && session.user.idCompany || {};
+    const isUserAdmin = role.name == "Admin";
 
     const [data, setData] = React.useState({
         id: "",
@@ -49,9 +50,13 @@ const ModalUser = (props) => {
     const [editMode, setEditMode] = React.useState(false);
     const [companies, setCompanies] = React.useState([]);
     const [fileUrl, setFileUrl] = React.useState(null);
+    const [userRoles, setUserRoles] = React.useState([]);
 
     React.useEffect(() => {
         if(open){
+            props.dispatch(getRoles()).then((res) => {
+                setUserRoles(res || []);
+            });
             if(user && user.id){
                 // Ver el detalle de un usuario
                 setData(user);
@@ -209,7 +214,9 @@ const ModalUser = (props) => {
           setData({...values, avatar:null});
           document.getElementById('image').value = "";
         }
-      }
+    }
+
+    const limitedRoles = !isUserAdmin ? (userRoles.filter(r => parseInt(r.id) != 1)) : userRoles;
 
     return (
         <Modal 
@@ -333,7 +340,7 @@ const ModalUser = (props) => {
                                                 setFieldValue("idRole", event.target.value)
                                             }}
                                             value={values.idRole}
-                                            options={userRoles.filter(u => u.id != "1")}
+                                            options={limitedRoles.map(role => { return {...role, name: getCustomRoleName(role.name)} })}
                                             error={ errors.idRole && touched.idRole ? true : false }
                                             disabled={!editMode}
                                        />

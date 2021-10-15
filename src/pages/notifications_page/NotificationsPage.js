@@ -17,6 +17,7 @@ import { makeStyles, withStyles } from '@material-ui/core/styles';
 import GetAppIcon from '@material-ui/icons/GetApp';
 import config from "../../config/Config";
 import defaultImage from 'assets/images/defaultImage.png';
+import ThemeError from 'components/ThemeSettings/ThemeError';
 
 const columns = [
   { type: 'text', field: 'name', label: 'Nombre', format: (row) => `${row.firstName} ${row.lastName}` },
@@ -166,16 +167,19 @@ const NotificationsPage = (props) => {
                 startIcon={<EditIcon />}
                 style={{marginRight: "10px"}}
               >
-                Editar Notificación
+                Editar
               </Button>
-              <Button
-                onClick={onOpenModalDelete}
-                variant="contained"
-                color="default"
-                startIcon={<DeleteIcon />}
-              >
-                Eliminar Notificación
-              </Button>
+              <ThemeError>
+                <Button
+                  onClick={onOpenModalDelete}
+                  variant="contained"
+                  color="primary"
+                  startIcon={<DeleteIcon />}
+                >
+                  Eliminar
+                </Button>
+              </ThemeError>
+              
             </p>
           </Grid>
         )

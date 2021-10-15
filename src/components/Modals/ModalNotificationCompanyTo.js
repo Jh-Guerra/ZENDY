@@ -43,9 +43,6 @@ const ModalNotificationCompanyTo = (props) => {
   const classes = useStyles();
   const history = useHistory();
 
-  const user = session && session.user || {};
-  const role = session && session.role && session.role.name || {};
-
   const [companies, setCompanies] = React.useState([]);
   const [selectedCompanies, setSelectedCompanies] = React.useState([]);
   const [searchTimeout, setSearchTimeout] = React.useState(null);

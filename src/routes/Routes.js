@@ -1,6 +1,6 @@
 import React from 'react';
 import { BrowserRouter, Switch, Redirect, Route } from 'react-router-dom';
-import ThemeSettings from '../components/ThemeSettings';
+import ThemeSettings from '../components/ThemeSettings/ThemeSettings';
 import PrivateRoute from './PrivateRoute';
 import LoginPage from 'pages/loginPage/LoginPage';
 import ErrorInfoPage from 'pages/error/ErrorInfoPage';
