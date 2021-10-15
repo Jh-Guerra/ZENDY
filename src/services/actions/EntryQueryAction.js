@@ -70,3 +70,8 @@ export const deleteImageEntryQuery = (imageLink,id) => async dispatch => {
     const res = await service.deleteImage(imageLink,id);
     return res && res.data || {};
 }
+
+export const deleteFileEntryQuery = (link, id) => async dispatch => {
+    const res = await service.deleteFile(link, id);
+    return res && res.data || [];
+}
