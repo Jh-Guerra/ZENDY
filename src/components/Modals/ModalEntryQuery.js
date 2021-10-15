@@ -16,6 +16,7 @@ import {
   updateEntryQuery,
   listQueries,
   deleteImageEntryQuery,
+  deleteFileEntryQuery,
 } from 'services/actions/EntryQueryAction';
 import { showBackdrop, showSnackBar } from 'services/actions/CustomAction';
 import defaultCompany from 'assets/images/defaultCompany.png';
@@ -23,6 +24,7 @@ import config from 'config/Config';
 import { useHistory } from 'react-router-dom';
 import { listModules, findModule } from 'services/actions/ModuleAction';
 import HighlightOffTwoToneIcon from '@material-ui/icons/HighlightOff';
+import ThemeError from 'components/ThemeSettings/ThemeError';
 
 const ModalEntryQuery = props => {
   const { open, handleClose, onSaveForm, entryQuery, setEntryQuery, onGetData } = props;
@@ -149,7 +151,7 @@ const ModalEntryQuery = props => {
           setFileUrl(null);
           setData({ ...values, image: '' });
           document.getElementById('image').value = '';
-          setEntryQuery && setEntryQuery(res.entryQuery);
+          setEntryQuery && setEntryQuery({...values, image: null})
           props.dispatch(showSnackBar('warning', 'Imagen eliminada'));
         }
       });
@@ -159,6 +161,17 @@ const ModalEntryQuery = props => {
       document.getElementById('image').value = '';
     }
   };
+
+  const deleteFile = (link, values) => {
+    props.dispatch(deleteFileEntryQuery(link, entryQuery.id)).then(res => {
+      if (res.entryQuery) {
+        setFileUrl(null);
+        setData({ ...values, file: "" });
+        props.dispatch(showSnackBar('warning', 'Archivo eliminado'));
+        setEntryQuery && setEntryQuery({...values, file: null})
+      }
+    });
+  }
 
   return (
     <Modal open={open} handleClose={handleClose} size="sm">
@@ -258,17 +271,40 @@ const ModalEntryQuery = props => {
                       <Grid item xs={12}>
                         <p style={{ color: 'rgba(0, 0, 0, 0.54)', marginBottom: '5px' }}> Archivo </p>
                       </Grid>
-                      <Grid item xs={12} style={{ padding: '0px 5px' }}>
-                        <Button
-                          variant="contained"
-                          component="label"
-                          style={{ maxWidth: '100%', width: '100%' }}
-                          disabled={!editMode}
-                        >
-                          <GetAppIcon style={{ marginRight: '10px' }} />
-                          <input id="file" type="file" />
-                        </Button>
-                      </Grid>
+
+                      {
+                        editMode && values.file ? (
+                          <Grid item xs={12} style={{ padding: "0px 5px" }}>
+                            <p style={{ textAlign: "flex-start" }}>
+                              <Button
+                                variant="contained"
+                                href={(config.api + entryQuery.file)} target="_blank"
+                                endIcon={<GetAppIcon />}
+                                color="secondary"
+                              >
+                                Descargar
+                              </Button>
+                              <ThemeError>
+                                <Button
+                                  style={{ margin: "0px 5px" }}
+                                  variant="contained"
+                                  color="primary"
+                                  onClick={() => { deleteFile((values.file).substr(8), values) }}
+                                >
+                                  <HighlightOffTwoToneIcon />
+                                </Button>
+                              </ThemeError>
+                            </p>
+                          </Grid>
+                        ) : (
+                          <Grid item xs={12} style={{ padding: "0px 5px" }}>
+                            <Button variant="contained" component="label" style={{ maxWidth: "100%", width: "100%" }} disabled={!editMode}>
+                              <GetAppIcon style={{ marginRight: '10px' }} />
+                              <input id="file" type="file" />
+                            </Button>
+                          </Grid>
+                        )
+                      }
                     </Grid>
                   )}
                 </Grid>

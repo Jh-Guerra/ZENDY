@@ -53,6 +53,10 @@ class EntryQueryService {
         return await axios.post( getCustomUrl(apiPrefix, `/deleteImage`), {imageLink,id}, defaultHeaders() )
     }
 
+    async deleteFile(link, id) {
+        return await axios.post( getCustomUrl(apiPrefix, `/deleteFile`), {link, id}, defaultHeaders() )
+    }
+
 }
 
 export default EntryQueryService;
