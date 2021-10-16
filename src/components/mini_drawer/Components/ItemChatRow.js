@@ -56,10 +56,8 @@ const ItemChatRow = (props) => {
           <span className="item-row-time" style={{fontWeight: bold ? 'bold' : '' }}>{hour}</span>
         </div>
         <div className="item-row-section">
-          <p className="item-row-description" style={{ fontWeight: bold ? 'bold' : '' }}>
-            {
-              message ? ( prefixMessage + " " + message ) : " "
-            }
+          <p className="item-row-description" style={{ fontWeight: bold ? 'bold' : '', color: bold ? 'white' : '' }}>
+            { message ? ( prefixMessage + " " + message ) : "" }
           </p>
         </div>
       </div>

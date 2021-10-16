@@ -37,10 +37,12 @@ const ModalChatDetail = props => {
   const [openGroupChat, setOpenGroupChat] = React.useState(false);
   React.useEffect(()=> {
     if(chat && chat.id){
-      props.dispatch(findImages(chat.id)).then(res => {
-        setImages(res.images);
-        props.dispatch(showBackdrop(false));
-      }).catch(err => props.dispatch(showBackdrop(false)));
+      if(messages.length > 0){
+        props.dispatch(findImages(chat.id)).then(res => {
+          setImages(res.images);
+          props.dispatch(showBackdrop(false));
+        }).catch(err => props.dispatch(showBackdrop(false)));
+      }
     }
   }, [chat && chat.id, messages]);
 

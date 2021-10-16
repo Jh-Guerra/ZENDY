@@ -5,7 +5,7 @@ import MainHeader from "pages/main_page/Childrens/MainHeader";
 import MainBody from "pages/main_page/Childrens/MainBody";
 import MainFooter from "pages/main_page/Childrens/MainFooter";
 import { showBackdrop, showSnackBar } from 'services/actions/CustomAction';
-import { findChat, finalizeChat, listActiveChats } from 'services/actions/ChatAction';
+import { findChat, finalizeChat, listActiveChats, updateActiveChats } from 'services/actions/ChatAction';
 import { useHistory, withRouter } from 'react-router-dom';
 import { connect } from "react-redux";
 import { listMessages } from 'services/actions/MessageAction';
@@ -48,6 +48,18 @@ const MainPage = (props) => {
         onGetChatData(chatId);
         onListMessages(chatId, "");
         props.dispatch(resetPendingMessages(chatId)).catch(err => history.push("/inicio"));
+        const chats = props.chatRx && props.chatRx.currentChats || [];
+        const updatedChats = chats.map(c => {
+          if(c.id == chatId){
+            c.participation = {
+              ...c.participation,
+              pendingMessages: 0
+            };
+          }
+          return c;
+        })
+
+        updateActiveChats(updatedChats);
 
         window.Echo.private("chats." + chatId).listen('sendMessage', (e) => {
           const newMessage = e && e.message;

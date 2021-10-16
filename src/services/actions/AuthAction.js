@@ -24,17 +24,6 @@ export const setCurrentSession = (user) => async dispatch => {
     }
 }
 
-// export const changeShopId = (shopId) => async dispatch => {
-//     try{
-//         const res = await authService.changeShopId(shopId);
-//         dispatch(authSuccess(res.data));
-//         return res;
-//     }
-//     catch(e){
-
-//     }
-// }
-
 export const renewToken = () => async dispatch => {
     try{
         const res = await authService.renewToken();

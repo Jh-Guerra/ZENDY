@@ -4,12 +4,14 @@ import ChatService from "services/api/ChatService";
 
 const service = new ChatService();
 
+export const updateActiveChats = payload => ({
+    type: CURRENT_CHAT,
+    payload: payload
+})
+
 export const listActiveChats = (term, status) => async dispatch => {
     const res = await service.listActiveChats(term, status);
-    dispatch({
-        type: CURRENT_CHAT,
-        payload: res.data
-    })
+    dispatch(updateActiveChats(res.data));
     return res && res.data || [];
 }
 
