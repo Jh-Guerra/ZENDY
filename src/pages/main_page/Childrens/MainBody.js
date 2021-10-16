@@ -13,7 +13,7 @@ const MainBody = props => {
     messagesEndRef.current.scrollIntoView({ behavior: "smooth" })
   }
 
-  React.useEffect(scrollToBottom, [messages]);
+  React.useEffect(scrollToBottom, [props]);
 
   return (
     <div className="main-chat-content" >
