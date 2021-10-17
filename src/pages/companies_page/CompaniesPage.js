@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import { Button, Grid, Typography } from '@material-ui/core';
 import CustomTable from 'components/CustomTable';
-import { deleteCompany, findCompany, listCompanies } from 'services/actions/CompanyAction';
+import { deleteCompany, findCompany, importErpCompanies, listCompanies } from 'services/actions/CompanyAction';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import ModalCompany from 'components/Modals/ModalCompany';
 import ModalDelete from 'components/Modals/ModalDelete';
 import { showBackdrop, showSnackBar } from 'services/actions/CustomAction';
+import ModalConfirmImport from 'components/Modals/ModalConfirmImport';
+import ImportExportIcon from '@material-ui/icons/ImportExport';
 
 const columns = [
   { type: 'text', field: 'name', label: 'Nombre', minWidth: 250 },
@@ -28,6 +30,7 @@ class CompaniesPage extends Component {
     this.state = {
       showModalCompany: false,
       showModalDelete: false,
+      showModalConfirmation: false,
       company: {},
       companies: [],
       loading: false,
@@ -48,10 +51,30 @@ class CompaniesPage extends Component {
     });
   };
 
+  openModalConfirmation = () => {
+    this.setState({
+      user: {},
+      showModalConfirmation: true 
+    })
+  }
+
   onConfirmCompany = () => {
     this.setState({ showModalCompany: false });
     this.onListCompanies();
   };
+  
+  onConfirmImport = () => {
+    this.setState({showModalConfirmation: false });
+    this.props.dispatch(showBackdrop(true));
+    this.setState({loading: true});
+    this.props.dispatch(importErpCompanies()).then(res => {
+      this.props.dispatch(showSnackBar("success", res || ""));
+      this.onListCompanies();
+    }).catch(err => {
+      this.props.dispatch(showBackdrop(false));
+      this.props.dispatch(showSnackBar("error", err.response.data.error));
+    });
+  }
 
   onListCompanies = () => {
     this.props.dispatch(showBackdrop(true));
@@ -95,7 +118,7 @@ class CompaniesPage extends Component {
   };
 
   render() {
-    const { showModalCompany, showModalDelete, company, companies, loading } = this.state;
+    const { showModalCompany, showModalDelete, showModalConfirmation, company, companies, loading } = this.state;
 
     return (
       <Grid container>
@@ -108,12 +131,21 @@ class CompaniesPage extends Component {
           </Typography>
           <p style={{ textAlign: 'end' }}>
             <Button
+              onClick={this.openModalConfirmation}
+              variant="contained"
+              color="secondary"
+              startIcon={<ImportExportIcon />}
+              style={{margin:"0px 15px"}}
+            >
+              Importar ERP
+            </Button>
+            <Button
               onClick={this.openModalCompany}
               variant="contained"
               color="secondary"
               startIcon={<AddCircleIcon />}
             >
-              Agregar Empresa
+              Agregar
             </Button>
           </p>
           <CustomTable columns={columns} rows={companies} onRowClick={this.showDetails} loading={loading} />
@@ -131,6 +163,12 @@ class CompaniesPage extends Component {
             this.setState({ showModalCompany: false });
           }}
           company={company}
+        />
+        <ModalConfirmImport
+          {...this.props}
+          open={showModalConfirmation}
+          handleClose={() => { this.setState({showModalConfirmation: false }) }}
+          onConfirm={this.onConfirmImport}
         />
         <ModalDelete
           open={showModalDelete}

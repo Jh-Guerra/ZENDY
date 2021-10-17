@@ -11,13 +11,14 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import LogoZendy from 'assets/images/Zendy-logo.jpg';
 import VpnKeyIcon from '@material-ui/icons/VpnKey';
 import { pColor, sColor } from 'assets/styles/zendy-css';
-import  {loginUser}  from 'services/actions/LoginAction';
+import  {loginErp, loginUser}  from 'services/actions/LoginAction';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { showBackdrop, showSnackBar } from 'services/actions/CustomAction';
 import { getSessionInfo } from 'utils/common';
 import { IconButton } from '@material-ui/core';
 import { Visibility, VisibilityOff } from '@material-ui/icons';
+import * as qs from 'query-string';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -95,27 +96,55 @@ const LoginPage = props => {
   //const history = useHistory();
 
 /* ==========LOGIN================== */
+  const { rut_empresa = '', usuario="", password="" } = props.location && qs.parse(props.location.search);
 
-  const [email, setEmail] = React.useState("");
+  const [loginEmail, setLoginEmail] = React.useState("");
   const [showPassword, setShowPassword] = React.useState(false);
-  const [password, setPassword] = React.useState("");
+  const [loginPassword, setLoginPassword] = React.useState("");
   const [errors, setErrors] = React.useState({});
   const [searchTimeout, setSearchTimeout] = React.useState(null);
 
   const session = getSessionInfo();
 
   useEffect(()=>{
-    if(session && session.token){
-      props.history.push("/inicio");
-    }else{
-      props.history.push("/");
-    }
-    clearTimeout(searchTimeout);
-    setSearchTimeout(
-      setTimeout(() => {
+    if(rut_empresa && usuario && password){
+      var decodeRutEmpresa;
+      var decodeUser;
+      var decodePassword;
 
-      }, 1000)
-    );
+      try {
+        decodeRutEmpresa = atob(rut_empresa);
+        decodeUser = atob(usuario);
+        decodePassword = atob(password);
+
+        const body = {
+          ruc: decodeRutEmpresa,
+          email: decodeUser,
+          password: decodePassword
+        };
+
+        props.dispatch(loginErp(body)).then(
+          (res) => {
+            props.history.push("/inicio");
+            props.dispatch(showBackdrop(false));
+          },
+          (error) => {
+           props.dispatch(showSnackBar("warning", error.response.data.error || ""));
+           props.dispatch(showBackdrop(false));
+          }
+        ); 
+
+      } catch (error){
+        props.history.push("/");
+      }
+
+    }else{
+      if(session && session.token){
+        props.history.push("/inicio");
+      }else{
+        props.history.push("/");
+      }
+    }
   }, []);
 
   const handleValidation =()=>{
@@ -123,22 +152,22 @@ const LoginPage = props => {
     let formIsValid = true;
 
     //Password
-    if(!password){
+    if(!loginPassword){
        formIsValid = false;
        errors["password"] = "Contraseña requerida";
     }
 
     //Email
-    if(!email){
+    if(!loginEmail){
        formIsValid = false;
        errors["email"] = "Email requerido";
     }
 
-    if(typeof email !== "undefined"){
-       let lastAtPos = email.lastIndexOf('@');
-       let lastDotPos = email.lastIndexOf('.');
+    if(typeof loginEmail !== "undefined"){
+       let lastAtPos = loginEmail.lastIndexOf('@');
+       let lastDotPos = loginEmail.lastIndexOf('.');
 
-      if (!(lastAtPos < lastDotPos && lastAtPos > 0 && email.indexOf('@@') == -1 && lastDotPos > 2 && (email.length - lastDotPos) > 2)) {
+      if (!(lastAtPos < lastDotPos && lastAtPos > 0 && loginEmail.indexOf('@@') == -1 && lastDotPos > 2 && (loginEmail.length - lastDotPos) > 2)) {
         formIsValid = false;
         errors["email"] = "Email no es valido";
       }
@@ -150,17 +179,17 @@ const LoginPage = props => {
 
   const onChangeEmail = (e) => {
     const email = e.target.value;
-    setEmail(email);
+    setLoginEmail(email);
   };
 
   const onChangePassword = (e) => {
     const password = e.target.value;
-    setPassword(password);
+    setLoginPassword(password);
   };
 
   const body = {
-    email: email,
-    password: password
+    email: loginEmail,
+    password: loginPassword
 
   }
 
@@ -215,7 +244,7 @@ const LoginPage = props => {
                 autoComplete="email"
                 autoFocus
                 onChange={onChangeEmail}
-                value={email}
+                value={loginEmail}
                 onKeyPress={event => { event.key === 'Enter' && handleLogin(event) }}
               />
               <span style={{color: "red"}}>{errors["email"]}</span>
@@ -248,7 +277,7 @@ const LoginPage = props => {
                   )
                 }}
                 autoComplete="current-password"
-                value={password}
+                value={loginPassword}
                 onChange={onChangePassword}
                 onKeyPress={event => { event.key === 'Enter' && handleLogin(event) }}
               />

@@ -81,3 +81,8 @@ export const getRoles = () => async dispatch => {
     const res = await userService.getRoles();
     return res && res.data || [];
 }
+
+export const importErpUsers = () => async dispatch => {
+    const res = await userService.importErpUsers();
+    return res && res.data || [];
+}

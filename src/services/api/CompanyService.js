@@ -62,6 +62,16 @@ class CompanyService {
                 headers: { ...config.headers, Authorization: `token ${JSON.parse(localStorage.getItem('session')).token || ''}` }
             }
     )}
+
+    async importErpCompanies() {
+        return await axios.post(
+            config.apiVersion + `companies/import-erp`,
+            {},
+            { headers: {
+                ...config.headers, 
+                Authorization: `token ${JSON.parse(localStorage.getItem('session')).token || ''}` 
+            } }
+    )}
    
 }
 

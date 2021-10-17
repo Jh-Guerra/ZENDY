@@ -2,16 +2,22 @@
 
 const loginService = new LoginService()
 
-export const loginUser = ({email='', password=''}) => async dispatch => {
-    
-        const body ={email:email, password:password}
-        const res = await loginService.loginUser(body).then((response) => {
-            if (response.data) {
-              localStorage.setItem("session", JSON.stringify(response.data));
-            }
-      
-            return response.data;
-          });
-        return res && res.data || {};
+export const loginUser = (body) => async dispatch => {
+  const res = await loginService.loginUser(body).then((response) => {
+    if (response.data) {
+      localStorage.setItem("session", JSON.stringify(response.data));
+    }
+    return response.data;
+  });
+  return res && res.data || {};
+}
 
-} 
+export const loginErp = (body) => async dispatch => {
+  const res = await loginService.loginErp(body).then((response) => {
+    if (response.data) {
+      localStorage.setItem("session", JSON.stringify(response.data));
+    }
+    return response.data;
+  });
+  return res && res.data || {};
+}

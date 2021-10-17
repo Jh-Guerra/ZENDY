@@ -46,10 +46,11 @@ const ChatItem = props => {
         <br/>
         {
           file && (
-            <Button variant="contained"
+            <Button 
+              variant="contained"
+              color="secondary"
               href={file} target="_blank"
               endIcon={<GetAppIcon />}
-              style={{background:"none", color:"white"}}
             >
               Descargar
             </Button>

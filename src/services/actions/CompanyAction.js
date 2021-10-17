@@ -36,3 +36,8 @@ export const deleteImageCompany = (imageLink,id) => async dispatch => {
     const res = await companyService.deleteImageCompany(imageLink,id);
     return res && res.data || [];
 }
+
+export const importErpCompanies = () => async dispatch => {
+    const res = await companyService.importErpCompanies();
+    return res && res.data || [];
+}

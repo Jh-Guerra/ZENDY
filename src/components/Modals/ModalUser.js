@@ -104,10 +104,8 @@ const ModalUser = (props) => {
         if (!user.email)
             errors.email = 'Correo requerido'
 
-        if(user && user.id){
-        } else { if (!user.password)
-                errors.password = 'Contraseña requerida'
-            }
+        if(!user.id && !user.password)
+            errors.password = 'Contraseña requerida'
 
         if (!user.dob)
             errors.dob = 'Fecha de Nacimiento requerido'
@@ -115,10 +113,8 @@ const ModalUser = (props) => {
         if (!user.phone)
             errors.phone = 'N° celular requerido'
 
-        if(role != 'AdminEmpresa') {
-            if (!['1', '2'].includes(user.idRole+"") && !user.idCompany)
-                errors.idCompany = 'Empresa requerida'
-        }
+        if (user.idRole != "1" && !user.idCompany)
+            errors.idCompany = 'Empresa requerida'
 
         return errors;
     };
@@ -160,15 +156,19 @@ const ModalUser = (props) => {
             formData.append('firstName', user.firstName)
             formData.append('lastName', user.lastName)
             formData.append('email', user.email)
+            
+            if(!user.id){
+                formData.append('password', user.password)
+            }
+
             var dateDOB = (new Date(user.dob)).toUTCString();
             formData.append('dob', dateDOB)
             formData.append('phone', user.phone)
             formData.append('sex', user.sex)
             formData.append('idRole', user.idRole)
-            if(role == 'AdminEmpresa') { 
+            if(!isUserAdmin) { 
                 formData.append('idCompany', companyId)
-            }
-            else {
+            }else {
                 formData.append('idCompany', user.idCompany)
             }
             
@@ -241,7 +241,7 @@ const ModalUser = (props) => {
                                             label="Nombre"
                                             custom="inputText"
                                             onChange={handleChange}
-                                            value={values.firstName}
+                                            value={values.firstName || ""}
                                             error={ errors.firstName && touched.firstName ? true : false }
                                             icon={<AccountCircle />}
                                             disabled={!editMode}
@@ -253,7 +253,7 @@ const ModalUser = (props) => {
                                             custom="inputText"
                                             label="Apellido"
                                             onChange={handleChange}
-                                            value={values.lastName}
+                                            value={values.lastName || ""}
                                             error={ errors.lastName && touched.lastName ? true : false }
                                             icon={<AccountCircle />}
                                             disabled={!editMode}
@@ -265,7 +265,7 @@ const ModalUser = (props) => {
                                             custom="inputText"
                                             label="Correo Electrónico"
                                             onChange={handleChange}
-                                            value={values.email}
+                                            value={values.email || ""}
                                             error={ errors.email && touched.email ? true : false }
                                             icon={<AlternateEmailIcon />}
                                             disabled={!editMode}
@@ -296,7 +296,7 @@ const ModalUser = (props) => {
                                             onChange={(event) => {
                                                 setFieldValue("sex", event.target.value);
                                             }}
-                                            value={values.sex}
+                                            value={values.sex || "O"}
                                             options={sexTypes}
                                             error={ errors.sex && touched.sex ? true : false }
                                             disabled={!editMode}
@@ -325,7 +325,7 @@ const ModalUser = (props) => {
                                             onChange={(event) => { 
                                                  setFieldValue("phone", onlyNumbers(Math.max(0, parseInt(event.target.value)).toString().slice(0,15)))
                                             }}
-                                            value={values.phone}
+                                            value={values.phone || ""}
                                             error={ errors.phone && touched.phone ? true : false }
                                             icon={<PhoneIcon />}
                                             disabled={!editMode}
@@ -339,14 +339,14 @@ const ModalUser = (props) => {
                                             onChange={(event) => {
                                                 setFieldValue("idRole", event.target.value)
                                             }}
-                                            value={values.idRole}
+                                            value={values.idRole || ""}
                                             options={limitedRoles.map(role => { return {...role, name: getCustomRoleName(role.name)} })}
                                             error={ errors.idRole && touched.idRole ? true : false }
                                             disabled={!editMode}
                                        />
                                     </Grid>
                                     {
-                                        !['1', '2'].includes(values.idRole+"") && role == 'Admin' && (
+                                        values.idRole != "1" && isUserAdmin && (
                                             <Grid item xs={12}>
                                                 <CustomInput
                                                     id="idCompany"

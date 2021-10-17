@@ -172,6 +172,16 @@ class UserService {
                 Authorization: `token ${JSON.parse(localStorage.getItem('session')).token || ''}` 
             } }
     )}
+
+    async importErpUsers() {
+        return await axios.post(
+            config.apiVersion + `users/import-erp`,
+            {},
+            { headers: {
+                ...config.headers, 
+                Authorization: `token ${JSON.parse(localStorage.getItem('session')).token || ''}` 
+            } }
+    )}
 }
 
 export default UserService;

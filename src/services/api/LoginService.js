@@ -7,13 +7,19 @@ class LoginService {
         return await axios.post(
             config.apiVersion + `login`,
             body,
-            {
-                headers: config.headers,
-                //body: JSON.stringify({ email, password })
-            }
+            { headers: config.headers }
 
         )
-    }   
+    }
+
+    async loginErp (body){
+        return await axios.post(
+            config.apiVersion + `login-erp`,
+            body,
+            { headers: config.headers }
+
+        )
+    }
 
 }
 

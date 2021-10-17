@@ -1,13 +1,15 @@
 import React, { Component } from 'react';
 import { Button, Grid, Typography } from "@material-ui/core";
 import CustomTable from 'components/CustomTable';
-import { deleteUser, findUser, listUsers } from 'services/actions/UserAction';
+import { deleteUser, findUser, importErpUsers, listUsers } from 'services/actions/UserAction';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import ModalUser from 'components/Modals/ModalUser';
 import moment from 'moment';
 import { getCustomRoleName } from 'utils/common';
 import ModalDelete from 'components/Modals/ModalDelete';
 import { showBackdrop, showSnackBar } from 'services/actions/CustomAction';
+import ImportExportIcon from '@material-ui/icons/ImportExport';
+import ModalConfirmImport from 'components/Modals/ModalConfirmImport';
 
 const columns = [
   { type: 'text', field: 'name', label: 'Nombre', format: (row) => `${row.firstName} ${row.lastName}` },
@@ -25,6 +27,7 @@ class UsersPage extends Component {
     this.state = {
       showModalUser: false,
       showModalDelete: false,
+      showModalConfirmation: false,
       user: {},
       users: [],
       loading: false
@@ -47,9 +50,29 @@ class UsersPage extends Component {
     })
   }
 
+  openModalConfirmation = () => {
+    this.setState({
+      user: {},
+      showModalConfirmation: true 
+    })
+  }
+
   onConfirmUser = () => {
     this.setState({showModalUser: false });
     this.onListUsers();
+  }
+
+  onConfirmImport = () => {
+    this.setState({showModalConfirmation: false });
+    this.props.dispatch(showBackdrop(true));
+    this.setState({loading: true});
+    this.props.dispatch(importErpUsers()).then(res => {
+      this.props.dispatch(showSnackBar("success", res || ""));
+      this.onListUsers();
+    }).catch(err => {
+      this.props.dispatch(showBackdrop(false));
+      this.props.dispatch(showSnackBar("error", err.response.data.error));
+    });
   }
 
   onListUsers = () => {
@@ -59,7 +82,7 @@ class UsersPage extends Component {
       this.setState({users: res || []});
       this.setState({loading: false});
       this.props.dispatch(showBackdrop(false));
-    }).catch(err => this.props.dispatch(showBackdrop(false)));;
+    }).catch(err => this.props.dispatch(showBackdrop(false)));
   }
 
   showDetails = (row) => {
@@ -90,7 +113,7 @@ class UsersPage extends Component {
   }
  
   render() {
-    const { showModalUser, showModalDelete, user, users, loading } = this.state;
+    const { showModalUser, showModalDelete, showModalConfirmation, user, users, loading } = this.state;
 
     return (
       <Grid container>
@@ -103,12 +126,21 @@ class UsersPage extends Component {
           </Typography>
           <p style={{textAlign:'end'}}>
             <Button
+              onClick={this.openModalConfirmation}
+              variant="contained"
+              color="secondary"
+              startIcon={<ImportExportIcon />}
+              style={{margin:"0px 15px"}}
+            >
+              Importar ERP
+            </Button>
+            <Button
               onClick={this.openModalUser}
               variant="contained"
               color="secondary"
               startIcon={<AddCircleIcon />}
             >
-              Agregar Usuario
+              Agregar
             </Button>
           </p>
           <CustomTable 
@@ -125,6 +157,12 @@ class UsersPage extends Component {
           openModalDelete={ () => { this.setState({showModalDelete: true }) } }
           handleClose={() => { this.setState({showModalUser: false }) }}
           user={user}
+        />
+        <ModalConfirmImport
+          {...this.props}
+          open={showModalConfirmation}
+          handleClose={() => { this.setState({showModalConfirmation: false }) }}
+          onConfirm={this.onConfirmImport}
         />
         <ModalDelete
           open={showModalDelete}
