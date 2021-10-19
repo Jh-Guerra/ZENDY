@@ -14,6 +14,8 @@ import 'date-fns';
 import { getSessionInfo } from 'utils/common';
 import { updateStatus, findUserStatusOn } from 'services/actions/UserAction';
 import { onHideSnackBar } from 'services/actions/CustomAction';
+import Echo from "laravel-echo";
+import config from "config/Config";
 
 window.Pusher = require('pusher-js');
 
@@ -39,6 +41,22 @@ class ZendyAppShell extends Component {
       window.addEventListener('unload', this.handleEndConcert)
       window.addEventListener("beforeunload", this.props.dispatch(findUserStatusOn(session.user.id, '1')));
     }
+
+    window.Echo = new Echo({
+      broadcaster: 'pusher',
+      key: config.pusherAppKey,
+      cluster: config.pusherCluster,
+      encrypted: true,
+      wsHost: window.location.hostname,
+      wsPort: 6001,
+      forceTLS: false,
+      disableStats: false,
+      auth: {
+        headers: {
+            Authorization: 'Bearer ' + `${JSON.parse(localStorage.getItem('session')).token || ''}`
+        },
+      }
+    });
   }
   componentWillUnmount() {
 

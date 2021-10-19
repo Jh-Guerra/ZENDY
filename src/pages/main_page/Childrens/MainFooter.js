@@ -65,7 +65,6 @@ const MainFooter = props => {
     formData.append('file', fileInput.files[0] || null);
     
     if(!sendingMessage){
-      props.dispatch(showBackdrop(true));
       props.dispatch(createMessage(formData)).then((res) => {
         setMsg("");
         setSendingMessage(false)
@@ -77,14 +76,12 @@ const MainFooter = props => {
         props.dispatch(listActiveChats("", "Vigente"));
         document.getElementById('upload-image').value = "";
         document.getElementById('upload-file').value = "";
-        props.dispatch(showBackdrop(false));
       }).catch(error => {
         setSendingMessage(false)
         setUploadImage(null);
         setUploadFile(null);
         document.getElementById('upload-image').value = "";
         document.getElementById('upload-file').value = "";
-        props.dispatch(showBackdrop(false));
       })
     }
   }

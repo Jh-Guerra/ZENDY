@@ -10,8 +10,6 @@ import { useHistory, withRouter } from 'react-router-dom';
 import { connect } from "react-redux";
 import { listMessages } from 'services/actions/MessageAction';
 import { getSessionInfo } from 'utils/common';
-import Echo from "laravel-echo";
-import config from "config/Config";
 import { resetPendingMessages } from 'services/actions/ParticipantAction';
 
 const MainPage = (props) => {
@@ -23,21 +21,7 @@ const MainPage = (props) => {
   const [messages, setMessages] = React.useState([]);
 
   React.useEffect(()=> {
-    window.Echo = new Echo({
-      broadcaster: 'pusher',
-      key: config.pusherAppKey,
-      cluster: config.pusherCluster,
-      encrypted: true,
-      wsHost: window.location.hostname,
-      wsPort: 6001,
-      forceTLS: false,
-      disableStats: false,
-      auth: {
-        headers: {
-            Authorization: 'Bearer ' + `${JSON.parse(localStorage.getItem('session')).token || ''}`
-        },
-      }
-    });
+    
   }, []);
 
   React.useEffect(() => {
@@ -60,7 +44,6 @@ const MainPage = (props) => {
         })
 
         updateActiveChats(updatedChats);
-
         window.Echo.private("chats." + chatId).listen('sendMessage', (e) => {
           const newMessage = e && e.message;
           const newUser = e && e.user || {};
@@ -81,12 +64,17 @@ const MainPage = (props) => {
         history.push("/inicio");
       }
     }
+
+    return () => {
+      window.Echo.leave("chats."+localStorage.getItem("currentChatId"));
+    }
   }, [props.location.pathname]);
 
   const onGetChatData = (chatId) => {
     props.dispatch(showBackdrop(true));
     props.dispatch(findChat(chatId)).then(res => {
       setChat(res.chat || {});
+      localStorage.setItem("currentChatId", res.chat && res.chat.id || "")
       props.dispatch(showBackdrop(false));
     }).catch(err => props.dispatch(showBackdrop(false)));
   };

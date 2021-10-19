@@ -38,22 +38,34 @@ const ChatItem = props => {
           <span>{isMyMessage ? "Yo" : user}</span>
           <span>{hourChat}</span>
         </div>
-        <div className="chat-msg">{msg}</div>
-        <br />
-        <a href={imageUpload} target="_blank"> 
-        <img style={{height:120, width:120, display:imageUpload ? "flex" : "none"}} src={imageUpload} />
-        </a>
-        <br/>
+        {
+          msg && (
+            <div className="chat-msg">{msg}</div>
+          )
+        }
+        {
+          imageUpload && (
+            <>
+              <br />
+              <a href={imageUpload} target="_blank"> 
+                <img style={{height:120, width:120, display:imageUpload ? "flex" : "none"}} src={imageUpload} />
+              </a>
+            </>
+          )
+        }
         {
           file && (
-            <Button 
-              variant="contained"
-              color="secondary"
-              href={file} target="_blank"
-              endIcon={<GetAppIcon />}
-            >
-              Descargar
-            </Button>
+            <>
+              <br/>
+              <Button 
+                variant="contained"
+                color="secondary"
+                href={file} target="_blank"
+                endIcon={<GetAppIcon />}
+              >
+                Descargar
+              </Button>
+            </>
           )
         }
       </div>
