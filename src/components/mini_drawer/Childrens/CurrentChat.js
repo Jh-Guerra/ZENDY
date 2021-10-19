@@ -7,6 +7,9 @@ import { listActiveChats } from 'services/actions/ChatAction';
 import NewChatCall from './NewChatCall';
 import { useHistory } from 'react-router-dom';
 import { showBackdrop } from 'services/actions/CustomAction';
+import { getSessionInfo } from 'utils/common';
+import Echo from "laravel-echo";
+import config from "config/Config";
 
 const styles = theme => ({
   search: {
@@ -25,6 +28,14 @@ const CurrentChat = props => {
   React.useEffect(() => {
     onListActiveChats('');
     setTerm("");
+  }, []);
+
+  React.useEffect(() => {
+    const session = getSessionInfo();
+    const user = session && session.user;
+    window.Echo.private("user." + user.id).listen('notificationMessage', (e) => {
+      props.dispatch(listActiveChats(term, "Vigente"))
+    })
   }, []);
 
   const onListActiveChats = term => {
