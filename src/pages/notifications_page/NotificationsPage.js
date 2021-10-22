@@ -19,12 +19,19 @@ import config from "../../config/Config";
 import defaultImage from 'assets/images/defaultImage.png';
 import ThemeError from 'components/ThemeSettings/ThemeError';
 
+const OneDayAgo= (date) => {
+  const today = Math.round(new Date().getTime() / 1000);
+  const rest = today - date;
+  const oneDayAgo = (rest / 60 / 60 / 24).toFixed(2);
+  return oneDayAgo >= 1;
+}
+
 const columns = [
   { type: 'text', field: 'name', label: 'Nombre', format: (row) => `${row.firstName} ${row.lastName}` },
   { type: 'text', field: 'rol', label: 'Rol', format: (row) => getCustomRoleName(row.rol) },
   { type: 'text', field: 'companyName', label: 'Empresa' },
   { type: 'text', field: 'email', label: 'Correo' },
-  { type: 'text', field: 'viewedDate', label: 'Visto', align: 'center', format: (row) => row.viewedDate ? moment(row.viewedDate).format("DD/MM/YYYY") : "" },
+  { type: 'text', field: 'viewedDate', label: 'Visto', align: 'center', format: (row) => row.viewedDate ? (OneDayAgo(row.viewedDate) ? moment(row.viewedDate*1000).format("DD/MM/YYYY") : moment(row.viewedDate*1000).format('LT')) : " " },
 ];
 
 const useStyles = makeStyles((theme) => ({
