@@ -77,7 +77,7 @@ const HistoryChat = props => {
     } 
     const handleChange1 = (date) => {
       setToDate(date);
-      if(fromDate < toDate){
+      if(fromDate > date){
         props.dispatch(showSnackBar('error', 'El Hasta debe ser mayor a la del Desde'));
       } else {
         onListTerminateChats('', fromDate, date)
