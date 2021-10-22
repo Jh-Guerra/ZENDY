@@ -19,7 +19,11 @@ import { getSessionInfo } from 'utils/common';
 import { IconButton } from '@material-ui/core';
 import { Visibility, VisibilityOff } from '@material-ui/icons';
 import * as qs from 'query-string';
+import Echo from "laravel-echo";
+import config from "config/Config";
+import { listActiveChats } from 'services/actions/ChatAction';
 
+window.Pusher = require('pusher-js');
 
 const useStyles = makeStyles((theme) => ({
   loginTitle: {
@@ -200,6 +204,28 @@ const LoginPage = props => {
       props.dispatch(showBackdrop(true));
       props.dispatch(loginUser(body)).then(
        (res) => {
+        window.Echo = new Echo({
+          broadcaster: 'pusher',
+          key: config.pusherAppKey,
+          cluster: config.pusherCluster,
+          encrypted: false,
+          wsHost: "api.zendy.cl",
+          wsPort: 6001,
+          forceTLS: false,
+          enabledTransports: ['ws'],
+          disableStats: false,
+          auth: {
+            headers: {
+                Authorization: 'Bearer ' + `${JSON.parse(localStorage.getItem('session')).token || ''}`
+            },
+          }
+        });
+
+        const user = session && session.user || {};
+        window.Echo.private("user." + user.id).listen('notificationMessage', (e) => {
+          props.dispatch(listActiveChats("", "Vigente"))
+        })
+
          props.history.push("/inicio");
          props.dispatch(showBackdrop(false));
        },

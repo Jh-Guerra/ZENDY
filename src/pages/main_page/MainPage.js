@@ -12,6 +12,8 @@ import { listMessages } from 'services/actions/MessageAction';
 import { getSessionInfo } from 'utils/common';
 import { resetPendingMessages } from 'services/actions/ParticipantAction';
 
+window.Pusher = require('pusher-js');
+
 const MainPage = (props) => {
   const history = useHistory();
   const session = getSessionInfo() || {};

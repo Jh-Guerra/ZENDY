@@ -16,6 +16,7 @@ import { updateStatus, findUserStatusOn } from 'services/actions/UserAction';
 import { onHideSnackBar } from 'services/actions/CustomAction';
 import Echo from "laravel-echo";
 import config from "config/Config";
+import { listActiveChats } from 'services/actions/ChatAction';
 
 window.Pusher = require('pusher-js');
 
@@ -42,21 +43,30 @@ class ZendyAppShell extends Component {
       window.addEventListener("beforeunload", this.props.dispatch(findUserStatusOn(session.user.id, '1')));
     }
 
-    window.Echo = new Echo({
-      broadcaster: 'pusher',
-      key: config.pusherAppKey,
-      cluster: config.pusherCluster,
-      encrypted: true,
-      wsHost: window.location.hostname,
-      wsPort: 6001,
-      forceTLS: false,
-      disableStats: false,
-      auth: {
-        headers: {
-            Authorization: 'Bearer ' + `${JSON.parse(localStorage.getItem('session')).token || ''}`
-        },
-      }
-    });
+    if(localStorage.getItem('session')){
+      window.Echo = new Echo({
+        broadcaster: 'pusher',
+        key: config.pusherAppKey,
+        cluster: config.pusherCluster,
+        encrypted: false,
+        wsHost: "api.zendy.cl",
+        wsPort: 6001,
+        forceTLS: false,
+        enabledTransports: ['ws'],
+        disableStats: false,
+        auth: {
+          headers: {
+              Authorization: 'Bearer ' + `${JSON.parse(localStorage.getItem('session')).token || ''}`
+          },
+        }
+      });
+
+      const user = session && session.user || {};
+      window.Echo.private("user." + user.id).listen('notificationMessage', (e) => {
+        this.props.dispatch(listActiveChats("", "Vigente"))
+      })
+    }
+    
   }
   componentWillUnmount() {
 
