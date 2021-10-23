@@ -261,6 +261,7 @@ const ModalNewCompaniesNotification = (props) => {
                                     <CustomInput
                                         id="description"
                                         custom="textArea"
+                                        label="Descripción"
                                         onChange={handleChange}
                                         value={values.description}
                                         error={ errors.description && touched.description ? true : false }

@@ -17,6 +17,8 @@ import { onHideSnackBar } from 'services/actions/CustomAction';
 import Echo from "laravel-echo";
 import config from "config/Config";
 import { listActiveChats } from 'services/actions/ChatAction';
+import { useHistory } from 'react-router-dom';
+import {findUser } from 'services/actions/UserAction';
 
 window.Pusher = require('pusher-js');
 
@@ -37,6 +39,13 @@ class ZendyAppShell extends Component {
     dt.subtract(dt.parseZone().utcOffset(), 'minutes');
 
     if (session && session.token) {
+      const userId = session && session.user && session.user.id || "";
+      this.props.dispatch(findUser(userId)).then(res => {
+        if(res && res.deleted == 1){
+          this.props.dispatch(logOut());
+          window.location.href = config.commonHost;
+        }
+      });
       this.props.dispatch(setCurrentSession(session));
       window.addEventListener('beforeunload', this.alertUser)
       window.addEventListener('unload', this.handleEndConcert)
@@ -69,7 +78,16 @@ class ZendyAppShell extends Component {
     
   }
   componentWillUnmount() {
-
+    const session = getSessionInfo();
+    if (session && session.token) {
+      const userId = session && session.user && session.user.id || "";
+      this.props.dispatch(findUser(userId)).then(res => {
+        if(res && res.deleted){
+          this.props.dispatch(logOut());
+          window.location.href = config.commonHost;
+        }
+      });
+    }
     window.removeEventListener('beforeunload', this.alertUser)
     window.removeEventListener('unload', this.handleEndConcert)
 

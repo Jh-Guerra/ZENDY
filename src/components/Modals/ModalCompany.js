@@ -96,8 +96,8 @@ const ModalCompany = (props) => {
         if (!company.phone)
             errors.phone = true;
 
-        if (!company.maxBytes) 
-            errors.maxBytes = true;
+        if (!company.ruc) 
+            errors.ruc = 'RUT es requerido'
 
         return errors;
     };
@@ -252,7 +252,7 @@ const ModalCompany = (props) => {
                                             disabled={!editMode}
                                         />
                                     </Grid>
-                                    <Grid item xs={12} md={6}>
+{/*                                     <Grid item xs={12} md={6}>
                                         <CustomInput
                                             id="maxBytes"
                                             custom="inputText"
@@ -265,11 +265,11 @@ const ModalCompany = (props) => {
                                             icon={<PhoneIcon />}
                                             disabled={!editMode}
                                         />
-                                    </Grid>
+                                    </Grid> */}
                                     <Grid item xs={12}>
                                         <CustomInput
                                             id="ruc"
-                                            label={<p>RUC</p>}
+                                            label={<p>RUT *</p>}
                                             custom="inputText"
                                             onChange={handleChange}
                                             value={values.ruc || ""}
