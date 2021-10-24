@@ -204,21 +204,21 @@ const ModalGroupChatDetail = props => {
                 <List>
                   {
                     chat.participants && chat.participants.map((participant, i) => {
-                      var user = participant.user || {};
+                      var userChat = participant.user || {};
                       return (
                         <ListItem key={i} style={{borderBottom: "1px solid #CBD3D3"}}>
                           <ListItemAvatar>
-                            <Avatar alt="" src={user.avatar ? (config.api + user.avatar) : ZendyIcon} />
+                            <Avatar alt="" src={userChat.avatar ? (config.api + userChat.avatar) : ZendyIcon} />
                           </ListItemAvatar>
                           <ListItemText
-                            primary={`${user.firstName} ${user.lastName}`}
+                            primary={`${userChat.firstName} ${userChat.lastName}`}
                             secondary={`${participant.type}`}
                           />
                           {
                              quantityParticipants > 2 && isAdmin && (
                               <ListItemSecondaryAction>
                                 {
-                                  participant.type == "Participante" && !chatFinalize ? <Button variant="contained" color="primary" onClick={() => {RemoveParticipant(user.id,chat.id)}}>Quitar</Button> : null
+                                  (participant.idUser != chat.idUser) && (participant.idUser != user.id) && !chatFinalize ? <Button variant="contained" color="primary" onClick={() => {RemoveParticipant(userChat.id,chat.id)}}>Quitar</Button> : null
                                 }
                               </ListItemSecondaryAction>
                              )
