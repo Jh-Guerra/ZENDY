@@ -52,11 +52,14 @@ const ModalAddToConversation = (props) => {
   const [term, setTerm] = React.useState('');
 
   React.useEffect(() => {
-    if(open){
+    if(open && chat.type == "Interno"){
+      onListAdmins("");
+    }else if(open && chat.type != "Interno"){
       onListAvailableUsers("");
-    }else{
+    }else if(!open){
       setUsers([]);
       setSelectedUsers([]);
+      setAsAdmin(false);
     }
     setTerm("");
   }, [open]);
@@ -86,13 +89,24 @@ const ModalAddToConversation = (props) => {
   }
 
   const onSearch = (term) => {
-    setTerm(term);
-    clearTimeout(searchTimeout);
-    setSearchTimeout(
-      setTimeout(() => {
-        onListAvailableUsers(term);
-      }, 1000)
-    )
+    if(chat.type == "Interno"){
+      setTerm(term);
+      clearTimeout(searchTimeout);
+      setSearchTimeout(
+        setTimeout(() => {
+          onListAdmins(term);
+        }, 1000)
+      )
+    }else{
+      setTerm(term);
+      clearTimeout(searchTimeout);
+      setSearchTimeout(
+        setTimeout(() => {
+          onListAvailableUsers(term);
+        }, 1000)
+      )
+    }
+    
   }
 
   const onSelectUser = (user) => {
