@@ -82,11 +82,13 @@ const ModalUser = (props) => {
                 setIcon(<PersonAddIcon />);
                 setEditMode(true);
             }
-            props.dispatch(showBackdrop(true));
-            props.dispatch(listCompanies()).then(response =>{
-                setCompanies(response)
-                props.dispatch(showBackdrop(false))
-            }).catch(err => props.dispatch(showBackdrop(false)));
+            if(isUserAdmin){
+                props.dispatch(showBackdrop(true));
+                props.dispatch(listCompanies()).then(response =>{
+                    setCompanies(response)
+                    props.dispatch(showBackdrop(false))
+                }).catch(err => props.dispatch(showBackdrop(false)));
+            }
             setFileUrl(null)
         }
     }, [open]);
@@ -112,9 +114,10 @@ const ModalUser = (props) => {
 
         if (!user.phone)
             errors.phone = 'N° celular requerido'
-
+        if(role && role.name != 'AdminEmpresa') {
         if (user.idRole != "1" && !user.idCompany)
             errors.idCompany = 'Empresa requerida'
+         }
 
         return errors;
     };

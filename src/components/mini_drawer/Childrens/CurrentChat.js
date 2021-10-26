@@ -47,6 +47,7 @@ const CurrentChat = props => {
   const goToChat = (chat) => {
     setTerm("");
     history.push(`/chats/${chat.id}`);
+    onListActiveChats('');
   }
 
   const onSaveForm = () => {

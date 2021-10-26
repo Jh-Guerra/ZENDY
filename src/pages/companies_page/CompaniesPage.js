@@ -15,13 +15,6 @@ const columns = [
   { type: 'text', field: 'adminName', label: 'Administrador', minWidth: 250 },
   { type: 'text', field: 'email', label: 'Correo', minWidth: 250 },
   { type: 'text', field: 'phone', label: 'N° Celular', minWidth: 170 },
-  {
-    type: 'text',
-    field: 'currentBytes',
-    label: 'Mbs Máximos',
-    minWidth: 170,
-    format: row => `${row.currentBytes} / ${row.maxBytes} Mbs`,
-  },
 ];
 
 class CompaniesPage extends Component {

@@ -18,7 +18,7 @@ const ItemErrorRow = (props) => {
 
   const reason =  error.reason && error.reason.length > 33 ? error.reason.substring(0,30) + "..." : error.reason || "";
   const description = error.description && error.description.length > 48 ? error.description.substring(0,45) + "..." : error.description || "";
-  const hour = error.updated_at && moment(error.updated_at).format('LT') || '00:00';
+  const hour = error.created_at && moment(error.created_at).format('LT') || '00:00';
 
   const onClickAction = (error) => {
     props.goTo && props.goTo(error);
