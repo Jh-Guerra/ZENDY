@@ -9,7 +9,7 @@ export const loginUser = (body) => async dispatch => {
     }
     return response.data;
   });
-  return res && res.data || {};
+  return res && res || {};
 }
 
 export const loginErp = (body) => async dispatch => {
