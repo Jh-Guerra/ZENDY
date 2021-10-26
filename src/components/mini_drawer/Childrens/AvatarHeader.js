@@ -32,7 +32,7 @@ import { pLetterColor } from "assets/styles/zendy-css";
             <div>
               <div>               
                 <Typography style={{fontSize:'18px', color: pLetterColor}}>
-                  {(`${user.firstName} ${user.lastName}`).length > 35 ? (`${user.firstName} ${user.lastName}`).substring(0,32) + "..." : (`${user.firstName} ${user.lastName}`)}
+                  {(`${user.firstName} ${user.lastName}`).length > 30 ? (`${user.firstName} ${user.lastName}`).substring(0,27) + "..." : (`${user.firstName} ${user.lastName}`)}
                 </Typography>
               </div>
               <Button color="secondary" variant="contained" size="small" onClick={() => (this.props.logout())}>Cerrar Sesión</Button>

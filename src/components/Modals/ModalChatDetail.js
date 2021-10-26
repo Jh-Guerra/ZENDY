@@ -11,6 +11,7 @@ import config from 'config/Config';
 import { getImageProfile, getSessionInfo } from 'utils/common';
 import { findImages } from 'services/actions/ChatAction';
 import { showBackdrop } from 'services/actions/CustomAction';
+import LogoZendy from 'assets/images/Zendy-logo.jpg';
 
 const useStyles = makeStyles(theme => ({
   gridList: {
@@ -63,7 +64,7 @@ const ModalChatDetail = props => {
 
   if(chat.participants && chat.participants.length > 2){
     image = chat.company && chat.company.avatar || "";
-    defaultImageType = "Company";
+    defaultImageType = LogoZendy;
     name = chat.name || '';
   }else{
     chat.participants && chat.participants.map(participant => {
@@ -74,6 +75,11 @@ const ModalChatDetail = props => {
       }
     })    
     name = chat.name || "";
+  }
+
+  if(chat.type == "Empresa"){
+    image = chat.company && chat.company.avatar || "";
+    defaultImageType = "Company";
   }
 
   const openImage = (imagePath) => {

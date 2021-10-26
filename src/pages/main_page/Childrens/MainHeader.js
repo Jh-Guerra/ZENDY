@@ -11,6 +11,7 @@ import { useHistory, withRouter } from "react-router-dom";
 import config from "config/Config";
 import { getImageProfile, getSessionInfo } from "utils/common";
 import SpeakerNotesOffIcon from '@material-ui/icons/SpeakerNotesOff';
+import LogoZendy from 'assets/images/Zendy-logo.jpg';
 
 const MainHeader = props => {
   const session = getSessionInfo();
@@ -48,7 +49,7 @@ const MainHeader = props => {
 
   if(chat.scope == "Grupal"){
     image = chat.company && chat.company.avatar || "";
-    defaultImageType = "Company";
+    defaultImageType = LogoZendy;
   }else{
     chat.participants && chat.participants.map(participant => {
       if(participant.user.id != user.id){
@@ -57,6 +58,11 @@ const MainHeader = props => {
         isOnline = (participant.user.isOnline) ? 'active' : '';
       }
     })    
+  }
+
+  if(chat.type == "Empresa"){
+    image = chat.company && chat.company.avatar || "";
+    defaultImageType = "Company";
   }
 
   var isAdmin = false;
