@@ -77,6 +77,9 @@ const MainPage = (props) => {
     props.dispatch(findChat(chatId)).then(res => {
       setChat(res.chat || {});
       localStorage.setItem("currentChatId", res.chat && res.chat.id || "")
+      if(res.chat && res.chat.status == 'Finalizado'){
+        history.push("/inicio");
+      }
       props.dispatch(showBackdrop(false));
     }).catch(err => props.dispatch(showBackdrop(false)));
   };
