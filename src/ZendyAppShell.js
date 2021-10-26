@@ -72,6 +72,7 @@ class ZendyAppShell extends Component {
 
       const user = session && session.user || {};
       window.Echo.private("user." + user.id).listen('notificationMessage', (e) => {
+        (e.chatId == localStorage.getItem("currentChatId")) && this.props.history.push("/inicio");
         this.props.dispatch(listActiveChats("", "Vigente"))
       })
     }
