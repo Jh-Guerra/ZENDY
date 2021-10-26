@@ -177,7 +177,7 @@ const ErrorInfoPage = props => {
   return (
     <>
       <Grid container>
-        <Grid item xs={12} className="top-header"></Grid>
+        <Grid item xs={12} className="top-header" style={{height:"64px"}}></Grid>
         {
           (error.id && isClient && isTheCreator && error.status == "Pendiente" && !error.fake) && (
             <Grid item xs={12} style={{padding: "0px 20px"}}>
@@ -209,9 +209,9 @@ const ErrorInfoPage = props => {
           {
             error && error.id && (
               <>
-                <Grid item xs={12} style={{marginTop: '20px' }}>
+                <Grid item xs={12}>
                   <br />
-                  <Typography variant="h3" component="h3" className="page-title">
+                  <Typography variant="h4" component="h4" className="page-title">
                     Error Reportado
                   </Typography>
                   <span className={classes.fontError} style={{ alignItems: 'flex-end' }} > <b>Estado:</b> </span>

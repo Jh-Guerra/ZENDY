@@ -103,7 +103,7 @@ const MainPage = (props) => {
 
   return (
     <Grid container className="all-heigth">
-      <Grid item xs={12} style={{height:'13vh'}}>
+      <Grid item xs={12} style={{height:'13vh', minHeight: "110px"}}>
         <MainHeader
           chat={chat}
           messages={messages}

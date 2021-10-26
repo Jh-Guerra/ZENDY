@@ -162,7 +162,7 @@ const NotificationsPage = (props) => {
 
   return (
     <Grid container>
-      <Grid item xs={12} className="top-header"></Grid>
+      <Grid item xs={12} className="top-header" style={{height:"64px"}}></Grid>
       {
         notification.id && ((notification.idCompany && (notification.idCompany == session.user.idCompany) && checkPermission(session, "createCompanyNotifications")) || (!notification.idCompany && checkPermission(session, "createAdminNotifications"))) && (
           <Grid item xs={12} style={{padding: "0px 20px"}}>
@@ -192,8 +192,8 @@ const NotificationsPage = (props) => {
         )
       }
 
-      <Grid item xs={12} style={{marginTop: '20px' }}>
-        <Typography variant="h3" component="h3" className="page-title">
+      <Grid item xs={12}>
+        <Typography variant="h4" component="h4" className="page-title">
           {notification.reason || ""}
         </Typography>
       </Grid>

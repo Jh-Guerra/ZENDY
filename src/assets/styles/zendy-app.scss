@@ -8,9 +8,10 @@ $dLetterSize: 16px;
 $dLetterRowColor: #d4d5d7;
 
 // Colors
-$pColor: #8538bc;
+$pColor: #8159af;
 $pColorDark: #411368;
-$sColor: #E16B08;
+$sColor: #dd843a;
+$sColorH: #E16B08;
 $tColor: #F39651;
 
 $pColorV2: #ebe7fb;
@@ -27,6 +28,11 @@ $subTextColor: #929797;
 $pButtonLetter: white;
 $successButton: #0d3d26;
 
+// @media (max-width: 850px) {
+//     * {
+//         font-size: 11px;
+//     }
+// }
 
 .bg-primary{
     background-color: $pColor;
@@ -39,6 +45,7 @@ $successButton: #0d3d26;
 
 html, body {
     height: 100%;
+    width: 100%;
 }
 
 .all-heigth {
@@ -235,7 +242,7 @@ html, body {
 .page-title {
     color: $dLetterColor;
     text-align: center;
-    margin-bottom: 30px;
+    margin-bottom: 15px;
     font-weight: bold;
 }
 
@@ -365,12 +372,11 @@ html, body {
 /*========================   CHAT BODY       ====================================*/
 .main-chat-content {
     flex-grow: 1;
-    max-width: 100%;
+    // max-width: 100%;
     border-right: 1px solid #ebe7fb;
     height: 100%;
 
     padding: 20px 40px;
-    height: 100%;
     overflow: auto;
     max-height: 77vh;
 }
@@ -755,7 +761,7 @@ html, body {
     min-height: 90px;
     background-color: $pColor;
     color: #e6e5ea;
-    box-shadow: 0px 10px 5px grey;
+    box-shadow: 0px 3px 5px grey;
     display: flex;
     justify-content: center;
     align-items: center;

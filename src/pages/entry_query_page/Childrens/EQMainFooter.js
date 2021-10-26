@@ -47,7 +47,7 @@ const EQMainFooter = props => {
             variant="contained"
             color="secondary"
             startIcon={<PeopleAltIcon />}
-            style={{margin:"0px 15px"}}
+            style={{margin:"0px 15px", minWidth:"182px"}}
           >
             Recomendaciones
           </Button>
@@ -58,9 +58,9 @@ const EQMainFooter = props => {
             variant="contained"
             color="secondary"
             startIcon={<ChatIcon />}
-            style={{margin:"0px 15px"}}
+            style={{margin:"0px 15px", minWidth:"230px"}}
           >
-            Aceptar consulta e Iniciar Chat
+            Aceptar e Iniciar Chat
           </Button>
         )}
         {entryQuery.id && checkPermission(session, 'createFrequentQuery') && !isFrequent && (
@@ -69,9 +69,9 @@ const EQMainFooter = props => {
             variant="contained"
             color="secondary"
             startIcon={<RateReviewIcon />}
-            style={{margin:"0px 15px"}}
+            style={{margin:"0px 15px", minWidth:"230px"}}
           >
-            Guardar como Consulta Frecuente
+            Guardar como Frecuente
           </Button>
         )}
       </div>

@@ -39,7 +39,7 @@ const EQMainHeader = props => {
       <Grid container className="chat-header-content">
         <Grid item xs={6}>       
           <Grid container style={{height:"100%", padding:"0px 10px"}}>           
-            <Grid item xs={2} style={{display:"flex"}}>             
+            <Grid item xs={3} style={{display:"flex"}}>             
               <div className="chat-header-avatar">
                 <div className="avatar-header">
                   <div className="avatar-img">
@@ -48,14 +48,14 @@ const EQMainHeader = props => {
                 </div>
               </div>
             </Grid>                      
-            <Grid item xs={8} className="chat-header-name">
+            <Grid item xs={9} className="chat-header-name">
               <div>
                 <Typography noWrap variant="h5">{name}</Typography>
               </div>
               <div>
                 <Typography style={{fontSize:"14px"}}>{status}</Typography>
               </div>
-            </Grid>               
+            </Grid>
           </Grid>
         </Grid>
         

@@ -1,6 +1,8 @@
-export const pColor = "#8538bc73";
-export const sColor = "#E16B08";
+export const pColor = "#8159af";
+export const sColor = "#dd843a";
+export const sColorH = "#E16B08";
 export const tColor = "#F39651";
+
 
 export const pColorDark = "#4113680";
 

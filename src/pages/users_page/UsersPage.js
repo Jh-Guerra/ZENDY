@@ -117,11 +117,11 @@ class UsersPage extends Component {
 
     return (
       <Grid container>
-        <Grid item xs={12} className="top-header"></Grid>
+        <Grid item xs={12} className="top-header" style={{height:"64px"}}></Grid>
         
         <Grid item xs={12} style={{padding: "0px 20px"}}>
           <br />
-          <Typography variant="h3" component="h3" className="page-title">
+          <Typography variant="h4" component="h4" className="page-title">
             Usuarios
           </Typography>
           <p style={{textAlign:'end'}}>
