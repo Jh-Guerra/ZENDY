@@ -222,7 +222,7 @@ const LoginPage = props => {
           }
         });
 
-        const user = session && session.user || {};
+        const user = res.user || {};
         window.Echo.private("user." + user.id).listen('notificationMessage', (e) => {
           props.dispatch(listActiveChats("", "Vigente"))
         })

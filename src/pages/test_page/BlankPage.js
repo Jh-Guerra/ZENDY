@@ -21,7 +21,7 @@ class BlankPage extends Component {
   render() {
     return (
       <BasePage privateHeader={null}>
-        <div className="blank-container">
+        <div className="blank-container" style={{userSelect:"none"}}>
           <img width="100" height="100" alt="zendy" src={LogoZendy} />
           {/* <p>Servicio de Mensajeria</p> */}
         </div>
