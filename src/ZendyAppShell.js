@@ -58,11 +58,12 @@ class ZendyAppShell extends Component {
         key: config.pusherAppKey,
         cluster: config.pusherCluster,
         encrypted: false,
-        wsHost: "api.zendy.cl",
+        wsHost: "zendy.cl",
         wsPort: 6001,
-        forceTLS: false,
+        forceTLS: true,
         enabledTransports: ['ws'],
         disableStats: false,
+        authEndpoint: config.api + 'broadcasting/auth',
         auth: {
           headers: {
               Authorization: 'Bearer ' + `${JSON.parse(localStorage.getItem('session')).token || ''}`

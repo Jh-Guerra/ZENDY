@@ -209,10 +209,11 @@ const LoginPage = props => {
           key: config.pusherAppKey,
           cluster: config.pusherCluster,
           encrypted: false,
-          wsHost: "api.zendy.cl",
+          wsHost: "zendy.cl",
           wsPort: 6001,
-          forceTLS: false,
+          forceTLS: true,
           enabledTransports: ['ws'],
+          authEndpoint: config.api + 'broadcasting/auth',
           disableStats: false,
           auth: {
             headers: {
