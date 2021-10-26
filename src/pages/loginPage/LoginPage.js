@@ -208,7 +208,7 @@ const LoginPage = props => {
           broadcaster: 'pusher',
           key: config.pusherAppKey,
           cluster: config.pusherCluster,
-          encrypted: false,
+          encrypted: true,
           wsHost: "zendy.cl",
           wsPort: 6001,
           forceTLS: true,
