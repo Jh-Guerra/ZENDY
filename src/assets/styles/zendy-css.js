@@ -1,4 +1,4 @@
-export const pColor = "#8538bc";
+export const pColor = "#8538bc73";
 export const sColor = "#E16B08";
 export const tColor = "#F39651";
 

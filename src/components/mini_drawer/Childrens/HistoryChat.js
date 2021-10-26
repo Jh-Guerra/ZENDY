@@ -100,13 +100,11 @@ const HistoryChat = props => {
                 id="date1"
                 custom="inputDate"
                 label="Desde"
-                clasasN
                 onChange={(date) => { handleChange(date) }}
                 value={fromDate}
                 inputProps={{ readOnly: true }}
                 disableFuture
                 autoOk={true}
-                primaryLetterColor
               />
             </Grid>
             <Grid item xs={6}>
@@ -119,7 +117,6 @@ const HistoryChat = props => {
                 inputProps={{ readOnly: true }}
                 disableFuture
                 autoOk={true}
-                primaryLetterColor
               />
             </Grid>
           </Grid>

@@ -147,11 +147,11 @@ const MainFooter = props => {
           <Box>
             {showEmoji &&
               <IconButton onClick={handleShowEmojis}>
-                <HighlightOffTwoToneIcon style={{ fontSize: "4vh", color: ButtonColor }} />
+                <HighlightOffTwoToneIcon className="chat-footer-icon" />
               </IconButton>
             }
             <IconButton onClick={handleShowEmojis}>
-              <EmojiEmotionsIcon style={{ fontSize: "4vh", color: ButtonColor }} />
+              <EmojiEmotionsIcon className="chat-footer-icon" />
             </IconButton>
 
             {showEmoji && (
@@ -164,14 +164,14 @@ const MainFooter = props => {
           <input accept="image/*" style={{ display: 'none' }} id="upload-image" type="file" onChange={processImage} />
           <label htmlFor="upload-image" >
             <IconButton component="span">
-              <ImageIcon style={{ fontSize: "4vh", color: ButtonColor }} />
+              <ImageIcon className="chat-footer-icon" />
             </IconButton>
           </label>
 
           <input style={{ display: 'none' }} id="upload-file" type="file" onChange={processFile} />
           <label htmlFor="upload-file" >
             <IconButton component="span">
-              <DescriptionIcon style={{ fontSize: "4vh", color: ButtonColor }} />
+              <DescriptionIcon className="chat-footer-icon" />
             </IconButton>
           </label>
         </Grid>
@@ -190,7 +190,7 @@ const MainFooter = props => {
 
         <Grid item xs={1}>
           <IconButton style={{ marginLeft: "4vh" }} onClick={() => { sendMessage("text") }}>
-            <SendIcon style={{ fontSize: "4vh", color: ButtonColor }} />
+            <SendIcon className="chat-footer-icon" />
           </IconButton>
         </Grid>
       </Grid>

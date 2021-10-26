@@ -101,8 +101,8 @@ const MainHeader = props => {
               </div>
               {
                 companyName && (
-                  <div>
-                    <Typography style={{fontSize:"14px", color:"white"}}>{companyName} { ruc && `- ${ruc}`}</Typography>
+                  <div className="chat-header-company">
+                    <Typography>{companyName} { ruc && `- ${ruc}`}</Typography>
                   </div>
                 )
             }

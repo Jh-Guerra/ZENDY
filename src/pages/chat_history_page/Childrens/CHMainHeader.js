@@ -26,7 +26,6 @@ const CHMainHeader = props => {
   var company = chat && chat.companyUser && chat.companyUser.name || '';
   var ruc = chat && chat.companyUser && chat.companyUser.ruc || '';
   var status = chat && chat.status || '';
-console.log('companu', company)
 
   if(chat.scope == "Grupal"){
     image = chat.company && chat.company.avatar || "";
@@ -83,9 +82,8 @@ console.log('companu', company)
               </div>
               {
                 chat && chat.companyUser && (   
-                  <div>
-                    <Typography style={{fontSize:"14px", color:"white"}}>{company} - {ruc}</Typography>
-                    {/* <Typography>Estado: {status}</Typography> */}
+                  <div className="chat-header-company">
+                    <Typography >{company} - {ruc}</Typography>
                   </div>
                 )
               }

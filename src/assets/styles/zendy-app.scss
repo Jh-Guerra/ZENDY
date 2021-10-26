@@ -1,8 +1,8 @@
 // Letters
 $pLetter: 'Roboto', sans-serif;
 $letterMinSize: 16px;
-$pLetterColor: White;
-$dLetterColor: #3b3b3b;
+$pLetterColor: white;
+$dLetterColor: #181818;
 $pIconColor: White;
 $dLetterSize: 16px;
 $dLetterRowColor: #d4d5d7;
@@ -12,6 +12,11 @@ $pColor: #8538bc;
 $pColorDark: #411368;
 $sColor: #E16B08;
 $tColor: #F39651;
+
+$pColorV2: #ebe7fb;
+$pLetterV2: #161616;
+$pIconV2: #9b55ff;
+$pInputV2: #ded8f8;
 
 $onLine: #38F909;
 $offLine: #ECECEB;
@@ -252,7 +257,7 @@ html, body {
 
     .chat-header-content {
         border-bottom: 1px solid #ebe7fb;
-        background-color: $pColor;
+        background-color: $pColorV2;
         padding: 0px 10px;
         vertical-align: middle;
 
@@ -268,7 +273,7 @@ html, body {
         align-items: center;
 
         .chat-header-button{
-            color: #ffff
+            color: $pIconV2;
         }
         
         .chat-header-button:hover {   
@@ -278,7 +283,7 @@ html, body {
 
     .chat-header-name {
         font-size: 23px;
-        color: #fff;
+        color: $pLetterV2;
         display: flex;
         flex-direction: column;
         justify-content: center;
@@ -291,6 +296,11 @@ html, body {
         span {
             font-size: 18px;
         }
+    }
+
+    .chat-header-company {
+        color: $pLetterV2;
+        font-size: 14px;
     }
 
     .chat-header-avatar {
@@ -376,7 +386,7 @@ html, body {
 
 /* ============================    CHAT FOOTER       ============================================*/
 .entry-query-footer {
-    background-color: $pColor;
+    // background-color: $pColorV2;
     padding: 30px 470px 20px 20px;
     display: flex;
     width:100%;
@@ -393,7 +403,7 @@ html, body {
 .chat-footer {
     height: 100%;
     min-width: 730px;
-    background-color: $pColor;
+    // background-color: $pColorV2;
     height: 10vh;
     bottom: 0;
     position:sticky;
@@ -408,14 +418,18 @@ html, body {
         transition: all 0.3s cubic-bezier(0.88, 0.19, 0.37, 1.11);
     }
 
+    .chat-footer-icon {
+        font-size: 3vh;
+        color: $pIconV2;
+    }
+
     input {
         flex-grow: 1;
         padding: 12px 0px 12px 12px;
-        background-color: white;
+        background-color: $pInputV2;
         border-radius: 10px;
         outline: none;
-        color: black;
-        
+        color: $dLetterColor;
     }
 }
 
@@ -450,8 +464,8 @@ html, body {
 }
 
 .chat-item-content {
-    background-color: $pColor;
-    color: #fff;
+    background-color: $pColorV2;
+    color: $pLetterV2;
     padding: 15px;
     border-radius: 10px 10px 0 10px;
     max-width: 50%;
@@ -464,7 +478,7 @@ html, body {
 
         span {
             font-size: 14px;
-            color: #e2e6f5;
+            color: #929292;
             user-select: none;
         }
     }
@@ -481,7 +495,7 @@ html, body {
         max-width: 50%;
 
         .chat-meta span {
-            color: #d1d1d1;
+            color: #929292;
         }
     }
 
@@ -529,7 +543,7 @@ html, body {
   text-align: center;
   justify-content: center;
   width: 100%;
-  color: white;
+  color: $pLetterColor;
   opacity: 0.7;
   font-size: 15px;
 }
@@ -583,7 +597,7 @@ html, body {
 }
   
 .notfound-page p {
-    color: white;
+    color: $pLetterColor;
     font-size: xxx-large;
 }
   
@@ -670,7 +684,7 @@ html, body {
 .modal-header {
     background-color: $pColor;
     text-align: center;
-    color: white !important;
+    color: $pLetterColor !important;
     padding: 5px;
     display: flex;
 
