@@ -42,7 +42,8 @@ const ModalUser = (props) => {
         phone: "",
         idRole: "4",
         idCompany: "",
-        avatar: ""
+        avatar: "",
+        userName: "",
     });
 
     const [title, setTitle] = React.useState("Agregar Usuario");
@@ -76,7 +77,8 @@ const ModalUser = (props) => {
                     phone: "",
                     idRole: "4",
                     idCompany: "",
-                    avatar: ""
+                    avatar: "",
+                    userName: ""
                 });
                 setTitle("Agregar usuario");
                 setIcon(<PersonAddIcon />);
@@ -96,6 +98,9 @@ const ModalUser = (props) => {
     const validateForm = user => {
         const errors = {};
         user = trimObject(user);
+
+        if (!user.userName) 
+        errors.userName = 'Nombre de Usuario requerido';
 
         if (!user.firstName) 
             errors.firstName = 'Nombre requerido';
@@ -134,6 +139,7 @@ const ModalUser = (props) => {
             formData.append('firstName', user.firstName)
             formData.append('lastName', user.lastName)
             formData.append('email', user.email)
+            formData.append('userName', user.userName)
             var dateDOB = (new Date(user.dob)).toUTCString();
             formData.append('dob', dateDOB)
             formData.append('phone', user.phone)
@@ -159,7 +165,7 @@ const ModalUser = (props) => {
             formData.append('firstName', user.firstName)
             formData.append('lastName', user.lastName)
             formData.append('email', user.email)
-            
+            formData.append('userName', user.userName)
             if(!user.id){
                 formData.append('password', user.password)
             }
@@ -258,6 +264,18 @@ const ModalUser = (props) => {
                                             onChange={handleChange}
                                             value={values.lastName || ""}
                                             error={ errors.lastName && touched.lastName ? true : false }
+                                            icon={<AccountCircle />}
+                                            disabled={!editMode}
+                                        />
+                                    </Grid>
+                                    <Grid item xs={12}>
+                                        <CustomInput
+                                            id="userName"
+                                            custom="inputText"
+                                            label="Nombre de Usuario"
+                                            onChange={handleChange}
+                                            value={values.userName || ""}
+                                            error={ errors.userName && touched.userName ? true : false }
                                             icon={<AccountCircle />}
                                             disabled={!editMode}
                                         />

@@ -13,6 +13,7 @@ import ModalConfirmImport from 'components/Modals/ModalConfirmImport';
 
 const columns = [
   { type: 'text', field: 'name', label: 'Nombre', format: (row) => `${row.firstName} ${row.lastName}` },
+  { type: 'text', field: 'userName', label: 'Nombre de Usuario', format: (row) => `${row.userName || ""}` },
   { type: 'text', field: 'roleName', label: 'Rol', format: (row) => getCustomRoleName(row.roleName)},
   { type: 'text', field: 'companyName', label: 'Empresa', format: (row) => `${row.company && row.company.name || ""}` },
   { type: 'text', field: 'email', label: 'Correo' },
