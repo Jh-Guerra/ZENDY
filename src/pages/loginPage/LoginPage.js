@@ -32,10 +32,7 @@ const useStyles = makeStyles((theme) => ({
     fontSize: '4rem'
   },
   loginInput: {
-    width: '40vw',
-    [theme.breakpoints.down('xs')]: {
-      width: '65vw',
-    },
+    width: '25vw',  
   },
   root: {
     marginBottom: theme.spacing(1)
@@ -43,35 +40,27 @@ const useStyles = makeStyles((theme) => ({
   image:{
     backgroundImage: 'url('+LogoZendy+')',
     backgroundRepeat: 'no-repeat',
-    backgroundSize: '200px',
+    backgroundSize: '180px',
     borderRadius: '50%',
-    width: '300px',
-    height:'33%',
+    maxWidth: '300px',
+    maxHeight:'300px',
     display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    margin: theme.spacing(19, 13.1),
-    // border: sColor + ' 5px solid',
-  },
-  paper: {
-    margin: theme.spacing(18, 4),
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center',
-    height: "100%",
-    margin: "0px"
-  },
-  form: {
-    width: '80%',
-    marginTop: theme.spacing(4),
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center'
   },
   loginBtn: {
     marginTop: theme.spacing(4),
-    padding: "20px 60px"
+    padding: "20px 60px",
+    width: '25vw',
+    [theme.breakpoints.down('xs')]: {
+      width: '65vw',
+    },
+  },
+  rootPaper: {
+    marginTop: theme.spacing(25),
+    marginRight: theme.spacing(30),
+    marginLeft: theme.spacing(30),
+    marginBottom: theme.spacing(25),
+    maxWidth: theme.spacing(65),
+    maxHeight: theme.spacing(65),
   },
 }));
 
@@ -243,16 +232,17 @@ const LoginPage = props => {
     <>
       <CssBaseline />
       <Grid container className="all-heigth">
-        <Grid container alignItems="center" justify="center" item md={4} className="login-logo">
-          <img src={LogoZendy} className={classes.image}/>
-        </Grid>
-        <Grid item xs={12} md={8} component={Paper}>
-          <Grid item xs={12} />
-          <div className={classes.paper}>
-            <Typography variant="h4" className={classes.loginTitle}>
-              Iniciar Sesión
-            </Typography>
-            <form className={classes.form}>
+        <Grid container item md={4} className="login-logo" style={{textAlign:"center", paddingRight:"30px", paddingLeft:"30px", paddingTop:"190px", justifyContent:"center", alignItems:"center", flexDirection:"column"}}>      
+          <img src={LogoZendy} className={classes.image}/>         
+          <p style={{paddingTop:"10px", paddingBottom:"200px", fontSize:"23px", fontWeight:"bolder"}}>
+            Zendy te ayuda a comunicarte con tus colaboradores, clientes, proveedores. Chat online, Mesa de Ayuda, Canal de Ventas.
+          </p>
+        </Grid>       
+        <Grid container item md={8} style={{textAlign:"center", justifyContent:"center", alignItems:"center"}}>
+            <Paper elevation={3} className={classes.rootPaper}>       
+            <form className={classes.form}>         
+            <Grid container spacing={2}>
+            <Grid item xs={12}>
               <CssTextField
                 className={classes.loginInput}
                 variant="outlined"
@@ -275,7 +265,9 @@ const LoginPage = props => {
                 value={loginEmail}
                 onKeyPress={event => { event.key === 'Enter' && handleLogin(event) }}
               />
-              <span style={{color: "red"}}>{errors["email"]}</span>
+            </Grid>
+            <span style={{color: "red"}}>{errors["email"]}</span>
+            <Grid item xs={12}>
               <CssTextField
                 className={classes.loginInput}
                 variant="outlined"
@@ -309,8 +301,9 @@ const LoginPage = props => {
                 onChange={onChangePassword}
                 onKeyPress={event => { event.key === 'Enter' && handleLogin(event) }}
               />
-               <span style={{color: "red"}}>{errors["password"]}</span>
-
+            </Grid>
+            <span style={{color: "red"}}>{errors["password"]}</span>
+            <Grid item xs={12}>
               <Button
                 type="button"
                 variant="contained"
@@ -320,9 +313,14 @@ const LoginPage = props => {
               >
                 Iniciar Sesión
               </Button>
+            </Grid>
+            </Grid>
+            <br /> 
+              <span style={{textAlign:"center", fontSize:"16px"}}>¿Olvidaste tu contraseña?</span>
+            <br />    
             </form>
-          </div>    
-      </Grid>
+            </Paper>
+          </Grid>          
     </Grid>
     </>
   );
