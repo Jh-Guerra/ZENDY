@@ -7,13 +7,11 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import InputAdornment from '@material-ui/core/InputAdornment';
-import AccountCircle from '@material-ui/icons/AccountCircle';
 import LogoZendy from 'assets/images/Zendy-logo.jpg';
-import VpnKeyIcon from '@material-ui/icons/VpnKey';
 import { pColor, sColor } from 'assets/styles/zendy-css';
 import  {loginErp, loginUser}  from 'services/actions/LoginAction';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import { showBackdrop, showSnackBar } from 'services/actions/CustomAction';
 import { getSessionInfo } from 'utils/common';
 import { IconButton } from '@material-ui/core';
@@ -22,6 +20,8 @@ import * as qs from 'query-string';
 import Echo from "laravel-echo";
 import config from "config/Config";
 import { listActiveChats } from 'services/actions/ChatAction';
+import ModalSendPassword from 'components/Modals/ModalSendPassword';
+import { findUserByUserName } from 'services/actions/UserAction';
 
 window.Pusher = require('pusher-js');
 
@@ -107,7 +107,8 @@ const LoginPage = props => {
   const [loginPassword, setLoginPassword] = React.useState("");
   const [errors, setErrors] = React.useState({});
   const [searchTimeout, setSearchTimeout] = React.useState(null);
-
+  const [showModalSendPassword, setModalSendShowPassword] = React.useState(false);
+  const [userData, setUserData] = React.useState({});
   const session = getSessionInfo();
 
   useEffect(()=>{
@@ -239,6 +240,33 @@ const LoginPage = props => {
     }
   };
 
+  const handleClose = () => {
+    setModalSendShowPassword(!showModalSendPassword)
+  }
+
+  const sendPassword = () => {
+    let errors = {};
+    setErrors("");
+    let formIsValid = true;
+    
+    if(!loginEmail){
+      errors["email"] = "Introduce tu nombre de ususario para buscar tu cuenta.";
+      setErrors(errors);
+      return formIsValid = false;
+   }
+
+   props.dispatch(findUserByUserName(body.email)).then(
+    (res) => {
+      setUserData(res)
+      setModalSendShowPassword(!showModalSendPassword)
+    },
+    (error) => {
+     props.dispatch(showSnackBar("warning", error.response.data.error || ""));
+     props.dispatch(showBackdrop(false));
+    }
+  );
+  }
+
   return (
     <>
       <CssBaseline />
@@ -311,6 +339,10 @@ const LoginPage = props => {
               />
                <span style={{color: "red"}}>{errors["password"]}</span>
 
+              <Typography>
+                <Link onClick={() => {sendPassword()}}>¿Has olvidado la contraseña?</Link>
+              </Typography>              
+
               <Button
                 type="button"
                 variant="contained"
@@ -324,6 +356,12 @@ const LoginPage = props => {
           </div>    
       </Grid>
     </Grid>
+    <ModalSendPassword
+        {...props}
+        open={showModalSendPassword}
+        handleClose={handleClose}
+        userData={userData}
+      />
     </>
   );
 }

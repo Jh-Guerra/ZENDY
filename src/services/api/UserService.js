@@ -32,6 +32,25 @@ class UserService {
             } }
     )}
 
+    async findUserByUserName(userName) {
+        return await axios.get(
+            config.apiVersion + `findUser/` + userName,
+            { headers: {
+                ...config.headers, 
+            } }
+    )}
+
+    async sendEmail(id,email) {
+        return await axios.post(
+            config.apiVersion + `contactar/` + id,
+            {email},
+            { headers: {
+                ...config.headers, 
+                }
+            }
+    )}
+
+
     async listUsers(term="") {
         return await axios.get(
             config.apiVersion + `users/list?term=${term}`,
