@@ -77,7 +77,7 @@ const AvatarHeader = props => {
 
 
   return (
-    <div className="mini-drawer-header" style={{ minHeight: open ? '170px' : '110px' }}>
+    <div className="mini-drawer-header" style={{ minHeight: open ? '170px' : '110px', width: "385px" }}>
       <Avatar
         isOnline={user.isOnline ? "active" : ""}
         image={user.avatar ? (config.api + (user.avatar)) : getImageProfile(user.sex)}
@@ -93,7 +93,7 @@ const AvatarHeader = props => {
                 style={{ fontSize: '18px', color: pLetterColor, marginTop:'20px' }}
                 onClick={handleToggle}
               >
-                {(`${user.firstName} ${user.lastName}`).length > 30 ? (`${user.firstName} ${user.lastName}`).substring(0, 27) + "..." : (`${user.firstName} ${user.lastName}`)}
+                <small>{(`${user.firstName} ${user.lastName}`).length > 30 ? (`${user.firstName} ${user.lastName}`).substring(0, 27) + "..." : (`${user.firstName} ${user.lastName}`)}</small>
               </Button>
               <Popper open={open} anchorEl={anchorRef.current} role={undefined} transition disablePortal>
                 {({ TransitionProps, placement }) => (

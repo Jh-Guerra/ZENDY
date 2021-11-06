@@ -159,7 +159,7 @@ const ModalPasswordChange = (props) => {
               <Typography gutterBottom className={classes.typography}>¿Está seguro que desea cambiar su contraseña?</Typography>
             </Box>
           </Grid>
-          <Grid item xs={12} style={{ marginTop: '8px' }}>
+          <Grid item xs={12} style={{ margin: '15px 0px' }}>
             <Box textAlign="center" style={{ marginTop: '5px' }}>
               <CssTextField
                 style={{ width: '350px' }}
@@ -172,11 +172,6 @@ const ModalPasswordChange = (props) => {
                 type={showPassword ? "text" : "password"}
                 onChange={onChangeOldPassword}
                 InputProps={{
-/*                   startAdornment: (
-                    <InputAdornment position="start">
-                      <LockIcon />
-                    </InputAdornment>
-                  ), */
                   endAdornment: (
                     <InputAdornment position="end">
                       <IconButton
@@ -196,8 +191,7 @@ const ModalPasswordChange = (props) => {
               alignItems: 'center'
             }}>{errors["oldPassword"]}</span>
           </Grid>
-          <br />
-          <Grid item xs={12} style={{ marginTop: '8px' }}>
+          <Grid item xs={12} style={{ margin: '15px 0px' }}>
             <Box textAlign="center" style={{ marginTop: '5px' }}>
               <CssTextField
                 style={{ width: '350px' }}
@@ -210,11 +204,6 @@ const ModalPasswordChange = (props) => {
                 type={showNewPassword ? "text" : "password"}
                 onChange={onChangeNewPassword}
                 InputProps={{
-/*                   startAdornment: (
-                    <InputAdornment position="start">
-                      <VpnKeyIcon />
-                    </InputAdornment>
-                  ), */
                   endAdornment: (
                     <InputAdornment position="end">
                       <IconButton
@@ -234,8 +223,7 @@ const ModalPasswordChange = (props) => {
               alignItems: 'center'
             }}>{errors["newPassword"]}</span>
           </Grid>
-          <br />
-          <Grid item xs={12} style={{ marginTop: '8px' }}>
+          <Grid item xs={12} style={{ margin: '15px 0px' }}>
             <Box textAlign="center" style={{ marginTop: '5px' }}>
               <CssTextField
                 style={{ width: '350px' }}
@@ -248,11 +236,6 @@ const ModalPasswordChange = (props) => {
                 type={showVerifyPassword ? "text" : "password"}
                 onChange={onChangeVerifyPassword}
                 InputProps={{
-/*                   startAdornment: (
-                    <InputAdornment position="start">
-                      <VerifiedUserIcon />
-                    </InputAdornment>
-                  ), */
                   endAdornment: (
                     <InputAdornment position="end">
                       <IconButton
