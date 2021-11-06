@@ -17,6 +17,16 @@ export const findUser = (id) => async dispatch => {
     return res && res.data || [];
 }
 
+export const findUserByUserName = (userName) => async dispatch => {
+    const res = await userService.findUserByUserName(userName);
+    return res && res.data || [];
+}
+
+export const sendEmail = (id,email) => async dispatch => {
+    const res = await userService.sendEmail(id,email);
+    return res && res.data || [];
+}
+
 export const listUsers = (term) => async dispatch => {
     const res = await userService.listUsers(term);
     return res && res.data || [];
