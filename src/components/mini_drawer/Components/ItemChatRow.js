@@ -42,7 +42,7 @@ const ItemChatRow = (props) => {
   const message = chat.lastMessage && chat.lastMessage.message  && chat.lastMessage.message.length > 29 ? chat.lastMessage.message.substring(0,26) + "..." :  (chat.lastMessage && chat.lastMessage.message) || "";
   const hour = (chat.lastMessage && chat.lastMessage.createdDate) ? (OneDayAgo(chat.lastMessage.createdDate) ? moment(chat.lastMessage.createdDate*1000).format("DD/MM/YYYY") : moment(chat.lastMessage.createdDate*1000).format('LT')) : " ";
   const lastMessageUser = chat.lastMessageUser || {};
-  const prefixMessage = lastMessageUser.id == user.id ? "Tú :" : (chat.scope == "Grupal" ? (lastMessageUser.firstName + " " + lastMessageUser.lastName) : "");
+  const prefixMessage = lastMessageUser.id == user.id ? "Tú :" : (chat.scope == "Grupal" ? (lastMessageUser.firstName + ": ") : "");
 
   const onClickAction = (chat) => {
     props.goToChat && props.goToChat(chat);
