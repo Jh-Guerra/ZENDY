@@ -86,3 +86,8 @@ export const importErpUsers = () => async dispatch => {
     const res = await userService.importErpUsers();
     return res && res.data || [];
 }
+
+export const updatePassword = (id, data) => async dispatch => {
+    const res = await userService.updatePassword(id, data);
+    return res && res.data || [];
+}

@@ -182,6 +182,16 @@ class UserService {
                 Authorization: `token ${JSON.parse(localStorage.getItem('session')).token || ''}` 
             } }
     )}
+
+    async updatePassword(id, data) {
+        return await axios.post(
+            config.apiVersion + `users/update-password/` + id, 
+            data,
+            { headers: {
+                ...config.headers, 
+                Authorization: `token ${JSON.parse(localStorage.getItem('session')).token || ''}` 
+            } }
+    )}
 }
 
 export default UserService;
