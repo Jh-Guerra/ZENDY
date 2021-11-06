@@ -58,6 +58,7 @@ html, body {
 
 .custom-button {
     color: $pButtonLetter;
+    font-size: 18px;
     // background-color: $pColor;
 
     * {
@@ -78,6 +79,8 @@ html, body {
 
 .login-logo{
     background-color: $pColor;
+    align-items: center;
+    justify-content: center;
 }
 
 /* ===========================        MENU LATERAL              =============================================*/
