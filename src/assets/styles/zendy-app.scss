@@ -78,9 +78,10 @@ html, body {
 }
 
 .login-logo{
-    background-color: $pColor;
-    align-items: center;
+    display: flex;
+    flex-direction: column;
     justify-content: center;
+    padding-bottom: 150px;
 }
 
 /* ===========================        MENU LATERAL              =============================================*/

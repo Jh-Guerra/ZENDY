@@ -42,12 +42,11 @@ const useStyles = makeStyles((theme) => ({
     backgroundRepeat: 'no-repeat',
     backgroundSize: '180px',
     borderRadius: '50%',
-    maxWidth: '300px',
-    maxHeight:'300px',
+    width: '250px',
+    height:'250px',
     display: 'flex',
   },
   loginBtn: {
-    marginTop: theme.spacing(4),
     padding: "20px 60px",
     width: '25vw',
     [theme.breakpoints.down('xs')]: {
@@ -221,95 +220,88 @@ const LoginPage = props => {
     <>
       <CssBaseline />
       <Grid container className="all-heigth">
-        <Grid container item md={4} className="login-logo" style={{textAlign:"center", paddingRight:"30px", paddingLeft:"30px", paddingTop:"190px", justifyContent:"center", alignItems:"center", flexDirection:"column"}}>      
-          <img src={LogoZendy} className={classes.image}/>         
-          <p style={{paddingTop:"10px", paddingBottom:"200px", fontSize:"23px", fontWeight:"bolder"}}>
+        <Grid item md={2}/>
+        <Grid item md={4} className="login-logo">
+          {/* <img src={LogoZendy} className={classes.image}/>          */}
+          <p style={{ fontSize:"50px", fontWeight:"bold", color: pColor, marginBottom: "5px"}}>
+            ZENDY
+          </p>
+          <p style={{ fontSize:"20px", fontWeight:"bolder"}}>
             Zendy te ayuda a comunicarte con tus colaboradores, clientes, proveedores. Chat online, Mesa de Ayuda, Canal de Ventas.
           </p>
-        </Grid>       
-        <Grid container item md={8} style={{textAlign:"center", justifyContent:"center", alignItems:"center"}}>
+        </Grid>
+        <Grid container item md={4} style={{textAlign:"center", justifyContent:"center", alignItems:"center"}}>
             <Paper elevation={3} className={classes.rootPaper}>       
-            <form className={classes.form}>         
-            <Grid container spacing={2}>
-            <Grid item xs={12}>
-              <CssTextField
-                className={classes.loginInput}
-                variant="outlined"
-                margin="normal"
-                required
-                fullWidth
-                id="email"
-                // InputProps={{
-                //   startAdornment: (
-                //     <InputAdornment position="start">
-                //       <AccountCircle className="custom-icon"/>
-                //     </InputAdornment>
-                //   ),
-                // }}
-                placeholder="Usuario o email"
-                name="email"
-                autoComplete="email"
-                autoFocus
-                onChange={onChangeEmail}
-                value={loginEmail}
-                onKeyPress={event => { event.key === 'Enter' && handleLogin(event) }}
-              />
-            </Grid>
-            <span style={{color: "red"}}>{errors["email"]}</span>
-            <Grid item xs={12}>
-              <CssTextField
-                className={classes.loginInput}
-                variant="outlined"
-                margin="normal"
-                required
-                fullWidth
-                name="password"
-                placeholder="Contraseña"
-                type={showPassword ? "text" : "password"}
-                id="password"
-                InputProps={{
-                  // startAdornment: (
-                  //   <InputAdornment position="start">
-                  //     <VpnKeyIcon className="custom-icon"/>
-                  //   </InputAdornment>
-                  // ),
-                  endAdornment: (
-                    <InputAdornment position="end">
-                       <IconButton
-                         onClick={() => { setShowPassword(!showPassword) }}
-                         edge="end"
-                         style={{color: pColor}}
-                       >
-                         {showPassword ? <Visibility /> : <VisibilityOff />}
-                       </IconButton>
-                     </InputAdornment>
-                  )
-                }}
-                autoComplete="current-password"
-                value={loginPassword}
-                onChange={onChangePassword}
-                onKeyPress={event => { event.key === 'Enter' && handleLogin(event) }}
-              />
-            </Grid>
-            <span style={{color: "red"}}>{errors["password"]}</span>
-            <Grid item xs={12}>
-              <Button
-                type="button"
-                variant="contained"
-                color="primary"
-                className={classes.loginBtn + " custom-button"}
-                onClick={handleLogin}
-              >
-                Iniciar Sesión
-              </Button>
-            </Grid>
-            </Grid>
-            <br /> 
-              <span style={{textAlign:"center", fontSize:"16px"}}>¿Olvidaste tu contraseña?</span>
-            <br />    
-            </form>
+              <form style={{padding: "20px"}}>         
+                <Grid container spacing={2}>
+                  <Grid item xs={12}>
+                    <CssTextField
+                      className={classes.loginInput}
+                      variant="outlined"
+                      margin="normal"
+                      required
+                      fullWidth
+                      id="email"
+                      placeholder="Usuario o email"
+                      name="email"
+                      autoComplete="email"
+                      autoFocus
+                      onChange={onChangeEmail}
+                      value={loginEmail}
+                      onKeyPress={event => { event.key === 'Enter' && handleLogin(event) }}
+                    />
+                    <span style={{color: "red"}}>{errors["email"]}</span>
+                  </Grid>
+                  <Grid item xs={12}>
+                    <CssTextField
+                      className={classes.loginInput}
+                      variant="outlined"
+                      margin="normal"
+                      required
+                      fullWidth
+                      name="password"
+                      placeholder="Contraseña"
+                      type={showPassword ? "text" : "password"}
+                      id="password"
+                      InputProps={{
+                        endAdornment: (
+                          <InputAdornment position="end">
+                            <IconButton
+                              onClick={() => { setShowPassword(!showPassword) }}
+                              edge="end"
+                              style={{color: pColor}}
+                            >
+                              {showPassword ? <Visibility /> : <VisibilityOff />}
+                            </IconButton>
+                          </InputAdornment>
+                        )
+                      }}
+                      autoComplete="current-password"
+                      value={loginPassword}
+                      onChange={onChangePassword}
+                      onKeyPress={event => { event.key === 'Enter' && handleLogin(event) }}
+                    />
+                    <span style={{color: "red"}}>{errors["password"]}</span>
+                  </Grid>
+                  <Grid item xs={12}>
+                    <span style={{textAlign:"center", fontSize:"16px", color: pColor, cursor:"pointer"}}>¿Olvidaste tu contraseña?</span>
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Button
+                      type="button"
+                      variant="contained"
+                      color="primary"
+                      className={classes.loginBtn + " custom-button"}
+                      onClick={handleLogin}
+                    >
+                      Iniciar Sesión
+                    </Button>
+                  </Grid>
+                </Grid>
+              </form>
             </Paper>
-          </Grid>          
+          </Grid>
+          <Grid item md={2}/>        
     </Grid>
     </>
   );
