@@ -168,7 +168,7 @@ const ModalPasswordChange = (props) => {
                 value={oldPassword}
                 required
                 fullWidth
-                autoComplete="current-password"
+                autoComplete="new-password"
                 type={showPassword ? "text" : "password"}
                 onChange={onChangeOldPassword}
                 InputProps={{
@@ -200,7 +200,7 @@ const ModalPasswordChange = (props) => {
                 value={newPassword}
                 required
                 fullWidth
-                autoComplete="current-password"
+                autoComplete="new-password"
                 type={showNewPassword ? "text" : "password"}
                 onChange={onChangeNewPassword}
                 InputProps={{
@@ -232,7 +232,7 @@ const ModalPasswordChange = (props) => {
                 value={verifyPassword}
                 required
                 fullWidth
-                autoComplete="current-password"
+                autoComplete="new-password"
                 type={showVerifyPassword ? "text" : "password"}
                 onChange={onChangeVerifyPassword}
                 InputProps={{
