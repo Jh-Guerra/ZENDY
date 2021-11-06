@@ -164,18 +164,8 @@ const LoginPage = props => {
     //Email
     if(!loginEmail){
        formIsValid = false;
-       errors["email"] = "Email requerido";
+       errors["email"] = "Usuario o Email requerido";
     }
-
-    if(typeof loginEmail !== "undefined"){
-       let lastAtPos = loginEmail.lastIndexOf('@');
-       let lastDotPos = loginEmail.lastIndexOf('.');
-
-      if (!(lastAtPos < lastDotPos && lastAtPos > 0 && loginEmail.indexOf('@@') == -1 && lastDotPos > 2 && (loginEmail.length - lastDotPos) > 2)) {
-        formIsValid = false;
-        errors["email"] = "Email no es valido";
-      }
-    } 
 
    setErrors(errors);
    return formIsValid;
