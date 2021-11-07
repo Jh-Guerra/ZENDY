@@ -251,10 +251,10 @@ const LoginPage = props => {
         <Grid item md={2}/>
         <Grid item md={4} className="login-logo">
           {/* <img src={LogoZendy} className={classes.image}/>          */}
-          <p style={{ fontSize:"50px", fontWeight:"bold", color: pColor, marginBottom: "5px"}}>
+          <p className="login-text" style={{ fontSize:"50px", fontWeight:"bold", color: pColor, marginBottom: "5px"}}>
             ZENDY
           </p>
-          <p style={{ fontSize:"20px", fontWeight:"bolder"}}>
+          <p className="login-text" style={{ fontSize:"20px", fontWeight:"bolder"}}>
             Zendy te ayuda a comunicarte con tus colaboradores, clientes, proveedores. Chat online, Mesa de Ayuda, Canal de Ventas.
           </p>
         </Grid>
