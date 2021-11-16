@@ -17,8 +17,8 @@ export const findUser = (id) => async dispatch => {
     return res && res.data || [];
 }
 
-export const findUserByUserName = (userName) => async dispatch => {
-    const res = await userService.findUserByUserName(userName);
+export const findUserByUserName = (username, rut) => async dispatch => {
+    const res = await userService.findUserByUserName(username, rut);
     return res && res.data || [];
 }
 
@@ -52,10 +52,6 @@ export const deleteUser = (id) => async dispatch => {
     return res && res.data || [];
 }
 
-export const uploadImage = () => async dispatch => {
-    const res = await userService.uploadImage();
-    return res && res.data || [];
-}
 export const listUsersOnline = () => async dispatch => {
     const res = await userService.listUsersOnline();
     return res && res.data || [];
@@ -64,14 +60,7 @@ export const updateStatus = (id, data) => async dispatch => {
     const res = await userService.updateStatus(id, data);
     return res && res.data || [];
 }
-export const findUserStatusOn = (id, data) => async dispatch => {
-    const res = await userService.findUserStatusOn(id, data);
-    return res && res.data || [];
-}
-export const listAvailableUsersSameCompany = (type, term) => async dispatch => {
-    const res = await userService.listAvailableUsersSameCompany(type, term);
-    return res && res.data || [];
-}
+
 export const deleteImageUser = (imageLink,id) => async dispatch => {
     const res = await userService.deleteImageUser(imageLink,id);
     return res && res.data || [];

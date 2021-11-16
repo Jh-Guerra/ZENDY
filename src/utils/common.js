@@ -114,11 +114,19 @@ export const getImageProfile = (type) => {
   }
 }
 
-export const defaultHeaders = () => { 
+export const defaultHeaders = () => {
+  const session = localStorage.getItem('session') ? JSON.parse(localStorage.getItem('session')) : {};
+  const token = session.token || "";
+  const user = session.user || {};
+  const idCompany = user.idCompany || null;
+
   return {
       headers: {
           ...config.headers, 
-          Authorization: `token ${JSON.parse(localStorage.getItem('session')).token || ''}` 
+          Authorization: `token ${token}`
+      },
+      params: {
+        idCompany: idCompany
       }
   }
 };

@@ -12,7 +12,7 @@ import AlternateEmailIcon from '@material-ui/icons/AlternateEmail';
 import LockIcon from '@material-ui/icons/Lock';
 import { onlyNumbers, trimObject, sexTypes, getCustomRoleName } from 'utils/common';
 import PhoneIcon from '@material-ui/icons/Phone';
-import { createUser, deleteImageUser, getRoles, updateUser,uploadImage} from 'services/actions/UserAction';
+import { createUser, deleteImageUser, getRoles, updateUser } from 'services/actions/UserAction';
 import AssignmentIndIcon from '@material-ui/icons/AssignmentInd';
 import EditIcon from '@material-ui/icons/Edit';
 import { showBackdrop, showSnackBar } from 'services/actions/CustomAction';
@@ -42,8 +42,9 @@ const ModalUser = (props) => {
         phone: "",
         idRole: "4",
         idCompany: "",
+        companies: [],
         avatar: "",
-        userName: "",
+        username: "",
     });
 
     const [title, setTitle] = React.useState("Agregar Usuario");
@@ -52,6 +53,7 @@ const ModalUser = (props) => {
     const [companies, setCompanies] = React.useState([]);
     const [fileUrl, setFileUrl] = React.useState(null);
     const [userRoles, setUserRoles] = React.useState([]);
+    const [companySearch, setCompanySearch] = React.useState("");
 
     React.useEffect(() => {
         if(open){
@@ -60,7 +62,10 @@ const ModalUser = (props) => {
             });
             if(user && user.id){
                 // Ver el detalle de un usuario
-                setData(user);
+                setData({
+                    ...user,
+                    companies: getCustomCompanies(user.mappedCompanies || [])
+                });
                 setTitle("Detalle del usuario");
                 setIcon(<AssignmentIndIcon />);
                 setEditMode(false);
@@ -77,8 +82,9 @@ const ModalUser = (props) => {
                     phone: "",
                     idRole: "4",
                     idCompany: "",
+                    companies: [],
                     avatar: "",
-                    userName: ""
+                    username: ""
                 });
                 setTitle("Agregar usuario");
                 setIcon(<PersonAddIcon />);
@@ -99,8 +105,8 @@ const ModalUser = (props) => {
         const errors = {};
         user = trimObject(user);
 
-        if (!user.userName) 
-        errors.userName = 'Nombre de Usuario requerido';
+        if (!user.username) 
+        errors.username = 'Nombre de Usuario requerido';
 
         if (!user.firstName) 
             errors.firstName = 'Nombre requerido';
@@ -120,8 +126,8 @@ const ModalUser = (props) => {
         if (!user.phone)
             errors.phone = 'N° celular requerido'
         if(role && role.name != 'AdminEmpresa') {
-        if (user.idRole != "1" && !user.idCompany)
-            errors.idCompany = 'Empresa requerida'
+        if (user.idRole != "1" && user.companies.length == 0)
+            errors.companies = 'Al menos una  empresa es requerida'
          }
 
         return errors;
@@ -133,20 +139,25 @@ const ModalUser = (props) => {
             // Editar
             const fileInput = document.querySelector('#image') ;
             const formData = new FormData();
-            formData.append('image', fileInput.files[0]);
-            formData.append('image', fileInput.files[0]);
+            if(fileInput.files[0]){
+                formData.append('image', fileInput.files[0]);
+            }
             //for de objetos averiguar
             formData.append('firstName', user.firstName)
             formData.append('lastName', user.lastName)
             formData.append('email', user.email)
-            formData.append('userName', user.userName)
+            formData.append('username', user.username)
             var dateDOB = (new Date(user.dob)).toUTCString();
             formData.append('dob', dateDOB)
             formData.append('phone', user.phone)
             formData.append('sex', user.sex)
             formData.append('idRole', user.idRole)
-            formData.append('idCompany', user.idCompany)
+            formData.append('idCompany', user.idCompany || "")
             formData.append('oldImage', data.avatar);
+
+            for (var i = 0; i < user.companies.length; i++) {
+                formData.append('companies[]', user.companies[i].id);
+            }
 
             // Editar
            props.dispatch(updateUser(data.id, formData)).then(res => {
@@ -160,12 +171,14 @@ const ModalUser = (props) => {
             // Agregar
             const fileInput = document.querySelector('#image') ;
             const formData = new FormData();
-            formData.append('image', fileInput.files[0]);
+            if(fileInput.files[0]){
+                formData.append('image', fileInput.files[0]);
+            }
             //for de objetos averiguar
             formData.append('firstName', user.firstName)
             formData.append('lastName', user.lastName)
             formData.append('email', user.email)
-            formData.append('userName', user.userName)
+            formData.append('username', user.username)
             if(!user.id){
                 formData.append('password', user.password)
             }
@@ -177,8 +190,11 @@ const ModalUser = (props) => {
             formData.append('idRole', user.idRole)
             if(!isUserAdmin) { 
                 formData.append('idCompany', companyId)
+                formData.append('companies[]', companyId);
             }else {
-                formData.append('idCompany', user.idCompany)
+                for (var i = 0; i < user.companies.length; i++) {
+                    formData.append('companies[]', user.companies[i].id);
+                }
             }
             
             props.dispatch(createUser(formData)).then(res => {
@@ -225,7 +241,12 @@ const ModalUser = (props) => {
         }
     }
 
+    const getCustomCompanies = (originalCompanies) => {
+        return originalCompanies ? originalCompanies.map(company => ({id: company.id, name: company.name})) : [];
+    }
+
     const limitedRoles = !isUserAdmin ? (userRoles.filter(r => parseInt(r.id) != 1)) : userRoles;
+    const customCompanies = getCustomCompanies(companies || []);
 
     return (
         <Modal 
@@ -270,12 +291,13 @@ const ModalUser = (props) => {
                                     </Grid>
                                     <Grid item xs={12}>
                                         <CustomInput
-                                            id="userName"
+                                            id="username"
                                             custom="inputText"
                                             label="Nombre de Usuario"
                                             onChange={handleChange}
-                                            value={values.userName || ""}
-                                            error={ errors.userName && touched.userName ? true : false }
+                                            autoComplete="username"
+                                            value={values.username || ""}
+                                            error={ errors.username && touched.username ? true : false }
                                             icon={<AccountCircle />}
                                             disabled={!editMode}
                                         />
@@ -286,6 +308,7 @@ const ModalUser = (props) => {
                                             custom="inputText"
                                             label="Correo Electrónico"
                                             onChange={handleChange}
+                                            autoComplete="email"
                                             value={values.email || ""}
                                             error={ errors.email && touched.email ? true : false }
                                             icon={<AlternateEmailIcon />}
@@ -358,7 +381,8 @@ const ModalUser = (props) => {
                                             custom="select"
                                             label="Tipo de Usuario"
                                             onChange={(event) => {
-                                                setFieldValue("idRole", event.target.value)
+                                                setFieldValue("companies", []);
+                                                setFieldValue("idRole", event.target.value);
                                             }}
                                             value={values.idRole || ""}
                                             options={limitedRoles.map(role => { return {...role, name: getCustomRoleName(role.name)} })}
@@ -370,15 +394,19 @@ const ModalUser = (props) => {
                                         values.idRole != "1" && isUserAdmin && (
                                             <Grid item xs={12}>
                                                 <CustomInput
-                                                    id="idCompany"
-                                                    custom="select2"
-                                                    label="Empresa"
-                                                    onChange={(event) => {
-                                                        setFieldValue("idCompany", event.target.value)
+                                                    id="companies"
+                                                    custom="multiAutocomplete"
+                                                    label="Empresas v2"
+                                                    onChange={(event, newValues) => {
+                                                        setFieldValue("companies", newValues)
                                                     }}
-                                                    value={values.idCompany}
-                                                    error={ errors.idCompany && touched.idCompany ? true : false }
-                                                    options={companies}
+                                                    onInputChange={(event, newInputValue) => {
+                                                        setCompanySearch(newInputValue);
+                                                    }}
+                                                    value={values.companies}
+                                                    inputValue={companySearch}
+                                                    error={ errors.companies && touched.companies ? true : false }
+                                                    options={customCompanies}
                                                     disabled={!editMode}
                                                 />
                                             </Grid>

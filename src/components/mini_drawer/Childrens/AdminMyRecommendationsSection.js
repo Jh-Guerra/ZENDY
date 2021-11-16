@@ -1,8 +1,5 @@
 import React, { Component } from "react";
 import { Input, InputAdornment, Grid, IconButton } from "@material-ui/core";
-import SearchIcon from '@material-ui/icons/Search';
-import NewChatCall from './NewChatCall';
-import { listWithUsersCount } from "services/actions/CompanyAction";
 import { showBackdrop } from "services/actions/CustomAction";
 import { useHistory } from "react-router-dom";
 import { listMyRecommendations } from "services/actions/RecommendationAction";

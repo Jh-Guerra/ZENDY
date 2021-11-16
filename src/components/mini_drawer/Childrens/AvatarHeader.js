@@ -4,7 +4,7 @@ import React, { Component } from "react";
 
 import Avatar from "../Components/Avatar";
 import { getImageProfile, getSessionInfo } from "utils/common";
-import { pLetterColor } from "assets/styles/zendy-css";
+import { pColorV2, pLetterColor } from "assets/styles/zendy-css";
 
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import Grow from '@material-ui/core/Grow';
@@ -95,12 +95,20 @@ const AvatarHeader = props => {
               >
                 <small>{(`${user.firstName} ${user.lastName}`).length > 30 ? (`${user.firstName} ${user.lastName}`).substring(0, 27) + "..." : (`${user.firstName} ${user.lastName}`)}</small>
               </Button>
+              {
+                  user.company && (
+                    <>
+                      <br />
+                      <small style={{fontSize:"14px", color: pColorV2, paddingLeft:"8px"}}>{user.company.name || ""}</small>
+                    </>
+                  )
+              }
               <Popper open={open} anchorEl={anchorRef.current} role={undefined} transition disablePortal
                 style={{ zIndex: 10000 }} placement='bottom-end'
                 modifiers={{
                   offset: {
                     enabled: true,
-                    offset: '50, 0'
+                    offset: '10, 0'
                   }
                 }}>
                 {({ TransitionProps, placement }) => (

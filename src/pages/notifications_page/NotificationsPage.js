@@ -6,7 +6,7 @@ import moment from 'moment';
 import ModalDelete from 'components/Modals/ModalDelete';
 import { showBackdrop, showSnackBar } from 'services/actions/CustomAction';
 import { useHistory } from 'react-router';
-import { deleteNotification, findNotification, updateNotification } from 'services/actions/NotificationAction';
+import { deleteNotification, findNotification } from 'services/actions/NotificationAction';
 import { listNotificationViewed, registerViewed } from 'services/actions/NotificationViewAction';
 import CustomModal from 'components/Modals/common/CustomModal';
 import EditIcon from '@material-ui/icons/Edit';
@@ -29,7 +29,6 @@ const OneDayAgo= (date) => {
 const columns = [
   { type: 'text', field: 'name', label: 'Nombre', format: (row) => `${row.firstName} ${row.lastName}` },
   { type: 'text', field: 'rol', label: 'Rol', format: (row) => getCustomRoleName(row.rol) },
-  { type: 'text', field: 'companyName', label: 'Empresa' },
   { type: 'text', field: 'email', label: 'Correo' },
   { type: 'text', field: 'viewedDate', label: 'Visto', align: 'center', format: (row) => row.viewedDate ? (OneDayAgo(row.viewedDate) ? moment(row.viewedDate*1000).format("DD/MM/YYYY") : moment(row.viewedDate*1000).format('LT')) : " " },
 ];

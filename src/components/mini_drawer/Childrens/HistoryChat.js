@@ -4,7 +4,6 @@ import { withStyles } from '@material-ui/core/styles';
 import { Input, InputAdornment, Paper, Grid, IconButton, InputBase,TextField } from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search';
 import { listFinalizeChats } from 'services/actions/ChatAction';
-import NewChatCall from './NewChatCall';
 import { useHistory } from 'react-router-dom';
 import { showBackdrop } from 'services/actions/CustomAction';
 import ItemChatHistoryRow from '../Components/ItemChatHistoryRow';
@@ -64,9 +63,6 @@ const HistoryChat = props => {
       history.push(`/chat-historial/${chat.id}`);
     }
   
-    const onSaveForm = () => {
-        onListTerminateChats('');
-    }
     const handleChange = (date) => {
       setFromDate(date);
       if(date > toDate){

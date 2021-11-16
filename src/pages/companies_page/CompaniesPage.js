@@ -59,7 +59,6 @@ class CompaniesPage extends Component {
   onConfirmImport = () => {
     this.setState({showModalConfirmation: false });
     this.props.dispatch(showBackdrop(true));
-    this.setState({loading: true});
     this.props.dispatch(importErpCompanies()).then(res => {
       this.props.dispatch(showSnackBar("success", res || ""));
       this.onListCompanies();

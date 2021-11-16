@@ -12,7 +12,7 @@ import moment from 'moment'
 import { withRouter } from 'react-router-dom';
 import 'date-fns';
 import { getSessionInfo } from 'utils/common';
-import { updateStatus, findUserStatusOn } from 'services/actions/UserAction';
+import { updateStatus } from 'services/actions/UserAction';
 import { onHideSnackBar } from 'services/actions/CustomAction';
 import Echo from "laravel-echo";
 import config from "config/Config";
@@ -49,7 +49,6 @@ class ZendyAppShell extends Component {
       this.props.dispatch(setCurrentSession(session));
       window.addEventListener('beforeunload', this.alertUser)
       window.addEventListener('unload', this.handleEndConcert)
-      window.addEventListener("beforeunload", this.props.dispatch(findUserStatusOn(session.user.id, '1')));
     }
 
     if(localStorage.getItem('session')){

@@ -23,9 +23,6 @@ const CHMainHeader = props => {
   var name = chat.name || '';
   var defaultImageType;
   var isOnline;
-  var company = chat && chat.companyUser && chat.companyUser.name || '';
-  var ruc = chat && chat.companyUser && chat.companyUser.ruc || '';
-  var status = chat && chat.status || '';
 
   if(chat.scope == "Grupal"){
     image = chat.company && chat.company.avatar || "";
@@ -80,14 +77,6 @@ const CHMainHeader = props => {
               <div>
                 <Typography noWrap variant="h5">{name}</Typography>
               </div>
-              {
-                chat && chat.companyUser && (   
-                  <div className="chat-header-company">
-                    <Typography >{company} - {ruc}</Typography>
-                  </div>
-                )
-              }
-            
             </Grid>               
           </Grid>
         </Grid>

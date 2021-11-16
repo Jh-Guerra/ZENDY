@@ -161,7 +161,7 @@ const ModalNewCompanyNotification = (props) => {
         formData.append('image', imageInput.files[0] || '');
         formData.append('file', fileInput.files[0] || '');
         formData.append("allUsersCompany", notification.allUsersCompany)
-        formData.append("idError", idError)
+        if(idError) formData.append("idError", idError)
         formData.append("reason", notification.reason)
         formData.append('description', notification.description)
         formData.append('oldImage', data.image);
@@ -181,7 +181,12 @@ const ModalNewCompanyNotification = (props) => {
                 props.dispatch(showSnackBar('success', 'Notificación actualizada'));
                 props.dispatch(showBackdrop(false));
                 onSaveForm && onSaveForm(res.notification);
-                onListUpdatedNotifications('');
+                if(res.notification.idCompany){
+                    onListByCompany(res.notification.idCompany);
+                }else{
+                    onListUpdatedNotifications('');
+                }
+                
             }).catch(error => { props.dispatch(showBackdrop(false)); props.dispatch(showSnackBar("error", error.message || "")); });
         } else{
             props.dispatch(createCompanyNotification(formData)).then(res => {
@@ -436,7 +441,7 @@ const ModalNewCompanyNotification = (props) => {
                             <Divider style={{ marginTop: "20px" }} />
                             <ModalFooter
                                 buttonType="submit"
-                                confirmText={!!notification.id ? "Guardar" : "Enviar"}
+                                confirmText={!!notification.id ? "Actualizar" : "Enviar"}
                                 cancelText={"Cancelar"}
                                 onCancel={handleClose}
                             />

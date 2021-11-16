@@ -30,9 +30,6 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: "bold",
     fontSize: '4rem'
   },
-  loginInput: {
-    width: '25vw',  
-  },
   root: {
     marginBottom: theme.spacing(1)
   },
@@ -47,19 +44,10 @@ const useStyles = makeStyles((theme) => ({
   },
   loginBtn: {
     padding: "20px 60px",
-    width: '25vw',
     [theme.breakpoints.down('xs')]: {
       width: '65vw',
     },
-  },
-  rootPaper: {
-    marginTop: theme.spacing(25),
-    marginRight: theme.spacing(30),
-    marginLeft: theme.spacing(30),
-    marginBottom: theme.spacing(25),
-    maxWidth: theme.spacing(65),
-    maxHeight: theme.spacing(65),
-  },
+  }
 }));
 
 const CssTextField = withStyles({
@@ -89,7 +77,8 @@ const LoginPage = props => {
 /* ==========LOGIN================== */
   const { rut_empresa = '', usuario="", password="" } = props.location && qs.parse(props.location.search);
 
-  const [loginEmail, setLoginEmail] = React.useState("");
+  const [loginUsername, setLoginUsername] = React.useState("");
+  const [loginRut, setLoginRut] = React.useState("");
   const [showPassword, setShowPassword] = React.useState(false);
   const [loginPassword, setLoginPassword] = React.useState("");
   const [errors, setErrors] = React.useState({});
@@ -100,19 +89,19 @@ const LoginPage = props => {
   const session = getSessionInfo();
 
   useEffect(()=>{
-    if(rut_empresa && usuario && password){
+    if(usuario && password){
       var decodeRutEmpresa;
       var decodeUser;
       var decodePassword;
 
       try {
-        decodeRutEmpresa = atob(rut_empresa);
-        decodeUser = atob(usuario);
+        decodeRutEmpresa = rut_empresa;
+        decodeUser = usuario;
         decodePassword = atob(password);
 
         const body = {
-          ruc: decodeRutEmpresa,
-          email: decodeUser,
+          rut: decodeRutEmpresa,
+          username: decodeUser,
           password: decodePassword
         };
 
@@ -145,17 +134,8 @@ const LoginPage = props => {
   }
 
   const sendPassword = () => {
-    let errors = {};
     setErrors("");
-    let formIsValid = true;
-    
-    if(!loginEmail){
-      errors["email"] = "Introduce tu nombre de ususario para buscar tu cuenta.";
-      setErrors(errors);
-      return formIsValid = false;
-    }
-
-    props.dispatch(findUserByUserName(body.email)).then(
+    props.dispatch(findUserByUserName(loginUsername, loginRut)).then(
       (res) => {
         setUserData(res)
         setModalSendShowPassword(!showModalSendPassword)
@@ -177,34 +157,27 @@ const LoginPage = props => {
        errors["password"] = "Contraseña requerida";
     }
 
-    //Email
-    if(!loginEmail){
+    if(!loginUsername){
        formIsValid = false;
-       errors["email"] = "Usuario o Email requerido";
+       errors["username"] = "Usuario requerido";
     }
 
    setErrors(errors);
    return formIsValid;
 }
 
-  const onChangeEmail = (e) => {
-    const email = e.target.value;
-    setLoginEmail(email);
-  };
-
   const onChangePassword = (e) => {
     const password = e.target.value;
     setLoginPassword(password);
   };
 
-  const body = {
-    email: loginEmail,
-    password: loginPassword
-
-  }
-
   const handleLogin = async (e) => {
     e.preventDefault();
+    const body = {
+      username: loginUsername,
+      password: loginPassword,
+      rut: loginRut
+    }
 
     if(handleValidation()){
       props.dispatch(showBackdrop(true));
@@ -247,45 +220,56 @@ const LoginPage = props => {
   return (
     <>
       <CssBaseline />
-      <Grid container className="all-heigth">
-        <Grid item md={2}/>
-        <Grid item md={4} className="login-logo">
+      <Grid container className="all-heigth custom-login">
+        <Grid className="md-show" item md={2}/>
+        <Grid item xs={12} md={4} className="login-logo">
           {/* <img src={LogoZendy} className={classes.image}/>          */}
           <p className="login-text" style={{ fontSize:"50px", fontWeight:"bold", color: pColor, marginBottom: "5px"}}>
             ZENDY
           </p>
-          <p className="login-text" style={{ fontSize:"20px", fontWeight:"bolder"}}>
+          <p className="login-text" style={{ fontSize:"28px", fontWeight:"bolder"}}>
             Zendy te ayuda a comunicarte con tus colaboradores, clientes, proveedores. Chat online, Mesa de Ayuda, Canal de Ventas.
           </p>
         </Grid>
-        <Grid container item md={4} style={{textAlign:"center", justifyContent:"center", alignItems:"center"}}>
+        <Grid className="md-show" item md={1}/>
+        <Grid container item xs={12} md={3} style={{textAlign:"center", justifyContent:"center", alignItems:"center"}}>
             <Paper elevation={3} className={classes.rootPaper}>       
               <form style={{padding: "20px"}}>         
                 <Grid container spacing={2}>
                   <Grid item xs={12}>
                     <CssTextField
-                      className={classes.loginInput}
                       variant="outlined"
-                      margin="normal"
-                      required
                       fullWidth
-                      id="email"
-                      placeholder="Usuario o email"
-                      name="email"
-                      autoComplete="email"
+                      id="username"
+                      placeholder="Usuario"
+                      name="username"
+                      autoComplete="username"
                       autoFocus
-                      onChange={onChangeEmail}
-                      value={loginEmail}
+                      onChange={(event) => { setLoginUsername(event.target.value); }}
+                      value={loginUsername}
                       onKeyPress={event => { event.key === 'Enter' && handleLogin(event) }}
+                      label="Nombre de Usuario"
                     />
-                    <span style={{color: "red"}}>{errors["email"]}</span>
+                    <span style={{color: "red"}}>{errors["username"]}</span>
                   </Grid>
                   <Grid item xs={12}>
                     <CssTextField
-                      className={classes.loginInput}
                       variant="outlined"
-                      margin="normal"
-                      required
+                      fullWidth
+                      id="rut"
+                      placeholder="RUT de la empresa"
+                      name="rut"
+                      autoComplete="rut"
+                      onChange={(event) => { setLoginRut(event.target.value) }}
+                      value={loginRut}
+                      onKeyPress={event => { event.key === 'Enter' && handleLogin(event) }}
+                      label="RUT de la empresa"
+                    />
+                    {/* <span style={{color: "red"}}>{errors["rut"]}</span> */}
+                  </Grid>
+                  <Grid item xs={12}>
+                    <CssTextField
+                      variant="outlined"
                       fullWidth
                       name="password"
                       placeholder="Contraseña"
@@ -308,6 +292,7 @@ const LoginPage = props => {
                       value={loginPassword}
                       onChange={onChangePassword}
                       onKeyPress={event => { event.key === 'Enter' && handleLogin(event) }}
+                      label="Contraseña"
                     />
                     <span style={{color: "red"}}>{errors["password"]}</span>
                   </Grid>
@@ -329,7 +314,7 @@ const LoginPage = props => {
               </form>
             </Paper>
           </Grid>
-          <Grid item md={2}/>
+          <Grid className="md-show" item md={2}/>
           <ModalSendPassword
             {...props}
             open={showModalSendPassword}

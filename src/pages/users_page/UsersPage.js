@@ -13,9 +13,8 @@ import ModalConfirmImport from 'components/Modals/ModalConfirmImport';
 
 const columns = [
   { type: 'text', field: 'name', label: 'Nombre', format: (row) => `${row.firstName} ${row.lastName}` },
-  { type: 'text', field: 'userName', label: 'Nombre de Usuario', format: (row) => `${row.userName || ""}` },
+  { type: 'text', field: 'username', label: 'Nombre de Usuario', format: (row) => `${row.username || ""}` },
   { type: 'text', field: 'roleName', label: 'Rol', format: (row) => getCustomRoleName(row.roleName)},
-  { type: 'text', field: 'companyName', label: 'Empresa', format: (row) => `${row.company && row.company.name || ""}` },
   { type: 'text', field: 'email', label: 'Correo' },
   { type: 'text', field: 'phone', label: 'N° Celular' },
   { type: 'text', field: 'dob', label: 'Fecha de Nacimiento', align: 'center', format: (row) => moment(row.dob || "").format("DD/MM/YYYY") },
@@ -66,7 +65,6 @@ class UsersPage extends Component {
   onConfirmImport = () => {
     this.setState({showModalConfirmation: false });
     this.props.dispatch(showBackdrop(true));
-    this.setState({loading: true});
     this.props.dispatch(importErpUsers()).then(res => {
       this.props.dispatch(showSnackBar("success", res || ""));
       this.onListUsers();

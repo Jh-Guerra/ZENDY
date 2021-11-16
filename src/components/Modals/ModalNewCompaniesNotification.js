@@ -120,7 +120,7 @@ const ModalNewCompaniesNotification = (props) => {
         formData.append('image', imageInput.files[0] || '');
         formData.append('file', fileInput.files[0] || '');
         formData.append("allUsersCompany", true)
-        formData.append("idError", notification.idError)
+        if(notification.idError) formData.append("idError", notification.idError)
         formData.append("reason", notification.reason)
         formData.append('description', notification.description)
         formData.append('oldImage', data.image);
@@ -330,8 +330,8 @@ const ModalNewCompaniesNotification = (props) => {
                             <Divider style={{ marginTop: "20px" }} />
                             <ModalFooter
                                 buttonType="submit"
-                                confirmText={"Enviar"}
-                                cancelText={"Cancelar"}
+                                confirmText={!!notification.id ? "Actualizar" : "Enviar"}
+                                cancelText="Cancelar"
                                 onCancel={handleClose}
                             />
                         </Form>

@@ -17,7 +17,7 @@ import InputBase from '@material-ui/core/InputBase';
 import IconButton from '@material-ui/core/IconButton';
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
 import ModalFooter from './common/ModalFooter';
-import { listAdmins, listAvailableUsers, listAvailableUsersSameCompany } from 'services/actions/UserAction';
+import { listAdmins, listAvailableUsers } from 'services/actions/UserAction';
 import { showBackdrop, showSnackBar } from 'services/actions/CustomAction';
 import config from 'config/Config';
 import { pColor } from 'assets/styles/zendy-css';

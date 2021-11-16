@@ -8,6 +8,7 @@ import {
     KeyboardDatePicker,
 } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
+import { Autocomplete } from '@material-ui/lab';
 
 const useStyles = makeStyles(theme => ({
     inputText: {
@@ -25,6 +26,13 @@ const useStyles = makeStyles(theme => ({
     },
     select2: {
         // margin: theme.spacing(1),
+        minWidth: "100%",
+    },
+    multiSelect: {
+        // margin: theme.spacing(1),
+        minWidth: "100%",
+    },
+    multiAutocomplete: {
         minWidth: "100%",
     }
 }));
@@ -103,6 +111,50 @@ const CustomInput = props => {
                                     })
                                 }
                             </Select>
+                            <FormHelperText>{props.helperText}</FormHelperText>
+                        </FormControl>
+            case "multiSelect":
+                return <FormControl error={props.error} className={classes[custom]}>
+                            <InputLabel>{props.label || ""}</InputLabel>
+                            <Select
+                                multiple
+                                value={props.value}
+                                onChange={props.onChange}
+                                disabled={props.disabled}
+                                fullWidth
+                            >
+                                {
+                                    options && options.map((option, i) => {
+                                        return <MenuItem key={i} value={option.id}>{option.name}</MenuItem>
+                                    })
+                                }
+                            </Select>
+                            <FormHelperText>{props.helperText}</FormHelperText>
+                        </FormControl>
+            case "multiAutocomplete":
+                return <FormControl error={props.error} className={classes[custom]}>
+                            {/* <InputLabel>{props.label || ""}</InputLabel> */}
+                            <Autocomplete
+                                id={props.id}
+                                multiple
+                                value={props.value}
+                                inputValue={props.inputValue}
+                                onChange={props.onChange}
+                                onInputChange={props.onInputChange}
+                                disabled={props.disabled}
+                                options={options || []}
+                                getOptionLabel={(option) => option.name || ""}
+                                getOptionSelected={(option, value) => option.id === value.id}
+                                filterSelectedOptions
+                                renderInput={(params) => (
+                                    <TextField
+                                        {...params}
+                                        style={{ width: '100%'}}
+                                        variant="outlined"
+                                        label={props.label}
+                                    />
+                                )}
+                            />
                             <FormHelperText>{props.helperText}</FormHelperText>
                         </FormControl>
         }
