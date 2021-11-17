@@ -6,7 +6,7 @@ import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import InputAdornment from '@material-ui/core/InputAdornment';
-import LogoZendy from 'assets/images/Zendy-logo.jpg';
+import ZendyTitle from 'assets/images/ZendyTitle.png';
 import { pColor, sColor } from 'assets/styles/zendy-css';
 import  {loginErp, loginUser}  from 'services/actions/LoginAction';
 import { connect } from 'react-redux';
@@ -34,13 +34,7 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: theme.spacing(1)
   },
   image:{
-    backgroundImage: 'url('+LogoZendy+')',
-    backgroundRepeat: 'no-repeat',
-    backgroundSize: '180px',
-    borderRadius: '50%',
-    width: '250px',
-    height:'250px',
-    display: 'flex',
+    width: '500px'
   },
   loginBtn: {
     padding: "20px 60px",
@@ -223,11 +217,11 @@ const LoginPage = props => {
       <Grid container className="all-heigth custom-login">
         <Grid className="md-show" item md={2}/>
         <Grid item xs={12} md={4} className="login-logo">
-          {/* <img src={LogoZendy} className={classes.image}/>          */}
-          <p className="login-text" style={{ fontSize:"50px", fontWeight:"bold", color: pColor, marginBottom: "5px"}}>
+          <img src={ZendyTitle} className={classes.image}/>         
+          {/* <p className="login-text" style={{ fontSize:"50px", fontWeight:"bold", color: pColor, marginBottom: "5px"}}>
             ZENDY
-          </p>
-          <p className="login-text" style={{ fontSize:"28px", fontWeight:"bolder"}}>
+          </p> */}
+          <p className="login-text" style={{ fontSize:"26px", fontWeight:"bolder"}}>
             Zendy te ayuda a comunicarte con tus colaboradores, clientes, proveedores. Chat online, Mesa de Ayuda, Canal de Ventas.
           </p>
         </Grid>
