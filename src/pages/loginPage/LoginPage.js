@@ -89,8 +89,8 @@ const LoginPage = props => {
       var decodePassword;
 
       try {
-        decodeRutEmpresa = rut_empresa;
-        decodeUser = usuario;
+        decodeRutEmpresa = atob(rut_empresa);
+        decodeUser = atob(usuario);
         decodePassword = atob(password);
 
         const body = {
@@ -135,7 +135,7 @@ const LoginPage = props => {
         setModalSendShowPassword(!showModalSendPassword)
       },
       (error) => {
-        props.dispatch(showSnackBar("warning", error.response.data.error || ""));
+        props.dispatch(showSnackBar("warning", "Usuario no encontrado." || ""));
         props.dispatch(showBackdrop(false));
       }
     );
