@@ -35,8 +35,6 @@ const ModalCompany = (props) => {
         email: "",
         phone: "",
         logo: "",
-        currentBytes: 0,
-        maxBytes: 0,
         avatar: "",
         description: "",
     });
@@ -65,8 +63,6 @@ const ModalCompany = (props) => {
                     email: "",
                     phone: "",
                     logo: "",
-                    currentBytes: 0,
-                    maxBytes: 0,
                     avatar: "",
                     description:""
                 });
@@ -115,9 +111,7 @@ const ModalCompany = (props) => {
             formData.append('adminName', company.adminName);
             formData.append('ruc', company.ruc);
             formData.append('phone', company.phone);
-            formData.append('maxBytes', company.maxBytes);
             formData.append('description', company.description);
-            formData.append('currentBytes', company.currentBytes);
             formData.append('oldImage', data.avatar);
 
                 // Editar
@@ -138,9 +132,7 @@ const ModalCompany = (props) => {
             formData.append('adminName', company.adminName);
             formData.append('ruc', company.ruc);
             formData.append('phone', company.phone);
-            formData.append('maxBytes', company.maxBytes);
             formData.append('description', company.description);
-            formData.append('currentBytes', company.currentBytes);
 
             // Agregar
             props.dispatch(createCompany(formData)).then(res => {
@@ -252,20 +244,6 @@ const ModalCompany = (props) => {
                                             disabled={!editMode}
                                         />
                                     </Grid>
-{/*                                     <Grid item xs={12} md={6}>
-                                        <CustomInput
-                                            id="maxBytes"
-                                            custom="inputText"
-                                            label={<p>Mbsmáximos *</p>}
-                                            onChange={(event) => { 
-                                                setFieldValue("maxBytes", onlyNumbers(event.target.value))
-                                            }}
-                                            value={values.maxBytes}
-                                            error={ errors.maxBytes && touched.maxBytes ? true : false }
-                                            icon={<PhoneIcon />}
-                                            disabled={!editMode}
-                                        />
-                                    </Grid> */}
                                     <Grid item xs={12}>
                                         <CustomInput
                                             id="ruc"

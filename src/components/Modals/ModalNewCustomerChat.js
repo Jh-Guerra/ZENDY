@@ -48,7 +48,7 @@ const ModalNewCustomerChat = props => {
 
   const onListAvailableUsers = term => {
     props.dispatch(showBackdrop(true));
-    const availableUsers = role && role.name == "UserEmpresa" ? ["UserEmpresa"] : ['UserEmpresa', 'AdminEmpresa', 'UserHD'];
+    const availableUsers = role && role.name == "User" ? ["User"] : ['User', 'AdminEmpresa', 'UserHD'];
     props.dispatch(listAvailableUsersByCompany(availableUsers, term)).then(res => {
       const noSelectedUsers = res && res.filter(user => !selectedUsers.find(u => u.id == user.id));
       setUsers([...selectedUsers, ...noSelectedUsers]);

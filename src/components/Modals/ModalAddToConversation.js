@@ -66,7 +66,7 @@ const ModalAddToConversation = (props) => {
 
   const onListAvailableUsers = (term) => {
     props.dispatch(showBackdrop(true));
-    const availableUsers = role && role.name == "UserEmpresa" ? ["UserEmpresa"] : ['UserEmpresa', 'AdminEmpresa', 'UserHD'];
+    const availableUsers = role && role.name == "User" ? ["User"] : ['User', 'AdminEmpresa', 'UserHD'];
     var idCompany = "";
     if(isAdmin){
       availableUsers.push("Admin");

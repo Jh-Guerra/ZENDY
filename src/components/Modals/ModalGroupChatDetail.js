@@ -40,7 +40,7 @@ const ModalGroupChatDetail = props => {
   const session = getSessionInfo();
   const user = session && session.user;
   const role = session && session.role || {};
-  const isUserAdmin = role.name == "Admin";
+  const isUserAdmin = role.name == "SuperAdmin";
   const classes = useStyles();
   
   const { open, handleClose, chat, onGetChatData, chatFinalize } = props;

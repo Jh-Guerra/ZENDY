@@ -17,7 +17,7 @@ const MainHeader = props => {
   const session = getSessionInfo();
   const user = session && session.user;
   const role = session && session.role || {};
-  const isUserAdmin = role.name == "Admin"
+  const isUserAdmin = role.name == "SuperAdmin"
   const { chat={}, onGetChatData, messages } = props;
 
   const history = useHistory();

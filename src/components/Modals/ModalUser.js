@@ -29,7 +29,7 @@ const ModalUser = (props) => {
     const session = getSessionInfo();
     const role = session && session.role || {};
     const companyId = session && session.user && session.user.idCompany || {};
-    const isUserAdmin = role.name == "Admin";
+    const isUserAdmin = role.name == "SuperAdmin";
 
     const [data, setData] = React.useState({
         id: "",
@@ -40,7 +40,7 @@ const ModalUser = (props) => {
         dob: new Date(),
         sex: "M",
         phone: "",
-        idRole: "4",
+        idRole: "5",
         idCompany: "",
         companies: [],
         avatar: "",
@@ -80,7 +80,7 @@ const ModalUser = (props) => {
                     dob: new Date(),
                     sex: "M",
                     phone: "",
-                    idRole: "4",
+                    idRole: "5",
                     idCompany: "",
                     companies: [],
                     avatar: "",
