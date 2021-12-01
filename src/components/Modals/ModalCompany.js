@@ -24,7 +24,7 @@ import HighlightOffTwoToneIcon from '@material-ui/icons/HighlightOff';
 
 const ModalCompany = (props) => {
     
-    const { open, handleClose, company } = props;
+    const { open, handleClose, company, companyHD } = props;
 
     const [data, setData] = React.useState({
         id: "",
@@ -230,20 +230,22 @@ const ModalCompany = (props) => {
                                             disabled={!editMode}
                                         />
                                     </Grid>
-                                    <Grid item xs={12} md={6}>
-                                        <CustomInput
-                                            id="phone"
-                                            custom="inputText"
-                                            label={<p>N° Celular *</p>}
-                                            onChange={(event) => { 
-                                                setFieldValue("phone", onlyNumbers(Math.max(0, parseInt(event.target.value)).toString().slice(0,15)))
-                                            }}
-                                            value={values.phone}
-                                            error={ errors.phone && touched.phone ? true : false }
-                                            icon={<PhoneIcon />}
-                                            disabled={!editMode}
-                                        />
-                                    </Grid>
+                                    {!companyHD ? 
+                                        <Grid item xs={12} md={6}>
+                                            <CustomInput
+                                                id="phone"
+                                                custom="inputText"
+                                                label={<p>N° Celular *</p>}
+                                                onChange={(event) => { 
+                                                    setFieldValue("phone", onlyNumbers(Math.max(0, parseInt(event.target.value)).toString().slice(0,15)))
+                                                }}
+                                                value={values.phone}
+                                                error={ errors.phone && touched.phone ? true : false }
+                                                icon={<PhoneIcon />}
+                                                disabled={!editMode}
+                                            />
+                                        </Grid> : null
+                                    } 
                                     <Grid item xs={12}>
                                         <CustomInput
                                             id="ruc"
@@ -295,15 +297,26 @@ const ModalCompany = (props) => {
                                             </Grid>
                                         )
                                     }
-                                    <Grid container item xs={12} justify = "center">
-                                        <Avatar 
-                                            style={{height:140, width:140, display:fileUrl || (company.id && company.avatar) ? "flex" : "none"}} 
-                                            src={fileUrl ? fileUrl : (data.avatar ? (config.api+data.avatar) : defaultCompany)}
-                                        />
-                                        {
-                                            editMode && values.avatar && <HighlightOffTwoToneIcon style={{color: 'red', display:fileUrl || (company.id && company.avatar) ? "flex" : "none"}} onClick={() => { deleteImage( (data.avatar && (data.avatar).substr(8)), data.id, values)  }}/>
-                                        }
-                                    </Grid>
+                                    {!companyHD ?
+                                        <Grid container item xs={12} justify = "center">
+                                            <Avatar 
+                                                style={{height:140, width:140, display:fileUrl || (company.id && company.avatar) ? "flex" : "none"}} 
+                                                src={fileUrl ? fileUrl : (data.avatar ? (config.api+data.avatar) : defaultCompany)}
+                                            />
+                                            {
+                                                editMode && values.avatar && <HighlightOffTwoToneIcon style={{color: 'red', display:fileUrl || (company.id && company.avatar) ? "flex" : "none"}} onClick={() => { deleteImage( (data.avatar && (data.avatar).substr(8)), data.id, values)  }}/>
+                                            }
+                                        </Grid> :
+                                        <Grid container item xs={12} justify = "center">
+                                            <Avatar 
+                                                style={{height:140, width:140, display:fileUrl || (companyHD.id && companyHD.avatar) ? "flex" : "none"}} 
+                                                src={fileUrl ? fileUrl : (data.avatar ? (config.api+data.avatar) : defaultCompany)}
+                                            />
+                                            {
+                                                editMode && values.avatar && <HighlightOffTwoToneIcon style={{color: 'red', display:fileUrl || (companyHD.id && companyHD.avatar) ? "flex" : "none"}} onClick={() => { deleteImage( (data.avatar && (data.avatar).substr(8)), data.id, values)  }}/>
+                                            }
+                                        </Grid>
+                                    }
                                 </Grid>
                                 
                                 <Divider style={{marginTop:"20px"}} />

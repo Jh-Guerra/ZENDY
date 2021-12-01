@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Button, Grid, Typography } from '@material-ui/core';
 import CustomTable from 'components/CustomTable';
-import { deleteCompany, findCompany, importErpCompanies, listCompanies } from 'services/actions/CompanyAction';
+import { deleteCompany, findCompany, listCompanies, listCompaniesClient, listCompaniesHelpdesk } from 'services/actions/CompanyAction';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import ModalCompany from 'components/Modals/ModalCompany';
 import ModalDelete from 'components/Modals/ModalDelete';
@@ -14,32 +14,31 @@ const columns = [
   { type: 'text', field: 'address', label: 'Dirección', minWidth: 250 },
   { type: 'text', field: 'adminName', label: 'Administrador', minWidth: 250 },
   { type: 'text', field: 'email', label: 'Correo', minWidth: 250 },
-  { type: 'text', field: 'phone', label: 'N° Celular', minWidth: 170 },
 ];
 
-class CompaniesPage extends Component {
+class CompaniesHDPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
       showModalCompany: false,
       showModalDelete: false,
       showModalConfirmation: false,
-      company: {},
-      companies: [],
+      companyHD: {},
+      companiesHD: [],
       loading: false,
     };
   }
 
   async componentDidMount() {
     this.props.dispatch(showBackdrop(true));
-    this.onListCompanies();
+    this.onListCompaniesHD();
   }
 
   componentWillUnmount() {}
 
   openModalCompany = () => {
     this.setState({
-      company: {},
+      companyHD: {},
       showModalCompany: true,
     });
   };
@@ -53,26 +52,14 @@ class CompaniesPage extends Component {
 
   onConfirmCompany = () => {
     this.setState({ showModalCompany: false });
-    this.onListCompanies();
+    this.onListCompaniesHD();
   };
-  
-  onConfirmImport = () => {
-    this.setState({showModalConfirmation: false });
-    this.props.dispatch(showBackdrop(true));
-    this.props.dispatch(importErpCompanies()).then(res => {
-      this.props.dispatch(showSnackBar("success", res || ""));
-      this.onListCompanies();
-    }).catch(err => {
-      this.props.dispatch(showBackdrop(false));
-      this.props.dispatch(showSnackBar("error", err.response.data.error));
-    });
-  }
 
-  onListCompanies = () => {
+  onListCompaniesHD = () => {
     this.props.dispatch(showBackdrop(true));
     this.setState({ loading: true });
-    this.props.dispatch(listCompanies()).then(res => {
-      this.setState({ companies: res || [] });
+    this.props.dispatch(listCompaniesHelpdesk()).then(res => {
+      this.setState({ companiesHD: res || [] });
       this.setState({ loading: false });
       this.props.dispatch(showBackdrop(false));
     }).catch(err => this.props.dispatch(showBackdrop(false)));
@@ -82,7 +69,7 @@ class CompaniesPage extends Component {
     this.props.dispatch(showBackdrop(true));
     this.props.dispatch(findCompany(row && row.id)).then(res => {
       this.setState({
-        company: res || {},
+        companyHD: res || {},
         showModalCompany: true,
       });
       this.props.dispatch(showBackdrop(false));
@@ -90,19 +77,19 @@ class CompaniesPage extends Component {
   };
 
   onDelete = () => {
-    const { company } = this.state;
+    const { companyHD } = this.state;
     this.props.dispatch(showBackdrop(true));
     this.props
-      .dispatch(deleteCompany(company && company.id))
+      .dispatch(deleteCompany(companyHD && companyHD.id))
       .then(res => {
         this.setState({
-          company: {},
+          companyHD: {},
           showModalDelete: false,
           showModalCompany: false,
         });
         this.props.dispatch(showSnackBar('warning', (res && res.success) || ''));
         this.props.dispatch(showBackdrop(false));
-        this.onListCompanies();
+        this.onListCompaniesHD();
       }).catch(error => {
         this.props.dispatch(showBackdrop(false));
         console.log('error', error);
@@ -110,7 +97,7 @@ class CompaniesPage extends Component {
   };
 
   render() {
-    const { showModalCompany, showModalDelete, showModalConfirmation, company, companies, loading } = this.state;
+    const { showModalCompany, showModalDelete, showModalConfirmation, companyHD, companiesHD, loading } = this.state;
 
     return (
       <Grid container>
@@ -119,7 +106,7 @@ class CompaniesPage extends Component {
         <Grid item xs={12} style={{ padding: '0px 20px' }}>
           <br />
           <Typography variant="h4" component="h4" className="page-title">
-            Empresas (Cliente)
+            Empresas (Mesas de Ayuda)
           </Typography>
           <p style={{ textAlign: 'end' }}>
             <Button
@@ -140,7 +127,7 @@ class CompaniesPage extends Component {
               Agregar
             </Button>
           </p>
-          <CustomTable columns={columns} rows={companies} onRowClick={this.showDetails} loading={loading} />
+          <CustomTable columns={columns} rows={companiesHD} onRowClick={this.showDetails} loading={loading} />
         </Grid>
         <ModalCompany
           {...this.props}
@@ -154,13 +141,7 @@ class CompaniesPage extends Component {
           handleClose={() => {
             this.setState({ showModalCompany: false });
           }}
-          company={company}
-        />
-        <ModalConfirmImport
-          {...this.props}
-          open={showModalConfirmation}
-          handleClose={() => { this.setState({showModalConfirmation: false }) }}
-          onConfirm={this.onConfirmImport}
+          companyHD={companyHD}
         />
         <ModalDelete
           open={showModalDelete}
@@ -175,4 +156,4 @@ class CompaniesPage extends Component {
   }
 }
 
-export default CompaniesPage;
+export default CompaniesHDPage;

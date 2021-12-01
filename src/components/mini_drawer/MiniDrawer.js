@@ -60,6 +60,7 @@ const MiniDrawer = (props) => {
   const [usersTab, setUsersTab] = React.useState(-1);
   const [usersNameTab, setUsersNameTab] = React.useState("");
   const [companiesTab, setCompaniesTab] = React.useState(-1);
+  const [companiesHDTab, setCompaniesHDTab] = React.useState(-1);
   const [moreActionsTab, setMoreActionsTab] = React.useState(-1);
   const [mainSections, setMainSections] = React.useState([]);
   const [secondSections, setSecondSections] = React.useState([]);
@@ -86,6 +87,7 @@ const MiniDrawer = (props) => {
     var usersTab = -1;
     var usersNameTab = "";
     var companiesTab = -1;
+    var companiesHDTab = -1;
     var moreActionsTab = (currentSections && currentSections.length > 5) ? 4 : -1;
     currentSections && currentSections.length > 0 && currentSections.map((section, index) => {
       if(section.name == "adminUsers" || section.name == "companyUsers"){
@@ -96,11 +98,16 @@ const MiniDrawer = (props) => {
       if(section.name == "companies"){
         companiesTab = index;
       }
+
+      if(section.name == "companiesHD"){
+        companiesHDTab = index;
+      }
     })
   
     setUsersTab((usersTab > -1 && moreActionsTab > 0) ? usersTab + 1 : usersTab);
     setUsersNameTab(usersNameTab);
     setCompaniesTab((companiesTab > 4 && moreActionsTab > 0) ? companiesTab + 1 : companiesTab);
+    setCompaniesHDTab((companiesHDTab > 5 && moreActionsTab > 0) ? companiesHDTab + 1 : companiesHDTab);
     setMoreActionsTab(moreActionsTab);
 
     setAllSections(currentSections);
@@ -172,6 +179,8 @@ const MiniDrawer = (props) => {
         return <PeopleIcon />
       case "companies":
         return <BusinessIcon />
+      case "companiesHD":
+        return <BusinessIcon />
       case "moreActions":
         return <MoreVertIcon />
       default:
@@ -187,6 +196,8 @@ const MiniDrawer = (props) => {
       usersNameTab == "adminUsers" ? goToView("usuarios") : goToView("usuarios-empresa");
     }else if (newTab == companiesTab){
       goToView("empresas");
+    }else if (newTab == companiesHDTab){
+      goToView("mesas-de-ayuda");
     }else{
       setTab(newTab);
     }

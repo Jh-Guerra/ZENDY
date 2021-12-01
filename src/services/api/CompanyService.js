@@ -37,6 +37,22 @@ class CompanyService {
             }
     )}
 
+    async listCompaniesClient() {
+        return await axios.get(
+            config.apiVersion + `companies/list-client`,
+            { 
+                headers: { ...config.headers, Authorization: `token ${JSON.parse(localStorage.getItem('session')).token || ''}` }
+            }
+    )}
+
+    async listCompaniesHelpdesk() {
+        return await axios.get(
+            config.apiVersion + `companies/list-helpdesk`,
+            { 
+                headers: { ...config.headers, Authorization: `token ${JSON.parse(localStorage.getItem('session')).token || ''}` }
+            }
+    )}
+
     async listWithUsersCount(term) {
         return await axios.get(
             config.apiVersion + `companies/list/count/users`,

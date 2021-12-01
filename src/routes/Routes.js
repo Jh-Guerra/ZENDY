@@ -15,6 +15,7 @@ import EntryQueryPage from 'pages/entry_query_page/EntryQueryPage';
 import NotificationsPage from 'pages/notifications_page/NotificationsPage';
 import ChatHistoryPage from 'pages/chat_history_page/ChatHistoryPage';
 import CompanyUsersPage from 'pages/users_page/CompanyUsersPage';
+import CompaniesHDPage from 'pages/companies_page/CompaniesHDPage';
 
 const Routes = (props) => {
   const session = getSessionInfo();
@@ -38,6 +39,9 @@ const Routes = (props) => {
           )}
           {checkPermission(session, "showCompanyCrud") && (
             <PrivateRoute exact path="/empresas" {...props} component={CompaniesPage} />
+          )}
+          {checkPermission(session, "showCompanyCrud") && (
+            <PrivateRoute exact path="/mesas-de-ayuda" {...props} component={CompaniesHDPage} />
           )}
 
           <PrivateRoute exact path="/inicio" {...props} component={BlankPage} />

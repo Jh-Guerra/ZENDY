@@ -22,6 +22,16 @@ export const listCompanies = () => async dispatch => {
     return res && res.data || [];
 }
 
+export const listCompaniesClient = () => async dispatch => {
+    const res = await companyService.listCompaniesClient();
+    return res && res.data || [];
+}
+
+export const listCompaniesHelpdesk = () => async dispatch => {
+    const res = await companyService.listCompaniesHelpdesk();
+    return res && res.data || [];
+}
+
 export const listWithUsersCount = (term) => async dispatch => {
     const res = await companyService.listWithUsersCount(term);
     return res && res.data || [];
