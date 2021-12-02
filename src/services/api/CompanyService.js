@@ -37,6 +37,14 @@ class CompanyService {
             }
     )}
 
+    async listHelpDeskCompanies() {
+        return await axios.get(
+            config.apiVersion + `companies/listHelpDesk`,
+            { 
+                headers: { ...config.headers, Authorization: `token ${JSON.parse(localStorage.getItem('session')).token || ''}` }
+            }
+    )}
+
     async listWithUsersCount(term) {
         return await axios.get(
             config.apiVersion + `companies/list/count/users`,

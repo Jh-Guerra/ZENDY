@@ -1,4 +1,4 @@
-import { Grid, Divider, Avatar, Button } from '@material-ui/core';
+import { Grid, Divider, Avatar, Button, Checkbox, FormControlLabel } from '@material-ui/core';
 import React from 'react'
 import ModalBody from './common/ModalBody'
 import ModalHeader from './common/ModalHeader'
@@ -11,7 +11,7 @@ import CustomInput from 'components/CustomInput';
 import AlternateEmailIcon from '@material-ui/icons/AlternateEmail';
 import { onlyNumbers, trimObject } from 'utils/common';
 import PhoneIcon from '@material-ui/icons/Phone';
-import { createCompany, deleteImageCompany, findCompany, updateCompany } from 'services/actions/CompanyAction';
+import { createCompany, deleteImageCompany, findCompany, listHelpDeskCompanies, updateCompany } from 'services/actions/CompanyAction';
 import AssignmentIndIcon from '@material-ui/icons/AssignmentInd';
 import EditIcon from '@material-ui/icons/Edit';
 import HomeIcon from '@material-ui/icons/Home';
@@ -43,12 +43,19 @@ const ModalCompany = (props) => {
     const [icon, setIcon] = React.useState(<BusinessIcon />);
     const [editMode, setEditMode] = React.useState(false);
     const [fileUrl, setFileUrl] = React.useState(null);
+    const [companies, setCompanies] = React.useState([]);
+    const [companySearch, setCompanySearch] = React.useState("");
+    const [isHelpDesk, setIsHelpDesk] =React.useState(false);
 
     React.useEffect(() => {
         if(open){
             if(company && company.id){
                 // Ver el detalle de una empresa
-                setData(company);
+                setData({
+                    ...company,
+                    helpDesks: getCustomCompanies(company.mappedCompanies || []),
+                    isHelpDesk: onChangeCheck(company.isHelpDesk)
+                });
                 setTitle("Detalle de la Empresa");
                 setIcon(<AssignmentIndIcon />);
                 setEditMode(false);
@@ -64,13 +71,18 @@ const ModalCompany = (props) => {
                     phone: "",
                     logo: "",
                     avatar: "",
-                    description:""
+                    description:"",
+                    helpDesks: [],
                 });
                 setTitle("Agregar empresa");
                 setIcon(<BusinessIcon />);
                 setEditMode(true);
+                setIsHelpDesk(false);
             }
             setFileUrl(null)
+            props.dispatch(listHelpDeskCompanies()).then(response =>{
+                setCompanies(response);
+            }).catch(err => props.dispatch(showBackdrop(false)));
         }
     }, [open]);
 
@@ -113,6 +125,10 @@ const ModalCompany = (props) => {
             formData.append('phone', company.phone);
             formData.append('description', company.description);
             formData.append('oldImage', data.avatar);
+            formData.append('isHelpDesk', isHelpDesk);
+            for (var i = 0; i < company.helpDesks.length; i++) {
+                formData.append('helpDesks[]',company.helpDesks[i].id);
+            }
 
                 // Editar
                 props.dispatch(updateCompany(data.id, formData)).then(res => {
@@ -133,6 +149,10 @@ const ModalCompany = (props) => {
             formData.append('ruc', company.ruc);
             formData.append('phone', company.phone);
             formData.append('description', company.description);
+            formData.append('isHelpDesk', isHelpDesk);
+            for (var i = 0; i < company.helpDesks.length; i++) {
+                formData.append('helpDesks[]',company.helpDesks[i].id);
+            }
 
             // Agregar
             props.dispatch(createCompany(formData)).then(res => {
@@ -141,7 +161,7 @@ const ModalCompany = (props) => {
            }).catch(error => {
                props.dispatch(showBackdrop(false));
            });              
-        }
+         }
     }
 
     function processImage(event){
@@ -176,6 +196,21 @@ const ModalCompany = (props) => {
           document.getElementById('image').value = "";
         }
       }
+
+    const onChangeCheck = (value) => {
+        if(value == 0){
+            setIsHelpDesk(false)
+        }else if (value == 1) {
+            setIsHelpDesk(true)
+        } else {
+            setIsHelpDesk(!isHelpDesk)
+        }
+    }
+      
+    const getCustomCompanies = (originalCompanies) => {
+        return originalCompanies ? originalCompanies.map(company => ({id: company.id, name: company.name})) : [];
+    }
+    const customCompanies = getCustomCompanies(companies || []);
 
     return (
         <Modal 
@@ -276,6 +311,32 @@ const ModalCompany = (props) => {
                                             onChange={handleChange}
                                             value={values.description || ""}
                                             error={ errors.description && touched.description ? true : false }
+                                            disabled={!editMode}
+                                        />
+                                    </Grid>
+                                    <Grid item xs={12}>
+                                        <FormControlLabel
+                                            value="isHelpDesk"
+                                            control={<Checkbox color="primary" checked={isHelpDesk}/>}
+                                            onChange={(event) => { onChangeCheck() }}
+                                            label="Is Help Desk"
+                                            labelPlacement="Is Help Desk"
+                                        />
+                                    </Grid>
+                                    <Grid item xs={12}>
+                                        <CustomInput
+                                            id="helpDesks"
+                                            custom="multiAutocomplete"
+                                            label="Help Desk"
+                                            onChange={(event, newValues) => {
+                                                setFieldValue("helpDesks", newValues)
+                                            }}
+                                            onInputChange={(event, newInputValue) => {
+                                                setCompanySearch(newInputValue);
+                                            }}
+                                            value={values.helpDesks}
+                                            inputValue={companySearch}
+                                            options={customCompanies}
                                             disabled={!editMode}
                                         />
                                     </Grid>
