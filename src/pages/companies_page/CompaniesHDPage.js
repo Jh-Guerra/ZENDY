@@ -141,7 +141,8 @@ class CompaniesHDPage extends Component {
           handleClose={() => {
             this.setState({ showModalCompany: false });
           }}
-          companyHD={companyHD}
+          company={companyHD}
+          isHD
         />
         <ModalDelete
           open={showModalDelete}

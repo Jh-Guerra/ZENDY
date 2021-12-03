@@ -1,4 +1,4 @@
-import { Grid, Divider, Avatar, Button } from '@material-ui/core';
+import { Grid, Divider, Avatar, Button, Checkbox, FormControlLabel } from '@material-ui/core';
 import React from 'react'
 import ModalBody from './common/ModalBody'
 import ModalHeader from './common/ModalHeader'
@@ -11,7 +11,7 @@ import CustomInput from 'components/CustomInput';
 import AlternateEmailIcon from '@material-ui/icons/AlternateEmail';
 import { onlyNumbers, trimObject } from 'utils/common';
 import PhoneIcon from '@material-ui/icons/Phone';
-import { createCompany, deleteImageCompany, findCompany, updateCompany } from 'services/actions/CompanyAction';
+import { createCompany, deleteImageCompany, findCompany, listCompaniesHelpdesk, updateCompany } from 'services/actions/CompanyAction';
 import AssignmentIndIcon from '@material-ui/icons/AssignmentInd';
 import EditIcon from '@material-ui/icons/Edit';
 import HomeIcon from '@material-ui/icons/Home';
@@ -24,7 +24,7 @@ import HighlightOffTwoToneIcon from '@material-ui/icons/HighlightOff';
 
 const ModalCompany = (props) => {
     
-    const { open, handleClose, company, companyHD } = props;
+    const { open, handleClose, company, isHD } = props;
 
     const [data, setData] = React.useState({
         id: "",
@@ -43,12 +43,19 @@ const ModalCompany = (props) => {
     const [icon, setIcon] = React.useState(<BusinessIcon />);
     const [editMode, setEditMode] = React.useState(false);
     const [fileUrl, setFileUrl] = React.useState(null);
+    const [companies, setCompanies] = React.useState([]);
+    const [companySearch, setCompanySearch] = React.useState("");
+    const [isHelpDesk, setIsHelpDesk] =React.useState(false);
 
     React.useEffect(() => {
         if(open){
             if(company && company.id){
                 // Ver el detalle de una empresa
-                setData(company);
+                setData({
+                    ...company,
+                    helpDesks: getCustomCompanies(company.mappedCompanies || []),
+                    isHelpDesk: onChangeCheck(company.isHelpDesk)
+                });
                 setTitle("Detalle de la Empresa");
                 setIcon(<AssignmentIndIcon />);
                 setEditMode(false);
@@ -64,13 +71,18 @@ const ModalCompany = (props) => {
                     phone: "",
                     logo: "",
                     avatar: "",
-                    description:""
+                    description:"",
+                    helpDesks: [],
                 });
-                setTitle("Agregar empresa");
+                setTitle("Agregar empresa - " + (isHD ? "Mesa de Ayuda" : "Cliente"));
                 setIcon(<BusinessIcon />);
                 setEditMode(true);
+                setIsHelpDesk(false);
             }
             setFileUrl(null)
+            props.dispatch(listCompaniesHelpdesk()).then(response =>{
+                setCompanies(response);
+            }).catch(err => props.dispatch(showBackdrop(false)));
         }
     }, [open]);
 
@@ -111,8 +123,12 @@ const ModalCompany = (props) => {
             formData.append('adminName', company.adminName);
             formData.append('ruc', company.ruc);
             formData.append('phone', company.phone);
-            formData.append('description', company.description);
+            if(company.description) formData.append('description', company.description);
             formData.append('oldImage', data.avatar);
+            formData.append('isHelpDesk', isHelpDesk);
+            for (var i = 0; i < company.helpDesks.length; i++) {
+                formData.append('helpDesks[]',company.helpDesks[i].id);
+            }
 
                 // Editar
                 props.dispatch(updateCompany(data.id, formData)).then(res => {
@@ -132,7 +148,11 @@ const ModalCompany = (props) => {
             formData.append('adminName', company.adminName);
             formData.append('ruc', company.ruc);
             formData.append('phone', company.phone);
-            formData.append('description', company.description);
+            if(company.description) formData.append('description', company.description);
+            formData.append('isHelpDesk', isHelpDesk);
+            for (var i = 0; i < company.helpDesks.length; i++) {
+                formData.append('helpDesks[]',company.helpDesks[i].id);
+            }
 
             // Agregar
             props.dispatch(createCompany(formData)).then(res => {
@@ -141,7 +161,7 @@ const ModalCompany = (props) => {
            }).catch(error => {
                props.dispatch(showBackdrop(false));
            });              
-        }
+         }
     }
 
     function processImage(event){
@@ -156,7 +176,7 @@ const ModalCompany = (props) => {
 
     const onEdit = () => {
         setEditMode(true);
-        setTitle("Editar Empresa");
+        setTitle("Editar Empresa - " + (isHD ? "Mesa de Ayuda" : "Cliente"));
         setIcon(<EditIcon />);
     }
 
@@ -176,6 +196,21 @@ const ModalCompany = (props) => {
           document.getElementById('image').value = "";
         }
       }
+
+    const onChangeCheck = (value) => {
+        if(value == 0){
+            setIsHelpDesk(false)
+        }else if (value == 1) {
+            setIsHelpDesk(true)
+        } else {
+            setIsHelpDesk(!isHelpDesk)
+        }
+    }
+      
+    const getCustomCompanies = (originalCompanies) => {
+        return originalCompanies ? originalCompanies.map(company => ({id: company.id, name: company.name})) : [];
+    }
+    const customCompanies = getCustomCompanies(companies || []);
 
     return (
         <Modal 
@@ -230,22 +265,20 @@ const ModalCompany = (props) => {
                                             disabled={!editMode}
                                         />
                                     </Grid>
-                                    {!companyHD ? 
-                                        <Grid item xs={12} md={6}>
-                                            <CustomInput
-                                                id="phone"
-                                                custom="inputText"
-                                                label={<p>N° Celular *</p>}
-                                                onChange={(event) => { 
-                                                    setFieldValue("phone", onlyNumbers(Math.max(0, parseInt(event.target.value)).toString().slice(0,15)))
-                                                }}
-                                                value={values.phone}
-                                                error={ errors.phone && touched.phone ? true : false }
-                                                icon={<PhoneIcon />}
-                                                disabled={!editMode}
-                                            />
-                                        </Grid> : null
-                                    } 
+                                    <Grid item xs={12} md={6}>
+                                        <CustomInput
+                                            id="phone"
+                                            custom="inputText"
+                                            label={<p>N° Celular *</p>}
+                                            onChange={(event) => { 
+                                                setFieldValue("phone", onlyNumbers(Math.max(0, parseInt(event.target.value)).toString().slice(0,15)))
+                                            }}
+                                            value={values.phone}
+                                            error={ errors.phone && touched.phone ? true : false }
+                                            icon={<PhoneIcon />}
+                                            disabled={!editMode}
+                                        />
+                                    </Grid>
                                     <Grid item xs={12}>
                                         <CustomInput
                                             id="ruc"
@@ -282,6 +315,40 @@ const ModalCompany = (props) => {
                                         />
                                     </Grid>
                                     {
+                                        isHD && (
+                                            <Grid item xs={12}>
+                                                <FormControlLabel
+                                                    value="isHelpDesk"
+                                                    control={<Checkbox color="primary" checked={isHelpDesk}/>}
+                                                    onChange={(event) => { onChangeCheck() }}
+                                                    label="Is Help Desk"
+                                                    disabled={!editMode}
+                                                />
+                                            </Grid>
+                                        )
+                                    }
+                                    {
+                                        !isHD && !isHelpDesk && (
+                                            <Grid item xs={12}>
+                                                <CustomInput
+                                                    id="helpDesks"
+                                                    custom="multiAutocomplete"
+                                                    label="Help Desk"
+                                                    onChange={(event, newValues) => {
+                                                        setFieldValue("helpDesks", newValues)
+                                                    }}
+                                                    onInputChange={(event, newInputValue) => {
+                                                        setCompanySearch(newInputValue);
+                                                    }}
+                                                    value={values.helpDesks}
+                                                    inputValue={companySearch}
+                                                    options={customCompanies}
+                                                    disabled={!editMode}
+                                                />
+                                            </Grid>
+                                        )
+                                    }
+                                    {
                                         editMode && (
                                             <Grid item xs={12}>
                                                 <p style={{color: "rgba(0, 0, 0, 0.54)", marginBottom:"5px"}}> Avatar </p>
@@ -297,7 +364,6 @@ const ModalCompany = (props) => {
                                             </Grid>
                                         )
                                     }
-                                    {!companyHD ?
                                         <Grid container item xs={12} justify = "center">
                                             <Avatar 
                                                 style={{height:140, width:140, display:fileUrl || (company.id && company.avatar) ? "flex" : "none"}} 
@@ -306,17 +372,7 @@ const ModalCompany = (props) => {
                                             {
                                                 editMode && values.avatar && <HighlightOffTwoToneIcon style={{color: 'red', display:fileUrl || (company.id && company.avatar) ? "flex" : "none"}} onClick={() => { deleteImage( (data.avatar && (data.avatar).substr(8)), data.id, values)  }}/>
                                             }
-                                        </Grid> :
-                                        <Grid container item xs={12} justify = "center">
-                                            <Avatar 
-                                                style={{height:140, width:140, display:fileUrl || (companyHD.id && companyHD.avatar) ? "flex" : "none"}} 
-                                                src={fileUrl ? fileUrl : (data.avatar ? (config.api+data.avatar) : defaultCompany)}
-                                            />
-                                            {
-                                                editMode && values.avatar && <HighlightOffTwoToneIcon style={{color: 'red', display:fileUrl || (companyHD.id && companyHD.avatar) ? "flex" : "none"}} onClick={() => { deleteImage( (data.avatar && (data.avatar).substr(8)), data.id, values)  }}/>
-                                            }
                                         </Grid>
-                                    }
                                 </Grid>
                                 
                                 <Divider style={{marginTop:"20px"}} />

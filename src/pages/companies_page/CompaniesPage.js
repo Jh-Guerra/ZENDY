@@ -14,7 +14,7 @@ const columns = [
   { type: 'text', field: 'address', label: 'Dirección', minWidth: 250 },
   { type: 'text', field: 'adminName', label: 'Administrador', minWidth: 250 },
   { type: 'text', field: 'email', label: 'Correo', minWidth: 250 },
-  { type: 'text', field: 'phone', label: 'N° Celular', minWidth: 170 },
+  { type: 'text', field: 'isHelpDesk', label: 'Es mesa de ayuda', minWidth: 250, format: (row) => row.isHelpDesk == 1 ? "Si" : "No"},
 ];
 
 class CompaniesPage extends Component {
