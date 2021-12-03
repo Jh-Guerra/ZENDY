@@ -24,7 +24,7 @@ import HighlightOffTwoToneIcon from '@material-ui/icons/HighlightOff';
 
 const ModalCompany = (props) => {
     
-    const { open, handleClose, company } = props;
+    const { open, handleClose, company, dataCompanyUser, infoCompany } = props;
 
     const [data, setData] = React.useState({
         id: "",
@@ -42,6 +42,7 @@ const ModalCompany = (props) => {
     const [title, setTitle] = React.useState("Agregar Empresa");
     const [icon, setIcon] = React.useState(<BusinessIcon />);
     const [editMode, setEditMode] = React.useState(false);
+    //const [nextMode, setNextMode] = React.useState(false);
     const [fileUrl, setFileUrl] = React.useState(null);
 
     React.useEffect(() => {
@@ -54,23 +55,29 @@ const ModalCompany = (props) => {
                 setEditMode(false);
             }else{
                 // Crear una nueva empresa
-                setData({
-                    id: "",
-                    name: "",
-                    address: "",
-                    ruc: "",
-                    adminName: "",
-                    email: "",
-                    phone: "",
-                    logo: "",
-                    avatar: "",
-                    description:""
-                });
+                if(company){
+                    setData(company);
+                    setFileUrl(company.imagePrev)
+                }
+                else{
+                    setData({
+                        id: "",
+                        name: "",
+                        address: "",
+                        ruc: "",
+                        adminName: "",
+                        email: "",
+                        phone: "",
+                        logo: "",
+                        avatar: "",
+                        description:""
+                    });
+                } 
                 setTitle("Agregar empresa");
                 setIcon(<BusinessIcon />);
                 setEditMode(true);
             }
-            setFileUrl(null)
+            //setFileUrl(null)
         }
     }, [open]);
 
@@ -122,25 +129,22 @@ const ModalCompany = (props) => {
                     props.dispatch(showBackdrop(false));
                 });                
         }else{
-            // Agregar
-            const fileInput = document.querySelector('#image') ;
-            const formData = new FormData();
-            formData.append('image', fileInput.files[0]);
-            formData.append('name', company.name);
-            formData.append('address', company.address);
-            formData.append('email', company.email);
-            formData.append('adminName', company.adminName);
-            formData.append('ruc', company.ruc);
-            formData.append('phone', company.phone);
-            formData.append('description', company.description);
 
-            // Agregar
-            props.dispatch(createCompany(formData)).then(res => {
-               props.dispatch(showBackdrop(false));
-               props.onConfirmCallBack();
-           }).catch(error => {
-               props.dispatch(showBackdrop(false));
-           });              
+        props.openModalNext();
+        props.dispatch(showBackdrop(false))
+        const fileInput = document.querySelector('#image') ;
+        props.infoCompany(  {
+            imagePrev: fileUrl,
+            image: fileInput,
+            name: company.name,
+            address: company.address,
+            email: company.email,
+            adminName: company.adminName,
+            ruc: company.ruc,
+            phone: company.phone,
+            description: company.description || "",
+            avatar: "",
+        })       
         }
     }
 
@@ -178,6 +182,7 @@ const ModalCompany = (props) => {
       }
 
     return (
+        
         <Modal 
             open={open} 
             handleClose={handleClose} 
@@ -313,7 +318,9 @@ const ModalCompany = (props) => {
                                     cancelText={editMode && "Cancelar"}
                                     onCancel={handleClose}
 
-                                    confirmText={editMode && "Guardar"}
+                                    confirmText={editMode && "Siguiente"}
+                                   // nextText = {editMode && "Siguiente"}
+                                    //onNext = {onNext }
                                     
                                     deleteText={!editMode && "Eliminar"}
                                     onDelete={() => { props.openModalDelete() }}
@@ -327,6 +334,7 @@ const ModalCompany = (props) => {
                 </Formik>
             </ModalBody>
         </Modal>
+    
     )
 }
 

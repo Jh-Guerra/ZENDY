@@ -7,7 +7,7 @@ const ModalFooter = (props) => {
   const { 
     confirmText, cancelText,  editText, deleteText,
     onConfirm,
-    onCancel, onEdit, onDelete,
+    onCancel, onEdit, onDelete, nextText, onNext,
     buttonType="button"
   } = props;
 
@@ -40,6 +40,13 @@ const ModalFooter = (props) => {
           confirmText && (
             <Button type={buttonType} onClick={onConfirm} size="small" color="primary" variant="contained">
               {confirmText}
+            </Button>
+          )
+        }
+         {
+          nextText && (
+            <Button type={buttonType} onClick={onNext} size="small" color="primary" variant="contained">
+              {nextText}
             </Button>
           )
         }

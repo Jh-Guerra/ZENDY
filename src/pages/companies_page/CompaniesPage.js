@@ -8,6 +8,8 @@ import ModalDelete from 'components/Modals/ModalDelete';
 import { showBackdrop, showSnackBar } from 'services/actions/CustomAction';
 import ModalConfirmImport from 'components/Modals/ModalConfirmImport';
 import ImportExportIcon from '@material-ui/icons/ImportExport';
+import ModalUser from 'components/Modals/ModalUser';
+
 
 const columns = [
   { type: 'text', field: 'name', label: 'Nombre', minWidth: 250 },
@@ -27,6 +29,10 @@ class CompaniesPage extends Component {
       company: {},
       companies: [],
       loading: false,
+      user: {},
+      dataCompany: {},
+      showModalUser: false,
+      imageCompany: {},
     };
   }
 
@@ -109,8 +115,24 @@ class CompaniesPage extends Component {
       });
   };
 
+
+  infoCompany = (values) => {
+    this.setState({
+      company : values
+    })
+}
+
+cancelBtn = () => {
+  if(!this.state.showModalCompany){
+    this.setState({
+      showModalCompany: true,
+      showlModalUser: false
+    })
+  }
+}
+
   render() {
-    const { showModalCompany, showModalDelete, showModalConfirmation, company, companies, loading } = this.state;
+    const { showModalCompany, showModalDelete, showModalConfirmation, company, companies, loading, showModalUser, imageCompany } = this.state;
 
     return (
       <Grid container>
@@ -155,6 +177,13 @@ class CompaniesPage extends Component {
             this.setState({ showModalCompany: false });
           }}
           company={company}
+          openModalNext={() => {
+            this.setState({ showModalUser: true,
+              showModalCompany: false,
+            });
+          }}
+          infoCompany = {this.infoCompany}
+          infoImageCompany = {this.infoImageCompany}
         />
         <ModalConfirmImport
           {...this.props}
@@ -169,6 +198,19 @@ class CompaniesPage extends Component {
             this.setState({ showModalDelete: false });
           }}
           onDelete={this.onDelete}
+        />
+        <ModalUser
+          {...this.props}
+          open={showModalUser}
+          handleClose={() => {
+            this.setState({
+              showModalUser: false,
+              showModalCompany: true,
+            })
+          }}
+          cancelBtn={this.cancelBtn}
+          isCreate={true}
+          company={company}
         />
       </Grid>
     );

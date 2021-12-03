@@ -7,7 +7,12 @@ const apiPrefix = config.apiVersion + "users";
 class UserService {
     
     async createUser(data) {
-        return await axios.post( getCustomUrl(apiPrefix, `/register`), data, defaultHeaders() );
+        const customHeaders = defaultHeaders();
+        customHeaders.headers = {
+            ...customHeaders.headers,
+            ContentType: 'multipart/form-data'
+        }
+        return await axios.post( getCustomUrl(apiPrefix, `/register`), data, customHeaders );
     }
 
     async updateUser(id, data) {

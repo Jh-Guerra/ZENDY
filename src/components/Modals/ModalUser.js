@@ -25,7 +25,7 @@ import { getImageProfile, getSessionInfo } from "utils/common";
 
 const ModalUser = (props) => {
     
-    const { open, handleClose, user } = props;
+    const { open, handleClose, user, isCreate, cancelBtn, company } = props;
     const session = getSessionInfo();
     const role = session && session.role || {};
     const companyId = session && session.user && session.user.idCompany || {};
@@ -57,9 +57,11 @@ const ModalUser = (props) => {
 
     React.useEffect(() => {
         if(open){
-            props.dispatch(getRoles()).then((res) => {
-                setUserRoles(res || []);
-            });
+            if(!isCreate){
+                props.dispatch(getRoles()).then((res) => {
+                    setUserRoles(res || []);
+                });
+            }
             if(user && user.id){
                 // Ver el detalle de un usuario
                 setData({
@@ -80,7 +82,7 @@ const ModalUser = (props) => {
                     dob: new Date(),
                     sex: "M",
                     phone: "",
-                    idRole: "5",
+                    idRole: isCreate ? "3" : "5",
                     idCompany: "",
                     companies: [],
                     avatar: "",
@@ -90,7 +92,7 @@ const ModalUser = (props) => {
                 setIcon(<PersonAddIcon />);
                 setEditMode(true);
             }
-            if(isUserAdmin){
+            if(isUserAdmin && !isCreate){
                 props.dispatch(showBackdrop(true));
                 props.dispatch(listCompanies()).then(response =>{
                     setCompanies(response)
@@ -125,19 +127,21 @@ const ModalUser = (props) => {
 
         if (!user.phone)
             errors.phone = 'N° celular requerido'
-        if(role && role.name != 'AdminEmpresa') {
-        if (user.idRole != "1" && user.companies.length == 0)
-            errors.companies = 'Al menos una  empresa es requerida'
-         }
+
+        if(role && role.name != 'AdminEmpresa' && !isCreate) {
+            if (user.idRole != "1" && user.companies.length == 0)
+                errors.companies = 'Al menos una  empresa es requerida'
+        }
 
         return errors;
     };
 
     const onSubmit = (user, { setSubmitting }) => {
+       // global.FormData = global.originalFormData;
         props.dispatch(showBackdrop(true));
         if(user.id){
             // Editar
-            const fileInput = document.querySelector('#image') ;
+            const fileInput = document.querySelector('#imageUser') ;
             const formData = new FormData();
             if(fileInput.files[0]){
                 formData.append('image', fileInput.files[0]);
@@ -167,14 +171,19 @@ const ModalUser = (props) => {
                 props.dispatch(showSnackBar('error', err.response.data.email ? err.response.data.email : err.response.data.error));
                 props.dispatch(showBackdrop(false));
            });
-        }else{
+        } else{
             // Agregar
-            const fileInput = document.querySelector('#image') ;
+            const fileInput = document.querySelector('#imageUser') ;
             const formData = new FormData();
             if(fileInput.files[0]){
                 formData.append('image', fileInput.files[0]);
             }
             //for de objetos averiguar
+            if(isCreate){
+                const companyNew = {...company, image:"", imagePrev:""}
+                formData.append('company', JSON.stringify(companyNew))
+                formData.append('imageCompany', company.image.files[0])
+            }
             formData.append('firstName', user.firstName)
             formData.append('lastName', user.lastName)
             formData.append('email', user.email)
@@ -198,6 +207,9 @@ const ModalUser = (props) => {
             }
             
             props.dispatch(createUser(formData)).then(res => {
+                if(isCreate){
+                    //setNextMode(false);
+                }
                 props.dispatch(showBackdrop(false));
                 props.onConfirmCallBack();
             }).catch(err => {
@@ -230,14 +242,14 @@ const ModalUser = (props) => {
             if(res.user){
               setFileUrl(null);
               setData({...values, avatar: ""});
-              document.getElementById('image').value = "";
+              document.getElementById('imageUser').value = "";
               props.dispatch(showSnackBar('warning', 'Imagen eliminada'));
             }
           });
         }else{
           setFileUrl(null);
           setData({...values, avatar:null});
-          document.getElementById('image').value = "";
+          document.getElementById('imageUser').value = "";
         }
     }
 
@@ -375,23 +387,27 @@ const ModalUser = (props) => {
                                             disabled={!editMode}
                                         />
                                     </Grid>
-                                    <Grid item xs={12}>
-                                       <CustomInput 
-                                            id="idRole"
-                                            custom="select"
-                                            label="Tipo de Usuario"
-                                            onChange={(event) => {
-                                                setFieldValue("companies", []);
-                                                setFieldValue("idRole", event.target.value);
-                                            }}
-                                            value={values.idRole || ""}
-                                            options={limitedRoles.map(role => { return {...role, name: getCustomRoleName(role.name)} })}
-                                            error={ errors.idRole && touched.idRole ? true : false }
-                                            disabled={!editMode}
-                                       />
-                                    </Grid>
                                     {
-                                        values.idRole != "1" && isUserAdmin && (
+                                        !isCreate && (
+                                            <Grid item xs={12}>
+                                                <CustomInput 
+                                                        id="idRole"
+                                                        custom="select"
+                                                        label="Tipo de Usuario"
+                                                        onChange={(event) => {
+                                                            setFieldValue("companies", []);
+                                                            setFieldValue("idRole", event.target.value);
+                                                        }}
+                                                        value={values.idRole || ""}
+                                                        options={limitedRoles.map(role => { return {...role, name: getCustomRoleName(role.name)} })}
+                                                        error={ errors.idRole && touched.idRole ? true : false }
+                                                        disabled={!editMode}
+                                                />
+                                            </Grid>
+                                        )
+                                    }
+                                    {
+                                        values.idRole != "1" && isUserAdmin && !isCreate && (
                                             <Grid item xs={12}>
                                                 <CustomInput
                                                     id="companies"
@@ -423,14 +439,14 @@ const ModalUser = (props) => {
                                                     disabled={!editMode}
                                                 >
                                                     <GetAppIcon style={{marginRight: "12px"}} />
-                                                    <input id="image" accept="image/*" type="file" onChange={processImage} />
+                                                    <input id="imageUser" accept="image/*" type="file" onChange={processImage} />
                                                 </Button>
                                             </Grid>
                                         )
                                     }
                                     <Grid container item xs={12} justify = "center" >
                                         <Avatar 
-                                            style={{height:140, width:140, display:fileUrl || (user.id && user.avatar) ? "flex" : "none"}} 
+                                            style={{height:140, width:140, display:fileUrl || (user && user.id && user.avatar) ? "flex" : "none"}} 
                                             src={fileUrl ? fileUrl : (data.avatar ? (config.api+data.avatar) : defaultAvatar)}
                                         />
                                         {
@@ -445,7 +461,7 @@ const ModalUser = (props) => {
                                     buttonType={"submit"}
 
                                     cancelText={editMode && "Cancelar"}
-                                    onCancel={handleClose}
+                                    onCancel={cancelBtn}
 
                                     confirmText={editMode && "Guardar"}
                                     
