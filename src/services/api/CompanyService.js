@@ -29,6 +29,14 @@ class CompanyService {
             }
     )}
 
+    async updateHelpDeskCompany(id) {
+        return await axios.get(
+            config.apiVersion + `companies/updateHelpDeskCompany/` + id,
+            { 
+                headers: { ...config.headers, Authorization: `token ${JSON.parse(localStorage.getItem('session')).token || ''}` }
+            }
+    )}
+
     async listCompanies() {
         return await axios.get(
             config.apiVersion + `companies/list`,
