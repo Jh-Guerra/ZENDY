@@ -11,7 +11,7 @@ import CustomInput from 'components/CustomInput';
 import AlternateEmailIcon from '@material-ui/icons/AlternateEmail';
 import { onlyNumbers, trimObject } from 'utils/common';
 import PhoneIcon from '@material-ui/icons/Phone';
-import { createCompany, deleteImageCompany, findCompany, listCompaniesHelpdesk, updateCompany } from 'services/actions/CompanyAction';
+import { createCompany, deleteImageCompany, findCompany, listCompaniesHelpdesk, updateCompany, updateHelpDeskCompany } from 'services/actions/CompanyAction';
 import AssignmentIndIcon from '@material-ui/icons/AssignmentInd';
 import EditIcon from '@material-ui/icons/Edit';
 import HomeIcon from '@material-ui/icons/Home';
@@ -135,6 +135,7 @@ const ModalCompany = (props) => {
                     props.dispatch(showBackdrop(false));
                     props.dispatch(showSnackBar('success', isHD ? 'Mesa de Ayuda actualizada' : 'Empresa actualizada'));
                     props.onConfirmCallBack();
+                    validateIsHelpdesk(data.id);
                 }).catch(error => {
                     props.dispatch(showBackdrop(false));
                 });                
@@ -180,6 +181,13 @@ const ModalCompany = (props) => {
         setEditMode(true);
         setTitle("Editar Empresa - " + (isHD ? "Mesa de Ayuda" : "Cliente"));
         setIcon(<EditIcon />);
+    }
+
+    const validateIsHelpdesk = (idCompany) => {
+        const { company } = props;
+        if(company.isHelpDesk != isHelpDesk){
+            props.dispatch(updateHelpDeskCompany(idCompany))
+        }
     }
 
     const deleteImage = (Link, id, values) => {

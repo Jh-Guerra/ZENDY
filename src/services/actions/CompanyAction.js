@@ -12,6 +12,11 @@ export const updateCompany = (id, data) => async dispatch => {
     return res && res.data || [];
 }
 
+export const updateHelpDeskCompany = (id) => async dispatch => {
+    const res = await companyService.updateHelpDeskCompany(id);
+    return res && res.data || [];
+}
+
 export const findCompany = (id) => async dispatch => {
     const res = await companyService.findCompany(id);
     return res && res.data || [];
