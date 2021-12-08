@@ -17,6 +17,7 @@ import CustomModal from 'components/Modals/common/CustomModal';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import SettingsIcon from '@material-ui/icons/Settings';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
+import BusinessIcon from '@material-ui/icons/Business';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -35,6 +36,7 @@ const AvatarHeader = props => {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
   const [showModal, setShowModal] = React.useState(false);
+  const [showHelpDesks, setShowHelpDesks] = React.useState(false);
   const anchorRef = React.useRef(null);
 
   const handleToggle = () => {
@@ -75,6 +77,10 @@ const AvatarHeader = props => {
     setOpen(false);
   }
 
+  const openModalHelpDesks = () => {
+    setShowHelpDesks(true);
+    setOpen(false);
+  }
 
   return (
     <div className="mini-drawer-header" >
@@ -103,6 +109,15 @@ const AvatarHeader = props => {
                     </>
                   )
               }
+
+              {
+                  user.helpDesk && (
+                    <>
+                      <br />
+                      <small style={{fontSize:"14px", color: pColorV2, paddingLeft:"8px"}}>{user.helpDesk.name || ""}</small>
+                    </>
+                  )
+              }
               <Popper open={open} anchorEl={anchorRef.current} role={undefined} transition disablePortal
                 style={{ zIndex: 10000 }} placement='bottom-end'
                 modifiers={{
@@ -119,6 +134,12 @@ const AvatarHeader = props => {
                     <Paper>
                       <ClickAwayListener onClickAway={handleClose}>
                         <MenuList autoFocusItem={open} id="menu-list-grow" onKeyDown={handleListKeyDown}>
+                        <MenuItem onClick={openModalHelpDesks}>
+                            <ListItemIcon style={{ minWidth: '30px' }}>
+                              <BusinessIcon fontSize="small" />
+                            </ListItemIcon>
+                            Cambiar de Mesa de Ayuda
+                          </MenuItem>
                           <MenuItem onClick={openModal}>
                             <ListItemIcon style={{ minWidth: '30px' }}>
                               <SettingsIcon fontSize="small" />
@@ -145,6 +166,11 @@ const AvatarHeader = props => {
         customModal={'ModalPasswordChange'}
         open={showModal}
         handleClose={() => setShowModal(false)}
+      />
+      <CustomModal
+        customModal={'ModalHelpDesks'}
+        open={showHelpDesks}
+        handleClose={() => setShowHelpDesks(false)}
       />
     </div>
   )

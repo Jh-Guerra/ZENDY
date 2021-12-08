@@ -90,3 +90,8 @@ export const updatePassword = (id, data) => async dispatch => {
     const res = await userService.updatePassword(id, data);
     return res && res.data || [];
 }
+
+export const changeHelpDesk = (id, data) => async dispatch => {
+    const res = await userService.changeHelpDesk(id, data);
+    return res || [];
+}

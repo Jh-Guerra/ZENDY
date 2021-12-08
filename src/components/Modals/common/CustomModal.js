@@ -23,6 +23,7 @@ import ModalAddFrequentQuery from '../ModalAddFrequentQuery';
 import ModalNotificationTo from '../ModalNotificationTo';
 import ModalNotificationCompanyTo from '../ModalNotificationCompanyTo';
 import ModalPasswordChange from '../ModalPasswordChange';
+import ModalHelpDesks from '../ModalHelpDesks';
 
 const CustomModal = (props) => {
     const getCustomModal = (customModal) => {
@@ -71,6 +72,8 @@ const CustomModal = (props) => {
                 return <ModalNotificationCompanyTo {...props}/>
             case "ModalPasswordChange":
                 return <ModalPasswordChange {...props}/>
+            case "ModalHelpDesks":
+                return <ModalHelpDesks {...props}/>
             default:
                 return null;
         }

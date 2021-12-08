@@ -78,6 +78,10 @@ class UserService {
         return await axios.post( getCustomUrl(apiPrefix, `/update-password/${id}`), data, defaultHeaders() );
     }
 
+    async changeHelpDesk(id, data) {
+        return await axios.post( getCustomUrl(apiPrefix, `/changeHelpDesk/${id}`), data, defaultHeaders() );
+    }
+
 }
 
 export default UserService;
