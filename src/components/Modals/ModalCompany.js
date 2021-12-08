@@ -133,6 +133,7 @@ const ModalCompany = (props) => {
                 // Editar
                 props.dispatch(updateCompany(data.id, formData)).then(res => {
                     props.dispatch(showBackdrop(false));
+                    props.dispatch(showSnackBar('success', isHD ? 'Mesa de Ayuda actualizada' : 'Empresa actualizada'));
                     props.onConfirmCallBack();
                 }).catch(error => {
                     props.dispatch(showBackdrop(false));
@@ -157,11 +158,12 @@ const ModalCompany = (props) => {
             // Agregar
             props.dispatch(createCompany(formData)).then(res => {
                props.dispatch(showBackdrop(false));
-               props.onConfirmCallBack();
+               props.dispatch(showSnackBar('success', isHD ? 'Mesa de Ayuda registrada' : 'Empresa registrada'));
+               props.openModalNext(res);
            }).catch(error => {
                props.dispatch(showBackdrop(false));
-           });              
-         }
+           });
+        }
     }
 
     function processImage(event){
@@ -382,7 +384,7 @@ const ModalCompany = (props) => {
                                     cancelText={editMode && "Cancelar"}
                                     onCancel={handleClose}
 
-                                    confirmText={editMode && "Guardar"}
+                                    confirmText={editMode && (company && company.id ? "Actualizar" : "Guardar y Continuar")}
                                     
                                     deleteText={!editMode && "Eliminar"}
                                     onDelete={() => { props.openModalDelete() }}

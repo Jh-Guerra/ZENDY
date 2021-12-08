@@ -8,6 +8,7 @@ import ModalDelete from 'components/Modals/ModalDelete';
 import { showBackdrop, showSnackBar } from 'services/actions/CustomAction';
 import ModalConfirmImport from 'components/Modals/ModalConfirmImport';
 import ImportExportIcon from '@material-ui/icons/ImportExport';
+import ModalUser from 'components/Modals/ModalUser';
 
 const columns = [
   { type: 'text', field: 'name', label: 'Nombre', minWidth: 250 },
@@ -26,6 +27,7 @@ class CompaniesHDPage extends Component {
       companyHD: {},
       companiesHD: [],
       loading: false,
+      showModalUser: false,
     };
   }
 
@@ -54,6 +56,15 @@ class CompaniesHDPage extends Component {
     this.setState({ showModalCompany: false });
     this.onListCompaniesHD();
   };
+
+  onOpenNext = (newCompany) => {
+    this.setState({ 
+      showModalCompany: false,
+      showModalUser: true,
+      companyHD: newCompany
+    });
+    this.onListCompanies();
+  }
 
   onListCompaniesHD = () => {
     this.props.dispatch(showBackdrop(true));
@@ -97,7 +108,7 @@ class CompaniesHDPage extends Component {
   };
 
   render() {
-    const { showModalCompany, showModalDelete, showModalConfirmation, companyHD, companiesHD, loading } = this.state;
+    const { showModalCompany, showModalDelete, showModalConfirmation, companyHD, companiesHD, loading, showModalUser } = this.state;
 
     return (
       <Grid container>
@@ -132,15 +143,10 @@ class CompaniesHDPage extends Component {
         <ModalCompany
           {...this.props}
           open={showModalCompany}
-          onConfirmCallBack={() => {
-            this.onConfirmCompany();
-          }}
-          openModalDelete={() => {
-            this.setState({ showModalDelete: true });
-          }}
-          handleClose={() => {
-            this.setState({ showModalCompany: false });
-          }}
+          onConfirmCallBack={() => { this.onConfirmCompany(); }}
+          openModalDelete={() => { this.setState({ showModalDelete: true }); }}
+          handleClose={() => { this.setState({ showModalCompany: false }); }}
+          openModalNext={(newCompany) => { this.onOpenNext(newCompany); }}
           company={companyHD}
           isHD
         />
@@ -151,6 +157,14 @@ class CompaniesHDPage extends Component {
             this.setState({ showModalDelete: false });
           }}
           onDelete={this.onDelete}
+        />
+        <ModalUser
+          {...this.props}
+          open={showModalUser}
+          onConfirmCallBack={() => { this.setState({showModalUser: false }) }}
+          handleClose={() => { this.setState({showModalUser: false }) }}
+          is1rstUser
+          newCompanyId={companyHD && companyHD.id || ""}
         />
       </Grid>
     );
