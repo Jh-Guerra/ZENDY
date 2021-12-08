@@ -118,7 +118,7 @@ const EntryChat = props => {
             }
           />
         </Grid>
-        <Grid item xs={12} style={{height: "5vh"}}>
+{/*         <Grid item xs={12} style={{height: "5vh"}}>
           <FormControlLabel
             control={
               <CustomCheckbox
@@ -145,7 +145,7 @@ const EntryChat = props => {
             label="Aceptados"
             className="custom-checkbox-text"
           />
-        </Grid>
+        </Grid> */}
         <Grid item xs={12} style={{height: "56vh"}}>
           <div className="items-section">
             {entryQueries.map((query, i) => {

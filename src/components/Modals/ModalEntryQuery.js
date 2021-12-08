@@ -25,10 +25,12 @@ import { useHistory } from 'react-router-dom';
 import { listModules, findModule } from 'services/actions/ModuleAction';
 import HighlightOffTwoToneIcon from '@material-ui/icons/HighlightOff';
 import ThemeError from 'components/ThemeSettings/ThemeError';
+import { getSessionInfo } from "utils/common";
 
 const ModalEntryQuery = props => {
   const { open, handleClose, onSaveForm, entryQuery, setEntryQuery, onGetData } = props;
   const history = useHistory();
+  const session = getSessionInfo();
 
   const [data, setData] = React.useState({
     id: '',
@@ -42,6 +44,11 @@ const ModalEntryQuery = props => {
   const [editMode, setEditMode] = React.useState(false);
   const [fileUrl, setFileUrl] = React.useState(null);
   const [modules, setModules] = React.useState([]);
+
+  var idHelpdesk = session && session.helpdesk;
+  var nameHelpDesk = session && session.helpDeskName; 
+
+
 
   React.useEffect(() => {
     setFileUrl(null);
@@ -65,7 +72,7 @@ const ModalEntryQuery = props => {
               file: '',
               idModule: moduleList[0] && moduleList[0].id,
             });
-            setTitle('Iniciar Consulta');
+            setTitle('Iniciar Consulta - '+session && session.helpDeskName);
             setEditMode(true);
           }
 
@@ -99,6 +106,7 @@ const ModalEntryQuery = props => {
     formData.append('reason', entryQuery.reason);
     formData.append('description', entryQuery.description);
     formData.append('idModule', entryQuery.idModule);
+    formData.append('idHelpdesk', session && session.helpDesk);
 
     if (entryQuery.id) {
       // Editar
