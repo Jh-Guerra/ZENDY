@@ -67,12 +67,12 @@ const EQMainHeader = props => {
                   {
                     entryQuery && !entryQuery.isFrequentQuery && (
                       <Tooltip title="Editar Consulta">
-                        <IconButton onClick={() => { onOpenModal && onOpenModal(); }} className="chat-header-button"><EditIcon style={{ fontSize: 35, color: "white" }} /></IconButton>
+                        <IconButton onClick={() => { onOpenModal && onOpenModal(); }} className="chat-header-button"><EditIcon style={{ fontSize: 35 }} /></IconButton>
                       </Tooltip>
                     )
                   }
                   <Tooltip title="Eliminar Consulta">
-                    <IconButton onClick={() => { onOpenModalDelete && onOpenModalDelete() }} className="chat-header-button"><DeleteIcon style={{ fontSize: 35, color: "white" }} /></IconButton>
+                    <IconButton onClick={() => { onOpenModalDelete && onOpenModalDelete() }} className="chat-header-button"><DeleteIcon style={{ fontSize: 35 }} /></IconButton>
                   </Tooltip>
                 </div>
               )
