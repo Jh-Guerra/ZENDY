@@ -16,8 +16,6 @@ const ModalHelpDesks = (props) => {
     const { open, handleClose } = props;
     const session = getSessionInfo();
     const user = session && session.user || {};
-    console.log("user",user);
-    console.log("session",session);
 
     const [companiesHD, setCompaniesHD] = React.useState([]);
     const [loading, setLoading] = React.useState(false);
@@ -27,21 +25,14 @@ const ModalHelpDesks = (props) => {
     }, [open]);
 
     const onListCompaniesHD = () => {
-        //this.setState({ loading: true });
         props.dispatch(listCompaniesHelpdesk()).then(res => {
-            console.log("res",res);
             setCompaniesHD(res);
-          //this.setState({ loading: false });
         });
     };
 
     const onSelectHelpDesk = (helpDesk) => {
-        console.log("helpDesk",helpDesk);
         props.dispatch(changeHelpDesk(session.user.id, helpDesk)).then((res) => {
             props.dispatch(showBackdrop(true));
-            //setLoading(true);
-            console.log("session",session);
-            console.log("res",res);
             localStorage.setItem("session", JSON.stringify(res.data));
             props.handleClose();
             props.dispatch(showBackdrop(false));         

@@ -20,7 +20,6 @@ const handleAxiosResponse = async (rConfig) => {
             const axiosService = new CustomAxios();
             axiosService.post(config.apiVersion + `users/updateStatus/` + session.user.id, '0', defaultHeaders() );
             localStorage.clear();
-            console.log("")
             window.location.href = config.commonHost;
         }
     }
