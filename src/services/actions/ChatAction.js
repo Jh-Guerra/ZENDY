@@ -60,7 +60,7 @@ export const listAvailableUsersByCompany = (roles, term) => async dispatch => {
     return res && res.data || [];
 }
 
-export const listFinalizeChats = (term, fromDate, toDate) => async dispatch => {
-    const res = await service.listFinalizeChats(term, fromDate, toDate);
+export const listFinalizeChats = (term, fromDate, toDate, isQuery) => async dispatch => {
+    const res = await service.listFinalizeChats(term, fromDate, toDate, isQuery);
     return res && res.data || [];
 }

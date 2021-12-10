@@ -27,6 +27,8 @@ import ForumIcon from '@material-ui/icons/Forum';
 import NotificationsActiveIcon from '@material-ui/icons/NotificationsActive';
 import TextsmsIcon from '@material-ui/icons/Textsms';
 import BusinessIcon from '@material-ui/icons/Business';
+import CommentIcon from '@material-ui/icons/Comment';
+import HistoryQuery from './Childrens/HistoryQuery';
 
 const moreActionSection = { name:"moreActions", title:"Más Opciones", order:5, active: true};
 
@@ -144,6 +146,8 @@ const MiniDrawer = (props) => {
           return <ReportedErrorSection {...props}/>
       case "historyChats":
           return <HistoryChat {...props}/>
+      case "historyQuery":
+        return <HistoryQuery {...props} />
       // case "ReportList":
       //     return <ReportList {...props}/>
       default:
@@ -152,6 +156,7 @@ const MiniDrawer = (props) => {
   }
 
   const getIcon = (sectionName) => {
+    console.log("sectionName",sectionName)
     switch (sectionName) {
       case "vigentChats":
         return <ForumIcon/>
@@ -183,6 +188,8 @@ const MiniDrawer = (props) => {
         return <BusinessIcon />
       case "moreActions":
         return <MoreVertIcon />
+      case "historyQuery":
+        return <CommentIcon />
       default:
           return null;
       }

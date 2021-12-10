@@ -131,7 +131,7 @@ export const defaultHeaders = () => {
   }
 };
 
-export const defaultHeadersForAcceptEntryQuery = () => {
+export const defaultHeadersForEntryQuery = () => {
   const session = localStorage.getItem('session') ? JSON.parse(localStorage.getItem('session')) : {};
   const token = session.token || "";
   const idCompany = session.helpDesk || null;
