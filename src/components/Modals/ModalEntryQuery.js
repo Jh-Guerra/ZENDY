@@ -45,8 +45,8 @@ const ModalEntryQuery = props => {
   const [fileUrl, setFileUrl] = React.useState(null);
   const [modules, setModules] = React.useState([]);
 
-  var idHelpdesk = session && session.helpdesk;
-  var nameHelpDesk = session && session.helpDeskName; 
+  var idHelpdesk = session && session.user && session.user.idHelpDesk;
+  var nameHelpDesk = session && session.user && session.user.helpDesk && session.user.helpDesk.name; 
 
 
 
@@ -72,7 +72,7 @@ const ModalEntryQuery = props => {
               file: '',
               idModule: moduleList[0] && moduleList[0].id,
             });
-            setTitle('Iniciar Consulta - '+session && session.helpDeskName);
+            setTitle('Mesa de ayuda: '+ nameHelpDesk);
             setEditMode(true);
           }
 
@@ -106,7 +106,7 @@ const ModalEntryQuery = props => {
     formData.append('reason', entryQuery.reason);
     formData.append('description', entryQuery.description);
     formData.append('idModule', entryQuery.idModule);
-    formData.append('idHelpdesk', session && session.helpDesk);
+    formData.append('idHelpdesk', idHelpdesk);
 
     if (entryQuery.id) {
       // Editar
