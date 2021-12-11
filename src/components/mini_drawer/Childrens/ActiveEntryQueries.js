@@ -21,8 +21,6 @@ const ActiveEntryQueries = props => {
   const [term, setTerm] = React.useState("");
   const [searchTimeout, setSearchTimeout] = React.useState(null);
 
-  const isQuery = true;
-
   React.useEffect(() => {
     onListActiveChats('');
     setTerm("");
@@ -31,7 +29,7 @@ const ActiveEntryQueries = props => {
   const onListActiveChats = term => {
     props.dispatch(showBackdrop(true));
     
-    props.dispatch(listActiveChats(term, "Vigente", isQuery)).then(res => {
+    props.dispatch(listActiveChats(term, "Vigente", true)).then(res => {
       props.dispatch(showBackdrop(false));
     }).catch(err => props.dispatch(showBackdrop(false)));
   };
