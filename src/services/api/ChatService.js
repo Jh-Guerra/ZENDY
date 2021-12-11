@@ -1,6 +1,6 @@
 import axios from '../../utils/axios';
 import config from "../../config/Config";
-import { defaultHeaders, getCustomUrl } from 'utils/common';
+import { defaultHeaders, getCustomUrl, defaultHeadersForEntryQuery } from 'utils/common';
 
 const apiPrefix = config.apiVersion + "chats";
 const apiPrefix2 = config.apiVersion + "chats-internal";
@@ -48,8 +48,8 @@ class ChatService {
     async listAvailableUsersByCompany(roles, term) {
         return await axios.post( getCustomUrl(apiPrefix, `/available-by-company?term=${term || ""}`), { roles: roles}, defaultHeaders());
     }
-    async listFinalizeChats(term, fromDate, toDate) {
-        return await axios.get( getCustomUrl(apiPrefix, `/finalize-list?term=${term}&fromDate=${fromDate}&toDate=${toDate}`), defaultHeaders());
+    async listFinalizeChats(term, fromDate, toDate, isQuery) {
+        return await axios.get( getCustomUrl(apiPrefix, `/finalize-list?term=${term}&fromDate=${fromDate}&toDate=${toDate}&isQuery=${isQuery}`), isQuery ? defaultHeadersForEntryQuery() : defaultHeaders());
     }
 }
 

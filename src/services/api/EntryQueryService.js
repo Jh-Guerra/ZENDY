@@ -1,6 +1,6 @@
 import axios from '../../utils/axios';
 import config from "../../config/Config";
-import { defaultHeaders, getCustomUrl } from 'utils/common';
+import { defaultHeaders, defaultHeadersForEntryQuery, getCustomUrl } from 'utils/common';
 
 const apiPrefix = config.apiVersion + "entry-queries";
 
@@ -34,7 +34,7 @@ class EntryQueryService {
     }
 
     async acceptEntryQuery(id, byRecommend) {
-        return await axios.post( getCustomUrl(apiPrefix, `/accept/${id}`), { byRecommend }, defaultHeaders());
+        return await axios.post( getCustomUrl(apiPrefix, `/accept/${id}`), { byRecommend }, defaultHeadersForEntryQuery());
     }
 
     async recommendUser(userIds, idEntryQuery) {

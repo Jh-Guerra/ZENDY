@@ -131,6 +131,22 @@ export const defaultHeaders = () => {
   }
 };
 
+export const defaultHeadersForEntryQuery = () => {
+  const session = localStorage.getItem('session') ? JSON.parse(localStorage.getItem('session')) : {};
+  const token = session.token || "";
+  const idCompany = session.helpDesk || null;
+
+  return {
+      headers: {
+          ...config.headers, 
+          Authorization: `token ${token}`
+      },
+      params: {
+        idCompany: idCompany
+      }
+  }
+};
+
 export const getCustomUrl = (apiPrefix, url) => {
   return apiPrefix + url;
 }
