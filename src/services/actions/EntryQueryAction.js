@@ -18,8 +18,8 @@ export const listEntryQueries = (term) => async dispatch => {
     return res && res.data || [];
 }
 
-export const listPendingQueries = (term) => async dispatch => {
-    const res = await service.listPendingQueries(term);
+export const listPendingQueries = (term, idHelpdesk) => async dispatch => {
+    const res = await service.listPendingQueries(term, idHelpdesk);
     dispatch({
         type: ENTRY_QUERY,
         payload: res && res.data || []
@@ -32,8 +32,8 @@ export const deleteEntryQuery = (id) => async dispatch => {
      return res && res.data || [];
 }
 
-export const listQueries = (term, status) => async dispatch => {
-    const res = await service.listQueries(term, status);
+export const listQueries = (term, status, idHelpdesk) => async dispatch => {
+    const res = await service.listQueries(term, status, idHelpdesk);
     dispatch({
         type: ENTRY_QUERY,
         payload: res && res.data || []

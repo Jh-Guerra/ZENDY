@@ -6,6 +6,7 @@ import SearchIcon from '@material-ui/icons/Search'
 import { useHistory } from 'react-router-dom';
 import { showBackdrop } from 'services/actions/CustomAction';
 import { listPendingQueries } from 'services/actions/EntryQueryAction';
+import { getSessionInfo } from "utils/common";
 
 const styles = theme => ({
   search: {
@@ -19,16 +20,28 @@ const AdminEntryChat = props => {
   const history = useHistory();
 
   const [searchTimeout, setSearchTimeout] = React.useState(null);
+  const session = getSessionInfo();
+
+  var sectionsIds = session && session.role && session.role.sectionIds;
+  var idHelpdesk = session && session.user && session.user.idHelpDesk;
 
   React.useEffect(() => {
     onList("");
   }, []);
 
   const onList = (term) => {
-    props.dispatch(showBackdrop(true));
-    props.dispatch(listPendingQueries(term)).then(res => {
-      props.dispatch(showBackdrop(false));
-    }).catch(err => props.dispatch(showBackdrop(false)));;
+    if(sectionsIds.indexOf("3")){
+      props.dispatch(showBackdrop(true));
+      props.dispatch(listPendingQueries(term, idHelpdesk)).then(res => {
+        props.dispatch(showBackdrop(false));
+      }).catch(err => props.dispatch(showBackdrop(false)));;
+
+    } else {
+      props.dispatch(showBackdrop(true));
+      props.dispatch(listPendingQueries(term)).then(res => {
+        props.dispatch(showBackdrop(false));
+      }).catch(err => props.dispatch(showBackdrop(false)));;
+    }
   };
 
   const onSearch = term => {
