@@ -195,3 +195,19 @@ export const getRoleSections = () => {
 
   return sections;
 }
+
+export const defaultHeadersForActiveEntryQueries = () => {
+  const session = localStorage.getItem('session') ? JSON.parse(localStorage.getItem('session')) : {};
+  const token = session.token || "";
+  const idHelpDesk = session.user && session.user.idHelpDesk || null;
+  
+  return {
+      headers: {
+          ...config.headers, 
+          Authorization: `token ${token}`
+      },
+      params: {
+        idHelpDesk: idHelpDesk
+      }
+  }
+};

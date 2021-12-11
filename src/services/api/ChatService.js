@@ -1,6 +1,6 @@
 import axios from '../../utils/axios';
 import config from "../../config/Config";
-import { defaultHeaders, getCustomUrl } from 'utils/common';
+import { defaultHeaders, getCustomUrl, defaultHeadersForActiveEntryQueries } from 'utils/common';
 
 const apiPrefix = config.apiVersion + "chats";
 const apiPrefix2 = config.apiVersion + "chats-internal";
@@ -9,8 +9,8 @@ const apiPrefix4 = config.apiVersion + "chats-client";
 
 class ChatService {
 
-    async listActiveChats(term, status) {
-        return await axios.get( getCustomUrl(apiPrefix, `/active-list?term=${term}&status=${status}`), defaultHeaders());
+    async listActiveChats(term, status, isQuery) {
+        return await axios.get( getCustomUrl(apiPrefix, `/active-list?term=${term}&status=${status}&isQuery=${isQuery}`), isQuery ? defaultHeadersForActiveEntryQueries() : defaultHeaders());
     }
 
     async createClientChat(data) {
