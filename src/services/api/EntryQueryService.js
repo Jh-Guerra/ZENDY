@@ -17,16 +17,16 @@ class EntryQueryService {
         return await axios.get( getCustomUrl(apiPrefix, `/list?term=${term}`), defaultHeaders());
     }
 
-    async listPendingQueries(term) {
-        return await axios.get( getCustomUrl(apiPrefix, `/list-pendings?term=${term}`), defaultHeaders());
+    async listPendingQueries(term, idHelpdesk) {
+        return await axios.get( getCustomUrl(apiPrefix, `/list-pendings/${idHelpdesk}?term=${term}`), defaultHeaders());
     }
 
     async deleteEntryQuery(id) {
         return await axios.delete( getCustomUrl(apiPrefix, `/delete/${id}`), defaultHeaders() )
     }
 
-    async listQueries(term, status) {
-        return await axios.get( getCustomUrl(apiPrefix, `/list-query/${status || 'Pendiente'}?term=${term}`), defaultHeaders());
+    async listQueries(term, status,idHelpdesk) {
+        return await axios.get( getCustomUrl(apiPrefix, `/list-query/${status || 'Pendiente'}/${idHelpdesk}?term=${term}`), defaultHeaders());
     }
 
     async updateEntryQuery(id, data) {
