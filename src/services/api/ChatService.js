@@ -9,8 +9,8 @@ const apiPrefix4 = config.apiVersion + "chats-client";
 
 class ChatService {
 
-    async listActiveChats(term, status) {
-        return await axios.get( getCustomUrl(apiPrefix, `/active-list?term=${term}&status=${status}`), defaultHeaders());
+    async listActiveChats(term, status, isQuery) {
+        return await axios.get( getCustomUrl(apiPrefix, `/active-list?term=${term}&status=${status}&isQuery=${isQuery}`), isQuery ? defaultHeadersForEntryQuery() : defaultHeaders());
     }
 
     async createClientChat(data) {

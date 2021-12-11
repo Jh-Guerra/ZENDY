@@ -18,6 +18,7 @@ import { connect } from "react-redux";
 import AdminMyRecommendationsSection from './Childrens/AdminMyRecommendationsSection';
 import NotificationSection from './Childrens/NotificationSection';
 import AdminErrorSection from './Childrens/AdminErrorSection';
+import ActiveEntryQueries from './Childrens/ActiveEntryQueries';
 import SpeakerNotesIcon from '@material-ui/icons/SpeakerNotes';
 import SmsFailedIcon from '@material-ui/icons/SmsFailed';
 import AssessmentIcon from '@material-ui/icons/Assessment';
@@ -133,6 +134,8 @@ const MiniDrawer = (props) => {
           return <EntryChat {...props}/>
       case "companyEntryQueries":
           return <AdminEntryChat {...props}/>
+      case "activeEntryQueries":
+          return <ActiveEntryQueries {...props}/>
       case "recommendations":
           return <AdminMyRecommendationsSection {...props}/>
       case "adminNotifications":
@@ -163,6 +166,8 @@ const MiniDrawer = (props) => {
       case "companyEntryQueries":
       case "myEntryQueries":
         return <ModeCommentIcon/>
+      case "activeEntryQueries":
+        return <CommentIcon/>
       case "recommendations":
         return <TextsmsIcon/>
       case "adminNotifications":
