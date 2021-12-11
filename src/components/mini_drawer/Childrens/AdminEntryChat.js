@@ -30,18 +30,10 @@ const AdminEntryChat = props => {
   }, []);
 
   const onList = (term) => {
-    if(sectionsIds.indexOf("3")){
-      props.dispatch(showBackdrop(true));
-      props.dispatch(listPendingQueries(term, idHelpdesk)).then(res => {
-        props.dispatch(showBackdrop(false));
-      }).catch(err => props.dispatch(showBackdrop(false)));;
-
-    } else {
-      props.dispatch(showBackdrop(true));
-      props.dispatch(listPendingQueries(term)).then(res => {
-        props.dispatch(showBackdrop(false));
-      }).catch(err => props.dispatch(showBackdrop(false)));;
-    }
+    props.dispatch(showBackdrop(true));
+    props.dispatch(listPendingQueries(term, sectionsIds.indexOf("3") ? idHelpdesk : "")).then(res => {
+      props.dispatch(showBackdrop(false));
+    }).catch(err => props.dispatch(showBackdrop(false)));
   };
 
   const onSearch = term => {

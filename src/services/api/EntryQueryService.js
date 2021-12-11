@@ -18,7 +18,7 @@ class EntryQueryService {
     }
 
     async listPendingQueries(term, idHelpdesk) {
-        return await axios.get( getCustomUrl(apiPrefix, `/list-pendings/${idHelpdesk}?term=${term}`), defaultHeaders());
+        return await axios.get( getCustomUrl(apiPrefix, `/list-pendings?idHelpdesk=${idHelpdesk || ""}&term=${term}`), defaultHeaders());
     }
 
     async deleteEntryQuery(id) {
