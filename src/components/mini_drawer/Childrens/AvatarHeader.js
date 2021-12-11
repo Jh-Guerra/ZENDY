@@ -105,7 +105,7 @@ const AvatarHeader = props => {
                   user.company && (
                     <>
                       <br />
-                      <small style={{fontSize:"14px", color: pColorV2, paddingLeft:"8px"}}>{user.company.name || ""}</small>
+                      <small style={{fontSize:"14px", color: pColorV2, paddingLeft:"8px"}}>{`Empresa: ${user.company.name || ""}`}</small>
                     </>
                   )
               }
@@ -114,7 +114,7 @@ const AvatarHeader = props => {
                   user.helpDesk && (
                     <>
                       <br />
-                      <small style={{fontSize:"14px", color: pColorV2, paddingLeft:"8px"}}>{user.helpDesk.name || ""}</small>
+                      <small style={{fontSize:"14px", color: pColorV2, paddingLeft:"8px"}}>{`Mesa de Ayuda: ${user.helpDesk.name || ""}`}</small>
                     </>
                   )
               }

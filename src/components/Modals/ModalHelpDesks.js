@@ -18,7 +18,6 @@ const ModalHelpDesks = (props) => {
     const user = session && session.user || {};
 
     const [companiesHD, setCompaniesHD] = React.useState([]);
-    const [loading, setLoading] = React.useState(false);
 
     React.useEffect(() => {
       onListCompaniesHD();
@@ -37,8 +36,7 @@ const ModalHelpDesks = (props) => {
             props.handleClose();
             props.dispatch(showBackdrop(false));         
             window.location.reload();
-        });
-       
+        });     
     }
 
     return (
