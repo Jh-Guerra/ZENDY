@@ -48,7 +48,7 @@ class ChatService {
     async listAvailableUsersByCompany(roles, term) {
         return await axios.post( getCustomUrl(apiPrefix, `/available-by-company?term=${term || ""}`), { roles: roles}, defaultHeaders());
     }
-    async listFinalizeChats(term, fromDate, toDate, isQuery) {
+    async listFinalizeChats(term, fromDate, toDate, isQuery=false) {
         return await axios.get( getCustomUrl(apiPrefix, `/finalize-list?term=${term}&fromDate=${fromDate}&toDate=${toDate}&isQuery=${isQuery}`), isQuery ? defaultHeadersForEntryQuery() : defaultHeaders());
     }
 }

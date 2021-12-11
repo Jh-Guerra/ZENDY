@@ -43,9 +43,8 @@ const HistoryChat = props => {
         toD = new Date();
       }
       const from = Math.floor(new Date(fromD).getTime()/ 1000);
-      const to = Math.floor(new Date(toD).getTime()/ 1000)
-      const isQuery = false;
-      props.dispatch(listFinalizeChats(term, from, to, isQuery)).then(res => {
+      const to = Math.floor(new Date(toD).getTime()/ 1000);
+      props.dispatch(listFinalizeChats(term, from, to, false)).then(res => {
         setAllChats(res || []);
         props.dispatch(showBackdrop(false));
       }).catch(err => history.push("/inicio"), props.dispatch(showBackdrop(false)));

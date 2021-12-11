@@ -156,7 +156,6 @@ const MiniDrawer = (props) => {
   }
 
   const getIcon = (sectionName) => {
-    console.log("sectionName",sectionName)
     switch (sectionName) {
       case "vigentChats":
         return <ForumIcon/>
