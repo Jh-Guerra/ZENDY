@@ -6,6 +6,8 @@ import SearchIcon from '@material-ui/icons/Search'
 import { useHistory } from 'react-router-dom';
 import { showBackdrop } from 'services/actions/CustomAction';
 import { listPendingQueries } from 'services/actions/EntryQueryAction';
+import CustomModal from 'components/Modals/common/CustomModal';
+import TabOptions from './TabOptions';
 import { getSessionInfo } from "utils/common";
 
 const styles = theme => ({
@@ -20,6 +22,8 @@ const AdminEntryChat = props => {
   const history = useHistory();
 
   const [searchTimeout, setSearchTimeout] = React.useState(null);
+  const [showModalEntryChat, setShowModalEntryChat] = React.useState(false);
+  const [showModalEntryChatF, setShowModalEntryChatF] = React.useState(false);
   const session = getSessionInfo();
 
   var sectionsIds = session && session.role && session.role.sectionIds;
@@ -45,6 +49,16 @@ const AdminEntryChat = props => {
     );
   };
 
+  const onSaveForm = () => {
+    onList('');
+  }
+  const onOpenModalEntryChat = () => {
+    setShowModalEntryChat(true);
+  }
+  const onOpenModalEntryChatF = () => {
+    setShowModalEntryChatF(true);
+  }
+
   const goTo = (entryQuery) => {
     if(entryQuery && entryQuery.id){
       history.push("/consultas/" + entryQuery.id);
@@ -56,6 +70,14 @@ const AdminEntryChat = props => {
   return (
     <div style={{height: "79vh"}}>
       <Grid container style={{height: "100%"}}>
+      <Grid item xs={12} style={{height: "10vh"}}>
+          <TabOptions
+            onSaveForm={onSaveForm}
+            onOpenModal={onOpenModalEntryChat}
+            onOpenModal2={onOpenModalEntryChatF}
+            view="entryQueries"
+          />
+        </Grid>
         <Grid item xs={12} style={{height: "5vh"}}>
           <div className="chatlist__heading">
             <span className="divider-line"></span>
@@ -96,6 +118,24 @@ const AdminEntryChat = props => {
           </div>
         </Grid>
       </Grid>
+      <CustomModal
+        customModal={'ModalEntryQuery'}
+        open={showModalEntryChat}
+        handleClose={() => { setShowModalEntryChat(false) }}
+        onSaveForm={() => {
+          setShowModalEntryChat(false);
+          onSaveForm();
+      }}
+      />
+      <CustomModal
+        customModal={'ModalFrequentQuery'}
+        open={showModalEntryChatF}
+        handleClose={() => { setShowModalEntryChatF(false) }}
+        onSaveForm={() => {
+          setShowModalEntryChatF(false);
+          onSaveForm();
+      }}
+      />
     </div>
   );
 };
