@@ -134,12 +134,14 @@ const AvatarHeader = props => {
                     <Paper>
                       <ClickAwayListener onClickAway={handleClose}>
                         <MenuList autoFocusItem={open} id="menu-list-grow" onKeyDown={handleListKeyDown}>
-                        <MenuItem onClick={openModalHelpDesks}>
-                            <ListItemIcon style={{ minWidth: '30px' }}>
-                              <BusinessIcon fontSize="small" />
-                            </ListItemIcon>
-                            Cambiar de Mesa de Ayuda
-                          </MenuItem>
+                          {user.helpDesk ? 
+                            <MenuItem onClick={openModalHelpDesks}>
+                              <ListItemIcon style={{ minWidth: '30px' }}>
+                                <BusinessIcon fontSize="small" />
+                              </ListItemIcon>
+                              Cambiar de Mesa de Ayuda
+                            </MenuItem> : null
+                          }
                           <MenuItem onClick={openModal}>
                             <ListItemIcon style={{ minWidth: '30px' }}>
                               <SettingsIcon fontSize="small" />
