@@ -63,7 +63,7 @@ class CompaniesHDPage extends Component {
       showModalUser: true,
       companyHD: newCompany
     });
-    this.onListCompanies();
+    this.onListCompaniesHD();
   }
 
   onListCompaniesHD = () => {
