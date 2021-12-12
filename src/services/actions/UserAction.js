@@ -91,7 +91,7 @@ export const updatePassword = (id, data) => async dispatch => {
     return res && res.data || [];
 }
 
-export const changeHelpDesk = (id, data) => async dispatch => {
-    const res = await userService.changeHelpDesk(id, data);
-    return res || [];
+export const changeHelpDesk = (idUser, helpdesk) => async dispatch => {
+    const res = await userService.changeHelpDesk(idUser, helpdesk);
+    return res && res.data || {};
 }

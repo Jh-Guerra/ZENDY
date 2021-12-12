@@ -199,6 +199,7 @@ export const getRoleSections = () => {
 export const defaultHeadersForEntryQuery = () => {
   const session = localStorage.getItem('session') ? JSON.parse(localStorage.getItem('session')) : {};
   const token = session.token || "";
+  const idCompany = session.user && session.user.idCompany || null;
   const idHelpDesk = session.user && session.user.idHelpDesk || null;
 
   return {
@@ -207,7 +208,7 @@ export const defaultHeadersForEntryQuery = () => {
           Authorization: `token ${token}`
       },
       params: {
-        idCompany: idHelpDesk,
+        idCompany: idCompany,
         idHelpDesk: idHelpDesk
       }
   }

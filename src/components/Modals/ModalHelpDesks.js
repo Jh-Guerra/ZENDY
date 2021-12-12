@@ -30,12 +30,29 @@ const ModalHelpDesks = (props) => {
     };
 
     const onSelectHelpDesk = (helpDesk) => {
+        props.dispatch(showBackdrop(true));
         props.dispatch(changeHelpDesk(session.user.id, helpDesk)).then((res) => {
-            props.dispatch(showBackdrop(true));
-            localStorage.setItem("session", JSON.stringify(res.data));
-            props.handleClose();
-            props.dispatch(showBackdrop(false));         
-            window.location.reload();
+            if(res && res.user){
+                const curretSession = localStorage.getItem("session") ? JSON.parse(localStorage.getItem("session")) : {};
+                const user = curretSession.user || {};
+                const updatedUser = {
+                    ...user,
+                    idHelpDesk: res.user.idHelpDesk,
+                    helpDesk: res.user.helpDesk
+                };
+                const newSession = {
+                    ...session,
+                    token: res.token,
+                    user: updatedUser
+                };
+    
+                localStorage.setItem("session", JSON.stringify(newSession));
+                props.handleClose();
+                props.dispatch(showBackdrop(false));
+                window.location.reload();
+            }else{
+                props.dispatch(showBackdrop(false));
+            }
         });     
     }
 
