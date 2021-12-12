@@ -11,11 +11,13 @@ import BusinessIcon from '@material-ui/icons/Business';
 import { listCompaniesHelpdesk } from 'services/actions/CompanyAction';
 import { showBackdrop } from 'services/actions/CustomAction';
 import { changeHelpDesk } from 'services/actions/UserAction';
+import { useHistory } from 'react-router-dom';
 
 const ModalHelpDesks = (props) => {
     const { open, handleClose } = props;
     const session = getSessionInfo();
     const user = session && session.user || {};
+    const history = useHistory();
 
     const [companiesHD, setCompaniesHD] = React.useState([]);
 
@@ -49,6 +51,7 @@ const ModalHelpDesks = (props) => {
                 localStorage.setItem("session", JSON.stringify(newSession));
                 props.handleClose();
                 props.dispatch(showBackdrop(false));
+                history.push("/inicio");
                 window.location.reload();
             }else{
                 props.dispatch(showBackdrop(false));
