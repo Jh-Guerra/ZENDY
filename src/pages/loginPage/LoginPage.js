@@ -197,7 +197,7 @@ const LoginPage = props => {
 
         const user = res.user || {};
         window.Echo.private("user." + user.id).listen('notificationMessage', (e) => {
-          props.dispatch(listActiveChats("", "Vigente"))
+          props.dispatch(listActiveChats("", "Vigente", false))
         })
 
          props.history.push("/inicio");
