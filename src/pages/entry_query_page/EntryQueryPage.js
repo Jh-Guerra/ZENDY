@@ -18,6 +18,9 @@ const EntryQueryPage = (props) => {
 
   const session = getSessionInfo();
 
+  var sectionsIds = session && session.role && session.role.sectionIds;
+  var idHelpdesk = session && session.user && session.user.idHelpDesk;
+
 
   React.useEffect(() => {
     if(props.location.pathname){
@@ -73,9 +76,16 @@ const EntryQueryPage = (props) => {
 
   const onList = (term) => {
     props.dispatch(showBackdrop(true));
+    if(sectionsIds.indexOf("4")){
+      props.dispatch(listQueries(term, "", idHelpdesk)).then(res => {
+        props.dispatch(showBackdrop(false));
+      }).catch(err => props.dispatch(showBackdrop(false)));
+    } else {
       props.dispatch(listQueries(term)).then(res => {
         props.dispatch(showBackdrop(false));
       }).catch(err => props.dispatch(showBackdrop(false)));
+    }
+     
   };
 
   const onAcceptEntryQuery = () => {
