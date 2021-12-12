@@ -176,7 +176,6 @@ export const isImageFile = (extension) => {
 
 export const customRolesName = [
   { name: "SuperAdmin", value: "Administrador General" },
-  { name: "AdminOrganization", value: "Administrador - Organización"},
   { name: "AdminEmpresa", value: "Administrador - Empresa"},
   { name: "UserHD", value: "Mesa de Ayuda" },
   { name: "User", value: "Usuario"},
