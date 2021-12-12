@@ -45,6 +45,7 @@ const ModalEntryQuery = props => {
   const [fileUrl, setFileUrl] = React.useState(null);
   const [modules, setModules] = React.useState([]);
 
+  const sectionsIds = session && session.role && session.role.sectionIds;
   var idHelpdesk = session && session.user && session.user.idHelpDesk;
   var nameHelpDesk = session && session.user && session.user.helpDesk && session.user.helpDesk.name; 
 
@@ -115,7 +116,7 @@ const ModalEntryQuery = props => {
       props.dispatch(updateEntryQuery(data.id, formData)).then(res => {
           props.dispatch(showSnackBar('success', 'Consulta editada correctamebte'));
           props.dispatch(showBackdrop(false));
-          props.dispatch(listQueries(''));
+          props.dispatch(listQueries('', "", (sectionsIds.indexOf("4") ? idHelpdesk : "")));
           onSaveForm && onSaveForm();
           setEntryQuery && setEntryQuery(res.entryQuery);
       }).catch(error => {
