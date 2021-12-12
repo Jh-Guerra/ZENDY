@@ -20,7 +20,8 @@ const EntryQueryPage = (props) => {
 
   const sectionsIds = session && session.role && session.role.sectionIds;
   const idHelpdesk = session && session.user && session.user.idHelpDesk;
-
+  const isHelpDesk = session && session.user && session.user.company && Boolean(session.user.company.isHelpDesk);
+  const role = session && session.role && session.role.id;
 
   React.useEffect(() => {
     if(props.location.pathname){
@@ -124,13 +125,16 @@ const EntryQueryPage = (props) => {
         />
       </Grid>
       <Grid item xs={12} style={{ height: '13vh' }}>
-        <EQMainFooter 
-          entryQuery={entryQuery}
-          session={session}
-          onAcceptEntryQuery={onAcceptEntryQuery}
-          onRecommendUser={onRecommendUser}
-          setEntryQuery = {setEntryQuery}
-        />
+        {
+          isHelpDesk && (role == 3 || role == 4) &&
+          <EQMainFooter
+            entryQuery={entryQuery}
+            session={session}
+            onAcceptEntryQuery={onAcceptEntryQuery}
+            onRecommendUser={onRecommendUser}
+            setEntryQuery={setEntryQuery}
+          />
+        }        
       </Grid>
 
     </Grid>
