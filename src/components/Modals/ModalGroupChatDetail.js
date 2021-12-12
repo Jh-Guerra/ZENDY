@@ -58,7 +58,7 @@ const ModalGroupChatDetail = props => {
     props.dispatch(deleteParticipant({idUser,idChat})).then(res => {
       if(res){
         onGetChatData(chat.id);
-        props.dispatch(listActiveChats("", "Vigente"));
+        props.dispatch(listActiveChats("", "Vigente", false));
       }
     })
   }
@@ -71,7 +71,7 @@ const ModalGroupChatDetail = props => {
     props.dispatch(nameChatAction(chat.id,data)).then(res => {
       if(res){
         onGetChatData(chat.id);
-        props.dispatch(listActiveChats("", "Vigente"));
+        props.dispatch(listActiveChats("", "Vigente", false));
       }
     })
   }

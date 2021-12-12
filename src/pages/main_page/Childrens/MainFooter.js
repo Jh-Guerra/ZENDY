@@ -73,7 +73,7 @@ const MainFooter = props => {
         setShowPreviewFile(false);
         setUploadImage(null);
         setUploadFile(null);
-        props.dispatch(listActiveChats("", "Vigente"));
+        props.dispatch(listActiveChats("", "Vigente", false));
         document.getElementById('upload-image').value = "";
         document.getElementById('upload-file').value = "";
       }).catch(error => {
