@@ -34,26 +34,18 @@ const EntryChat = props => {
 
   const session = getSessionInfo();
 
-  var sectionsIds = session && session.role && session.role.sectionIds;
-  var idHelpdesk = session && session.user && session.user.idHelpDesk;
+  const sectionsIds = session && session.role && session.role.sectionIds;
+  const idHelpdesk = session && session.user && session.user.idHelpDesk;
 
   React.useEffect(() => {
     onList("");
   }, []);
 
   const onList = (term, status) => {
-    if(sectionsIds.indexOf("4")){
-      props.dispatch(showBackdrop(true));
-      props.dispatch(listQueries(term, status, idHelpdesk)).then(res => {
-        props.dispatch(showBackdrop(false));
-      }).catch(err => props.dispatch(showBackdrop(false)));;   
-
-    } else {
-      props.dispatch(showBackdrop(true));
-      props.dispatch(listQueries(term, status)).then(res => {
-        props.dispatch(showBackdrop(false));
-      }).catch(err => props.dispatch(showBackdrop(false)));;   
-    }
+    props.dispatch(showBackdrop(true));
+    props.dispatch(listQueries(term, status, sectionsIds.indexOf("4") ? idHelpdesk : "")).then(res => {
+      props.dispatch(showBackdrop(false));
+    }).catch(err => props.dispatch(showBackdrop(false)));
   };
 
   const onSearch = term => {

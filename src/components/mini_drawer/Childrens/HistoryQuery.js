@@ -138,7 +138,7 @@ const HistoryQuery = props => {
               {
                 isEmpty ? (
                   <div className="container-not-found">
-                    <p className="chat-not-found">No se encontró ningún chat</p>
+                    <p className="chat-not-found">No se encontró ninguna consulta</p>
                   </div>
                 ) : (
                   allChats && allChats.map((chat, i) => {

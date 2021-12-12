@@ -25,7 +25,7 @@ class EntryQueryService {
         return await axios.delete( getCustomUrl(apiPrefix, `/delete/${id}`), defaultHeaders() )
     }
 
-    async listQueries(term, status,idHelpdesk) {
+    async listQueries(term, status, idHelpdesk="") {
         return await axios.get( getCustomUrl(apiPrefix, `/list-query/${status || 'Pendiente'}/${idHelpdesk}?term=${term}`), defaultHeaders());
     }
 
