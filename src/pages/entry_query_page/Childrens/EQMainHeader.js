@@ -62,7 +62,7 @@ const EQMainHeader = props => {
         <Grid item xs={6}>
           <Grid container className="chat-header-buttons">
             {
-              ((entryQuery && entryQuery.status == "Pendiente") && (entryQuery && entryQuery.createdBy == user) ) && (
+              (entryQuery && entryQuery.status == "Pendiente" && entryQuery.createdBy == user ) && (
                 <div>
                   {
                     entryQuery && !entryQuery.isFrequentQuery && (

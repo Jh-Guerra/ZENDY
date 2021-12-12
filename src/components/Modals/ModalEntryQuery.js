@@ -324,7 +324,6 @@ const ModalEntryQuery = props => {
                   cancelText={editMode && 'Cancelar'}
                   onCancel={handleClose}
                   confirmText={editMode && 'Guardar'}
-                  cancelText={!editMode && 'Cancelar'}
                   editText={!editMode && 'Editar'}
                   onEdit={onEdit}
                 />

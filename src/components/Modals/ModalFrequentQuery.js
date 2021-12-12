@@ -8,7 +8,7 @@ import ModalFooter from './common/ModalFooter';
 import CustomInput from 'components/CustomInput';
 import GetAppIcon from '@material-ui/icons/GetApp';
 import { Form, Formik } from 'formik';
-import { trimObject, modulesQuery } from 'utils/common';
+import { trimObject, modulesQuery, getSessionInfo } from 'utils/common';
 import TitleIcon from '@material-ui/icons/Title';
 import {createEntryQuery} from 'services/actions/EntryQueryAction';
 import { showBackdrop , showSnackBar} from 'services/actions/CustomAction';
@@ -21,6 +21,7 @@ import { findEntryQuery, listFrequent } from 'services/actions/EntryQueryAction'
 const ModalFrequentQuery = props => {
   const { open, handleClose, onSaveForm, entryQuery } = props;
   const history = useHistory();
+  const session = getSessionInfo();
 
   const [data, setData] = React.useState({
     id: '',
@@ -38,6 +39,10 @@ const ModalFrequentQuery = props => {
   const [editMode, setEditMode] = React.useState(false);
   const [modules, setModules] = React.useState([]);
 
+  const sectionsIds = session && session.role && session.role.sectionIds;
+  var idHelpdesk = session && session.user && session.user.idHelpDesk;
+  var nameHelpDesk = session && session.user && session.user.helpDesk && session.user.helpDesk.name; 
+
   React.useEffect(() => {
     if(open){
       props.dispatch(showBackdrop(true));
@@ -51,6 +56,7 @@ const ModalFrequentQuery = props => {
           setTitle("Detalle de la Consulta Frecuente");
           setEditMode(false);
       }else{
+        setTitle('Mesa de ayuda: '+ nameHelpDesk);
         props.dispatch(listFrequent()).then(res =>{
           if(res && res.length > 0){
             const firstFrequentQuery = res[0];
@@ -62,7 +68,6 @@ const ModalFrequentQuery = props => {
               idFrequentQuery: firstFrequentQuery.id
             }
             setData(dataForm)
-            setTitle("Iniciar Consulta Frecuente");
             setEditMode(true);
           }
           setFrequentQueries(res || [])
@@ -105,6 +110,7 @@ const ModalFrequentQuery = props => {
     formData.append("reason", entryQuery.reason)
     formData.append('description', entryQuery.description)
     formData.append('idModule', entryQuery.idModule)
+    formData.append('idHelpdesk', idHelpdesk);
 
     props.dispatch(createEntryQuery(formData)).then(res => {
       props.dispatch(showSnackBar('success', 'Consulta registrada'));
@@ -128,91 +134,95 @@ const ModalFrequentQuery = props => {
     <Modal open={open} handleClose={handleClose} size="sm">
       <ModalHeader icon={<LibraryBooksIcon />} text={title} />
       <ModalBody>
-        <Formik enableReinitialize initialValues={data} validate={values => validateForm(values)} onSubmit={onSubmit} encType="multipart/form-data">
-          {({ values, errors, touched, handleChange, handleBlur, handleSubmit, setFieldValue }) => {
-            return (
-              <Form onSubmit={handleSubmit} encType="multipart/form-data">
-                <Grid container spacing={3}>
-		            <Grid item xs={12}>
-                    <CustomInput
-                      id="idfrequentQuery"
-                      custom="select2"
-                      label="Consulta Frecuente"
-                      onChange={(event) => {
-                        setFieldValue("idfrequentQuery", event.target.value)
-                        changeOptions(event.target.value)
-                      }}
-                      options={frequentQueriesMap}
-                      value={values.idFrequentQuery}
-                    />
-                   </Grid>
-                  <Grid item xs={12}>
-                    <CustomInput
-                      id="reason"
-                      label={<p>Motivo *</p>}
-                      custom="inputText"
-                      onChange={handleChange}
-                      value={values.reason}
-                      error={errors.reason && touched.reason ? true : false}
-                      icon={<TitleIcon />}
-                      disabled
-                    />
-                  </Grid>
-                  <Grid item xs={12}>
-                    <CustomInput
-                      id="description"
-                      label={"Descripción*"}
-                      custom="textArea"
-                      onChange={handleChange}
-                      value={values.description}
-                      error={errors.description && touched.description ? true : false}
-                      disabled
-                    />
-                  </Grid>
-                  <Grid item xs={12}>
-                  <CustomInput
-                      id="idModule"
-                      custom="select2"
-                      label="Modulo"
-                      onChange={(event) => {
-                        setFieldValue("idModule", event.target.value)
-                      }}
-                      value={values.idModule}
-                      error={errors.idModule && touched.idModule ? true : false}
-                      options={modules}
-                      disabled
-                    />
-                  </Grid>
-
-                  {
-                    entryQuery && entryQuery.image && (
-                      <Grid container item xs={12} justify="center">
-                        <Avatar
-                          style={{ height: 140, width: 140, display: (entryQuery && entryQuery.image) ? "flex" : "none" }}
-                          src={data.image ? (config.api + data.image) : defaultCompany}
+        {
+          frequentQueries.length==0 ? (
+            <span>No hay consultas frecuentes.</span>
+          ) : (
+          <Formik enableReinitialize initialValues={data} validate={values => validateForm(values)} onSubmit={onSubmit} encType="multipart/form-data">
+            {({ values, errors, touched, handleChange, handleBlur, handleSubmit, setFieldValue }) => {
+              return (
+                <Form onSubmit={handleSubmit} encType="multipart/form-data">
+                  <Grid container spacing={3}>
+                    <Grid item xs={12}>
+                        <CustomInput
+                          id="idfrequentQuery"
+                          custom="select2"
+                          label="Consulta Frecuente"
+                          onChange={(event) => {
+                            setFieldValue("idfrequentQuery", event.target.value)
+                            changeOptions(event.target.value)
+                          }}
+                          options={frequentQueriesMap}
+                          value={values.idFrequentQuery}
                         />
                       </Grid>
-                    )
-                  }
-                </Grid>
+                      <Grid item xs={12}>
+                        <CustomInput
+                          id="reason"
+                          label={<p>Motivo *</p>}
+                          custom="inputText"
+                          onChange={handleChange}
+                          value={values.reason}
+                          error={errors.reason && touched.reason ? true : false}
+                          icon={<TitleIcon />}
+                          disabled
+                        />
+                      </Grid>
+                      <Grid item xs={12}>
+                        <CustomInput
+                          id="description"
+                          label={"Descripción*"}
+                          custom="textArea"
+                          onChange={handleChange}
+                          value={values.description}
+                          error={errors.description && touched.description ? true : false}
+                          disabled
+                        />
+                      </Grid>
+                      <Grid item xs={12}>
+                      <CustomInput
+                          id="idModule"
+                          custom="select2"
+                          label="Modulo"
+                          onChange={(event) => {
+                            setFieldValue("idModule", event.target.value)
+                          }}
+                          value={values.idModule}
+                          error={errors.idModule && touched.idModule ? true : false}
+                          options={modules}
+                          disabled
+                        />
+                      </Grid>
 
-                <Divider style={{ marginTop: "20px" }} />
-                <ModalFooter
-                  buttonType={"submit"}
-                  cancelText={editMode && "Cancelar"}
-                  onCancel={handleClose}
+                      {
+                        entryQuery && entryQuery.image && (
+                          <Grid container item xs={12} justify="center">
+                            <Avatar
+                              style={{ height: 140, width: 140, display: (entryQuery && entryQuery.image) ? "flex" : "none" }}
+                              src={data.image ? (config.api + data.image) : defaultCompany}
+                            />
+                          </Grid>
+                        )
+                      }
+                    </Grid>
 
-                  confirmText={editMode && "Guardar"}
+                    <Divider style={{ marginTop: "20px" }} />
+                    <ModalFooter
+                      buttonType="submit"
+                      cancelText={editMode && "Cancelar"}
+                      onCancel={handleClose}
 
-                  cancelText={!editMode && "Cancelar"}
+                      confirmText={editMode && "Guardar"}
 
-                  editText={!editMode && "Editar"}
-                  onEdit={onEdit}
-                />
-              </Form>
-            );
-          }}
-        </Formik>
+                      editText={!editMode && "Editar"}
+                      onEdit={onEdit}
+                    />
+                  </Form>
+                );
+              }}
+            </Formik>
+          )
+        }
       </ModalBody>
     </Modal>
   );

@@ -70,14 +70,18 @@ const AdminEntryChat = props => {
   return (
     <div style={{height: "79vh"}}>
       <Grid container style={{height: "100%"}}>
-      <Grid item xs={12} style={{height: "10vh"}}>
-          <TabOptions
-            onSaveForm={onSaveForm}
-            onOpenModal={onOpenModalEntryChat}
-            onOpenModal2={onOpenModalEntryChatF}
-            view="entryQueries"
-          />
-        </Grid>
+        {
+          idHelpdesk && (
+            <Grid item xs={12} style={{height: "10vh"}}>
+              <TabOptions
+                onSaveForm={onSaveForm}
+                onOpenModal={onOpenModalEntryChat}
+                onOpenModal2={onOpenModalEntryChatF}
+                view="entryQueries"
+              />
+            </Grid>
+          )
+        }
         <Grid item xs={12} style={{height: "5vh"}}>
           <div className="chatlist__heading">
             <span className="divider-line"></span>

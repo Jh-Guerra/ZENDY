@@ -7,6 +7,7 @@ import EQMainHeader from './Childrens/EQMainHeader';
 import EQMainBody from './Childrens/EQMainBody';
 import EQMainFooter from './Childrens/EQMainFooter';
 import { getSessionInfo } from "utils/common";
+import { listMyRecommendations } from 'services/actions/RecommendationAction';
 
 const EntryQueryPage = (props) => {
   const history = useHistory();
@@ -87,10 +88,11 @@ const EntryQueryPage = (props) => {
     props.dispatch(showBackdrop(true));
     props.dispatch(acceptEntryQuery(entryQuery.id, byRecommend)).then(res => {
       const message = res && res.success || "Consulta aceptada"
-      props.dispatch(showSnackBar("success", message));
       const chat = res && res.chat;
+      props.dispatch(showSnackBar("success", message));
       history.push(`/chats/${chat.id}`);
       props.dispatch(listPendingQueries("", sectionsIds.indexOf("3") ? idHelpdesk : ""));
+      props.dispatch(listMyRecommendations());
       props.dispatch(showBackdrop(false));
     }).catch(err => { props.dispatch(showBackdrop(false)); props.dispatch(showSnackBar("error", err.response.data.error)); });
   }
