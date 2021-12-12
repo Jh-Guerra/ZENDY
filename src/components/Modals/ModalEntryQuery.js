@@ -15,6 +15,7 @@ import {
   createEntryQuery,
   updateEntryQuery,
   listQueries,
+  listPendingQueries,
   deleteImageEntryQuery,
   deleteFileEntryQuery,
 } from 'services/actions/EntryQueryAction';
@@ -45,10 +46,10 @@ const ModalEntryQuery = props => {
   const [fileUrl, setFileUrl] = React.useState(null);
   const [modules, setModules] = React.useState([]);
 
-  const sectionsIds = session && session.role && session.role.sectionIds;
+  var sectionsIds = session && session.role && session.role.sectionIds;
   var idHelpdesk = session && session.user && session.user.idHelpDesk;
   var nameHelpDesk = session && session.user && session.user.helpDesk && session.user.helpDesk.name; 
-
+  var idRoleUser = session && session.role && session.role.id;
 
 
   React.useEffect(() => {
@@ -114,9 +115,13 @@ const ModalEntryQuery = props => {
       formData.append('oldImage', data.image);
 
       props.dispatch(updateEntryQuery(data.id, formData)).then(res => {
-          props.dispatch(showSnackBar('success', 'Consulta editada correctamebte'));
+          props.dispatch(showSnackBar('success', 'Consulta editada correctamente'));
           props.dispatch(showBackdrop(false));
-          props.dispatch(listQueries('', "", (sectionsIds.indexOf("4") ? idHelpdesk : "")));
+          if(idRoleUser == "5") {
+            props.dispatch(listQueries('', "", (sectionsIds.indexOf("4") ? idHelpdesk : "")));
+          } else {
+            props.dispatch(listPendingQueries('', (sectionsIds.indexOf("4") ? idHelpdesk : "")));
+          }
           onSaveForm && onSaveForm();
           setEntryQuery && setEntryQuery(res.entryQuery);
       }).catch(error => {
