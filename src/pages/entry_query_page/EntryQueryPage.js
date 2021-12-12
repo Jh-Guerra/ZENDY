@@ -89,7 +89,7 @@ const EntryQueryPage = (props) => {
       props.dispatch(showSnackBar("success", message));
       const chat = res && res.chat;
       history.push(`/chats/${chat.id}`);
-      props.dispatch(listPendingQueries(""));
+      props.dispatch(listPendingQueries("", sectionsIds.indexOf("3") ? idHelpdesk : ""));
       props.dispatch(showBackdrop(false));
     }).catch(err => { props.dispatch(showBackdrop(false)); props.dispatch(showSnackBar("error", err.response.data.error)); });
   }
