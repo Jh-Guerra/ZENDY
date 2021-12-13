@@ -32,15 +32,20 @@ const EntryChat = props => {
   const [isAccepted, setIsAccepted] = React.useState(false);
   const [search, setSearch] = React.useState("");
 
+  const session = getSessionInfo();
+
+  const sectionsIds = session && session.role && session.role.sectionIds;
+  const idHelpdesk = session && session.user && session.user.idHelpDesk;
+
   React.useEffect(() => {
     onList("");
   }, []);
 
   const onList = (term, status) => {
-      props.dispatch(showBackdrop(true));
-      props.dispatch(listQueries(term, status)).then(res => {
-        props.dispatch(showBackdrop(false));
-      }).catch(err => props.dispatch(showBackdrop(false)));;   
+    props.dispatch(showBackdrop(true));
+    props.dispatch(listQueries(term, status, sectionsIds.indexOf("4") ? idHelpdesk : "")).then(res => {
+      props.dispatch(showBackdrop(false));
+    }).catch(err => props.dispatch(showBackdrop(false)));
   };
 
   const onSearch = term => {
@@ -118,7 +123,7 @@ const EntryChat = props => {
             }
           />
         </Grid>
-        <Grid item xs={12} style={{height: "5vh"}}>
+{/*         <Grid item xs={12} style={{height: "5vh"}}>
           <FormControlLabel
             control={
               <CustomCheckbox
@@ -145,7 +150,7 @@ const EntryChat = props => {
             label="Aceptados"
             className="custom-checkbox-text"
           />
-        </Grid>
+        </Grid> */}
         <Grid item xs={12} style={{height: "56vh"}}>
           <div className="items-section">
             {entryQueries.map((query, i) => {

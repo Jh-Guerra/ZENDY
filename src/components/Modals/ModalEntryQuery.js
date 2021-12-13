@@ -15,6 +15,7 @@ import {
   createEntryQuery,
   updateEntryQuery,
   listQueries,
+  listPendingQueries,
   deleteImageEntryQuery,
   deleteFileEntryQuery,
 } from 'services/actions/EntryQueryAction';
@@ -25,10 +26,12 @@ import { useHistory } from 'react-router-dom';
 import { listModules, findModule } from 'services/actions/ModuleAction';
 import HighlightOffTwoToneIcon from '@material-ui/icons/HighlightOff';
 import ThemeError from 'components/ThemeSettings/ThemeError';
+import { getSessionInfo } from "utils/common";
 
 const ModalEntryQuery = props => {
   const { open, handleClose, onSaveForm, entryQuery, setEntryQuery, onGetData } = props;
   const history = useHistory();
+  const session = getSessionInfo();
 
   const [data, setData] = React.useState({
     id: '',
@@ -42,6 +45,12 @@ const ModalEntryQuery = props => {
   const [editMode, setEditMode] = React.useState(false);
   const [fileUrl, setFileUrl] = React.useState(null);
   const [modules, setModules] = React.useState([]);
+
+  var sectionsIds = session && session.role && session.role.sectionIds;
+  var idHelpdesk = session && session.user && session.user.idHelpDesk;
+  var nameHelpDesk = session && session.user && session.user.helpDesk && session.user.helpDesk.name; 
+  var idRoleUser = session && session.role && session.role.id;
+
 
   React.useEffect(() => {
     setFileUrl(null);
@@ -65,7 +74,7 @@ const ModalEntryQuery = props => {
               file: '',
               idModule: moduleList[0] && moduleList[0].id,
             });
-            setTitle('Iniciar Consulta');
+            setTitle('Mesa de ayuda: '+ nameHelpDesk);
             setEditMode(true);
           }
 
@@ -99,15 +108,20 @@ const ModalEntryQuery = props => {
     formData.append('reason', entryQuery.reason);
     formData.append('description', entryQuery.description);
     formData.append('idModule', entryQuery.idModule);
+    formData.append('idHelpdesk', idHelpdesk);
 
     if (entryQuery.id) {
       // Editar
       formData.append('oldImage', data.image);
 
       props.dispatch(updateEntryQuery(data.id, formData)).then(res => {
-          props.dispatch(showSnackBar('success', 'Consulta editada correctamebte'));
+          props.dispatch(showSnackBar('success', 'Consulta editada correctamente'));
           props.dispatch(showBackdrop(false));
-          props.dispatch(listQueries(''));
+          if(idRoleUser == "5") {
+            props.dispatch(listQueries('', "", (sectionsIds.indexOf("4") ? idHelpdesk : "")));
+          } else {
+            props.dispatch(listPendingQueries('', (sectionsIds.indexOf("4") ? idHelpdesk : "")));
+          }
           onSaveForm && onSaveForm();
           setEntryQuery && setEntryQuery(res.entryQuery);
       }).catch(error => {
@@ -315,7 +329,6 @@ const ModalEntryQuery = props => {
                   cancelText={editMode && 'Cancelar'}
                   onCancel={handleClose}
                   confirmText={editMode && 'Guardar'}
-                  cancelText={!editMode && 'Cancelar'}
                   editText={!editMode && 'Editar'}
                   onEdit={onEdit}
                 />

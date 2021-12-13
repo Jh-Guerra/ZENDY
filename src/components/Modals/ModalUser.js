@@ -25,11 +25,11 @@ import { getImageProfile, getSessionInfo } from "utils/common";
 
 const ModalUser = (props) => {
     
-    const { open, handleClose, user } = props;
+    const { open, handleClose, user, is1rstUser, newCompanyId } = props;
     const session = getSessionInfo();
     const role = session && session.role || {};
     const companyId = session && session.user && session.user.idCompany || {};
-    const isUserAdmin = role.name == "Admin";
+    const isUserAdmin = role.name == "SuperAdmin";
 
     const [data, setData] = React.useState({
         id: "",
@@ -40,7 +40,7 @@ const ModalUser = (props) => {
         dob: new Date(),
         sex: "M",
         phone: "",
-        idRole: "4",
+        idRole: "5",
         idCompany: "",
         companies: [],
         avatar: "",
@@ -57,9 +57,11 @@ const ModalUser = (props) => {
 
     React.useEffect(() => {
         if(open){
-            props.dispatch(getRoles()).then((res) => {
-                setUserRoles(res || []);
-            });
+            if(!is1rstUser){
+                props.dispatch(getRoles()).then((res) => {
+                    setUserRoles(res || []);
+                });
+            }
             if(user && user.id){
                 // Ver el detalle de un usuario
                 setData({
@@ -80,17 +82,17 @@ const ModalUser = (props) => {
                     dob: new Date(),
                     sex: "M",
                     phone: "",
-                    idRole: "4",
+                    idRole: is1rstUser ? "3" : "5",
                     idCompany: "",
                     companies: [],
                     avatar: "",
                     username: ""
                 });
-                setTitle("Agregar usuario");
+                setTitle(is1rstUser ? "Agregar Administrador" : "Agregar usuario");
                 setIcon(<PersonAddIcon />);
                 setEditMode(true);
             }
-            if(isUserAdmin){
+            if(isUserAdmin && !is1rstUser){
                 props.dispatch(showBackdrop(true));
                 props.dispatch(listCompanies()).then(response =>{
                     setCompanies(response)
@@ -125,10 +127,11 @@ const ModalUser = (props) => {
 
         if (!user.phone)
             errors.phone = 'N° celular requerido'
-        if(role && role.name != 'AdminEmpresa') {
-        if (user.idRole != "1" && user.companies.length == 0)
-            errors.companies = 'Al menos una  empresa es requerida'
-         }
+
+        if(role && role.name != 'AdminEmpresa' && !is1rstUser) {
+            if (user.idRole != "1" && user.companies.length == 0)
+                errors.companies = 'Al menos una  empresa es requerida'
+        }
 
         return errors;
     };
@@ -162,6 +165,7 @@ const ModalUser = (props) => {
             // Editar
            props.dispatch(updateUser(data.id, formData)).then(res => {
                props.dispatch(showBackdrop(false));
+               props.dispatch(showSnackBar('success', 'Usuario actualizado'));
                props.onConfirmCallBack();
            }).catch(err => {
                 props.dispatch(showSnackBar('error', err.response.data.email ? err.response.data.email : err.response.data.error));
@@ -192,13 +196,18 @@ const ModalUser = (props) => {
                 formData.append('idCompany', companyId)
                 formData.append('companies[]', companyId);
             }else {
-                for (var i = 0; i < user.companies.length; i++) {
-                    formData.append('companies[]', user.companies[i].id);
+                if(is1rstUser){
+                    formData.append('companies[]', newCompanyId);
+                }else{
+                    for (var i = 0; i < user.companies.length; i++) {
+                        formData.append('companies[]', user.companies[i].id);
+                    }
                 }
             }
             
             props.dispatch(createUser(formData)).then(res => {
                 props.dispatch(showBackdrop(false));
+                props.dispatch(showSnackBar('success', 'Usuario registrado'));
                 props.onConfirmCallBack();
             }).catch(err => {
                 props.dispatch(showSnackBar('error', err.response.data.email ? err.response.data.email : err.response.data.error));
@@ -375,23 +384,27 @@ const ModalUser = (props) => {
                                             disabled={!editMode}
                                         />
                                     </Grid>
-                                    <Grid item xs={12}>
-                                       <CustomInput 
-                                            id="idRole"
-                                            custom="select"
-                                            label="Tipo de Usuario"
-                                            onChange={(event) => {
-                                                setFieldValue("companies", []);
-                                                setFieldValue("idRole", event.target.value);
-                                            }}
-                                            value={values.idRole || ""}
-                                            options={limitedRoles.map(role => { return {...role, name: getCustomRoleName(role.name)} })}
-                                            error={ errors.idRole && touched.idRole ? true : false }
-                                            disabled={!editMode}
-                                       />
-                                    </Grid>
                                     {
-                                        values.idRole != "1" && isUserAdmin && (
+                                        !is1rstUser && (
+                                            <Grid item xs={12}>
+                                                <CustomInput
+                                                    id="idRole"
+                                                    custom="select"
+                                                    label="Tipo de Usuario"
+                                                    onChange={(event) => {
+                                                        setFieldValue("companies", []);
+                                                        setFieldValue("idRole", event.target.value);
+                                                    }}
+                                                    value={values.idRole || ""}
+                                                    options={limitedRoles.map(role => { return {...role, name: getCustomRoleName(role.name)} })}
+                                                    error={ errors.idRole && touched.idRole ? true : false }
+                                                    disabled={!editMode}
+                                                />
+                                            </Grid>
+                                        )
+                                    }
+                                    {
+                                        values.idRole != "1" && isUserAdmin && !is1rstUser && (
                                             <Grid item xs={12}>
                                                 <CustomInput
                                                     id="companies"
@@ -430,7 +443,7 @@ const ModalUser = (props) => {
                                     }
                                     <Grid container item xs={12} justify = "center" >
                                         <Avatar 
-                                            style={{height:140, width:140, display:fileUrl || (user.id && user.avatar) ? "flex" : "none"}} 
+                                            style={{height:140, width:140, display:fileUrl || (user && user.id && user.avatar) ? "flex" : "none"}} 
                                             src={fileUrl ? fileUrl : (data.avatar ? (config.api+data.avatar) : defaultAvatar)}
                                         />
                                         {
@@ -444,13 +457,13 @@ const ModalUser = (props) => {
                                 <ModalFooter
                                     buttonType={"submit"}
 
-                                    cancelText={editMode && "Cancelar"}
+                                    cancelText={editMode && (is1rstUser ? "Guardar después" : "Cancelar")}
                                     onCancel={handleClose}
 
                                     confirmText={editMode && "Guardar"}
                                     
                                     deleteText={!editMode && "Eliminar"}
-                                    onDelete={() => { props.openModalDelete() }}
+                                    onDelete={() => { props.openModalDelete && props.openModalDelete() }}
 
                                     editText={!editMode && "Editar"}
                                     onEdit={onEdit}

@@ -18,7 +18,7 @@ const styles = theme => ({
     },
   });
 
-const HistoryChat = props => {
+const HistoryQuery = props => {
 
     const { classes = {}, chatRx } = props;
     const history = useHistory();
@@ -44,7 +44,7 @@ const HistoryChat = props => {
       }
       const from = Math.floor(new Date(fromD).getTime()/ 1000);
       const to = Math.floor(new Date(toD).getTime()/ 1000);
-      props.dispatch(listFinalizeChats(term, from, to, false)).then(res => {
+      props.dispatch(listFinalizeChats(term, from, to , true)).then(res => {
         setAllChats(res || []);
         props.dispatch(showBackdrop(false));
       }).catch(err => history.push("/inicio"), props.dispatch(showBackdrop(false)));
@@ -86,7 +86,7 @@ const HistoryChat = props => {
           <Grid item xs={12} style={{height: "5vh"}}>
             <div className="chatlist__heading">
               <span className="divider-line"></span>
-              <p className="divider-content">Historial de Chats </p>
+              <p className="divider-content">Historial de Consultas </p>
               <span className="divider-line"></span>
             </div>
           </Grid>
@@ -138,7 +138,7 @@ const HistoryChat = props => {
               {
                 isEmpty ? (
                   <div className="container-not-found">
-                    <p className="chat-not-found">No se encontró ningún chat</p>
+                    <p className="chat-not-found">No se encontró ninguna consulta</p>
                   </div>
                 ) : (
                   allChats && allChats.map((chat, i) => {
@@ -158,4 +158,4 @@ const HistoryChat = props => {
       </div>
     );
   };
-export default withStyles(styles, { withTheme: true })(HistoryChat);
+export default withStyles(styles, { withTheme: true })(HistoryQuery);

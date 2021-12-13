@@ -12,6 +12,11 @@ export const updateCompany = (id, data) => async dispatch => {
     return res && res.data || [];
 }
 
+export const updateHelpDeskCompany = (id) => async dispatch => {
+    const res = await companyService.updateHelpDeskCompany(id);
+    return res && res.data || [];
+}
+
 export const findCompany = (id) => async dispatch => {
     const res = await companyService.findCompany(id);
     return res && res.data || [];
@@ -19,6 +24,16 @@ export const findCompany = (id) => async dispatch => {
 
 export const listCompanies = () => async dispatch => {
     const res = await companyService.listCompanies();
+    return res && res.data || [];
+}
+
+export const listCompaniesClient = () => async dispatch => {
+    const res = await companyService.listCompaniesClient();
+    return res && res.data || [];
+}
+
+export const listCompaniesHelpdesk = () => async dispatch => {
+    const res = await companyService.listCompaniesHelpdesk();
     return res && res.data || [];
 }
 

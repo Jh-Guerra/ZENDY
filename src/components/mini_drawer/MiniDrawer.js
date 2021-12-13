@@ -18,6 +18,7 @@ import { connect } from "react-redux";
 import AdminMyRecommendationsSection from './Childrens/AdminMyRecommendationsSection';
 import NotificationSection from './Childrens/NotificationSection';
 import AdminErrorSection from './Childrens/AdminErrorSection';
+import ActiveEntryQueries from './Childrens/ActiveEntryQueries';
 import SpeakerNotesIcon from '@material-ui/icons/SpeakerNotes';
 import SmsFailedIcon from '@material-ui/icons/SmsFailed';
 import AssessmentIcon from '@material-ui/icons/Assessment';
@@ -27,6 +28,8 @@ import ForumIcon from '@material-ui/icons/Forum';
 import NotificationsActiveIcon from '@material-ui/icons/NotificationsActive';
 import TextsmsIcon from '@material-ui/icons/Textsms';
 import BusinessIcon from '@material-ui/icons/Business';
+import CommentIcon from '@material-ui/icons/Comment';
+import HistoryQuery from './Childrens/HistoryQuery';
 
 const moreActionSection = { name:"moreActions", title:"Más Opciones", order:5, active: true};
 
@@ -60,6 +63,7 @@ const MiniDrawer = (props) => {
   const [usersTab, setUsersTab] = React.useState(-1);
   const [usersNameTab, setUsersNameTab] = React.useState("");
   const [companiesTab, setCompaniesTab] = React.useState(-1);
+  const [companiesHDTab, setCompaniesHDTab] = React.useState(-1);
   const [moreActionsTab, setMoreActionsTab] = React.useState(-1);
   const [mainSections, setMainSections] = React.useState([]);
   const [secondSections, setSecondSections] = React.useState([]);
@@ -86,6 +90,7 @@ const MiniDrawer = (props) => {
     var usersTab = -1;
     var usersNameTab = "";
     var companiesTab = -1;
+    var companiesHDTab = -1;
     var moreActionsTab = (currentSections && currentSections.length > 5) ? 4 : -1;
     currentSections && currentSections.length > 0 && currentSections.map((section, index) => {
       if(section.name == "adminUsers" || section.name == "companyUsers"){
@@ -96,11 +101,16 @@ const MiniDrawer = (props) => {
       if(section.name == "companies"){
         companiesTab = index;
       }
+
+      if(section.name == "companiesHD"){
+        companiesHDTab = index;
+      }
     })
   
     setUsersTab((usersTab > -1 && moreActionsTab > 0) ? usersTab + 1 : usersTab);
     setUsersNameTab(usersNameTab);
     setCompaniesTab((companiesTab > 4 && moreActionsTab > 0) ? companiesTab + 1 : companiesTab);
+    setCompaniesHDTab((companiesHDTab > 5 && moreActionsTab > 0) ? companiesHDTab + 1 : companiesHDTab);
     setMoreActionsTab(moreActionsTab);
 
     setAllSections(currentSections);
@@ -124,6 +134,8 @@ const MiniDrawer = (props) => {
           return <EntryChat {...props}/>
       case "companyEntryQueries":
           return <AdminEntryChat {...props}/>
+      case "activeEntryQueries":
+          return <ActiveEntryQueries {...props}/>
       case "recommendations":
           return <AdminMyRecommendationsSection {...props}/>
       case "adminNotifications":
@@ -137,6 +149,8 @@ const MiniDrawer = (props) => {
           return <ReportedErrorSection {...props}/>
       case "historyChats":
           return <HistoryChat {...props}/>
+      case "historyQuery":
+        return <HistoryQuery {...props} />
       // case "ReportList":
       //     return <ReportList {...props}/>
       default:
@@ -152,6 +166,8 @@ const MiniDrawer = (props) => {
       case "companyEntryQueries":
       case "myEntryQueries":
         return <ModeCommentIcon/>
+      case "activeEntryQueries":
+        return <CommentIcon/>
       case "recommendations":
         return <TextsmsIcon/>
       case "adminNotifications":
@@ -172,8 +188,12 @@ const MiniDrawer = (props) => {
         return <PeopleIcon />
       case "companies":
         return <BusinessIcon />
+      case "companiesHD":
+        return <BusinessIcon />
       case "moreActions":
         return <MoreVertIcon />
+      case "historyQuery":
+        return <CommentIcon />
       default:
           return null;
       }
@@ -187,6 +207,8 @@ const MiniDrawer = (props) => {
       usersNameTab == "adminUsers" ? goToView("usuarios") : goToView("usuarios-empresa");
     }else if (newTab == companiesTab){
       goToView("empresas");
+    }else if (newTab == companiesHDTab){
+      goToView("mesas-de-ayuda");
     }else{
       setTab(newTab);
     }

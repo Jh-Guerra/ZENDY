@@ -59,7 +59,7 @@ const MainPage = (props) => {
           const newMessages = [...currentMessages, newMessage] || [];
           localStorage.setItem("messages", JSON.stringify(newMessages));
           setMessages(newMessages);
-          props.dispatch(listActiveChats("", "Vigente"));
+          props.dispatch(listActiveChats("", "Vigente", false));
           props.dispatch(resetPendingMessages(e && e.chatId)).catch(err => history.push("/inicio"));
         })
       }else{
@@ -88,7 +88,7 @@ const MainPage = (props) => {
     props.dispatch(showBackdrop(true));
     props.dispatch(finalizeChat(chat.id, data)).then(res => {
       history.push("/inicio");
-      props.dispatch(listActiveChats("", "Vigente"));
+      props.dispatch(listActiveChats("", "Vigente", false));
       props.dispatch(showSnackBar("success", "Chat finalizado"));
       props.dispatch(showBackdrop(false));
     }).catch(err => props.dispatch(showBackdrop(false)));

@@ -9,8 +9,8 @@ export const updateActiveChats = payload => ({
     payload: payload
 })
 
-export const listActiveChats = (term, status) => async dispatch => {
-    const res = await service.listActiveChats(term, status);
+export const listActiveChats = (term, status, isQuery) => async dispatch => {
+    const res = await service.listActiveChats(term, status, isQuery);
     dispatch(updateActiveChats(res.data));
     return res && res.data || [];
 }
@@ -60,7 +60,7 @@ export const listAvailableUsersByCompany = (roles, term) => async dispatch => {
     return res && res.data || [];
 }
 
-export const listFinalizeChats = (term, fromDate, toDate) => async dispatch => {
-    const res = await service.listFinalizeChats(term, fromDate, toDate);
+export const listFinalizeChats = (term, fromDate, toDate, isQuery) => async dispatch => {
+    const res = await service.listFinalizeChats(term, fromDate, toDate, isQuery);
     return res && res.data || [];
 }

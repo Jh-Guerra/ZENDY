@@ -4,7 +4,6 @@ import { withStyles } from '@material-ui/core/styles';
 import { Input, InputAdornment, Paper, Grid, IconButton, InputBase } from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search';
 import { listActiveChats } from 'services/actions/ChatAction';
-import NewChatCall from './NewChatCall';
 import { useHistory } from 'react-router-dom';
 import { showBackdrop } from 'services/actions/CustomAction';
 
@@ -15,7 +14,7 @@ const styles = theme => ({
   },
 });
 
-const CurrentChat = props => {
+const ActiveEntryQueries = props => {
   const { classes = {}, chatRx } = props;
   const history = useHistory();
 
@@ -29,7 +28,8 @@ const CurrentChat = props => {
 
   const onListActiveChats = term => {
     props.dispatch(showBackdrop(true));
-    props.dispatch(listActiveChats(term, "Vigente", false)).then(res => {
+    
+    props.dispatch(listActiveChats(term, "Vigente", true)).then(res => {
       props.dispatch(showBackdrop(false));
     }).catch(err => props.dispatch(showBackdrop(false)));
   };
@@ -50,22 +50,15 @@ const CurrentChat = props => {
     onListActiveChats('');
   }
 
-  const onSaveForm = () => {
-    onListActiveChats('');
-  }
-
   const chats = chatRx && chatRx.currentChats || [];
 
   return (
     <div style={{ height: "79vh" }}>
       <Grid container style={{height: "100%"}}>
-        <Grid item xs={12} style={{height: "8vh"}}>
-          <NewChatCall onSaveForm={onSaveForm} />
-        </Grid>
         <Grid item xs={12} style={{height: "5vh"}}>
           <div className="chatlist__heading">
             <span className="divider-line"></span>
-            <p className="divider-content">Chats Vigentes </p>
+            <p className="divider-content">Consultas Activas </p>
             <span className="divider-line"></span>
           </div>
           <br />
@@ -93,7 +86,7 @@ const CurrentChat = props => {
             {
               (!chats || chats.lenght == 0) ? (
                 <div className="container-not-found">
-                  <p className="chat-not-found">No se encontró ningún chat</p>
+                  <p className="chat-not-found">No se encontró ninguna consulta</p>
                 </div>
               ) : (
                 chats && chats.map((chat, i) => {
@@ -114,4 +107,4 @@ const CurrentChat = props => {
   );
 };
 
-export default withStyles(styles, { withTheme: true })(CurrentChat);
+export default withStyles(styles, { withTheme: true })(ActiveEntryQueries);

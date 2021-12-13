@@ -175,10 +175,10 @@ export const isImageFile = (extension) => {
 }
 
 export const customRolesName = [
-  { name: "Admin", value: "Administrador General" },
+  { name: "SuperAdmin", value: "Administrador General" },
+  { name: "AdminEmpresa", value: "Administrador - Empresa"},
   { name: "UserHD", value: "Mesa de Ayuda" },
-  { name: "AdminEmpresa", value: "Administrador de Empresa"},
-  { name: "UserEmpresa", value: "Usuario"},
+  { name: "User", value: "Usuario"},
 ]
 
 export const getCustomRoleName = (oldRolName) => {
@@ -194,3 +194,21 @@ export const getRoleSections = () => {
 
   return sections;
 }
+
+export const defaultHeadersForEntryQuery = () => {
+  const session = localStorage.getItem('session') ? JSON.parse(localStorage.getItem('session')) : {};
+  const token = session.token || "";
+  const idCompany = session.user && session.user.idCompany || null;
+  const idHelpDesk = session.user && session.user.idHelpDesk || null;
+
+  return {
+      headers: {
+          ...config.headers, 
+          Authorization: `token ${token}`
+      },
+      params: {
+        idCompany: idCompany,
+        idHelpDesk: idHelpDesk
+      }
+  }
+};

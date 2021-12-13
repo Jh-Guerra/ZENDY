@@ -33,7 +33,7 @@ const ModalEndChat = (props) => {
     const { open, handleClose } = props;
     const session = getSessionInfo();
     const role = session && session.role || {};
-    const isUser = role.name == "UserEmpresa";
+    const isUser = role.name == "User";
 
     const [finalizeStatus, setFinalizeStatus] = React.useState("Completado");
     const [finalizeDescription, setFinalizeDescription] = React.useState("");

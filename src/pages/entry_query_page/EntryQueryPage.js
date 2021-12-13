@@ -7,6 +7,7 @@ import EQMainHeader from './Childrens/EQMainHeader';
 import EQMainBody from './Childrens/EQMainBody';
 import EQMainFooter from './Childrens/EQMainFooter';
 import { getSessionInfo } from "utils/common";
+import { listMyRecommendations } from 'services/actions/RecommendationAction';
 
 const EntryQueryPage = (props) => {
   const history = useHistory();
@@ -18,6 +19,10 @@ const EntryQueryPage = (props) => {
 
   const session = getSessionInfo();
 
+  const sectionsIds = session && session.role && session.role.sectionIds;
+  const idHelpdesk = session && session.user && session.user.idHelpDesk;
+  const isHelpDesk = session && session.user && session.user.company && Boolean(session.user.company.isHelpDesk);
+  const role = session && session.role && session.role.id;
 
   React.useEffect(() => {
     if(props.location.pathname){
@@ -73,19 +78,21 @@ const EntryQueryPage = (props) => {
 
   const onList = (term) => {
     props.dispatch(showBackdrop(true));
-      props.dispatch(listQueries(term)).then(res => {
-        props.dispatch(showBackdrop(false));
-      }).catch(err => props.dispatch(showBackdrop(false)));
+    props.dispatch(listQueries(term, "", (sectionsIds.indexOf("4") ? idHelpdesk : ""))).then(res => {
+      props.dispatch(showBackdrop(false));
+    }).catch(err => props.dispatch(showBackdrop(false)));
+     
   };
 
   const onAcceptEntryQuery = () => {
     props.dispatch(showBackdrop(true));
     props.dispatch(acceptEntryQuery(entryQuery.id, byRecommend)).then(res => {
       const message = res && res.success || "Consulta aceptada"
-      props.dispatch(showSnackBar("success", message));
       const chat = res && res.chat;
+      props.dispatch(showSnackBar("success", message));
       history.push(`/chats/${chat.id}`);
-      props.dispatch(listPendingQueries(""));
+      props.dispatch(listPendingQueries("", sectionsIds.indexOf("3") ? idHelpdesk : ""));
+      props.dispatch(listMyRecommendations());
       props.dispatch(showBackdrop(false));
     }).catch(err => { props.dispatch(showBackdrop(false)); props.dispatch(showSnackBar("error", err.response.data.error)); });
   }
@@ -120,13 +127,16 @@ const EntryQueryPage = (props) => {
         />
       </Grid>
       <Grid item xs={12} style={{ height: '13vh' }}>
-        <EQMainFooter 
-          entryQuery={entryQuery}
-          session={session}
-          onAcceptEntryQuery={onAcceptEntryQuery}
-          onRecommendUser={onRecommendUser}
-          setEntryQuery = {setEntryQuery}
-        />
+        {
+          isHelpDesk && (role == 3 || role == 4) &&
+          <EQMainFooter
+            entryQuery={entryQuery}
+            session={session}
+            onAcceptEntryQuery={onAcceptEntryQuery}
+            onRecommendUser={onRecommendUser}
+            setEntryQuery={setEntryQuery}
+          />
+        }        
       </Grid>
 
     </Grid>
