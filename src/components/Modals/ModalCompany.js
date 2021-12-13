@@ -331,7 +331,7 @@ const ModalCompany = (props) => {
                                                     value="isHelpDesk"
                                                     control={<Checkbox color="primary" checked={isHelpDesk}/>}
                                                     onChange={(event) => { onChangeCheck() }}
-                                                    label="Is Help Desk"
+                                                    label="Es mesa de ayuda"
                                                     disabled={!editMode}
                                                 />
                                             </Grid>

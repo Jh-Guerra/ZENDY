@@ -85,7 +85,7 @@ const AdminEntryChat = props => {
         <Grid item xs={12} style={{height: "5vh"}}>
           <div className="chatlist__heading">
             <span className="divider-line"></span>
-            <p className="divider-content"> Consultas Entrantes </p>
+            <p className="divider-content"> Consultas Pendientes </p>
             <span className="divider-line"></span>
           </div>
           <br />
