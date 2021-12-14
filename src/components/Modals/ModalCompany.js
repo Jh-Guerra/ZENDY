@@ -138,6 +138,7 @@ const ModalCompany = (props) => {
                     validateIsHelpdesk(data.id);
                 }).catch(error => {
                     props.dispatch(showBackdrop(false));
+                    props.dispatch(showSnackBar('error', error.response.data.email ? error.response.data.email : error.response.data.error));
                 });                
         }else{
             // Agregar
@@ -163,6 +164,7 @@ const ModalCompany = (props) => {
                props.openModalNext(res);
            }).catch(error => {
                props.dispatch(showBackdrop(false));
+               props.dispatch(showSnackBar('error', error.response.data.email ? error.response.data.email : error.response.data.error));
            });
         }
     }
