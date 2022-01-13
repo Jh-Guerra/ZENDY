@@ -72,6 +72,7 @@ const ModalCompany = (props) => {
                     logo: "",
                     avatar: "",
                     description:"",
+                    isHelpDesk: isHD ? true : false,
                     helpDesks: [],
                 });
                 setTitle("Agregar empresa - " + (isHD ? "Mesa de Ayuda" : "Cliente"));
@@ -324,7 +325,7 @@ const ModalCompany = (props) => {
                                             disabled={!editMode}
                                         />
                                     </Grid>
-                                    {
+                                    {/* {
                                         isHD && (
                                             <Grid item xs={12}>
                                                 <FormControlLabel
@@ -336,14 +337,14 @@ const ModalCompany = (props) => {
                                                 />
                                             </Grid>
                                         )
-                                    }
+                                    } */}
                                     {
                                         !isHD && !isHelpDesk && (
                                             <Grid item xs={12}>
                                                 <CustomInput
                                                     id="helpDesks"
                                                     custom="multiAutocomplete"
-                                                    label="Help Desk"
+                                                    label="Mesas de Ayuda"
                                                     onChange={(event, newValues) => {
                                                         setFieldValue("helpDesks", newValues)
                                                     }}
