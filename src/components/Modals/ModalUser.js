@@ -242,6 +242,8 @@ const ModalUser = (props) => {
               document.getElementById('image').value = "";
               props.dispatch(showSnackBar('warning', 'Imagen eliminada'));
             }
+          }).catch(err => {
+            props.dispatch(showSnackBar('warning', 'Imagen no encontrada'));
           });
         }else{
           setFileUrl(null);

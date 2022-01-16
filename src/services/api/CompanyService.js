@@ -43,7 +43,7 @@ class CompanyService {
         return await axios.delete( getCustomUrl(apiPrefix, `/delete/${id}`), defaultHeaders() )
     }
 
-    async deleteImageUser(imageLink, id) {
+    async deleteImageCompany(imageLink, id) {
         return await axios.post( getCustomUrl(apiPrefix, `/deleteImage`), {imageLink, id}, defaultHeaders() );
     }
 
