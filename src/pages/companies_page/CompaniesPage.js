@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Button, Grid, Typography } from '@material-ui/core';
 import CustomTable from 'components/CustomTable';
-import { deleteCompany, findCompany, importErpCompanies, listCompanies } from 'services/actions/CompanyAction';
+import { deleteCompany, findCompany, importErpCompanies, listCompaniesClient } from 'services/actions/CompanyAction';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import ModalCompany from 'components/Modals/ModalCompany';
 import ModalDelete from 'components/Modals/ModalDelete';
@@ -82,7 +82,7 @@ class CompaniesPage extends Component {
   onListCompanies = () => {
     this.props.dispatch(showBackdrop(true));
     this.setState({ loading: true });
-    this.props.dispatch(listCompanies()).then(res => {
+    this.props.dispatch(listCompaniesClient()).then(res => {
       this.setState({ companies: res || [] });
       this.setState({ loading: false });
       this.props.dispatch(showBackdrop(false));

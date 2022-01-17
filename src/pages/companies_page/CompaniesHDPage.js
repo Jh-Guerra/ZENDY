@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
 import { Button, Grid, Typography } from '@material-ui/core';
 import CustomTable from 'components/CustomTable';
-import { deleteCompany, findCompany, listCompanies, listCompaniesClient, listCompaniesHelpdesk } from 'services/actions/CompanyAction';
+import { deleteCompany, findCompany, listCompaniesHelpdesk } from 'services/actions/CompanyAction';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import ModalCompany from 'components/Modals/ModalCompany';
 import ModalDelete from 'components/Modals/ModalDelete';
 import { showBackdrop, showSnackBar } from 'services/actions/CustomAction';
-import ModalConfirmImport from 'components/Modals/ModalConfirmImport';
 import ImportExportIcon from '@material-ui/icons/ImportExport';
 import ModalUser from 'components/Modals/ModalUser';
 

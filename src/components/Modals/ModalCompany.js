@@ -113,50 +113,37 @@ const ModalCompany = (props) => {
 
     const onSubmit = (company, { setSubmitting }) => {
         props.dispatch(showBackdrop(true));
+
+        // Editar
+        const fileInput = document.querySelector('#image') ;
+        const formData = new FormData();
+        if(fileInput.files[0]) formData.append('image', fileInput.files[0]);
+        formData.append('name', company.name);
+        formData.append('address', company.address);
+        formData.append('email', company.email);
+        formData.append('adminName', company.adminName);
+        formData.append('ruc', company.ruc);
+        formData.append('phone', company.phone);
+        if(company.description) formData.append('description', company.description);
+        formData.append('isHelpDesk', isHelpDesk);
+
+        for (var i = 0; i < company.helpDesks.length; i++) {
+            formData.append('helpDesks[]',company.helpDesks[i].id);
+        }
+
         if(company.id){
-            // Editar
-            const fileInput = document.querySelector('#image') ;
-            const formData = new FormData();
-            formData.append('image', fileInput.files[0]);
-            formData.append('name', company.name);
-            formData.append('address', company.address);
-            formData.append('email', company.email);
-            formData.append('adminName', company.adminName);
-            formData.append('ruc', company.ruc);
-            formData.append('phone', company.phone);
-            if(company.description) formData.append('description', company.description);
             formData.append('oldImage', data.avatar);
-            formData.append('isHelpDesk', isHelpDesk);
-            for (var i = 0; i < company.helpDesks.length; i++) {
-                formData.append('helpDesks[]',company.helpDesks[i].id);
-            }
 
-                // Editar
-                props.dispatch(updateCompany(data.id, formData)).then(res => {
-                    props.dispatch(showBackdrop(false));
-                    props.dispatch(showSnackBar('success', isHD ? 'Mesa de Ayuda actualizada' : 'Empresa actualizada'));
-                    props.onConfirmCallBack();
-                    validateIsHelpdesk(data.id);
-                }).catch(error => {
-                    props.dispatch(showBackdrop(false));
-                });                
+            // Editar
+            props.dispatch(updateCompany(data.id, formData)).then(res => {
+                props.dispatch(showBackdrop(false));
+                props.dispatch(showSnackBar('success', isHD ? 'Mesa de Ayuda actualizada' : 'Empresa actualizada'));
+                props.onConfirmCallBack();
+                validateIsHelpdesk(data.id);
+            }).catch(error => {
+                props.dispatch(showBackdrop(false));
+            });                
         }else{
-            // Agregar
-            const fileInput = document.querySelector('#image') ;
-            const formData = new FormData();
-            formData.append('image', fileInput.files[0]);
-            formData.append('name', company.name);
-            formData.append('address', company.address);
-            formData.append('email', company.email);
-            formData.append('adminName', company.adminName);
-            formData.append('ruc', company.ruc);
-            formData.append('phone', company.phone);
-            if(company.description) formData.append('description', company.description);
-            formData.append('isHelpDesk', isHelpDesk);
-            for (var i = 0; i < company.helpDesks.length; i++) {
-                formData.append('helpDesks[]',company.helpDesks[i].id);
-            }
-
             // Agregar
             props.dispatch(createCompany(formData)).then(res => {
                props.dispatch(showBackdrop(false));
