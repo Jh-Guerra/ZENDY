@@ -43,7 +43,7 @@ const HistoryQuery = props => {
         toD = new Date();
       }
       const from = Math.floor(new Date(fromD.setHours(0,0,0,0)).getTime()/ 1000);
-      const to = Math.floor(new Date(toD).getTime()/ 1000);
+      const to = Math.floor(new Date(toD.setHours(23, 59, 59, 999)).getTime()/ 1000);
       props.dispatch(listFinalizeChats(term, from, to , true)).then(res => {
         setAllChats(res || []);
         props.dispatch(showBackdrop(false));
