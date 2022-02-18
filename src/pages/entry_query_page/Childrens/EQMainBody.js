@@ -52,6 +52,18 @@ const EQMainBody = props => {
       });
     }
 
+    if(entryQuery.file){
+      items.push({
+        msg: "",
+        user: entryQuery.user.firstName + " " + entryQuery.user.lastName,
+        isMyMessage: user.id == entryQuery.user.id,
+        image: entryQuery.user.avatar ? (config.api + entryQuery.user.avatar) : "",
+        hour: entryQuery.created_at,
+        sex: entryQuery.user && entryQuery.user.sex || "O",
+        file: entryQuery.file ? (config.api + entryQuery.file) : ''
+      });
+    }
+
     return items;
   }
 
@@ -67,6 +79,7 @@ const EQMainBody = props => {
             image={item.image || getImageProfile(item.sex)}
             imageUpload={item.imageUpload}
             isMyMessage={item.isMyMessage}
+            file={item.file}
           />
         );
       })}

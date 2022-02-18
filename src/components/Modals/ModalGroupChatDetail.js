@@ -58,7 +58,7 @@ const ModalGroupChatDetail = props => {
     props.dispatch(deleteParticipant({idUser,idChat})).then(res => {
       if(res){
         onGetChatData(chat.id);
-        props.dispatch(listActiveChats("", "Vigente", false));
+        props.dispatch(listActiveChats("", "Vigente",  chat.isQuery ? true : false));
       }
     })
   }

@@ -147,7 +147,7 @@ const ModalAddToConversation = (props) => {
     handleClose(false);
     setUsers([])
     onGetChatData && onGetChatData(chat.id);
-    props.dispatch(listActiveChats(term, "Vigente", false));
+    props.dispatch(listActiveChats(term, "Vigente", chat.isQuery ? true : false));
   }
   
   const participantsIds = chat.participants && chat.participants.map(participants => participants.user.id) || [];
