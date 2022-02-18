@@ -42,7 +42,7 @@ const HistoryQuery = props => {
       if (!toD){
         toD = new Date();
       }
-      const from = Math.floor(new Date(fromD).getTime()/ 1000);
+      const from = Math.floor(new Date(fromD.setHours(0,0,0,0)).getTime()/ 1000);
       const to = Math.floor(new Date(toD).getTime()/ 1000);
       props.dispatch(listFinalizeChats(term, from, to , true)).then(res => {
         setAllChats(res || []);
@@ -54,7 +54,7 @@ const HistoryQuery = props => {
       clearTimeout(searchTimeout);
       setSearchTimeout(
         setTimeout(() => {
-          onListTerminateChats(term);
+          onListTerminateChats(term, fromDate, toDate);
         }, 1000)
       );
     };
