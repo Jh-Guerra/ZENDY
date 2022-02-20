@@ -55,14 +55,14 @@ class ZendyAppShell extends Component {
       window.Echo = new Echo({
         broadcaster: 'pusher',
         key: config.pusherAppKey,
+        wsHost: window.location.hostname,
+        wsPort: 6001,
+        forceTLS: false,
+        disableStats: true,
         cluster: config.pusherCluster,
         encrypted: false,
-        wsHost: "zendy.cl",
-        wsPort: 6001,
-        forceTLS: true,
-        enabledTransports: ['ws'],
-        disableStats: false,
-        authEndpoint: config.api + 'broadcasting/auth',
+        // enabledTransports: ['ws'],
+        // authEndpoint: config.api + 'broadcasting/auth',
         auth: {
           headers: {
               Authorization: 'Bearer ' + `${JSON.parse(localStorage.getItem('session')).token || ''}`

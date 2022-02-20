@@ -180,14 +180,14 @@ const LoginPage = props => {
         window.Echo = new Echo({
           broadcaster: 'pusher',
           key: config.pusherAppKey,
-          cluster: config.pusherCluster,
-          encrypted: true,
-          wsHost: "zendy.cl",
+          wsHost: window.location.hostname,
           wsPort: 6001,
-          forceTLS: true,
-          enabledTransports: ['ws'],
-          authEndpoint: config.api + 'broadcasting/auth',
-          disableStats: false,
+          forceTLS: false,
+          disableStats: true,
+          cluster: config.pusherCluster,
+          encrypted: false,
+          // enabledTransports: ['ws'],
+          // authEndpoint: config.api + 'broadcasting/auth',
           auth: {
             headers: {
                 Authorization: 'Bearer ' + `${JSON.parse(localStorage.getItem('session')).token || ''}`
