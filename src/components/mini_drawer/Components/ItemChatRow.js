@@ -5,6 +5,9 @@ import ItemAvatar from "./ItemAvatar";
 import { getImageProfile, getSessionInfo } from 'utils/common';
 import moment from 'moment';
 import LogoZendy from 'assets/images/Zendy-logo.jpg';
+import Photo from 'assets/icons/photo-icon.svg';
+import File from 'assets/icons/file-icon.svg';
+
 
 const ItemChatRow = (props) => {
   const session = getSessionInfo();
@@ -43,18 +46,19 @@ const ItemChatRow = (props) => {
   const hour = (chat.lastMessage && chat.lastMessage.createdDate) ? (OneDayAgo(chat.lastMessage.createdDate) ? moment(chat.lastMessage.createdDate*1000).format("DD/MM/YYYY") : moment(chat.lastMessage.createdDate*1000).format('LT')) : " ";
   const lastMessageUser = chat.lastMessageUser || {};
   const prefixMessage = lastMessageUser.id == user.id ? "Tú :" : (chat.scope == "Grupal" ? (lastMessageUser.firstName + ": ") : "");
+  const sentImage = chat.lastMessage && chat.lastMessage.image;
+  const sentFile = chat.lastMessage && chat.lastMessage.file;
 
   const onClickAction = (chat) => {
     props.goToChat && props.goToChat(chat);
   }
   const bold = chat.participation && chat.participation.pendingMessages && chat.participation.pendingMessages != 0 ;
-  var iconStatus;
+
   return (
     <div className="item-row" onClick={() => { onClickAction(chat) }}>
       <ItemAvatar
         isOnline={isOnline}
         image={image ? config.api + image : getImageProfile(defaultImageType)}
-        //iconStatus = {true}
       />
       <div style={{ width: "80%" }}>
         <div className="item-row-section">
@@ -63,7 +67,10 @@ const ItemChatRow = (props) => {
         </div>
         <div className="item-row-section">
           <p className="item-row-description" style={{ fontWeight: bold ? 'bold' : '', color: bold ? 'white' : '' }}>
-            { message ? ( prefixMessage + " " + message ) : "" }
+            {prefixMessage + " "} 
+            {message ? message + " " : ""}
+            {sentImage ? <img alt="" className="icon-item-chat-row" src={Photo} /> : sentFile ? <img alt="" className="icon-item-chat-row" src={File} /> : ""}
+            {sentImage ? " Foto" : sentFile ? " Archivo" : ""}
           </p>
         </div>
       </div>
