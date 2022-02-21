@@ -103,7 +103,7 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "http://api.zendy.cl",
+  "proxy": "http://127.0.0.1:8000/",
   "devDependencies": {
     "enzyme": "^3.11.0",
     "enzyme-adapter-react-16": "^1.15.2",
