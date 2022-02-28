@@ -19,6 +19,9 @@ import config from "config/Config";
 import { listActiveChats } from 'services/actions/ChatAction';
 import { useHistory } from 'react-router-dom';
 import {findUser } from 'services/actions/UserAction';
+import sonido from 'assets/sound/notificacion.mp3';
+import icon from 'assets/images/logo.png';
+import icon2 from 'assets/images/logo2.png';
 
 window.Pusher = require('pusher-js');
 
@@ -28,7 +31,7 @@ class ZendyAppShell extends Component {
     super(props);
 
     this.state = {
-
+      estado:false
     }
   }
 
@@ -61,19 +64,32 @@ class ZendyAppShell extends Component {
         disableStats: true,
         cluster: config.pusherCluster,
         encrypted: false,
-        // enabledTransports: ['ws'],
-        // authEndpoint: config.api + 'broadcasting/auth',
+        enabledTransports: ['ws', 'wss'],
+        authEndpoint: config.commonHost + '/noti/broadcasting/auth',
         auth: {
           headers: {
+            'Access-Control-Allow-Origin': '*',
               Authorization: 'Bearer ' + `${JSON.parse(localStorage.getItem('session')).token || ''}`
           },
         }
       });
 
+      const changePestaña = ()=>{
+        document.getElementById('favicon').href = icon;
+        this.setState({estado: false})
+      }
+
       const user = session && session.user || {};
       window.Echo.private("user." + user.id).listen('notificationMessage', (e) => {
         (e.chatId == localStorage.getItem("currentChatId")) && this.props.history.push("/inicio");
-        this.props.dispatch(listActiveChats("", "Vigente", false))
+        this.props.dispatch(listActiveChats("", "Vigente", false));
+        const audio = new Audio(sonido);
+        audio.play();
+        document.getElementById('favicon').href = icon2;
+        this.setState({estado: true})
+        setInterval(()=>{
+          changePestaña()
+        },6000)
       })
     }
     
@@ -115,7 +131,7 @@ class ZendyAppShell extends Component {
       <StylesProvider injectFirst>
         <div className="App" style={{height:"100%"}}>
           <Helmet>
-            <title>Zendy</title>
+            <title id="titulo">{this.state.estado?'Haz recibido un mensaje':'Zendy'}</title>
           </Helmet>
           <Routes 
             {...this.props}

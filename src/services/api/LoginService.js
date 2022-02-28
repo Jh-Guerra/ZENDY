@@ -1,6 +1,7 @@
 import axios from '../../utils/axios';
 import config from "../../config/Config";
 
+
 class LoginService {
 
     async loginUser (body){
@@ -21,8 +22,17 @@ class LoginService {
         )
     }
 
+    async UpdateToken(body, token_value) {
+        return await axios.post(
+            config.apiVersion + `device-token`,
+            { body: body ,
+             token: token_value },
+            { headers: config.headers } 
+        )
+    }
+
 }
 
 
+
 export default LoginService;
- 

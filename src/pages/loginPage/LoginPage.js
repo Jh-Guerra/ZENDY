@@ -8,7 +8,7 @@ import { makeStyles, withStyles } from '@material-ui/core/styles';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import ZendyTitle from 'assets/images/ZendyTitle.png';
 import { pColor, sColor } from 'assets/styles/zendy-css';
-import  {loginErp, loginUser}  from 'services/actions/LoginAction';
+import { loginErp, loginUser } from 'services/actions/LoginAction';
 import { connect } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
 import { showBackdrop, showSnackBar } from 'services/actions/CustomAction';
@@ -21,6 +21,10 @@ import config from "config/Config";
 import { listActiveChats } from 'services/actions/ChatAction';
 import ModalSendPassword from 'components/Modals/ModalSendPassword';
 import { findUserByUserName } from 'services/actions/UserAction';
+import firebase from 'config/firebase';
+import sonido from '../../assets/sound/notificacion.mp3';
+import icon from '../../assets/images/logo.png';
+import icon2 from '../../assets/images/logo2.png';
 
 window.Pusher = require('pusher-js');
 
@@ -33,7 +37,7 @@ const useStyles = makeStyles((theme) => ({
   root: {
     marginBottom: theme.spacing(1)
   },
-  image:{
+  image: {
     width: '500px'
   },
   loginBtn: {
@@ -68,8 +72,8 @@ const LoginPage = props => {
   const classes = useStyles();
   //const history = useHistory();
 
-/* ==========LOGIN================== */
-  const { rut_empresa = '', usuario="", password="" } = props.location && qs.parse(props.location.search);
+  /* ==========LOGIN================== */
+  const { rut_empresa = '', usuario = "", password = "" } = props.location && qs.parse(props.location.search);
 
   const [loginUsername, setLoginUsername] = React.useState("");
   const [loginRut, setLoginRut] = React.useState("");
@@ -79,11 +83,19 @@ const LoginPage = props => {
   const [searchTimeout, setSearchTimeout] = React.useState(null);
   const [showModalSendPassword, setModalSendShowPassword] = React.useState(false);
   const [userData, setUserData] = React.useState({});
+  const [tokenNotify, setTokenNotify] = React.useState();
 
   const session = getSessionInfo();
 
-  useEffect(()=>{
-    if(usuario && password){
+  useEffect(() => {
+    const msg = firebase.messaging();
+    msg.requestPermission().then(() => {
+      return msg.getToken();
+    }).then((data) => {
+      console.log("token", data)
+      setTokenNotify(data);
+    });
+    if (usuario && password) {
       var decodeRutEmpresa;
       var decodeUser;
       var decodePassword;
@@ -99,25 +111,25 @@ const LoginPage = props => {
           password: decodePassword
         };
 
-        props.dispatch(loginErp(body)).then(
+        props.dispatch(loginErp(body, tokenNotify)).then(
           (res) => {
             props.history.push("/inicio");
             props.dispatch(showBackdrop(false));
           },
           (error) => {
-           props.dispatch(showSnackBar("warning", error.response.data.error || ""));
-           props.dispatch(showBackdrop(false));
+            props.dispatch(showSnackBar("warning", error.response.data.error || ""));
+            props.dispatch(showBackdrop(false));
           }
-        ); 
+        );
 
-      } catch (error){
+      } catch (error) {
         props.history.push("/");
       }
 
-    }else{
-      if(session && session.token){
+    } else {
+      if (session && session.token) {
         props.history.push("/inicio");
-      }else{
+      } else {
         props.history.push("/");
       }
     }
@@ -141,24 +153,24 @@ const LoginPage = props => {
     );
   }
 
-  const handleValidation =()=>{
+  const handleValidation = () => {
     let errors = {};
     let formIsValid = true;
 
     //Password
-    if(!loginPassword){
-       formIsValid = false;
-       errors["password"] = "Contraseña requerida";
+    if (!loginPassword) {
+      formIsValid = false;
+      errors["password"] = "Contraseña requerida";
     }
 
-    if(!loginUsername){
-       formIsValid = false;
-       errors["username"] = "Usuario requerido";
+    if (!loginUsername) {
+      formIsValid = false;
+      errors["username"] = "Usuario requerido";
     }
 
-   setErrors(errors);
-   return formIsValid;
-}
+    setErrors(errors);
+    return formIsValid;
+  }
 
   const onChangePassword = (e) => {
     const password = e.target.value;
@@ -173,151 +185,162 @@ const LoginPage = props => {
       rut: loginRut
     }
 
-    if(handleValidation()){
+    if (handleValidation()) {
       props.dispatch(showBackdrop(true));
-      props.dispatch(loginUser(body)).then(
-       (res) => {
-        window.Echo = new Echo({
-          broadcaster: 'pusher',
-          key: config.pusherAppKey,
-          wsHost: window.location.hostname,
-          wsPort: 6001,
-          forceTLS: false,
-          disableStats: true,
-          cluster: config.pusherCluster,
-          encrypted: false,
-          // enabledTransports: ['ws'],
-          // authEndpoint: config.api + 'broadcasting/auth',
-          auth: {
-            headers: {
+      props.dispatch(loginUser(body, tokenNotify)).then(
+        (res) => {
+          window.Echo = new Echo({
+            broadcaster: 'pusher',
+            key: config.pusherAppKey,
+            wsHost: window.location.hostname,
+            wsPort: 6001,
+            forceTLS: false,
+            disableStats: true,
+            cluster: config.pusherCluster,
+            encrypted: false,
+            enabledTransports: ['ws', 'wss'],
+            authEndpoint: config.commonHost + '/noti/broadcasting/auth',
+            auth: {
+              headers: {
+                'Access-Control-Allow-Origin': '*',
                 Authorization: 'Bearer ' + `${JSON.parse(localStorage.getItem('session')).token || ''}`
-            },
-          }
-        });
+              },
+            }
+          });
 
-        const user = res.user || {};
-        window.Echo.private("user." + user.id).listen('notificationMessage', (e) => {
-          props.dispatch(listActiveChats("", "Vigente", false))
-        })
+          const changePestaña = () => {
+            document.getElementById('favicon').href = icon;
+          };
 
-         props.history.push("/inicio");
-         props.dispatch(showBackdrop(false));
-       },
-       (error) => {
-        props.dispatch(showSnackBar("warning", error.response.data.error || ""));
-        props.dispatch(showBackdrop(false));
-       }
+          const user = res.user || {};
+          window.Echo.private("user." + user.id).listen('notificationMessage', (e) => {
+            props.dispatch(listActiveChats("", "Vigente", false));
+            const audio = new Audio(sonido);
+            audio.play();
+            document.getElementById('favicon').href = icon2;
+            setInterval(() => {
+              changePestaña()
+            }, 6000)
+          });
+
+      props.history.push("/inicio");
+      props.dispatch(showBackdrop(false));
+    },
+    (error) => {
+      props.dispatch(showSnackBar("warning", error.response.data.error || ""));
+      props.dispatch(showBackdrop(false));
+    }
      ); 
     }
   };
 
-  return (
-    <>
-      <CssBaseline />
-      <Grid container className="all-heigth custom-login">
-        <Grid className="md-show" item md={2}/>
-        <Grid item xs={12} md={4} className="login-logo">
-          <img src={ZendyTitle} className={classes.image}/>         
-          {/* <p className="login-text" style={{ fontSize:"50px", fontWeight:"bold", color: pColor, marginBottom: "5px"}}>
+return (
+  <>
+    <CssBaseline />
+    <Grid container className="all-heigth custom-login">
+      <Grid className="md-show" item md={2} />
+      <Grid item xs={12} md={4} className="login-logo">
+        <img src={ZendyTitle} className={classes.image} />
+        {/* <p className="login-text" style={{ fontSize:"50px", fontWeight:"bold", color: pColor, marginBottom: "5px"}}>
             ZENDY
           </p> */}
-          <p className="login-text" style={{ fontSize:"26px", fontWeight:"bolder"}}>
-            Zendy te ayuda a comunicarte con tus colaboradores, clientes, proveedores. Chat online, Mesa de Ayuda, Canal de Ventas.
-          </p>
-        </Grid>
-        <Grid className="md-show" item md={1}/>
-        <Grid container item xs={12} md={3} style={{textAlign:"center", justifyContent:"center", alignItems:"center"}}>
-            <Paper elevation={3} className={classes.rootPaper}>       
-              <form style={{padding: "20px"}}>         
-                <Grid container spacing={2}>
-                  <Grid item xs={12}>
-                    <CssTextField
-                      variant="outlined"
-                      fullWidth
-                      id="username"
-                      placeholder="Usuario"
-                      name="username"
-                      autoComplete="username"
-                      autoFocus
-                      onChange={(event) => { setLoginUsername(event.target.value); }}
-                      value={loginUsername}
-                      onKeyPress={event => { event.key === 'Enter' && handleLogin(event) }}
-                      label="Nombre de Usuario"
-                    />
-                    <span style={{color: "red"}}>{errors["username"]}</span>
-                  </Grid>
-                  <Grid item xs={12}>
-                    <CssTextField
-                      variant="outlined"
-                      fullWidth
-                      id="rut"
-                      placeholder="RUT de la empresa"
-                      name="rut"
-                      autoComplete="rut"
-                      onChange={(event) => { setLoginRut(event.target.value) }}
-                      value={loginRut}
-                      onKeyPress={event => { event.key === 'Enter' && handleLogin(event) }}
-                      label="RUT de la empresa"
-                    />
-                    {/* <span style={{color: "red"}}>{errors["rut"]}</span> */}
-                  </Grid>
-                  <Grid item xs={12}>
-                    <CssTextField
-                      variant="outlined"
-                      fullWidth
-                      name="password"
-                      placeholder="Contraseña"
-                      type={showPassword ? "text" : "password"}
-                      id="password"
-                      InputProps={{
-                        endAdornment: (
-                          <InputAdornment position="end">
-                            <IconButton
-                              onClick={() => { setShowPassword(!showPassword) }}
-                              edge="end"
-                              style={{color: pColor}}
-                            >
-                              {showPassword ? <Visibility /> : <VisibilityOff />}
-                            </IconButton>
-                          </InputAdornment>
-                        )
-                      }}
-                      autoComplete="current-password"
-                      value={loginPassword}
-                      onChange={onChangePassword}
-                      onKeyPress={event => { event.key === 'Enter' && handleLogin(event) }}
-                      label="Contraseña"
-                    />
-                    <span style={{color: "red"}}>{errors["password"]}</span>
-                  </Grid>
-                  <Grid item xs={12}>
-                    <span onClick={() => {sendPassword()}} style={{textAlign:"center", fontSize:"16px", color: pColor, cursor:"pointer"}}>¿Has olvidado la contraseña?</span>
-                  </Grid>
-                  <Grid item xs={12}>
-                    <Button
-                      type="button"
-                      variant="contained"
-                      color="primary"
-                      className={classes.loginBtn + " custom-button"}
-                      onClick={handleLogin}
-                    >
-                      Iniciar Sesión
-                    </Button>
-                  </Grid>
-                </Grid>
-              </form>
-            </Paper>
-          </Grid>
-          <Grid className="md-show" item md={2}/>
-          <ModalSendPassword
-            {...props}
-            open={showModalSendPassword}
-            handleClose={handleClose}
-            userData={userData}
-          />
+        <p className="login-text" style={{ fontSize: "26px", fontWeight: "bolder" }}>
+          Zendy te ayuda a comunicarte con tus colaboradores, clientes, proveedores. Chat online, Mesa de Ayuda, Canal de Ventas.
+        </p>
       </Grid>
-    </>
-  );
+      <Grid className="md-show" item md={1} />
+      <Grid container item xs={12} md={3} style={{ textAlign: "center", justifyContent: "center", alignItems: "center" }}>
+        <Paper elevation={3} className={classes.rootPaper}>
+          <form style={{ padding: "20px" }}>
+            <Grid container spacing={2}>
+              <Grid item xs={12}>
+                <CssTextField
+                  variant="outlined"
+                  fullWidth
+                  id="username"
+                  placeholder="Usuario"
+                  name="username"
+                  autoComplete="username"
+                  autoFocus
+                  onChange={(event) => { setLoginUsername(event.target.value); }}
+                  value={loginUsername}
+                  onKeyPress={event => { event.key === 'Enter' && handleLogin(event) }}
+                  label="Nombre de Usuario"
+                />
+                <span style={{ color: "red" }}>{errors["username"]}</span>
+              </Grid>
+              <Grid item xs={12}>
+                <CssTextField
+                  variant="outlined"
+                  fullWidth
+                  id="rut"
+                  placeholder="RUT de la empresa"
+                  name="rut"
+                  autoComplete="rut"
+                  onChange={(event) => { setLoginRut(event.target.value) }}
+                  value={loginRut}
+                  onKeyPress={event => { event.key === 'Enter' && handleLogin(event) }}
+                  label="RUT de la empresa"
+                />
+                {/* <span style={{color: "red"}}>{errors["rut"]}</span> */}
+              </Grid>
+              <Grid item xs={12}>
+                <CssTextField
+                  variant="outlined"
+                  fullWidth
+                  name="password"
+                  placeholder="Contraseña"
+                  type={showPassword ? "text" : "password"}
+                  id="password"
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <IconButton
+                          onClick={() => { setShowPassword(!showPassword) }}
+                          edge="end"
+                          style={{ color: pColor }}
+                        >
+                          {showPassword ? <Visibility /> : <VisibilityOff />}
+                        </IconButton>
+                      </InputAdornment>
+                    )
+                  }}
+                  autoComplete="current-password"
+                  value={loginPassword}
+                  onChange={onChangePassword}
+                  onKeyPress={event => { event.key === 'Enter' && handleLogin(event) }}
+                  label="Contraseña"
+                />
+                <span style={{ color: "red" }}>{errors["password"]}</span>
+              </Grid>
+              <Grid item xs={12}>
+                <span onClick={() => { sendPassword() }} style={{ textAlign: "center", fontSize: "16px", color: pColor, cursor: "pointer" }}>¿Has olvidado la contraseña?</span>
+              </Grid>
+              <Grid item xs={12}>
+                <Button
+                  type="button"
+                  variant="contained"
+                  color="primary"
+                  className={classes.loginBtn + " custom-button"}
+                  onClick={handleLogin}
+                >
+                  Iniciar Sesión
+                </Button>
+              </Grid>
+            </Grid>
+          </form>
+        </Paper>
+      </Grid>
+      <Grid className="md-show" item md={2} />
+      <ModalSendPassword
+        {...props}
+        open={showModalSendPassword}
+        handleClose={handleClose}
+        userData={userData}
+      />
+    </Grid>
+  </>
+);
 }
 
 //export default LoginPage;
