@@ -210,6 +210,7 @@ const LoginPage = props => {
 
           const changePestaña = () => {
             document.getElementById('favicon').href = icon;
+            document.getElementById('titulo').textContent = "Zendy";
           };
 
           const user = res.user || {};
@@ -218,9 +219,10 @@ const LoginPage = props => {
             const audio = new Audio(sonido);
             audio.play();
             document.getElementById('favicon').href = icon2;
+            document.getElementById('titulo').textContent = "Haz recibido un mensaje";
             setInterval(() => {
               changePestaña()
-            }, 6000)
+            }, 9000)
           });
 
       props.history.push("/inicio");

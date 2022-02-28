@@ -76,7 +76,7 @@ class ZendyAppShell extends Component {
 
       const changePestaña = ()=>{
         document.getElementById('favicon').href = icon;
-        this.setState({estado: false})
+        document.getElementById('titulo').textContent = "Zendy";
       }
 
       const user = session && session.user || {};
@@ -86,10 +86,10 @@ class ZendyAppShell extends Component {
         const audio = new Audio(sonido);
         audio.play();
         document.getElementById('favicon').href = icon2;
-        this.setState({estado: true})
+        document.getElementById('titulo').textContent = "Haz recibido un mensaje";
         setInterval(()=>{
           changePestaña()
-        },6000)
+        },9000)
       })
     }
     
@@ -131,7 +131,7 @@ class ZendyAppShell extends Component {
       <StylesProvider injectFirst>
         <div className="App" style={{height:"100%"}}>
           <Helmet>
-            <title id="titulo">{this.state.estado?'Haz recibido un mensaje':'Zendy'}</title>
+            <title id="titulo">Zendy</title>
           </Helmet>
           <Routes 
             {...this.props}
