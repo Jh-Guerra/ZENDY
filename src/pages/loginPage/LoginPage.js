@@ -25,6 +25,7 @@ import firebase from 'config/firebase';
 import sonido from '../../assets/sound/notificacion.mp3';
 import icon from '../../assets/images/logo.png';
 import icon2 from '../../assets/images/logo2.png';
+// import { Link, useHistory } from 'react-router-dom';
 
 window.Pusher = require('pusher-js');
 
@@ -70,10 +71,13 @@ const CssTextField = withStyles({
 
 const LoginPage = props => {
   const classes = useStyles();
-  //const history = useHistory();
+  // const history = useHistory();
 
   /* ==========LOGIN================== */
-  const { rut_empresa = '', usuario = "", password = "" } = props.location && qs.parse(props.location.search);
+
+  const { rut_empresa = '', usuario = "", password = "",chat='' } = props.location && qs.parse(props.location.search);
+  console.log('RUT EMPRESA',rut_empresa, 'USUARIO',usuario , 'PASSWORD',password,'CHAT',chat )
+  // const { rut_empresa = '', usuario = "", password = "" } = props.location && qs.parse(props.location.search);
 
   const [loginUsername, setLoginUsername] = React.useState("");
   const [loginRut, setLoginRut] = React.useState("");
@@ -95,7 +99,12 @@ const LoginPage = props => {
       console.log("token", data)
       setTokenNotify(data);
     });
+
+    console.log('RUT EMPRESA: ',atob(rut_empresa) )
+    console.log('USUARIO: ',atob(usuario) )
+     console.log('PASSWORD: ',password)
     if (usuario && password) {
+      console.log('entree')
       var decodeRutEmpresa;
       var decodeUser;
       var decodePassword;
@@ -103,17 +112,25 @@ const LoginPage = props => {
       try {
         decodeRutEmpresa = atob(rut_empresa);
         decodeUser = atob(usuario);
-        decodePassword = atob(password);
-
+        // decodePassword = atob(password);
+        
         const body = {
           rut: decodeRutEmpresa,
           username: decodeUser,
-          password: decodePassword
+          password: password
         };
-
+// console.log(body)
         props.dispatch(loginErp(body, tokenNotify)).then(
           (res) => {
+            if(chat)
+            {
+              //history.push(`/chats/${chat}`)
+               props.history.push(`/chats/${chat}`);
+               window.location.reload();
+            }else
+            {
             props.history.push("/inicio");
+            }
             props.dispatch(showBackdrop(false));
           },
           (error) => {
