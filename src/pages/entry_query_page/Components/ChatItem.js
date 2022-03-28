@@ -6,6 +6,13 @@ import Tooltip from '@material-ui/core/Tooltip';
 import CustomModal from "components/Modals/common/CustomModal";
 import config from "../../../config/Config";
 import { getImageProfile } from "utils/common";
+import { Markup } from 'interweave';
+
+const urlTextToHTML = (txt) => {
+  return txt.replace(/(https?:\/\/(www\.[\w\.\-]+\.[a-z]{2,}[\/\w\.\-]*|[^www\.][\w\.\-]+\.[a-z]{2,}[\/\w\.\-]*))/gi, function (url) {
+    return `<a href='` + url + `' target="_blank">` + url + `</a>`;
+  });
+}
 
 const ChatItem = props => {
 
@@ -40,7 +47,9 @@ const ChatItem = props => {
           <span>{user}</span>
           <span>12:05 PM</span>
         </div>
-        <div className="chat-msg">{msg}</div>
+        <div className="chat-msg">
+          <Markup content={urlTextToHTML(msg)} />
+        </div>
         <div>
           <img
             style={{ height: 140, width: 140, display: (photo) ? "flex" : "none" }}

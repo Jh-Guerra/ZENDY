@@ -65,7 +65,7 @@ class ZendyAppShell extends Component {
         cluster: config.pusherCluster,
         encrypted: false,
         enabledTransports: ['ws', 'wss'],
-        authEndpoint: config.commonHost + '/noti/broadcasting/auth',
+        authEndpoint: config.commonHost + '/api/broadcasting/auth',
         auth: {
           headers: {
             'Access-Control-Allow-Origin': '*',

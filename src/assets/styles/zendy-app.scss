@@ -167,7 +167,7 @@ html, body {
     height: 100vh;
 
     img {   
-        border-radius: 50%;
+        // border-radius: 50%;
         height: 300px;
         width: 300px;
     }
@@ -497,7 +497,6 @@ html, body {
         span {
             font-size: 14px;
             color: #929292;
-            user-select: none;
         }
     }
 }
@@ -524,7 +523,7 @@ html, body {
 }
   
 .chat-msg {
-    user-select: none;
+    user-select: auto;
 }
 
 .chatlist__heading {
@@ -822,7 +821,7 @@ html, body {
   
 .emojiPicker-wrapper {
     position: absolute;
-    top: -31vh;
+    top: -49vh;
     left: 2%;
     z-index: 2;
     animation: fadeIn 0.15s ease-in forwards;

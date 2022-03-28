@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import BasePage from 'components/BasePage';
 import ZendyIcon from '../../assets/images/ZendyIcon.jpg'
-import LogoZendy from 'assets/images/Zendy-logo.jpg';
+import LogoZendy from 'assets/images/Zendy-logo.png';
 import Echo from "laravel-echo";
 import { listUsersOnline } from 'services/actions/UserAction';
 window.Pusher = require('pusher-js')

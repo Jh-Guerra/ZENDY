@@ -199,7 +199,7 @@ const LoginPage = props => {
             cluster: config.pusherCluster,
             encrypted: false,
             enabledTransports: ['ws', 'wss'],
-            authEndpoint: config.commonHost + '/noti/broadcasting/auth',
+            authEndpoint: config.commonHost + '/api/broadcasting/auth',
             auth: {
               headers: {
                 'Access-Control-Allow-Origin': '*',
@@ -210,7 +210,7 @@ const LoginPage = props => {
 
           const changePestaña = () => {
             document.getElementById('favicon').href = icon;
-            document.getElementById('titulo').textContent = "Zendy";
+            document.getElementById('titulo').textContent = 'Zendy';
           };
 
           const user = res.user || {};

@@ -40,6 +40,7 @@ const ModalEntryQuery = props => {
     image: '',
     file: '',
     idModule: '',
+    externo: '',
   });
   const [title, setTitle] = React.useState('Iniciar Consulta');
   const [editMode, setEditMode] = React.useState(false);
@@ -73,6 +74,7 @@ const ModalEntryQuery = props => {
               image: '',
               file: '',
               idModule: moduleList[0] && moduleList[0].id,
+              externo: ''
             });
             setTitle('Mesa de ayuda: '+ nameHelpDesk);
             setEditMode(true);
@@ -109,6 +111,7 @@ const ModalEntryQuery = props => {
     formData.append('description', entryQuery.description);
     formData.append('idModule', entryQuery.idModule);
     formData.append('idHelpdesk', idHelpdesk);
+    formData.append('externo', 0);
 
     if (entryQuery.id) {
       // Editar
