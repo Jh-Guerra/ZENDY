@@ -75,8 +75,8 @@ const LoginPage = props => {
 
   /* ==========LOGIN================== */
 
-  const { rut_empresa = '', usuario = "", password = "",chat='' } = props.location && qs.parse(props.location.search);
-  console.log('RUT EMPRESA',rut_empresa, 'USUARIO',usuario , 'PASSWORD',password,'CHAT',chat )
+  const { rut_empresa = '', usuario = "", password = "",chat='', fecha='' } = props.location && qs.parse(props.location.search);
+  console.log('RUT EMPRESA',rut_empresa, 'USUARIO',usuario , 'PASSWORD',password,'CHAT',chat, 'FECHA', fecha )
   // const { rut_empresa = '', usuario = "", password = "" } = props.location && qs.parse(props.location.search);
 
   const [loginUsername, setLoginUsername] = React.useState("");
@@ -102,16 +102,27 @@ const LoginPage = props => {
 
     console.log('RUT EMPRESA: ',atob(rut_empresa) )
     console.log('USUARIO: ',atob(usuario) )
-     console.log('PASSWORD: ',password)
+    console.log('PASSWORD: ',password)
+    console.log('FECHA: ',atob(fecha) )
     if (usuario && password) {
       console.log('entree')
       var decodeRutEmpresa;
       var decodeUser;
       var decodePassword;
+      var decodeFecha;
+      var date = new Date();
+      date = date.getFullYear() + "-" + String(date.getMonth() + 1).padStart(2, '0') + "-" + String(date.getDate()).padStart(2, '0');
+      // console.log(date.getTime());
 
       try {
         decodeRutEmpresa = atob(rut_empresa);
         decodeUser = atob(usuario);
+        decodeFecha = atob(fecha);
+
+        if (date > decodeFecha)  {
+          decodeUser = 'error';
+          props.history.push("/inicio");
+        }
         // decodePassword = atob(password);
         
         const body = {
