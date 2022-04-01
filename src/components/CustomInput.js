@@ -6,6 +6,8 @@ import React from 'react';
 import {
     MuiPickersUtilsProvider,
     KeyboardDatePicker,
+    KeyboardTimePicker,
+    TimePicker,
 } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
 import { Autocomplete } from '@material-ui/lab';
@@ -81,6 +83,24 @@ const CustomInput = props => {
                                 />
                             </Grid>
                         </MuiPickersUtilsProvider>
+            case "inputTime":
+            return <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                        <Grid container justify="space-around">
+                            <KeyboardTimePicker
+                                className={classes[custom] + `${primaryLetterColor ? " primary-sub-letters" : ""}`}
+                                // disableToolbar
+                                variant="inline"
+                                format="HH:mm:ss A"
+                                // openTo="hours"
+                                margin="normal"
+                                ampm={true}
+                                KeyboardButtonProps={{
+                                    'aria-label': 'Select time',
+                                }}
+                                {...props}
+                            />
+                        </Grid>
+                    </MuiPickersUtilsProvider>
             case "select":
                 return <FormControl error={props.error} className={classes[custom]}>
                             <InputLabel>{props.label || ""}</InputLabel>

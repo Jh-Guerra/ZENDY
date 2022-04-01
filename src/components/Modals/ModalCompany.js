@@ -22,8 +22,16 @@ import GetAppIcon from '@material-ui/icons/GetApp';
 import AccountBalanceIcon from '@material-ui/icons/AccountBalance';
 import HighlightOffTwoToneIcon from '@material-ui/icons/HighlightOff';
 
+import { MuiPickersUtilsProvider } from '@material-ui/pickers';
+import DateFnsUtils from '@date-io/date-fns';
+import { TimePicker } from '@material-ui/pickers';
+import esLocale from 'date-fns/locale/es';
+
+import TextField from '@mui/material/TextField';
+
+
 const ModalCompany = (props) => {
-    
+
     const { open, handleClose, company, isHD } = props;
 
     const [data, setData] = React.useState({
@@ -37,6 +45,10 @@ const ModalCompany = (props) => {
         logo: "",
         avatar: "",
         description: "",
+        horarioEntradaLV: "",
+        horarioSalidaLV: "",
+        entradaSabado: "",
+        salidaSabado: "",
     });
 
     const [title, setTitle] = React.useState("Agregar Empresa");
@@ -45,21 +57,28 @@ const ModalCompany = (props) => {
     const [fileUrl, setFileUrl] = React.useState(null);
     const [companies, setCompanies] = React.useState([]);
     const [companySearch, setCompanySearch] = React.useState("");
-    const [isHelpDesk, setIsHelpDesk] =React.useState(false);
+    const [isHelpDesk, setIsHelpDesk] = React.useState(false);
+    const [horarioEntradaLVseleccionada, cambiarhorarioEntradaLVSelecionada] = React.useState(new Date());
+    const [horarioSalidaLVseleccionada, cambiarhorarioSalidaLVSelecionada] = React.useState(new Date());
+    const [entradaSabadoseleccionada, cambiarentradaSabadoSelecionada] = React.useState(new Date());
+    const [salidaSabadoseleccionada, cambiarsalidaSabadoSelecionada] = React.useState(new Date());
 
     React.useEffect(() => {
-        if(open){
-            if(company && company.id){
+        if (open) {
+            if (company && company.id) {
                 // Ver el detalle de una empresa
                 setData({
                     ...company,
+                    horarioSalidaLV: dateFormatTime(company.horarioSalidaLV),
+                    entradaSabado: dateFormatTime(company.entradaSabado),
+                    salidaSabado: dateFormatTime(company.salidaSabado),
                     helpDesks: getCustomCompanies(company.mappedCompanies || []),
                     isHelpDesk: onChangeCheck(company.isHelpDesk)
                 });
                 setTitle("Detalle de la Empresa");
                 setIcon(<AssignmentIndIcon />);
                 setEditMode(false);
-            }else{
+            } else {
                 // Crear una nueva empresa
                 setData({
                     id: "",
@@ -71,7 +90,11 @@ const ModalCompany = (props) => {
                     phone: "",
                     logo: "",
                     avatar: "",
-                    description:"",
+                    description: "",
+                    horarioEntradaLV: "",
+                    horarioSalidaLV: "",
+                    entradaSabado: "",
+                    salidaSabado: "",
                     isHelpDesk: isHD ? true : false,
                     helpDesks: [],
                 });
@@ -81,7 +104,7 @@ const ModalCompany = (props) => {
                 setIsHelpDesk(false);
             }
             setFileUrl(null)
-            props.dispatch(listCompaniesHelpdesk()).then(response =>{
+            props.dispatch(listCompaniesHelpdesk()).then(response => {
                 setCompanies(response);
             }).catch(err => props.dispatch(showBackdrop(false)));
         }
@@ -90,48 +113,74 @@ const ModalCompany = (props) => {
     const validateForm = company => {
         const errors = {};
         company = trimObject(company);
-        if (!company.name) 
+        if (!company.name)
             errors.name = true;
-        
+
         if (!company.address)
             errors.address = true;
 
         if (!company.adminName)
             errors.adminName = true;
-            
+
         if (!company.email)
             errors.email = true;
 
         if (!company.phone)
             errors.phone = true;
 
-        if (!company.ruc) 
+        if (!company.ruc)
             errors.ruc = 'RUT es requerido'
 
         return errors;
     };
+    function pad(num, size) {
+        let newNumber = num.toString()
+        while (newNumber.length < size) newNumber = '0' + newNumber
+
+        return newNumber
+    }
+
+    function dateFormatTime(date) {
+        console.log(date)
+        const newDate = new Date(date)
+        console.log(newDate)
+        console.log(newDate.getMonth())
+        console.log(newDate.getFullYear())
+        if (!isNaN(newDate.getDate()) && !isNaN(newDate.getMonth()) && !isNaN(newDate.getFullYear())) {
+            const hours = newDate.getHours()
+            const minutes = newDate.getMinutes()
+            console.log(`${pad(hours, 2)}:${pad(minutes, 2)}`)
+            return `${pad(hours, 2)}:${pad(minutes, 2)}`
+        }
+        return null
+    }
 
     const onSubmit = (company, { setSubmitting }) => {
         props.dispatch(showBackdrop(true));
 
         // Editar
-        const fileInput = document.querySelector('#image') ;
+        const fileInput = document.querySelector('#image');
         const formData = new FormData();
-        if(fileInput.files[0]) formData.append('image', fileInput.files[0]);
+        if (fileInput.files[0]) formData.append('image', fileInput.files[0]);
         formData.append('name', company.name);
         formData.append('address', company.address);
         formData.append('email', company.email);
         formData.append('adminName', company.adminName);
         formData.append('ruc', company.ruc);
         formData.append('phone', company.phone);
-        if(company.description) formData.append('description', company.description);
+        formData.append('horarioEntradaLV', company.horarioEntradaLV);
+        formData.append('horarioSalidaLV', company.horarioSalidaLV);
+        formData.append('entradaSabado', company.entradaSabado);
+        formData.append('salidaSabado', company.salidaSabado);
+        console.log(typeof company.horarioEntradaLV);
+        if (company.description) formData.append('description', company.description);
         formData.append('isHelpDesk', isHelpDesk);
 
         for (var i = 0; i < company.helpDesks.length; i++) {
-            formData.append('helpDesks[]',company.helpDesks[i].id);
+            formData.append('helpDesks[]', company.helpDesks[i].id);
         }
 
-        if(company.id){
+        if (company.id) {
             formData.append('oldImage', data.avatar);
 
             // Editar
@@ -142,28 +191,28 @@ const ModalCompany = (props) => {
                 validateIsHelpdesk(data.id);
             }).catch(error => {
                 props.dispatch(showBackdrop(false));
-            });                
-        }else{
+            });
+        } else {
             // Agregar
             props.dispatch(createCompany(formData)).then(res => {
-               props.dispatch(showBackdrop(false));
-               props.dispatch(showSnackBar('success', isHD ? 'Mesa de Ayuda registrada' : 'Empresa registrada'));
-               props.openModalNext(res);
-           }).catch(error => {
-               props.dispatch(showBackdrop(false));
-           });
+                props.dispatch(showBackdrop(false));
+                props.dispatch(showSnackBar('success', isHD ? 'Mesa de Ayuda registrada' : 'Empresa registrada'));
+                props.openModalNext(res);
+            }).catch(error => {
+                props.dispatch(showBackdrop(false));
+            });
         }
     }
 
-    function processImage(event){
-        if(event && event.target.files && event.target.files.length > 0){
+    function processImage(event) {
+        if (event && event.target.files && event.target.files.length > 0) {
             const imageFile = event.target.files[0];
             const imageUrl = URL.createObjectURL(imageFile);
             setFileUrl(imageUrl)
-        }else{
+        } else {
             setFileUrl(null)
         }
-     }
+    }
 
     const onEdit = () => {
         setEditMode(true);
@@ -173,59 +222,59 @@ const ModalCompany = (props) => {
 
     const validateIsHelpdesk = (idCompany) => {
         const { company } = props;
-        if(company.isHelpDesk != isHelpDesk){
+        if (company.isHelpDesk != isHelpDesk) {
             props.dispatch(updateHelpDeskCompany(idCompany))
         }
     }
 
     const deleteImage = (Link, id, values) => {
-        if(id && values.avatar){
-          props.dispatch(deleteImageCompany(Link,id)).then(res => {
-            if(res.company){
-              setFileUrl(null);
-              setData({...values, avatar: ""});
-              document.getElementById('image').value = "";
-              props.dispatch(showSnackBar('warning', 'Imagen eliminada'));
-            }
-          }).catch(err => {
-            props.dispatch(showSnackBar('warning', 'Imagen no encontrada'));
-          });
-        }else{
-          setFileUrl(null);
-          setData({...values, avatar:null});
-          document.getElementById('image').value = "";
+        if (id && values.avatar) {
+            props.dispatch(deleteImageCompany(Link, id)).then(res => {
+                if (res.company) {
+                    setFileUrl(null);
+                    setData({ ...values, avatar: "" });
+                    document.getElementById('image').value = "";
+                    props.dispatch(showSnackBar('warning', 'Imagen eliminada'));
+                }
+            }).catch(err => {
+                props.dispatch(showSnackBar('warning', 'Imagen no encontrada'));
+            });
+        } else {
+            setFileUrl(null);
+            setData({ ...values, avatar: null });
+            document.getElementById('image').value = "";
         }
-      }
+    }
 
     const onChangeCheck = (value) => {
-        if(value == 0){
+        if (value == 0) {
             setIsHelpDesk(false)
-        }else if (value == 1) {
+        } else if (value == 1) {
             setIsHelpDesk(true)
         } else {
             setIsHelpDesk(!isHelpDesk)
         }
     }
-      
+
     const getCustomCompanies = (originalCompanies) => {
-        return originalCompanies ? originalCompanies.map(company => ({id: company.id, name: company.name})) : [];
+        return originalCompanies ? originalCompanies.map(company => ({ id: company.id, name: company.name })) : [];
     }
     const customCompanies = getCustomCompanies(companies || []);
-
+    console.log(data)
     return (
-        <Modal 
-            open={open} 
-            handleClose={handleClose} 
+        <Modal
+            open={open}
+            handleClose={handleClose}
             size="sm"
         >
-            <ModalHeader 
+            <ModalHeader
                 icon={icon}
                 text={title}
             />
 
             <ModalBody>
                 <Formik enableReinitialize validateOnMount initialValues={data} validate={values => validateForm(values)} onSubmit={onSubmit}>
-                    {({values, errors, touched, handleChange, handleBlur, handleSubmit, setFieldValue}) => {
+                    {({ values, errors, touched, handleChange, handleBlur, handleSubmit, setFieldValue }) => {
                         return (
                             <Form onSubmit={handleSubmit}>
                                 <Grid container spacing={3}>
@@ -236,7 +285,7 @@ const ModalCompany = (props) => {
                                             custom="inputText"
                                             onChange={handleChange}
                                             value={values.name}
-                                            error={ errors.name && touched.name ? true : false }
+                                            error={errors.name && touched.name ? true : false}
                                             icon={<BusinessIcon />}
                                             disabled={!editMode}
                                         />
@@ -248,7 +297,7 @@ const ModalCompany = (props) => {
                                             label={<p>Dirección *</p>}
                                             onChange={handleChange}
                                             value={values.address}
-                                            error={ errors.address && touched.address ? true : false }
+                                            error={errors.address && touched.address ? true : false}
                                             icon={<HomeIcon />}
                                             disabled={!editMode}
                                         />
@@ -260,7 +309,7 @@ const ModalCompany = (props) => {
                                             label={<p>Correo Electrónico *</p>}
                                             onChange={handleChange}
                                             value={values.email}
-                                            error={ errors.email && touched.email ? true : false }
+                                            error={errors.email && touched.email ? true : false}
                                             icon={<AlternateEmailIcon />}
                                             disabled={!editMode}
                                         />
@@ -270,11 +319,11 @@ const ModalCompany = (props) => {
                                             id="phone"
                                             custom="inputText"
                                             label={<p>N° Celular *</p>}
-                                            onChange={(event) => { 
-                                                setFieldValue("phone", onlyNumbers(Math.max(0, parseInt(event.target.value)).toString().slice(0,15)))
+                                            onChange={(event) => {
+                                                setFieldValue("phone", onlyNumbers(Math.max(0, parseInt(event.target.value)).toString().slice(0, 15)))
                                             }}
                                             value={values.phone}
-                                            error={ errors.phone && touched.phone ? true : false }
+                                            error={errors.phone && touched.phone ? true : false}
                                             icon={<PhoneIcon />}
                                             disabled={!editMode}
                                         />
@@ -286,7 +335,7 @@ const ModalCompany = (props) => {
                                             custom="inputText"
                                             onChange={handleChange}
                                             value={values.ruc || ""}
-                                            error={ errors.ruc && touched.ruc ? true : false }
+                                            error={errors.ruc && touched.ruc ? true : false}
                                             icon={<AccountBalanceIcon />}
                                             disabled={!editMode}
                                         />
@@ -298,7 +347,7 @@ const ModalCompany = (props) => {
                                             custom="inputText"
                                             onChange={handleChange}
                                             value={values.adminName}
-                                            error={ errors.adminName && touched.adminName ? true : false }
+                                            error={errors.adminName && touched.adminName ? true : false}
                                             icon={<AccountCircle />}
                                             disabled={!editMode}
                                         />
@@ -310,10 +359,78 @@ const ModalCompany = (props) => {
                                             custom="textArea"
                                             onChange={handleChange}
                                             value={values.description || ""}
-                                            error={ errors.description && touched.description ? true : false }
+                                            error={errors.description && touched.description ? true : false}
                                             disabled={!editMode}
                                         />
                                     </Grid>
+                                    <Grid item xs={12}>
+                                        <CustomInput
+                                            id="dias"
+                                            label={<p>Dias</p>}
+                                            custom="inputText"
+                                            onChange={handleChange}
+                                            value=""
+                                            // error={errors.description && touched.description ? true : false}
+                                            disabled={!editMode}
+                                        />
+                                    </Grid>
+                                    <Grid item xs={6}>
+                                        <TextField
+                                            fullWidth
+                                            id="HorarioIngreso"
+                                            label=""
+                                            name="Horario de entrada"
+                                            type="time"
+                                            onChange={(date) => {
+                                                setFieldValue("HorarioIngreso", date);
+                                            }}
+                                            value={values.HorarioIngreso}
+                                        // onChange={handleInputChange}
+                                        />
+                                    </Grid>
+                                    <Grid item xs={6}>
+                                        <TextField
+                                            fullWidth
+                                            id="HorarioSalida"
+                                            label=""
+                                            name="Horario de salida"
+                                            type="time"
+                                            onChange={(date) => {
+                                                setFieldValue("HorarioSalida", date);
+                                            }}
+                                            value={values.HorarioSalida}
+                                        // onChange={handleInputChange}
+                                        />
+                                    </Grid>
+                                    <Grid item xs={6}>
+                                        <TextField
+                                            fullWidth
+                                            id="HorarioIngresoMD"
+                                            label=""
+                                            name="Horario de entrada Mediodia"
+                                            type="time"
+                                            onChange={(date) => {
+                                                setFieldValue("HorarioIngresoMD", date);
+                                            }}
+                                            value={values.HorarioIngresoMD}
+                                        // onChange={handleInputChange}
+                                        />
+                                    </Grid>
+                                    <Grid item xs={6}>
+                                        <TextField
+                                            fullWidth
+                                            id="HorarioSalidaMD"
+                                            label=""
+                                            name="Horario de salida Mediodia"
+                                            type="time"
+                                            onChange={(date) => {
+                                                setFieldValue("HorarioSalidaMD", date);
+                                            }}
+                                            value={values.HorarioSalidaMD}
+                                        // onChange={handleInputChange}
+                                        />
+                                    </Grid>
+
                                     {/* {
                                         isHD && (
                                             <Grid item xs={12}>
@@ -351,31 +468,31 @@ const ModalCompany = (props) => {
                                     {
                                         editMode && (
                                             <Grid item xs={12}>
-                                                <p style={{color: "rgba(0, 0, 0, 0.54)", marginBottom:"5px"}}> Avatar </p>
+                                                <p style={{ color: "rgba(0, 0, 0, 0.54)", marginBottom: "5px" }}> Avatar </p>
                                                 <Button
                                                     variant="contained"
                                                     component="label"
                                                     fullWidth
                                                     disabled={!editMode}
                                                 >
-                                                    <GetAppIcon style={{marginRight: "12px"}} />
+                                                    <GetAppIcon style={{ marginRight: "12px" }} />
                                                     <input id="image" accept="image/*" type="file" onChange={processImage} />
                                                 </Button>
                                             </Grid>
                                         )
                                     }
-                                        <Grid container item xs={12} justify = "center">
-                                            <Avatar 
-                                                style={{height:140, width:140, display:fileUrl || (company.id && company.avatar) ? "flex" : "none"}} 
-                                                src={fileUrl ? fileUrl : (data.avatar ? (config.api+data.avatar) : defaultCompany)}
-                                            />
-                                            {
-                                                editMode && values.avatar && <HighlightOffTwoToneIcon style={{color: 'red', display:fileUrl || (company.id && company.avatar) ? "flex" : "none"}} onClick={() => { deleteImage( (data.avatar && (data.avatar).substr(8)), data.id, values)  }}/>
-                                            }
-                                        </Grid>
+                                    <Grid container item xs={12} justify="center">
+                                        <Avatar
+                                            style={{ height: 140, width: 140, display: fileUrl || (company.id && company.avatar) ? "flex" : "none" }}
+                                            src={fileUrl ? fileUrl : (data.avatar ? (config.api + data.avatar) : defaultCompany)}
+                                        />
+                                        {
+                                            editMode && values.avatar && <HighlightOffTwoToneIcon style={{ color: 'red', display: fileUrl || (company.id && company.avatar) ? "flex" : "none" }} onClick={() => { deleteImage((data.avatar && (data.avatar).substr(8)), data.id, values) }} />
+                                        }
+                                    </Grid>
                                 </Grid>
-                                
-                                <Divider style={{marginTop:"20px"}} />
+
+                                <Divider style={{ marginTop: "20px" }} />
                                 <ModalFooter
                                     buttonType={"submit"}
 
@@ -383,7 +500,7 @@ const ModalCompany = (props) => {
                                     onCancel={handleClose}
 
                                     confirmText={editMode && (company && company.id ? "Actualizar" : "Guardar y Continuar")}
-                                    
+
                                     deleteText={!editMode && "Eliminar"}
                                     onDelete={() => { props.openModalDelete() }}
 
