@@ -91,6 +91,11 @@ class ZendyAppShell extends Component {
           changePestaña()
         },9000)
       })
+      console.log('ignorame');
+      window.Echo.private("consulta." + user.id).listen('ConsultaNotification', (e) => {
+        console.log(e.contenido);
+        console.log('funciono :3');
+      })
     }
     
   }

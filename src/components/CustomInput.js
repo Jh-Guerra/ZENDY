@@ -90,7 +90,7 @@ const CustomInput = props => {
                                 className={classes[custom] + `${primaryLetterColor ? " primary-sub-letters" : ""}`}
                                 // disableToolbar
                                 variant="inline"
-                                format="HH:mm:ss A"
+                                // format="HH:mm:ss A"
                                 // openTo="hours"
                                 margin="normal"
                                 ampm={true}

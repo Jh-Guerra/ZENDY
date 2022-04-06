@@ -32,6 +32,8 @@ import TextField from '@mui/material/TextField';
 
 const ModalCompany = (props) => {
 
+    const Days = [{ id: '1', name: 'Lunes' }, { id: '2', name: 'Martes' }, { id: '3', name: 'Miercoles' },
+    { id: '4', name: 'Jueves' }, { id: '5', name: 'Viernes' }, { id: '6', name: 'Sabado' }, { id: '0', name: 'Domingo' }]
     const { open, handleClose, company, isHD } = props;
 
     const [data, setData] = React.useState({
@@ -45,10 +47,12 @@ const ModalCompany = (props) => {
         logo: "",
         avatar: "",
         description: "",
-        horarioEntradaLV: "",
-        horarioSalidaLV: "",
-        entradaSabado: "",
-        salidaSabado: "",
+        // Dias: [],
+        // MedioDia: [],
+        // HorarioIngreso: new Date(),
+        // HorarioSalida: new Date(),
+        // HorarioIngresoMD: new Date(),
+        // HorarioSalidaMD: new Date(),
     });
 
     const [title, setTitle] = React.useState("Agregar Empresa");
@@ -58,20 +62,17 @@ const ModalCompany = (props) => {
     const [companies, setCompanies] = React.useState([]);
     const [companySearch, setCompanySearch] = React.useState("");
     const [isHelpDesk, setIsHelpDesk] = React.useState(false);
-    const [horarioEntradaLVseleccionada, cambiarhorarioEntradaLVSelecionada] = React.useState(new Date());
-    const [horarioSalidaLVseleccionada, cambiarhorarioSalidaLVSelecionada] = React.useState(new Date());
-    const [entradaSabadoseleccionada, cambiarentradaSabadoSelecionada] = React.useState(new Date());
-    const [salidaSabadoseleccionada, cambiarsalidaSabadoSelecionada] = React.useState(new Date());
+    const [selectDay, setSelectDay] = React.useState();
+    const [selectDayFds, setSelectDayFds] = React.useState();
+    // const [dataDias, setDataDias] = React.useState();
 
     React.useEffect(() => {
         if (open) {
             if (company && company.id) {
                 // Ver el detalle de una empresa
+                console.log(company)
                 setData({
                     ...company,
-                    horarioSalidaLV: dateFormatTime(company.horarioSalidaLV),
-                    entradaSabado: dateFormatTime(company.entradaSabado),
-                    salidaSabado: dateFormatTime(company.salidaSabado),
                     helpDesks: getCustomCompanies(company.mappedCompanies || []),
                     isHelpDesk: onChangeCheck(company.isHelpDesk)
                 });
@@ -91,10 +92,12 @@ const ModalCompany = (props) => {
                     logo: "",
                     avatar: "",
                     description: "",
-                    horarioEntradaLV: "",
-                    horarioSalidaLV: "",
-                    entradaSabado: "",
-                    salidaSabado: "",
+                    // Dias: [],
+                    // MedioDia: [],
+                    // HorarioIngreso: new Date(),
+                    // HorarioSalida: new Date(),
+                    // HorarioIngresoMD: new Date(),
+                    // HorarioSalidaMD: new Date(),
                     isHelpDesk: isHD ? true : false,
                     helpDesks: [],
                 });
@@ -168,17 +171,31 @@ const ModalCompany = (props) => {
         formData.append('adminName', company.adminName);
         formData.append('ruc', company.ruc);
         formData.append('phone', company.phone);
-        formData.append('horarioEntradaLV', company.horarioEntradaLV);
-        formData.append('horarioSalidaLV', company.horarioSalidaLV);
-        formData.append('entradaSabado', company.entradaSabado);
-        formData.append('salidaSabado', company.salidaSabado);
-        console.log(typeof company.horarioEntradaLV);
+        //formData.append('Dias', JSON.stringify(company.D));
+        // formData.append('MedioDia', company.MedioDia);
+        // formData.append('HorarioIngreso', dateFormatTime(company.HorarioIngreso));
+        // formData.append('HorarioSalida', dateFormatTime(company.HorarioSalida));
+        // formData.append('HorarioIngresoMD', dateFormatTime(company.HorarioIngresoMD));
+        // formData.append('HorarioSalidaMD', dateFormatTime(company.HorarioSalidaMD));
+        // console.log(typeof company.horarioEntradaLV);
         if (company.description) formData.append('description', company.description);
         formData.append('isHelpDesk', isHelpDesk);
 
         for (var i = 0; i < company.helpDesks.length; i++) {
             formData.append('helpDesks[]', company.helpDesks[i].id);
         }
+        // const dataDias=[];
+        // const dataMedioDias=[];
+        // for (var i = 0; i < company.Dias.length; i++) {
+        //     // formData.append('Dias[]', company.Dias[i].id);
+        //     dataDias.push(company.Dias[i].id);
+        // }
+        // formData.append('Dias', JSON.stringify(dataDias));
+        // for (var i = 0; i < company.MedioDia.length; i++) {
+        //     dataMedioDias.push(company.MedioDia[i].id);
+        // }
+        // formData.append('MedioDia',JSON.stringify(dataMedioDias));
+
 
         if (company.id) {
             formData.append('oldImage', data.avatar);
@@ -194,6 +211,7 @@ const ModalCompany = (props) => {
             });
         } else {
             // Agregar
+            console.log(formData)
             props.dispatch(createCompany(formData)).then(res => {
                 props.dispatch(showBackdrop(false));
                 props.dispatch(showSnackBar('success', isHD ? 'Mesa de Ayuda registrada' : 'Empresa registrada'));
@@ -362,74 +380,103 @@ const ModalCompany = (props) => {
                                             error={errors.description && touched.description ? true : false}
                                             disabled={!editMode}
                                         />
+                                    </Grid >
+                                     {/* <Grid item xs={12}> 
+                                    <CustomInput
+                                        id="dias"
+                                        custom="multiAutocomplete"
+                                        label="Dias"
+                                        onChange={(event, newValues) => {
+                                            setFieldValue("Dias", newValues)
+                                        }}
+                                        onInputChange={(event, newInputValue) => {
+                                            setSelectDay(newInputValue);
+                                        }}
+                                         value={values.Dias}
+                                        inputValue={selectDay}
+                                        options={Days}
+                                        disabled={!editMode}
+                                    />
+                                    </Grid>  */}
+
+                                    {/* <Grid item xs={6}>
+                                        <span>Horario de entrada</span>
+                                        <CustomInput
+                                            id="HorarioIngreso"
+                                            custom="inputTime"
+                                            label="Fecha de Nacimiento"
+                                            onChange={(date) => {
+                                               setFieldValue("HorarioIngreso", date);
+                                            }}
+                                            value={values.HorarioIngreso}
+                                            disabled={!editMode}
+                                            autoOk={true}
+                                            disableFuture
+                                        />
+                                    </Grid>
+                                    <Grid item xs={6}>
+                                        <span>Horario de salida</span>
+                                        <CustomInput
+                                            id="HorarioSalida"
+                                            custom="inputTime"
+                                            label="Fecha de Nacimiento"
+                                            onChange={(date) => {
+                                               setFieldValue("HorarioSalida", date);
+                                            }}
+                                            value={values.HorarioSalida}
+                                            disabled={!editMode}
+                                            autoOk={true}
+                                            disableFuture
+                                        />
                                     </Grid>
                                     <Grid item xs={12}>
                                         <CustomInput
-                                            id="dias"
-                                            label={<p>Dias</p>}
-                                            custom="inputText"
-                                            onChange={handleChange}
-                                            value=""
-                                            // error={errors.description && touched.description ? true : false}
+                                            id="Mdias"
+                                            custom="multiAutocomplete"
+                                            label="Medio Dia"
+                                            onChange={(event, newValues) => {
+                                                 setFieldValue("MedioDia", newValues)
+                                            }}
+                                            onInputChange={(event, newInputValue) => {
+                                                setSelectDayFds(newInputValue);
+                                            }}
+                                            value={values.MedioDia}
+                                            inputValue={selectDay}
+                                            options={Days}
                                             disabled={!editMode}
                                         />
                                     </Grid>
                                     <Grid item xs={6}>
-                                        <TextField
-                                            fullWidth
-                                            id="HorarioIngreso"
-                                            label=""
-                                            name="Horario de entrada"
-                                            type="time"
-                                            onChange={(date) => {
-                                                setFieldValue("HorarioIngreso", date);
-                                            }}
-                                            value={values.HorarioIngreso}
-                                        // onChange={handleInputChange}
-                                        />
-                                    </Grid>
-                                    <Grid item xs={6}>
-                                        <TextField
-                                            fullWidth
-                                            id="HorarioSalida"
-                                            label=""
-                                            name="Horario de salida"
-                                            type="time"
-                                            onChange={(date) => {
-                                                setFieldValue("HorarioSalida", date);
-                                            }}
-                                            value={values.HorarioSalida}
-                                        // onChange={handleInputChange}
-                                        />
-                                    </Grid>
-                                    <Grid item xs={6}>
-                                        <TextField
-                                            fullWidth
+                                        <span>Horario de entrada Mediodia</span>
+                                        <CustomInput
                                             id="HorarioIngresoMD"
-                                            label=""
-                                            name="Horario de entrada Mediodia"
-                                            type="time"
+                                            custom="inputTime"
+                                            label="Fecha de Nacimiento"
                                             onChange={(date) => {
-                                                setFieldValue("HorarioIngresoMD", date);
+                                               setFieldValue("HorarioIngresoMD", date);
                                             }}
                                             value={values.HorarioIngresoMD}
-                                        // onChange={handleInputChange}
+                                            disabled={!editMode}
+                                            autoOk={true}
+                                            disableFuture
                                         />
                                     </Grid>
+
                                     <Grid item xs={6}>
-                                        <TextField
-                                            fullWidth
+                                        <span>Horario de salida Mediodia</span>
+                                          <CustomInput
                                             id="HorarioSalidaMD"
-                                            label=""
-                                            name="Horario de salida Mediodia"
-                                            type="time"
+                                            custom="inputTime"
+                                            label="Fecha de Nacimiento"
                                             onChange={(date) => {
-                                                setFieldValue("HorarioSalidaMD", date);
+                                               setFieldValue("HorarioSalidaMD", date);
                                             }}
                                             value={values.HorarioSalidaMD}
-                                        // onChange={handleInputChange}
+                                            disabled={!editMode}
+                                            autoOk={true}
+                                            disableFuture
                                         />
-                                    </Grid>
+                                    </Grid> */}
 
                                     {/* {
                                         isHD && (

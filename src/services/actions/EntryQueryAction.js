@@ -75,3 +75,8 @@ export const deleteFileEntryQuery = (link, id) => async dispatch => {
     const res = await service.deleteFile(link, id);
     return res && res.data || [];
 }
+
+export const statusConsult = (id) => async dispatch => {
+    const res = await service.statusConsult(id);
+    return res && res.data || [];
+}

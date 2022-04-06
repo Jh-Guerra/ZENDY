@@ -10,6 +10,7 @@ import UsersPage from 'pages/users_page/UsersPage';
 import CompaniesPage from 'pages/companies_page/CompaniesPage';
 import BlankPage from 'pages/test_page/BlankPage';
 import PageNotFound from 'pages/PageNotFound';
+import ChangePasswordPage from 'pages/ChangePasswordPage';
 import { checkPermission, getSessionInfo } from 'utils/common';
 import EntryQueryPage from 'pages/entry_query_page/EntryQueryPage';
 import NotificationsPage from 'pages/notifications_page/NotificationsPage';
@@ -56,6 +57,7 @@ const Routes = (props) => {
           <PrivateRoute exact path="/notificaciones/:notificationId/viewed" {...props} component={NotificationsPage} />
 
           <Route path="/no-encontrado" component={PageNotFound}/>
+          <Route path="/changePassword" component={ChangePasswordPage}/>
           <Redirect from="*" to="/no-encontrado" />
           
         </Switch>

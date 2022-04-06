@@ -9,6 +9,7 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 import ZendyTitle from 'assets/images/ZendyTitle.png';
 import { pColor, sColor } from 'assets/styles/zendy-css';
 import { loginErp, loginUser } from 'services/actions/LoginAction';
+import { statusConsult } from 'services/actions/EntryQueryAction';
 import { connect } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
 import { showBackdrop, showSnackBar } from 'services/actions/CustomAction';
@@ -75,8 +76,8 @@ const LoginPage = props => {
 
   /* ==========LOGIN================== */
 
-  const { rut_empresa = '', usuario = "", password = "",chat='', fecha='' } = props.location && qs.parse(props.location.search);
-  console.log('RUT EMPRESA',rut_empresa, 'USUARIO',usuario , 'PASSWORD',password,'CHAT',chat, 'FECHA', fecha )
+  const { rut_empresa = '', usuario = "", password = "", chat = '', fecha = '', consulta = '' } = props.location && qs.parse(props.location.search);
+  // console.log('RUT EMPRESA',rut_empresa, 'USUARIO',usuario , 'PASSWORD',password,'CHAT',chat, 'FECHA', fecha,'CONSULTA', consulta)
   // const { rut_empresa = '', usuario = "", password = "" } = props.location && qs.parse(props.location.search);
 
   const [loginUsername, setLoginUsername] = React.useState("");
@@ -92,24 +93,26 @@ const LoginPage = props => {
   const session = getSessionInfo();
 
   useEffect(() => {
+    let Tokent_Notificacion=''
     const msg = firebase.messaging();
     msg.requestPermission().then(() => {
       return msg.getToken();
     }).then((data) => {
       console.log("token", data)
+      Tokent_Notificacion=data
       setTokenNotify(data);
     });
 
-    console.log('RUT EMPRESA: ',atob(rut_empresa) )
-    console.log('USUARIO: ',atob(usuario) )
-    console.log('PASSWORD: ',password)
-    console.log('FECHA: ',atob(fecha) )
+    // console.log('RUT EMPRESA: ',atob(rut_empresa) )
+    // console.log('USUARIO: ',atob(usuario) )
+    // console.log('PASSWORD: ',password)
+    // console.log('FECHA: ',atob(fecha) )
     if (usuario && password) {
       console.log('entree')
       var decodeRutEmpresa;
       var decodeUser;
-      var decodePassword;
       var decodeFecha;
+      var decodePassword;
       var date = new Date();
       date = date.getFullYear() + "-" + String(date.getMonth() + 1).padStart(2, '0') + "-" + String(date.getDate()).padStart(2, '0');
       // console.log(date.getTime());
@@ -118,29 +121,43 @@ const LoginPage = props => {
         decodeRutEmpresa = atob(rut_empresa);
         decodeUser = atob(usuario);
         decodeFecha = atob(fecha);
+        decodePassword = atob(password);
+        console.log(decodeUser)
 
-        if (date > decodeFecha)  {
+        if (decodeFecha && date > decodeFecha ) {
           decodeUser = 'error';
           props.history.push("/inicio");
         }
         // decodePassword = atob(password);
-        
+
         const body = {
           rut: decodeRutEmpresa,
           username: decodeUser,
-          password: password
+          password: decodePassword
         };
-// console.log(body)
-        props.dispatch(loginErp(body, tokenNotify)).then(
+         console.log(Tokent_Notificacion)
+        props.dispatch(loginErp(body, Tokent_Notificacion)).then(
           (res) => {
-            if(chat)
-            {
+            // console.log('entre otra vez')
+            if (chat) {
               //history.push(`/chats/${chat}`)
-               props.history.push(`/chats/${chat}`);
-               window.location.reload();
-            }else
-            {
-            props.history.push("/inicio");
+              props.history.push(`/chats/${chat}`);
+              window.location.reload();
+            } else if (consulta) {
+              props.dispatch(statusConsult(consulta)).then(
+                (res) => {
+                  if (res == 'Aceptado') {
+                    props.history.push(`/inicio`);
+                    window.location.reload();
+                    props.dispatch(showSnackBar("success", 'La consulta está siendo atendida' || ""));
+                  } else {
+                    props.history.push(`/consultas/${consulta}`);
+                    window.location.reload();
+                  }
+                }
+              )
+            } else {
+              props.history.push("/inicio");
             }
             props.dispatch(showBackdrop(false));
           },
@@ -151,6 +168,7 @@ const LoginPage = props => {
         );
 
       } catch (error) {
+        console.log('hay error');
         props.history.push("/");
       }
 
@@ -253,124 +271,130 @@ const LoginPage = props => {
             }, 9000)
           });
 
-      props.history.push("/inicio");
-      props.dispatch(showBackdrop(false));
-    },
-    (error) => {
-      props.dispatch(showSnackBar("warning", error.response.data.error || ""));
-      props.dispatch(showBackdrop(false));
-    }
-     ); 
+          window.Echo.private("consulta." + user.id).listen('ConsultaNotification', (e) => {
+            // console.log(e.contenido);
+            console.log('funciono :3');
+          })
+          
+
+          props.history.push("/inicio");
+          props.dispatch(showBackdrop(false));
+        },
+        (error) => {
+          props.dispatch(showSnackBar("warning", error.response.data.error || ""));
+          props.dispatch(showBackdrop(false));
+        }
+      );
     }
   };
 
-return (
-  <>
-    <CssBaseline />
-    <Grid container className="all-heigth custom-login">
-      <Grid className="md-show" item md={2} />
-      <Grid item xs={12} md={4} className="login-logo">
-        <img src={ZendyTitle} className={classes.image} />
-        {/* <p className="login-text" style={{ fontSize:"50px", fontWeight:"bold", color: pColor, marginBottom: "5px"}}>
+  return (
+    <>
+      <CssBaseline />
+      <Grid container className="all-heigth custom-login">
+        <Grid className="md-show" item md={2} />
+        <Grid item xs={12} md={4} className="login-logo">
+          <img src={ZendyTitle} className={classes.image} />
+          {/* <p className="login-text" style={{ fontSize:"50px", fontWeight:"bold", color: pColor, marginBottom: "5px"}}>
             ZENDY
           </p> */}
-        <p className="login-text" style={{ fontSize: "26px", fontWeight: "bolder" }}>
-          Zendy te ayuda a comunicarte con tus colaboradores, clientes, proveedores. Chat online, Mesa de Ayuda, Canal de Ventas.
-        </p>
+          <p className="login-text" style={{ fontSize: "26px", fontWeight: "bolder" }}>
+            Zendy te ayuda a comunicarte con tus colaboradores, clientes, proveedores. Chat online, Mesa de Ayuda, Canal de Ventas.
+          </p>
+        </Grid>
+        <Grid className="md-show" item md={1} />
+        <Grid container item xs={12} md={3} style={{ textAlign: "center", justifyContent: "center", alignItems: "center" }}>
+          <Paper elevation={3} className={classes.rootPaper}>
+            <form style={{ padding: "20px" }}>
+              <Grid container spacing={2}>
+                <Grid item xs={12}>
+                  <CssTextField
+                    variant="outlined"
+                    fullWidth
+                    id="username"
+                    placeholder="Usuario"
+                    name="username"
+                    autoComplete="username"
+                    autoFocus
+                    onChange={(event) => { setLoginUsername(event.target.value); }}
+                    value={loginUsername}
+                    onKeyPress={event => { event.key === 'Enter' && handleLogin(event) }}
+                    label="Nombre de Usuario"
+                  />
+                  <span style={{ color: "red" }}>{errors["username"]}</span>
+                </Grid>
+                <Grid item xs={12}>
+                  <CssTextField
+                    variant="outlined"
+                    fullWidth
+                    id="rut"
+                    placeholder="RUT de la empresa"
+                    name="rut"
+                    autoComplete="rut"
+                    onChange={(event) => { setLoginRut(event.target.value) }}
+                    value={loginRut}
+                    onKeyPress={event => { event.key === 'Enter' && handleLogin(event) }}
+                    label="RUT de la empresa"
+                  />
+                  {/* <span style={{color: "red"}}>{errors["rut"]}</span> */}
+                </Grid>
+                <Grid item xs={12}>
+                  <CssTextField
+                    variant="outlined"
+                    fullWidth
+                    name="password"
+                    placeholder="Contraseña"
+                    type={showPassword ? "text" : "password"}
+                    id="password"
+                    InputProps={{
+                      endAdornment: (
+                        <InputAdornment position="end">
+                          <IconButton
+                            onClick={() => { setShowPassword(!showPassword) }}
+                            edge="end"
+                            style={{ color: pColor }}
+                          >
+                            {showPassword ? <Visibility /> : <VisibilityOff />}
+                          </IconButton>
+                        </InputAdornment>
+                      )
+                    }}
+                    autoComplete="current-password"
+                    value={loginPassword}
+                    onChange={onChangePassword}
+                    onKeyPress={event => { event.key === 'Enter' && handleLogin(event) }}
+                    label="Contraseña"
+                  />
+                  <span style={{ color: "red" }}>{errors["password"]}</span>
+                </Grid>
+                <Grid item xs={12}>
+                  <span onClick={() => { sendPassword() }} style={{ textAlign: "center", fontSize: "16px", color: pColor, cursor: "pointer" }}>¿Has olvidado la contraseña?</span>
+                </Grid>
+                <Grid item xs={12}>
+                  <Button
+                    type="button"
+                    variant="contained"
+                    color="primary"
+                    className={classes.loginBtn + " custom-button"}
+                    onClick={handleLogin}
+                  >
+                    Iniciar Sesión
+                  </Button>
+                </Grid>
+              </Grid>
+            </form>
+          </Paper>
+        </Grid>
+        <Grid className="md-show" item md={2} />
+        <ModalSendPassword
+          {...props}
+          open={showModalSendPassword}
+          handleClose={handleClose}
+          userData={userData}
+        />
       </Grid>
-      <Grid className="md-show" item md={1} />
-      <Grid container item xs={12} md={3} style={{ textAlign: "center", justifyContent: "center", alignItems: "center" }}>
-        <Paper elevation={3} className={classes.rootPaper}>
-          <form style={{ padding: "20px" }}>
-            <Grid container spacing={2}>
-              <Grid item xs={12}>
-                <CssTextField
-                  variant="outlined"
-                  fullWidth
-                  id="username"
-                  placeholder="Usuario"
-                  name="username"
-                  autoComplete="username"
-                  autoFocus
-                  onChange={(event) => { setLoginUsername(event.target.value); }}
-                  value={loginUsername}
-                  onKeyPress={event => { event.key === 'Enter' && handleLogin(event) }}
-                  label="Nombre de Usuario"
-                />
-                <span style={{ color: "red" }}>{errors["username"]}</span>
-              </Grid>
-              <Grid item xs={12}>
-                <CssTextField
-                  variant="outlined"
-                  fullWidth
-                  id="rut"
-                  placeholder="RUT de la empresa"
-                  name="rut"
-                  autoComplete="rut"
-                  onChange={(event) => { setLoginRut(event.target.value) }}
-                  value={loginRut}
-                  onKeyPress={event => { event.key === 'Enter' && handleLogin(event) }}
-                  label="RUT de la empresa"
-                />
-                {/* <span style={{color: "red"}}>{errors["rut"]}</span> */}
-              </Grid>
-              <Grid item xs={12}>
-                <CssTextField
-                  variant="outlined"
-                  fullWidth
-                  name="password"
-                  placeholder="Contraseña"
-                  type={showPassword ? "text" : "password"}
-                  id="password"
-                  InputProps={{
-                    endAdornment: (
-                      <InputAdornment position="end">
-                        <IconButton
-                          onClick={() => { setShowPassword(!showPassword) }}
-                          edge="end"
-                          style={{ color: pColor }}
-                        >
-                          {showPassword ? <Visibility /> : <VisibilityOff />}
-                        </IconButton>
-                      </InputAdornment>
-                    )
-                  }}
-                  autoComplete="current-password"
-                  value={loginPassword}
-                  onChange={onChangePassword}
-                  onKeyPress={event => { event.key === 'Enter' && handleLogin(event) }}
-                  label="Contraseña"
-                />
-                <span style={{ color: "red" }}>{errors["password"]}</span>
-              </Grid>
-              <Grid item xs={12}>
-                <span onClick={() => { sendPassword() }} style={{ textAlign: "center", fontSize: "16px", color: pColor, cursor: "pointer" }}>¿Has olvidado la contraseña?</span>
-              </Grid>
-              <Grid item xs={12}>
-                <Button
-                  type="button"
-                  variant="contained"
-                  color="primary"
-                  className={classes.loginBtn + " custom-button"}
-                  onClick={handleLogin}
-                >
-                  Iniciar Sesión
-                </Button>
-              </Grid>
-            </Grid>
-          </form>
-        </Paper>
-      </Grid>
-      <Grid className="md-show" item md={2} />
-      <ModalSendPassword
-        {...props}
-        open={showModalSendPassword}
-        handleClose={handleClose}
-        userData={userData}
-      />
-    </Grid>
-  </>
-);
+    </>
+  );
 }
 
 //export default LoginPage;

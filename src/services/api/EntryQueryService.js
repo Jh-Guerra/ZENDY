@@ -57,6 +57,10 @@ class EntryQueryService {
         return await axios.post( getCustomUrl(apiPrefix, `/deleteFile`), {link, id}, defaultHeaders() )
     }
 
+    async statusConsult(id) {
+        return await axios.get( getCustomUrl(apiPrefix, `/estadoConsulta/${id}`), defaultHeaders());
+    }
+
 }
 
 export default EntryQueryService;
