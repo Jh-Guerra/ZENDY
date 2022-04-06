@@ -31,3 +31,8 @@ export const resetPendingMessages = (idChat) => async dispatch => {
     const res = await participantService.resetPendingMessages(idChat);
     return res && res.data || [];
 }
+
+export const syncUser = () => async dispatch => {
+    const res = await participantService.syncUser();
+    return res && res.data || [];
+}

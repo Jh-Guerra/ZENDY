@@ -29,6 +29,10 @@ class ParticipantService {
     async resetPendingMessages(idChat) {
         return await axios.post( getCustomUrl(apiPrefix, `/reset-pending-messages/${idChat}`), {}, defaultHeaders());
     }
+
+    async syncUser() {
+        return await axios.post( getCustomUrl(`http://localhost:8000/api`,`/syncUsers`),{}, defaultHeaders());
+    }
    
 }
 

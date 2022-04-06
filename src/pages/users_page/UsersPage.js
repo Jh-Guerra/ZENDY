@@ -124,6 +124,15 @@ class UsersPage extends Component {
             Usuarios
           </Typography>
           <p style={{textAlign:'end'}}>
+          <Button
+              onClick={this.openModalConfirmation}
+              variant="contained"
+              color="secondary"
+              startIcon={<ImportExportIcon />}
+              style={{margin:"0px 15px"}}
+            >
+              Importar Usuarios
+            </Button>
             <Button
               onClick={this.openModalConfirmation}
               variant="contained"
