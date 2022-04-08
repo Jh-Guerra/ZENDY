@@ -26,7 +26,7 @@ import firebase from 'config/firebase';
 import sonido from '../../assets/sound/notificacion.mp3';
 import icon from '../../assets/images/logo.png';
 import icon2 from '../../assets/images/logo2.png';
-// import { Link, useHistory } from 'react-router-dom';
+import {Toaster, toast} from 'react-hot-toast';
 
 window.Pusher = require('pusher-js');
 
@@ -272,8 +272,99 @@ const LoginPage = props => {
           });
 
           window.Echo.private("consulta." + user.id).listen('ConsultaNotification', (e) => {
-            // console.log(e.contenido);
-            console.log('funciono :3');
+            console.log(e.contenido);
+            toast((t) => (
+              <div
+              className='Contorno'
+              style={{
+                display: 'flex',
+                flexDirection: 'row',
+                alignItems: 'center',
+                width:'700px'
+             }}>
+                <div 
+                  style={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    marginRight:'15px'
+                  }}>
+                  <img src={`https://www.zendy.cl/${e.contenido.avatar}`} width={'50px'} height={'50px'} />
+                </div>
+               <div
+               style={{
+                marginRight:'15px',
+                width:'160px'
+              }}>
+               <div
+                  >
+                <p className='text'>{e.contenido.usuario}</p>
+                </div>
+                <div
+                  >
+                <p className='text'>{e.contenido.mensaje}</p>
+                </div>
+               </div>
+                <button 
+                style={{
+                  borderLeft: '1px solid #000',
+                  padding:'10px',
+                  color:'blue',
+                  border: 'none',
+                  background: '#fff'
+                }}
+                onClick={() => toast.dismiss(t.id)}>
+                  Dismiss
+                </button>
+              </div>
+            ));
+          })
+    
+          window.Echo.private("mensaje." + user.id).listen('messageNotification', (e) => {
+            console.log(e.contenido);
+            toast((t) => (
+              <div
+              className='Contorno'
+              style={{
+                display: 'flex',
+                flexDirection: 'row',
+                alignItems: 'center',
+                width:'700px'
+             }}>
+                <div 
+                  style={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    marginRight:'15px'
+                  }}>
+                  <img src={`https://www.zendy.cl/${e.contenido.avatar}`} width={'50px'} height={'50px'} />
+                </div>
+               <div
+               style={{
+                marginRight:'15px',
+                width:'160px'
+              }}>
+               <div
+                  >
+                <p className='text'>{e.contenido.usuario}</p>
+                </div>
+                <div
+                  >
+                <p className='text'>{e.contenido.mensaje}</p>
+                </div>
+               </div>
+                <button 
+                style={{
+                  borderLeft: '1px solid #000',
+                  padding:'10px',
+                  color:'blue',
+                  border: 'none',
+                  background: '#fff'
+                }}
+                onClick={() => toast.dismiss(t.id)}>
+                  Dismiss
+                </button>
+              </div>
+            ));
           })
           
 
