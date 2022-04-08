@@ -41,7 +41,6 @@ export const listWithUsersCount = (term) => async dispatch => {
     const res = await companyService.listWithUsersCount(term);
     return res && res.data || [];
 }
-
 export const deleteCompany = (id) => async dispatch => {
     const res = await companyService.deleteCompany(id);
     return res && res.data || [];
@@ -54,5 +53,10 @@ export const deleteImageCompany = (imageLink,id) => async dispatch => {
 
 export const importErpCompanies = () => async dispatch => {
     const res = await companyService.importErpCompanies();
+    return res && res.data || [];
+}
+
+export const VerifyCompanies = (ruc) => async dispatch => {
+    const res = await companyService.VerifyCompanies(ruc);
     return res && res.data || [];
 }

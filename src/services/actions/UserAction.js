@@ -95,3 +95,13 @@ export const changeHelpDesk = (idUser, helpdesk) => async dispatch => {
     const res = await userService.changeHelpDesk(idUser, helpdesk);
     return res && res.data || {};
 }
+
+export const VerifyUser = (username , ruc) => async dispatch => {
+    const res = await userService.VerifyUser(username,ruc);
+    return res && res.data || [];
+}
+
+export const updateChangePasswordByErp = (id, data) => async dispatch => {
+    const res = await userService.updateChangePasswordByErp(id, data);
+    return res && res.data || [];
+}

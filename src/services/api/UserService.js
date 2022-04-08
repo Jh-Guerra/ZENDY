@@ -82,6 +82,15 @@ class UserService {
         return await axios.post( getCustomUrl(apiPrefix, `/changeHelpDesk/${idUser}`), helpdesk, defaultHeaders() );
     }
 
+    async VerifyUser(username,ruc)
+    {
+        return await axios.post(getCustomUrl(apiPrefix, `/existsUser?username=${username}&rut=${ruc}`), {}, defaultHeaders() );
+    }
+
+    async updateChangePasswordByErp(id, data) {
+        return await axios.post( getCustomUrl(apiPrefix, `/changePassword/${id}`), data, defaultHeaders() );
+    }
+
 }
 
 export default UserService;

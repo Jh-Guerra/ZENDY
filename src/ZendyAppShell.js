@@ -22,6 +22,9 @@ import {findUser } from 'services/actions/UserAction';
 import sonido from 'assets/sound/notificacion.mp3';
 import icon from 'assets/images/logo.png';
 import icon2 from 'assets/images/logo2.png';
+import {Toaster, toast} from 'react-hot-toast';
+import ZendyTitle from 'assets/images/ZendyTitle.png';
+import './ZendyAppShell.css'
 
 window.Pusher = require('pusher-js');
 
@@ -91,14 +94,133 @@ class ZendyAppShell extends Component {
           changePestaña()
         },9000)
       })
-      console.log('ignorame');
       window.Echo.private("consulta." + user.id).listen('ConsultaNotification', (e) => {
         console.log(e.contenido);
-        console.log('funciono :3');
+        toast.custom((t) => (
+          <div
+            className={`${
+              t.visible ? 'animate-enter' : 'animate-leave'
+            } max-w-md w-full bg-white shadow-lg rounded-lg pointer-events-auto flex ring-1 ring-black ring-opacity-5`}
+          >
+            <div className="flex-1 w-0 p-4">
+              <div className="flex items-start">
+                <div className="flex-shrink-0 pt-0.5">
+                  <img
+                    className="h-10 w-10 rounded-full"
+                    src={`https://www.zendy.cl/${e.contenido.avatar}`}
+                    alt=""
+                    width="2.5rem"
+                  />
+                </div>
+                <div className="ml-3 flex-1">
+                  <p className="text-sm font-medium text-gray-900">
+                    {e.contenido.usuario}
+                  </p>
+                  <p className="mt-1 text-sm text-gray-500">
+                    {e.contenido.mensaje}
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div className="flex border-l border-gray-200">
+              <button
+                onClick={() => toast.dismiss(t.id)}
+                className="w-full border border-transparent rounded-none rounded-r-lg p-4 flex items-center justify-center text-sm font-medium text-indigo-600 hover:text-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        ))
+      })
+
+      window.Echo.private("mensaje." + user.id).listen('messageNotification', (e) => {
+        console.log(e.contenido);
+        toast((t) => (
+          <div
+          className='Contorno'
+          style={{
+            display: 'flex',
+            flexDirection: 'row',
+            alignItems: 'center',
+            width:'700px'
+         }}>
+            <div 
+              style={{
+                display: 'flex',
+                justifyContent: 'center',
+                marginRight:'15px'
+              }}>
+              <img src={`https://www.zendy.cl/${e.contenido.avatar}`} width={'50px'} height={'50px'} />
+            </div>
+           <div
+           style={{
+            marginRight:'15px',
+            width:'160px'
+          }}>
+           <div
+              >
+            <p className='text'>{e.contenido.usuario}</p>
+            </div>
+            <div
+              >
+            <p className='text'>{e.contenido.mensaje}</p>
+            </div>
+           </div>
+            <button 
+            style={{
+              borderLeft: '1px solid #000',
+              padding:'10px',
+              color:'blue',
+              border: 'none',
+              background: '#fff'
+            }}
+            onClick={() => toast.dismiss(t.id)}>
+              Dismiss
+            </button>
+          </div>
+        ));
+        // toast.custom((t) => (
+        //   <div
+        //     className={`${
+        //       t.visible ? 'animate-enter' : 'animate-leave'
+        //     } max-w-md w-full bg-white shadow-lg rounded-lg pointer-events-auto flex ring-1 ring-black ring-opacity-5`}
+        //   >
+        //     <div className="flex-1 w-0 p-4">
+        //       <div className="flex items-start">
+        //         <div className="flex-shrink-0 pt-0.5">
+        //           <img
+        //             className="h-10 w-10 rounded-full"
+        //             src={`https://www.zendy.cl/${e.contenido.avatar}`}
+        //             alt=""
+        //             width="2.5rem"
+        //           />
+        //         </div>
+        //         <div className="ml-3 flex-1">
+        //           <p className="text-sm font-medium text-gray-900">
+        //             {e.contenido.usuario}
+        //           </p>
+        //           <p className="mt-1 text-sm text-gray-500">
+        //             {e.contenido.mensaje}
+        //           </p>
+        //         </div>
+        //       </div>
+        //     </div>
+        //     <div className="flex border-l border-gray-200">
+        //       <button
+        //         onClick={() => toast.dismiss(t.id)}
+        //         className="w-full border border-transparent rounded-none rounded-r-lg p-4 flex items-center justify-center text-sm font-medium text-indigo-600 hover:text-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+        //       >
+        //         Close
+        //       </button>
+        //     </div>
+        //   </div>
+        // ))
       })
     }
-    
-  }
+     
+    }
+
   componentWillUnmount() {
     const session = getSessionInfo();
     if (session && session.token) {
@@ -135,6 +257,10 @@ class ZendyAppShell extends Component {
     return (
       <StylesProvider injectFirst>
         <div className="App" style={{height:"100%"}}>
+          <Toaster
+            position="top-right"
+            reverseOrder={false}
+          />
           <Helmet>
             <title id="titulo">Zendy</title>
           </Helmet>

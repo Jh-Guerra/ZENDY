@@ -1,0 +1,9 @@
+.Contorno{
+    border-radius: 30px;
+}
+
+.text{
+    white-space:nowrap;
+    text-overflow:ellipsis;
+    overflow: hidden;
+}

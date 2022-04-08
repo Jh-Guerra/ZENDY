@@ -17,29 +17,29 @@ import { updatePassword } from 'services/actions/UserAction';
 import { showBackdrop, showSnackBar } from 'services/actions/CustomAction';
 import * as qs from 'query-string';
 import LinearProgress, { LinearProgressProps } from '@material-ui/core/LinearProgress';
+import { CircularProgress } from '@material-ui/core';
+import CustomModal from 'components/Modals/common/CustomModal';
+import { loginErp } from 'services/actions/LoginAction';
+import firebase from 'config/firebase';
+import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
+import { VerifyCompanies } from 'services/actions/CompanyAction';
+import { VerifyUser } from 'services/actions/UserAction';
+import  {updateChangePasswordByErp}  from 'services/actions/UserAction';
 
-
-
-function LinearProgressWithLabel(props) {
-  return (
-    <Box sx={{ display: 'flex', alignItems: 'center' }}>
-      <Box sx={{ width: '100%', mr: 1 }}>
-        <LinearProgress variant="determinate" {...props} />
-      </Box>
-      <Box sx={{ minWidth: 35 }}>
-        <Typography variant="body2" color="text.secondary">{`${Math.round(
-          props.value,
-        )}%`}</Typography>
-      </Box>
-    </Box>
-  );
-}
 
 const ChangePasswordPage = props => {
 
-
-  const {password = "" } = props.location && qs.parse(props.location.search);
-  const [active]
+  const { rut_empresa = '', usuario = "", password = ""} = props.location && qs.parse(props.location.search);
+  const [ChangePassExit, setChangePassExit] = React.useState(true);
+  const [timeInterval, setTimeInterval] = React.useState(9)
+  const [loading, setLoading] = React.useState(false);
+  const [loadingSavePassword, setLoadingSavePassword] = React.useState(false);
+  const [loadingCompany, setLoadingCompany] = React.useState(false);
+  const [Redireccion,setRedireccion] = React.useState(6);
+  const [tokenNotify, setTokenNotify] = React.useState();
+  const [dataUser, setDataUser] = React.useState();
+  const [statusPassword,setStatusPassword] = React.useState(false);
+  // const [showModal, setShowModal] = React.useState(true);
 //   const session = getSessionInfo();
 //   const user = session && session.user || {};
 
@@ -51,19 +51,19 @@ const ChangePasswordPage = props => {
 // setVerifyPassword(atob(password))
 //   }, [])
 
-//   const [showPasswordActual, setShowPasswordActual] = React.useState(false);
+  const [showPasswordActual, setShowPasswordActual] = React.useState(false);
 //   const [showPasswordNew, setShowPasswordNew] = React.useState(false);
 //   const [showPasswordRepitNew, setShowPasswordRepitNew] = React.useState(false);
 
-//   const [oldPassword, setOldPassword] = React.useState("");
+  const [oldPassword, setOldPassword] = React.useState("");
 //   const [newPassword, setNewPassword] = React.useState("");
 //   const [verifyPassword, setVerifyPassword] = React.useState("");
-//   const [errors, setErrors] = React.useState({});
+  const [errors, setErrors] = React.useState({});
 
-//   const onChangeOldPassword = (e) => {
-//     const oldPassword = e.target.value;
-//     setOldPassword(oldPassword);
-//   };
+  const onChangeOldPassword = (e) => {
+    const oldPassword = e.target.value;
+    setOldPassword(oldPassword);
+  };
 
 //   const onChangeNewPassword = (e) => {
 //     const newPassword = e.target.value;
@@ -75,34 +75,27 @@ const ChangePasswordPage = props => {
 //     setVerifyPassword(verifyPassword);
 //   };
 
-//   const handleValidation = () => {
-//     let errors = {};
-//     let formIsValid = true;
+  const handleValidation = () => {
+    let errors = {};
+    let formIsValid = true;
 
-//     //Password
-//     if (!oldPassword) {
-//       formIsValid = false;
-//       errors["oldPassword"] = "Contraseña requerida";
-//     }
+    //Password
+    if (!oldPassword) {
+      formIsValid = false;
+      errors["oldPassword"] = "Contraseña requerida";
+    }
+    setErrors(errors);
+    return formIsValid;
+  }
 
-//     //new Password
-//     if (!newPassword) {
-//       formIsValid = false;
-//       errors["newPassword"] = "Contraseña requerida";
-//     }
-
-//     if (!verifyPassword) {
-//       formIsValid = false;
-//       errors["verifyPassword"] = "Contraseña requerida";
-//     }
-//     if (newPassword != verifyPassword) {
-//       formIsValid = false;
-//       errors["verifyPassword"] = "Las contraseñas no coinciden";
-//     }
-//     setErrors(errors);
-//     return formIsValid;
-//   }
-
+const CompararAndEnviarPassword = () =>{
+  if (handleValidation()) {
+    setLoadingSavePassword(true)
+    setTimeout(() => {
+      ChangePasswordByErp(dataUser)  
+     }, 3000);
+  }
+}
 //   const SincronizacionUsuarios = () => {
 //     props.dispatch(syncUser()).then(
 //       (res) => {
@@ -115,56 +108,221 @@ const ChangePasswordPage = props => {
 //     );
 //   }
 
-//   const body = {
-//     password: oldPassword,
-//     encrypted_password: newPassword
-
-//   }
-//   const handleLogin = async (e) => {
-//     e.preventDefault();
-//     if (handleValidation()) {
-//       props.dispatch(updatePassword(user.id, body)).then(res => {
-//         props.dispatch(showSnackBar('success', 'Cambio de contraseña exitosa.'));
-//       }
-//       ).catch(err => {
-//         props.dispatch(showSnackBar("error", err.response.data ? err.response.data.error : "ERROR"));
-//       });
-//     }
-//   };
 const [progress, setProgress] = React.useState(10);
+const session = getSessionInfo();
 
-  // React.useEffect(() => {
-  //   console.log(progress)
-  //   const timer = setInterval(() => {
-  //   console.log(progress)
-  //       setProgress((prevProgress) => (prevProgress == 100 ? 10 : prevProgress + 10));
-  //   }, 1000);
-  //   return () => {
-  //     console.log(timer)
-  //     clearInterval(timer);
-  //   };
-  // }, []);
+  React.useEffect(() => {
+    VerifiCompanies()
+  }, []);
 
-  return (
-    <div id='section-formulario'
-      style={{
-        height: '100vh',
-        display: 'flex',
-        background: '#fff',
-        justifyContent: 'center',
-        alignItems: 'center'
-      }}>
+  const VerifiCompanies = () => {
+    if(Redireccion==6)
+    {
+      setTimeout(() => {
+      if (rut_empresa) {
+        props.dispatch(VerifyCompanies(atob(rut_empresa))).then(
+          (res) => {
+            if (res) {
+              VerifiUser()
+            }
+          },
+          (error) => {
+            props.dispatch(showSnackBar("warning", error.response.data.error || ""));
+            props.dispatch(showBackdrop(false));
+          }
+        );
+      }
+     }, 2000);
+    }
+    
+  }
 
-<div className='formulario'
-        style={{
-          padding: '35px',
-          borderRadius: '15px',
-          background: '#fff',
-          width: '35%',
-          border: '0px',
-          boxShadow: 'rgb(0 0 0 / 30%) 6px 6px 6px 6px',
-        }}>
-           <p
+  const ChangePasswordByErp = (user)=>{
+    const body = {
+      password: 'zendy2022',
+      newPassword: oldPassword,
+      encryptPassword: atob(password)
+    }
+
+    props.dispatch(updateChangePasswordByErp(user.id, body)).then( res => {
+      console.log(res)
+      if(res.estado==false)
+      {
+        setLoadingSavePassword(false)
+        setStatusPassword(true);
+        props.dispatch(showSnackBar('error', 'La contraseña ingresada no es igual que ERP'));
+      }
+      else if(res.estado==true)
+      {
+        console.log('TRUEEEE')
+        setRedireccion(2)
+        changeAutoLogin()
+      }
+      // props.dispatch(showSnackBar('success', 'Cambio de contraseña exitosa.'));
+    }
+    ).catch(err => {
+      props.dispatch(showSnackBar("error", err.response.data ? err.response.data.error : "ERROR"));
+    });  
+  } 
+
+  const VerifiUser = () => {
+    props.dispatch(VerifyUser(atob(usuario), atob(rut_empresa))).then(
+      (res) => {
+        setDataUser(res.data)
+        if(res.estado=='Contraseña no cambiada')
+        {
+         setRedireccion(1)
+         setTimeout(() => {
+          setRedireccion(7)
+          // ChangePasswordByErp(res.data)
+        }, 6000);
+        
+        }else
+        {
+          setRedireccion(5)
+          setTimeout(() => {
+            let Tokent_Notificacion = ''
+            const msg = firebase.messaging();
+            msg.requestPermission().then(() => {
+              return msg.getToken();
+            }).then((data) => {
+              Tokent_Notificacion = data
+              setTokenNotify(data);
+            });
+            if (usuario && password) {
+              console.log('entree')
+              var decodeRutEmpresa;
+              var decodeUser;
+              var decodePassword;
+              try {
+                decodeRutEmpresa = atob(rut_empresa);
+                decodeUser = atob(usuario);
+                decodePassword = atob(password);
+    
+                const body = {
+                  rut: decodeRutEmpresa,
+                  username: decodeUser,
+                  password: decodePassword
+                };
+                props.dispatch(loginErp(body, Tokent_Notificacion)).then(
+                  (res) => {
+                    props.history.push("/inicio");
+                    props.dispatch(showBackdrop(false));
+                  },
+                  (error) => {
+                    props.dispatch(showSnackBar("warning", error.response.data.error || ""));
+                    props.dispatch(showBackdrop(false));
+                  }
+                );
+    
+              } catch (error) {
+                console.log('hay error');
+                props.history.push("/");
+                setLoading(false);
+              }
+            }
+            else {
+              if (session && session.token) {
+                props.history.push("/inicio");
+              } else {
+                props.history.push("/");
+              }
+            }
+          }, 2000);
+          
+        }
+      },
+      (error) => {
+        props.dispatch(showSnackBar("warning", error.response.data.error || ""));
+        props.dispatch(showBackdrop(false));
+      }
+    );
+  }
+
+
+  const SaveRegistrer = () =>{
+    setLoadingCompany(true);
+    setTimeout(() => {
+      setLoadingCompany(false);
+      setRedireccion(4)
+    }, 9000);
+  }
+
+
+  const changeAutoLogin = () => {
+    if (Redireccion == 2) {
+      console.log('entre')
+      setLoading(true);
+      setTimeout(() => {
+        let Tokent_Notificacion = ''
+        const msg = firebase.messaging();
+        msg.requestPermission().then(() => {
+          return msg.getToken();
+        }).then((data) => {
+          console.log("token", data)
+          Tokent_Notificacion = data
+          setTokenNotify(data);
+        });
+        if (usuario && password) {
+          console.log('entree')
+          var decodeRutEmpresa;
+          var decodeUser;
+          var decodeFecha;
+          var decodePassword;
+          try {
+            decodeRutEmpresa = atob(rut_empresa);
+            decodeUser = atob(usuario);
+            decodePassword = atob(password);
+
+            const body = {
+              rut: decodeRutEmpresa,
+              username: decodeUser,
+              password: decodePassword
+            };
+            props.dispatch(loginErp(body, Tokent_Notificacion)).then(
+              (res) => {
+                props.history.push("/inicio");
+                props.dispatch(showBackdrop(false));
+              },
+              (error) => {
+                props.dispatch(showSnackBar("warning", error.response.data.error || ""));
+                props.dispatch(showBackdrop(false));
+              }
+            );
+
+          } catch (error) {
+            console.log('hay error');
+            props.history.push("/");
+            setLoading(false);
+          }
+
+        }
+        else {
+          if (session && session.token) {
+            props.history.push("/inicio");
+          } else {
+            props.history.push("/");
+          }
+        }
+        // setLoading(false);
+      }, 3000);
+    }
+  }
+
+  const EstadoView = (estado) => {
+    switch (estado) {
+      case 1:
+        return(
+          <div className='formulario'
+          style={{
+            padding: '35px',
+            borderRadius: '15px',
+            background: '#fff',
+            width: '40%',
+            border: '0px',
+            boxShadow: 'rgb(0 0 0 / 30%) 6px 6px 6px 6px',
+          }}>
+          <p
             className='formulario-title'
             style={{
               paddingBottom: '30px',
@@ -173,7 +331,7 @@ const [progress, setProgress] = React.useState(10);
               fontSize: '20px',
               fontFamily: 'sans-serif'
             }}>
-             Su cuenta zendy se está creando porfavor espere...
+            Su cuenta zendy se está creando por favor espere...
           </p>
           <div className='formulario-imagen'
             style={{
@@ -183,8 +341,449 @@ const [progress, setProgress] = React.useState(10);
             }}>
             <img src={ZendyTitle} width={'300px'} height={'150px'} />
           </div>
-      <LinearProgress />
-    </div>
+          <LinearProgress />
+        </div>
+         )
+      case 2:
+        return(
+          <div className='formulario'
+          style={{
+            padding: '35px',
+            borderRadius: '15px',
+            background: '#fff',
+            width: '40%',
+            border: '0px',
+            boxShadow: 'rgb(0 0 0 / 30%) 6px 6px 6px 6px',
+          }}>
+          <p
+            className='formulario-title'
+            style={{
+              paddingBottom: '30px',
+              fontWeight: 600,
+              textAlign: 'center',
+              fontSize: '20px',
+              fontFamily: 'sans-serif'
+            }}>
+            Gracias por esperar, tu registro fue exitoso, podrás acceder a zendy con tus credenciales de Erp
+          </p>
+          <div className='formulario-imagen'
+            style={{
+              display: 'flex',
+              justifyContent: 'center',
+              paddingBottom: '30px',
+            }}>
+            <img src={ZendyTitle} width={'300px'} height={'150px'} />
+          </div>
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'flex-end',
+            }}
+          >
+            <button
+              style={{
+                width: '50%',
+                padding: '15px',
+                borderRadius: '8px',
+                border: 'none',
+                cursor: 'pointer',
+                display: 'flex',
+                justifyContent: 'center',
+                position: 'relative'
+              }}
+              disabled={loading}
+              onClick={()=>{changeAutoLogin()}}
+            >
+              <span>Realizando login automatico espere porfavor</span>
+              <span
+                style={{
+                  width: '20%',
+                  marginLeft: '4px',
+                  padding: '6px 5px',
+                  borderRadius: '100%',
+                  border: 'none',
+                  cursor: 'pointer',
+                  color: '#fff'
+                }}>
+                {loading &&
+                  <CircularProgress
+                    size={24}
+                    color={'secondary'}
+                    sx={{
+                      position: 'absolute',
+                      top: '10%',
+                      left: '10%',
+                      marginTop: '-12px',
+                      marginLeft: '-12px',
+                    }}
+                  />}
+              </span>
+            </button>
+          </div>
+        </div>
+        )
+      case 3:
+        return(
+          <div className='formulario'
+          style={{
+            padding: '35px',
+            borderRadius: '15px',
+            background: '#fff',
+            width: '40%',
+            border: '0px',
+            boxShadow: 'rgb(0 0 0 / 30%) 6px 6px 6px 6px',
+          }}>
+          <p
+            className='formulario-title'
+            style={{
+              paddingBottom: '30px',
+              fontWeight: 600,
+              textAlign: 'center',
+              fontSize: '20px',
+              fontFamily: 'sans-serif'
+            }}>
+              Su Compañia no esta registrada, por favor Envianos una solicitud para que sea parte de Zendy
+          </p>
+          <div className='formulario-imagen'
+            style={{
+              display: 'flex',
+              justifyContent: 'center',
+              paddingBottom: '30px',
+            }}>
+            <img src={ZendyTitle} width={'300px'} height={'150px'} />
+          </div>
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'flex-end',
+            }}
+          >
+            <p
+            className='formulario-title'
+            style={{
+              textAlign: 'center',
+              fontSize: '20px',
+              fontFamily: 'sans-serif',
+              textAlign:'center'
+            }}>
+              click Aqui
+              
+          </p> 
+          <div
+          style={{
+            marginLeft:'10px',
+            marginTop:'22px'
+          }}
+          >
+          <ArrowDownwardIcon/>
+          </div>
+          
+          </div>
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'flex-end',
+            }}
+          >
+            <button
+              style={{
+                width: '50%',
+                padding: '15px',
+                borderRadius: '8px',
+                border: 'none',
+                cursor: 'pointer',
+                display: 'flex',
+                justifyContent: 'center',
+                position: 'relative',
+                // background:'#DD843A'
+              }}
+              onClick={()=>{SaveRegistrer()}}
+            >
+              <span >{loadingCompany?`Procesando su Solicitud Espere un Momento`:`Enviar solicitud de registro`}</span>
+              <span
+                style={{
+                  width: '20%',
+                  marginLeft: '4px',
+                  padding: '6px 5px',
+                  borderRadius: '100%', 
+                  border: 'none',
+                  cursor: 'pointer',
+                  color: '#fff',
+                }}>
+                {loadingCompany &&
+                  <CircularProgress
+                    size={24}
+                    color={'secondary'}
+                    sx={{
+                      position: 'absolute',
+                      top: '10%',
+                      left: '10%',
+                      marginTop: '-12px',
+                      marginLeft: '-12px',
+                    }}
+                  />}
+              </span>
+            </button>
+          </div>
+        </div>
+        )
+      case 4:
+        return(
+          <div className='formulario'
+          style={{
+            padding: '35px',
+            borderRadius: '15px',
+            background: '#fff',
+            width: '40%',
+            border: '0px',
+            boxShadow: 'rgb(0 0 0 / 30%) 6px 6px 6px 6px',
+          }}>
+          <p
+            className='formulario-title'
+            style={{
+              paddingBottom: '30px',
+              fontWeight: 600,
+              textAlign: 'center',
+              fontSize: '20px',
+              fontFamily: 'sans-serif'
+            }}>
+            Su solicitud ha sido enviada, se lo atenderá lo mas pronto posible
+          </p>
+          <div className='formulario-imagen'
+            style={{
+              display: 'flex',
+              justifyContent: 'center',
+              paddingBottom: '30px',
+            }}>
+            <img src={ZendyTitle} width={'300px'} height={'150px'} />
+          </div>
+          {/* <LinearProgress /> */}
+          <p
+            className='formulario-title'
+            style={{
+              paddingBottom: '30px',
+              fontWeight: 700,
+              textAlign: 'center',
+              fontSize: '20px',
+              fontFamily: 'sans-serif'
+            }}>
+              Muchas Gracias..!!
+          </p>
+        </div>
+        )
+      case 5:
+        return (
+          <div className='formulario'
+            style={{
+              padding: '35px',
+              borderRadius: '15px',
+              background: '#fff',
+              width: '40%',
+              border: '0px',
+              boxShadow: 'rgb(0 0 0 / 30%) 6px 6px 6px 6px',
+            }}>
+            <p
+              className='formulario-title'
+              style={{
+                paddingBottom: '30px',
+                fontWeight: 600,
+                textAlign: 'center',
+                fontSize: '20px',
+                fontFamily: 'sans-serif'
+              }}>
+              Bienvenido Nuevamente a Zendy, Estamos Listos para ayudarlo
+              
+            </p>
+            <div className='formulario-imagen'
+              style={{
+                display: 'flex',
+                justifyContent: 'center',
+                paddingBottom: '30px',
+              }}>
+              <img src={ZendyTitle} width={'300px'} height={'150px'} />
+            </div>
+            <p
+              className='formulario-title'
+              style={{
+                paddingBottom: '30px',
+                fontWeight: 600,
+                textAlign: 'center',
+                fontSize: '20px',
+                fontFamily: 'sans-serif'
+              }}>
+              Iniciando Sesion...
+            </p>
+            <LinearProgress />
+          </div>
+        )
+      case 6:
+        return (
+          <div className='formulario'
+            style={{
+              padding: '35px',
+              borderRadius: '15px',
+              background: '#fff',
+              width: '40%',
+              border: '0px',
+              boxShadow: 'rgb(0 0 0 / 30%) 6px 6px 6px 6px',
+            }}>
+                <p
+              className='formulario-title'
+              style={{
+                paddingBottom: '30px',
+                fontWeight: 600,
+                textAlign: 'center',
+                fontSize: '20px',
+                fontFamily: 'sans-serif'
+              }}>
+                Bienvenido a Zendy
+            </p>
+            <p
+              className='formulario-title'
+              style={{
+                paddingBottom: '30px',
+                fontWeight: 600,
+                textAlign: 'center',
+                fontSize: '20px',
+                fontFamily: 'sans-serif'
+              }}>
+              Zendy te ayuda a comunicarte con tus colaboradores, clientes, proveedores. Chat online, Mesa de Ayuda, Canal de Ventas.
+            </p>
+            <div className='formulario-imagen'
+              style={{
+                display: 'flex',
+                justifyContent: 'center',
+                paddingBottom: '30px',
+              }}>
+              <img src={ZendyTitle} width={'300px'} height={'150px'} />
+            </div>
+            <LinearProgress />
+          </div>
+        )
+      case 7:
+        return (
+          <div className='formulario'
+            style={{
+              padding: '35px',
+              borderRadius: '15px',
+              background: '#fff',
+              width: '40%',
+              border: '0px',
+              boxShadow: 'rgb(0 0 0 / 30%) 6px 6px 6px 6px',
+            }}>
+            <p
+              className='formulario-title'
+              style={{
+                paddingBottom: '30px',
+                fontWeight: 600,
+                textAlign: 'center',
+                fontSize: '20px',
+                fontFamily: 'sans-serif'
+              }}>
+                {statusPassword?'No coincide con la contraseña de ERP porfavor vuelva a ingresar':'Ingrese su contraseña de ERP'}
+              
+            </p>
+            <TextField
+            placeholder='Contraseña de ERP'
+            // name={value.name}
+            type={showPasswordActual ? "text" : "password"}
+            onChange={onChangeOldPassword}
+            value={oldPassword}
+            style={{
+              width: '100%',
+              padding: '10px',
+              boxShadow: 'rgb(0 0 0 / 4%) 5px 1px 3px',
+              borderRadius: '10px' //opcional
+            }}
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton
+                    onClick={() => { setShowPasswordActual(!showPasswordActual) }}
+                    edge="end"
+                    style={{ color: pColor }}
+                  >
+                    {showPasswordActual ? <Visibility /> : <VisibilityOff />}
+                  </IconButton>
+                </InputAdornment>
+              )
+            }}
+          />
+          <span style={{
+              color: "red", display: 'flex', flexDirection: 'column',
+              alignItems: 'center'
+            }}>{errors["oldPassword"]}</span>
+
+            <div className='formulario-imagen'
+              style={{
+                display: 'flex',
+                justifyContent: 'center',
+                paddingBottom: '30px',
+              }}>
+              <img src={ZendyTitle} width={'300px'} height={'150px'} />
+            </div>
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'flex-end',
+              }}
+            >
+              <button
+                style={{
+                  width: '50%',
+                  padding: '15px',
+                  borderRadius: '8px',
+                  border: 'none',
+                  cursor: 'pointer',
+                  display: 'flex',
+                  justifyContent: 'center',
+                  position: 'relative'
+                }}
+              disabled={loadingSavePassword}
+ 
+                onClick={()=>CompararAndEnviarPassword()}
+              >
+                <span>Continuar creando su Perfil </span>
+                <span
+                  style={{
+                    width: '20%',
+                    marginLeft: '4px',
+                    padding: '6px 5px',
+                    borderRadius: '100%',
+                    border: 'none',
+                    cursor: 'pointer',
+                    color: '#fff'
+                  }}>
+                  {loadingSavePassword &&
+                    <CircularProgress
+                      size={24}
+                      color={'secondary'}
+                      sx={{
+                        position: 'absolute',
+                        top: '10%',
+                        left: '10%',
+                        marginTop: '-12px',
+                        marginLeft: '-12px',
+                      }}
+                    />}
+                </span>
+              </button>
+            </div>
+          </div>
+        )
+    }
+  }
+  return (
+    <div id='section-formulario'
+      style={{
+        height: '100vh',
+        display: 'flex',
+        background: '#fff',
+        justifyContent: 'center',
+        alignItems: 'center'
+      }}>
+      
+  {EstadoView(Redireccion)}
     </div>
   )
 }

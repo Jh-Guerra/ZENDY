@@ -50,6 +50,10 @@ class CompanyService {
     async importErpCompanies() {
         return await axios.post( getCustomUrl(apiPrefix, `/import-erp`), {}, defaultHeaders() );
     }
+
+    async VerifyCompanies(ruc) {
+        return await axios.post( getCustomUrl(apiPrefix, `/searchRuc?ruc=${ruc}`), {}, defaultHeaders() );
+    }
    
 }
 
