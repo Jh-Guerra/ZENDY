@@ -7,15 +7,58 @@ import Typography from '@material-ui/core/Typography';
 import ChatIcon from '@material-ui/icons/Chat';
 import ModalFooter from './common/ModalFooter';
 import ImportExportIcon from '@material-ui/icons/ImportExport';
+import { ListRequestNewCompanies,RegisterNewCompanies} from 'services/actions/CompanyAction';
+import { showBackdrop, showSnackBar } from 'services/actions/CustomAction';
 
 const useStyles = makeStyles(theme => ({
 
 }));
 
+
+
 const ModalConfirmImport = (props) => {
 
     const classes = useStyles();
     const { open, handleClose, onConfirm } = props;
+
+    const [dataEntity,SetDataEntity] = React.useState([])
+
+    React.useEffect(()=>{
+        props.dispatch(ListRequestNewCompanies()).then(
+            (res) => {
+                console.log(res)
+                const Array = res.filter((value)=>value.username==null)
+                console.log(Array)
+            },
+            (error) => {
+              props.dispatch(showSnackBar("warning", error.response.data.error || ""));
+              props.dispatch(showBackdrop(false));
+            }
+          );
+    },[])
+
+  
+  const RegisterAllNewCompanies = () => {
+    props.dispatch(RegisterNewCompanies()).then(
+        (res) => {
+
+            if(res.cantidad>0)
+            {
+             props.dispatch(showSnackBar("success", res.descripcion || ""));
+            }
+            else if(res.cantidad==0)
+            {
+            props.dispatch(showSnackBar("warning", res.descripcion || ""));
+            }
+            handleClose();
+        },
+        (error) => {
+          props.dispatch(showSnackBar("error", 'Error Al importar empresas nuevas'|| ""));
+          props.dispatch(showBackdrop(false));
+          handleClose();
+        }
+      );
+  }
 
     return (
         <Modal 
@@ -31,6 +74,7 @@ const ModalConfirmImport = (props) => {
             <ModalBody>
                 <Grid container>
                     <Grid item xs={12}>
+                    
                         <Typography style={{textAlign:"center"}}>¿Esta seguro de realizar el import?</Typography>
                     </Grid>
                 </Grid>
@@ -38,7 +82,7 @@ const ModalConfirmImport = (props) => {
 
             <ModalFooter
                 confirmText="Aceptar"
-                onConfirm={onConfirm}
+                onConfirm={()=>{RegisterAllNewCompanies()}}
                 cancelText="Cancelar"
                 onCancel={handleClose}
             />

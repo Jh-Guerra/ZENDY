@@ -134,7 +134,7 @@ class CompaniesPage extends Component {
           </Typography>
           <p style={{ textAlign: 'end' }}>
             <Button
-              onClick={this.openModalConfirmation}
+               onClick={this.openModalConfirmation}
               variant="contained"
               color="secondary"
               startIcon={<ImportExportIcon />}

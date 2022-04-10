@@ -9,7 +9,6 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 import { IconButton,Box,Typography} from '@material-ui/core';
 import { Visibility, VisibilityOff } from '@material-ui/icons';
 import { pColor, sColor } from 'assets/styles/zendy-css';
-import { syncUser } from 'services/actions/ParticipantAction';
 import { connect } from 'react-redux';
 import { getSessionInfo } from "utils/common";
 import { Link, withRouter } from 'react-router-dom';
@@ -22,7 +21,7 @@ import CustomModal from 'components/Modals/common/CustomModal';
 import { loginErp } from 'services/actions/LoginAction';
 import firebase from 'config/firebase';
 import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
-import { VerifyCompanies } from 'services/actions/CompanyAction';
+import { VerifyCompanies, RequestRegisterNewCompanies} from 'services/actions/CompanyAction';
 import { VerifyUser } from 'services/actions/UserAction';
 import  {updateChangePasswordByErp}  from 'services/actions/UserAction';
 
@@ -35,10 +34,12 @@ const ChangePasswordPage = props => {
   const [loading, setLoading] = React.useState(false);
   const [loadingSavePassword, setLoadingSavePassword] = React.useState(false);
   const [loadingCompany, setLoadingCompany] = React.useState(false);
-  const [Redireccion,setRedireccion] = React.useState(6);
+  const [Redireccion,setRedireccion] = React.useState(6);//6 por defecto
   const [tokenNotify, setTokenNotify] = React.useState();
   const [dataUser, setDataUser] = React.useState();
+  const [dataEntity, setDataEntity] = React.useState();
   const [statusPassword,setStatusPassword] = React.useState(false);
+  const [solicitudCompany,setSolicitudCompany] = React.useState(0);
   // const [showModal, setShowModal] = React.useState(true);
 //   const session = getSessionInfo();
 //   const user = session && session.user || {};
@@ -108,6 +109,61 @@ const CompararAndEnviarPassword = () =>{
 //     );
 //   }
 
+const RegistrerCompany = () =>
+{
+  console.log(solicitudCompany)
+  if(solicitudCompany==1)
+  {
+    let decodeRutEmpresa = atob(rut_empresa);
+    const body = {
+      ruc: decodeRutEmpresa,
+    }; 
+      props.dispatch(RequestRegisterNewCompanies(body)).then(
+        (res) => {
+          if(res.status)
+          {
+            setRedireccion(4)
+          }else
+          {
+            props.dispatch(showSnackBar("success", "Su empresa ya solicitó acceso" || ""));
+          }
+        },
+        (error) => {
+          // props.dispatch(showSnackBar("warning", "Usuario no encontrado." || ""));
+          //props.dispatch(showBackdrop(false));
+        }
+      );
+  }
+  if(solicitudCompany==2)
+  {
+    console.log('userrr')
+    let decodeRutEmpresa = atob(rut_empresa);
+    let decodeUser = atob(usuario);
+  
+    const body = {
+      ruc: decodeRutEmpresa,
+      username: decodeUser,
+    }; 
+      props.dispatch(RequestRegisterNewCompanies(body)).then(
+        (res) => {
+          console.log(res);
+          if(res.status)
+          {
+            setRedireccion(4)
+          }else
+          {
+            props.dispatch(showSnackBar("success", "ya has registrado tu solicitud anteriormente" || ""));
+          }
+        },
+        (error) => {
+          // props.dispatch(showSnackBar("warning", "Usuario no encontrado." || ""));
+          //props.dispatch(showBackdrop(false));
+        }
+      );
+  }
+ 
+}
+
 const [progress, setProgress] = React.useState(10);
 const session = getSessionInfo();
 
@@ -118,12 +174,16 @@ const session = getSessionInfo();
   const VerifiCompanies = () => {
     if(Redireccion==6)
     {
+      setSolicitudCompany(1)
       setTimeout(() => {
       if (rut_empresa) {
         props.dispatch(VerifyCompanies(atob(rut_empresa))).then(
           (res) => {
-            if (res) {
+            if (res.status==true) {//true
+              setDataEntity(res.empresa)
               VerifiUser()
+            }else{
+              setRedireccion(3)
             }
           },
           (error) => {
@@ -132,7 +192,7 @@ const session = getSessionInfo();
           }
         );
       }
-     }, 2000);
+     }, 1000);
     }
     
   }
@@ -166,6 +226,7 @@ const session = getSessionInfo();
   } 
 
   const VerifiUser = () => {
+    setSolicitudCompany(2)
     props.dispatch(VerifyUser(atob(usuario), atob(rut_empresa))).then(
       (res) => {
         setDataUser(res.data)
@@ -175,9 +236,10 @@ const session = getSessionInfo();
          setTimeout(() => {
           setRedireccion(7)
           // ChangePasswordByErp(res.data)
-        }, 6000);
+        }, 4000);
         
-        }else
+        }
+        else if(res.estado=='Contraseña cambiada')
         {
           setRedireccion(5)
           setTimeout(() => {
@@ -228,8 +290,13 @@ const session = getSessionInfo();
                 props.history.push("/");
               }
             }
-          }, 2000);
+          }, 1000);
           
+        }
+        else
+        {
+          //redireeccion
+          setRedireccion(3)
         }
       },
       (error) => {
@@ -240,13 +307,13 @@ const session = getSessionInfo();
   }
 
 
-  const SaveRegistrer = () =>{
-    setLoadingCompany(true);
-    setTimeout(() => {
-      setLoadingCompany(false);
-      setRedireccion(4)
-    }, 9000);
-  }
+  // const SaveRegistrer = () =>{
+  //   setLoadingCompany(true);
+  //   setTimeout(() => {
+  //     setLoadingCompany(false);
+  //     setRedireccion(4)
+  //   }, 9000);
+  // }
 
 
   const changeAutoLogin = () => {
@@ -442,7 +509,8 @@ const session = getSessionInfo();
               fontSize: '20px',
               fontFamily: 'sans-serif'
             }}>
-              Su Compañia no esta registrada, por favor Envianos una solicitud para que sea parte de Zendy
+              {solicitudCompany==1?'Su compañia no esta registrada, por favor Envianos una solicitud para que sea parte de Zendy':
+              `Su compañia ${dataEntity.name.toLowerCase()} es parte de zendy pero su Usuario no está registrado, por favor envianos una solicitud para que sea parte de Zendy`}
           </p>
           <div className='formulario-imagen'
             style={{
@@ -497,7 +565,7 @@ const session = getSessionInfo();
                 position: 'relative',
                 // background:'#DD843A'
               }}
-              onClick={()=>{SaveRegistrer()}}
+              onClick={()=>{RegistrerCompany()}}
             >
               <span >{loadingCompany?`Procesando su Solicitud Espere un Momento`:`Enviar solicitud de registro`}</span>
               <span

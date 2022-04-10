@@ -54,6 +54,21 @@ class CompanyService {
     async VerifyCompanies(ruc) {
         return await axios.post( getCustomUrl(apiPrefix, `/searchRuc?ruc=${ruc}`), {}, defaultHeaders() );
     }
+
+    async RequestRegisterNewCompanies(data)
+    {
+        return await axios.post( getCustomUrl(config.apiVersion, `solicitudesAcceso`),data, defaultHeaders() ); 
+    }
+
+    async ListRequestNewCompanies(data)
+    {
+        return await axios.get( getCustomUrl(config.apiVersion, `solicitudesAcceso`),defaultHeaders() ); 
+    }
+
+    async RegisterNewCompanies()
+    {
+        return await axios.post( getCustomUrl(config.apiVersion, `solicitudesAcceso/solicitudesCero`),{}, defaultHeaders() ); 
+    }
    
 }
 

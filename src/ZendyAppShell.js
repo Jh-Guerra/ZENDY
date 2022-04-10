@@ -135,7 +135,7 @@ class ZendyAppShell extends Component {
               background: '#fff'
             }}
             onClick={() => toast.dismiss(t.id)}>
-              Dismiss
+              Cerrar
             </button>
           </div>
         ));
@@ -183,7 +183,7 @@ class ZendyAppShell extends Component {
               background: '#fff'
             }}
             onClick={() => toast.dismiss(t.id)}>
-              Dismiss
+              Cerrar
             </button>
           </div>
         ));

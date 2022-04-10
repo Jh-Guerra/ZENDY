@@ -60,3 +60,19 @@ export const VerifyCompanies = (ruc) => async dispatch => {
     const res = await companyService.VerifyCompanies(ruc);
     return res && res.data || [];
 }
+
+export const RequestRegisterNewCompanies = (data) => async dispatch => {
+    const res = await companyService.RequestRegisterNewCompanies(data);
+    return res && res.data || [];
+}
+
+export const ListRequestNewCompanies = (data) => async dispatch => {
+    const res = await companyService.ListRequestNewCompanies(data);
+    return res && res.data || [];
+}
+
+export const RegisterNewCompanies = () => async dispatch => {
+    const res = await companyService.RegisterNewCompanies();
+    return res && res.data || [];
+}
+
