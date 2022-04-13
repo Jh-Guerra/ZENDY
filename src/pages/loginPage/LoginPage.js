@@ -147,7 +147,7 @@ const LoginPage = props => {
               props.dispatch(statusConsult(consulta)).then(
                 (res) => {
                   if (res == 'Aceptado') {
-                    props.history.push(`/inicio`);
+                    props.history.push(`/inicio`,1);
                     window.location.reload();
                     props.dispatch(showSnackBar("success", 'La consulta está siendo atendida' || ""));
                   } else {
@@ -157,7 +157,7 @@ const LoginPage = props => {
                 }
               )
             } else {
-              props.history.push("/inicio");
+              props.history.push("/inicio",1);
             }
             props.dispatch(showBackdrop(false));
           },
@@ -174,7 +174,7 @@ const LoginPage = props => {
 
     } else {
       if (session && session.token) {
-        props.history.push("/inicio");
+        props.history.push("/inicio",1);
       } else {
         props.history.push("/");
       }
@@ -259,16 +259,39 @@ const LoginPage = props => {
             document.getElementById('titulo').textContent = 'Zendy';
           };
 
+          var newExcitingAlerts = (function () {
+            var msg = "Has recibido un mensaje!";
+            var timeoutId;
+            var blink = function () { 
+              document.getElementById('titulo').textContent = document.getElementById('titulo').textContent == msg ? 'Zendy' : msg; 
+              document.getElementById('favicon').href = icon2;
+            };
+            var clear = function () {
+              clearInterval(timeoutId);
+              document.getElementById('titulo').textContent = "Zendy";
+              document.getElementById('favicon').href = icon;
+              window.onmousemove = null;
+              timeoutId = null;
+            };
+            return function () {
+              if (!timeoutId) {
+                  timeoutId = setInterval(blink, 1);
+                  window.onmousemove = clear;
+              }
+          };
+          }());
+
           const user = res.user || {};
           window.Echo.private("user." + user.id).listen('notificationMessage', (e) => {
             props.dispatch(listActiveChats("", "Vigente", false));
             const audio = new Audio(sonido);
             audio.play();
-            document.getElementById('favicon').href = icon2;
-            document.getElementById('titulo').textContent = "Haz recibido un mensaje";
-            setInterval(() => {
-              changePestaña()
-            }, 9000)
+            newExcitingAlerts();
+            // document.getElementById('favicon').href = icon2;
+            // document.getElementById('titulo').textContent = "Haz recibido un mensaje";
+            // setInterval(() => {
+            //   changePestaña()
+            // }, 9000)
           });
 
           window.Echo.private("consulta." + user.id).listen('ConsultaNotification', (e) => {
@@ -313,7 +336,7 @@ const LoginPage = props => {
                   background: '#fff'
                 }}
                 onClick={() => toast.dismiss(t.id)}>
-                  Dismiss
+                  Cerrar
                 </button>
               </div>
             ));
@@ -361,14 +384,108 @@ const LoginPage = props => {
                   background: '#fff'
                 }}
                 onClick={() => toast.dismiss(t.id)}>
-                  Dismiss
+                  Cerrar
+                </button>
+              </div>
+            ));
+          })
+
+          window.Echo.private("aceptarConsulta." + user.id).listen('AceptarConsulta', (e) => {
+            console.log(e.contenido);
+            toast((t) => (
+              <div
+              className='Contorno'
+              style={{
+                display: 'flex',
+                flexDirection: 'row',
+                alignItems: 'center',
+                width:'900px'
+             }}>
+                <div 
+                  style={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    marginRight:'15px'
+                  }}>
+                  <img src={`https://www.zendy.cl/${e.contenido.avatar}`} width={'50px'} height={'50px'} />
+                </div>
+               <div
+               style={{
+                marginRight:'15px',
+                width:'180px'
+              }}>
+               <div
+                  >
+                <p><strong>CONSULTA ACEPTADA</strong></p>
+                </div>
+                <div
+                  >
+                <p>{e.contenido.mensaje}</p>
+                </div>
+               </div>
+                <button 
+                style={{
+                  borderLeft: '1px solid #000',
+                  padding:'10px',
+                  color:'blue',
+                  border: 'none',
+                  background: '#fff'
+                }}
+                onClick={() => toast.dismiss(t.id)}>
+                  Cerrar
+                </button>
+              </div>
+            ));
+          })
+
+          window.Echo.private("cierreConsulta." + user.id).listen('CierreConsulta', (e) => {
+            console.log(e.contenido);
+            toast((t) => (
+              <div
+              className='Contorno'
+              style={{
+                display: 'flex',
+                flexDirection: 'row',
+                alignItems: 'center',
+                width:'900px'
+             }}>
+                <div 
+                  style={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    marginRight:'15px'
+                  }}>
+                  <img src={`https://www.zendy.cl/${e.contenido.avatar}`} width={'50px'} height={'50px'} />
+                </div>
+               <div
+               style={{
+                marginRight:'15px',
+                width:'180px'
+              }}>
+               <div>
+                <p><strong>CONSULTA FINALIZADA</strong></p>
+                </div>
+                <div
+                  >
+                <p>{e.contenido.mensaje}</p>
+                </div>
+               </div>
+                <button 
+                style={{
+                  borderLeft: '1px solid #000',
+                  padding:'10px',
+                  color:'blue',
+                  border: 'none',
+                  background: '#fff'
+                }}
+                onClick={() => toast.dismiss(t.id)}>
+                  Cerrar
                 </button>
               </div>
             ));
           })
           
-
-          props.history.push("/inicio");
+          props.history.push("/inicio",1);
           props.dispatch(showBackdrop(false));
         },
         (error) => {
@@ -378,6 +495,8 @@ const LoginPage = props => {
       );
     }
   };
+
+
 
   return (
     <>

@@ -119,6 +119,7 @@ export const defaultHeaders = () => {
   const token = session.token || "";
   const user = session.user || {};
   const idCompany = user.idCompany || null;
+  const idHelpDesk = user.idHelpDesk || null;
 
   return {
       headers: {
@@ -126,7 +127,8 @@ export const defaultHeaders = () => {
           Authorization: `token ${token}`
       },
       params: {
-        idCompany: idCompany
+        idCompany: idCompany,
+        // idHelpDesk: idHelpDesk
       }
   }
 };

@@ -24,6 +24,7 @@ import ModalNotificationTo from '../ModalNotificationTo';
 import ModalNotificationCompanyTo from '../ModalNotificationCompanyTo';
 import ModalPasswordChange from '../ModalPasswordChange';
 import ModalHelpDesks from '../ModalHelpDesks';
+import ModalCarrusel from '../ModalCarrusel';
 
 const CustomModal = (props) => {
     const getCustomModal = (customModal) => {
@@ -74,6 +75,8 @@ const CustomModal = (props) => {
                 return <ModalPasswordChange {...props}/>
             case "ModalHelpDesks":
                 return <ModalHelpDesks {...props}/>
+            case "ModalCarrusel":
+                return <ModalCarrusel {...props}/>
             default:
                 return null;
         }

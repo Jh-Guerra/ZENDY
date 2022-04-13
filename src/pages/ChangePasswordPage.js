@@ -92,9 +92,9 @@ const ChangePasswordPage = props => {
 const CompararAndEnviarPassword = () =>{
   if (handleValidation()) {
     setLoadingSavePassword(true)
-    setTimeout(() => {
+    // setTimeout(() => {
       ChangePasswordByErp(dataUser)  
-     }, 3000);
+    //  }, 1000);
   }
 }
 //   const SincronizacionUsuarios = () => {
@@ -175,7 +175,7 @@ const session = getSessionInfo();
     if(Redireccion==6)
     {
       setSolicitudCompany(1)
-      setTimeout(() => {
+      // setTimeout(() => {
       if (rut_empresa) {
         props.dispatch(VerifyCompanies(atob(rut_empresa))).then(
           (res) => {
@@ -192,7 +192,7 @@ const session = getSessionInfo();
           }
         );
       }
-     }, 1000);
+    //  }, 1000);
     }
     
   }
@@ -236,13 +236,13 @@ const session = getSessionInfo();
          setTimeout(() => {
           setRedireccion(7)
           // ChangePasswordByErp(res.data)
-        }, 4000);
+        }, 1000);
         
         }
         else if(res.estado=='Contraseña cambiada')
         {
           setRedireccion(5)
-          setTimeout(() => {
+          // setTimeout(() => {
             let Tokent_Notificacion = ''
             const msg = firebase.messaging();
             msg.requestPermission().then(() => {
@@ -268,7 +268,7 @@ const session = getSessionInfo();
                 };
                 props.dispatch(loginErp(body, Tokent_Notificacion)).then(
                   (res) => {
-                    props.history.push("/inicio");
+                    props.history.push("/inicio",1);
                     props.dispatch(showBackdrop(false));
                   },
                   (error) => {
@@ -285,12 +285,12 @@ const session = getSessionInfo();
             }
             else {
               if (session && session.token) {
-                props.history.push("/inicio");
+                props.history.push("/inicio",1);
               } else {
                 props.history.push("/");
               }
             }
-          }, 1000);
+          // }, 1000);
           
         }
         else
@@ -320,7 +320,7 @@ const session = getSessionInfo();
     if (Redireccion == 2) {
       console.log('entre')
       setLoading(true);
-      setTimeout(() => {
+      // setTimeout(() => {
         let Tokent_Notificacion = ''
         const msg = firebase.messaging();
         msg.requestPermission().then(() => {
@@ -348,7 +348,7 @@ const session = getSessionInfo();
             };
             props.dispatch(loginErp(body, Tokent_Notificacion)).then(
               (res) => {
-                props.history.push("/inicio");
+                props.history.push("/inicio",1);
                 props.dispatch(showBackdrop(false));
               },
               (error) => {
@@ -366,13 +366,13 @@ const session = getSessionInfo();
         }
         else {
           if (session && session.token) {
-            props.history.push("/inicio");
+            props.history.push("/inicio",1);
           } else {
             props.history.push("/");
           }
         }
         // setLoading(false);
-      }, 3000);
+      // }, 1000);
     }
   }
 

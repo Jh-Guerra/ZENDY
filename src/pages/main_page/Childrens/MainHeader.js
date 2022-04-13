@@ -26,6 +26,7 @@ const MainHeader = props => {
   const [showAddToConversation, setShowAddToConversation] = useState(false);
   const [searchTimeout, setSearchTimeout] = React.useState(null);
   const [term, setTerm] = React.useState('');
+  const [infoCompany, setInfoCompany] = React.useState();
 
   const handleChatDetail = () => {
     setShowChatDetail(true);
@@ -72,6 +73,25 @@ const MainHeader = props => {
     }
   })
 
+  // var company=[];
+  // var companyAdmin=[]
+  // chat.participants && chat.participants.filter((participant)=>{
+  //   if(participant.type=="Admin")
+  //   {
+  //    company.push({
+  //     nameCompany: participant.userCompanyRecep.nameCompany,
+  //     rutCompany: participant.userCompanyRecep.rutCompany,
+  //     admin: false
+  //   })
+  //   }else{
+  //     companyAdmin.push({
+  //       nameCompany: participant.userCompanyRecep.nameCompany,
+  //       rutCompany: participant.userCompanyRecep.rutCompany,
+  //       admin: true
+  //     })
+  //   }
+  // })
+
   const onEndChat = (data) => {
     setShowModalEndChat(false);
     props.onEndChat && props.onEndChat(data);
@@ -108,7 +128,10 @@ const MainHeader = props => {
               {
                 companyName && (
                   <div className="chat-header-company">
+                    
                     <Typography>{companyName} { ruc && `- ${ruc}`}</Typography>
+                    {/* {companyAdmin}
+                    <Typography>{company[0].nameCompany} { companyAdmin[0].rutCompany && `- ${companyAdmin[0].rutCompany}`}</Typography> */}
                   </div>
                 )
             }
