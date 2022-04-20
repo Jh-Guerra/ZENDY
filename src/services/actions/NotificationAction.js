@@ -74,3 +74,8 @@ export const updateListCompaniesNotified = (id, data) => async dispatch => {
     const res = await service.updateListCompaniesNotified(id, data);
     return res && res.data;
 }
+
+export const conteoChats = () => async dispatch =>{
+    const res = await service.conteoChats();
+    return res && res.data;
+}

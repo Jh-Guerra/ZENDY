@@ -105,6 +105,9 @@ const ModalEndChat = (props) => {
                                             value={finalizeDescription}
                                         />
                                     </Grid>
+                                    <Grid item xs={12} className={classes.margin}>
+                                        <Typography variant="h6" gutterBottom >*Para su información se eliminarán todas las consultas pendientes del usuario al que se lo atendió </Typography>
+                                    </Grid>
                                 </Grid>
                             </>
                         )

@@ -105,3 +105,8 @@ export const updateChangePasswordByErp = (id, data) => async dispatch => {
     const res = await userService.updateChangePasswordByErp(id, data);
     return res && res.data || [];
 }
+
+export const RegisterNewUser = () => async dispatch => {
+    const res = await userService.RegisterNewUser();
+    return res && res.data || [];
+}

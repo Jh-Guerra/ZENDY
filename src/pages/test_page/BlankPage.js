@@ -16,7 +16,6 @@ class BlankPage extends Component {
   }
 
   async componentDidMount() {
-    console.log(this.props)
     if(this.props.location.state==1)
     {
       this.setState({ open: true });

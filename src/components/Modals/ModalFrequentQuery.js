@@ -10,7 +10,7 @@ import GetAppIcon from '@material-ui/icons/GetApp';
 import { Form, Formik } from 'formik';
 import { trimObject, modulesQuery, getSessionInfo } from 'utils/common';
 import TitleIcon from '@material-ui/icons/Title';
-import {createEntryQuery} from 'services/actions/EntryQueryAction';
+import {createEntryQuery,consultaPendiente} from 'services/actions/EntryQueryAction';
 import { showBackdrop , showSnackBar} from 'services/actions/CustomAction';
 import defaultCompany from 'assets/images/defaultCompany.png';
 import config from 'config/Config';
@@ -104,23 +104,35 @@ const ModalFrequentQuery = props => {
   };
 
   const onSubmit = (entryQuery, { setSubmitting }) => {
-    props.dispatch(showBackdrop(true));
+    // props.dispatch(consultaPendiente()).then(res => {
+    //   if(res.status)
+    //   {
+        props.dispatch(showBackdrop(true));
 
-    const formData = new FormData();
-    formData.append("reason", entryQuery.reason)
-    formData.append('description', entryQuery.description)
-    formData.append('idModule', entryQuery.idModule)
-    formData.append('idHelpdesk', idHelpdesk);
+        const formData = new FormData();
+        formData.append("reason", entryQuery.reason)
+        formData.append('description', entryQuery.description)
+        formData.append('idModule', entryQuery.idModule)
+        formData.append('idHelpdesk', idHelpdesk);
 
-    props.dispatch(createEntryQuery(formData)).then(res => {
-      props.dispatch(showSnackBar('success', 'Consulta registrada'));
+        props.dispatch(createEntryQuery(formData)).then(res => {
+          props.dispatch(showSnackBar('success', 'Consulta registrada'));
           props.dispatch(showBackdrop(false));
-        onSaveForm && onSaveForm();
-        history.push("/consultas/" + res.entryQuery.id);
-      }).catch(error => {
-        props.dispatch(showBackdrop(false));
-        props.dispatch(showSnackBar("error", error.message || ""));
-      });          
+          onSaveForm && onSaveForm();
+          history.push("/consultas/" + res.entryQuery.id);
+        }).catch(error => {
+          props.dispatch(showBackdrop(false));
+          props.dispatch(showSnackBar("error", error.message || ""));
+        }); 
+    //   }else{
+    //     props.dispatch(showSnackBar('warning', 'Usted ya creo una consulta, termine esa consulta para poder crear otra'));
+    //     handleClose();
+    //   }
+    //   console.log(res)
+    // }).catch(error => {
+    //   props.dispatch(showSnackBar("error", error.message || ""));
+    // });  
+            
   };
 
   const onEdit = () => {

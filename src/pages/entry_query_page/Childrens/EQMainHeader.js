@@ -28,11 +28,13 @@ const EQMainHeader = props => {
   const onOpenModalDelete = () => {
     setShowModalDelete(true);
   }
-
+  // console.log(entryQuery.company.name)
   var image = entryQuery.user && entryQuery.user.avatar || "";
   var defaultImageType =entryQuery.user && entryQuery.user.sex || "O";
   var name = entryQuery.user && (entryQuery.user.firstName + ' ' + entryQuery.user.lastName) || "";
   var status = entryQuery.status || "";
+  var company = entryQuery.company?.name || "";
+  var ruc = entryQuery.company?.ruc || "";
 
   return (
     <Grid container className="chat-header">    
@@ -53,7 +55,7 @@ const EQMainHeader = props => {
                 <Typography noWrap variant="h5">{name}</Typography>
               </div>
               <div>
-                <Typography style={{fontSize:"14px"}}>{status}</Typography>
+                <Typography style={{fontSize:"14px"}}>{company} { ruc && `- ${ruc}`}</Typography>
               </div>
             </Grid>
           </Grid>

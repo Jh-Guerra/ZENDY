@@ -1,0 +1,17 @@
+.contenido{
+    height: 77vh;
+    padding: 100px;
+    background-color: #888;
+    color: 878787;
+    align-items: center;
+    justify-content: center;
+}
+
+.contenido p{
+    border: 5px dashed #575757;
+    padding: 100px;
+    font-size: 20px;
+    font-weight: 500;
+    color: #4A4A4A;
+    text-align: center;
+}

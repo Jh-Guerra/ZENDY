@@ -6,6 +6,7 @@ import SearchIcon from '@material-ui/icons/Search';
 import { listActiveChats } from 'services/actions/ChatAction';
 import { useHistory } from 'react-router-dom';
 import { showBackdrop } from 'services/actions/CustomAction';
+import { count_queries_actives } from 'services/actions/CountAction';
 
 const styles = theme => ({
   search: {
@@ -52,6 +53,27 @@ const ActiveEntryQueries = props => {
 
   const chats = chatRx && chatRx.currentChats || [];
 
+  React.useEffect(() => {
+    const newArray = chats.filter((value) => value.participation.pendingMessages !== 0);
+    props.dispatch(count_queries_actives(newArray.length));
+  }, [chats])
+//  console.log("CHATS CONSULTAS",chats)
+//   React.useEffect(() => {
+//       const newArray = chats.filter((value) => value.idEntryQuery > 0);
+//       console.log(newArray);
+//     // let contador=0;
+//     //  chats.filter((value)=>{
+//     //    if(value.idEntryQuery !==null)
+//     //    {
+//     //     contador = contador + 1
+//     //    }
+//     //  })
+//     // // const newArray = chats.lenght;
+//     // console.log(contador)
+//     // //  console.log(newArray.lenght)
+//     // props.dispatch(count_queries_actives(contador));
+//   }, [chats])
+
   return (
     <div style={{ height: "79vh" }}>
       <Grid container style={{height: "100%"}}>
@@ -94,6 +116,7 @@ const ActiveEntryQueries = props => {
                     <ItemChatRow
                       key={i}
                       chat={chat}
+                      // type={2}
                       goToChat={goToChat}
                     />
                   );

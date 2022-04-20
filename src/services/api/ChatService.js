@@ -51,6 +51,14 @@ class ChatService {
     async listFinalizeChats(term, fromDate, toDate, isQuery=false) {
         return await axios.get( getCustomUrl(apiPrefix, `/finalize-list?term=${term}&fromDate=${fromDate}&toDate=${toDate}&isQuery=${isQuery}`), isQuery ? defaultHeadersForEntryQuery() : defaultHeaders());
     }
+    async listUserHD() {
+        return await axios.get( getCustomUrl(apiPrefix, `/usersHD`), defaultHeaders());
+    }
+
+    async searchlistFinalize(term, fromDate, toDate, isQuery=false,id,isHelpDesk) {
+        return await axios.post(getCustomUrl(apiPrefix, `/searchlistFinalize?id=${id > 0 ? id :''}&term=${term}&isHelpDesk=${isHelpDesk}&fromDate=${fromDate}&toDate=${toDate}&isQuery=${isQuery}`),{}, isQuery ? defaultHeadersForEntryQuery() : defaultHeaders());
+    }
 }
+
 
 export default ChatService;

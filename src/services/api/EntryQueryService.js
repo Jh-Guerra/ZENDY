@@ -60,6 +60,10 @@ class EntryQueryService {
     async statusConsult(id) {
         return await axios.get( getCustomUrl(apiPrefix, `/estadoConsulta/${id}`), defaultHeaders());
     }
+    
+    async consultaPendiente() {
+        return await axios.get( getCustomUrl(apiPrefix, `/consultaPendiente`), defaultHeaders());
+    }
 
 }
 

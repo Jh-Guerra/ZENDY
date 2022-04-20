@@ -58,13 +58,19 @@ const ChatHistoryPage = (props) => {
           {...props}
         />
       </Grid>
-      <Grid item xs={12} style={{height:'77vh'}}>
-        <CHMainBody
+     
+      <Grid className='mainPage' item xs={12} style={{height:'77vh'}}>
+      <div className="contenido" style={{display : "none"}}>
+            <p>Arrastre el archivo aqui</p>
+      </div>
+       <div className="contenido2">
+       <CHMainBody
           {...props}
           messages={messages}
           chat={chat}
           user={user}
         />
+       </div>
       </Grid>
       <Grid item xs={12} style={{height:'10vh'}}>
         <CHMainFooter

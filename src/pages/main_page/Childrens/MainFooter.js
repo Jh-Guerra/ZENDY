@@ -1,5 +1,4 @@
 import React, { createRef, useRef } from "react";
-
 import "assets/styles/zendy-app.css";
 import SendIcon from '@material-ui/icons/Send';
 import IconButton from '@material-ui/core/IconButton';
@@ -18,6 +17,7 @@ import { listActiveChats } from "services/actions/ChatAction";
 import { Grid } from '@material-ui/core';
 import { ButtonColor } from "assets/styles/zendy-css";
 import { showBackdrop } from "services/actions/CustomAction";
+import './MainFooter.css'
 
 const MainFooter = props => {
   const inputRef = createRef();
@@ -34,6 +34,8 @@ const MainFooter = props => {
   const [uploadFile, setUploadFile] = React.useState(null);
   const [fileExtension, setFileExtension] = React.useState(null);
   const [sendingMessage, setSendingMessage] = React.useState(false);
+  const [imgPasteInput, setImgPasteInput] = React.useState(false);
+  const [filePasteInput, setFilePasteInput] = React.useState(false);
 
   React.useEffect(() => {
     inputRef.current.selectionEnd = cursorPosition;
@@ -46,6 +48,7 @@ const MainFooter = props => {
     }
 
     if (type == "image" && !uploadImage) {
+      console.log(uploadImage);
       return;
     }
 
@@ -56,15 +59,14 @@ const MainFooter = props => {
     setSendingMessage(true)
     const imageInput = document.querySelector('#upload-image');
     const fileInput = document.querySelector('#upload-file');
-
     const formData = new FormData();
     formData.append("idChat", chat.id);
     formData.append("message", comentary || msg);
     formData.append("resend", resend);
-    formData.append('image', imageInput.files[0] || null);
-    formData.append('file', fileInput.files[0] || null);
-    
-    if(!sendingMessage){
+    formData.append('image', imgPasteInput ? imgPasteInput : imageInput.files[0] || null);
+    formData.append('file', filePasteInput ? filePasteInput : fileInput.files[0] || null);
+
+    if (!sendingMessage) {
       props.dispatch(createMessage(formData)).then((res) => {
         setMsg("");
         setSendingMessage(false)
@@ -73,15 +75,17 @@ const MainFooter = props => {
         setShowPreviewFile(false);
         setUploadImage(null);
         setUploadFile(null);
-        props.dispatch(listActiveChats("", "Vigente", chat.isQuery ? true : false)); 
+        props.dispatch(listActiveChats("", "Vigente", chat.isQuery ? true : false));
         document.getElementById('upload-image').value = "";
         document.getElementById('upload-file').value = "";
+        setImgPasteInput(null);
       }).catch(error => {
         setSendingMessage(false)
         setUploadImage(null);
         setUploadFile(null);
         document.getElementById('upload-image').value = "";
         document.getElementById('upload-file').value = "";
+        setImgPasteInput(null);
       })
     }
   }
@@ -120,12 +124,82 @@ const MainFooter = props => {
   function processImage(event) {
     if (event && event.target.files && event.target.files.length > 0) {
       const imageFile = event.target.files[0];
+      console.log(imageFile)
       const imageUrl = URL.createObjectURL(imageFile);
       setUploadImage(imageUrl)
       setShowPreviewImage(true);
     } else {
       setUploadImage(null)
     }
+  }
+
+
+
+  var paste = document.getElementById('filePaste')
+
+  function validateFile(file) {
+    const Type = file.type
+    const validExtensions = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif'];
+
+    if (validExtensions.includes(Type)) {
+      setImgPasteInput(file)
+      const fileReader = new FileReader()
+      fileReader.addEventListener('load', (e) => {
+        const imageUrl = fileReader.result
+        setUploadImage(imageUrl)
+        setShowPreviewImage(true)
+      })
+      fileReader.readAsDataURL(file);
+
+    } else {
+      setFilePasteInput(file)
+      const fileReader = new FileReader()
+      fileReader.addEventListener('load', (e) => {
+        const imageUrl = fileReader.result
+        setUploadFile(imageUrl)
+        setShowPreviewFile(true)
+      })
+      fileReader.readAsDataURL(file)
+      setFileExtension(file.type)
+    }
+  }
+
+  function showFiles(files) {
+    if (files.length === undefined) {
+      validateFile(files)
+    } else {
+      for (const file of files) {
+        validateFile(file)
+      }
+    }
+  }
+
+  if (paste) {
+    paste.addEventListener("drop", (e) => {
+      e.preventDefault()
+      let files = e.dataTransfer.files[0]
+      showFiles(files)
+    }, false);
+
+    paste.addEventListener('paste', (event) => {
+      var items = (event.clipboardData || event.originalEvent.clipboardData).items;
+      var blob = items[0].getAsFile();
+      if (blob !== null) {
+        if (blob.type.substring(0, 5) == 'image') {
+          setImgPasteInput(blob)
+          const imageUrl = URL.createObjectURL(blob)
+          setUploadImage(imageUrl)
+          setShowPreviewImage(true)
+        }
+        if (blob.type.substring(0, 5) == 'appli') {
+          setFilePasteInput(blob);
+          const fileUrl = URL.createObjectURL(blob)
+          setUploadFile(fileUrl)
+          setShowPreviewFile(true)
+          setFileExtension(blob.type)
+        }
+      }
+    });
   }
 
   function processFile(event) {
@@ -139,6 +213,47 @@ const MainFooter = props => {
       setUploadFile(null)
     }
   }
+
+  const area = document.querySelector(".mainPage")
+
+  if (area) {
+    area.addEventListener("dragover", (e) => {
+      e.preventDefault()
+      let mensaje = document.querySelector(".contenido")
+      let chat = document.querySelector(".contenido2")
+      if (mensaje && chat) {
+        mensaje.style.display = "block"
+        chat.style.display = "none";
+        setTimeout(() => {
+          mensaje.style.display = "none"
+          chat.style.display = "block";
+        }, 4000);
+      }
+    })
+
+    // area.addEventListener("dragleave", (e) => {
+    //   let mensaje = document.querySelector(".contenido")
+    //   let chat = document.querySelector(".contenido2")
+    //   if (mensaje && chat) {
+    //     mensaje.style.display = "none"
+    //     chat.style.display = "block";
+    //   }
+    // })
+
+    area.addEventListener("drop", (e) => {
+      e.preventDefault()
+      let mensaje = document.querySelector(".contenido")
+      let chat = document.querySelector(".contenido2")
+      if (mensaje && chat) {
+        mensaje.style.display = "none"
+        chat.style.display = "block";
+        let files = e.dataTransfer.files[0]
+        showFiles(files)
+      }
+    })
+  }
+
+
 
   return (
     <>
@@ -179,6 +294,7 @@ const MainFooter = props => {
         <Grid item xs={9}>
           <InputBase
             style={{ width: '100%' }}
+            id="filePaste"
             type="text"
             placeholder="Escribe un mensaje aquí."
             onChange={onStateChange}

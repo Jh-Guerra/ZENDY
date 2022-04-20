@@ -7,6 +7,7 @@ import { listActiveChats } from 'services/actions/ChatAction';
 import NewChatCall from './NewChatCall';
 import { useHistory } from 'react-router-dom';
 import { showBackdrop } from 'services/actions/CustomAction';
+import { count_chats } from 'services/actions/CountAction';
 
 const styles = theme => ({
   search: {
@@ -56,6 +57,11 @@ const CurrentChat = props => {
 
   const chats = chatRx && chatRx.currentChats || [];
 
+  React.useEffect(() => {
+    const newArray = chats.filter((value) => value.participation.pendingMessages !== 0);
+    props.dispatch(count_chats(newArray.length));
+  }, [chats])
+
   return (
     <div style={{ height: "79vh" }}>
       <Grid container style={{height: "100%"}}>
@@ -101,6 +107,7 @@ const CurrentChat = props => {
                     <ItemChatRow
                       key={i}
                       chat={chat}
+                      // type={1}
                       goToChat={goToChat}
                     />
                   );

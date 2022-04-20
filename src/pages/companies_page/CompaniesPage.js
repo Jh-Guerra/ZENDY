@@ -166,6 +166,7 @@ class CompaniesPage extends Component {
           {...this.props}
           open={showModalConfirmation}
           handleClose={() => { this.setState({showModalConfirmation: false }) }}
+          type='companies'
           onConfirm={this.onConfirmImport}
         />
         <ModalDelete

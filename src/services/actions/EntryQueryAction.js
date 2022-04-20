@@ -80,3 +80,8 @@ export const statusConsult = (id) => async dispatch => {
     const res = await service.statusConsult(id);
     return res && res.data || [];
 }
+
+export const consultaPendiente  = () => async dispatch => {
+    const res = await service.consultaPendiente ();
+    return res && res.data || [];
+}

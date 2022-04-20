@@ -30,8 +30,18 @@ import TextsmsIcon from '@material-ui/icons/Textsms';
 import BusinessIcon from '@material-ui/icons/Business';
 import CommentIcon from '@material-ui/icons/Comment';
 import HistoryQuery from './Childrens/HistoryQuery';
+import Badge from "@material-ui/core/Badge";
+import { makeStyles } from "@material-ui/core/styles";
 
 const moreActionSection = { name:"moreActions", title:"Más Opciones", order:5, active: true};
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    "& > *": {
+      margin: theme.spacing(1)
+    }
+  }
+}));
 
 const TabPanel = (props) => {
   const { children, value, index, ...other } = props;
@@ -117,11 +127,18 @@ const MiniDrawer = (props) => {
   }, []);
 
   const logOut = () => {
-    props.dispatch(updateStatus(session.user.id, '0' ))
-    localStorage.clear();
-    history.push("/");
+    // window.location.reload();
+    // setTimeout(() => {
+      props.dispatch(updateStatus(session.user.id, '0' ))
+      localStorage.clear();
+      // window.location.reload();
+      history.push("/");
+      //  setTimeout(() => {
+      //   history.push("/");
+      // }, 400);
+    // }, 400);
+   
   }
-
   const updateTabByView = (path) => {
     
   }
@@ -161,19 +178,40 @@ const MiniDrawer = (props) => {
   const getIcon = (sectionName) => {
     switch (sectionName) {
       case "vigentChats":
-        return <ForumIcon/>
+        return (
+          <div className={classes.root}> 
+            <Badge color="secondary" overlap="circular" badgeContent={props.countRx?.count_chats>0?props.countRx?.count_chats:null} showZero>
+            <ForumIcon/>
+            </Badge>
+          </div>
+          )
+        // return <ForumIcon/>
       case "adminEntryQueries":
       case "companyEntryQueries":
       case "myEntryQueries":
-        return <ModeCommentIcon/>
+        return (
+          <div className={classes.root}> 
+            <Badge color="secondary" overlap="circular" badgeContent={props.countRx?.count_queries_slopes>0?props.countRx?.count_queries_slopes:null} showZero>
+            <ModeCommentIcon/>
+            </Badge>
+          </div>
+          )
+        // return <ModeCommentIcon/>
       case "activeEntryQueries":
-        return <CommentIcon/>
+        return (
+          <div className={classes.root}> 
+            <Badge color="secondary" overlap="circular" badgeContent={props.countRx?.count_queries_actives>0?props.countRx?.count_queries_actives:null} showZero>
+            <CommentIcon/>
+            </Badge>
+          </div>
+          )
+        // return <CommentIcon/>
       case "recommendations":
         return <TextsmsIcon/>
       case "adminNotifications":
       case "companyNotifications":
       case "myNotifications":
-        return <NotificationsActiveIcon/>
+        return <NotificationsActiveIcon />
       case "adminReportedErrors":
       case "companyReportedErrors":
       case "myReportedErrors":
@@ -219,6 +257,8 @@ const MiniDrawer = (props) => {
     history.push(`/${route}`);
   }
 
+  const classes = useStyles();
+
   return (
     <>
       <Drawer variant="permanent" className="all-heigth mini-drawer">
@@ -241,8 +281,8 @@ const MiniDrawer = (props) => {
                     mainSections && mainSections.map((section,index)=>{
                       return (
                         <Tooltip key={index} title={section.title}>
-                          <Tab className="mini-drawer-tab" icon={getIcon(section.name)}/>
-                        </Tooltip>
+                            <Tab className="mini-drawer-tab" icon={getIcon(section.name)}/>
+                            </Tooltip>
                       );
                     })
                   }

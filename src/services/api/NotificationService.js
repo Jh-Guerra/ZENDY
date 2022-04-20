@@ -52,6 +52,10 @@ class NotificationService {
     async updateListCompaniesNotified(id, data) {
         return await axios.post( getCustomUrl(apiPrefix, `/update-companies-notified/` + id), data, defaultHeaders() );
     }
+
+    async conteoChats() {
+        return await axios.get( getCustomUrl(apiPrefix, `/conteoChats`), defaultHeaders());
+    }
 }
 
 export default NotificationService;

@@ -21,15 +21,61 @@ const MainPage = (props) => {
 
   const [chat, setChat] = React.useState({});
   const [messages, setMessages] = React.useState([]);
+ 
+  console.log(props.countRx.id_chats)
+  React.useEffect(() => {
+    console.log(props.countRx.id_chats)
+    if(props.countRx.id_chats>0){
+      const chatId = props.countRx.id_chats;
+      console.log(chatId)
+      if(chatId){
+        onGetChatData(chatId);
+        onListMessages(chatId, "");
+        props.dispatch(resetPendingMessages(chatId)).catch(err => history.push("/inicio"));
+        const chats = props.chatRx && props.chatRx.currentChats || [];
+        const updatedChats = chats.map(c => {
+          if(c.id == chatId){
+            c.participation = {
+              ...c.participation,
+              pendingMessages: 0
+            };
+          }
+          return c;
+        })
 
-  React.useEffect(()=> {
-    
-  }, []);
+        updateActiveChats(updatedChats);
+        window.Echo.private("chats." + chatId).listen('sendMessage', (e) => {
+          const newMessage = e && e.message;
+          const newUser = e && e.user || {};
+          const currentMessages = localStorage.getItem("messages") ? JSON.parse(localStorage.getItem("messages")) : [];
+          newMessage.userFirstName = newUser.firstName;
+          newMessage.userLastName = newUser.lastName;
+          newMessage.userSex = newUser.sex;
+          newMessage.userAvatar = newUser.avatar;
+          newMessage.userId = newUser.id;
+
+          const newMessages = [...currentMessages, newMessage] || [];
+          localStorage.setItem("messages", JSON.stringify(newMessages));
+          setMessages(newMessages);
+          props.dispatch(listActiveChats("", "Vigente", chat.isQuery ? true : false)); 
+          props.dispatch(resetPendingMessages(e && e.chatId)).catch(err => history.push("/inicio"));
+        })
+      }else{
+        history.push("/inicio");
+      }
+    }
+
+    return () => {
+      window.Echo.leave("chats."+localStorage.getItem("currentChatId"));
+    }
+  }, [props.countRx.id_chats>0]);
 
   React.useEffect(() => {
+    
     if(props.location.pathname){
       const pathArray = props.location.pathname.split("/");
       const chatId = pathArray && pathArray[2];
+      console.log(chatId)
       if(chatId){
         onGetChatData(chatId);
         onListMessages(chatId, "");
@@ -113,13 +159,19 @@ const MainPage = (props) => {
           {...props}
         />
       </Grid>
-      <Grid item xs={12} style={{height:'77vh'}}>
-        <MainBody
+   
+      <Grid className='mainPage' item xs={12} style={{height:'77vh'}}>
+      <div className="contenido" style={{display : "none"}}>
+            <p>Arrastre el archivo aqui</p>
+      </div>
+       <div className="contenido2">
+       <MainBody
           {...props}
           messages={messages}
           chat={chat}
           user={user}
         />
+       </div>
       </Grid>
       <Grid item xs={12} style={{height:'10vh'}}>
         <MainFooter

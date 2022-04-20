@@ -124,7 +124,7 @@ class UsersPage extends Component {
             Usuarios
           </Typography>
           <p style={{textAlign:'end'}}>
-          <Button
+          {/* <Button
               onClick={this.openModalConfirmation}
               variant="contained"
               color="secondary"
@@ -132,7 +132,7 @@ class UsersPage extends Component {
               style={{margin:"0px 15px"}}
             >
               Importar Usuarios
-            </Button>
+            </Button> */}
             <Button
               onClick={this.openModalConfirmation}
               variant="contained"
@@ -170,6 +170,7 @@ class UsersPage extends Component {
           {...this.props}
           open={showModalConfirmation}
           handleClose={() => { this.setState({showModalConfirmation: false }) }}
+          type='user'
           onConfirm={this.onConfirmImport}
         />
         <ModalDelete

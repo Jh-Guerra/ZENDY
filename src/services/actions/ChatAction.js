@@ -64,3 +64,13 @@ export const listFinalizeChats = (term, fromDate, toDate, isQuery) => async disp
     const res = await service.listFinalizeChats(term, fromDate, toDate, isQuery);
     return res && res.data || [];
 }
+
+export const listUserHD = () => async dispatch => {
+    const res = await service.listUserHD();
+    return res && res.data || [];
+}
+
+export const searchlistFinalize = (term, fromDate, toDate, isQuery, id , isHelpDesk) => async dispatch => {
+    const res = await service.searchlistFinalize(term, fromDate, toDate, isQuery, id , isHelpDesk);
+    return res && res.data || [];
+}

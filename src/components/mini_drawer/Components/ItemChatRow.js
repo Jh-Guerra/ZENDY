@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import config from 'config/Config';
 import { Typography } from "@material-ui/core";
 import ItemAvatar from "./ItemAvatar";
@@ -7,14 +7,17 @@ import moment from 'moment';
 import LogoZendy from 'assets/images/Zendy-logo.jpg';
 import Photo from 'assets/icons/photo-icon.svg';
 import File from 'assets/icons/file-icon.svg';
+import { connect } from "react-redux";
+import { useHistory, withRouter } from "react-router-dom";
+import { count_chats, count_queries_actives } from "services/actions/CountAction";
 
 
 const ItemChatRow = (props) => {
   const session = getSessionInfo();
   const user = session && session.user;
+  const [contadorMsg, setContadorMsg] = useState();
 
   const { chat = {} } = props;
-
   const OneDayAgo= (date) => {
     const today = Math.round(new Date().getTime() / 1000);
     const rest = today - date;
@@ -54,6 +57,22 @@ const ItemChatRow = (props) => {
   }
   const bold = chat.participation && chat.participation.pendingMessages && chat.participation.pendingMessages != 0 ;
 
+  // React.useEffect(() => {
+  //   console.log(props)
+  //   if(props.chats)
+  //   {
+  //     if (props.chats.idEntryQuery == null) {
+  //       const newArray = props.chats.filter((value) => value.participation.pendingMessages !== 0);
+  //       console.log(newArray)
+  //       props.dispatch(count_chats(newArray.length));
+  //     } 
+  //   }
+  // }, [])
+
+  //  props.dispatch(count_chats(2));
+// console.log(chat.participation.pendingMessages);
+// console.log(contador + chat.participation.pendingMessages);
+// console.log(contador);
   return (
     <div className="item-row" onClick={() => { onClickAction(chat) }}>
       <ItemAvatar
@@ -78,4 +97,6 @@ const ItemChatRow = (props) => {
   );
 }
 
-export default ItemChatRow
+// export default ItemChatRow
+const mapStateToProps = (state) => ({ ...state })
+export default connect(mapStateToProps)(withRouter(ItemChatRow));

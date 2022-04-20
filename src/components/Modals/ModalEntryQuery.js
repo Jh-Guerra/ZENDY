@@ -18,6 +18,7 @@ import {
   listPendingQueries,
   deleteImageEntryQuery,
   deleteFileEntryQuery,
+  consultaPendiente,
 } from 'services/actions/EntryQueryAction';
 import { showBackdrop, showSnackBar } from 'services/actions/CustomAction';
 import defaultCompany from 'assets/images/defaultCompany.png';
@@ -132,17 +133,30 @@ const ModalEntryQuery = props => {
       });
     } else {
       // Crear
-      props.dispatch(createEntryQuery(formData)).then(res => {
-          props.dispatch(showSnackBar('success', 'Consulta registrada'));
+      // props.dispatch(consultaPendiente()).then(res => {
+      //   if(res.status)
+      //   {
+          props.dispatch(createEntryQuery(formData)).then(res => {
+            props.dispatch(showSnackBar('success', 'Consulta registrada'));
+            props.dispatch(showBackdrop(false));
+    
+            onSaveForm && onSaveForm();
+            history.push('/consultas/' + res.entryQuery.id);
+        })
+        .catch(error => {
           props.dispatch(showBackdrop(false));
+          props.dispatch(showSnackBar('error', error.message || ''));
+        });
 
-          onSaveForm && onSaveForm();
-          history.push('/consultas/' + res.entryQuery.id);
-      })
-      .catch(error => {
-        props.dispatch(showBackdrop(false));
-        props.dispatch(showSnackBar('error', error.message || ''));
-      });
+        // }else{
+        //   props.dispatch(showSnackBar('warning', 'Usted ya creo una consulta, termine esa consulta para poder crear otra'));
+        //   handleClose();
+        //   props.dispatch(showBackdrop(false));
+        // }
+        // console.log(res)
+      // }).catch(error => {
+      //   props.dispatch(showSnackBar("error", error.message || ""));
+      // });  
     }
   };
 

@@ -8,6 +8,7 @@ import RecommendationReducer from './RecommendationReducer';
 import NotificationReducer from './NotificationReducer';
 import NotificationViewedReducer from './NotificationViewedReducer';
 import ErrorReducer from './ErrorReducer';
+import CountReducer from './CountReducer';
 
 //We have to combine all reducers
 const rootReducer = combineReducers({
@@ -19,7 +20,8 @@ const rootReducer = combineReducers({
   chatRx: ChatReducer,
   notificationRx: NotificationReducer,
   notificationViewedRx: NotificationViewedReducer,
-  errorRx: ErrorReducer
+  errorRx: ErrorReducer,
+  countRx: CountReducer
 })
 
 export default (state, action) =>

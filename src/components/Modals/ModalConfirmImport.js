@@ -8,6 +8,7 @@ import ChatIcon from '@material-ui/icons/Chat';
 import ModalFooter from './common/ModalFooter';
 import ImportExportIcon from '@material-ui/icons/ImportExport';
 import { ListRequestNewCompanies,RegisterNewCompanies} from 'services/actions/CompanyAction';
+import {RegisterNewUser} from 'services/actions/UserAction';
 import { showBackdrop, showSnackBar } from 'services/actions/CustomAction';
 
 const useStyles = makeStyles(theme => ({
@@ -19,8 +20,8 @@ const useStyles = makeStyles(theme => ({
 const ModalConfirmImport = (props) => {
 
     const classes = useStyles();
-    const { open, handleClose, onConfirm } = props;
-
+    const { open, handleClose, onConfirm ,type} = props;
+console.log(type)
     const [dataEntity,SetDataEntity] = React.useState([])
 
     React.useEffect(()=>{
@@ -39,25 +40,45 @@ const ModalConfirmImport = (props) => {
 
   
   const RegisterAllNewCompanies = () => {
-    props.dispatch(RegisterNewCompanies()).then(
-        (res) => {
+      if (type=='companies') {
+          props.dispatch(RegisterNewCompanies()).then(
+              (res) => {
 
-            if(res.cantidad>0)
-            {
-             props.dispatch(showSnackBar("success", res.descripcion || ""));
+                  if (res.cantidad > 0) {
+                      props.dispatch(showSnackBar("success", res.descripcion || ""));
+                  }
+                  else if (res.cantidad == 0) {
+                      props.dispatch(showSnackBar("warning", res.descripcion || ""));
+                  }
+                  handleClose();
+              },
+              (error) => {
+                  props.dispatch(showSnackBar("error", 'Error Al importar empresas nuevas' || ""));
+                  props.dispatch(showBackdrop(false));
+                  handleClose();
+              }
+          );
+      }
+      if(type=='user')
+      {
+        props.dispatch(RegisterNewUser()).then(
+            (res) => {
+
+                if (res.cantidad > 0) {
+                    props.dispatch(showSnackBar("success", res.descripcion || ""));
+                }
+                else if (res.cantidad == 0) {
+                    props.dispatch(showSnackBar("warning", res.descripcion || ""));
+                }
+                handleClose();
+            },
+            (error) => {
+                props.dispatch(showSnackBar("error", 'Error Al importar empresas nuevas' || ""));
+                props.dispatch(showBackdrop(false));
+                handleClose();
             }
-            else if(res.cantidad==0)
-            {
-            props.dispatch(showSnackBar("warning", res.descripcion || ""));
-            }
-            handleClose();
-        },
-        (error) => {
-          props.dispatch(showSnackBar("error", 'Error Al importar empresas nuevas'|| ""));
-          props.dispatch(showBackdrop(false));
-          handleClose();
-        }
-      );
+        );
+      }
   }
 
     return (

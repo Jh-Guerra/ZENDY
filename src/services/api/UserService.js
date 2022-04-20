@@ -91,6 +91,11 @@ class UserService {
         return await axios.post( getCustomUrl(apiPrefix, `/changePassword/${id}`), data, defaultHeaders() );
     }
 
+    async RegisterNewUser()
+    {
+        return await axios.post( getCustomUrl(config.apiVersion, `syncUsers/sincronizarUsuarios`),{}, defaultHeaders() ); 
+    }//modificar el endpoind
+
 }
 
 export default UserService;

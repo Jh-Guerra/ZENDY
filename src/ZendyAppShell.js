@@ -13,17 +13,19 @@ import { withRouter } from 'react-router-dom';
 import 'date-fns';
 import { getSessionInfo } from 'utils/common';
 import { updateStatus } from 'services/actions/UserAction';
-import { onHideSnackBar } from 'services/actions/CustomAction';
+import { onHideSnackBar, showBackdrop } from 'services/actions/CustomAction';
 import Echo from "laravel-echo";
 import config from "config/Config";
 import { listActiveChats } from 'services/actions/ChatAction';
 import { useHistory } from 'react-router-dom';
-import {findUser } from 'services/actions/UserAction';
+import { findUser } from 'services/actions/UserAction';
 import sonido from 'assets/sound/notificacion.mp3';
 import icon from 'assets/images/logo.png';
 import icon2 from 'assets/images/logo2.png';
-import {Toaster, toast} from 'react-hot-toast';
+import { Toaster, toast } from 'react-hot-toast';
 import './ZendyAppShell.css'
+import { active_pusher, count_chats, count_queries_actives, count_queries_slopes, id_chats } from 'services/actions/CountAction';
+import { conteoChats } from 'services/actions/NotificationAction';
 
 window.Pusher = require('pusher-js');
 
@@ -33,320 +35,421 @@ class ZendyAppShell extends Component {
     super(props);
 
     this.state = {
-      estado:false
+      estado: false
     }
   }
 
   componentDidMount() {
     const session = getSessionInfo();
-
+    console.log(this.props)
     let dt = moment();
     dt.subtract(dt.parseZone().utcOffset(), 'minutes');
 
     if (session && session.token) {
       const userId = session && session.user && session.user.id || "";
       this.props.dispatch(findUser(userId)).then(res => {
-        if(res && res.deleted == 1){
+        if (res && res.deleted == 1) {
           this.props.dispatch(logOut());
           window.location.href = config.commonHost;
         }
       });
       this.props.dispatch(setCurrentSession(session));
-      window.addEventListener('beforeunload', this.alertUser)
-      window.addEventListener('unload', this.handleEndConcert)
-    }
-
-    if(localStorage.getItem('session')){
-      window.Echo = new Echo({
-        broadcaster: 'pusher',
-        key: config.pusherAppKey,
-        wsHost: window.location.hostname,
-        wsPort: 6001,
-        forceTLS: false,
-        disableStats: true,
-        cluster: config.pusherCluster,
-        encrypted: false,
-        enabledTransports: ['ws', 'wss'],
-        authEndpoint: config.commonHost + '/api/broadcasting/auth',
-        auth: {
-          headers: {
-            'Access-Control-Allow-Origin': '*',
-              Authorization: 'Bearer ' + `${JSON.parse(localStorage.getItem('session')).token || ''}`
-          },
+      // window.addEventListener('beforeunload', this.alertUser)
+      // window.addEventListener('unload', this.handleEndConcert)
+      
+      this.props.dispatch(conteoChats()).then(res => {
+        if (res) {
+          // this.props.dispatch(count_chats(res.chats));
+          this.props.dispatch(count_queries_slopes(res.consultasPendientes));
+          this.props.dispatch(count_queries_actives(res.consultasActivas));
         }
       });
+    }
 
-      const changePestaña = ()=>{
-        document.getElementById('favicon').href = icon;
-        document.getElementById('titulo').textContent = "Zendy";
-      }
-
-      var newExcitingAlerts = (function () {
-        var msg = "Has recibido un mensaje!";
-        var timeoutId;
-        var blink = function () { 
-          document.getElementById('titulo').textContent = document.getElementById('titulo').textContent == msg ? 'Zendy' : msg; 
-          document.getElementById('favicon').href = icon2;
-        };
-        var clear = function () {
-          clearInterval(timeoutId);
-          document.getElementById('titulo').textContent = "Zendy";
-          document.getElementById('favicon').href = icon;
-          window.onmousemove = null;
-          timeoutId = null;
-        };
-        return function () {
-          if (!timeoutId) {
-              timeoutId = setInterval(blink, 1);
-              window.onmousemove = clear;
+   
+      console.log(this.props.countRx.active_pusher)
+      if(!this.props.countRx.active_pusher)
+      {
+        if (localStorage.getItem('session')) {
+          window.Echo = new Echo({
+            broadcaster: 'pusher',
+            key: config.pusherAppKey,
+            wsHost: window.location.hostname,
+            wsPort: 6001,
+            forceTLS: false,
+            disableStats: true,
+            cluster: config.pusherCluster,
+            encrypted: false,
+            // enabledTransports: ['ws', 'wss'],
+            // authEndpoint: config.commonHost + '/api/broadcasting/auth',
+            auth: {
+              headers: {
+                'Access-Control-Allow-Origin': '*',
+                Authorization: 'Bearer ' + `${JSON.parse(localStorage.getItem('session')).token || ''}`
+              },
+            }
+          });
+    
+          const changePestaña = () => {
+            document.getElementById('favicon').href = icon;
+            document.getElementById('titulo').textContent = "Zendy";
           }
-      };
-      }());
+          const audio = new Audio(sonido);
+    
+          let newExcitingAlerts = () => {
+            var tiempo = window.setInterval(BlinkIt, 500);
+            var msg = "Has recibido un mensaje!";
+    
+            function BlinkIt() {
+              var titulo = document.getElementById('titulo')
+              msg = (msg == 'Zendy') ? 'Has recibido un mensaje!' : 'Zendy'
+              titulo.textContent = msg;
+              document.getElementById('favicon').href = icon2;
+            }
+    
+            function stopInterval() {
+              clearInterval(tiempo)
+              document.getElementById('titulo').textContent = "Zendy";
+              document.getElementById('favicon').href = icon;
+              window.onmousemove = null;
+            }
+            window.onmousemove = stopInterval
+          }
+    
+          // var newExcitingAlerts = (function () {
+          //   var msg = "Has recibido un mensaje!";
+          //   var timeoutId;
+          //   var blink = function () { 
+          //     document.getElementById('titulo').textContent = document.getElementById('titulo').textContent == msg  ? 'Zendy' : msg; 
+          //     document.getElementById('favicon').href = icon2;
+          //   };
+          //   var clear = function () {
+          //     clearInterval(timeoutId);
+          //     document.getElementById('titulo').textContent = "Zendy";
+          //     document.getElementById('favicon').href = icon;
+          //     window.onmousemove = null;
+          //     timeoutId = null;
+          //   };
+          //   return function () {
+          //     if (!timeoutId) {
+          //         timeoutId = setInterval(blink, 1);
+          //         window.onmousemove = clear;
+          //     }
+          // };
+          // }());
+    
+          const redirectConsulta = (consulta) => {
+            // document.location.href = 'http://localhost:3000/consultas/' + consulta
+            // this.history.push("/consultas/" + consulta);
+          }
+          const redirectChat = (chat) => {
+            document.location.href = 'http://localhost:3000/chats/' + chat
+            // useHistory.push("/chats/" + chat);
+            // this.history.push("/chats/" + chat);
+          }
+          //chats
+          const onListActiveChats = term => {
+            console.log('hshssh')
+            this.props.dispatch(showBackdrop(true));
+            this.props.dispatch(listActiveChats(term, "Vigente", false)).then(res => {
+              this.props.dispatch(showBackdrop(false));
+            }).catch(err => this.props.dispatch(showBackdrop(false)));
+          };
+          const goToChat = (chat) => {
+           //const history = useHistory();
+            // setTerm("");
+             console.log(`/chats/${chat}`)
+             this.props.dispatch(id_chats(chat));
+             this.props.history.push(`/chats/${chat}`);
+            
+            onListActiveChats('');
+          }
 
-      const user = session && session.user || {};
-      window.Echo.private("user." + user.id).listen('notificationMessage', (e) => {
-        (e.chatId == localStorage.getItem("currentChatId")) && this.props.history.push("/inicio");
-        this.props.dispatch(listActiveChats("", "Vigente", false));
-        const audio = new Audio(sonido);
-        audio.play();
-        newExcitingAlerts();
-      })
-      window.Echo.private("consulta." + user.id).listen('ConsultaNotification', (e) => {
-        console.log(e.contenido);
-        toast((t) => (
-          <div
-          className='Contorno'
-          style={{
-            display: 'flex',
-            flexDirection: 'row',
-            alignItems: 'center',
-            width:'700px'
-         }}>
-            <div 
-              style={{
-                display: 'flex',
-                justifyContent: 'center',
-                marginRight:'15px'
-              }}>
-              <img src={`https://www.zendy.cl/${e.contenido.avatar}`} width={'50px'} height={'50px'} />
-            </div>
-           <div
-           style={{
-            marginRight:'15px',
-            width:'160px'
-          }}>
-           <div
-              >
-            <p className='text'>{e.contenido.usuario}</p>
-            </div>
-            <div
-              >
-            <p className='text'>{e.contenido.mensaje}</p>
-            </div>
-           </div>
-            <button 
-            style={{
-              borderLeft: '1px solid #000',
-              padding:'10px',
-              color:'blue',
-              border: 'none',
-              background: '#fff'
-            }}
-            onClick={() => toast.dismiss(t.id)}>
-              Cerrar
-            </button>
-          </div>
-        ));
-      })
+          //fin chats
+    
+          const user = session && session.user || {};
+          window.Echo.private("user." + user.id).listen('notificationMessage', (e) => {
+            // console.log(e)
+            (e.chatId == localStorage.getItem("currentChatId")) && this.props.history.push("/inicio");
+            this.props.dispatch(listActiveChats("", "Vigente", false));
+            // this.props.dispatch(count_chats(3));
+    
+            audio.play();
+            newExcitingAlerts();
+          })
+          
+          window.Echo.private("consulta." + user.id).listen('ConsultaNotification', (e) => {
+            console.log(e);
+            audio.play();
+            this.props.dispatch(count_queries_slopes(e.contenido.cantidadNoti));
+            toast((t) => (
+              <div
+                className='Contorno'
+                style={{
+                  display: 'flex',
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  width: '700px'
+                }}>
+                <div
+                  onClick={() => redirectConsulta(e.contenido.idConsulta)}
+                  style={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    marginRight: '15px'
+                  }}>
+                  <img src={`https://www.zendy.cl/${e.contenido.avatar}`} width={'50px'} height={'50px'} />
+                </div>
+                <div
+                  onClick={() => redirectConsulta(e.contenido.idConsulta)}
+                  style={{
+                    marginRight: '15px',
+                    width: '160px'
+                  }}>
+                  <div
+                  >
+                    <p className='text'>{e.contenido.usuario}</p>
+                  </div>
+                  <div
+                  >
+                    <p className='text'>{e.contenido.mensaje}</p>
+                  </div>
+                </div>
+                <button
+                  style={{
+                    borderLeft: '1px solid #000',
+                    padding: '10px',
+                    color: 'blue',
+                    border: 'none',
+                    background: '#fff'
+                  }}
+                  onClick={() => toast.dismiss(t.id)}>
+                  Cerrar
+                </button>
+              </div>
+            ),
+              {
+                icon: '🔥🥵',
+              }
+            );
+          })
+          //Escucha las cantidad de consultas pendientes NEW2
+          window.Echo.private("cantidadNoti." + user.id).listen('ContarConsultas', (e) => {
+            console.log(e)
+          })
+    
+          //Rehecho, solo recibe mensajes de chats normales NEW2
+          window.Echo.private("mensaje." + user.id).listen('messageNotification', (e) => {
+            console.log(e)
+            this.props.dispatch(count_chats(e.contenido.cantidadNoti));
+            toast((t) => (
+              <div
+                className='Contorno'
+                style={{
+                  display: 'flex',
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  width: '700px'
+                }}>
+                <div
+                onClick={() =>goToChat(e.contenido.idChat)}
+                  style={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    marginRight: '15px'
+                  }}>
+                  <img src={`https://www.zendy.cl/${e.contenido.avatar}`} width={'50px'} height={'50px'} />
+                </div>
+                <div
+                  onClick={() => goToChat(e.contenido.idChat)}
+                  style={{
+                    marginRight: '15px',
+                    width: '160px'
+                  }}>
+                  <div
+                  >
+                    <p className='text'>{e.contenido.usuario}</p>
+                  </div>
+                  <div
+                  >
+                    <p className='text'>{e.contenido.mensaje}</p>
+                  </div>
+                </div>
+                <button
+                  style={{
+                    borderLeft: '1px solid #000',
+                    padding: '10px',
+                    color: 'blue',
+                    border: 'none',
+                    background: '#fff'
+                  }}
+                  onClick={() => toast.dismiss(t.id)}>
+                  Cerrar
+                </button>
+              </div>
+            ));
+          })
+          //Nuevo solo recibe mensajes de Consultas Activas NEW2
+          window.Echo.private("mensajeActivo." + user.id).listen('messageConsulta', (e) => {
+            console.log(e)
+            this.props.dispatch(count_queries_actives(e.contenido.cantidadNoti));
+            toast((t) => (
+              <div
+                className='Contorno'
+                style={{
+                  display: 'flex',
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  width: '700px'
+                }}>
+                <div
+                  onClick={() => redirectChat(e.contenido.idChat)}
+                  style={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    marginRight: '15px'
+                  }}>
+                  <img src={`https://www.zendy.cl/${e.contenido.avatar}`} width={'50px'} height={'50px'} />
+                </div>
+                <div
+                  onClick={() => redirectChat(e.contenido.idChat)}
+                  style={{
+                    marginRight: '15px',
+                    width: '160px'
+                  }}>
+                  <div
+                  >
+                    <p className='text'>{e.contenido.usuario}</p>
+                  </div>
+                  <div
+                  >
+                    <p className='text'>{e.contenido.mensaje}</p>
+                  </div>
+                </div>
+                <button
+                  style={{
+                    borderLeft: '1px solid #000',
+                    padding: '10px',
+                    color: 'blue',
+                    border: 'none',
+                    background: '#fff'
+                  }}
+                  onClick={() => toast.dismiss(t.id)}>
+                  Cerrar
+                </button>
+              </div>
+            ));
+          })
+    
+          window.Echo.private("aceptarConsulta." + user.id).listen('AceptarConsulta', (e) => {
+            console.log(e)
+            audio.play();
+            toast((t) => (
+              <div
+                className='Contorno'
+                style={{
+                  display: 'flex',
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  width: '900px'
+                }}>
+                <div
+                  style={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    marginRight: '15px'
+                  }}>
+                  <img src={`https://www.zendy.cl/${e.contenido.avatar}`} width={'50px'} height={'50px'} />
+                </div>
+                <div
+                  style={{
+                    marginRight: '15px',
+                    width: '180px'
+                  }}>
+                  <div
+                  >
+                    <p><strong>CONSULTA ACEPTADA</strong></p>
+                  </div>
+                  <div
+                  >
+                    <p>{e.contenido.mensaje}</p>
+                  </div>
+                </div>
+                <button
+                  style={{
+                    borderLeft: '1px solid #000',
+                    padding: '10px',
+                    color: 'blue',
+                    border: 'none',
+                    background: '#fff'
+                  }}
+                  onClick={() => toast.dismiss(t.id)}>
+                  Cerrar
+                </button>
+              </div>
+            ));
+          })
+    
+          window.Echo.private("cierreConsulta." + user.id).listen('CierreConsulta', (e) => {
+            console.log(e)
+            toast((t) => (
+              <div
+                className='Contorno'
+                style={{
+                  display: 'flex',
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  width: '900px'
+                }}>
+                <div
+                  style={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    marginRight: '15px'
+                  }}>
+                  <img src={`https://www.zendy.cl/${e.contenido.avatar}`} width={'50px'} height={'50px'} />
+                </div>
+                <div
+                  style={{
+                    marginRight: '15px',
+                    width: '180px'
+                  }}>
+                  <div>
+                    <p><strong>CONSULTA FINALIZADA</strong></p>
+                  </div>
+                  <div
+                  >
+                    <p>{e.contenido.mensaje}</p>
+                  </div>
+                </div>
+                <button
+                  style={{
+                    borderLeft: '1px solid #000',
+                    padding: '10px',
+                    color: 'blue',
+                    border: 'none',
+                    background: '#fff'
+                  }}
+                  onClick={() => toast.dismiss(t.id)}>
+                  Cerrar
+                </button>
+              </div>
+            ));
+          })
 
-      window.Echo.private("mensaje." + user.id).listen('messageNotification', (e) => {
-        console.log(e.contenido);
-        toast((t) => (
-          <div
-          className='Contorno'
-          style={{
-            display: 'flex',
-            flexDirection: 'row',
-            alignItems: 'center',
-            width:'700px'
-         }}>
-            <div 
-              style={{
-                display: 'flex',
-                justifyContent: 'center',
-                marginRight:'15px'
-              }}>
-              <img src={`https://www.zendy.cl/${e.contenido.avatar}`} width={'50px'} height={'50px'} />
-            </div>
-           <div
-           style={{
-            marginRight:'15px',
-            width:'160px'
-          }}>
-           <div
-              >
-            <p className='text'>{e.contenido.usuario}</p>
-            </div>
-            <div
-              >
-            <p className='text'>{e.contenido.mensaje}</p>
-            </div>
-           </div>
-            <button 
-            style={{
-              borderLeft: '1px solid #000',
-              padding:'10px',
-              color:'blue',
-              border: 'none',
-              background: '#fff'
-            }}
-            onClick={() => toast.dismiss(t.id)}>
-              Cerrar
-            </button>
-          </div>
-        ));
-        // toast.custom((t) => (
-        //   <div
-        //     className={`${
-        //       t.visible ? 'animate-enter' : 'animate-leave'
-        //     } max-w-md w-full bg-white shadow-lg rounded-lg pointer-events-auto flex ring-1 ring-black ring-opacity-5`}
-        //   >
-        //     <div className="flex-1 w-0 p-4">
-        //       <div className="flex items-start">
-        //         <div className="flex-shrink-0 pt-0.5">
-        //           <img
-        //             className="h-10 w-10 rounded-full"
-        //             src={`https://www.zendy.cl/${e.contenido.avatar}`}
-        //             alt=""
-        //             width="2.5rem"
-        //           />
-        //         </div>
-        //         <div className="ml-3 flex-1">
-        //           <p className="text-sm font-medium text-gray-900">
-        //             {e.contenido.usuario}
-        //           </p>
-        //           <p className="mt-1 text-sm text-gray-500">
-        //             {e.contenido.mensaje}
-        //           </p>
-        //         </div>
-        //       </div>
-        //     </div>
-        //     <div className="flex border-l border-gray-200">
-        //       <button
-        //         onClick={() => toast.dismiss(t.id)}
-        //         className="w-full border border-transparent rounded-none rounded-r-lg p-4 flex items-center justify-center text-sm font-medium text-indigo-600 hover:text-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-        //       >
-        //         Close
-        //       </button>
-        //     </div>
-        //   </div>
-        // ))
-      })
+          this.props.dispatch(active_pusher(true));
+        }
+      }
+   
 
-      window.Echo.private("aceptarConsulta." + user.id).listen('AceptarConsulta', (e) => {
-        console.log(e.contenido);
-        toast((t) => (
-          <div
-          className='Contorno'
-          style={{
-            display: 'flex',
-            flexDirection: 'row',
-            alignItems: 'center',
-            width:'900px'
-         }}>
-            <div 
-              style={{
-                display: 'flex',
-                justifyContent: 'center',
-                marginRight:'15px'
-              }}>
-              <img src={`https://www.zendy.cl/${e.contenido.avatar}`} width={'50px'} height={'50px'} />
-            </div>
-           <div
-           style={{
-            marginRight:'15px',
-            width:'180px'
-          }}>
-           <div
-              >
-            <p><strong>CONSULTA ACEPTADA</strong></p>
-            </div>
-            <div
-              >
-            <p>{e.contenido.mensaje}</p>
-            </div>
-           </div>
-            <button 
-            style={{
-              borderLeft: '1px solid #000',
-              padding:'10px',
-              color:'blue',
-              border: 'none',
-              background: '#fff'
-            }}
-            onClick={() => toast.dismiss(t.id)}>
-              Cerrar
-            </button>
-          </div>
-        ));
-      })
-
-      window.Echo.private("cierreConsulta." + user.id).listen('CierreConsulta', (e) => {
-        console.log(e.contenido);
-        toast((t) => (
-          <div
-          className='Contorno'
-          style={{
-            display: 'flex',
-            flexDirection: 'row',
-            alignItems: 'center',
-            width:'900px'
-         }}>
-            <div 
-              style={{
-                display: 'flex',
-                justifyContent: 'center',
-                marginRight:'15px'
-              }}>
-              <img src={`https://www.zendy.cl/${e.contenido.avatar}`} width={'50px'} height={'50px'} />
-            </div>
-           <div
-           style={{
-            marginRight:'15px',
-            width:'180px'
-          }}>
-           <div>
-            <p><strong>CONSULTA FINALIZADA</strong></p>
-            </div>
-            <div
-              >
-            <p>{e.contenido.mensaje}</p>
-            </div>
-           </div>
-            <button 
-            style={{
-              borderLeft: '1px solid #000',
-              padding:'10px',
-              color:'blue',
-              border: 'none',
-              background: '#fff'
-            }}
-            onClick={() => toast.dismiss(t.id)}>
-              Cerrar
-            </button>
-          </div>
-        ));
-      })
-    }
-     
-    }
+  }
 
   componentWillUnmount() {
     const session = getSessionInfo();
     if (session && session.token) {
       const userId = session && session.user && session.user.id || "";
       this.props.dispatch(findUser(userId)).then(res => {
-        if(res && res.deleted){
+        if (res && res.deleted) {
           this.props.dispatch(logOut());
           window.location.href = config.commonHost;
         }
@@ -360,23 +463,25 @@ class ZendyAppShell extends Component {
   componentDidUpdate(prevProps) {
   }
 
- alertUser = e => {
-  e.preventDefault()
-  e.returnValue = ''
-  this.handleEndConcert()
-}
- handleEndConcert = async () => {
-  const session = getSessionInfo();
-  await this.props.dispatch(updateStatus(session.user.id, '0'))
-}
+  alertUser = e => {
+    // e.preventDefault()
+    e.returnValue = ''
+    this.handleEndConcert()
+  }
+
+
+  handleEndConcert = async () => {
+    const session = getSessionInfo();
+    await this.props.dispatch(updateStatus(session.user.id, '0'))
+  }
 
   render() {
-    const { custom={} } = this.props;
-    const { snackbar={}, backdrop={} } = custom;
+    const { custom = {} } = this.props;
+    const { snackbar = {}, backdrop = {} } = custom;
     const isMain = this.useIsMainWindow;
     return (
       <StylesProvider injectFirst>
-        <div className="App" style={{height:"100%"}}>
+        <div className="App" style={{ height: "100%" }}>
           <Toaster
             position="top-right"
             reverseOrder={false}
@@ -384,7 +489,7 @@ class ZendyAppShell extends Component {
           <Helmet>
             <title id="titulo">Zendy</title>
           </Helmet>
-          <Routes 
+          <Routes
             {...this.props}
           />
           {
@@ -393,14 +498,15 @@ class ZendyAppShell extends Component {
                 open={snackbar.show || false}
                 message={snackbar.message || ""}
                 alertType={snackbar.alertType || "info"}
-                onClose={(event, reason) => {this.props.dispatch(onHideSnackBar())
+                onClose={(event, reason) => {
+                  this.props.dispatch(onHideSnackBar())
                 }}
                 duration={5000}
               />
             )
           }
-          <CustomBackdrop 
-            open={backdrop.show || false} 
+          <CustomBackdrop
+            open={backdrop.show || false}
           />
         </div>
       </StylesProvider>
