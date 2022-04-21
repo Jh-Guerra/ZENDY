@@ -635,7 +635,7 @@ const session = getSessionInfo();
               fontSize: '20px',
               fontFamily: 'sans-serif'
             }}>
-              Muchas Gracias..!!
+              ¡Muchas gracias!
           </p>
         </div>
         )

@@ -100,17 +100,15 @@ const LoginPage = props => {
     msg.requestPermission().then(() => {
       return msg.getToken();
     }).then((data) => {
-      console.log("token", data)
       Tokent_Notificacion=data
       setTokenNotify(data);
     });
-
+   
     // console.log('RUT EMPRESA: ',atob(rut_empresa) )
     // console.log('USUARIO: ',atob(usuario) )
     // console.log('PASSWORD: ',password)
     // console.log('FECHA: ',atob(fecha) )
     if (usuario && password) {
-      console.log('entree')
       var decodeRutEmpresa;
       var decodeUser;
       var decodeFecha;
@@ -140,6 +138,14 @@ const LoginPage = props => {
          console.log(Tokent_Notificacion)
         props.dispatch(loginErp(body, Tokent_Notificacion)).then(
           (res) => {
+            props.dispatch(conteoChats()).then(res => {
+              if(res)
+              {
+                // this.props.dispatch(count_chats(res.chats));
+                props.dispatch(count_queries_slopes(res.consultasPendientes));
+                props.dispatch(count_queries_actives(res.consultasActivas));
+              }
+            });
             // console.log('entre otra vez')
             if (chat) {
               //history.push(`/chats/${chat}`)
@@ -177,15 +183,6 @@ const LoginPage = props => {
     } else {
       if (session && session.token) {
         props.history.push("/inicio",1);
-
-        props.dispatch(conteoChats()).then(res => {
-          if(res)
-          {
-            // this.props.dispatch(count_chats(res.chats));
-            this.props.dispatch(count_queries_slopes(res.consultasPendientes));
-            this.props.dispatch(count_queries_actives(res.consultasActivas));
-          }
-        });
       } else {
         props.history.push("/");
       }
@@ -249,8 +246,18 @@ const LoginPage = props => {
       props.dispatch(showBackdrop(true));
       props.dispatch(loginUser(body, tokenNotify)).then(
         (res) => {
-          if(!props.countRx.active_pusher)
+         
+          props.dispatch(conteoChats()).then(res => {
+            if(res)
+            {
+              // this.props.dispatch(count_chats(res.chats));
+              props.dispatch(count_queries_slopes(res.consultasPendientes));
+              props.dispatch(count_queries_actives(res.consultasActivas));
+            }
+          });
+          if(props.countRx.active_pusher)
           {
+            console.log(props.countRx.active_pusher)
             window.Echo = new Echo({
               broadcaster: 'pusher',
               key: config.pusherAppKey,
@@ -260,6 +267,7 @@ const LoginPage = props => {
               disableStats: true,
               cluster: config.pusherCluster,
               encrypted: false,
+               //comentar para las pruebas locales
               // enabledTransports: ['ws', 'wss'],
               // authEndpoint: config.commonHost + '/api/broadcasting/auth',
               auth: {
@@ -269,20 +277,14 @@ const LoginPage = props => {
                 },
               }
             });
-  
-            const changePestaña = () => {
-              document.getElementById('favicon').href = icon;
-              document.getElementById('titulo').textContent = 'Zendy';
-            };
             const audio = new Audio(sonido);
-  
             let newExcitingAlerts = () => {
               var tiempo = window.setInterval(BlinkIt, 500);
-              var msg = "Has recibido un mensaje!";
+              var msg = "¡Has recibido un mensaje!";
       
               function BlinkIt() {
                 var titulo = document.getElementById('titulo')
-                msg = (msg == 'Zendy') ? 'Has recibido un mensaje!' : 'Zendy'
+                msg = (msg == 'Zendy') ? '¡Has recibido un mensaje!' : 'Zendy'
                 titulo.textContent = msg;
                 document.getElementById('favicon').href = icon2;
               }
@@ -321,11 +323,13 @@ const LoginPage = props => {
             const user = res.user || {};
             window.Echo.private("user." + user.id).listen('notificationMessage', (e) => {
               props.dispatch(listActiveChats("", "Vigente", false));
+              audio.stop();
               audio.play();
               newExcitingAlerts();
             });
             
             window.Echo.private("consulta." + user.id).listen('ConsultaNotification', (e) => {
+              audio.stop();
               audio.play();
               console.log(e.contenido);
               console.log(this.props.dispatch)
@@ -379,6 +383,12 @@ const LoginPage = props => {
             //   props.dispatch(count_queries_slopes(e.cantidadNoti));
             //   console.log(e)
             // })
+
+            window.Echo.private("cantidadNoti." + user.id).listen('ContarConsultas', (e) => {
+              props.dispatch(count_queries_slopes(e.cantidadNoti));
+              console.log(e)
+            })
+      
             //Rehecho, solo recibe mensajes de chats normales NEW
         window.Echo.private("mensaje." + user.id).listen('messageNotification', (e) => {
           console.log(e)
@@ -479,6 +489,7 @@ const LoginPage = props => {
         })
   
             window.Echo.private("aceptarConsulta." + user.id).listen('AceptarConsulta', (e) => {
+              audio.stop();
               audio.play();
               console.log(e.contenido);
               toast((t) => (
@@ -573,7 +584,7 @@ const LoginPage = props => {
                 </div>
               ));
             })
-            props.dispatch(active_pusher(true));
+             props.dispatch(active_pusher(false));
           }
           
           props.history.push("/inicio",1);

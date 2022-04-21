@@ -58,8 +58,11 @@ const CurrentChat = props => {
   const chats = chatRx && chatRx.currentChats || [];
 
   React.useEffect(() => {
+    if(!chats[0]?.isQuery)
+    {
     const newArray = chats.filter((value) => value.participation.pendingMessages !== 0);
     props.dispatch(count_chats(newArray.length));
+    }
   }, [chats])
 
   return (

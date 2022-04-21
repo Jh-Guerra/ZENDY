@@ -54,8 +54,8 @@ class ZendyAppShell extends Component {
         }
       });
       this.props.dispatch(setCurrentSession(session));
-      // window.addEventListener('beforeunload', this.alertUser)
-      // window.addEventListener('unload', this.handleEndConcert)
+      window.addEventListener('beforeunload', this.alertUser)
+      window.addEventListener('unload', this.handleEndConcert)
       
       this.props.dispatch(conteoChats()).then(res => {
         if (res) {
@@ -68,8 +68,8 @@ class ZendyAppShell extends Component {
 
    
       console.log(this.props.countRx.active_pusher)
-      if(!this.props.countRx.active_pusher)
-      {
+      // if(!this.props.countRx.active_pusher)
+      // {
         if (localStorage.getItem('session')) {
           window.Echo = new Echo({
             broadcaster: 'pusher',
@@ -80,7 +80,8 @@ class ZendyAppShell extends Component {
             disableStats: true,
             cluster: config.pusherCluster,
             encrypted: false,
-            // enabledTransports: ['ws', 'wss'],
+            //comentar para las pruebas locales
+            // enabledTransports: ['ws', 'wss'], 
             // authEndpoint: config.commonHost + '/api/broadcasting/auth',
             auth: {
               headers: {
@@ -98,11 +99,11 @@ class ZendyAppShell extends Component {
     
           let newExcitingAlerts = () => {
             var tiempo = window.setInterval(BlinkIt, 500);
-            var msg = "Has recibido un mensaje!";
+            var msg = "¡Has recibido un mensaje!";
     
             function BlinkIt() {
               var titulo = document.getElementById('titulo')
-              msg = (msg == 'Zendy') ? 'Has recibido un mensaje!' : 'Zendy'
+              msg = (msg == 'Zendy') ? '¡Has recibido un mensaje!' : 'Zendy'
               titulo.textContent = msg;
               document.getElementById('favicon').href = icon2;
             }
@@ -149,7 +150,6 @@ class ZendyAppShell extends Component {
           }
           //chats
           const onListActiveChats = term => {
-            console.log('hshssh')
             this.props.dispatch(showBackdrop(true));
             this.props.dispatch(listActiveChats(term, "Vigente", false)).then(res => {
               this.props.dispatch(showBackdrop(false));
@@ -159,9 +159,8 @@ class ZendyAppShell extends Component {
            //const history = useHistory();
             // setTerm("");
              console.log(`/chats/${chat}`)
-             this.props.dispatch(id_chats(chat));
              this.props.history.push(`/chats/${chat}`);
-            
+             this.props.dispatch(id_chats(chat));
             onListActiveChats('');
           }
 
@@ -173,13 +172,14 @@ class ZendyAppShell extends Component {
             (e.chatId == localStorage.getItem("currentChatId")) && this.props.history.push("/inicio");
             this.props.dispatch(listActiveChats("", "Vigente", false));
             // this.props.dispatch(count_chats(3));
-    
+            audio.stop();
             audio.play();
             newExcitingAlerts();
           })
           
           window.Echo.private("consulta." + user.id).listen('ConsultaNotification', (e) => {
             console.log(e);
+            audio.stop();
             audio.play();
             this.props.dispatch(count_queries_slopes(e.contenido.cantidadNoti));
             toast((t) => (
@@ -192,7 +192,7 @@ class ZendyAppShell extends Component {
                   width: '700px'
                 }}>
                 <div
-                  onClick={() => redirectConsulta(e.contenido.idConsulta)}
+                  // onClick={() => redirectConsulta(e.contenido.idConsulta)}
                   style={{
                     display: 'flex',
                     justifyContent: 'center',
@@ -201,7 +201,7 @@ class ZendyAppShell extends Component {
                   <img src={`https://www.zendy.cl/${e.contenido.avatar}`} width={'50px'} height={'50px'} />
                 </div>
                 <div
-                  onClick={() => redirectConsulta(e.contenido.idConsulta)}
+                  // onClick={() => redirectConsulta(e.contenido.idConsulta)}
                   style={{
                     marginRight: '15px',
                     width: '160px'
@@ -227,20 +227,17 @@ class ZendyAppShell extends Component {
                   Cerrar
                 </button>
               </div>
-            ),
-              {
-                icon: '🔥🥵',
-              }
+            )
             );
           })
           //Escucha las cantidad de consultas pendientes NEW2
           window.Echo.private("cantidadNoti." + user.id).listen('ContarConsultas', (e) => {
+            this.props.dispatch(count_queries_slopes(e.cantidadNoti));
             console.log(e)
           })
     
           //Rehecho, solo recibe mensajes de chats normales NEW2
           window.Echo.private("mensaje." + user.id).listen('messageNotification', (e) => {
-            console.log(e)
             this.props.dispatch(count_chats(e.contenido.cantidadNoti));
             toast((t) => (
               <div
@@ -252,7 +249,7 @@ class ZendyAppShell extends Component {
                   width: '700px'
                 }}>
                 <div
-                onClick={() =>goToChat(e.contenido.idChat)}
+                // onClick={() =>goToChat(e.contenido.idChat)}
                   style={{
                     display: 'flex',
                     justifyContent: 'center',
@@ -261,7 +258,7 @@ class ZendyAppShell extends Component {
                   <img src={`https://www.zendy.cl/${e.contenido.avatar}`} width={'50px'} height={'50px'} />
                 </div>
                 <div
-                  onClick={() => goToChat(e.contenido.idChat)}
+                  // onClick={() => goToChat(e.contenido.idChat)}
                   style={{
                     marginRight: '15px',
                     width: '160px'
@@ -289,7 +286,7 @@ class ZendyAppShell extends Component {
               </div>
             ));
           })
-          //Nuevo solo recibe mensajes de Consultas Activas NEW2
+          //Nuevo solo recibe mensajes de Consultas Activas NEW2 ESTE CANAL PARA REDIRECCION
           window.Echo.private("mensajeActivo." + user.id).listen('messageConsulta', (e) => {
             console.log(e)
             this.props.dispatch(count_queries_actives(e.contenido.cantidadNoti));
@@ -303,7 +300,7 @@ class ZendyAppShell extends Component {
                   width: '700px'
                 }}>
                 <div
-                  onClick={() => redirectChat(e.contenido.idChat)}
+                  // onClick={() => goToChat(e.contenido.idChat)}
                   style={{
                     display: 'flex',
                     justifyContent: 'center',
@@ -312,7 +309,7 @@ class ZendyAppShell extends Component {
                   <img src={`https://www.zendy.cl/${e.contenido.avatar}`} width={'50px'} height={'50px'} />
                 </div>
                 <div
-                  onClick={() => redirectChat(e.contenido.idChat)}
+                  // onClick={() => goToChat(e.contenido.idChat)}
                   style={{
                     marginRight: '15px',
                     width: '160px'
@@ -343,6 +340,7 @@ class ZendyAppShell extends Component {
     
           window.Echo.private("aceptarConsulta." + user.id).listen('AceptarConsulta', (e) => {
             console.log(e)
+            audio.stop();
             audio.play();
             toast((t) => (
               <div
@@ -437,9 +435,9 @@ class ZendyAppShell extends Component {
             ));
           })
 
-          this.props.dispatch(active_pusher(true));
+          // this.props.dispatch(active_pusher(true));
         }
-      }
+      // }
    
 
   }

@@ -10,7 +10,7 @@ import {
     count_queries_slopes: 0,
     count_chats:0,
     count_queries_actives:0,
-    active_pusher: false,
+    active_pusher: true,
      id_chats: 0,
  }
 

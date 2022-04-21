@@ -32,6 +32,7 @@ import CommentIcon from '@material-ui/icons/Comment';
 import HistoryQuery from './Childrens/HistoryQuery';
 import Badge from "@material-ui/core/Badge";
 import { makeStyles } from "@material-ui/core/styles";
+import { active_pusher } from 'services/actions/CountAction';
 
 const moreActionSection = { name:"moreActions", title:"Más Opciones", order:5, active: true};
 
@@ -129,6 +130,7 @@ const MiniDrawer = (props) => {
   const logOut = () => {
     // window.location.reload();
     // setTimeout(() => {
+      props.dispatch(active_pusher(false));
       props.dispatch(updateStatus(session.user.id, '0' ))
       localStorage.clear();
       // window.location.reload();

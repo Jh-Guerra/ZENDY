@@ -22,9 +22,7 @@ const MainPage = (props) => {
   const [chat, setChat] = React.useState({});
   const [messages, setMessages] = React.useState([]);
  
-  console.log(props.countRx.id_chats)
   React.useEffect(() => {
-    console.log(props.countRx.id_chats)
     if(props.countRx.id_chats>0){
       const chatId = props.countRx.id_chats;
       console.log(chatId)
@@ -68,7 +66,7 @@ const MainPage = (props) => {
     return () => {
       window.Echo.leave("chats."+localStorage.getItem("currentChatId"));
     }
-  }, [props.countRx.id_chats>0]);
+  }, [props.countRx.id_chats]);
 
   React.useEffect(() => {
     

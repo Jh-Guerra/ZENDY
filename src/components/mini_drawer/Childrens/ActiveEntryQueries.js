@@ -52,10 +52,13 @@ const ActiveEntryQueries = props => {
   }
 
   const chats = chatRx && chatRx.currentChats || [];
-
+console.log(chats[0]?.isQuery);
   React.useEffect(() => {
-    const newArray = chats.filter((value) => value.participation.pendingMessages !== 0);
-    props.dispatch(count_queries_actives(newArray.length));
+    if(chats[0]?.isQuery)
+    {
+      const newArray = chats.filter((value) => value.participation.pendingMessages !== 0);
+      props.dispatch(count_queries_actives(newArray.length));
+    }
   }, [chats])
 //  console.log("CHATS CONSULTAS",chats)
 //   React.useEffect(() => {
