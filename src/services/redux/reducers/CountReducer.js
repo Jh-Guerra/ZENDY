@@ -11,7 +11,7 @@ import {
     count_chats:0,
     count_queries_actives:0,
     active_pusher: true,
-     id_chats: 0,
+    id_chats: 0,
  }
 
 export default function (state = initialState, action) {

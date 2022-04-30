@@ -75,7 +75,6 @@ const EntryQueryPage = (props) => {
         console.log('error', error);
       });
   };
-
   const onList = (term) => {
     props.dispatch(showBackdrop(true));
     props.dispatch(listQueries(term, "", (sectionsIds.indexOf("4") ? idHelpdesk : ""))).then(res => {

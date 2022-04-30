@@ -52,7 +52,6 @@ const ActiveEntryQueries = props => {
   }
 
   const chats = chatRx && chatRx.currentChats || [];
-console.log(chats[0]?.isQuery);
   React.useEffect(() => {
     if(chats[0]?.isQuery)
     {

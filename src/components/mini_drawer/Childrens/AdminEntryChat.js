@@ -32,8 +32,10 @@ const AdminEntryChat = props => {
   React.useEffect(() => {
     onList("");
   }, []);
-
+ 
   const onList = (term) => {
+    console.log(sectionsIds.indexOf(3))
+    console.log(sectionsIds)
     props.dispatch(showBackdrop(true));
     props.dispatch(listPendingQueries(term, sectionsIds.indexOf("3") ? idHelpdesk : "")).then(res => {
       props.dispatch(showBackdrop(false));
@@ -66,7 +68,11 @@ const AdminEntryChat = props => {
   }
 
   const entryQueries = entryQueryRx && entryQueryRx.entryQueries || [];
-
+  console.log(entryQueries)
+  // if(entryQueries.lengh>0)
+  // {
+  //   if(entryQueries[0])
+  // }
   return (
     <div style={{height: "79vh"}}>
       <Grid container style={{height: "100%"}}>

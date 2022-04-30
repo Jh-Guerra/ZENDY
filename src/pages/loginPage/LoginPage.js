@@ -268,8 +268,8 @@ const LoginPage = props => {
               cluster: config.pusherCluster,
               encrypted: false,
                //comentar para las pruebas locales
-              // enabledTransports: ['ws', 'wss'],
-              // authEndpoint: config.commonHost + '/api/broadcasting/auth',
+              enabledTransports: ['ws', 'wss'],
+              authEndpoint: config.commonHost + '/api/broadcasting/auth',
               auth: {
                 headers: {
                   'Access-Control-Allow-Origin': '*',
@@ -323,13 +323,11 @@ const LoginPage = props => {
             const user = res.user || {};
             window.Echo.private("user." + user.id).listen('notificationMessage', (e) => {
               props.dispatch(listActiveChats("", "Vigente", false));
-              audio.stop();
               audio.play();
               newExcitingAlerts();
             });
             
             window.Echo.private("consulta." + user.id).listen('ConsultaNotification', (e) => {
-              audio.stop();
               audio.play();
               console.log(e.contenido);
               console.log(this.props.dispatch)
@@ -489,7 +487,6 @@ const LoginPage = props => {
         })
   
             window.Echo.private("aceptarConsulta." + user.id).listen('AceptarConsulta', (e) => {
-              audio.stop();
               audio.play();
               console.log(e.contenido);
               toast((t) => (

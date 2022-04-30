@@ -96,6 +96,10 @@ class UserService {
         return await axios.post( getCustomUrl(config.apiVersion, `syncUsers/sincronizarUsuarios`),{}, defaultHeaders() ); 
     }//modificar el endpoind
 
+    async updateDeviceToken(id, data) {
+        return await axios.post( getCustomUrl(apiPrefix, `/updateDeviceToken/${id}`), data, defaultHeaders() );
+    }
+
 }
 
 export default UserService;

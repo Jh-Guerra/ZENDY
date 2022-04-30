@@ -41,7 +41,7 @@ class ZendyAppShell extends Component {
 
   componentDidMount() {
     const session = getSessionInfo();
-    console.log(this.props)
+    // console.log(this.props)
     let dt = moment();
     dt.subtract(dt.parseZone().utcOffset(), 'minutes');
 
@@ -67,9 +67,9 @@ class ZendyAppShell extends Component {
     }
 
    
-      console.log(this.props.countRx.active_pusher)
-      // if(!this.props.countRx.active_pusher)
-      // {
+       console.log(this.props.countRx.active_pusher)
+       if(this.props.countRx.active_pusher)
+          {
         if (localStorage.getItem('session')) {
           window.Echo = new Echo({
             broadcaster: 'pusher',
@@ -81,8 +81,8 @@ class ZendyAppShell extends Component {
             cluster: config.pusherCluster,
             encrypted: false,
             //comentar para las pruebas locales
-            // enabledTransports: ['ws', 'wss'], 
-            // authEndpoint: config.commonHost + '/api/broadcasting/auth',
+            enabledTransports: ['ws', 'wss'], 
+            authEndpoint: config.commonHost + '/api/broadcasting/auth',
             auth: {
               headers: {
                 'Access-Control-Allow-Origin': '*',
@@ -172,14 +172,12 @@ class ZendyAppShell extends Component {
             (e.chatId == localStorage.getItem("currentChatId")) && this.props.history.push("/inicio");
             this.props.dispatch(listActiveChats("", "Vigente", false));
             // this.props.dispatch(count_chats(3));
-            audio.stop();
             audio.play();
             newExcitingAlerts();
           })
           
           window.Echo.private("consulta." + user.id).listen('ConsultaNotification', (e) => {
             console.log(e);
-            audio.stop();
             audio.play();
             this.props.dispatch(count_queries_slopes(e.contenido.cantidadNoti));
             toast((t) => (
@@ -300,7 +298,7 @@ class ZendyAppShell extends Component {
                   width: '700px'
                 }}>
                 <div
-                  // onClick={() => goToChat(e.contenido.idChat)}
+                  onClick={() => goToChat(e.contenido.idChat)}
                   style={{
                     display: 'flex',
                     justifyContent: 'center',
@@ -309,7 +307,7 @@ class ZendyAppShell extends Component {
                   <img src={`https://www.zendy.cl/${e.contenido.avatar}`} width={'50px'} height={'50px'} />
                 </div>
                 <div
-                  // onClick={() => goToChat(e.contenido.idChat)}
+                  onClick={() => goToChat(e.contenido.idChat)}
                   style={{
                     marginRight: '15px',
                     width: '160px'
@@ -340,7 +338,6 @@ class ZendyAppShell extends Component {
     
           window.Echo.private("aceptarConsulta." + user.id).listen('AceptarConsulta', (e) => {
             console.log(e)
-            audio.stop();
             audio.play();
             toast((t) => (
               <div
@@ -435,10 +432,10 @@ class ZendyAppShell extends Component {
             ));
           })
 
-          // this.props.dispatch(active_pusher(true));
+          
         }
-      // }
-   
+        this.props.dispatch(active_pusher(false));
+       }
 
   }
 

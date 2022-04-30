@@ -104,9 +104,9 @@ const ModalFrequentQuery = props => {
   };
 
   const onSubmit = (entryQuery, { setSubmitting }) => {
-    // props.dispatch(consultaPendiente()).then(res => {
-    //   if(res.status)
-    //   {
+    props.dispatch(consultaPendiente()).then(res => {
+      if(res.status)
+      {
         props.dispatch(showBackdrop(true));
 
         const formData = new FormData();
@@ -124,14 +124,14 @@ const ModalFrequentQuery = props => {
           props.dispatch(showBackdrop(false));
           props.dispatch(showSnackBar("error", error.message || ""));
         }); 
-    //   }else{
-    //     props.dispatch(showSnackBar('warning', 'Usted ya creo una consulta, termine esa consulta para poder crear otra'));
-    //     handleClose();
-    //   }
-    //   console.log(res)
-    // }).catch(error => {
-    //   props.dispatch(showSnackBar("error", error.message || ""));
-    // });  
+      }else{
+        props.dispatch(showSnackBar('warning', 'Usted ya creo una consulta, termine esa consulta para poder crear otra'));
+        handleClose();
+      }
+      console.log(res)
+    }).catch(error => {
+      props.dispatch(showSnackBar("error", error.message || ""));
+    });  
             
   };
 

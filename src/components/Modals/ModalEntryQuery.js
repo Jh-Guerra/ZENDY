@@ -132,10 +132,10 @@ const ModalEntryQuery = props => {
         props.dispatch(showBackdrop(false));
       });
     } else {
-      // Crear
-      // props.dispatch(consultaPendiente()).then(res => {
-      //   if(res.status)
-      //   {
+     // Crear
+      props.dispatch(consultaPendiente()).then(res => {
+        if(res.status)
+        {
           props.dispatch(createEntryQuery(formData)).then(res => {
             props.dispatch(showSnackBar('success', 'Consulta registrada'));
             props.dispatch(showBackdrop(false));
@@ -148,15 +148,15 @@ const ModalEntryQuery = props => {
           props.dispatch(showSnackBar('error', error.message || ''));
         });
 
-        // }else{
-        //   props.dispatch(showSnackBar('warning', 'Usted ya creo una consulta, termine esa consulta para poder crear otra'));
-        //   handleClose();
-        //   props.dispatch(showBackdrop(false));
-        // }
-        // console.log(res)
-      // }).catch(error => {
-      //   props.dispatch(showSnackBar("error", error.message || ""));
-      // });  
+        }else{
+          props.dispatch(showSnackBar('warning', 'Usted ya creo una consulta, termine esa consulta para poder crear otra'));
+          handleClose();
+          props.dispatch(showBackdrop(false));
+        }
+        console.log(res)
+      }).catch(error => {
+        props.dispatch(showSnackBar("error", error.message || ""));
+      });  
     }
   };
 

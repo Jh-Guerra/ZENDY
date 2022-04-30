@@ -110,3 +110,8 @@ export const RegisterNewUser = () => async dispatch => {
     const res = await userService.RegisterNewUser();
     return res && res.data || [];
 }
+
+export const updateDeviceToken = (id, data) => async dispatch => {
+    const res = await userService.updateDeviceToken(id, data);
+    return res && res.data || [];
+}

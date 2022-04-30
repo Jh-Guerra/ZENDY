@@ -6,7 +6,6 @@ import { getImageProfile } from 'utils/common';
 import moment from 'moment';
 
 const ItemQueryRow = (props) => {
-
   const { query={} } = props;
 
   const image =  query.avatar;

@@ -12,7 +12,7 @@ import ReportedErrorSection from './Childrens/ReportedErrorSection';
 import EntryChat from './Childrens/EntryChat';
 import { updateLastRoute, updateLastTab } from 'services/actions/CommonAction';
 import { getSessionInfo, getRoleSections } from 'utils/common';
-import { updateStatus } from 'services/actions/UserAction';
+import { updateStatus, updateDeviceToken } from 'services/actions/UserAction';
 import AdminEntryChat from './Childrens/AdminEntryChat';
 import { connect } from "react-redux";
 import AdminMyRecommendationsSection from './Childrens/AdminMyRecommendationsSection';
@@ -87,10 +87,13 @@ const MiniDrawer = (props) => {
 
   React.useEffect(() => {
     const currentSections = getRoleSections() || [];
+    // console.log(currentSections)
     if(currentSections.length > 5){
       var newMainSections = currentSections.filter((section, i) => i < 4); 
       newMainSections.push(moreActionSection);
       var newSecondSections = currentSections.filter((section, i) => i >= 4); 
+      // console.log(newMainSections)
+      // console.log(newSecondSections)
       setMainSections(newMainSections)
       setSecondSections(newSecondSections)
     } else {
@@ -132,6 +135,7 @@ const MiniDrawer = (props) => {
     // setTimeout(() => {
       props.dispatch(active_pusher(false));
       props.dispatch(updateStatus(session.user.id, '0' ))
+      props.dispatch(updateDeviceToken(session.user.id, '0' ))
       localStorage.clear();
       // window.location.reload();
       history.push("/");
