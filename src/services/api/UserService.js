@@ -100,6 +100,10 @@ class UserService {
         return await axios.post( getCustomUrl(apiPrefix, `/updateDeviceToken/${id}`), data, defaultHeaders() );
     }
 
+    async logoutLaravel() {
+        return await axios.post( getCustomUrl(apiPrefix, `/logoutLaravel`), {}, defaultHeaders() );
+    }
+
 }
 
 export default UserService;

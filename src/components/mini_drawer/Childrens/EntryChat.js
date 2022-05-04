@@ -41,7 +41,6 @@ const EntryChat = props => {
     onList("");
   }, []);
 
-  console.log(sectionsIds.indexOf("4"))
   const onList = (term, status) => {
     props.dispatch(showBackdrop(true));
     props.dispatch(listQueries(term, status, sectionsIds.indexOf("4") ? idHelpdesk : "")).then(res => {
@@ -86,7 +85,6 @@ const EntryChat = props => {
     onList("",value);
   }
   const entryQueries = entryQueryRx && entryQueryRx.entryQueries.length ==1 &&entryQueryRx.entryQueries || [];
-  console.log(entryQueries)
   return (
     <div style={{height: "79vh"}}>
       <Grid container style={{height: "100%"}}>

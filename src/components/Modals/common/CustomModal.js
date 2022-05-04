@@ -75,8 +75,10 @@ const CustomModal = (props) => {
                 return <ModalPasswordChange {...props}/>
             case "ModalHelpDesks":
                 return <ModalHelpDesks {...props}/>
-            case "ModalCarrusel":
-                return <ModalCarrusel {...props}/>
+            // case "ModalCarrusel":
+            //     return <ModalCarrusel {...props}/>
+            case "ModalEntryQuery2":
+                return <ModalEntryQuery {...props}/>
             default:
                 return null;
         }

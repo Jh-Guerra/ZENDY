@@ -65,6 +65,9 @@ class EntryQueryService {
         return await axios.get( getCustomUrl(apiPrefix, `/consultaPendiente`), defaultHeaders());
     }
 
+    async statusModalOff(data) {
+        return await axios.post( getCustomUrl(apiPrefix, `/statusModalOff`), data, defaultHeaders());
+    }
 }
 
 export default EntryQueryService;

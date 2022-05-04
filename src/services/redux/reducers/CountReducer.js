@@ -3,7 +3,8 @@ import {
     NUM_MENSAJES_CHATS,
     NUM_CONSULTAS,
     STATUS_PUSHER,
-    ID_CHATS
+    ID_CHATS,
+    POS_MODAL
  } from '../common/Types'
 
  const initialState = {
@@ -12,6 +13,7 @@ import {
     count_queries_actives:0,
     active_pusher: true,
     id_chats: 0,
+    pos:0,
  }
 
 export default function (state = initialState, action) {
@@ -40,6 +42,11 @@ export default function (state = initialState, action) {
             return {
                 ...state,
                 id_chats: action.payload
+            }
+        case POS_MODAL:
+            return{
+                ...state,
+                pos: action.payload
             }
         default:
             return state;

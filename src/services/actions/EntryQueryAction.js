@@ -85,3 +85,8 @@ export const consultaPendiente  = () => async dispatch => {
     const res = await service.consultaPendiente ();
     return res && res.data || [];
 }
+
+export const statusModalOff  = (status) => async dispatch => {
+    const res = await service.statusModalOff(status);
+    return res && res.data || [];
+}

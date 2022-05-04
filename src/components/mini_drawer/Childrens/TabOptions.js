@@ -8,10 +8,18 @@ const TabOptions = (props) => {
 
   const { onSaveForm, onOpenModal, onOpenModal2, view } = props;
 
+  // const changeStatusModal = () => {
+  //   var status = document.getElementById('statusModal')
+  //   console.log(status)
+  //   if(status){
+  //     status.style.display = 'none';
+  //   }
+  // }
+
   return (
     <>
-      <div style={{ borderTop: '0.8px solid', borderColor: 'white' }}>
-        <Grid container spacing={3} style={{ padding: '10px' }}>
+      <div style={{ borderTop: '0.8px solid', borderColor: 'white', textAlign: 'center' }}>
+        <Grid container spacing={3} style={{ padding: '5px', margin: 'auto' }}>
           {
             view=="reportedErrors" && (
               <Grid item xs={6}>
@@ -29,7 +37,7 @@ const TabOptions = (props) => {
           }
           {
             view=="entryQueries" && (
-              <Grid container spacing={3} style={{ padding: '10px', marginTop: '10px' }}>
+              <Grid container spacing={3} style={{ padding: '10px' }}>
                 <Grid item xs={6}>
                   <Button
                     fullWidth
@@ -41,7 +49,7 @@ const TabOptions = (props) => {
                     Iniciar Consulta
                   </Button>
                 </Grid>
-                <Grid item xs={6}>
+                {/* <Grid item xs={6}>
                   <Button
                     fullWidth
                     onClick={() => { onOpenModal2 && onOpenModal2() }}
@@ -51,7 +59,7 @@ const TabOptions = (props) => {
                   >
                     Consulta Frecuente
                   </Button>
-                </Grid>
+                </Grid> */}
               </Grid>
             )
           }

@@ -24,9 +24,9 @@ class NewChatCall extends Component {
   render() {
     return (
       <>
-        <div style={{ borderTop: '0.8px solid', borderColor: 'white' }}>
-          <Grid container spacing={3} style={{ padding: '10px', marginTop: '10px' }}>
-            <Grid item xs={6}>
+        <div style={{ borderTop: '0.8px solid', borderColor: 'white', textAlign: 'center' }}>
+          <Grid container spacing={3} style={{ padding: '10px', margin: '0px auto' }}>
+            <Grid item xs={6} style={{margin: '0px auto'}}>
               <Button
                 fullWidth
                 onClick={() => this.handleClickOpen()}
@@ -34,10 +34,10 @@ class NewChatCall extends Component {
                 color="secondary"
                 startIcon={<RateReviewIcon />}
               >
-                Buscar Chat
+                Crear Chat
               </Button>
             </Grid>
-            <Grid item xs={6}>
+            {/* <Grid item xs={6}>
               <Button
                 fullWidth
                 onClick={() => this.handleClickOpen()}
@@ -48,7 +48,7 @@ class NewChatCall extends Component {
               >
                 Llamadas
               </Button>
-            </Grid>
+            </Grid> */}
           </Grid>
           <CustomModal
             customModal={this.props.isChatCompany ? 'ModalNewCompanyChat' : 'ModalNewChat'}

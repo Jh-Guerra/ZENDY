@@ -24,7 +24,7 @@ import icon from 'assets/images/logo.png';
 import icon2 from 'assets/images/logo2.png';
 import { Toaster, toast } from 'react-hot-toast';
 import './ZendyAppShell.css'
-import { active_pusher, count_chats, count_queries_actives, count_queries_slopes, id_chats } from 'services/actions/CountAction';
+import { active_pusher, count_chats, count_queries_actives, count_queries_slopes, id_chats,updateViewModalRefresh } from 'services/actions/CountAction';
 import { conteoChats } from 'services/actions/NotificationAction';
 
 window.Pusher = require('pusher-js');
@@ -40,6 +40,7 @@ class ZendyAppShell extends Component {
   }
 
   componentDidMount() {
+    this.props.dispatch(updateViewModalRefresh(1));
     const session = getSessionInfo();
     // console.log(this.props)
     let dt = moment();
@@ -66,8 +67,6 @@ class ZendyAppShell extends Component {
       });
     }
 
-   
-       console.log(this.props.countRx.active_pusher)
        if(this.props.countRx.active_pusher)
           {
         if (localStorage.getItem('session')) {
@@ -81,8 +80,8 @@ class ZendyAppShell extends Component {
             cluster: config.pusherCluster,
             encrypted: false,
             //comentar para las pruebas locales
-            enabledTransports: ['ws', 'wss'], 
-            authEndpoint: config.commonHost + '/api/broadcasting/auth',
+            // enabledTransports: ['ws', 'wss'], 
+            // authEndpoint: config.commonHost + '/api/broadcasting/auth',
             auth: {
               headers: {
                 'Access-Control-Allow-Origin': '*',

@@ -1,5 +1,5 @@
 import { showBackdrop } from "./CustomAction";
-import { NUM_CONSULTAS_PENDIENTES,NUM_MENSAJES_CHATS , NUM_CONSULTAS, STATUS_PUSHER,ID_CHATS} from "services/redux/common/Types"
+import { NUM_CONSULTAS_PENDIENTES,NUM_MENSAJES_CHATS , NUM_CONSULTAS, STATUS_PUSHER,ID_CHATS,POS_MODAL} from "services/redux/common/Types"
 
 export const count_queries_slopes = (count_queries_slopes) => async dispatch => {
     dispatch({
@@ -33,6 +33,13 @@ export const id_chats = (id_chats) => async dispatch => {
     dispatch({
         type: ID_CHATS,
         payload: id_chats
+    })
+}
+
+export const updateViewModalRefresh = (pos) => async dispatch => {
+    dispatch({
+        type: POS_MODAL,
+        payload: pos
     })
 }
 

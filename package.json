@@ -14,6 +14,7 @@
     "@material-ui/icons": "^4.5.1",
     "@material-ui/lab": "^4.0.0-alpha.42",
     "@material-ui/pickers": "^3.3.10",
+    "@mui/icons-material": "^5.6.2",
     "@mui/lab": "^5.0.0-alpha.75",
     "@mui/material": "^5.5.3",
     "@mui/styled-engine-sc": "^5.5.2",

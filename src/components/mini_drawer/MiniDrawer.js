@@ -12,7 +12,7 @@ import ReportedErrorSection from './Childrens/ReportedErrorSection';
 import EntryChat from './Childrens/EntryChat';
 import { updateLastRoute, updateLastTab } from 'services/actions/CommonAction';
 import { getSessionInfo, getRoleSections } from 'utils/common';
-import { updateStatus, updateDeviceToken } from 'services/actions/UserAction';
+import { updateStatus, updateDeviceToken, logoutLaravel } from 'services/actions/UserAction';
 import AdminEntryChat from './Childrens/AdminEntryChat';
 import { connect } from "react-redux";
 import AdminMyRecommendationsSection from './Childrens/AdminMyRecommendationsSection';
@@ -32,9 +32,11 @@ import CommentIcon from '@material-ui/icons/Comment';
 import HistoryQuery from './Childrens/HistoryQuery';
 import Badge from "@material-ui/core/Badge";
 import { makeStyles } from "@material-ui/core/styles";
-import { active_pusher } from 'services/actions/CountAction';
+import { active_pusher,updateViewModalRefresh} from 'services/actions/CountAction';
+import ScheduleSendSharpIcon from '@mui/icons-material/ScheduleSendSharp';
+import SendSharpIcon from '@mui/icons-material/SendSharp';
 
-const moreActionSection = { name:"moreActions", title:"Más Opciones", order:5, active: true};
+const moreActionSection = { name: "moreActions", title: "Más Opciones", order: 5, active: true };
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -53,7 +55,7 @@ const TabPanel = (props) => {
       hidden={value !== index}
       id={`simple-tabpanel-${index}`}
       aria-labelledby={`simple-tab-${index}`}
-      style={{width:"100%", maxHeight: "100%", minHeight:"100%"}}
+      style={{ width: "100%", maxHeight: "100%", minHeight: "100%" }}
       {...other}
     >
       {value === index && (
@@ -88,12 +90,11 @@ const MiniDrawer = (props) => {
   React.useEffect(() => {
     const currentSections = getRoleSections() || [];
     // console.log(currentSections)
-    if(currentSections.length > 5){
-      var newMainSections = currentSections.filter((section, i) => i < 4); 
+    if (currentSections.length > 5) {
+      var newMainSections = currentSections.filter((section, i) => i < 4);
       newMainSections.push(moreActionSection);
-      var newSecondSections = currentSections.filter((section, i) => i >= 4); 
+      var newSecondSections = currentSections.filter((section, i) => i >= 4);
       // console.log(newMainSections)
-      // console.log(newSecondSections)
       setMainSections(newMainSections)
       setSecondSections(newSecondSections)
     } else {
@@ -107,20 +108,20 @@ const MiniDrawer = (props) => {
     var companiesHDTab = -1;
     var moreActionsTab = (currentSections && currentSections.length > 5) ? 4 : -1;
     currentSections && currentSections.length > 0 && currentSections.map((section, index) => {
-      if(section.name == "adminUsers" || section.name == "companyUsers"){
+      if (section.name == "adminUsers" || section.name == "companyUsers") {
         usersTab = index;
         usersNameTab = section.name;
       }
 
-      if(section.name == "companies"){
+      if (section.name == "companies") {
         companiesTab = index;
       }
 
-      if(section.name == "companiesHD"){
+      if (section.name == "companiesHD") {
         companiesHDTab = index;
       }
     })
-  
+
     setUsersTab((usersTab > -1 && moreActionsTab > 0) ? usersTab + 1 : usersTab);
     setUsersNameTab(usersNameTab);
     setCompaniesTab((companiesTab > 4 && moreActionsTab > 0) ? companiesTab + 1 : companiesTab);
@@ -133,87 +134,91 @@ const MiniDrawer = (props) => {
   const logOut = () => {
     // window.location.reload();
     // setTimeout(() => {
-      props.dispatch(active_pusher(false));
-      props.dispatch(updateStatus(session.user.id, '0' ))
-      props.dispatch(updateDeviceToken(session.user.id, '0' ))
-      localStorage.clear();
-      // window.location.reload();
-      history.push("/");
-      //  setTimeout(() => {
-      //   history.push("/");
-      // }, 400);
+    props.dispatch(active_pusher(false));
+    props.dispatch(updateStatus(session.user.id, '0'))
+    props.dispatch(updateDeviceToken(session.user.id, '0'))
+    props.dispatch(logoutLaravel())
+    localStorage.clear();
+    props.dispatch(updateViewModalRefresh(0));
+    // window.location.reload();
+    history.push("/");
+    //  setTimeout(() => {
+    //   history.push("/");
     // }, 400);
-   
+    // }, 400);
+
   }
   const updateTabByView = (path) => {
-    
+
   }
 
   const getPageSection = (sectionName) => {
     switch (sectionName) {
-      case "vigentChats":
-        return <CurrentChat {...props}/>
-      case "myEntryQueries":
-          return <EntryChat {...props}/>
-      case "companyEntryQueries":
-          return <AdminEntryChat {...props}/>
       case "activeEntryQueries":
-          return <ActiveEntryQueries {...props}/>
+        return <ActiveEntryQueries {...props} />
+      case "myEntryQueries":
+        return <EntryChat {...props} />
+      case "companyEntryQueries":
+        return <AdminEntryChat {...props} />
+      case "vigentChats":
+        return <CurrentChat {...props} />
       case "recommendations":
-          return <AdminMyRecommendationsSection {...props}/>
+        return <AdminMyRecommendationsSection {...props} />
       case "adminNotifications":
-          return <AdminNotificationSection {...props}/>
+        return <AdminNotificationSection {...props} />
       case "companyNotifications":
       case "myNotifications":
-          return <NotificationSection {...props}/>
+        return <NotificationSection {...props} />
       case "adminReportedErrors":
-          return <AdminErrorSection {...props}/>
+        return <AdminErrorSection {...props} />
       case "myReportedErrors":
-          return <ReportedErrorSection {...props}/>
+        return <ReportedErrorSection {...props} />
       case "historyChats":
-          return <HistoryChat {...props}/>
+        return <HistoryChat {...props} />
       case "historyQuery":
         return <HistoryQuery {...props} />
       // case "ReportList":
       //     return <ReportList {...props}/>
       default:
-          return null;
-      }
+        return null;
+    }
   }
 
   const getIcon = (sectionName) => {
     switch (sectionName) {
       case "vigentChats":
         return (
-          <div className={classes.root}> 
-            <Badge color="secondary" overlap="circular" badgeContent={props.countRx?.count_chats>0?props.countRx?.count_chats:null} showZero>
-            <ForumIcon/>
+          <div className={classes.root}>
+            <Badge color="secondary" overlap="circular" badgeContent={props.countRx?.count_chats > 0 ? props.countRx?.count_chats : null} showZero>
+              <ForumIcon />
             </Badge>
           </div>
-          )
-        // return <ForumIcon/>
+        )
+      // return <ForumIcon/>
       case "adminEntryQueries":
       case "companyEntryQueries":
       case "myEntryQueries":
         return (
-          <div className={classes.root}> 
-            <Badge color="secondary" overlap="circular" badgeContent={props.countRx?.count_queries_slopes>0?props.countRx?.count_queries_slopes:null} showZero>
-            <ModeCommentIcon/>
+          <div className={classes.root}>
+            <Badge color="secondary" overlap="circular" badgeContent={props.countRx?.count_queries_slopes > 0 ? props.countRx?.count_queries_slopes : null} showZero>
+              {/* <ModeCommentIcon /> */}
+              <ScheduleSendSharpIcon />
             </Badge>
           </div>
-          )
-        // return <ModeCommentIcon/>
+        )
+      // return <ModeCommentIcon/>
       case "activeEntryQueries":
         return (
-          <div className={classes.root}> 
-            <Badge color="secondary" overlap="circular" badgeContent={props.countRx?.count_queries_actives>0?props.countRx?.count_queries_actives:null} showZero>
-            <CommentIcon/>
+          <div className={classes.root}>
+            <Badge color="secondary" overlap="circular" badgeContent={props.countRx?.count_queries_actives > 0 ? props.countRx?.count_queries_actives : null} showZero>
+              {/* <CommentIcon /> */}
+              <SendSharpIcon  />
             </Badge>
           </div>
-          )
-        // return <CommentIcon/>
+        )
+      // return <CommentIcon/>
       case "recommendations":
-        return <TextsmsIcon/>
+        return <TextsmsIcon />
       case "adminNotifications":
       case "companyNotifications":
       case "myNotifications":
@@ -221,12 +226,12 @@ const MiniDrawer = (props) => {
       case "adminReportedErrors":
       case "companyReportedErrors":
       case "myReportedErrors":
-        return <SmsFailedIcon/>
+        return <SmsFailedIcon />
       case "historyChats":
-        return <SpeakerNotesIcon/>
+        return <SpeakerNotesIcon />
       case "companyReports":
       case "adminReports":
-        return <AssessmentIcon/>
+        return <AssessmentIcon />
       case "adminUsers":
       case "companyUsers":
         return <PeopleIcon />
@@ -239,21 +244,21 @@ const MiniDrawer = (props) => {
       case "historyQuery":
         return <CommentIcon />
       default:
-          return null;
-      }
+        return null;
+    }
   }
 
   const handleChangeTab = (event, newTab) => {
     props.dispatch(updateLastTab(newTab || 0));
-    if(newTab == moreActionsTab){
+    if (newTab == moreActionsTab) {
       setShowModalMoreActions(true);
-    }else if(newTab == usersTab){
+    } else if (newTab == usersTab) {
       usersNameTab == "adminUsers" ? goToView("usuarios") : goToView("usuarios-empresa");
-    }else if (newTab == companiesTab){
+    } else if (newTab == companiesTab) {
       goToView("empresas");
-    }else if (newTab == companiesHDTab){
+    } else if (newTab == companiesHDTab) {
       goToView("mesas-de-ayuda");
-    }else{
+    } else {
       setTab(newTab);
     }
   }
@@ -272,7 +277,7 @@ const MiniDrawer = (props) => {
           logout={() => { logOut() }}
         />
         <Grid container className="mini-drawer" style={{ height: "87vh" }}>
-          <Grid item xs={12} style={{height:'8vh', minHeight:'70px'}}>
+          <Grid item xs={12} style={{ height: '8vh', minHeight: '70px' }}>
             <div className="mini-drawer-sections">
               <AppBar position="static" className="mini-drawer-options">
                 <Tabs
@@ -281,22 +286,22 @@ const MiniDrawer = (props) => {
                   aria-label="simple tabs example"
                   variant="fullWidth"
                   indicatorColor="primary"
-                  style={{height:"100%"}}
+                  style={{ height: "100%" }}
                 >
                   {
-                    mainSections && mainSections.map((section,index)=>{
+                    mainSections && mainSections.map((section, index) => {
                       return (
                         <Tooltip key={index} title={section.title}>
-                            <Tab className="mini-drawer-tab" icon={getIcon(section.name)}/>
-                            </Tooltip>
+                          <Tab className="mini-drawer-tab" icon={getIcon(section.name)} />
+                        </Tooltip>
                       );
                     })
                   }
                   {
-                    secondSections && secondSections.map((section,index)=>{
+                    secondSections && secondSections.map((section, index) => {
                       return (
                         <Tooltip key={index + 5} title={section.title}>
-                          <Tab className="mini-drawer-tab" icon={getIcon(section.name)} style={{display:"none"}}/>
+                          <Tab className="mini-drawer-tab" icon={getIcon(section.name)} style={{ display: "none" }} />
                         </Tooltip>
                       );
                     })
@@ -305,29 +310,29 @@ const MiniDrawer = (props) => {
               </AppBar>
             </div>
           </Grid>
-          <div className="mini-drawer-tabs" style={{height:'79vh'}}>
+          <div className="mini-drawer-tabs" style={{ height: '79vh' }}>
             {
-              mainSections && mainSections.map((section, index)=>{
+              mainSections && mainSections.map((section, index) => {
                 return (
                   <TabPanel key={index} value={tab} index={index} >
-                    { getPageSection(section.name) }
+                    {getPageSection(section.name)}
                   </TabPanel>
                 );
               })
             }
             {
-              secondSections && secondSections.map((section, index)=>{
+              secondSections && secondSections.map((section, index) => {
                 return (
                   <TabPanel key={index} value={tab} index={index + 5}>
-                    { getPageSection(section.name) }
+                    {getPageSection(section.name)}
                   </TabPanel>
                 );
               })
             }
-          </div> 
+          </div>
         </Grid>
       </Drawer>
-      <ModalMoreActions 
+      <ModalMoreActions
         open={showModalMoreActions}
         handleClose={() => { setShowModalMoreActions(false) }}
         goToView={goToView}
