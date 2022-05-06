@@ -518,7 +518,6 @@ const ModalEntryQuery = props => {
                           </Grid>
                         )
                       }
-
                     </Grid>
                   )}
                   {file && <Grid container item xs={6} justify="center">

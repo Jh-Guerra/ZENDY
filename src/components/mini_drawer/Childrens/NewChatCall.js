@@ -37,18 +37,7 @@ class NewChatCall extends Component {
                 Crear Chat
               </Button>
             </Grid>
-            {/* <Grid item xs={6}>
-              <Button
-                fullWidth
-                onClick={() => this.handleClickOpen()}
-                variant="contained"
-                color="secondary"
-                disabled
-                startIcon={<RateReviewIcon />}
-              >
-                Llamadas
-              </Button>
-            </Grid> */}
+         
           </Grid>
           <CustomModal
             customModal={this.props.isChatCompany ? 'ModalNewCompanyChat' : 'ModalNewChat'}

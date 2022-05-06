@@ -74,6 +74,7 @@ const ModalNewCustomerChat = props => {
     } else {
       newSelectedUsers.push(user);
     }
+    console.log(newSelectedUsers)
     setSelectedUsers(newSelectedUsers);
   };
 

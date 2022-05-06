@@ -11,6 +11,7 @@ export const updateActiveChats = payload => ({
 
 export const listActiveChats = (term, status, isQuery) => async dispatch => {
     const res = await service.listActiveChats(term, status, isQuery);
+    console.log(res.data)
     dispatch(updateActiveChats(res.data));
     return res && res.data || [];
 }
@@ -72,5 +73,10 @@ export const listUserHD = () => async dispatch => {
 
 export const searchlistFinalize = (term, fromDate, toDate, isQuery, id , isHelpDesk) => async dispatch => {
     const res = await service.searchlistFinalize(term, fromDate, toDate, isQuery, id , isHelpDesk);
+    return res && res.data || [];
+}
+
+export const chatEmpresa = (term) => async dispatch => {
+    const res = await service.chatEmpresa(term);
     return res && res.data || [];
 }

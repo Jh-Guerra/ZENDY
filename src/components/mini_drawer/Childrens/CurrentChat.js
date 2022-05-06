@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import ItemChatRow from '../Components/ItemChatRow';
+import ItemUserRow from '../Components/ItemUserRow'
 import { withStyles } from '@material-ui/core/styles';
 import { Input, InputAdornment, Paper, Grid, IconButton, InputBase } from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search';
-import { listActiveChats } from 'services/actions/ChatAction';
+import { listActiveChats, chatEmpresa } from 'services/actions/ChatAction';
 import NewChatCall from './NewChatCall';
 import { useHistory } from 'react-router-dom';
 import { showBackdrop } from 'services/actions/CustomAction';
@@ -22,6 +23,7 @@ const CurrentChat = props => {
 
   const [term, setTerm] = React.useState("");
   const [searchTimeout, setSearchTimeout] = React.useState(null);
+  const [users, setUsers] = React.useState([])
 
   React.useEffect(() => {
     onListActiveChats('');
@@ -35,12 +37,22 @@ const CurrentChat = props => {
     }).catch(err => props.dispatch(showBackdrop(false)));
   };
 
+  // const users = []
+
   const onSearch = term => {
+    setUsers([]);
     clearTimeout(searchTimeout);
     setTerm(term)
     setSearchTimeout(
       setTimeout(() => {
         onListActiveChats(term);
+        // props.dispatch(showBackdrop(true));
+        props.dispatch(chatEmpresa(term)).then(res => {
+          console.log(res)
+          if(res){
+            setUsers(res)
+          }
+        });
       }, 1000)
     );
   };
@@ -49,6 +61,7 @@ const CurrentChat = props => {
     setTerm("");
     history.push(`/chats/${chat.id}`);
     onListActiveChats('');
+    setUsers([])
   }
 
   const onSaveForm = () => {
@@ -97,8 +110,8 @@ const CurrentChat = props => {
             }
           />
         </Grid>
-        <Grid item xs={12} style={{height: "59vh"}}>
-          <div className="items-section">
+        <Grid item  xs={12} style={{height: "59vh"}}>
+        <div className="items-section">
             {
               (!chats || chats.lenght == 0) ? (
                 <div className="container-not-found">
@@ -116,8 +129,34 @@ const CurrentChat = props => {
                   );
                 })
               )
+              }
+              {
+              (!users || users.lenght == 0) ? (
+                <div className="container-not-found">
+                  <p className="chat-not-found">No se encontró ningún chat</p>
+                </div>
+              ) : (
+               <div>
+                 <div className="item-row-section" style={{padding:'20px'}}>
+                 <span style={{textAlign:'center',fontSize:'15px',color:'#fff'}}>Contactos</span>
+                 </div>
+                 {
+                    users && users.map((chat, i) => {
+                      return (
+                        <ItemUserRow
+                          key={i}
+                          user={chat}
+                          // type={1}
+                           goToChat={goToChat}
+                        />
+                      );
+                    })
+                 }
+               </div>
+              )
             }
           </div>
+        
         </Grid>
       </Grid>
     </div>
