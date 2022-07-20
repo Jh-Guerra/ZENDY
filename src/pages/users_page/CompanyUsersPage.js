@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Grid, Typography } from "@material-ui/core";
+import { Button, Grid, Typography, Input,InputAdornment,IconButton } from "@material-ui/core";
 import CustomTable from 'components/CustomTable';
 import { deleteUser, findUser, listUsers, listUsersSameCompany } from 'services/actions/UserAction';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
@@ -9,6 +9,9 @@ import { getCustomRoleName } from 'utils/common';
 import ModalDelete from 'components/Modals/ModalDelete';
 import { showBackdrop, showSnackBar } from 'services/actions/CustomAction';
 import { getImageProfile, getSessionInfo } from "utils/common";
+import TextField from '@material-ui/core/TextField';
+import Autocomplete from '@material-ui/lab/Autocomplete';
+import SearchIcon from '@material-ui/icons/Search';
 
 const columns = [
   { type: 'text', field: 'name', label: 'Nombre', format: (row) => `${row.firstName} ${row.lastName}` },

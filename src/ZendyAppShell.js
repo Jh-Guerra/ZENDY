@@ -26,6 +26,7 @@ import { Toaster, toast } from 'react-hot-toast';
 import './ZendyAppShell.css'
 import { active_pusher, count_chats, count_queries_actives, count_queries_slopes, id_chats,updateViewModalRefresh } from 'services/actions/CountAction';
 import { conteoChats } from 'services/actions/NotificationAction';
+import { listPendingQueries } from 'services/actions/EntryQueryAction';
 
 window.Pusher = require('pusher-js');
 
@@ -174,9 +175,16 @@ class ZendyAppShell extends Component {
             audio.play();
             newExcitingAlerts();
           })
+          // const session = getSessionInfo();
+          var sectionsIds = session && session.role && session.role.sectionIds;
+          var idHelpdesk = session && session.user && session.user.idHelpDesk;
           
           window.Echo.private("consulta." + user.id).listen('ConsultaNotification', (e) => {
-            console.log(e);
+            // console.log(e);
+
+           this.props.dispatch(listPendingQueries('', sectionsIds.indexOf("3") ? idHelpdesk : "")).then(res => {
+              this.props.dispatch(showBackdrop(false));
+            }).catch(err => this.props.dispatch(showBackdrop(false)));
             audio.play();
             this.props.dispatch(count_queries_slopes(e.contenido.cantidadNoti));
             toast((t) => (
@@ -230,6 +238,9 @@ class ZendyAppShell extends Component {
           //Escucha las cantidad de consultas pendientes NEW2
           window.Echo.private("cantidadNoti." + user.id).listen('ContarConsultas', (e) => {
             this.props.dispatch(count_queries_slopes(e.cantidadNoti));
+            this.props.dispatch(listPendingQueries('', sectionsIds.indexOf("3") ? idHelpdesk : "")).then(res => {
+              this.props.dispatch(showBackdrop(false));
+            }).catch(err => this.props.dispatch(showBackdrop(false)));
             console.log(e)
           })
     

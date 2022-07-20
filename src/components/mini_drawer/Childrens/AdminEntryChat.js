@@ -34,6 +34,8 @@ const AdminEntryChat = props => {
   }, []);
  
   const onList = (term) => {
+    console.log(sectionsIds)
+    console.log(sectionsIds.indexOf("3"))
     console.log(sectionsIds.indexOf(3))
     console.log(sectionsIds)
     props.dispatch(showBackdrop(true));

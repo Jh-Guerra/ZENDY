@@ -660,7 +660,6 @@ const session = getSessionInfo();
                 fontFamily: 'sans-serif'
               }}>
               Bienvenido Nuevamente a Zendy, Estamos Listos para ayudarlo
-              
             </p>
             <div className='formulario-imagen'
               style={{

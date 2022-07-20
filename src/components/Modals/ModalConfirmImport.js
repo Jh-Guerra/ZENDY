@@ -21,7 +21,6 @@ const ModalConfirmImport = (props) => {
 
     const classes = useStyles();
     const { open, handleClose, onConfirm ,type} = props;
-console.log(type)
     const [dataEntity,SetDataEntity] = React.useState([])
 
     React.useEffect(()=>{

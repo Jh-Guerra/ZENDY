@@ -20,19 +20,29 @@ const useStyles = makeStyles({
 });
 
 const CustomTable = props => {
-    const { columns=[], rows=[], loading=false } = props;
+    const { columns=[], rows=[], loading=false, funperPage, funpage} = props;
 
     const classes = useStyles();
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
-
+    
     const handleChangePage = (event, newPage) => {
+        // setPage(newPage);
         setPage(newPage);
+        if(funpage){
+          console.log(newPage)
+          funpage(newPage);
+        }
+
     };
 
     const handleChangeRowsPerPage = (event) => {
         setRowsPerPage(+event.target.value);
-        setPage(0);
+        // setPage(0);
+        if(funperPage){
+          funperPage(+event.target.value)
+         }
+         setPage(0);
     };
 
     const StyledTableCell = withStyles((theme) => ({
@@ -63,7 +73,8 @@ const CustomTable = props => {
               </TableHead>
               { loading ? <caption>Cargando...</caption> : (
                 <TableBody>
-                  {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, i) => {
+                  {rows.map((row, i) => {
+                    //rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                     return (
                       <TableRow hover role="checkbox" tabIndex={-1} key={i} onClick={() => { props.onRowClick(row) } } style={{cursor:'pointer'}}>
                         {columns.map((column, i2) => {
@@ -84,7 +95,7 @@ const CustomTable = props => {
             <TablePagination
               rowsPerPageOptions={[10, 25, 100]}
               component="div"
-              count={rows.length}
+              count={5745}
               rowsPerPage={rowsPerPage}
               page={page}
               onChangePage={handleChangePage}

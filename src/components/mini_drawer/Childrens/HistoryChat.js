@@ -90,7 +90,7 @@ const HistoryChat = props => {
               <span className="divider-line"></span>
             </div>
           </Grid>
-          <Grid item xs={12} style={{height: "8vh"}} container style={{ padding: '10px'}}>
+          <Grid item xs={12} style={{height: "8vh" , padding: '10px'}} container>
             <Grid item xs={6}>
               <CustomInput
                 id="date1"
@@ -134,7 +134,7 @@ const HistoryChat = props => {
             />
           </Grid>
           <Grid item xs={12} style={{height: "57vh"}}>
-            <div className="items-rows">
+            <div className="items-section">
               {
                 isEmpty ? (
                   <div className="container-not-found">

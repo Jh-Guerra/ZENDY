@@ -84,7 +84,7 @@
       "env": {
         "REACT_APP_NODE_ENV": "development",
         "REACT_APP_DEBUG": true,
-        "REACT_APP_API": "http://127.0.0.1:8000/",
+        "REACT_APP_API": "http://127.0.0.1:8002/",
         "REACT_APP_GA_ID": "UA-82642500-5",
         "REACT_APP_stripePk": "pk_live_i6flGDmKSlgHwOUQuWo4DHEj",
         "REACT_APP_HOST": "http://localhost:3000",

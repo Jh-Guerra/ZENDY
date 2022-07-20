@@ -26,8 +26,9 @@ class UserService {
         return await axios.post( getCustomUrl(config.apiVersion, `sendEmail/${id}`), {email}, defaultHeaders());
     }
 
-    async listUsers(term="") {
-        return await axios.get( getCustomUrl(apiPrefix, `/list?term=${term}`), defaultHeaders() );
+    async listUsers(term="",termCompany='',perPageData,pageData) {
+        console.log(termCompany)
+        return await axios.get( getCustomUrl(apiPrefix, `/list?term=${term}&termCompany=${termCompany}&per_page=${perPageData}&page=${pageData}`), defaultHeaders() );
     }
 
     async listAvailableUsers(type, term="", oldIdCompany) {

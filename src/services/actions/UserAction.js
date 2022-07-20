@@ -27,9 +27,10 @@ export const sendEmail = (id,email) => async dispatch => {
     return res && res.data || [];
 }
 
-export const listUsers = (term) => async dispatch => {
-    const res = await userService.listUsers(term);
-    return res && res.data || [];
+export const listUsers = (term='',termCompany='',perPageData,pageData) => async dispatch => {
+    console.log(termCompany)
+    const res = await userService.listUsers(term,termCompany,perPageData,pageData);
+    return res && res.data.data || [];
 }
 
 export const listAvailableUsers = (type, term, idCompany) => async dispatch => {

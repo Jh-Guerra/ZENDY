@@ -9,7 +9,7 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 import ZendyTitle from 'assets/images/ZendyTitle.png';
 import { pColor, sColor } from 'assets/styles/zendy-css';
 import { loginErp, loginUser } from 'services/actions/LoginAction';
-import { statusConsult } from 'services/actions/EntryQueryAction';
+import { listPendingQueries, statusConsult } from 'services/actions/EntryQueryAction';
 import { connect } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
 import { showBackdrop, showSnackBar } from 'services/actions/CustomAction';
@@ -326,8 +326,14 @@ const LoginPage = props => {
               audio.play();
               newExcitingAlerts();
             });
+
+            var sectionsIds = session && session.role && session.role.sectionIds;
+            var idHelpdesk = session && session.user && session.user.idHelpDesk;
             
             window.Echo.private("consulta." + user.id).listen('ConsultaNotification', (e) => {
+              this.props.dispatch(listPendingQueries('', sectionsIds.indexOf("3") ? idHelpdesk : "")).then(res => {
+                this.props.dispatch(showBackdrop(false));
+              }).catch(err => this.props.dispatch(showBackdrop(false)));
               audio.play();
               console.log(e.contenido);
               console.log(this.props.dispatch)
@@ -384,6 +390,9 @@ const LoginPage = props => {
 
             window.Echo.private("cantidadNoti." + user.id).listen('ContarConsultas', (e) => {
               props.dispatch(count_queries_slopes(e.cantidadNoti));
+              this.props.dispatch(listPendingQueries('', sectionsIds.indexOf("3") ? idHelpdesk : "")).then(res => {
+                this.props.dispatch(showBackdrop(false));
+              }).catch(err => this.props.dispatch(showBackdrop(false)));
               console.log(e)
             })
       
