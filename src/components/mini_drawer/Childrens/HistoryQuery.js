@@ -163,7 +163,7 @@ const HistoryQuery = props => {
               <span className="divider-line"></span>
             </div>
           </Grid>
-          <Grid item xs={12} style={{height: "8vh", padding: '10px'}} container>
+          <Grid item xs={12} style={{height: "8vh", padding: '5px'}} container>
             <Grid item xs={6}>
               <CustomInput
                 id="date1"
@@ -190,7 +190,7 @@ const HistoryQuery = props => {
             </Grid>
           </Grid>
 
-         { session.user.idRole==3 && session.user.company.isHelpDesk==1 && <Grid item xs={12} style={{ padding: '10px 10px', height: "7vh" }}>
+         { session.user.idRole==3 && session.user.company.isHelpDesk==1 && <Grid item xs={12} style={{height: "8vh" }}>
             <FormControl className={classes.formControl} fullWidth>
               <InputLabel id="demo-simple-select-label" >Usuarios</InputLabel>
               <Select
@@ -215,11 +215,12 @@ const HistoryQuery = props => {
             </FormControl>
           </Grid>}
 
-          <Grid item xs={12} style={{ padding: '10px 10px', height: "7vh" }}>
+          <Grid item xs={12} style={{ padding: '10px 10px', height: "10vh" }}>
             <Input
               fullWidth
               className="search_wrap"
               type="text"
+              sx={{color:'#fff'}}
               placeholder="Buscar"
               onChange={event => onSearch(event.target.value)}
               disableUnderline
@@ -232,7 +233,7 @@ const HistoryQuery = props => {
               }
             />
           </Grid>
-          <Grid item xs={12} style={{height: "57vh"}}>
+          <Grid item xs={12} style={{height: "45vh"}}>
             <div className="items-section">
               {
                 isEmpty ? (

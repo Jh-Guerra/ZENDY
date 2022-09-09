@@ -105,6 +105,10 @@ class UserService {
         return await axios.post( getCustomUrl(apiPrefix, `/logoutLaravel`), {}, defaultHeaders() );
     }
 
+    async ResendPassword(row) {
+        return await axios.get(getCustomUrl(apiPrefix, `/resend-password/${row.id}`), defaultHeaders());
+    }
+
 }
 
 export default UserService;

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Button, Grid, Typography, Input,InputAdornment,IconButton } from "@material-ui/core";
 import CustomTable from 'components/CustomTable';
-import { deleteUser, findUser, listUsers, listUsersSameCompany } from 'services/actions/UserAction';
+import { deleteUser, findUser, listUsers, listUsersSameCompany, ResendPassword } from 'services/actions/UserAction';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import ModalUser from 'components/Modals/ModalUser';
 import moment from 'moment';
@@ -20,6 +20,9 @@ const columns = [
   { type: 'text', field: 'phone', label: 'N° Celular' },
   { type: 'text', field: 'dob', label: 'Fecha de Nacimiento', align: 'center', format: (row) => moment(row.dob || "").format("DD/MM/YYYY") },
 ];
+const action = [
+  { name: 'view', color: 'success'},
+]
 
 class CompanyUsersPage extends Component {
 
@@ -68,12 +71,16 @@ class CompanyUsersPage extends Component {
   }
 
   showDetails = (row) => {
-    this.props.dispatch(findUser(row && row.id)).then(res => {
-      this.setState({
-        user: res || {},
-        showModalUser: true
-      });
-    }).catch(err => this.props.dispatch(showBackdrop(false)));;
+    if (row && row.action) {
+      this.recoverydata(row)
+    } else {
+      this.props.dispatch(findUser(row && row.id)).then(res => {
+        this.setState({
+          user: res || {},
+          showModalUser: true
+        });
+      }).catch(err => this.props.dispatch(showBackdrop(false)));;
+    }
   }
 
   onDelete = () => {
@@ -88,6 +95,17 @@ class CompanyUsersPage extends Component {
       this.props.dispatch(showSnackBar("warning", res && res.success || ""));
       this.props.dispatch(showBackdrop(false));
       this.onListUsers();
+    }).catch(error => {
+      this.props.dispatch(showBackdrop(false));
+      console.log('error', error);
+    });
+  }
+
+  recoverydata = (id) =>{
+    this.props.dispatch(ResendPassword(id)).then(res => {
+      console.log(res);
+      this.props.dispatch(showBackdrop(false));
+      this.props.dispatch(showSnackBar("success", res && res.descripcion || ""));
     }).catch(error => {
       this.props.dispatch(showBackdrop(false));
       console.log('error', error);
@@ -120,6 +138,7 @@ class CompanyUsersPage extends Component {
             rows={users}
             onRowClick={this.showDetails}
             loading={loading}
+            // action={action}
           />
         </Grid>
         <ModalUser

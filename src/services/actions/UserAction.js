@@ -121,3 +121,8 @@ export const logoutLaravel = () => async dispatch => {
     const res = await userService.logoutLaravel();
     return res && res.data || [];
 }
+
+export const ResendPassword = (row) => async dispatch => {
+    const res = await userService.ResendPassword(row);
+    return res && res.data || [];
+}

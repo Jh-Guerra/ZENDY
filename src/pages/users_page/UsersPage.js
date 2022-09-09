@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Button, Grid, Typography,Input,InputAdornment,IconButton} from "@material-ui/core";
 import CustomTable from 'components/CustomTable';
-import { deleteUser, findUser, importErpUsers, listUsers } from 'services/actions/UserAction';
+import { deleteUser, findUser, importErpUsers, listUsers, ResendPassword } from 'services/actions/UserAction';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import ModalUser from 'components/Modals/ModalUser';
 import moment from 'moment';
@@ -23,6 +23,9 @@ const columns = [
   { type: 'text', field: 'phone', label: 'N° Celular' },
   { type: 'text', field: 'dob', label: 'Fecha de Nacimiento', align: 'center', format: (row) => moment(row.dob || "").format("DD/MM/YYYY") },
 ];
+const action = [
+  { name: 'view', color: 'success' },
+]
 
 class UsersPage extends Component {
 
@@ -143,12 +146,16 @@ onListCompanies = () =>{
   }
 
   showDetails = (row) => {
+    if (row && row.action) {
+      this.recoverydata(row)
+    } else {
     this.props.dispatch(findUser(row && row.id)).then(res => {
       this.setState({
         user: res || {},
         showModalUser: true
       });
     }).catch(err => this.props.dispatch(showBackdrop(false)));;
+  }
   }
 
   onDelete = () => {
@@ -186,6 +193,16 @@ onListCompanies = () =>{
 
  }
 
+  recoverydata = (id) => {
+    this.props.dispatch(ResendPassword(id)).then(res => {
+      console.log(res);
+      this.props.dispatch(showBackdrop(false));
+      this.props.dispatch(showSnackBar("success", res && res.descripcion || ""));
+    }).catch(error => {
+      this.props.dispatch(showBackdrop(false));
+      console.log('error', error);
+    });
+  }
  
   render() {
     const { showModalUser, showModalDelete, showModalConfirmation, user, users, loading } = this.state;
@@ -265,6 +282,7 @@ onListCompanies = () =>{
             loading={loading}
             funperPage={this.funperPage}
             funpage={this.funpage}
+            action={action}
           />
         </Grid>
         <ModalUser

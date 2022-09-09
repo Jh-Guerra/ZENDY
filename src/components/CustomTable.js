@@ -9,6 +9,10 @@ import TableHead from '@material-ui/core/TableHead';
 import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
 import { pColor, pLetterColor, sColor } from 'assets/styles/zendy-css';
+import Button from '@material-ui/core/Button';
+import Tooltip from '@material-ui/core/Tooltip';
+import VisibilityIcon from '@material-ui/icons/Visibility';
+import MailIcon from '@material-ui/icons/Mail';
 
 const useStyles = makeStyles({
     root: {
@@ -20,7 +24,7 @@ const useStyles = makeStyles({
 });
 
 const CustomTable = props => {
-    const { columns=[], rows=[], loading=false, funperPage, funpage} = props;
+  const { columns = [], rows = [], loading = false, funperPage, funpage, action = null} = props;
 
     const classes = useStyles();
     const [page, setPage] = React.useState(0);
@@ -69,6 +73,14 @@ const CustomTable = props => {
                       {column.label}
                     </StyledTableCell>
                   ))}
+                  {
+                    action !=null &&
+                  <StyledTableCell
+                    className="table-header-cell"
+                  >
+                    Acciones
+                  </StyledTableCell>
+                  }
                 </TableRow>
               </TableHead>
               { loading ? <caption>Cargando...</caption> : (
@@ -76,14 +88,29 @@ const CustomTable = props => {
                   {rows.map((row, i) => {
                     //rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                     return (
-                      <TableRow hover role="checkbox" tabIndex={-1} key={i} onClick={() => { props.onRowClick(row) } } style={{cursor:'pointer'}}>
+                      <TableRow hover role="checkbox" tabIndex={-1} key={i}  style={{cursor:'pointer'}}>
                         {columns.map((column, i2) => {
                           return (
-                            <TableCell key={i2} align={column.align} className="table-header-row">
+                            <TableCell key={i2} onClick={() => { props.onRowClick(row) }}  align={column.align} className="table-header-row">
                               {column.format ? (column.format(row) || "-") : (row[column.field] || "-")}
                             </TableCell>
                           );
                         })}
+                        {action ? (
+                          <TableCell align='center' className="table-header-row">
+                            {action.map((ac, i) => {
+                              const Name = ac["name"]
+                              switch (Name) {
+                                case 'view':
+                                  return (
+                                    <Tooltip title="Enviar Credenciales">
+                                      <Button key={i} onClick={() => { props.onRowClick({ ...row, action:'mail'})}}>
+                                        <MailIcon />
+                                      </Button>
+                                    </Tooltip>);
+                              }
+                            })}
+                          </TableCell>) : null}
                       </TableRow>
                     );
                   })}

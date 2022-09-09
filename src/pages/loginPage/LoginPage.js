@@ -268,8 +268,8 @@ const LoginPage = props => {
               cluster: config.pusherCluster,
               encrypted: false,
                //comentar para las pruebas locales
-              // enabledTransports: ['ws', 'wss'],
-              // authEndpoint: config.commonHost + '/api/broadcasting/auth',
+              enabledTransports: ['ws', 'wss'],
+              authEndpoint: config.commonHost + '/api/broadcasting/auth',
               auth: {
                 headers: {
                   'Access-Control-Allow-Origin': '*',
